@@ -195,6 +195,7 @@
     background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-light) 100%);
     opacity: 0;
     transition: opacity 0.25s ease;
+    pointer-events: none;
   }
 
   .module-card:hover::before { opacity: 1; }
@@ -1344,9 +1345,7 @@ function goHome() {
   showScreen('home');
 }
 
-function startModule(module) {
-  state.module = module;
-  state.answers = {};
+;
   state.currentQuestion = 0;
   document.getElementById('welcome-badge').textContent = moduleLabels[module];
   document.getElementById('details-badge').textContent = moduleLabels[module];
