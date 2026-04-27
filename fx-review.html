@@ -499,7 +499,7 @@ Write a warm, plain English summary (3-4 sentences) for ${state.name} about thei
 CRITICAL RULES: No specific provider names. Warm and personal. If they use their bank, gently note that banks typically charge more than specialists. If unaware of charges, acknowledge this is very common. End with "Nicole will be in touch within a few hours to talk through your options". Under 120 words. No bullet points.`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('/.netlify/functions/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })

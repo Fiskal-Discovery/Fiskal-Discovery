@@ -934,7 +934,7 @@
         </div>
         <div class="module-arrow">›</div>
       </div>
-      <div class="module-card" onclick="alert('Loan Application — coming soon!')">
+      <div class="module-card" onclick="window.location.href='loan-application.html'">
         <div class="module-card-icon">💰</div>
         <div class="module-card-body">
           <div class="module-card-title">Loan Application</div>
@@ -942,7 +942,7 @@
         </div>
         <div class="module-arrow">›</div>
       </div>
-      <div class="module-card" onclick="alert('FX Review — coming soon!')">
+      <div class="module-card" onclick="window.location.href='fx-review.html'">
         <div class="module-card-icon">💱</div>
         <div class="module-card-body">
           <div class="module-card-title">FX Review</div>
@@ -1516,7 +1516,7 @@ async function generateResults() {
   const prompt = buildAIPrompt(answersText, matchedProducts);
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('/.netlify/functions/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
