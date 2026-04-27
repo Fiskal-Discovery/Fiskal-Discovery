@@ -1491,7 +1491,8 @@ function goHome() {
   showScreen('home');
 }
 
-;
+function startModule(module) {
+  state.module = module;
   state.currentQuestion = 0;
   document.getElementById('welcome-badge').textContent = moduleLabels[module];
   document.getElementById('details-badge').textContent = moduleLabels[module];
