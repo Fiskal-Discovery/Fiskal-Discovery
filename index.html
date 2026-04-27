@@ -31,7 +31,136 @@
     overflow-x: hidden;
   }
 
-  /* ---- BACKGROUND ---- */
+  /* ====== ONBOARDING OVERLAY ====== */
+  #onboarding-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--cream);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-start;
+    overflow-y: auto;
+    transition: opacity 0.5s ease;
+  }
+  #onboarding-overlay.hidden { opacity: 0; pointer-events: none; }
+
+  .ob-header {
+    width: 100%; padding: 24px 24px 0;
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .ob-chat {
+    width: 100%; max-width: 480px;
+    padding: 24px 20px 100px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+
+  /* Chat bubbles */
+  .ob-bubble {
+    max-width: 80%; padding: 12px 16px;
+    border-radius: 18px; font-size: 15px; line-height: 1.5;
+    animation: bubbleIn 0.35s ease forwards;
+    opacity: 0; transform: translateY(8px);
+  }
+  @keyframes bubbleIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .ob-bubble.fiskal {
+    background: var(--indigo); color: white;
+    border-bottom-left-radius: 4px; align-self: flex-start;
+  }
+  .ob-bubble.user {
+    background: var(--gold); color: white;
+    border-bottom-right-radius: 4px; align-self: flex-end;
+    font-weight: 500;
+  }
+
+  /* Typing indicator */
+  .ob-typing {
+    display: flex; gap: 5px; align-items: center;
+    padding: 12px 16px; background: var(--indigo);
+    border-radius: 18px; border-bottom-left-radius: 4px;
+    width: fit-content; align-self: flex-start;
+    animation: bubbleIn 0.35s ease forwards; opacity: 0;
+  }
+  .ob-typing span {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+    animation: typingDot 1.2s infinite;
+  }
+  .ob-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .ob-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingDot {
+    0%,60%,100% { transform: translateY(0); opacity:0.4; }
+    30% { transform: translateY(-5px); opacity:1; }
+  }
+
+  /* Input area */
+  .ob-input-area {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: white; border-top: 1px solid rgba(126,9,165,0.1);
+    padding: 12px 20px; z-index: 10000;
+    display: flex; gap: 10px; align-items: center;
+    max-width: 480px; margin: 0 auto;
+    left: 50%; transform: translateX(-50%);
+    width: 100%;
+  }
+  .ob-input {
+    flex: 1; border: 1.5px solid rgba(126,9,165,0.25);
+    border-radius: 24px; padding: 11px 18px;
+    font-size: 15px; font-family: 'DM Sans', sans-serif;
+    background: var(--cream); color: var(--dark);
+    outline: none; transition: border-color 0.2s;
+  }
+  .ob-input:focus { border-color: var(--indigo); }
+  .ob-send {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--indigo); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 18px; transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .ob-send:hover { background: var(--indigo-deep); }
+  .ob-send:disabled { background: #ccc; cursor: not-allowed; }
+
+  /* Choice buttons */
+  .ob-choices {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: white; border-top: 1px solid rgba(126,9,165,0.1);
+    padding: 14px 20px; z-index: 10000;
+    display: flex; flex-direction: column; gap: 8px;
+    max-width: 480px; margin: 0 auto;
+    left: 50%; transform: translateX(-50%);
+    width: 100%;
+  }
+  .ob-choice-btn {
+    padding: 13px 18px; border-radius: 12px;
+    border: 1.5px solid var(--indigo); color: var(--indigo);
+    background: white; font-size: 14px; font-weight: 500;
+    cursor: pointer; text-align: left; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .ob-choice-btn:hover { background: var(--indigo); color: white; }
+
+  /* Reset link */
+  .ob-reset { font-size: 12px; color: var(--light-text); cursor: pointer; text-decoration: underline; }
+
+  /* ====== PROFILE BADGE (shown on home when onboarding done) ====== */
+  .profile-badge {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--indigo-pale); border-radius: 12px;
+    padding: 10px 14px; margin: 0 24px 8px;
+  }
+  .profile-badge-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--indigo); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 600; flex-shrink: 0;
+  }
+  .profile-badge-info { flex: 1; }
+  .profile-badge-name { font-size: 14px; font-weight: 600; color: var(--dark); }
+  .profile-badge-company { font-size: 12px; color: var(--mid); }
+  .profile-badge-reset { font-size: 11px; color: var(--light-text); cursor: pointer; text-decoration: underline; }
+
+  /* ====== BACKGROUND ====== */
   .bg-orb {
     position: fixed;
     border-radius: 50%;
@@ -902,6 +1031,19 @@
 </head>
 <body>
 
+<!-- ====== ONBOARDING OVERLAY ====== -->
+<div id="onboarding-overlay">
+  <div class="ob-header">
+    <a href="https://fiskal.online" target="_blank"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAoCAYAAAAIeF9DAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH6AUODCcU3P6tUgAAActJREFUeNrt2kGKwkAQheG/TiJiFl6gl/AKXsG9F3QRL+AZXHsBr6CIiCIiIuIiIiIiIiIiIiIi4r6/cBGSQTId0kl3wv9gIZBO0i+vOkkFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8C/5V2P8frvdrtfrdXQ6nUyn06HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66HX66AAAAAA4A8AALiCDvkk4pMAAAAASUVORK5CYII=" style="height:50px;width:auto;" alt="Fiskal"></a>
+  </div>
+  <div class="ob-chat" id="ob-chat"></div>
+  <div class="ob-input-area" id="ob-input-area" style="display:none;">
+    <input class="ob-input" id="ob-input" type="text" placeholder="Type your answer..." autocomplete="off">
+    <button class="ob-send" id="ob-send" onclick="obSubmitInput()">➤</button>
+  </div>
+  <div class="ob-choices" id="ob-choices" style="display:none;"></div>
+</div>
+
 <div class="bg-orb bg-orb-1"></div>
 <div class="bg-orb bg-orb-2"></div>
 
@@ -914,9 +1056,17 @@
   </div>
   <div class="screen-content">
     <div class="home-hero">
-      <div class="home-eyebrow">Welcome to</div>
+      <div class="home-eyebrow" id="home-eyebrow">Welcome to</div>
       <h1 class="home-title"><span style="font-family:'Libre Baskerville',serif;font-style:italic;font-weight:700;font-size:44px;color:#7E09A5;">Fiskal Discovery</span></h1>
       <p class="home-tagline"><strong>2 minutes. Endless possibilities.</strong><br><span style="color:#0099FF;text-transform:uppercase;letter-spacing:3px;font-size:16px;font-weight:500;">Find out what's possible for your business.</span></p>
+    </div>
+    <div id="home-profile-badge" style="display:none;" class="profile-badge">
+      <div class="profile-badge-avatar" id="home-avatar">?</div>
+      <div class="profile-badge-info">
+        <div class="profile-badge-name" id="home-profile-name"></div>
+        <div class="profile-badge-company" id="home-profile-company"></div>
+      </div>
+      <span class="profile-badge-reset" onclick="resetOnboarding()">Not you?</span>
     </div>
     <div class="module-grid">
       <div class="module-card" onclick="window.location.href='funding-finder.html'">
@@ -1643,9 +1793,366 @@ function hidePricingPrompt() {
   document.getElementById('pricing-prompt').style.display = 'none';
 }
 
+
 // ============================================================
-// PHOTO (encode Nicole's photo)
+// ONBOARDING — Conversational flow
 // ============================================================
+const OB_KEY = 'fiskal_profile';
+
+const obFlow = {
+  // Step -1: Who's filling this in?
+  // Step 0: For self — collect their details
+  // Step 1: For client — collect introducer then client details
+};
+
+let obState = {
+  step: 'start',        // 'start' | 'self' | 'introducer' | 'client'
+  userType: null,       // 'self' | 'other'
+  field: null,          // which field we're currently collecting
+  profile: {}           // accumulated data
+};
+
+// Field sequences for "for myself"
+const selfFields = [
+  { key: 'name',            prompt: "Great! What's your name?" },
+  { key: 'email',           prompt: "And what's the best email address for you, {firstName}?" },
+  { key: 'phone',           prompt: "What's your phone number?" },
+  { key: 'businessName',    prompt: "What's your business called?" },
+  { key: 'companyNumber',   prompt: "Do you know your company registration number? (You can skip this if not — just press enter or type 'skip')" },
+  { key: 'turnoverLast',    prompt: "What was your turnover last year? (e.g. £500,000 — or an estimate is fine)" },
+  { key: 'turnoverNext',    prompt: "And what are you expecting this year? (Your best guess is perfect)" }
+];
+
+// Field sequences for introducer
+const introducerFields = [
+  { key: 'intrName',        prompt: "No problem! Let's start with you — what's your name?" },
+  { key: 'intrEmail',       prompt: "And your email address?" },
+  { key: 'intrCompany',     prompt: "What company or firm are you from?" }
+];
+
+// Field sequences for client (after introducer)
+const clientFields = [
+  { key: 'name',            prompt: "Thanks, {intrFirstName}! Now let's talk about your client. What's their name?" },
+  { key: 'email',           prompt: "What's the best email address for {firstName}?" },
+  { key: 'phone',           prompt: "And their phone number?" },
+  { key: 'businessName',    prompt: "What's their business called?" },
+  { key: 'companyNumber',   prompt: "Do you have their company registration number? (Type 'skip' if not)" },
+  { key: 'turnoverLast',    prompt: "What was their turnover last year?" },
+  { key: 'turnoverNext',    prompt: "And what are they expecting this year?" }
+];
+
+let obFieldIndex = 0;
+let obCurrentFields = [];
+let obTypingTimer = null;
+
+function getFirstName(fullName) {
+  return (fullName || '').split(' ')[0] || '';
+}
+
+function interpolate(str, profile) {
+  return str
+    .replace('{firstName}', getFirstName(profile.name || ''))
+    .replace('{intrFirstName}', getFirstName(profile.intrName || ''));
+}
+
+// ---- Boot ----
+function initOnboarding() {
+  const saved = localStorage.getItem(OB_KEY);
+  if (saved) {
+    try {
+      const profile = JSON.parse(saved);
+      if (profile && profile.name && profile.businessName) {
+        applyProfileToApp(profile);
+        hideOnboarding();
+        showProfileBadge(profile);
+        return;
+      }
+    } catch(e) {}
+  }
+  // Show onboarding
+  document.getElementById('onboarding-overlay').style.display = 'flex';
+  setTimeout(() => startOnboarding(), 300);
+}
+
+function hideOnboarding() {
+  const overlay = document.getElementById('onboarding-overlay');
+  overlay.classList.add('hidden');
+  setTimeout(() => { overlay.style.display = 'none'; }, 500);
+}
+
+function startOnboarding() {
+  obAddFiskalBubble("Hi there! 👋 Welcome to <strong>Fiskal Discovery</strong> — your personal guide to finding the right funding for your business.");
+  setTimeout(() => {
+    obAddFiskalBubble("Before we get started, just one quick question...");
+    setTimeout(() => {
+      obAddFiskalBubble("Are you filling this in for yourself, or on behalf of someone else?");
+      setTimeout(() => {
+        showChoices([
+          { label: "🙋 It's for me — my own business", value: 'self' },
+          { label: "👤 I'm filling this in for a client", value: 'other' }
+        ], obHandleUserType);
+      }, 600);
+    }, 800);
+  }, 900);
+}
+
+function obHandleUserType(value) {
+  hideChoices();
+  obState.userType = value;
+
+  if (value === 'self') {
+    obAddUserBubble("It's for me — my own business");
+    setTimeout(() => {
+      obAddFiskalBubble("Perfect! Let me learn a little about you and your business 😊");
+      setTimeout(() => {
+        obCurrentFields = selfFields;
+        obFieldIndex = 0;
+        obState.step = 'self';
+        obAskNextField();
+      }, 700);
+    }, 400);
+  } else {
+    obAddUserBubble("I'm filling this in for a client");
+    setTimeout(() => {
+      obAddFiskalBubble("Great! Let's start with your details so we know who to credit this to...");
+      setTimeout(() => {
+        obCurrentFields = introducerFields;
+        obFieldIndex = 0;
+        obState.step = 'introducer';
+        obAskNextField();
+      }, 700);
+    }, 400);
+  }
+}
+
+function obAskNextField() {
+  if (obFieldIndex >= obCurrentFields.length) {
+    obFieldsDone();
+    return;
+  }
+  const field = obCurrentFields[obFieldIndex];
+  const prompt = interpolate(field.prompt, obState.profile);
+  obShowTyping(() => {
+    obAddFiskalBubble(prompt);
+    showInput(field.key);
+  });
+}
+
+function obShowTyping(cb) {
+  const chat = document.getElementById('ob-chat');
+  const typing = document.createElement('div');
+  typing.className = 'ob-typing';
+  typing.id = 'ob-typing-indicator';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  chat.appendChild(typing);
+  scrollChat();
+  clearTimeout(obTypingTimer);
+  obTypingTimer = setTimeout(() => {
+    typing.remove();
+    cb();
+  }, 900);
+}
+
+function obAddFiskalBubble(html) {
+  const chat = document.getElementById('ob-chat');
+  const div = document.createElement('div');
+  div.className = 'ob-bubble fiskal';
+  div.innerHTML = html;
+  chat.appendChild(div);
+  scrollChat();
+}
+
+function obAddUserBubble(text) {
+  const chat = document.getElementById('ob-chat');
+  const div = document.createElement('div');
+  div.className = 'ob-bubble user';
+  div.textContent = text;
+  chat.appendChild(div);
+  scrollChat();
+}
+
+function scrollChat() {
+  setTimeout(() => {
+    const chat = document.getElementById('ob-chat');
+    chat.scrollTop = chat.scrollHeight;
+    window.scrollTo(0, document.body.scrollHeight);
+  }, 50);
+}
+
+function showInput(fieldKey) {
+  const inputArea = document.getElementById('ob-input-area');
+  const input = document.getElementById('ob-input');
+  inputArea.style.display = 'flex';
+  document.getElementById('ob-choices').style.display = 'none';
+  input.value = '';
+
+  // Set keyboard type hints
+  if (fieldKey === 'email') input.type = 'email';
+  else if (fieldKey === 'phone') input.type = 'tel';
+  else input.type = 'text';
+
+  input.placeholder = fieldKey === 'companyNumber' ? "Company number (or type 'skip')" :
+                       fieldKey === 'turnoverLast' ? "e.g. £250,000" :
+                       fieldKey === 'turnoverNext' ? "e.g. £400,000" : 'Type your answer...';
+
+  setTimeout(() => input.focus(), 100);
+
+  // Enter key
+  input.onkeydown = (e) => { if (e.key === 'Enter') obSubmitInput(); };
+}
+
+function showChoices(options, callback) {
+  const choicesEl = document.getElementById('ob-choices');
+  const inputArea = document.getElementById('ob-input-area');
+  inputArea.style.display = 'none';
+  choicesEl.innerHTML = '';
+  choicesEl.style.display = 'flex';
+
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'ob-choice-btn';
+    btn.textContent = opt.label;
+    btn.onclick = () => callback(opt.value);
+    choicesEl.appendChild(btn);
+  });
+  scrollChat();
+}
+
+function hideChoices() {
+  document.getElementById('ob-choices').style.display = 'none';
+  document.getElementById('ob-input-area').style.display = 'none';
+}
+
+function obSubmitInput() {
+  const input = document.getElementById('ob-input');
+  let value = input.value.trim();
+  if (!value) return;
+
+  const field = obCurrentFields[obFieldIndex];
+  const isSkippable = field.key === 'companyNumber';
+
+  if (isSkippable && value.toLowerCase() === 'skip') {
+    value = '';
+  }
+
+  // Basic validation
+  if (field.key === 'email' && value && !value.includes('@')) {
+    input.style.borderColor = '#e53e3e';
+    input.placeholder = 'Please enter a valid email';
+    input.value = '';
+    return;
+  }
+  input.style.borderColor = '';
+
+  obState.profile[field.key] = value;
+  obAddUserBubble(value || '(skipped)');
+  document.getElementById('ob-input-area').style.display = 'none';
+
+  obFieldIndex++;
+  setTimeout(() => obAskNextField(), 400);
+}
+
+function obFieldsDone() {
+  if (obState.step === 'introducer') {
+    // Switch to collecting client fields
+    setTimeout(() => {
+      obAddFiskalBubble(`Thanks, ${getFirstName(obState.profile.intrName)}! 😊 Now let's talk about your client...`);
+      setTimeout(() => {
+        obCurrentFields = clientFields;
+        obFieldIndex = 0;
+        obState.step = 'client';
+        obAskNextField();
+      }, 700);
+    }, 400);
+  } else {
+    // All done — self or client
+    obComplete();
+  }
+}
+
+function obComplete() {
+  const p = obState.profile;
+  const firstName = getFirstName(p.name);
+  const isForClient = obState.userType === 'other';
+
+  let msg = isForClient
+    ? `Perfect — thanks ${getFirstName(p.intrName)}! Let's find the right funding for ${p.businessName} 🚀`
+    : `Perfect, ${firstName}! Let's find the right funding for ${p.businessName || 'your business'} 🚀`;
+
+  obShowTyping(() => {
+    obAddFiskalBubble(msg);
+    setTimeout(() => {
+      // Save profile
+      const profile = {
+        name: p.name,
+        email: p.email,
+        phone: p.phone,
+        businessName: p.businessName,
+        companyNumber: p.companyNumber || '',
+        turnoverLast: p.turnoverLast || '',
+        turnoverNext: p.turnoverNext || '',
+        userType: obState.userType,
+        intrName: p.intrName || '',
+        intrEmail: p.intrEmail || '',
+        intrCompany: p.intrCompany || '',
+        savedAt: Date.now()
+      };
+      localStorage.setItem(OB_KEY, JSON.stringify(profile));
+      applyProfileToApp(profile);
+      showProfileBadge(profile);
+      setTimeout(() => hideOnboarding(), 1200);
+    }, 1400);
+  });
+}
+
+function applyProfileToApp(profile) {
+  // Pre-fill the state object used by funding-finder and other modules
+  state.name = profile.name || '';
+  state.business = profile.businessName || '';
+  state.email = profile.email || '';
+  state.phone = profile.phone || '';
+  state.companyNumber = profile.companyNumber || '';
+
+  // Pre-fill any visible form fields (details screen)
+  const fields = {
+    'field-name': profile.name,
+    'field-business': profile.businessName,
+    'field-email': profile.email,
+    'field-phone': profile.phone,
+    'field-company-number': profile.companyNumber
+  };
+  Object.entries(fields).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el && val) el.value = val;
+  });
+
+  // Personalise home eyebrow
+  const eyebrow = document.getElementById('home-eyebrow');
+  if (eyebrow && profile.name) {
+    eyebrow.textContent = `Welcome back, ${getFirstName(profile.name)} 👋`;
+  }
+}
+
+function showProfileBadge(profile) {
+  const badge = document.getElementById('home-profile-badge');
+  if (!badge) return;
+  const first = getFirstName(profile.name);
+  document.getElementById('home-avatar').textContent = first ? first[0].toUpperCase() : '?';
+  document.getElementById('home-profile-name').textContent = profile.name || '';
+  document.getElementById('home-profile-company').textContent = profile.businessName || '';
+  badge.style.display = 'flex';
+}
+
+function resetOnboarding() {
+  if (!confirm('Reset your details and start again?')) return;
+  localStorage.removeItem(OB_KEY);
+  location.reload();
+}
+
+// Auto-init on load
+document.addEventListener('DOMContentLoaded', initOnboarding);
+
+
 // Photo will be embedded as base64 in production
 // For now using a placeholder
 document.addEventListener('DOMContentLoaded', () => {

@@ -499,7 +499,7 @@ Write a warm, plain English summary (3-4 sentences) for ${state.name} about thei
 CRITICAL RULES: No specific provider names. Warm and personal. If they use their bank, gently note that banks typically charge more than specialists. If unaware of charges, acknowledge this is very common. End with "Nicole will be in touch within a few hours to talk through your options". Under 120 words. No bullet points.`;
 
   try {
-    const response = await fetch('/.netlify/functions/claude', {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
@@ -536,6 +536,42 @@ async function sendNotification(summary) {
   };
   try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
+
+// ---- Load profile from onboarding ----
+(function() {
+  const OB_KEY = "fiskal_profile";
+  try {
+    const saved = localStorage.getItem(OB_KEY);
+    if (!saved) return;
+    const p = JSON.parse(saved);
+    if (!p) return;
+    // Pre-fill state
+    if (typeof state !== "undefined") {
+      if (p.name) state.name = p.name;
+      if (p.businessName) state.business = p.businessName;
+      if (p.email) state.email = p.email;
+      if (p.phone) state.phone = p.phone;
+      if (p.companyNumber) state.companyNumber = p.companyNumber;
+    }
+    // Pre-fill form fields on DOMContentLoaded
+    document.addEventListener("DOMContentLoaded", function() {
+      const map = {
+        "field-name": p.name,
+        "field-business": p.businessName,
+        "field-email": p.email,
+        "field-phone": p.phone,
+        "field-company-number": p.companyNumber,
+        "field-turnover": p.turnoverLast
+      };
+      Object.entries(map).forEach(function([id, val]) {
+        var el = document.getElementById(id);
+        if (el && val) el.value = val;
+      });
+    });
+  } catch(e) {}
+})();
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>

@@ -1667,6 +1667,38 @@ async function loadNicolePhoto() {
     document.getElementById('nicole-placeholder').style.display = 'flex';
   };
 }
+
+// ---- Load profile from onboarding ----
+(function() {
+  const OB_KEY = "fiskal_profile";
+  try {
+    const saved = localStorage.getItem(OB_KEY);
+    if (!saved) return;
+    const p = JSON.parse(saved);
+    if (!p) return;
+    if (typeof state !== "undefined") {
+      if (p.name) state.name = p.name;
+      if (p.businessName) state.business = p.businessName;
+      if (p.email) state.email = p.email;
+      if (p.phone) state.phone = p.phone;
+      if (p.companyNumber) state.companyNumber = p.companyNumber;
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+      var map = {
+        "field-name": p.name,
+        "field-business": p.businessName,
+        "field-email": p.email,
+        "field-phone": p.phone,
+        "field-company-number": p.companyNumber,
+        "field-turnover": p.turnoverLast
+      };
+      Object.entries(map).forEach(function(e) {
+        var el = document.getElementById(e[0]);
+        if (el && e[1]) el.value = e[1];
+      });
+    });
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>
