@@ -958,7 +958,6 @@
     </div>
     <span class="module-badge" id="welcome-badge">Funding Finder</span>
   </div>
-  <div style="padding: 0 24px 4px;"><button class="back-btn" onclick="window.location.href='index.html'">← Back</button></div>
   <div class="screen-content">
     <div class="welcome-body">
       <div class="welcome-label">Before you begin</div>
@@ -971,6 +970,9 @@
       <button class="btn-primary" onclick="startQuestions()">I'm ready — let's go</button>
     </div>
   </div>
+  <div class="nav-row" style="padding: 16px 24px;">
+    <button class="back-btn" onclick="window.location.href='index.html'">← Back</button>
+  </div>
 </div>
 
 <!-- ====== DETAILS SCREEN ====== -->
@@ -981,7 +983,6 @@
     </div>
     <span class="module-badge" id="details-badge">Funding Finder</span>
   </div>
-  <div style="padding: 0 24px 4px;"><button class="back-btn" onclick="showScreen('welcome')">← Back</button></div>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:5%"></div></div>
     <div class="progress-label">Your details</div>
@@ -1013,6 +1014,9 @@
     </div>
     <p class="error-msg" id="details-error">Please fill in all required fields.</p>
     <button class="btn-primary" onclick="submitDetails()" style="margin-top:8px">Continue →</button>
+  </div>
+  <div class="nav-row" style="padding: 16px 24px;">
+    <button class="back-btn" onclick="showScreen('welcome')">← Back</button>
   </div>
 </div>
 
