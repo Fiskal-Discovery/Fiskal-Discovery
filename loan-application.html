@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiskal Discovery — Loan Application</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --indigo: #7E09A5;
+    --indigo-deep: #5a0075;
+    --indigo-light: #9B20C2;
+    --indigo-pale: #f9f0ff;
+    --blue: #0099FF;
+    --cream: #FAF8F5;
+    --dark: #1a1025;
+    --mid: #5a4a6a;
+    --light-text: #8a7a9a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
+  .bg-orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; opacity: 0.12; }
+  .bg-orb-1 { width: 600px; height: 600px; background: var(--indigo); top: -200px; right: -200px; }
+  .bg-orb-2 { width: 400px; height: 400px; background: var(--blue); bottom: -100px; left: -100px; }
+  .screen { display: none; min-height: 100vh; position: relative; z-index: 1; animation: fadeUp 0.5s ease forwards; flex-direction: column; }
+  .screen.active { display: flex; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .logo-corner { position: fixed; top: 20px; left: 20px; z-index: 10002; }
+  .logo-corner .site-logo { width: 60px; height: auto; opacity: 0.85; transition: opacity 0.2s ease; }
+  .logo-corner:hover .site-logo { opacity: 1; }
+  .brand-header { text-align: center; padding: 28px 20px 12px; }
+  .brand-title { font-family: 'Libre Baskerville', serif; font-style: italic; font-weight: 700; font-size: 42px; color: var(--indigo); line-height: 1.1; }
+  .brand-sub { font-size: 17px; color: var(--indigo); margin-top: 4px; }
+  .brand-label { display: inline-block; background: var(--indigo); color: white; font-size: 11px; padding: 4px 12px; border-radius: 20px; font-weight: 500; letter-spacing: 0.5px; margin-top: 12px; }
+  .progress-bar-wrap { padding: 0 24px 8px; }
+  .progress-track { height: 3px; background: rgba(126,9,165,0.12); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--indigo), var(--blue)); border-radius: 3px; transition: width 0.5s ease; }
+  .progress-label { font-size: 11px; color: var(--light-text); margin-top: 6px; text-align: right; }
+  .screen-content { flex: 1; display: flex; flex-direction: column; padding: 24px 24px 32px; max-width: 600px; width: 100%; margin: 0 auto; }
+  .question-icon { font-size: 40px; margin-bottom: 12px; }
+  .question-product { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; font-weight: 500; }
+  .question-text { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 500; color: var(--indigo-deep); line-height: 1.3; margin-bottom: 8px; }
+  .question-sub { font-size: 14px; color: var(--light-text); font-style: italic; margin-bottom: 24px; line-height: 1.6; font-weight: 300; }
+  .answer-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .answer-btn { background: white; border: 1.5px solid rgba(126,9,165,0.15); border-radius: 12px; padding: 14px 18px; font-size: 15px; color: var(--dark); cursor: pointer; transition: all 0.2s ease; text-align: left; font-family: 'DM Sans', sans-serif; font-weight: 400; display: flex; align-items: center; gap: 12px; }
+  .answer-btn:hover { border-color: var(--indigo); background: var(--indigo-pale); transform: translateX(4px); }
+  .answer-btn.selected { border-color: var(--indigo); background: var(--indigo); color: white; }
+  .checkbox-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .checkbox-btn { background: white; border: 1.5px solid rgba(126,9,165,0.15); border-radius: 10px; padding: 12px 16px; font-size: 14px; color: var(--dark); cursor: pointer; transition: all 0.2s ease; text-align: left; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 12px; }
+  .checkbox-btn.selected { border-color: var(--indigo); background: var(--indigo-pale); color: var(--indigo); }
+  .checkbox-tick { width: 20px; height: 20px; border: 2px solid rgba(126,9,165,0.3); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all 0.2s ease; }
+  .checkbox-btn.selected .checkbox-tick { background: var(--indigo); border-color: var(--indigo); color: white; }
+  .form-group { margin-bottom: 16px; }
+  .form-label { display: block; font-size: 12px; font-weight: 500; color: var(--mid); margin-bottom: 6px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .form-input { width: 100%; background: white; border: 1.5px solid rgba(126,9,165,0.15); border-radius: 10px; padding: 14px 16px; font-size: 15px; color: var(--dark); font-family: 'DM Sans', sans-serif; transition: border-color 0.2s ease; outline: none; }
+  .form-input:focus { border-color: var(--indigo); box-shadow: 0 0 0 3px rgba(126,9,165,0.08); }
+  .form-textarea { width: 100%; background: white; border: 1.5px solid rgba(126,9,165,0.15); border-radius: 10px; padding: 14px 16px; font-size: 14px; color: var(--dark); font-family: 'DM Sans', sans-serif; resize: none; height: 80px; outline: none; transition: border-color 0.2s ease; }
+  .upload-area { border: 2px dashed rgba(126,9,165,0.3); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s ease; background: white; margin-bottom: 12px; }
+  .upload-area:hover, .upload-area.has-files { border-color: var(--indigo); background: var(--indigo-pale); }
+  .upload-icon { font-size: 32px; margin-bottom: 8px; }
+  .upload-text { font-size: 14px; color: var(--mid); font-weight: 300; }
+  .upload-text strong { color: var(--indigo); font-weight: 500; }
+  .upload-file-item { font-size: 13px; color: var(--indigo); padding: 4px 0; display: flex; align-items: center; gap: 6px; justify-content: center; }
+  .btn-primary { background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-light) 100%); color: white; border: none; border-radius: 12px; padding: 16px 28px; font-size: 15px; font-weight: 500; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.25s ease; margin-top: 8px; }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-secondary { background: transparent; color: var(--indigo); border: 1.5px solid var(--indigo); border-radius: 12px; padding: 14px 28px; font-size: 14px; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.2s ease; margin-top: 8px; }
+  .btn-secondary:hover { background: var(--indigo-pale); }
+  .back-btn { background: none; border: none; color: var(--light-text); font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 6px; transition: color 0.2s ease; padding: 12px; }
+  .back-btn:hover { color: var(--indigo); }
+  .btn-skip { background: transparent; border: 1.5px solid var(--indigo); border-radius: 12px; padding: 12px 20px; font-size: 13px; color: var(--indigo); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s ease; }
+  .btn-skip:hover { background: var(--indigo-pale); }
+  .nav-row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+  .welcome-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .welcome-label { font-size: 16px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 16px; font-weight: 500; }
+  .welcome-title { font-family: 'Libre Baskerville', serif; font-style: italic; font-size: 36px; color: var(--indigo-deep); line-height: 1.2; margin-bottom: 24px; }
+  .welcome-box { background: white; border-left: 3px solid var(--blue); border-radius: 0 12px 12px 0; padding: 20px; margin-bottom: 28px; }
+  .welcome-box p { font-size: 14px; line-height: 1.8; color: var(--mid); font-weight: 300; }
+  .welcome-box p + p { margin-top: 10px; }
+  .welcome-box strong { color: var(--indigo); font-weight: 500; }
+  .loading-screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; }
+  .loading-orb { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--indigo), var(--indigo-light)); margin-bottom: 28px; animation: pulse-orb 1.8s ease-in-out infinite; box-shadow: 0 0 40px rgba(126,9,165,0.25); }
+  .loading-logo { width: 100px; height: auto; margin: 0 auto 32px; display: block; animation: logo-bounce 2.5s ease-in-out infinite; }
+  @keyframes pulse-orb { 0%, 100% { transform: scale(0.9); opacity: 0.75; } 50% { transform: scale(1.08); opacity: 1; } }
+  @keyframes logo-bounce { 0% { transform: translateY(0px); } 15% { transform: translateY(-18px); } 30% { transform: translateY(-4px); } 45% { transform: translateY(-14px); } 60% { transform: translateY(0px); } 75% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+  .loading-title { font-family: 'Libre Baskerville', serif; font-style: italic; font-size: 24px; color: var(--indigo-deep); margin-bottom: 10px; }
+  .loading-sub { font-size: 14px; color: var(--light-text); font-weight: 300; }
+  .loading-dots { display: inline-flex; gap: 6px; margin-top: 24px; }
+  .loading-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--indigo); animation: dot-bounce 1.4s ease-in-out infinite; }
+  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dot-bounce { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+  .results-header { text-align: center; padding: 20px 0 24px; }
+  .results-check { width: 60px; height: 60px; background: linear-gradient(135deg, var(--indigo), var(--indigo-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 26px; }
+  .results-title { font-family: 'Libre Baskerville', serif; font-style: italic; font-size: 28px; color: var(--indigo-deep); margin-bottom: 8px; }
+  .ai-summary { background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; border: 1.5px solid rgba(126,9,165,0.1); }
+  .ai-summary-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); font-weight: 500; margin-bottom: 12px; }
+  .ai-summary-text { font-size: 15px; line-height: 1.7; color: var(--dark); font-weight: 300; }
+  .nicole-card { background: linear-gradient(135deg, var(--indigo-deep) 0%, var(--indigo) 100%); border-radius: 16px; padding: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; color: white; }
+  .nicole-photo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--blue); flex-shrink: 0; }
+  .nicole-info { flex: 1; }
+  .nicole-name { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+  .nicole-role { font-size: 12px; opacity: 0.75; margin-bottom: 8px; font-weight: 300; }
+  .nicole-message { font-size: 13px; opacity: 0.9; line-height: 1.5; font-weight: 300; }
+  .call-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--blue); color: white; border: none; border-radius: 10px; padding: 12px 18px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; text-decoration: none; margin-top: 12px; transition: all 0.2s ease; }
+  .divider { height: 1px; background: rgba(126,9,165,0.08); margin: 16px 0; }
+  .info-box { background: var(--indigo-pale); border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 13px; color: var(--mid); line-height: 1.6; }
+  .error-msg { font-size: 12px; color: #e53e3e; margin-top: 6px; display: none; }
+  .screen-footer { padding: 12px 24px 24px; text-align: center; }
+  .footer-legal { font-size: 11px; color: var(--light-text); line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+
+<!-- WELCOME -->
+<div class="screen active" id="screen-welcome">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="screen-content">
+    <div class="welcome-body">
+      <div class="welcome-label">Loan Application</div>
+      <h2 class="welcome-title">Find out how much your business could borrow</h2>
+      <div class="welcome-box">
+        <p>Answer a few simple questions about your business and what you need — and we'll give you an <strong>indicative assessment</strong> of how much you could borrow and what it might cost.</p>
+        <p>No credit checks. No commitment. Just a clear, honest picture of what's possible — followed by a personal call from <strong>Nicole</strong> to talk through your options.</p>
+      </div>
+      <button class="btn-primary" onclick="showDetailsConfirm()">Start my Application ></button>
+      <div class="nav-row">
+        <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DETAILS -->
+<div class="screen" id="screen-details">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:5%"></div></div>
+    <div class="progress-label">Your details</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-product">Your details</div>
+    <h2 class="question-text">Confirm these details are correct</h2>
+    <p class="question-sub">We've pulled these through from your previous answers.</p>
+    <div class="ai-summary" id="details-summary">
+      <div class="ai-summary-label">Saved details</div>
+      <p class="ai-summary-text" id="confirm-details-list">Loading your saved details...</p>
+    </div>
+    <div id="details-edit-form" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Your name *</label>
+        <input type="text" class="form-input" id="field-name" placeholder="e.g. Sarah Johnson">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Business name *</label>
+        <input type="text" class="form-input" id="field-business" placeholder="e.g. Johnson Supplies Ltd">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email address *</label>
+        <input type="email" class="form-input" id="field-email" placeholder="sarah@yourcompany.co.uk">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone number *</label>
+        <input type="tel" class="form-input" id="field-phone" placeholder="07xxx xxxxxx">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Company number <span style="font-weight:300;color:var(--light-text)">(optional)</span></label>
+        <input type="text" class="form-input" id="field-company-number" placeholder="e.g. 12345678">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Annual turnover *</label>
+        <input type="text" class="form-input" id="field-turnover" placeholder="e.g. £250,000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Expected turnover</label>
+        <input type="text" class="form-input" id="field-turnover-next" placeholder="e.g. £400,000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Are any directors home or property owners?</label>
+        <input type="text" class="form-input" id="field-property-owners" placeholder="e.g. Yes, No, Not sure">
+      </div>
+    </div>
+    <p class="error-msg" id="details-error">Please fill in all required fields.</p>
+    <button class="btn-primary" id="details-confirm-btn" onclick="confirmDetails()">Yes, this is correct ></button>
+    <button class="btn-secondary" id="details-edit-btn" onclick="editDetails()">Edit</button>
+    <button class="btn-primary" id="details-save-btn" onclick="submitDetails()" style="display:none">Save and continue ></button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Q1: Purpose -->
+<div class="screen" id="screen-purpose">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:15%"></div></div>
+    <div class="progress-label">Question 1 of 8</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">🎯</div>
+    <div class="question-product">Loan Application</div>
+    <h2 class="question-text">What do you need the loan for?</h2>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectState('purpose', 'Working capital — day to day cash flow', this, 'purpose-opts'); showScreen('screen-amount')">💼 Working capital — day to day cash flow</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Growth — expanding the business', this, 'purpose-opts'); showScreen('screen-amount')">📈 Growth — expanding the business</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Equipment or assets', this, 'purpose-opts'); showScreen('screen-amount')">🔧 Equipment or assets</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Property', this, 'purpose-opts'); showScreen('screen-amount')">🏢 Property</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Refinancing existing debt', this, 'purpose-opts'); showScreen('screen-amount')">🔄 Refinancing existing debt</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Tax or HMRC bill', this, 'purpose-opts'); showScreen('screen-amount')">🏛️ Tax or HMRC bill</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Other', this, 'purpose-opts'); showScreen('screen-amount')">📁 Other</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-details')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Q2: Amount -->
+<div class="screen" id="screen-amount">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:25%"></div></div>
+    <div class="progress-label">Question 2 of 8</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">💷</div>
+    <div class="question-product">Loan Application</div>
+    <h2 class="question-text">How much are you looking to borrow?</h2>
+    <div class="answer-options" id="amount-opts">
+      <button class="answer-btn" onclick="selectState('amount', 'Up to £25,000', this, 'amount-opts'); showScreen('screen-term')">Up to £25,000</button>
+      <button class="answer-btn" onclick="selectState('amount', '£25,000 — £50,000', this, 'amount-opts'); showScreen('screen-term')">£25,000 — £50,000</button>
+      <button class="answer-btn" onclick="selectState('amount', '£50,000 — £100,000', this, 'amount-opts'); showScreen('screen-term')">£50,000 — £100,000</button>
+      <button class="answer-btn" onclick="selectState('amount', '£100,000 — £250,000', this, 'amount-opts'); showScreen('screen-term')">£100,000 — £250,000</button>
+      <button class="answer-btn" onclick="selectState('amount', '£250,000 — £500,000', this, 'amount-opts'); showScreen('screen-term')">£250,000 — £500,000</button>
+      <button class="answer-btn" onclick="selectState('amount', '£500,000+', this, 'amount-opts'); showScreen('screen-term')">£500,000+</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-purpose')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Q3: Term -->
+<div class="screen" id="screen-term">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:37%"></div></div>
+    <div class="progress-label">Question 3 of 8</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">📅</div>
+    <div class="question-product">Loan Application</div>
+    <h2 class="question-text">How long would you like to repay over?</h2>
+    <div class="answer-options" id="term-opts">
+      <button class="answer-btn" onclick="selectState('term', 'Up to 12 months', this, 'term-opts'); showScreen('screen-security')">Up to 12 months</button>
+      <button class="answer-btn" onclick="selectState('term', '1 — 2 years', this, 'term-opts'); showScreen('screen-security')">1 — 2 years</button>
+      <button class="answer-btn" onclick="selectState('term', '2 — 3 years', this, 'term-opts'); showScreen('screen-security')">2 — 3 years</button>
+      <button class="answer-btn" onclick="selectState('term', '3 — 5 years', this, 'term-opts'); showScreen('screen-security')">3 — 5 years</button>
+      <button class="answer-btn" onclick="selectState('term', '5 years+', this, 'term-opts'); showScreen('screen-security')">5 years+</button>
+      <button class="answer-btn" onclick="selectState('term', 'Not sure', this, 'term-opts'); showScreen('screen-security')">🤔 Not sure</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-amount')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Q4: Security -->
+<div class="screen" id="screen-security">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:50%"></div></div>
+    <div class="progress-label">Question 4 of 8</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">🔒</div>
+    <div class="question-product">Loan Application</div>
+    <h2 class="question-text">Do you have any security to offer against the loan?</h2>
+    <div class="answer-options" id="security-opts">
+      <button class="answer-btn" onclick="selectState('security', 'Property', this, 'security-opts'); showScreen('screen-property-security')">🏠 Yes — property</button>
+      <button class="answer-btn" onclick="selectState('security', 'Other assets', this, 'security-opts'); showScreen('screen-other-security')">🔧 Yes — other assets</button>
+      <button class="answer-btn" onclick="selectState('security', 'Unsecured', this, 'security-opts'); showScreen('screen-credit')">🔓 No — looking for unsecured funding</button>
+      <button class="answer-btn" onclick="selectState('security', 'Not sure', this, 'security-opts'); showScreen('screen-credit')">🤔 Not sure</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-term')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Property Security Details -->
+<div class="screen" id="screen-property-security">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:55%"></div></div>
+    <div class="progress-label">Property details</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">🏠</div>
+    <div class="question-product">Loan Application</div>
+    <h2 class="question-text">Tell us about the property</h2>
+    <div class="form-group">
+      <label class="form-label">Property owner name</label>
+      <input type="text" class="form-input" id="prop-owner" placeholder="e.g. John Smith">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Property address</label>
+      <input type="text" class="form-input" id="prop-address" placeholder="e.g. 123 Main Street, London">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Residential or commercial?</label>
+      <div class="answer-options" id="prop-type-opts">
+        <button class="answer-btn" onclick="selectState('propType', 'Residential', this, 'prop-type-opts')">🏠 Residential</button>
+        <button class="answer-btn" onclick="selectState('propType', 'Commercial', this, 'prop-type-opts')">🏢 Commercial</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Who is the mortgage holder?</label>
+      <input type="text" class="form-input" id="mortgage-holder" placeholder="e.g. Barclays, owned outright">
+    </div>
+    <div class="form-group">
+      <label class="form-label">How many charges on the property?</label>
+      <div class="answer-options" id="charges-opts">
+        <button class="answer-btn" onclick="selectState('propCharges', 'No charges — owned outright', this, 'charges-opts')">✅ No charges — owned outright</button>
+        <button class="answer-btn" onclick="selectState('propCharges', 'One charge', this, 'charges-opts')">1️⃣ One charge</button>
+        <button class="answer-btn" onclick="selectState('propCharges', 'Two charges', this, 'charges-opts')">2️⃣ Two charges</button>
+        <button class="answer-btn" onclick="selectState('propCharges', 'Three or more', this, 'charges-opts')">3️⃣ Three or more</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Approximate property value</label>
+      <input type="text" class="form-input" id="prop-value" placeholder="e.g. £350,000">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Approximate mortgage outstanding</label>
+      <input type="text" class="form-input" id="prop-mortgage" placeholder="e.g. £180,000 or None">
+    </div>
+    <div id="properties-added" style="display:none;margin-bottom:16px;">
+      <p style="font-size:13px;color:var(--mid);margin-bottom:8px;">Properties added:</p>
+      <div id="properties-list"></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn-primary" onclick="savePropertySecurity()">Continue ></button>
+      <button class="btn-secondary" onclick="addAnotherProperty()">+ Add another property</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-security')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Other Security Details -->
+<div class="screen" id="screen-other-security">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:55%"></div></div>
+    <div class="progress-label">Asset details</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">🔧</div>
+    <div class="question-product">Loan Application</div>
+    <h2 class="question-text">Tell us about the asset</h2>
+    <div class="form-group">
+      <label class="form-label">What type of asset?</label>
+      <input type="text" class="form-input" id="asset-type" placeholder="e.g. Plant machinery, vehicles">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Approximate value</label>
+      <input type="text" class="form-input" id="asset-value" placeholder="e.g. £75,000">
+    </div>
+    <button class="btn-primary" onclick="saveOtherSecurity()">Continue ></button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-security')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Q5: Credit History -->
+<div class="screen" id="screen-credit">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:62%"></div></div>
+    <div class="progress-label">Question 5 of 8</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">📋</div>
+    <div class="question-product">Loan Application</div>
+    <h2 class="question-text">How would you describe your business credit history?</h2>
+    <div class="answer-options" id="credit-opts">
+      <button class="answer-btn" onclick="selectState('credit', 'Clean — no issues', this, 'credit-opts'); showScreen('screen-urgency')">✅ Clean — no issues</button>
+      <button class="answer-btn" onclick="selectState('credit', 'Minor issues — some late payments', this, 'credit-opts'); showScreen('screen-urgency')">⚠️ Minor issues — some late payments</button>
+      <button class="answer-btn" onclick="selectState('credit', 'CCJs or defaults', this, 'credit-opts'); showScreen('screen-urgency')">❗ CCJs or defaults</button>
+      <button class="answer-btn" onclick="selectState('credit', 'Not sure', this, 'credit-opts'); showScreen('screen-urgency')">🤔 Not sure</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="goBackFromCredit()">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Q6: Urgency -->
+<div class="screen" id="screen-urgency">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:72%"></div></div>
+    <div class="progress-label">Question 6 of 8</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">⏱️</div>
+    <div class="question-product">Loan Application</div>
+    <h2 class="question-text">How quickly do you need the funding?</h2>
+    <div class="answer-options" id="urgency-opts">
+      <button class="answer-btn" onclick="selectState('urgency', 'As soon as possible', this, 'urgency-opts'); showScreen('screen-existing-finance')">🚨 As soon as possible</button>
+      <button class="answer-btn" onclick="selectState('urgency', 'Within the next month', this, 'urgency-opts'); showScreen('screen-existing-finance')">📅 Within the next month</button>
+      <button class="answer-btn" onclick="selectState('urgency', 'Within the next 3 months', this, 'urgency-opts'); showScreen('screen-existing-finance')">🗓️ Within the next 3 months</button>
+      <button class="answer-btn" onclick="selectState('urgency', 'Just exploring options', this, 'urgency-opts'); showScreen('screen-existing-finance')">🔍 Just exploring options for now</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-credit')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Q7: Existing Finance -->
+<div class="screen" id="screen-existing-finance">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:82%"></div></div>
+    <div class="progress-label">Question 7 of 8</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">🏦</div>
+    <div class="question-product">Loan Application</div>
+    <h2 class="question-text">Do you have any existing loans or finance in place?</h2>
+    <div class="answer-options" id="existing-opts">
+      <button class="answer-btn" onclick="selectState('existingFinance', 'No', this, 'existing-opts'); showScreen('screen-upload')">✅ No — this would be my first</button>
+      <button class="answer-btn" onclick="selectState('existingFinance', 'Yes', this, 'existing-opts'); showScreen('screen-existing-details')">🏦 Yes — I have existing finance</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-urgency')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Existing Finance Details -->
+<div class="screen" id="screen-existing-details">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:84%"></div></div>
+    <div class="progress-label">Existing finance</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">🏦</div>
+    <div class="question-product">Loan Application</div>
+    <h2 class="question-text">Tell us about your existing finance</h2>
+    <p class="question-sub">Add as many facilities as you have.</p>
+    <div id="existing-facilities-list"></div>
+    <button class="btn-secondary" onclick="addFacility()" style="margin-top:0">+ Add a facility</button>
+    <button class="btn-primary" onclick="showScreen('screen-upload')" style="margin-top:12px">Continue ></button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-existing-finance')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Q8: Document Upload -->
+<div class="screen" id="screen-upload">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:90%"></div></div>
+    <div class="progress-label">Question 8 of 8</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">📄</div>
+    <div class="question-product">Loan Application</div>
+    <h2 class="question-text">Upload your financial documents</h2>
+    <p class="question-sub">To give you the most accurate indicative assessment, please upload as many of the following as you have available.</p>
+    <div class="info-box">
+      📋 Last 2 years filed accounts including profit and loss<br>
+      📊 Up to date management accounts<br>
+      🏦 Last 6 months business bank statements<br><br>
+      <em>Don't worry if you don't have all of these — upload what you can and Nicole will advise on anything else needed.</em>
+    </div>
+    <div class="upload-area" id="loan-upload-area" onclick="document.getElementById('loan-file-input').click()">
+      <div class="upload-icon">📎</div>
+      <div class="upload-text"><strong>Tap to upload</strong> your documents<br>PDF, image or Excel accepted — multiple files welcome</div>
+      <div id="loan-files-list"></div>
+    </div>
+    <input type="file" id="loan-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls" style="display:none" onchange="handleFileUpload(this)">
+    <button class="btn-primary" onclick="showScreen('screen-barriers')">Continue ></button>
+    <button class="btn-secondary" onclick="showScreen('screen-barriers')">Skip — I'll send documents separately</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="goBackFromUpload()">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Barriers -->
+<div class="screen" id="screen-barriers">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:95%"></div></div>
+    <div class="progress-label">Final question</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">🤝</div>
+    <div class="question-product">One last thing</div>
+    <h2 class="question-text">Is there anything that might make getting finance difficult?</h2>
+    <p class="question-sub">For example: previous credit issues, HMRC arrears, a short trading history, or a past rejection.</p>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectBarrier('yes', this)">✋ Yes — I have some concerns</button>
+      <button class="answer-btn" onclick="selectBarrier('no', this)">✅ No — nothing I'm aware of</button>
+    </div>
+    <div id="barrier-detail-section" style="display:none">
+      <div class="form-group" style="margin-top:12px;">
+        <label class="form-label">Brief details</label>
+        <textarea class="form-textarea" id="barrier-details" placeholder="No judgement here — just context to help us help you..."></textarea>
+      </div>
+      <div class="info-box">"Many business owners believe funding is out of reach — bad credit, HMRC arrears, a short trading history, or a previous rejection. At Fiskal we pride ourselves on finding solutions even in the most challenging circumstances."</div>
+    </div>
+    <button class="btn-primary" id="barriers-submit" onclick="submitApplication()" style="display:none;margin-top:16px">Submit my Application ></button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-upload')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Loading -->
+<div class="screen" id="screen-loading">
+  <div class="screen-content">
+    <div class="loading-screen">
+      <div class="loading-orb"></div>
+      <h2 class="loading-title">Assessing your application</h2>
+      <p class="loading-sub">Working out what's possible for your business</p>
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Results -->
+<div class="screen" id="screen-results">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Loan Application</span>
+  </div>
+  <div class="screen-content">
+    <div class="results-header">
+      <div class="results-check">💰</div>
+      <h2 class="results-title">Your Assessment is ready</h2>
+      <p id="results-name" style="font-size:14px;color:var(--light-text);">Here's what we found</p>
+    </div>
+    <div class="ai-summary">
+      <div class="ai-summary-label">Your indicative assessment</div>
+      <p class="ai-summary-text" id="ai-summary-text">Analysing your application...</p>
+    </div>
+    <div class="nicole-card">
+      <img src="data:image/jpeg;base64,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" class="nicole-photo" alt="Nicole">
+      <div class="nicole-info">
+        <div class="nicole-name">Nicole Bertolissi</div>
+        <div class="nicole-role">Direct Sales Executive, Fiskal</div>
+        <div class="nicole-message" id="nicole-message">I've received your application and will be in touch within a few hours.</div>
+      </div>
+    </div>
+    <a href="tel:07946074268" class="call-btn">📞 Can't wait? Call me now</a>
+    <div class="divider"></div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-barriers')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+  <div class="screen-footer">
+    <p class="footer-legal">Indicative assessment only — not a lending decision or offer.<br>Fiskal Ltd, Reg. No. 14445539 | nicole@fiskal.co.uk | 07946 074 268</p>
+  </div>
+</div>
+
+<script>
+const state = {
+  name: '', business: '', email: '', phone: '', companyNumber: '',
+  turnover: '', turnoverNext: '', propertyOwners: '', propertyOwnership: '',
+  purpose: '', amount: '', term: '',
+  security: '', propType: '', propCharges: '', mortgageHolder: '', propValue: '', propMortgage: '', propOwner: '', propAddress: '',
+  properties: [],
+  assetType: '', assetValue: '',
+  credit: '', urgency: '', existingFinance: '',
+  existingFacilities: [],
+  loanFiles: [],
+  barrier: '', barrierDetails: ''
+};
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) { el.classList.add('active'); window.scrollTo(0,0); }
+}
+
+function selectState(key, value, btn, optionsId) {
+  if (optionsId) document.querySelectorAll('#' + optionsId + ' .answer-btn').forEach(b => b.classList.remove('selected'));
+  if (btn) btn.classList.add('selected');
+  state[key] = value;
+}
+
+function escapeHtml(value) {
+  return String(value || '').replace(/[&<>"']/g, function(char) {
+    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char];
+  });
+}
+
+function getDetailValue(value) {
+  return value && String(value).trim() ? value : 'Not provided';
+}
+
+function populateDetailsSummary() {
+  const summary = document.getElementById('confirm-details-list');
+  if (!summary) return;
+
+  summary.innerHTML = `
+    <strong>Name:</strong> ${escapeHtml(getDetailValue(state.name))}<br>
+    <strong>Business name:</strong> ${escapeHtml(getDetailValue(state.business))}<br>
+    <strong>Email:</strong> ${escapeHtml(getDetailValue(state.email))}<br>
+    <strong>Phone:</strong> ${escapeHtml(getDetailValue(state.phone))}<br>
+    <strong>Company number:</strong> ${escapeHtml(getDetailValue(state.companyNumber))}<br>
+    <strong>Last year's turnover:</strong> ${escapeHtml(getDetailValue(state.turnover))}<br>
+    <strong>Expected turnover:</strong> ${escapeHtml(getDetailValue(state.turnoverNext))}<br>
+    <strong>Director property ownership:</strong> ${escapeHtml(getDetailValue(state.propertyOwners))}
+  `;
+}
+
+function populateDetailsForm() {
+  const fields = {
+    'field-name': state.name,
+    'field-business': state.business,
+    'field-email': state.email,
+    'field-phone': state.phone,
+    'field-company-number': state.companyNumber,
+    'field-turnover': state.turnover,
+    'field-turnover-next': state.turnoverNext,
+    'field-property-owners': state.propertyOwners
+  };
+  Object.entries(fields).forEach(function([id, value]) {
+    const el = document.getElementById(id);
+    if (el) el.value = value || '';
+  });
+}
+
+function showDetailsConfirm() {
+  populateDetailsSummary();
+  populateDetailsForm();
+  document.getElementById('details-summary').style.display = 'block';
+  document.getElementById('details-edit-form').style.display = 'none';
+  document.getElementById('details-confirm-btn').style.display = 'block';
+  document.getElementById('details-edit-btn').style.display = 'block';
+  document.getElementById('details-save-btn').style.display = 'none';
+  showScreen('screen-details');
+}
+
+function editDetails() {
+  populateDetailsForm();
+  document.getElementById('details-summary').style.display = 'none';
+  document.getElementById('details-edit-form').style.display = 'block';
+  document.getElementById('details-confirm-btn').style.display = 'none';
+  document.getElementById('details-edit-btn').style.display = 'none';
+  document.getElementById('details-save-btn').style.display = 'block';
+}
+
+function confirmDetails() {
+  if (!state.name || !state.business || !state.email || !state.phone || !state.turnover) {
+    editDetails();
+    document.getElementById('details-error').style.display = 'block';
+    return;
+  }
+  document.getElementById('details-error').style.display = 'none';
+  showScreen('screen-purpose');
+}
+
+function toggleCheckbox(btn, group, value) {
+  btn.classList.toggle('selected');
+  const tick = btn.querySelector('.checkbox-tick');
+  if (btn.classList.contains('selected')) {
+    tick.textContent = '✓';
+    if (!state[group]) state[group] = [];
+    if (!state[group].includes(value)) state[group].push(value);
+  } else {
+    tick.textContent = '';
+    state[group] = state[group].filter(v => v !== value);
+  }
+}
+
+function submitDetails() {
+  state.name = document.getElementById('field-name').value.trim();
+  state.business = document.getElementById('field-business').value.trim();
+  state.email = document.getElementById('field-email').value.trim();
+  state.phone = document.getElementById('field-phone').value.trim();
+  state.companyNumber = document.getElementById('field-company-number').value.trim();
+  state.turnover = document.getElementById('field-turnover').value.trim();
+  state.turnoverNext = document.getElementById('field-turnover-next').value.trim();
+  state.propertyOwners = document.getElementById('field-property-owners').value.trim();
+  if (!state.name || !state.business || !state.email || !state.phone || !state.turnover) {
+    document.getElementById('details-error').style.display = 'block';
+    return;
+  }
+  document.getElementById('details-error').style.display = 'none';
+  showScreen('screen-purpose');
+}
+
+function savePropertySecurity() {
+  state.propOwner = document.getElementById('prop-owner').value;
+  state.propAddress = document.getElementById('prop-address').value;
+  state.mortgageHolder = document.getElementById('mortgage-holder').value;
+  state.propValue = document.getElementById('prop-value').value;
+  state.propMortgage = document.getElementById('prop-mortgage').value;
+  
+  // Save current property to array
+  const property = {
+    owner: state.propOwner,
+    address: state.propAddress,
+    type: state.propType,
+    charges: state.propCharges,
+    mortgageHolder: state.mortgageHolder,
+    value: state.propValue,
+    mortgage: state.propMortgage
+  };
+  state.properties.push(property);
+  
+  showScreen('screen-credit');
+}
+
+function addAnotherProperty() {
+  state.propOwner = document.getElementById('prop-owner').value;
+  state.propAddress = document.getElementById('prop-address').value;
+  state.mortgageHolder = document.getElementById('mortgage-holder').value;
+  state.propValue = document.getElementById('prop-value').value;
+  state.propMortgage = document.getElementById('prop-mortgage').value;
+  
+  // Save current property to array
+  const property = {
+    owner: state.propOwner,
+    address: state.propAddress,
+    type: state.propType,
+    charges: state.propCharges,
+    mortgageHolder: state.mortgageHolder,
+    value: state.propValue,
+    mortgage: state.propMortgage
+  };
+  state.properties.push(property);
+  
+  // Clear form
+  document.getElementById('prop-owner').value = '';
+  document.getElementById('prop-address').value = '';
+  document.getElementById('mortgage-holder').value = '';
+  document.getElementById('prop-value').value = '';
+  document.getElementById('prop-mortgage').value = '';
+  state.propType = '';
+  state.propCharges = '';
+  
+  // Clear selections
+  document.querySelectorAll('#prop-type-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#charges-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  
+  // Show properties added
+  document.getElementById('properties-added').style.display = 'block';
+  document.getElementById('properties-list').innerHTML = state.properties.map((p, i) => 
+    `<div style="background:var(--indigo-pale);padding:8px;border-radius:8px;margin-bottom:4px;font-size:12px;">
+      <strong>Property ${i + 1}:</strong> ${p.address || 'No address'} (${p.type || 'No type'}, Value: ${p.value || 'N/A'})
+    </div>`
+  ).join('');
+}
+
+function saveOtherSecurity() {
+  state.assetType = document.getElementById('asset-type').value;
+  state.assetValue = document.getElementById('asset-value').value;
+  showScreen('screen-credit');
+}
+
+function goBackFromCredit() {
+  if (state.security === 'Property') showScreen('screen-property-security');
+  else if (state.security === 'Other assets') showScreen('screen-other-security');
+  else showScreen('screen-security');
+}
+
+function goBackFromUpload() {
+  if (state.existingFinance === 'Yes') showScreen('screen-existing-details');
+  else showScreen('screen-existing-finance');
+}
+
+let facilityCount = 0;
+function addFacility() {
+  facilityCount++;
+  const div = document.createElement('div');
+  div.style.cssText = 'background:white;border:1.5px solid rgba(126,9,165,0.15);border-radius:10px;padding:14px;margin-bottom:12px;';
+  div.innerHTML = `
+    <p style="font-size:12px;font-weight:500;color:var(--mid);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px;">Facility ${facilityCount}</p>
+    <select class="form-input" id="facility-type-${facilityCount}" style="margin-bottom:8px">
+      <option>Loan</option><option>Overdraft</option><option>Invoice Finance</option><option>Asset Finance</option><option>Other</option>
+    </select>
+    <input type="text" class="form-input" id="facility-lender-${facilityCount}" placeholder="Lender name" style="margin-bottom:8px">
+    <input type="text" class="form-input" id="facility-outstanding-${facilityCount}" placeholder="Amount outstanding">
+  `;
+  document.getElementById('existing-facilities-list').appendChild(div);
+}
+
+function handleFileUpload(input) {
+  const files = Array.from(input.files);
+  state.loanFiles = files;
+  const listEl = document.getElementById('loan-files-list');
+  const areaEl = document.getElementById('loan-upload-area');
+  listEl.innerHTML = files.map(f => `<div class="upload-file-item">✅ ${f.name}</div>`).join('');
+  areaEl.classList.add('has-files');
+}
+
+function selectBarrier(value, btn) {
+  state.barrier = value;
+  document.querySelectorAll('#screen-barriers .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('barrier-detail-section').style.display = value === 'yes' ? 'block' : 'none';
+  document.getElementById('barriers-submit').style.display = 'block';
+}
+
+async function submitApplication() {
+  state.barrierDetails = document.getElementById('barrier-details').value.trim();
+  showScreen('screen-loading');
+
+  // Collect existing facilities
+  const facilities = [];
+  for (let i = 1; i <= facilityCount; i++) {
+    const type = document.getElementById('facility-type-' + i)?.value;
+    const lender = document.getElementById('facility-lender-' + i)?.value;
+    const outstanding = document.getElementById('facility-outstanding-' + i)?.value;
+    if (type || lender || outstanding) facilities.push(`${type} with ${lender} — ${outstanding} outstanding`);
+  }
+  state.existingFacilities = facilities;
+
+  const prompt = `You are writing a warm, personal loan assessment for a business owner who has just completed a Fiskal Loan Application — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
+
+Business owner: ${state.name}
+Business: ${state.business}
+Annual turnover: ${state.turnover}
+Director property ownership: ${state.propertyOwners}
+Loan purpose: ${state.purpose}
+Amount required: ${state.amount}
+Term required: ${state.term}
+Security: ${state.security}${state.properties.length > 0 ? ' (' + state.properties.map(p => `${p.type || 'No type'}, ${p.charges || 'No charges info'}, value: ${p.value || 'N/A'}, mortgage: ${p.mortgage || 'N/A'}${p.address ? ', address: ' + p.address : ''}${p.owner ? ', owner: ' + p.owner : ''}`).join('; ') + ')' : ''}${state.assetType ? ' (Asset: ' + state.assetType + ', value: ' + state.assetValue + ')' : ''}
+Credit history: ${state.credit}
+Urgency: ${state.urgency}
+Existing finance: ${state.existingFacilities.join(', ') || 'None'}
+Barriers: ${state.barrier === 'yes' ? state.barrierDetails || 'Yes — no details' : 'None'}
+
+Write a warm, plain English indicative assessment (3-4 sentences) for ${state.name}.
+
+CRITICAL RULES:
+- Do NOT mention any lender names
+- Give an INDICATIVE borrowing range based on their turnover (typically up to 20-25% of annual turnover for unsecured, more if secured)
+- Be warm and encouraging but honest
+- If credit issues mentioned, acknowledge these are not necessarily barriers
+- Always include: "This is an indicative estimate only — actual terms subject to full underwriting"
+- End with "Nicole will be in touch within a few hours to discuss your options"
+- Under 130 words. No bullet points.`;
+
+  try {
+    const response = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await response.json();
+    const summary = data.content?.[0]?.text || getFallback();
+    displayResults(summary);
+    sendNotification(summary);
+  } catch(e) {
+    const summary = getFallback();
+    displayResults(summary);
+    sendNotification(summary);
+  }
+}
+
+function getFallback() {
+  return `Thank you for submitting your loan application, ${state.name}. Based on what you've shared, there are funding options worth exploring for ${state.business}. Nicole will be in touch within a few hours to discuss your options in detail. This is an indicative estimate only — actual terms subject to full underwriting.`;
+}
+
+function displayResults(summary) {
+  document.getElementById('results-name').textContent = `Here's your indicative assessment, ${state.name}`;
+  document.getElementById('ai-summary-text').textContent = summary;
+  document.getElementById('nicole-message').textContent = `I've received your loan application, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+  showScreen('screen-results');
+}
+
+async function sendNotification(summary) {
+  const templateParams = {
+    name: state.name,
+    business_name: state.business,
+    email: state.email,
+    phone: state.phone,
+    company_number: state.companyNumber || 'Not provided',
+    module: 'Loan Application',
+    matched_products: `Purpose: ${state.purpose} | Amount: ${state.amount} | Term: ${state.term} | Security: ${state.security}${state.properties.length > 0 ? ' (' + state.properties.map(p => `${p.type || 'No type'}, ${p.charges || 'No charges info'}, value: ${p.value || 'N/A'}, mortgage: ${p.mortgage || 'N/A'}${p.address ? ', address: ' + p.address : ''}${p.owner ? ', owner: ' + p.owner : ''}`).join('; ') + ')' : ''} | Credit: ${state.credit} | Urgency: ${state.urgency} | Existing finance: ${state.existingFacilities.join(', ') || 'None'} | Turnover: ${state.turnover} | Director property ownership: ${state.propertyOwners}`,
+    barriers: state.barrier === 'yes' ? state.barrierDetails || 'Yes' : 'None',
+    summary: summary
+  };
+  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+}
+
+// ---- Load profile from onboarding ----
+(function() {
+  const OB_KEY = "fiskal_profile";
+  try {
+    const saved = localStorage.getItem(OB_KEY);
+    if (!saved) return;
+    const p = JSON.parse(saved);
+    if (!p) return;
+    // Pre-fill state
+    if (typeof state !== "undefined") {
+      if (p.name) state.name = p.name;
+      if (p.businessName) state.business = p.businessName;
+      if (p.email) state.email = p.email;
+      if (p.phone) state.phone = p.phone;
+      if (p.companyNumber) state.companyNumber = p.companyNumber;
+      if (p.turnoverLast) state.turnover = p.turnoverLast;
+      if (p.turnoverNext) state.turnoverNext = p.turnoverNext;
+      if (p.propertyOwners) state.propertyOwners = p.propertyOwners;
+    }
+    // Pre-fill form fields on DOMContentLoaded
+    document.addEventListener("DOMContentLoaded", function() {
+      const map = {
+        "field-name": p.name,
+        "field-business": p.businessName,
+        "field-email": p.email,
+        "field-phone": p.phone,
+        "field-company-number": p.companyNumber,
+        "field-turnover": p.turnoverLast,
+        "field-turnover-next": p.turnoverNext,
+        "field-property-owners": p.propertyOwners
+      };
+      Object.entries(map).forEach(function([id, val]) {
+        var el = document.getElementById(id);
+        if (el && val) el.value = val;
+      });
+      populateDetailsSummary();
+      populateDetailsForm();
+    });
+  } catch(e) {}
+})();
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init("g710KFSryN241SQWm");</script>
+</body>
+</html>
