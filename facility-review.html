@@ -1741,14 +1741,19 @@ CRITICAL RULES:
 }
 
 function getFallbackSummary() {
-  return `Thank you for completing your Facility Review, ${state.name}. Based on what you've shared about your invoice finance facility, there are some interesting questions worth exploring — particularly around whether your current rates and structure are still working as hard as they should be for ${state.business}. Nicole will be in touch within a few hours to talk through what's possible.`;
+  const name = state.name || 'there';
+  const business = state.business || 'your business';
+  return `Thank you for completing your Facility Review, ${name}. Based on what you've shared about your invoice finance facility, there are some interesting questions worth exploring — particularly around whether your current rates and structure are still working as hard as they should be for ${business}. Nicole will be in touch within a few hours to talk through what's possible.`;
 }
 
 function displayResults(summary) {
-  document.getElementById('results-name').textContent = `Here's what we found for you, ${state.name}`;
+  const name = state.name || 'there';
+  const firstName = name.split(' ')[0];
+  const business = state.business || 'your business';
+  document.getElementById('results-name').textContent = `Here's what we found for you, ${name}`;
   document.getElementById('ai-summary-text').textContent = summary;
-  document.getElementById('nicole-message').textContent = `I've received your Facility Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${state.business}.`;
-  showScreen('screen-results');
+  document.getElementById('nicole-message').textContent = `I've received your Facility Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${business}.`;
+  showScreen('screen-loading');
   sendNotification(summary);
 }
 
@@ -1757,13 +1762,13 @@ function displayResults(summary) {
 // ============================================================
 async function sendNotification(summary) {
   const templateParams = {
-    name: state.name,
-    business_name: state.business,
-    email: state.email,
-    phone: state.phone,
+    name: state.name || 'Not provided',
+    business_name: state.business || 'Not provided',
+    email: state.email || 'Not provided',
+    phone: state.phone || 'Not provided',
     company_number: state.companyNumber || 'Not provided',
     module: 'Facility Review — Invoice Finance',
-    matched_products: `Lender: ${state['if-lender-val'] || 'Not provided'} | Type: ${state['if-type'] || 'Not provided'} | Advance: ${state.ifAdvance || 'Not provided'} | Service Fee: ${state.ifServiceFee || 'Not provided'} | Minimums: ${state.ifMinimums || 'Not provided'} | Disbursements: ${state.ifDisbursements || 'Not provided'} | Priorities: ${(state['if-priorities'] || []).join(', ') || 'Not specified'} | Turnover: ${state.turnover} | Property: ${state.propertyOwnership}`,
+    matched_products: `Lender: ${state['if-lender-val'] || 'Not provided'} | Type: ${state['if-type'] || 'Not provided'} | Advance: ${state.ifAdvance || 'Not provided'} | Service Fee: ${state.ifServiceFee || 'Not provided'} | Minimums: ${state.ifMinimums || 'Not provided'} | Disbursements: ${state.ifDisbursements || 'Not provided'} | Priorities: ${(state['if-priorities'] || []).join(', ') || 'Not specified'}`,
     barriers: state.barrier === 'yes' ? state.barrierDetails || 'Yes — no details' : 'None',
     summary: summary
   };
