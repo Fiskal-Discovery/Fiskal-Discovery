@@ -638,6 +638,76 @@
     margin-top: 6px;
     display: none;
   }
+
+  /* ---- LOADING SCREEN ---- */
+  .loading-screen {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1000;
+    background: var(--cream);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .loading-screen.active { display: flex; }
+
+  .loading-content {
+    text-align: center;
+    max-width: 400px;
+  }
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(126, 9, 165, 0.2);
+    border-top-color: var(--indigo);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 24px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loading-message {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--indigo-deep);
+    position: relative;
+    display: inline-block;
+    padding: 8px 16px;
+    overflow: hidden;
+  }
+
+  .loading-message::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    animation: shimmer 1s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  .loading-message.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .loading-message.fade-in {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
 </style>
 </head>
 <body>
@@ -1842,6 +1912,14 @@
   </div>
 </div>
 
+<!-- SUBMISSION LOADING SCREEN -->
+<div class="screen loading-screen" id="screen-submission-loading">
+  <div class="loading-content">
+    <div class="loading-spinner"></div>
+    <div class="loading-message" id="loading-message">Analysing your business</div>
+  </div>
+</div>
+
 <!-- Invoice Finance Loading -->
 <div class="screen" id="screen-loading">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
@@ -1884,6 +1962,85 @@
 </div>
 
 <script>
+// ============================================================
+// LOADING SCREEN MESSAGES
+// ============================================================
+const loadingMessages = [
+  'Analysing your business',
+  'Reviewing your details',
+  'Exploring your options',
+  'Calculating your position',
+  'Checking the market',
+  'Matching you to lenders',
+  'Assessing your profile',
+  'Preparing your results',
+  'Running the numbers',
+  'Scanning the landscape',
+  'Identifying opportunities',
+  'Comparing facilities',
+  'Evaluating your situation',
+  'Researching your sector',
+  'Building your summary',
+  'Gathering insights',
+  'Checking lender criteria',
+  'Mapping your options',
+  'Reviewing the market',
+  'Crunching the data',
+  'Consulting our panel',
+  'Looking for the best fit',
+  'Assessing eligibility',
+  'Pinpointing solutions',
+  'Reviewing your answers',
+  'Preparing your discovery',
+  'Exploring all avenues',
+  'Checking availability',
+  'Shortlisting options',
+  'Almost there'
+];
+
+let lastMessageIndex = -1;
+
+function getRandomMessage() {
+  let newIndex;
+  do {
+    newIndex = Math.floor(Math.random() * loadingMessages.length);
+  } while (newIndex === lastMessageIndex);
+  lastMessageIndex = newIndex;
+  return loadingMessages[newIndex];
+}
+
+function showLoadingScreen(callback) {
+  const loadingScreen = document.getElementById('screen-submission-loading');
+  const messageEl = document.getElementById('loading-message');
+  let messageCount = 0;
+  const totalDuration = 3000;
+  const messageInterval = 1000;
+
+  loadingScreen.classList.add('active');
+  messageEl.textContent = getRandomMessage();
+  messageEl.classList.remove('fade-out');
+  messageEl.classList.add('fade-in');
+
+  const interval = setInterval(() => {
+    messageCount++;
+    if (messageCount >= 3) {
+      clearInterval(interval);
+      loadingScreen.classList.remove('active');
+      if (callback) callback();
+      return;
+    }
+
+    messageEl.classList.remove('fade-in');
+    messageEl.classList.add('fade-out');
+
+    setTimeout(() => {
+      messageEl.textContent = getRandomMessage();
+      messageEl.classList.remove('fade-out');
+      messageEl.classList.add('fade-in');
+    }, 300);
+  }, messageInterval);
+}
+
 // ============================================================
 // STATE
 // ============================================================
@@ -2054,8 +2211,10 @@ function selectBarrier(value, btn) {
 // ============================================================
 async function submitReview() {
   state.barrierDetails = document.getElementById('barrier-details').value.trim();
-  showScreen('screen-loading');
-  await generateResults();
+  showLoadingScreen(async () => {
+    showScreen('screen-loading');
+    await generateResults();
+  });
 }
 
 async function generateResults() {
@@ -2202,9 +2361,10 @@ function selectLoanBarrier(value, btn) {
 
 async function submitLoanReview() {
   state.loanBarrierDetails = document.getElementById('loan-barrier-details').value.trim();
-  showScreen('screen-loading');
+  showLoadingScreen(async () => {
+    showScreen('screen-loading');
 
-  const prompt = `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Loan Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
+    const prompt = `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Loan Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
 
 Business owner: ${state.name}
 Business: ${state.business}
@@ -2226,21 +2386,22 @@ Property ownership: ${state.propertyOwnership}
 Write a warm, plain English summary (3-4 sentences) about their business loan.
 CRITICAL RULES: No lender names. No specific replacement rates. Be warm and personal. Suggest there may be room for improvement if rates look high. End with "Nicole will be in touch within a few hours". Under 120 words. No bullet points.`;
 
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
-    });
-    const data = await response.json();
-    const summary = data.content?.[0]?.text || `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
-    displayResults(summary);
-    sendLoanNotification(summary);
-  } catch(e) {
-    const summary = `Thank you for completing your Loan Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what's possible for ${state.business}.`;
-    displayResults(summary);
-    sendLoanNotification(summary);
-  }
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+      });
+      const data = await response.json();
+      const summary = data.content?.[0]?.text || `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
+      displayResults(summary);
+      sendLoanNotification(summary);
+    } catch(e) {
+      const summary = `Thank you for completing your Loan Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what's possible for ${state.business}.`;
+      displayResults(summary);
+      sendLoanNotification(summary);
+    }
+  });
 }
 
 async function sendLoanNotification(summary) {
@@ -2305,8 +2466,9 @@ function fxHandleUpload(input) {
 }
 
 async function submitFXReview() {
-  showScreen('screen-fx-loading');
-  const prompt = `You are writing a warm, personal FX review summary for a business owner who has just completed Fiskal Discovery.
+  showLoadingScreen(async () => {
+    showScreen('screen-fx-loading');
+    const prompt = `You are writing a warm, personal FX review summary for a business owner who has just completed Fiskal Discovery.
 
 Business owner: ${state.name}
 Business: ${state.business}
@@ -2320,31 +2482,32 @@ Goals: ${(state.fxGoals || []).join(', ') || 'Not specified'}
 Write a warm, plain English summary (3-4 sentences) for ${state.name} about their FX situation.
 CRITICAL RULES: No specific provider names. Warm and personal. If they use their bank, gently note that banks typically charge more than specialists. If unaware of charges, acknowledge this is very common. End with "Nicole will be in touch within a few hours to talk through your options". Under 120 words. No bullet points.`;
 
-  let summary;
-  try {
-    const response = await fetch('/.netlify/functions/claude', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
-    });
-    const data = await response.json();
-    summary = data.content?.[0]?.text || `Thank you for completing your FX Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what savings might be possible for ${state.business}.`;
-  } catch(e) {
-    summary = `Thank you for completing your FX Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what savings might be possible for ${state.business}.`;
-  }
+    let summary;
+    try {
+      const response = await fetch('/.netlify/functions/claude', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
+      });
+      const data = await response.json();
+      summary = data.content?.[0]?.text || `Thank you for completing your FX Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what savings might be possible for ${state.business}.`;
+    } catch(e) {
+      summary = `Thank you for completing your FX Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what savings might be possible for ${state.business}.`;
+    }
 
-  document.getElementById('fx-results-name').textContent = `Here's what we found for you, ${state.name}`;
-  document.getElementById('fx-ai-summary').textContent = summary;
-  document.getElementById('fx-nicole-message').textContent = `I've received your FX Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
-  showScreen('screen-fx-results');
+    document.getElementById('fx-results-name').textContent = `Here's what we found for you, ${state.name}`;
+    document.getElementById('fx-ai-summary').textContent = summary;
+    document.getElementById('fx-nicole-message').textContent = `I've received your FX Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+    showScreen('screen-fx-results');
 
-  const templateParams = {
-    name: state.name, business_name: state.business, email: state.email, phone: state.phone,
-    company_number: 'N/A', module: 'FX Review',
-    matched_products: `Provider: ${state.fxProvider} | Transactions: ${state.fxTransactionType} | Currencies: ${state.fxCurrencies} | Awareness: ${state.fxAwareness} | Platforms: ${(state.fxPlatforms || []).join(', ') || 'None'} | Goals: ${(state.fxGoals || []).join(', ') || 'N/A'}`,
-    barriers: 'N/A', summary: summary
-  };
-  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+    const templateParams = {
+      name: state.name, business_name: state.business, email: state.email, phone: state.phone,
+      company_number: 'N/A', module: 'FX Review',
+      matched_products: `Provider: ${state.fxProvider} | Transactions: ${state.fxTransactionType} | Currencies: ${state.fxCurrencies} | Awareness: ${state.fxAwareness} | Platforms: ${(state.fxPlatforms || []).join(', ') || 'None'} | Goals: ${(state.fxGoals || []).join(', ') || 'N/A'}`,
+      barriers: 'N/A', summary: summary
+    };
+    try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  });
 }
 
 

@@ -877,14 +877,81 @@
 
   /* ---- FOOTER ---- */
   .screen-footer {
-    padding: 12px 24px 24px;
+    padding: 20px 24px;
     text-align: center;
-  }
-
-  .footer-legal {
     font-size: 11px;
     color: var(--light-text);
     line-height: 1.6;
+  }
+
+  /* ---- LOADING SCREEN ---- */
+  .loading-screen {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1000;
+    background: var(--cream);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .loading-screen.active { display: flex; }
+
+  .loading-content {
+    text-align: center;
+    max-width: 400px;
+  }
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(126, 9, 165, 0.2);
+    border-top-color: var(--indigo);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 24px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loading-message {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--indigo-deep);
+    position: relative;
+    display: inline-block;
+    padding: 8px 16px;
+    overflow: hidden;
+  }
+
+  .loading-message::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    animation: shimmer 1s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  .loading-message.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .loading-message.fade-in {
+    opacity: 1;
+    transition: opacity 0.3s ease;
   }
 
   /* ---- DIVIDER ---- */
@@ -1165,6 +1232,14 @@
   </div>
 </div>
 
+<!-- ====== LOADING SCREEN ====== -->
+<div class="screen loading-screen" id="screen-submission-loading">
+  <div class="loading-content">
+    <div class="loading-spinner"></div>
+    <div class="loading-message" id="loading-message">Analysing your business</div>
+  </div>
+</div>
+
 <!-- ====== RESULTS SCREEN ====== -->
 <div class="screen" id="screen-results">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
@@ -1239,6 +1314,85 @@
 </div>
 
 <script>
+// ============================================================
+// LOADING SCREEN MESSAGES
+// ============================================================
+const loadingMessages = [
+  'Analysing your business',
+  'Reviewing your details',
+  'Exploring your options',
+  'Calculating your position',
+  'Checking the market',
+  'Matching you to lenders',
+  'Assessing your profile',
+  'Preparing your results',
+  'Running the numbers',
+  'Scanning the landscape',
+  'Identifying opportunities',
+  'Comparing facilities',
+  'Evaluating your situation',
+  'Researching your sector',
+  'Building your summary',
+  'Gathering insights',
+  'Checking lender criteria',
+  'Mapping your options',
+  'Reviewing the market',
+  'Crunching the data',
+  'Consulting our panel',
+  'Looking for the best fit',
+  'Assessing eligibility',
+  'Pinpointing solutions',
+  'Reviewing your answers',
+  'Preparing your discovery',
+  'Exploring all avenues',
+  'Checking availability',
+  'Shortlisting options',
+  'Almost there'
+];
+
+let lastMessageIndex = -1;
+
+function getRandomMessage() {
+  let newIndex;
+  do {
+    newIndex = Math.floor(Math.random() * loadingMessages.length);
+  } while (newIndex === lastMessageIndex);
+  lastMessageIndex = newIndex;
+  return loadingMessages[newIndex];
+}
+
+function showLoadingScreen(callback) {
+  const loadingScreen = document.getElementById('screen-submission-loading');
+  const messageEl = document.getElementById('loading-message');
+  let messageCount = 0;
+  const totalDuration = 3000;
+  const messageInterval = 1000;
+
+  loadingScreen.classList.add('active');
+  messageEl.textContent = getRandomMessage();
+  messageEl.classList.remove('fade-out');
+  messageEl.classList.add('fade-in');
+
+  const interval = setInterval(() => {
+    messageCount++;
+    if (messageCount >= 3) {
+      clearInterval(interval);
+      loadingScreen.classList.remove('active');
+      if (callback) callback();
+      return;
+    }
+
+    messageEl.classList.remove('fade-in');
+    messageEl.classList.add('fade-out');
+
+    setTimeout(() => {
+      messageEl.textContent = getRandomMessage();
+      messageEl.classList.remove('fade-out');
+      messageEl.classList.add('fade-in');
+    }, 300);
+  }, messageInterval);
+}
+
 // ============================================================
 // STATE
 // ============================================================
@@ -1603,8 +1757,10 @@ function selectBarrier(value) {
 
 function submitBarriers() {
   state.barrierDetails = document.getElementById('barrier-details').value.trim();
-  showScreen('loading');
-  generateResults();
+  showLoadingScreen(() => {
+    showScreen('loading');
+    generateResults();
+  });
 }
 
 // ============================================================

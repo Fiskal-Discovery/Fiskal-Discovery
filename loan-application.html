@@ -107,6 +107,76 @@
   .error-msg { font-size: 12px; color: #e53e3e; margin-top: 6px; display: none; }
   .screen-footer { padding: 12px 24px 24px; text-align: center; }
   .footer-legal { font-size: 11px; color: var(--light-text); line-height: 1.6; }
+
+  /* ---- LOADING SCREEN ---- */
+  .loading-screen {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1000;
+    background: var(--cream);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .loading-screen.active { display: flex; }
+
+  .loading-content {
+    text-align: center;
+    max-width: 400px;
+  }
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(126, 9, 165, 0.2);
+    border-top-color: var(--indigo);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 24px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loading-message {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--indigo-deep);
+    position: relative;
+    display: inline-block;
+    padding: 8px 16px;
+    overflow: hidden;
+  }
+
+  .loading-message::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    animation: shimmer 1s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  .loading-message.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .loading-message.fade-in {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
 </style>
 </head>
 <body>
@@ -637,6 +707,14 @@
   </div>
 </div>
 
+<!-- LOADING SCREEN -->
+<div class="screen loading-screen" id="screen-submission-loading">
+  <div class="loading-content">
+    <div class="loading-spinner"></div>
+    <div class="loading-message" id="loading-message">Analysing your business</div>
+  </div>
+</div>
+
 <!-- Results -->
 <div class="screen" id="screen-results">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
@@ -675,6 +753,88 @@
 </div>
 
 <script>
+// ============================================================
+// LOADING SCREEN MESSAGES
+// ============================================================
+const loadingMessages = [
+  'Analysing your business',
+  'Reviewing your details',
+  'Exploring your options',
+  'Calculating your position',
+  'Checking the market',
+  'Matching you to lenders',
+  'Assessing your profile',
+  'Preparing your results',
+  'Running the numbers',
+  'Scanning the landscape',
+  'Identifying opportunities',
+  'Comparing facilities',
+  'Evaluating your situation',
+  'Researching your sector',
+  'Building your summary',
+  'Gathering insights',
+  'Checking lender criteria',
+  'Mapping your options',
+  'Reviewing the market',
+  'Crunching the data',
+  'Consulting our panel',
+  'Looking for the best fit',
+  'Assessing eligibility',
+  'Pinpointing solutions',
+  'Reviewing your answers',
+  'Preparing your discovery',
+  'Exploring all avenues',
+  'Checking availability',
+  'Shortlisting options',
+  'Almost there'
+];
+
+let lastMessageIndex = -1;
+
+function getRandomMessage() {
+  let newIndex;
+  do {
+    newIndex = Math.floor(Math.random() * loadingMessages.length);
+  } while (newIndex === lastMessageIndex);
+  lastMessageIndex = newIndex;
+  return loadingMessages[newIndex];
+}
+
+function showLoadingScreen(callback) {
+  const loadingScreen = document.getElementById('screen-submission-loading');
+  const messageEl = document.getElementById('loading-message');
+  let messageCount = 0;
+  const totalDuration = 3000;
+  const messageInterval = 1000;
+
+  loadingScreen.classList.add('active');
+  messageEl.textContent = getRandomMessage();
+  messageEl.classList.remove('fade-out');
+  messageEl.classList.add('fade-in');
+
+  const interval = setInterval(() => {
+    messageCount++;
+    if (messageCount >= 3) {
+      clearInterval(interval);
+      loadingScreen.classList.remove('active');
+      if (callback) callback();
+      return;
+    }
+
+    messageEl.classList.remove('fade-in');
+    messageEl.classList.add('fade-out');
+
+    setTimeout(() => {
+      messageEl.textContent = getRandomMessage();
+      messageEl.classList.remove('fade-out');
+      messageEl.classList.add('fade-in');
+    }, 300);
+  }, messageInterval);
+}
+
+// ============================================================
+// STATE
+// ============================================================
 const state = {
   name: '', business: '', email: '', phone: '', companyNumber: '',
   turnover: '', turnoverNext: '', propertyOwners: '', propertyOwnership: '',
@@ -918,19 +1078,20 @@ function selectBarrier(value, btn) {
 
 async function submitApplication() {
   state.barrierDetails = document.getElementById('barrier-details').value.trim();
-  showScreen('screen-loading');
+  showLoadingScreen(async () => {
+    showScreen('screen-loading');
 
-  // Collect existing facilities
-  const facilities = [];
-  for (let i = 1; i <= facilityCount; i++) {
-    const type = document.getElementById('facility-type-' + i)?.value;
-    const lender = document.getElementById('facility-lender-' + i)?.value;
-    const outstanding = document.getElementById('facility-outstanding-' + i)?.value;
-    if (type || lender || outstanding) facilities.push(`${type} with ${lender} — ${outstanding} outstanding`);
-  }
-  state.existingFacilities = facilities;
+    // Collect existing facilities
+    const facilities = [];
+    for (let i = 1; i <= facilityCount; i++) {
+      const type = document.getElementById('facility-type-' + i)?.value;
+      const lender = document.getElementById('facility-lender-' + i)?.value;
+      const outstanding = document.getElementById('facility-outstanding-' + i)?.value;
+      if (type || lender || outstanding) facilities.push(`${type} with ${lender} — ${outstanding} outstanding`);
+    }
+    state.existingFacilities = facilities;
 
-  const prompt = `You are writing a warm, personal loan assessment for a business owner who has just completed a Fiskal Loan Application — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
+    const prompt = `You are writing a warm, personal loan assessment for a business owner who has just completed a Fiskal Loan Application — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
 
 Business owner: ${state.name}
 Business: ${state.business}
@@ -956,21 +1117,22 @@ CRITICAL RULES:
 - End with "Nicole will be in touch within a few hours to discuss your options"
 - Under 130 words. No bullet points.`;
 
-  try {
-    const response = await fetch('/.netlify/functions/claude', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
-    });
-    const data = await response.json();
-    const summary = data.content?.[0]?.text || getFallback();
-    displayResults(summary);
-    sendNotification(summary);
-  } catch(e) {
-    const summary = getFallback();
-    displayResults(summary);
-    sendNotification(summary);
-  }
+    try {
+      const response = await fetch('/.netlify/functions/claude', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+      });
+      const data = await response.json();
+      const summary = data.content?.[0]?.text || getFallback();
+      displayResults(summary);
+      sendNotification(summary);
+    } catch(e) {
+      const summary = getFallback();
+      displayResults(summary);
+      sendNotification(summary);
+    }
+  });
 }
 
 function getFallback() {
