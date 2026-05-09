@@ -1442,6 +1442,368 @@
   </div>
 </div>
 
+<!-- Asset Finance Q1: Asset Type -->
+<div class="screen" id="screen-asset-type">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Asset Finance Review</div>
+    <h2 class="question-text">What type of assets do you need finance for?</h2>
+    <div class="answer-options" id="asset-type-opts">
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Vehicles / Fleet', this, 'asset-type-opts', 'screen-asset-value')">🚛 Vehicles / Fleet</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Machinery / Equipment', this, 'asset-type-opts', 'screen-asset-value')">🏭 Machinery / Equipment</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Technology / IT Equipment', this, 'asset-type-opts', 'screen-asset-value')">💻 Technology / IT Equipment</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Property / Real Estate', this, 'asset-type-opts', 'screen-asset-value')">🏢 Property / Real Estate</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Other assets', this, 'asset-type-opts', 'screen-asset-value')">📦 Other assets</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Asset Finance Q2: Asset Value -->
+<div class="screen" id="screen-asset-value">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Asset Finance Review</div>
+    <h2 class="question-text">What is the approximate value of the assets?</h2>
+    <div class="form-group">
+      <label class="form-label">Asset value (£)</label>
+      <input type="text" class="form-input" id="asset-value" placeholder="e.g. £50,000">
+    </div>
+    <button class="btn-primary" onclick="saveAssetValue()">Continue →</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-asset-type')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Asset Finance Q3: Existing Finance -->
+<div class="screen" id="screen-asset-finance">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Asset Finance Review</div>
+    <h2 class="question-text">Do you have existing finance on these assets?</h2>
+    <div class="answer-options" id="asset-finance-opts">
+      <button class="answer-btn" onclick="assetSelectAndGo('assetFinance', 'No existing finance', this, 'asset-finance-opts', 'screen-asset-upload')">✅ No — they're fully owned</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetFinance', 'Yes — some finance outstanding', this, 'asset-finance-opts', 'screen-asset-upload')">🏦 Yes — some finance outstanding</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetFinance', 'Not sure', this, 'asset-finance-opts', 'screen-asset-upload')">🤔 Not sure</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-asset-value')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Asset Finance Upload -->
+<div class="screen" id="screen-asset-upload">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Asset Finance Review</div>
+    <h2 class="question-text">Upload your asset details</h2>
+    <p class="question-sub">Upload invoices, valuations, or asset lists if available.</p>
+    <div class="info-box">💡 If you don't have documents, don't worry — Nicole can help when she calls.</div>
+    <div class="upload-area" id="asset-upload-area" onclick="document.getElementById('asset-file-input').click()">
+      <div class="upload-icon">📎</div>
+      <div class="upload-text"><strong>Tap to upload</strong> your asset documents<br>PDF, image or Excel accepted</div>
+      <div id="asset-files-list"></div>
+    </div>
+    <input type="file" id="asset-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display:none" onchange="handleFileUpload('asset', this)">
+    <button class="btn-primary" onclick="showScreen('screen-asset-barriers')">Continue →</button>
+    <button class="btn-secondary" onclick="showScreen('screen-asset-barriers')">Skip — no documents to upload</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-asset-finance')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Asset Finance Barriers -->
+<div class="screen" id="screen-asset-barriers">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">One last thing</div>
+    <h2 class="question-text">Is there anything that might make getting asset finance difficult?</h2>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectAssetBarrier('yes', this)">✋ Yes — I have some concerns</button>
+      <button class="answer-btn" onclick="selectAssetBarrier('no', this)">✅ No — nothing I'm aware of</button>
+    </div>
+    <div id="asset-barrier-detail-section" style="display:none">
+      <div class="form-group" style="margin-top:12px;">
+        <label class="form-label">Brief details</label>
+        <textarea class="form-textarea" id="asset-barrier-details" placeholder="Any context that might help..."></textarea>
+      </div>
+    </div>
+    <button class="btn-primary" id="asset-barriers-submit" onclick="submitAssetReview()" style="display:none;margin-top:16px">Submit my Asset Review →</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-asset-upload')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Asset Finance Loading -->
+<div class="screen" id="screen-asset-loading">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="results-header">
+      <div class="results-check">&#10024;</div>
+      <h2 class="results-title">Your Asset Review is ready</h2>
+      <p class="results-name" id="asset-results-name">Here's what we found for you</p>
+    </div>
+
+    <div class="ai-summary">
+      <div class="ai-summary-label">Your personal summary</div>
+      <p class="ai-summary-text" id="asset-ai-summary">Analysing your responses...</p>
+    </div>
+
+    <div class="nicole-card">
+      <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCADIAMgDASIAAhEBAxEB/8QAHQAAAgIDAQEBAAAAAAAAAAAABgcFCAADBAkCAf/EAE4QAAEDAwIDBAcDBwkGBAcAAAECAwQABREGIQcSMRNBUWEIFCIycYGRQrGyFSMlUnShwRYkQ2JzgrPR4QkYM0Ry8BcmU8I1NlSSk9Lx/8QAGwEAAgMBAQEAAAAAAAAAAAAAAAQDBQYCAQf/xAAsEQACAgICAgICAQEJAAAAAAAAAQIDBBESIRMxBUEiUWEGFCMyM1JxkaGx/9oADAMBAAIRAxEAPwDz1Yu0+x3q8rt8p2GuV6zEeW0cFbK1ELRnwUBg46jbvqTuOornqdu1JukozDbYaIEZa0jmSwgkoQVdVBPMQM9BgdAKtj6I/oC3H0h7JrK/3qXGsVplsusWSYpQefEn1kZf7FKgQ2EpWj2iMlW3TNV+4p6GsegeI9605p6/uaot1seMU3RcX1YOup2cCUcx9lKgUg53wTQAwNT+kfxE4xcLbRw/uyG73ZrIllyO4zEUuU2toKTzqWjrlKikgjGAMbirl8Y/RJvesvQ/4LsaYsjtx1XY4rKXIrfKhxTMpPaO55iB7LhSd+mTSc9HL0/tWcLEQ7JN0pY75Zz2bCGrZCbt8oDZIAU2nlWTt7yck99eqL+ubLAulktFynxrbe7u2XIltkOpDznKAVhI7ynOPuoA8juIPoca64N6ORqHVTlkt7KilKYYuKVyVqJA5UIAwsjOTgnAzS7t9...[12920 bytes truncated]
+      <div class="nicole-photo-placeholder" id="nicole-placeholder" style="display:none">—</div>
+      <div class="nicole-info">
+        <div class="nicole-name">Nicole Bertolissi</div>
+        <div class="nicole-role">Direct Sales Executive, Fiskal</div>
+        <div class="nicole-message" id="asset-nicole-message">I've received your Asset Review and will be in touch within a few hours.</div>
+      </div>
+    </div>
+
+    <a href="tel:07946074268" class="call-btn">&#128222; Can't wait? Call me now</a>
+
+    <div class="divider"></div>
+  </div>
+  <div style="text-align:center;padding:0 24px 8px;">
+    <button class="back-btn" onclick="window.location.href='index.html'" style="margin:0 auto;justify-content:center;">&#8962; Start a new Review</button>
+  </div>
+</div>
+
+<!-- Trade Finance Q1: Import/Export -->
+<div class="screen" id="screen-trade-type">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Trade Finance Review</div>
+    <h2 class="question-text">Do you primarily import or export?</h2>
+    <div class="answer-options" id="trade-type-opts">
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeType', 'Import', this, 'trade-type-opts', 'screen-trade-volume')">📥 Import</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeType', 'Export', this, 'trade-type-opts', 'screen-trade-volume')">📤 Export</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeType', 'Both import and export', this, 'trade-type-opts', 'screen-trade-volume')">🔄 Both import and export</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trade Finance Q2: Trade Volume -->
+<div class="screen" id="screen-trade-volume">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Trade Finance Review</div>
+    <h2 class="question-text">What is your annual trade volume?</h2>
+    <div class="form-group">
+      <label class="form-label">Annual trade volume (£)</label>
+      <input type="text" class="form-input" id="trade-volume" placeholder="e.g. £250,000">
+    </div>
+    <button class="btn-primary" onclick="saveTradeVolume()">Continue →</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-trade-type')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trade Finance Q3: Trade Routes -->
+<div class="screen" id="screen-trade-routes">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Trade Finance Review</div>
+    <h2 class="question-text">Which regions do you trade with?</h2>
+    <p class="question-sub">Select all that apply.</p>
+    <div class="checkbox-options">
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'Europe')"><div class="checkbox-tick"></div> 🇪🇺 Europe</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'North America')"><div class="checkbox-tick"></div> 🇺🇸 North America</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'Asia')"><div class="checkbox-tick"></div> 🌏 Asia</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'Middle East')"><div class="checkbox-tick"></div> 🌍 Middle East</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'Africa')"><div class="checkbox-tick"></div> 🌍 Africa</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'South America')"><div class="checkbox-tick"></div> 🌎 South America</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'UK only')"><div class="checkbox-tick"></div> 🇬🇧 UK only</button>
+    </div>
+    <button class="btn-primary" onclick="showScreen('screen-trade-upload')" style="margin-top:8px">Continue →</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-trade-volume')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trade Finance Upload -->
+<div class="screen" id="screen-trade-upload">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Trade Finance Review</div>
+    <h2 class="question-text">Upload your trade documents</h2>
+    <p class="question-sub">Upload invoices, shipping documents, or trade agreements if available.</p>
+    <div class="info-box">💡 If you don't have documents, don't worry — Nicole can help when she calls.</div>
+    <div class="upload-area" id="trade-upload-area" onclick="document.getElementById('trade-file-input').click()">
+      <div class="upload-icon">📎</div>
+      <div class="upload-text"><strong>Tap to upload</strong> your trade documents<br>PDF, image or Excel accepted</div>
+      <div id="trade-files-list"></div>
+    </div>
+    <input type="file" id="trade-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display:none" onchange="handleFileUpload('trade', this)">
+    <button class="btn-primary" onclick="showScreen('screen-trade-barriers')">Continue →</button>
+    <button class="btn-secondary" onclick="showScreen('screen-trade-barriers')">Skip — no documents to upload</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-trade-routes')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trade Finance Barriers -->
+<div class="screen" id="screen-trade-barriers">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">One last thing</div>
+    <h2 class="question-text">Is there anything that might make getting trade finance difficult?</h2>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectTradeBarrier('yes', this)">✋ Yes — I have some concerns</button>
+      <button class="answer-btn" onclick="selectTradeBarrier('no', this)">✅ No — nothing I'm aware of</button>
+    </div>
+    <div id="trade-barrier-detail-section" style="display:none">
+      <div class="form-group" style="margin-top:12px;">
+        <label class="form-label">Brief details</label>
+        <textarea class="form-textarea" id="trade-barrier-details" placeholder="Any context that might help..."></textarea>
+      </div>
+    </div>
+    <button class="btn-primary" id="trade-barriers-submit" onclick="submitTradeReview()" style="display:none;margin-top:16px">Submit my Trade Review →</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-trade-upload')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trade Finance Loading -->
+<div class="screen" id="screen-trade-loading">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="results-header">
+      <div class="results-check">&#10024;</div>
+      <h2 class="results-title">Your Trade Review is ready</h2>
+      <p class="results-name" id="trade-results-name">Here's what we found for you</p>
+    </div>
+
+    <div class="ai-summary">
+      <div class="ai-summary-label">Your personal summary</div>
+      <p class="ai-summary-text" id="trade-ai-summary">Analysing your responses...</p>
+    </div>
+
+    <div class="nicole-card">
+      <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCADIAMgDASIAAhEBAxEB/8QAHQAAAgIDAQEBAAAAAAAAAAAABgcFCAADBAkCAf/EAE4QAAEDAwIDBAcDBwkGBAcAAAECAwQABREGIQcSMRNBUWEIFCIycYGRQrGyFSMlUnShwRYkQ2JzgrPR4QkYM0Ry8BcmU8I1NlSSk9Lx/8QAGwEAAgMBAQEAAAAAAAAAAAAAAAQDBQYCAQf/xAAsEQACAgICAgICAQEJAAAAAAAAAQIDBBESIRMxBUEiUWEGFCMyM1JxkaGx/9oADAMBAAIRAxEAPwDz1Yu0+x3q8rt8p2GuV6zEeW0cFbK1ELRnwUBg46jbvqTuOornqdu1JukozDbYaIEZa0jmSwgkoQVdVBPMQM9BgdAKtj6I/oC3H0h7JrK/3qXGsVplsusWSYpQefEn1kZf7FKgQ2EpWj2iMlW3TNV+4p6GsegeI9605p6/uaot1seMU3RcX1YOup2cCUcx9lKgUg53wTQAwNT+kfxE4xcLbRw/uyG73ZrIllyO4zEUuU2toKTzqWjrlKikgjGAMbirl8Y/RJvesvQ/4LsaYsjtx1XY4rKXIrfKhxTMpPaO55iB7LhSd+mTSc9HL0/tWcLEQ7JN0pY75Zz2bCGrZCbt8oDZIAU2nlWTt7yck99eqL+ubLAulktFynxrbe7u2XIltkOpDznKAVhI7ynOPuoA8juIPoca64N6ORqHVTlkt7KilKYYuKVyVqJA5UIAwsjOTgnAzS7t9...[12920 bytes truncated]
+      <div class="nicole-photo-placeholder" id="nicole-placeholder" style="display:none">—</div>
+      <div class="nicole-info">
+        <div class="nicole-name">Nicole Bertolissi</div>
+        <div class="nicole-role">Direct Sales Executive, Fiskal</div>
+        <div class="nicole-message" id="trade-nicole-message">I've received your Trade Review and will be in touch within a few hours.</div>
+      </div>
+    </div>
+
+    <a href="tel:07946074268" class="call-btn">&#128222; Can't wait? Call me now</a>
+
+    <div class="divider"></div>
+  </div>
+  <div style="text-align:center;padding:0 24px 8px;">
+    <button class="back-btn" onclick="window.location.href='index.html'" style="margin:0 auto;justify-content:center;">&#8962; Start a new Review</button>
+  </div>
+</div>
+
 <!-- FX Loading -->
 <div class="screen" id="screen-fx-loading">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
@@ -1544,6 +1906,12 @@ const state = {
   loanRepayment: '', loanTerm: '', loanERC: '', loanMonthlyCost: '',
   loanMonthlyKnown: '', loanPriorities: [], loanFiles: [],
   loanBarrier: '', loanBarrierDetails: '',
+  // Asset Finance
+  assetType: '', assetValue: '', assetFinance: '',
+  assetFiles: [], assetBarrier: '', assetBarrierDetails: '',
+  // Trade Finance
+  tradeType: '', tradeVolume: '', tradeRoutes: [],
+  tradeFiles: [], tradeBarrier: '', tradeBarrierDetails: '',
 };
 
 // ============================================================
@@ -1592,8 +1960,8 @@ function selectReviewType(type) {
   if (type === 'invoice') showScreen('screen-if-lender');
   else if (type === 'loan') showScreen('screen-loan-lender');
   else if (type === 'fx') showScreen('screen-fx-provider');
-  else if (type === 'asset') alert('Asset Finance Review — coming soon!');
-  else if (type === 'trade') alert('Trade Finance Review — coming soon!');
+  else if (type === 'asset') showScreen('screen-asset-type');
+  else if (type === 'trade') showScreen('screen-trade-type');
   else if (type === 'other') alert('Other Facility Review — coming soon!');
 }
 
@@ -1602,8 +1970,8 @@ function selectFacilityType(type) {
   if (type === 'invoice') showScreen('screen-if-lender');
   else if (type === 'loan') showScreen('screen-loan-lender');
   else if (type === 'fx') showScreen('screen-fx-provider');
-  else if (type === 'asset') alert('Asset Finance Review — coming soon!');
-  else if (type === 'trade') alert('Trade Finance Review — coming soon!');
+  else if (type === 'asset') showScreen('screen-asset-type');
+  else if (type === 'trade') showScreen('screen-trade-type');
   else if (type === 'other') alert('Other Facility Review — coming soon!');
 }
 
