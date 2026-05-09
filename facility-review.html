@@ -684,16 +684,41 @@
     <div class="question-icon">🏦</div>
     <div class="question-product">Your current facility</div>
     <h2 class="question-text">What type of finance do you currently have in place?</h2>
-    <div class="answer-options">
-      <button class="answer-btn" onclick="selectFacilityType('invoice')">📋 Invoice Finance</button>
-      <button class="answer-btn" onclick="selectFacilityType('loan')">💰 Business Loan (including Merchant Cash Advance)</button>
-      <button class="answer-btn" onclick="selectFacilityType('fx')">💱 Foreign Currency / FX</button>
-      <button class="answer-btn" onclick="selectFacilityType('asset')">🔧 Asset Finance</button>
-      <button class="answer-btn" onclick="selectFacilityType('trade')">🚛 Trade Finance</button>
-      <button class="answer-btn" onclick="selectFacilityType('other')">📁 Other</button>
+    <p class="question-sub">Select all that apply.</p>
+    <div class="checkbox-options" id="facility-type-options">
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'invoice')"><div class="checkbox-tick"></div> 📋 Invoice Finance</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'loan')"><div class="checkbox-tick"></div> 💰 Business Loan (including Merchant Cash Advance)</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'fx')"><div class="checkbox-tick"></div> 💱 Foreign Currency / FX</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'asset')"><div class="checkbox-tick"></div> 🔧 Asset Finance</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'trade')"><div class="checkbox-tick"></div> 🚛 Trade Finance</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'other')"><div class="checkbox-tick"></div> 📁 Other</button>
     </div>
+    <button class="btn-primary" onclick="goToReviewSelection()">Continue →</button>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== REVIEW SELECTION ====== -->
+<div class="screen" id="screen-review-selection">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">🏦</div>
+    <div class="question-product">Your current facility</div>
+    <h2 class="question-text">Which would you like to review?</h2>
+    <p class="question-sub">Select one to start your review.</p>
+    <div class="answer-options" id="review-selection-options">
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
@@ -1496,7 +1521,7 @@ const state = {
   turnover: '', propertyOwnership: '',
   fxProvider: '', fxTransactionType: '', fxCurrencies: '',
   fxAwareness: '', fxPlatforms: [], fxGoals: [],
-  facilityType: '',
+  facilityType: '', facilityTypes: [], selectedReviewType: '',
   // Invoice Finance
   ifLender: '', ifType: '', ifKnowledge: '',
   ifLimit: '', ifAdvance: '', ifServiceFee: '', ifDiscount: '', ifMinimums: '', ifDisbursements: '',
@@ -1525,6 +1550,45 @@ function showScreen(id) {
 // ============================================================
 // FACILITY TYPE
 // ============================================================
+function goToReviewSelection() {
+  if (!state.facilityTypes || state.facilityTypes.length === 0) {
+    alert('Please select at least one facility type');
+    return;
+  }
+  
+  const container = document.getElementById('review-selection-options');
+  container.innerHTML = '';
+  
+  const facilityNames = {
+    'invoice': '📋 Invoice Finance',
+    'loan': '💰 Business Loan',
+    'fx': '💱 Foreign Currency / FX',
+    'asset': '🔧 Asset Finance',
+    'trade': '🚛 Trade Finance',
+    'other': '📁 Other'
+  };
+  
+  state.facilityTypes.forEach(type => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.textContent = facilityNames[type] || type;
+    btn.onclick = () => selectReviewType(type);
+    container.appendChild(btn);
+  });
+  
+  showScreen('screen-review-selection');
+}
+
+function selectReviewType(type) {
+  state.selectedReviewType = type;
+  if (type === 'invoice') showScreen('screen-if-lender');
+  else if (type === 'loan') showScreen('screen-loan-lender');
+  else if (type === 'fx') showScreen('screen-fx-provider');
+  else if (type === 'asset') alert('Asset Finance Review — coming soon!');
+  else if (type === 'trade') alert('Trade Finance Review — coming soon!');
+  else if (type === 'other') alert('Other Facility Review — coming soon!');
+}
+
 function selectFacilityType(type) {
   state.facilityType = type;
   if (type === 'invoice') showScreen('screen-if-lender');
