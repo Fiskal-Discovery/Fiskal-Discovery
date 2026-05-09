@@ -663,63 +663,10 @@
         <p>This review takes just a few minutes. Tell us what you have in place and we'll help you understand whether you could be getting <strong>better rates, more flexibility, or a facility that works harder for your business.</strong></p>
         <p>Every response comes directly to <strong>Nicole</strong> — who will be in touch personally to talk through what's possible.</p>
       </div>
-      <button class="btn-primary" onclick="showScreen('screen-details')">Start my Review →</button>
+      <button class="btn-primary" onclick="showScreen('screen-facility-type')">Start my Review →</button>
       <div class="nav-row">
         <button class="back-btn" onclick="window.location.href='index.html'">← Home</button>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- ====== DETAILS ====== -->
-<div class="screen" id="screen-details">
-  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
-
-  <div class="brand-header">
-    <div class="brand-title">Fiskal Discovery</div>
-    <div class="brand-sub">2 minutes. Endless possibilities.</div>
-    <span class="brand-label">Facility Review</span>
-  </div>
-  <div class="screen-content">
-    <div class="question-product">Let's get started</div>
-    <h2 class="question-text">Tell us a little about you</h2>
-    <p class="question-sub">This is how Nicole will reach you.</p>
-
-    <div class="form-group">
-      <label class="form-label">Your name *</label>
-      <input type="text" class="form-input" id="field-name" placeholder="e.g. Sarah Johnson">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Business name *</label>
-      <input type="text" class="form-input" id="field-business" placeholder="e.g. Johnson Supplies Ltd">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Email address *</label>
-      <input type="email" class="form-input" id="field-email" placeholder="sarah@yourcompany.co.uk">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Phone number *</label>
-      <input type="tel" class="form-input" id="field-phone" placeholder="07xxx xxxxxx">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Company number <span style="font-weight:300;color:var(--light-text)">(optional)</span></label>
-      <input type="text" class="form-input" id="field-company-number" placeholder="e.g. 12345678">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Approximate annual turnover *</label>
-      <input type="text" id="field-turnover" class="form-input" placeholder="e.g. £250,000" style="margin-bottom:8px;">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Are any company directors home or property owners? *</label>
-      <div class="answer-options" id="property-options">
-        <button class="answer-btn" onclick="selectProperty('Yes', this)">✅ Yes</button>
-        <button class="answer-btn" onclick="selectProperty('No', this)">❌ No</button>
-      </div>
-    </div>
-    <p class="error-msg" id="details-error">Please fill in all required fields.</p>
-    <button class="btn-primary" onclick="submitDetails()">Continue →</button>
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
     </div>
   </div>
 </div>
@@ -746,7 +693,7 @@
       <button class="answer-btn" onclick="selectFacilityType('other')">📁 Other</button>
     </div>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-details')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
@@ -1573,31 +1520,6 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById(id);
   if (el) { el.classList.add('active'); window.scrollTo(0,0); }
-}
-
-// ============================================================
-// DETAILS
-// ============================================================
-function selectProperty(value, btn) {
-  document.querySelectorAll('#property-options .answer-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  state.propertyOwnership = value;
-}
-
-function submitDetails() {
-  const name = document.getElementById('field-name').value.trim();
-  const business = document.getElementById('field-business').value.trim();
-  const email = document.getElementById('field-email').value.trim();
-  const phone = document.getElementById('field-phone').value.trim();
-
-
-
-  state.name = name;
-  state.business = business;
-  state.email = email;
-  state.phone = phone;
-  state.companyNumber = document.getElementById('field-company-number').value.trim();
-  showScreen('screen-facility-type');
 }
 
 // ============================================================
