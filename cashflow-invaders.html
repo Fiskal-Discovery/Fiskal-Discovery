@@ -42,8 +42,12 @@ body{height:100vh;overflow:hidden;background:var(--dark);color:#fff;font-family:
 .start-form input{font-size:16px;line-height:1.2}
 .fiskal-header{padding:7px 8px 5px}.fiskal-title{font-size:.95rem}.fiskal-sub{display:none}.header-btn{font-size:.28rem;padding:5px 6px}#champions-btn{left:6px}#home-btn{right:6px}#quit-btn{right:6px;font-size:.32rem;padding:5px 7px}
 .game-title{font-size:1.05rem}.game-tagline{font-size:.62rem}.alien-preview{gap:14px}.btn-start{font-size:.62rem;padding:12px 20px}
-body.playing-mobile .fiskal-header{display:none}body.playing-mobile #game-screen{height:100vh;flex:1}body.playing-mobile #hud{font-size:.68rem;padding:8px 8px}
 #msg-flash{font-size:.65rem;max-width:92vw}
+body.playing-mobile{margin:0!important;padding:0!important;height:100dvh!important;overflow:hidden!important}
+body.playing-mobile .fiskal-header{display:none!important}
+body.playing-mobile #game-screen{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;padding:0!important;margin:0!important;justify-content:flex-start!important}
+body.playing-mobile #hud{margin:0!important;padding-top:8px!important;width:100%!important;flex-shrink:0!important}
+body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block!important}
 }
 </style>
 </head>
