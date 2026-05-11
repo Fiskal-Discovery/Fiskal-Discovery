@@ -203,11 +203,16 @@ async function saveLB(name, company, score, wave){
     
     if (existingIndex >= 0) {
       console.log('Existing leaderboard entry found:', lb[existingIndex]);
-      if (entry.score > lb[existingIndex].score) {
-        console.log('New high score saved');
+      const existingScore = Number(lb[existingIndex].score) || 0;
+      const newScore = Number(entry.score) || 0;
+      console.log("Existing score:", existingScore);
+      console.log("New score:", newScore);
+      
+      if (newScore > existingScore) {
+        console.log('Updating high score');
         lb[existingIndex] = entry;
       } else {
-        console.log('Existing score kept');
+        console.log('Keeping existing high score');
         return Promise.resolve(lb[existingIndex]);
       }
     } else {
@@ -227,8 +232,13 @@ async function saveLB(name, company, score, wave){
   
   if (existingEntry) {
     console.log('Existing leaderboard entry found:', existingEntry);
-    if (entry.score > existingEntry.score) {
-      console.log('New high score saved');
+    const existingScore = Number(existingEntry.score) || 0;
+    const newScore = Number(entry.score) || 0;
+    console.log("Existing score:", existingScore);
+    console.log("New score:", newScore);
+    
+    if (newScore > existingScore) {
+      console.log('Updating high score');
       return db.ref("scores/" + playerKey).set(entry).then(()=>{
         console.log('Firebase save successful');
       }).catch((e)=>{
@@ -238,7 +248,7 @@ async function saveLB(name, company, score, wave){
           e.name === entry.name && e.company === entry.company
         );
         if (existingIndex >= 0) {
-          if (entry.score > lb[existingIndex].score) {
+          if (newScore > (Number(lb[existingIndex].score) || 0)) {
             lb[existingIndex] = entry;
           }
         } else {
@@ -250,7 +260,7 @@ async function saveLB(name, company, score, wave){
         return entry;
       });
     } else {
-      console.log('Existing score kept');
+      console.log('Keeping existing high score');
       return Promise.resolve(existingEntry);
     }
   }
@@ -297,12 +307,14 @@ async function renderLB(){
   }
 
   if (!db) {
+    console.log('renderLB: Using localStorage fallback (db not available)');
     const lb = getLocalLB();
     lb.sort((a,b)=>b.score-a.score);
     renderRows(lb.slice(0,10));
     return Promise.resolve(lb);
   }
 
+  console.log('renderLB: Fetching from Firebase');
   return db.ref('scores').once('value').then((snapshot)=>{
     const data = [];
     snapshot.forEach((child)=>data.push(child.val()));
