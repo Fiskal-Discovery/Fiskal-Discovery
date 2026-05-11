@@ -299,6 +299,7 @@ async function renderLB(){
   const tb = document.getElementById('leaderboard-body');
 
   function renderRows(data) {
+    tb.innerHTML = ''; // Clear tbody before rendering
     if (!data.length) {
       tb.innerHTML = '<tr><td colspan="5" style="text-align:center;color:rgba(255,255,255,0.3);padding:14px;font-size:0.38rem">NO SCORES YET — BE FIRST!</td></tr>';
       return;
@@ -377,6 +378,7 @@ async function renderLB(){
       .slice(0, 10);
 
     console.log("Deduped leaderboard rows:", finalRows);
+    console.log("FINAL ROWS BEING RENDERED:", JSON.stringify(finalRows));
     renderRows(finalRows);
     return finalRows;
   }).catch((e)=>{
