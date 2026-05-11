@@ -1079,8 +1079,6 @@ function selectBarrier(value, btn) {
 async function submitApplication() {
   state.barrierDetails = document.getElementById('barrier-details').value.trim();
   showDiscoveryThinkingScreen(async () => {
-    showScreen('screen-loading');
-
     // Collect existing facilities
     const facilities = [];
     for (let i = 1; i <= facilityCount; i++) {
@@ -1144,6 +1142,7 @@ function displayResults(summary) {
   document.getElementById('ai-summary-text').textContent = summary;
   document.getElementById('nicole-message').textContent = `I've received your loan application, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
   showScreen('screen-results');
+  console.log("Showing discovery results");
 }
 
 async function sendNotification(summary) {
@@ -1287,60 +1286,41 @@ async function sendNotification(summary) {
 
 <script>
 function showDiscoveryThinkingScreen(callback) {
-  const allPhrases = [
-    "Assessing your requirements",
-    "Analysing your business profile",
-    "Reviewing funding options",
-    "Checking cashflow solutions",
-    "Matching lender criteria",
-    "Structuring suitable finance routes",
-    "Preparing your Fiskal Discovery summary",
-    "Identifying potential funding routes",
-    "Reviewing repayment flexibility",
-    "Looking for smarter cashflow options"
-  ];
+  console.log("Thinking screen started");
+  const loadingScreen = document.getElementById('screen-submission-loading');
+  const messageEl = document.getElementById('loading-message');
+  let messageCount = 0;
+  const messageInterval = 2500; // 2.5 seconds per message
+  const fadeDuration = 500;
 
-  // Randomly select 3 phrases
-  const phrases = allPhrases.sort(() => Math.random() - 0.5).slice(0, 3);
+  loadingScreen.classList.add('active');
+  messageEl.textContent = getRandomMessage();
+  messageEl.classList.remove('fade-out');
+  messageEl.classList.add('fade-in');
 
-  const thinkingScreen = document.getElementById("screen-thinking");
-  thinkingScreen.style.display = "flex";
-  const phraseEl = document.getElementById("thinking-phrase");
-  
-  function showPhrase(index) {
-    if (index >= phrases.length) {
-      // All phrases shown, call callback
+  const interval = setInterval(() => {
+    messageCount++;
+    if (messageCount >= 3) {
+      clearInterval(interval);
       setTimeout(() => {
-        thinkingScreen.style.display = "none";
-        callback();
-      }, 200);
+        loadingScreen.classList.remove('active');
+        console.log("Thinking screen finished");
+        if (callback) callback();
+      }, fadeDuration);
       return;
     }
-    
-    phraseEl.textContent = phrases[index];
-    phraseEl.classList.remove("visible");
-    
-    // Fade in
+
+    messageEl.classList.remove('fade-in');
+    messageEl.classList.add('fade-out');
+
     setTimeout(() => {
-      phraseEl.classList.add("visible");
-      
-      // Fade out after visible period
-      setTimeout(() => {
-        phraseEl.classList.remove("visible");
-        
-        // Show next phrase after fade out
-        setTimeout(() => {
-          showPhrase(index + 1);
-        }, 200);
-      }, 1500);
-    }, 500);
-  }
-  
-  // Start showing phrases
-  showPhrase(0);
+      messageEl.textContent = getRandomMessage();
+      messageEl.classList.remove('fade-out');
+      messageEl.classList.add('fade-in');
+    }, fadeDuration);
+  }, messageInterval);
 }
 </script>
 
 </body>
 </html>
-

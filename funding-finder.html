@@ -1403,12 +1403,13 @@ function getRandomMessage() {
   return loadingMessages[newIndex];
 }
 
-function showLoadingScreen(callback) {
+function showDiscoveryThinkingScreen(callback) {
+  console.log("Thinking screen started");
   const loadingScreen = document.getElementById('screen-submission-loading');
   const messageEl = document.getElementById('loading-message');
   let messageCount = 0;
-  const totalDuration = 3000;
-  const messageInterval = 1000;
+  const messageInterval = 2500; // 2.5 seconds per message
+  const fadeDuration = 500;
 
   loadingScreen.classList.add('active');
   messageEl.textContent = getRandomMessage();
@@ -1419,8 +1420,11 @@ function showLoadingScreen(callback) {
     messageCount++;
     if (messageCount >= 3) {
       clearInterval(interval);
-      loadingScreen.classList.remove('active');
-      if (callback) callback();
+      setTimeout(() => {
+        loadingScreen.classList.remove('active');
+        console.log("Thinking screen finished");
+        if (callback) callback();
+      }, fadeDuration);
       return;
     }
 
@@ -1431,7 +1435,7 @@ function showLoadingScreen(callback) {
       messageEl.textContent = getRandomMessage();
       messageEl.classList.remove('fade-out');
       messageEl.classList.add('fade-in');
-    }, 300);
+    }, fadeDuration);
   }, messageInterval);
 }
 
@@ -1780,8 +1784,7 @@ function selectBarrier(value) {
 
 function submitBarriers() {
   state.barrierDetails = document.getElementById('barrier-details').value.trim();
-  showLoadingScreen(() => {
-    showScreen('loading');
+  showDiscoveryThinkingScreen(() => {
     generateResults();
   });
 }
@@ -1874,6 +1877,7 @@ function displayResults(summary, matchedProducts) {
   }
 
   showScreen('results');
+  console.log("Showing discovery results");
   sendNotification(summary, matchedProducts);
   loadNicolePhoto();
 }

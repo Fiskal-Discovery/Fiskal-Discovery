@@ -2361,8 +2361,6 @@ function selectAssetBarrier(value, btn) {
 async function submitAssetReview() {
   state.assetBarrierDetails = document.getElementById('asset-barrier-details').value.trim();
   showDiscoveryThinkingScreen(async () => {
-    showScreen('screen-asset-loading');
-
     const prompt = `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Asset Finance Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
 
 Business owner: ${state.name}
@@ -2392,12 +2390,14 @@ CRITICAL RULES: No provider names. No specific replacement rates. Be warm and pe
       document.getElementById('asset-results-name').textContent = `Here's what we found for you, ${state.name}`;
       document.getElementById('asset-ai-summary').textContent = summary;
       document.getElementById('asset-nicole-message').textContent = `I've received your Asset Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+      console.log("Showing discovery results");
       sendAssetNotification(summary);
     } catch(e) {
       const summary = `Thank you for completing your Asset Finance Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what's possible for ${state.business}.`;
       document.getElementById('asset-results-name').textContent = `Here's what we found for you, ${state.name}`;
       document.getElementById('asset-ai-summary').textContent = summary;
       document.getElementById('asset-nicole-message').textContent = `I've received your Asset Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+      console.log("Showing discovery results");
       sendAssetNotification(summary);
     }
   });
@@ -2421,8 +2421,6 @@ async function sendAssetNotification(summary) {
 async function submitTradeReview() {
   state.tradeBarrierDetails = document.getElementById('trade-barrier-details').value.trim();
   showDiscoveryThinkingScreen(async () => {
-    showScreen('screen-trade-loading');
-
     const prompt = `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Trade Finance Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
 
 Business owner: ${state.name}
@@ -2451,6 +2449,7 @@ CRITICAL RULES: No provider names. No specific replacement rates. Be warm and pe
       document.getElementById('trade-results-name').textContent = `Here's what we found for you, ${state.name}`;
       document.getElementById('trade-ai-summary').textContent = summary;
       document.getElementById('trade-nicole-message').textContent = `I've received your Trade Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+      console.log("Showing discovery results");
       sendTradeNotification(summary);
     } catch(e) {
       const summary = `Thank you for completing your Trade Finance Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what's possible for ${state.business}.`;
@@ -2608,7 +2607,8 @@ function displayResults(summary) {
   document.getElementById('results-name').textContent = `Here's what we found for you, ${name}`;
   document.getElementById('ai-summary-text').textContent = summary;
   document.getElementById('nicole-message').textContent = `I've received your Facility Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${business}.`;
-  showScreen('screen-loading');
+  showScreen('screen-loan-results');
+  console.log("Showing discovery results");
   sendNotification(summary);
 }
 
@@ -2681,8 +2681,6 @@ function selectLoanBarrier(value, btn) {
 async function submitLoanReview() {
   state.loanBarrierDetails = document.getElementById('loan-barrier-details').value.trim();
   showDiscoveryThinkingScreen(async () => {
-    showScreen('screen-loading');
-
     const prompt = `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Loan Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
 
 Business owner: ${state.name}
@@ -2786,7 +2784,6 @@ function fxHandleUpload(input) {
 
 async function submitFXReview() {
   showDiscoveryThinkingScreen(async () => {
-    showScreen('screen-fx-loading');
     const prompt = `You are writing a warm, personal FX review summary for a business owner who has just completed Fiskal Discovery.
 
 Business owner: ${state.name}
@@ -2818,6 +2815,7 @@ CRITICAL RULES: No specific provider names. Warm and personal. If they use their
     document.getElementById('fx-ai-summary').textContent = summary;
     document.getElementById('fx-nicole-message').textContent = `I've received your FX Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
     showScreen('screen-fx-results');
+    console.log("Showing discovery results");
 
     const templateParams = {
       name: state.name, business_name: state.business, email: state.email, phone: state.phone,
@@ -2959,66 +2957,44 @@ CRITICAL RULES: No specific provider names. Warm and personal. If they use their
 
 <script>
 function showDiscoveryThinkingScreen(callback) {
-  const allPhrases = [
-    "Assessing your requirements",
-    "Analysing your business profile",
-    "Reviewing funding options",
-    "Checking cashflow solutions",
-    "Matching lender criteria",
-    "Structuring suitable finance routes",
-    "Preparing your Fiskal Discovery summary",
-    "Identifying potential funding routes",
-    "Reviewing repayment flexibility",
-    "Looking for smarter cashflow options"
-  ];
+  console.log("Thinking screen started");
+  const loadingScreen = document.getElementById('screen-submission-loading');
+  const messageEl = document.getElementById('loading-message');
+  let messageCount = 0;
+  const messageInterval = 2500; // 2.5 seconds per message
+  const fadeDuration = 500;
 
-  // Randomly select 3 phrases
-  const phrases = allPhrases.sort(() => Math.random() - 0.5).slice(0, 3);
+  loadingScreen.classList.add('active');
+  messageEl.textContent = getRandomMessage();
+  messageEl.classList.remove('fade-out');
+  messageEl.classList.add('fade-in');
 
-  const thinkingScreen = document.getElementById('screen-thinking');
-  thinkingScreen.style.display = 'flex';
-  
-  const phraseEl = document.getElementById('thinking-phrase');
-  
-  function showPhrase(index) {
-    if (index >= phrases.length) {
-      // All phrases shown, call callback
+  const interval = setInterval(() => {
+    messageCount++;
+    if (messageCount >= 3) {
+      clearInterval(interval);
       setTimeout(() => {
-        thinkingScreen.style.display = 'none';
-        callback();
-      }, 200);
+        loadingScreen.classList.remove('active');
+        console.log("Thinking screen finished");
+        if (callback) callback();
+      }, fadeDuration);
       return;
     }
-    
-    phraseEl.textContent = phrases[index];
-    phraseEl.classList.remove('visible');
-    
-    // Fade in
+
+    messageEl.classList.remove('fade-in');
+    messageEl.classList.add('fade-out');
+
     setTimeout(() => {
-      phraseEl.classList.add('visible');
-      
-      // Fade out after visible period
-      setTimeout(() => {
-        phraseEl.classList.remove('visible');
-        
-        // Show next phrase after fade out
-        setTimeout(() => {
-          showPhrase(index + 1);
-        }, 200);
-      }, 1500);
-    }, 500);
-  }
-  
-  // Start showing phrases
-  showPhrase(0);
+      messageEl.textContent = getRandomMessage();
+      messageEl.classList.remove('fade-out');
+      messageEl.classList.add('fade-in');
+    }, fadeDuration);
+  }, messageInterval);
 }
 </script>
 
 </body>
 </html>
-
-
-
 
 
 
