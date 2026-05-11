@@ -1791,27 +1791,8 @@ function submitBarriers() {
 // ============================================================
 async function generateResults() {
   const matchedProducts = getMatchedProducts();
-  const answersText = buildAnswersSummary();
-
-  const prompt = buildAIPrompt(answersText, matchedProducts);
-
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-
-    const data = await response.json();
-    const summary = data.content?.[0]?.text || getFallbackSummary(matchedProducts);
-    displayResults(summary, matchedProducts);
-  } catch (e) {
-    displayResults(getFallbackSummary(matchedProducts), matchedProducts);
-  }
+  const summary = getFallbackSummary(matchedProducts);
+  displayResults(summary, matchedProducts);
 }
 
 function buildAIPrompt(answersText, matchedProducts) {
