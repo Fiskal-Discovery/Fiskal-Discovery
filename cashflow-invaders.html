@@ -121,11 +121,17 @@ if(window.visualViewport){window.visualViewport.addEventListener('resize',()=>{d
     <input type="text" id="leaderboard-company" placeholder="BUSINESS / COMPANY" maxlength="22">
     <button class="btn-submit" id="btn-submit-score">🏆 SUBMIT TO LEADERBOARD</button>
   </div>
-  <div class="leaderboard-title">🏆 CASHFLOW CHAMPIONS</div>
-  <table class="score-table"><thead><tr><th class="rank-col">#</th><th>NAME</th><th>COMPANY</th><th>CASH</th><th>WAVE</th></tr></thead><tbody id="leaderboard-body"></tbody></table>
   <div class="gameover-buttons">
     <button class="btn-play-again" id="btn-play-again">▶ PLAY AGAIN</button>
     <button class="btn-home" id="btn-home">⌂ RETURN TO HOME</button>
+  </div>
+</div>
+<div class="screen" id="leaderboard-screen">
+  <div class="leaderboard-title">🏆 CASHFLOW CHAMPIONS</div>
+  <table class="score-table"><thead><tr><th class="rank-col">#</th><th>NAME</th><th>COMPANY</th><th>CASH</th><th>WAVE</th></tr></thead><tbody id="leaderboard-body"></tbody></table>
+  <div class="gameover-buttons">
+    <button class="btn-play-again" id="btn-play-again-lb">▶ PLAY AGAIN</button>
+    <button class="btn-home" id="btn-home-lb">⌂ RETURN TO HOME</button>
   </div>
 </div>
 <script>
@@ -182,6 +188,7 @@ async function saveLB(name, company, score, wave){
     timestamp: Date.now()
   };
   console.log('Saving to leaderboard:', entry);
+  console.log("Leaderboard entry being saved:", entry);
   
   if (!db) {
     const lb = getLocalLB();
@@ -259,6 +266,10 @@ function drawBoss(c,boss){if(!boss)return;const r=boss.r;drawTentacles(c,boss.x,
 function drawWordEnemy(c,e){c.save();if(e.trail){e.trail.forEach((pt,i)=>{c.globalAlpha=i/e.trail.length*.22;c.font='700 '+Math.max(9,e.size-2)+'px Orbitron,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillStyle='#FF2244';c.fillText(e.display,pt.x,pt.y)})}c.globalAlpha=.82+Math.sin(e.angle*2)*.15;c.translate(e.x,e.y);c.rotate(Math.sin(e.angle)*.11);c.font='700 '+e.size+'px Orbitron,sans-serif';c.textAlign='center';c.textBaseline='middle';c.shadowColor='#FF2244';c.shadowBlur=8;c.lineWidth=4;c.strokeStyle='rgba(0,0,0,.9)';c.strokeText(e.display,0,0);c.fillStyle='#FF6680';c.fillText(e.display,0,0);c.restore()}
 function renderPreviewAliens(){const prev=document.getElementById('alien-preview');prev.innerHTML='';ALIEN_TYPES.forEach(t=>{const c=document.createElement('canvas'),w=t.pixels[0].length*4,h=t.pixels.length*4;c.width=w+4;c.height=h+4;c.style.cssText='image-rendering:pixelated';drawPixelSprite(c.getContext('2d'),t.pixels,t.color,(w+4)/2,(h+4)/2,4);prev.appendChild(c)})}
 function showQuitBtn(show){document.getElementById('quit-btn').style.display=show?'block':'none';document.getElementById('home-btn').style.display=show?'none':'block'}
+function showLeaderboardScreen() {
+  renderLB();
+  showScreen('leaderboard-screen');
+}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('playing-mobile',id==='game-screen'&&window.innerWidth<=520);if(id!=='game-screen')showQuitBtn(false);if(id==='start-screen'){renderPreviewAliens();}if(id==='gameover-screen'){const savedName=localStorage.getItem('fiskal_ci_player_name');if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;const stored=getStoredUserDetails();if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;}}
 function updateHUD(){if(!G)return;document.getElementById('score-display').textContent=G.score;document.getElementById('wave-display').textContent=G.wave;document.getElementById('lives-display').textContent='❤'.repeat(Math.max(0,G.lives))}
 function showMsg(title,color,subtitle,duration){const el=document.getElementById('msg-flash');el.style.color=color;el.style.borderColor=color;el.style.textShadow='0 0 20px '+color;el.innerHTML=subtitle?title+'<br><span style="color:white;font-size:0.5rem;line-height:2">'+subtitle+'</span>':title;el.style.opacity=1;clearTimeout(el._t);el._t=setTimeout(()=>el.style.opacity=0,duration||2000)}
@@ -349,7 +360,7 @@ function applyPU(effect,lines,desc){
     G.player.speed=10;
   }
 }
-async function gameOver(){if(!G||G.dead)return;finalScore=G.score;finalWave=G.wave;const finalBiz=G.biz;G.dead=true;if(rafId)cancelAnimationFrame(rafId);rafId=null;paused=false;document.getElementById('pause-overlay').classList.remove('active');showQuitBtn(false);document.getElementById('final-score').textContent=finalScore;document.querySelector('.leaderboard-form').style.display='block';await renderLB();setTimeout(()=>showScreen('gameover-screen'),500)}
+async function gameOver(){if(!G||G.dead)return;finalScore=G.score;finalWave=G.wave;const finalBiz=G.biz;G.dead=true;if(rafId)cancelAnimationFrame(rafId);rafId=null;paused=false;document.getElementById('pause-overlay').classList.remove('active');showQuitBtn(false);document.getElementById('final-score').textContent=finalScore;setTimeout(()=>showScreen('gameover-screen'),500)}
 function damagePlayer(){if(!G||!G.player||G.playerInv>0||G.shield>0)return;G.lives--;G.playerInv=100;boom(G.player.x,G.player.y,'#FF3355',14);SFX.player();updateHUD();if(G.lives<=0)gameOver()}
 function updateTimers(){['doubleBullet','tripleBullet','shield','slowmo','rapidFire','playerInv','puCooldown','speedBoost'].forEach(k=>{if(G[k]>0)G[k]--});if(G.speedBoost===0&&G.player)G.player.speed=6}
 function gameLoop(){if(!G||G.dead||paused){ctx.setTransform(1,0,0,1,0,0);return}rafId=requestAnimationFrame(gameLoop);let shakeX=0,shakeY=0;if(screenShake>0){shakeX=(Math.random()-.5)*screenShake;shakeY=(Math.random()-.5)*screenShake;screenShake*=.85;if(screenShake<.5)screenShake=0}ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,canvas.width,canvas.height);ctx.setTransform(1,0,0,1,shakeX,shakeY);G.frame++;updateTimers();const p=G.player;if(!p)return;
@@ -458,17 +469,13 @@ document.getElementById('pause-btn').addEventListener('click',togglePause);docum
   );
   
   Promise.race([saveLB(nameInput, companyInput, finalScore, finalWave), timeoutPromise])
-    .then(() => renderLB())
-    .then(() => showScreen('gameover-screen'))
-    .catch(() => {
-      renderLB();
-      showScreen('gameover-screen');
-    })
+    .then(() => showLeaderboardScreen())
+    .catch(() => showLeaderboardScreen())
     .finally(() => {
       btn.disabled = false;
       btn.textContent = 'Submit to Leaderboard';
     });
-});document.getElementById('gameover-screen').querySelector('.btn-home').addEventListener('click',()=>window.location.href='index.html');document.getElementById('champions-btn').addEventListener('click',async()=>{stopGame();await renderLB();document.querySelector('.leaderboard-form').style.display='none';showScreen('gameover-screen');});document.getElementById('home-btn').addEventListener('click',quitGame);document.addEventListener('keydown',e=>{if(!G||G.dead)return;G.keys[e.key]=true;if(e.key===' ')e.preventDefault();if(e.key==='p'||e.key==='P')togglePause()});document.addEventListener('keyup',e=>{if(!G||G.dead)return;G.keys[e.key]=false});canvas.addEventListener('mousemove',e=>{if(!G||!G.player||paused)return;const r=canvas.getBoundingClientRect();G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,e.clientX-r.left))});canvas.addEventListener('click',shoot);let lastTX=0;canvas.addEventListener('touchstart',e=>{lastTX=e.touches[0].clientX;shoot()},{passive:true});canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!G||!G.player||paused)return;const dx=e.touches[0].clientX-lastTX;G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x+dx*.75));lastTX=e.touches[0].clientX},{passive:false});
+});document.getElementById('gameover-screen').querySelector('.btn-home').addEventListener('click',()=>window.location.href='index.html');document.getElementById('champions-btn').addEventListener('click',async()=>{stopGame();showLeaderboardScreen();});document.getElementById('btn-play-again-lb').addEventListener('click',()=>{stopGame();showScreen('start-screen')});document.getElementById('btn-home-lb').addEventListener('click',()=>window.location.href='index.html');document.getElementById('home-btn').addEventListener('click',quitGame);document.addEventListener('keydown',e=>{if(!G||G.dead)return;G.keys[e.key]=true;if(e.key===' ')e.preventDefault();if(e.key==='p'||e.key==='P')togglePause()});document.addEventListener('keyup',e=>{if(!G||G.dead)return;G.keys[e.key]=false});canvas.addEventListener('mousemove',e=>{if(!G||!G.player||paused)return;const r=canvas.getBoundingClientRect();G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,e.clientX-r.left))});canvas.addEventListener('click',shoot);let lastTX=0;canvas.addEventListener('touchstart',e=>{lastTX=e.touches[0].clientX;shoot()},{passive:true});canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!G||!G.player||paused)return;const dx=e.touches[0].clientX-lastTX;G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x+dx*.75));lastTX=e.touches[0].clientX},{passive:false});
 </script>
 </body>
 </html>
