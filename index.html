@@ -2040,7 +2040,7 @@ function obGoBack() {
       showChoices([
         { label: "🙋 It's for me — my own business", value: 'self' },
         { label: "👤 I'm filling this in for a client", value: 'other' },
-        { label: "🎮 I just want to try Cashflow Invaders", value: 'game', action: () => { window.location.href = 'cashflow-invaders.html'; } }
+        { label: "🎮 I just want to try Cashflow Invaders", value: 'game' }
       ], obHandleUserType);
     });
   }
@@ -2081,7 +2081,7 @@ function startOnboarding() {
               showChoices([
                 { label: "🙋 It's for me — my own business", value: 'self' },
                 { label: "👤 I'm filling this in for a client", value: 'other' },
-                { label: "🎮 I just want to try Cashflow Invaders", value: 'game', action: () => { window.location.href = 'cashflow-invaders.html'; } }
+                { label: "🎮 I just want to try Cashflow Invaders", value: 'game' }
               ], obHandleUserType);
             }, 400);
           });
@@ -2094,6 +2094,11 @@ function startOnboarding() {
 function obHandleUserType(value) {
   hideChoices();
   obState.userType = value;
+
+  if (value === 'game') {
+    window.location.href = 'cashflow-invaders.html';
+    return;
+  }
 
   if (value === 'self') {
     obCurrentFields = selfFields;
