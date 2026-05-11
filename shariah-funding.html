@@ -444,13 +444,36 @@
     color: white;
   }
 
-  .nicole-photo {
-    width: 60px;
-    height: 60px;
+  .nicole-photo-wrap {
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--blue);
+    overflow: hidden;
     flex-shrink: 0;
+    position: relative;
+    border: 2px solid var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nicole-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .nicole-photo-fallback {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    background: rgba(255,255,255,0.12);
   }
 
   .nicole-info { flex: 1; }
@@ -801,7 +824,10 @@
       <div class="ai-summary-text" id="summary-text"></div>
     </div>
     <div class="nicole-card">
-      <img src="https://fiskal.online/wp-content/uploads/2024/09/nicole-headshot.jpg" alt="Nicole" class="nicole-photo">
+      <div class="nicole-photo-wrap">
+        <img id="nicole-photo" class="nicole-photo" alt="Nicole Bertolissi">
+        <div class="nicole-photo-fallback">NB</div>
+      </div>
       <div class="nicole-info">
         <div class="nicole-name">Nicole</div>
         <div class="nicole-role">Funding Specialist at Fiskal</div>
@@ -995,11 +1021,30 @@ function displayResults() {
   document.getElementById('nicole-message').textContent = nicoleMessage;
   
   showScreen('screen-results');
-  
+
+  // Hide loading screen — it uses .loading-screen class, not .screen, so showScreen() won't clear it
+  const loadingEl = document.getElementById('screen-loading');
+  if (loadingEl) {
+    loadingEl.classList.remove('active');
+    loadingEl.style.display = 'none';
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  loadNicolePhoto();
+
   // Send notification (non-blocking)
   sendNotification().catch(error => {
     console.warn('Notification failed, but results already shown:', error);
   });
+}
+
+async function loadNicolePhoto() {
+  const img = document.getElementById('nicole-photo');
+  const fallback = document.querySelector('.nicole-photo-fallback');
+  if (!img) { console.warn('Nicole photo element not found'); return; }
+  img.onload = function () { img.style.display = 'block'; if (fallback) fallback.style.display = 'none'; };
+  img.onerror = function () { console.warn('Nicole photo failed to load'); img.style.display = 'none'; if (fallback) fallback.style.display = 'flex'; };
+  img.src = 'assets/nicole-bertolissi.jpg';
 }
 
 // ============================================================
