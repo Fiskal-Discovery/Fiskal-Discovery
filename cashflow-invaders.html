@@ -309,19 +309,76 @@ async function renderLB(){
   if (!db) {
     console.log('renderLB: Using localStorage fallback (db not available)');
     const lb = getLocalLB();
-    lb.sort((a,b)=>b.score-a.score);
-    renderRows(lb.slice(0,10));
-    return Promise.resolve(lb);
+    console.log('Retrieved from localStorage (raw):', lb);
+    
+    // Deduplicate by Name + Company, keeping highest score
+    const bestByPlayer = {};
+    
+    lb.forEach(entry => {
+      const key = (entry.name + "_" + entry.company)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "");
+
+      const existing = bestByPlayer[key];
+
+      if (
+        !existing ||
+        Number(entry.score) > Number(existing.score) ||
+        (
+          Number(entry.score) === Number(existing.score) &&
+          Number(entry.timestamp || 0) > Number(existing.timestamp || 0)
+        )
+      ) {
+        bestByPlayer[key] = entry;
+      }
+    });
+
+    const finalRows = Object.values(bestByPlayer)
+      .sort((a, b) => Number(b.score) - Number(a.score))
+      .slice(0, 10);
+
+    console.log("Final leaderboard rows (localStorage):", finalRows);
+    renderRows(finalRows);
+    return Promise.resolve(finalRows);
   }
 
   console.log('renderLB: Fetching from Firebase');
   return db.ref('scores').once('value').then((snapshot)=>{
     const data = [];
     snapshot.forEach((child)=>data.push(child.val()));
-    data.sort((a,b)=>b.score-a.score);
-    console.log('Retrieved from Firebase:', data);
-    renderRows(data.slice(0,10));
-    return data.slice(0,10);
+    console.log('Retrieved from Firebase (raw):', data);
+    
+    // Deduplicate by Name + Company, keeping highest score
+    const bestByPlayer = {};
+    
+    data.forEach(entry => {
+      const key = (entry.name + "_" + entry.company)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "");
+
+      const existing = bestByPlayer[key];
+
+      if (
+        !existing ||
+        Number(entry.score) > Number(existing.score) ||
+        (
+          Number(entry.score) === Number(existing.score) &&
+          Number(entry.timestamp || 0) > Number(existing.timestamp || 0)
+        )
+      ) {
+        bestByPlayer[key] = entry;
+      }
+    });
+
+    const finalRows = Object.values(bestByPlayer)
+      .sort((a, b) => Number(b.score) - Number(a.score))
+      .slice(0, 10);
+
+    console.log("Final leaderboard rows:", finalRows);
+    renderRows(finalRows);
+    return finalRows;
   }).catch((e)=>{
     console.error('Firebase fetch failed, using localStorage:', e);
     const lb = getLocalLB();
