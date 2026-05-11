@@ -1281,6 +1281,15 @@ function displayResults(summary) {
   document.getElementById('ai-summary-text').textContent = summary;
   document.getElementById('nicole-message').textContent = `I've received your loan application, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
   showScreen('screen-results');
+
+  // Hide thinking/loading screen — kept visible during API call, must be cleared here
+  const loadingEl = document.getElementById('screen-submission-loading');
+  if (loadingEl) {
+    loadingEl.classList.remove('active');
+    loadingEl.style.display = 'none';
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   console.log("Showing discovery results");
   loadNicolePhoto();
 }
@@ -1492,9 +1501,8 @@ function showDiscoveryThinkingScreen(callback) {
   function showPhrase() {
     if (messageCount >= 3) {
       setTimeout(() => {
-        loadingScreen.classList.remove('active');
         messageEl.classList.remove('thinking-phrase', 'active', 'shimmer');
-        console.log("Thinking screen finished");
+        console.log("Thinking screen finished — keeping visible during API call");
         if (callback) callback();
       }, fadeOutDuration);
       return;
