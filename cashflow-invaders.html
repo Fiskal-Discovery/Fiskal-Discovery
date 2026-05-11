@@ -618,6 +618,7 @@ G.bullets=G.bullets.filter(b=>{
   }
   return true;
 });
+}
 if(G.state==='wave_clear'){G.stateTimer--;if(G.stateTimer<=0){if(G.wave===10){G.advancedMode=true;showUpgradeAnnouncement()}G.wave++;G.waveKills=0;G.waveTarget=6+G.wave;const advancedMultiplier=G.wave>10?1+((G.wave-10)*0.08):1;G.spawnRate=Math.max(70,Math.floor((120-G.wave*5)/advancedMultiplier));G.state='playing';updateHUD();spawnWave(4+Math.floor(G.wave/2))}}
 G.enemies.forEach(e=>{const alt=Math.floor(e.frame/22)%2===0;drawPixelSprite(ctx,e.type.pixels,alt?e.type.color:brighten(e.type.color,50),e.x,e.y,e.type.scale);ctx.save();ctx.globalAlpha=.1;ctx.fillStyle=e.type.color;ctx.beginPath();ctx.arc(e.x,e.y,e.w/2,0,Math.PI*2);ctx.fill();ctx.restore()});
 G.wordEnemies.forEach(e=>drawWordEnemy(ctx,e));G.wordBits.forEach(bit=>{ctx.save();ctx.globalAlpha=Math.max(0,Math.min(1,bit.life/90));ctx.fillStyle='#FF2244';ctx.shadowColor='#FF2244';ctx.shadowBlur=10;ctx.fillRect(bit.x-bit.size/2,bit.y-bit.size/2,bit.size,bit.size);ctx.fillStyle='rgba(255,120,120,.6)';ctx.fillRect(bit.x-bit.size/4,bit.y-bit.size/4,bit.size/2,bit.size/2);ctx.restore()});
