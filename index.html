@@ -1144,6 +1144,8 @@
     object-fit: cover;
     border: 2px solid var(--gold);
     flex-shrink: 0;
+    display: block;
+    background: rgba(255,255,255,0.2);
   }
 
   .nicole-photo-placeholder {
@@ -1619,7 +1621,8 @@
     </div>
 
     <div class="nicole-card">
-      <img src="nicole.jpg" alt="Nicole Bertolissi" class="nicole-photo" id="nicole-photo">
+      <img src="nicole.jpg" alt="Nicole Bertolissi" class="nicole-photo" id="nicole-photo" onerror="this.style.display='none';document.getElementById('nicole-fallback').style.display='flex'">
+      <div class="nicole-photo-placeholder" id="nicole-fallback" style="display:none">NB</div>
       <div class="nicole-info">
         <div class="nicole-name">Nicole Bertolissi</div>
         <div class="nicole-role">Direct Sales Executive, Fiskal</div>
@@ -1627,7 +1630,7 @@
       </div>
     </div>
 
-    <a href="tel:07946074268" class="call-btn" style="display:inline-flex !important">📞 Can't wait? Call me now</a>
+    <a href="tel:07946074268" class="call-btn" style="display:inline-flex !important;color:white !important">📞 Can't wait? Call me now</a>
 
     <div class="divider"></div>
 
