@@ -1195,9 +1195,9 @@
     <div class="form-group">
       <label class="form-label">Fixed or variable?</label>
       <div class="answer-options" id="loan-rate-type-options">
-        <button class="answer-btn" onclick="selectOption('loanRateType', 'Fixed', this, 'loan-rate-type-options')">🔒 Fixed</button>
-        <button class="answer-btn" onclick="selectOption('loanRateType', 'Variable', this, 'loan-rate-type-options')">📈 Variable</button>
-        <button class="answer-btn" onclick="selectOption('loanRateType', 'Not sure', this, 'loan-rate-type-options')">🤔 Not sure</button>
+        <button class="answer-btn" onclick="selectOption('loanRateType', 'Fixed', this, 'loan-rate-type-options', null)">🔒 Fixed</button>
+        <button class="answer-btn" onclick="selectOption('loanRateType', 'Variable', this, 'loan-rate-type-options', null)">📈 Variable</button>
+        <button class="answer-btn" onclick="selectOption('loanRateType', 'Not sure', this, 'loan-rate-type-options', null)">🤔 Not sure</button>
       </div>
     </div>
     <div class="form-group">
@@ -1211,9 +1211,9 @@
     <div class="form-group">
       <label class="form-label">Early repayment charges?</label>
       <div class="answer-options" id="loan-erc-options">
-        <button class="answer-btn" onclick="selectOption('loanERC', 'Yes', this, 'loan-erc-options')">✋ Yes</button>
-        <button class="answer-btn" onclick="selectOption('loanERC', 'No', this, 'loan-erc-options')">✅ No</button>
-        <button class="answer-btn" onclick="selectOption('loanERC', 'Not sure', this, 'loan-erc-options')">🤔 Not sure</button>
+        <button class="answer-btn" onclick="selectOption('loanERC', 'Yes', this, 'loan-erc-options', null)">✋ Yes</button>
+        <button class="answer-btn" onclick="selectOption('loanERC', 'No', this, 'loan-erc-options', null)">✅ No</button>
+        <button class="answer-btn" onclick="selectOption('loanERC', 'Not sure', this, 'loan-erc-options', null)">🤔 Not sure</button>
       </div>
     </div>
     <button class="btn-primary" onclick="saveLoanPathA()">Continue →</button>
@@ -1249,8 +1249,8 @@
     <div class="form-group">
       <label class="form-label">Approximate monthly cost</label>
       <div class="answer-options" id="loan-monthly-known-options">
-        <button class="answer-btn" onclick="selectOption('loanMonthlyKnown', 'yes', this, 'loan-monthly-known-options'); document.getElementById('loan-monthly-b-input').style.display='block'">✅ Yes — I know roughly</button>
-        <button class="answer-btn" onclick="selectOption('loanMonthlyKnown', 'no', this, 'loan-monthly-known-options'); document.getElementById('loan-monthly-b-input').style.display='none'">🤷 No idea</button>
+        <button class="answer-btn" onclick="selectOption('loanMonthlyKnown', 'yes', this, 'loan-monthly-known-options', null); document.getElementById('loan-monthly-b-input').style.display='block'">✅ Yes — I know roughly</button>
+        <button class="answer-btn" onclick="selectOption('loanMonthlyKnown', 'no', this, 'loan-monthly-known-options', null); document.getElementById('loan-monthly-b-input').style.display='none'">🤷 No idea</button>
       </div>
       <div id="loan-monthly-b-input" style="display:none;margin-top:10px;">
         <input type="text" class="form-input" id="loan-monthly-b" placeholder="e.g. £800/month">
@@ -2292,7 +2292,13 @@ function nextIF(key, value, nextScreen) {
 
 function saveAndGo(key, value, nextScreen) {
   state[key] = value;
-  showScreen(nextScreen);
+  
+  // Auto-advance for single-choice questions
+  if (nextScreen) {
+    setTimeout(() => {
+      showScreen(nextScreen);
+    }, 250);
+  }
 }
 
 // ============================================================
@@ -2730,10 +2736,17 @@ function saveFieldAndGo(stateKey, fieldId, nextScreen) {
   showScreen(nextScreen);
 }
 
-function selectOption(stateKey, value, btn, optionsId) {
+function selectOption(stateKey, value, btn, optionsId, nextScreen) {
   document.querySelectorAll('#' + optionsId + ' .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   state[stateKey] = value;
+  
+  // Auto-advance for single-choice questions
+  if (nextScreen) {
+    setTimeout(() => {
+      showScreen(nextScreen);
+    }, 250);
+  }
 }
 
 function saveLoanPathA() {

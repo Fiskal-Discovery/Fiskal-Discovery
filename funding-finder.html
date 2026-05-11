@@ -1797,7 +1797,10 @@ function selectAnswer(q, value, btn) {
       optsEl.appendChild(fb);
     });
   } else {
-    document.getElementById('q-next-btn').style.display = 'block';
+    // Auto-advance for single-choice questions without followup
+    setTimeout(() => {
+      nextQuestion();
+    }, 250);
   }
 }
 

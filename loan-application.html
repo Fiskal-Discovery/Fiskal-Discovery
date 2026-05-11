@@ -355,13 +355,13 @@
     <div class="question-product">Loan Application</div>
     <h2 class="question-text">What do you need the loan for?</h2>
     <div class="answer-options">
-      <button class="answer-btn" onclick="selectState('purpose', 'Working capital — day to day cash flow', this, 'purpose-opts'); showScreen('screen-amount')">💼 Working capital — day to day cash flow</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Growth — expanding the business', this, 'purpose-opts'); showScreen('screen-amount')">📈 Growth — expanding the business</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Equipment or assets', this, 'purpose-opts'); showScreen('screen-amount')">🔧 Equipment or assets</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Property', this, 'purpose-opts'); showScreen('screen-amount')">🏢 Property</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Refinancing existing debt', this, 'purpose-opts'); showScreen('screen-amount')">🔄 Refinancing existing debt</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Tax or HMRC bill', this, 'purpose-opts'); showScreen('screen-amount')">🏛️ Tax or HMRC bill</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Other', this, 'purpose-opts'); showScreen('screen-amount')">📁 Other</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Working capital — day to day cash flow', this, 'purpose-opts', 'screen-amount')">💼 Working capital — day to day cash flow</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Growth — expanding the business', this, 'purpose-opts', 'screen-amount')">📈 Growth — expanding the business</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Equipment or assets', this, 'purpose-opts', 'screen-amount')">🔧 Equipment or assets</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Property', this, 'purpose-opts', 'screen-amount')">🏢 Property</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Refinancing existing debt', this, 'purpose-opts', 'screen-amount')">🔄 Refinancing existing debt</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Tax or HMRC bill', this, 'purpose-opts', 'screen-amount')">🏛️ Tax or HMRC bill</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Other', this, 'purpose-opts', 'screen-amount')">📁 Other</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-details')">&lt; Back</button>
@@ -388,12 +388,12 @@
     <div class="question-product">Loan Application</div>
     <h2 class="question-text">How much are you looking to borrow?</h2>
     <div class="answer-options" id="amount-opts">
-      <button class="answer-btn" onclick="selectState('amount', 'Up to £25,000', this, 'amount-opts'); showScreen('screen-term')">Up to £25,000</button>
-      <button class="answer-btn" onclick="selectState('amount', '£25,000 — £50,000', this, 'amount-opts'); showScreen('screen-term')">£25,000 — £50,000</button>
-      <button class="answer-btn" onclick="selectState('amount', '£50,000 — £100,000', this, 'amount-opts'); showScreen('screen-term')">£50,000 — £100,000</button>
-      <button class="answer-btn" onclick="selectState('amount', '£100,000 — £250,000', this, 'amount-opts'); showScreen('screen-term')">£100,000 — £250,000</button>
-      <button class="answer-btn" onclick="selectState('amount', '£250,000 — £500,000', this, 'amount-opts'); showScreen('screen-term')">£250,000 — £500,000</button>
-      <button class="answer-btn" onclick="selectState('amount', '£500,000+', this, 'amount-opts'); showScreen('screen-term')">£500,000+</button>
+      <button class="answer-btn" onclick="selectState('amount', 'Up to £25,000', this, 'amount-opts', 'screen-term')">Up to £25,000</button>
+      <button class="answer-btn" onclick="selectState('amount', '£25,000 — £50,000', this, 'amount-opts', 'screen-term')">£25,000 — £50,000</button>
+      <button class="answer-btn" onclick="selectState('amount', '£50,000 — £100,000', this, 'amount-opts', 'screen-term')">£50,000 — £100,000</button>
+      <button class="answer-btn" onclick="selectState('amount', '£100,000 — £250,000', this, 'amount-opts', 'screen-term')">£100,000 — £250,000</button>
+      <button class="answer-btn" onclick="selectState('amount', '£250,000 — £500,000', this, 'amount-opts', 'screen-term')">£250,000 — £500,000</button>
+      <button class="answer-btn" onclick="selectState('amount', '£500,000+', this, 'amount-opts', 'screen-term')">£500,000+</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-purpose')">&lt; Back</button>
@@ -420,12 +420,12 @@
     <div class="question-product">Loan Application</div>
     <h2 class="question-text">How long would you like to repay over?</h2>
     <div class="answer-options" id="term-opts">
-      <button class="answer-btn" onclick="selectState('term', 'Up to 12 months', this, 'term-opts'); showScreen('screen-security')">Up to 12 months</button>
-      <button class="answer-btn" onclick="selectState('term', '1 — 2 years', this, 'term-opts'); showScreen('screen-security')">1 — 2 years</button>
-      <button class="answer-btn" onclick="selectState('term', '2 — 3 years', this, 'term-opts'); showScreen('screen-security')">2 — 3 years</button>
-      <button class="answer-btn" onclick="selectState('term', '3 — 5 years', this, 'term-opts'); showScreen('screen-security')">3 — 5 years</button>
-      <button class="answer-btn" onclick="selectState('term', '5 years+', this, 'term-opts'); showScreen('screen-security')">5 years+</button>
-      <button class="answer-btn" onclick="selectState('term', 'Not sure', this, 'term-opts'); showScreen('screen-security')">🤔 Not sure</button>
+      <button class="answer-btn" onclick="selectState('term', 'Up to 12 months', this, 'term-opts', 'screen-security')">Up to 12 months</button>
+      <button class="answer-btn" onclick="selectState('term', '1 — 2 years', this, 'term-opts', 'screen-security')">1 — 2 years</button>
+      <button class="answer-btn" onclick="selectState('term', '2 — 3 years', this, 'term-opts', 'screen-security')">2 — 3 years</button>
+      <button class="answer-btn" onclick="selectState('term', '3 — 5 years', this, 'term-opts', 'screen-security')">3 — 5 years</button>
+      <button class="answer-btn" onclick="selectState('term', '5 years+', this, 'term-opts', 'screen-security')">5 years+</button>
+      <button class="answer-btn" onclick="selectState('term', 'Not sure', this, 'term-opts', 'screen-security')">🤔 Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-amount')">&lt; Back</button>
@@ -452,10 +452,10 @@
     <div class="question-product">Loan Application</div>
     <h2 class="question-text">Do you have any security to offer against the loan?</h2>
     <div class="answer-options" id="security-opts">
-      <button class="answer-btn" onclick="selectState('security', 'Property', this, 'security-opts'); showScreen('screen-property-security')">🏠 Yes — property</button>
-      <button class="answer-btn" onclick="selectState('security', 'Other assets', this, 'security-opts'); showScreen('screen-other-security')">🔧 Yes — other assets</button>
-      <button class="answer-btn" onclick="selectState('security', 'Unsecured', this, 'security-opts'); showScreen('screen-credit')">🔓 No — looking for unsecured funding</button>
-      <button class="answer-btn" onclick="selectState('security', 'Not sure', this, 'security-opts'); showScreen('screen-credit')">🤔 Not sure</button>
+      <button class="answer-btn" onclick="selectState('security', 'Property', this, 'security-opts', 'screen-property-security')">🏠 Yes — property</button>
+      <button class="answer-btn" onclick="selectState('security', 'Other assets', this, 'security-opts', 'screen-other-security')">🔧 Yes — other assets</button>
+      <button class="answer-btn" onclick="selectState('security', 'Unsecured', this, 'security-opts', 'screen-credit')">🔓 No — looking for unsecured funding</button>
+      <button class="answer-btn" onclick="selectState('security', 'Not sure', this, 'security-opts', 'screen-credit')">🤔 Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-term')">&lt; Back</button>
@@ -492,8 +492,8 @@
     <div class="form-group">
       <label class="form-label">Residential or commercial?</label>
       <div class="answer-options" id="prop-type-opts">
-        <button class="answer-btn" onclick="selectState('propType', 'Residential', this, 'prop-type-opts')">🏠 Residential</button>
-        <button class="answer-btn" onclick="selectState('propType', 'Commercial', this, 'prop-type-opts')">🏢 Commercial</button>
+        <button class="answer-btn" onclick="selectState('propType', 'Residential', this, 'prop-type-opts', null)">🏠 Residential</button>
+        <button class="answer-btn" onclick="selectState('propType', 'Commercial', this, 'prop-type-opts', null)">🏢 Commercial</button>
       </div>
     </div>
     <div class="form-group">
@@ -503,10 +503,10 @@
     <div class="form-group">
       <label class="form-label">How many charges on the property?</label>
       <div class="answer-options" id="charges-opts">
-        <button class="answer-btn" onclick="selectState('propCharges', 'No charges — owned outright', this, 'charges-opts')">✅ No charges — owned outright</button>
-        <button class="answer-btn" onclick="selectState('propCharges', 'One charge', this, 'charges-opts')">1️⃣ One charge</button>
-        <button class="answer-btn" onclick="selectState('propCharges', 'Two charges', this, 'charges-opts')">2️⃣ Two charges</button>
-        <button class="answer-btn" onclick="selectState('propCharges', 'Three or more', this, 'charges-opts')">3️⃣ Three or more</button>
+        <button class="answer-btn" onclick="selectState('propCharges', 'No charges — owned outright', this, 'charges-opts', null)">✅ No charges — owned outright</button>
+        <button class="answer-btn" onclick="selectState('propCharges', 'One charge', this, 'charges-opts', null)">1️⃣ One charge</button>
+        <button class="answer-btn" onclick="selectState('propCharges', 'Two charges', this, 'charges-opts', null)">2️⃣ Two charges</button>
+        <button class="answer-btn" onclick="selectState('propCharges', 'Three or more', this, 'charges-opts', null)">3️⃣ Three or more</button>
       </div>
     </div>
     <div class="form-group">
@@ -583,10 +583,10 @@
     <div class="question-product">Loan Application</div>
     <h2 class="question-text">How would you describe your business credit history?</h2>
     <div class="answer-options" id="credit-opts">
-      <button class="answer-btn" onclick="selectState('credit', 'Clean — no issues', this, 'credit-opts'); showScreen('screen-urgency')">✅ Clean — no issues</button>
-      <button class="answer-btn" onclick="selectState('credit', 'Minor issues — some late payments', this, 'credit-opts'); showScreen('screen-urgency')">⚠️ Minor issues — some late payments</button>
-      <button class="answer-btn" onclick="selectState('credit', 'CCJs or defaults', this, 'credit-opts'); showScreen('screen-urgency')">❗ CCJs or defaults</button>
-      <button class="answer-btn" onclick="selectState('credit', 'Not sure', this, 'credit-opts'); showScreen('screen-urgency')">🤔 Not sure</button>
+      <button class="answer-btn" onclick="selectState('credit', 'Clean — no issues', this, 'credit-opts', 'screen-urgency')">✅ Clean — no issues</button>
+      <button class="answer-btn" onclick="selectState('credit', 'Minor issues — some late payments', this, 'credit-opts', 'screen-urgency')">⚠️ Minor issues — some late payments</button>
+      <button class="answer-btn" onclick="selectState('credit', 'CCJs or defaults', this, 'credit-opts', 'screen-urgency')">❗ CCJs or defaults</button>
+      <button class="answer-btn" onclick="selectState('credit', 'Not sure', this, 'credit-opts', 'screen-urgency')">🤔 Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="goBackFromCredit()">&lt; Back</button>
@@ -613,10 +613,10 @@
     <div class="question-product">Loan Application</div>
     <h2 class="question-text">How quickly do you need the funding?</h2>
     <div class="answer-options" id="urgency-opts">
-      <button class="answer-btn" onclick="selectState('urgency', 'As soon as possible', this, 'urgency-opts'); showScreen('screen-existing-finance')">🚨 As soon as possible</button>
-      <button class="answer-btn" onclick="selectState('urgency', 'Within the next month', this, 'urgency-opts'); showScreen('screen-existing-finance')">📅 Within the next month</button>
-      <button class="answer-btn" onclick="selectState('urgency', 'Within the next 3 months', this, 'urgency-opts'); showScreen('screen-existing-finance')">🗓️ Within the next 3 months</button>
-      <button class="answer-btn" onclick="selectState('urgency', 'Just exploring options', this, 'urgency-opts'); showScreen('screen-existing-finance')">🔍 Just exploring options for now</button>
+      <button class="answer-btn" onclick="selectState('urgency', 'As soon as possible', this, 'urgency-opts', 'screen-existing-finance')">🚨 As soon as possible</button>
+      <button class="answer-btn" onclick="selectState('urgency', 'Within the next month', this, 'urgency-opts', 'screen-existing-finance')">📅 Within the next month</button>
+      <button class="answer-btn" onclick="selectState('urgency', 'Within the next 3 months', this, 'urgency-opts', 'screen-existing-finance')">🗓️ Within the next 3 months</button>
+      <button class="answer-btn" onclick="selectState('urgency', 'Just exploring options', this, 'urgency-opts', 'screen-existing-finance')">🔍 Just exploring options for now</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-credit')">&lt; Back</button>
@@ -643,8 +643,8 @@
     <div class="question-product">Loan Application</div>
     <h2 class="question-text">Do you have any existing loans or finance in place?</h2>
     <div class="answer-options" id="existing-opts">
-      <button class="answer-btn" onclick="selectState('existingFinance', 'No', this, 'existing-opts'); showScreen('screen-upload')">✅ No — this would be my first</button>
-      <button class="answer-btn" onclick="selectState('existingFinance', 'Yes', this, 'existing-opts'); showScreen('screen-existing-details')">🏦 Yes — I have existing finance</button>
+      <button class="answer-btn" onclick="selectState('existingFinance', 'No', this, 'existing-opts', 'screen-upload')">✅ No — this would be my first</button>
+      <button class="answer-btn" onclick="selectState('existingFinance', 'Yes', this, 'existing-opts', 'screen-existing-details')">🏦 Yes — I have existing finance</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-urgency')">&lt; Back</button>
@@ -916,10 +916,17 @@ function showScreen(id) {
   if (el) { el.classList.add('active'); window.scrollTo(0,0); }
 }
 
-function selectState(key, value, btn, optionsId) {
+function selectState(key, value, btn, optionsId, nextScreen) {
   if (optionsId) document.querySelectorAll('#' + optionsId + ' .answer-btn').forEach(b => b.classList.remove('selected'));
   if (btn) btn.classList.add('selected');
   state[key] = value;
+  
+  // Auto-advance for single-choice questions
+  if (nextScreen) {
+    setTimeout(() => {
+      showScreen(nextScreen);
+    }, 250);
+  }
 }
 
 function escapeHtml(value) {
