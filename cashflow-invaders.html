@@ -347,7 +347,7 @@ async function renderLB(){
   return db.ref('scores').once('value').then((snapshot)=>{
     const data = [];
     snapshot.forEach((child)=>data.push(child.val()));
-    console.log('Retrieved from Firebase (raw):', data);
+    console.log("Raw Firebase scores:", data);
     
     // Deduplicate by Name + Company, keeping highest score
     const bestByPlayer = {};
@@ -376,7 +376,7 @@ async function renderLB(){
       .sort((a, b) => Number(b.score) - Number(a.score))
       .slice(0, 10);
 
-    console.log("Final leaderboard rows:", finalRows);
+    console.log("Deduped leaderboard rows:", finalRows);
     renderRows(finalRows);
     return finalRows;
   }).catch((e)=>{
