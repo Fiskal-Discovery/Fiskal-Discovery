@@ -96,7 +96,9 @@
   .ai-summary-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); font-weight: 500; margin-bottom: 12px; }
   .ai-summary-text { font-size: 15px; line-height: 1.7; color: var(--dark); font-weight: 300; }
   .nicole-card { background: linear-gradient(135deg, var(--indigo-deep) 0%, var(--indigo) 100%); border-radius: 16px; padding: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; color: white; }
-  .nicole-photo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--blue); flex-shrink: 0; }
+  .nicole-photo-wrap { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; flex-shrink: 0; position: relative; border: 2px solid var(--blue); display: flex; align-items: center; justify-content: center; }
+  .nicole-photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .nicole-photo-fallback { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: white; background: rgba(255,255,255,0.12); }
   .nicole-info { flex: 1; }
   .nicole-name { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
   .nicole-role { font-size: 12px; opacity: 0.75; margin-bottom: 8px; font-weight: 300; }
@@ -857,8 +859,10 @@
       <p class="ai-summary-text" id="ai-summary-text">Analysing your application...</p>
     </div>
     <div class="nicole-card">
-      <div class="nicole-photo-placeholder" id="nicole-placeholder">�</div>
-      <div class="nicole-photo-placeholder" id="nicole-placeholder" style="display:none">—</div>
+      <div class="nicole-photo-wrap">
+        <img id="nicole-photo" class="nicole-photo" alt="Nicole Bertolissi">
+        <div class="nicole-photo-fallback">NB</div>
+      </div>
       <div class="nicole-info">
         <div class="nicole-name">Nicole Bertolissi</div>
         <div class="nicole-role">Direct Sales Executive, Fiskal</div>
@@ -1278,6 +1282,16 @@ function displayResults(summary) {
   document.getElementById('nicole-message').textContent = `I've received your loan application, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
   showScreen('screen-results');
   console.log("Showing discovery results");
+  loadNicolePhoto();
+}
+
+async function loadNicolePhoto() {
+  const img = document.getElementById('nicole-photo');
+  const fallback = document.querySelector('.nicole-photo-fallback');
+  if (!img) { console.warn('Nicole photo element not found'); return; }
+  img.onload = function () { img.style.display = 'block'; if (fallback) fallback.style.display = 'none'; };
+  img.onerror = function () { console.warn('Nicole photo failed to load'); img.style.display = 'none'; if (fallback) fallback.style.display = 'flex'; };
+  img.src = 'assets/nicole-bertolissi.jpg';
 }
 
 async function sendInitialInfoNotification() {
