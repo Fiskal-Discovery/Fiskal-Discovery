@@ -1730,6 +1730,8 @@ function submitDetails() {
   state.phone = phone;
   state.companyNumber = document.getElementById('field-company-number').value.trim();
 
+  sendInitialInfoNotification();
+
   state.currentQuestion = 0;
   renderQuestion();
   showScreen('question');
@@ -1957,6 +1959,48 @@ function displayResults(summary, matchedProducts) {
 // ============================================================
 // NOTIFICATION (placeholder — replace with backend endpoint)
 // ============================================================
+async function sendInitialInfoNotification() {
+  const key = "initialNotificationSent_fundingFinder";
+  
+  if (sessionStorage.getItem(key)) {
+    console.log("Initial info notification already sent for this session");
+    return;
+  }
+
+  const initialData = {
+    journey: 'Funding Finder',
+    name: state.name,
+    business: state.business,
+    email: state.email,
+    phone: state.phone,
+    companyNumber: state.companyNumber || 'Not provided',
+    timestamp: new Date().toISOString(),
+    page: window.location.href
+  };
+
+  console.log("Initial info notification attempted", initialData);
+
+  const templateParams = {
+    name: state.name,
+    business_name: state.business,
+    email: state.email,
+    phone: state.phone,
+    company_number: state.companyNumber || 'Not provided',
+    module: 'Funding Finder - Initial Info',
+    matched_products: 'Initial information collected',
+    barriers: 'N/A',
+    summary: `New Fiskal Discovery Started - ${state.business}\n\nA user has completed the initial information stage.\n\nJourney: Funding Finder\nName: ${state.name}\nBusiness: ${state.business}\nEmail: ${state.email}\nPhone: ${state.phone}\nCompany Number: ${state.companyNumber || 'Not provided'}\nTimestamp: ${new Date().toISOString()}`
+  };
+
+  try {
+    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    sessionStorage.setItem(key, "true");
+    console.log("Initial info notification sent");
+  } catch (error) {
+    console.warn("Initial info notification failed", error);
+  }
+}
+
 async function sendNotification(summary, matchedProducts) {
   const templateParams = {
     name: state.name,

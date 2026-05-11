@@ -1022,6 +1022,9 @@ function submitDetails() {
     return;
   }
   document.getElementById('details-error').style.display = 'none';
+  
+  sendInitialInfoNotification();
+  
   showScreen('screen-purpose');
 }
 
@@ -1205,6 +1208,48 @@ function displayResults(summary) {
   document.getElementById('nicole-message').textContent = `I've received your loan application, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
   showScreen('screen-results');
   console.log("Showing discovery results");
+}
+
+async function sendInitialInfoNotification() {
+  const key = "initialNotificationSent_loanApplication";
+  
+  if (sessionStorage.getItem(key)) {
+    console.log("Initial info notification already sent for this session");
+    return;
+  }
+
+  const initialData = {
+    journey: 'Loan Application',
+    name: state.name,
+    business: state.business,
+    email: state.email,
+    phone: state.phone,
+    companyNumber: state.companyNumber || 'Not provided',
+    timestamp: new Date().toISOString(),
+    page: window.location.href
+  };
+
+  console.log("Initial info notification attempted", initialData);
+
+  const templateParams = {
+    name: state.name,
+    business_name: state.business,
+    email: state.email,
+    phone: state.phone,
+    company_number: state.companyNumber || 'Not provided',
+    module: 'Loan Application - Initial Info',
+    matched_products: 'Initial information collected',
+    barriers: 'N/A',
+    summary: `New Fiskal Discovery Started - ${state.business}\n\nA user has completed the initial information stage.\n\nJourney: Loan Application\nName: ${state.name}\nBusiness: ${state.business}\nEmail: ${state.email}\nPhone: ${state.phone}\nCompany Number: ${state.companyNumber || 'Not provided'}\nTimestamp: ${new Date().toISOString()}`
+  };
+
+  try {
+    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    sessionStorage.setItem(key, "true");
+    console.log("Initial info notification sent");
+  } catch (error) {
+    console.warn("Initial info notification failed", error);
+  }
 }
 
 async function sendNotification(summary) {
