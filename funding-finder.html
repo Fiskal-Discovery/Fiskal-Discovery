@@ -1370,6 +1370,7 @@
 
     <div id="matched-products-section">
       <p style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--light-text);margin-bottom:10px;font-weight:500;">Funding options to explore</p>
+      <p style="font-size:13px;color:var(--mid);margin-bottom:12px;">Click any option below to learn more on the Fiskal website.</p>
       <div class="matched-products" id="matched-products-list"></div>
     </div>
 
@@ -1938,14 +1939,36 @@ function displayResults(summary, matchedProducts) {
 
   const list = document.getElementById('matched-products-list');
   list.innerHTML = '';
+  
+  const fundingLinks = {
+    "Invoice Finance": "https://www.fiskal.online/invoice-finance",
+    "Asset Finance": "https://www.fiskal.online/funding-products#asset-finance",
+    "Business Loan": "https://www.fiskal.online/funding-products#business-loans",
+    "Business Loans": "https://www.fiskal.online/funding-products#business-loans",
+    "Trade Finance": "https://www.fiskal.online/funding-products#trade-finance",
+    "Revolving Credit Facility": "https://www.fiskal.online/funding-products#revolving-credit",
+    "Revolving Credit": "https://www.fiskal.online/funding-products#revolving-credit",
+    "Merchant Cash Advance": "https://www.fiskal.online/funding-products#merchant-cash-advance",
+    "Property Finance": "https://www.fiskal.online/funding-products#property-finance",
+    "Commercial Property Finance": "https://www.fiskal.online/funding-products#property-finance",
+    "R&D Tax Credits": "https://www.fiskal.online/r-d-tax-credits-explained",
+    "R&D Tax Credit": "https://www.fiskal.online/r-d-tax-credits-explained"
+  };
+  
   if (matchedProducts.length > 0) {
     matchedProducts.forEach(p => {
       const info = productInfo[p];
       if (info) {
-        const div = document.createElement('div');
-        div.className = 'matched-product';
-        div.innerHTML = `<span class="matched-product-icon">${info.icon}</span><span class="matched-product-name">${info.name}</span>`;
-        list.appendChild(div);
+        const url = fundingLinks[info.name] || 'https://www.fiskal.online/funding-products';
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.className = 'matched-product';
+        a.style.textDecoration = 'none';
+        a.style.display = 'block';
+        a.innerHTML = `<span class="matched-product-icon">${info.icon}</span><span class="matched-product-name">${info.name}</span>`;
+        list.appendChild(a);
       }
     });
     document.getElementById('matched-products-section').style.display = 'block';
