@@ -1987,6 +1987,106 @@
   </div>
 </div>
 
+<!-- Other Funding Review Q1: Type -->
+<div class="screen" id="screen-other-type">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Other Funding Review</div>
+    <h2 class="question-text">What type of funding or facility is it?</h2>
+    <div class="form-group">
+      <label class="form-label">Funding type</label>
+      <input type="text" class="form-input" id="other-type" placeholder="e.g. overdraft, private loan, supplier finance, director loan">
+    </div>
+    <button class="btn-primary" onclick="saveOtherType()">Continue →</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Other Funding Review Q2: Amount -->
+<div class="screen" id="screen-other-amount">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Other Funding Review</div>
+    <h2 class="question-text">How much is outstanding or available?</h2>
+    <div class="form-group">
+      <label class="form-label">Amount (£)</label>
+      <input type="text" class="form-input" id="other-amount" placeholder="e.g. £50,000">
+    </div>
+    <button class="btn-primary" onclick="saveOtherAmount()">Continue →</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-other-type')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Other Funding Review Q3: Cost -->
+<div class="screen" id="screen-other-cost">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Other Funding Review</div>
+    <h2 class="question-text">How much does it cost you?</h2>
+    <div class="form-group">
+      <label class="form-label">Cost</label>
+      <input type="text" class="form-input" id="other-cost" placeholder="e.g. £500 per month, 12% per year, 3% fee">
+    </div>
+    <button class="btn-primary" onclick="saveOtherCost()">Continue →</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-other-amount')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Other Funding Review Q4: Provider -->
+<div class="screen" id="screen-other-provider">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Other Funding Review</div>
+    <h2 class="question-text">Who is it with?</h2>
+    <div class="form-group">
+      <label class="form-label">Provider / Lender</label>
+      <input type="text" class="form-input" id="other-provider" placeholder="e.g. lender, provider, supplier, investor">
+    </div>
+    <button class="btn-primary" onclick="submitOtherReview()">Submit Review →</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-other-cost')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
 <!-- Trade Finance Loading -->
 <div class="screen" id="screen-trade-loading">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
@@ -2217,6 +2317,8 @@ const state = {
   tradeProvider: '', tradeDuration: '', tradeLimit: '', tradeRates: '',
   tradeReaching: '', tradeGrowth: '',
   tradeBarrier: '', tradeBarrierDetails: '',
+  // Other Funding
+  otherFundingType: '', otherFundingAmount: '', otherFundingCost: '', otherFundingProvider: '',
 };
 
 // ============================================================
@@ -2276,7 +2378,7 @@ function selectReviewType(type) {
   else if (type === 'fx') showScreen('screen-fx-provider');
   else if (type === 'asset') showScreen('screen-asset-provider');
   else if (type === 'trade') showScreen('screen-trade-provider');
-  else if (type === 'other') alert('Other Facility Review — coming soon!');
+  else if (type === 'other') showScreen('screen-other-type');
 }
 
 function selectFacilityType(type) {
@@ -2286,7 +2388,88 @@ function selectFacilityType(type) {
   else if (type === 'fx') showScreen('screen-fx-provider');
   else if (type === 'asset') showScreen('screen-asset-provider');
   else if (type === 'trade') showScreen('screen-trade-provider');
-  else if (type === 'other') alert('Other Facility Review — coming soon!');
+  else if (type === 'other') showScreen('screen-other-type');
+}
+
+// ============================================================
+// OTHER FUNDING REVIEW FUNCTIONS
+// ============================================================
+function saveOtherType() {
+  state.otherFundingType = document.getElementById('other-type').value.trim();
+  if (!state.otherFundingType) {
+    alert('Please enter the funding type');
+    return;
+  }
+  showScreen('screen-other-amount');
+}
+
+function saveOtherAmount() {
+  state.otherFundingAmount = document.getElementById('other-amount').value.trim();
+  if (!state.otherFundingAmount) {
+    alert('Please enter the amount');
+    return;
+  }
+  showScreen('screen-other-cost');
+}
+
+function saveOtherCost() {
+  state.otherFundingCost = document.getElementById('other-cost').value.trim();
+  if (!state.otherFundingCost) {
+    alert('Please enter the cost');
+    return;
+  }
+  showScreen('screen-other-provider');
+}
+
+async function submitOtherReview() {
+  state.otherFundingProvider = document.getElementById('other-provider').value.trim();
+  if (!state.otherFundingProvider) {
+    alert('Please enter the provider');
+    return;
+  }
+  showDiscoveryThinkingScreen(async () => {
+    const prompt = `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Other Funding Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
+
+Business owner: ${state.name}
+Business: ${state.business}
+Other funding type: ${state.otherFundingType}
+Amount: ${state.otherFundingAmount}
+Cost: ${state.otherFundingCost}
+Provider: ${state.otherFundingProvider}
+Annual turnover: ${state.turnover}
+Property ownership: ${state.propertyOwnership}
+
+Write a warm, plain English summary (3-4 sentences) about their other funding situation.
+CRITICAL RULES: No specific provider names. Warm and personal. If they use their bank, gently note that banks typically charge more than specialists. If unsure of costs, acknowledge this is very common. End with "Nicole will be in touch within a few hours to talk through your options". Under 120 words. No bullet points.`;
+
+    const summary = await generateAIResponse(prompt);
+    displayOtherResults(summary);
+  });
+}
+
+function displayOtherResults(summary) {
+  document.getElementById('ai-summary-text').textContent = summary;
+  const firstName = state.name.split(' ')[0];
+  document.getElementById('nicole-message').textContent = `I've received your Other Funding Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${state.business}.`;
+  showScreen('screen-trade-loading');
+  console.log("Showing discovery results");
+  sendOtherNotification(summary);
+  loadNicolePhoto();
+}
+
+async function sendOtherNotification(summary) {
+  const templateParams = {
+    name: state.name,
+    business_name: state.business,
+    email: state.email,
+    phone: state.phone,
+    company_number: state.companyNumber || 'Not provided',
+    module: 'Other Funding Review',
+    matched_products: `Type: ${state.otherFundingType} | Amount: ${state.otherFundingAmount} | Cost: ${state.otherFundingCost} | Provider: ${state.otherFundingProvider}`,
+    barriers: 'N/A',
+    summary: summary
+  };
+  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 // ============================================================
