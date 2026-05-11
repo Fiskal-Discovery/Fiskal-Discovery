@@ -1507,6 +1507,19 @@
     <div class="ai-summary">
       <div class="ai-summary-label">Your personal summary</div>
       <p class="ai-summary-text" id="ai-summary-text">Analysing your responses...</p>
+      <div id="key-findings" style="margin-top:16px;display:none">
+        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--light-text);margin-bottom:10px;font-weight:500;">Key findings</div>
+        <ul id="key-findings-list" style="list-style:none;padding:0;margin:0"></ul>
+      </div>
+      <div id="recommended-funding" style="margin-top:16px;display:none">
+        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--light-text);margin-bottom:10px;font-weight:500;">Recommended funding types</div>
+        <div id="recommended-funding-list" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      </div>
+      <div id="next-step" style="margin-top:16px;display:none">
+        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--light-text);margin-bottom:10px;font-weight:500;">Next step</div>
+        <p id="next-step-text" style="color:var(--dark);line-height:1.6"></p>
+      </div>
+      <div id="confidence-note" style="margin-top:16px;padding:12px;background:rgba(126,9,165,0.05);border-left:3px solid var(--indigo);border-radius:4px;font-size:13px;color:var(--mid);line-height:1.5;display:none"></div>
     </div>
 
     <div id="matched-products-section">
@@ -1971,11 +1984,82 @@ function getFallbackSummary(matchedProducts) {
 
 function displayResults(summary, matchedProducts) {
   document.getElementById('results-name').textContent = `Here's what we found for you, ${state.name}`;
-  document.getElementById('ai-summary-text').textContent = summary;
   document.getElementById('confirm-name').textContent = state.name.split(' ')[0];
 
   const nicole = state.name.split(' ')[0];
   document.getElementById('nicole-message').textContent = `I've received your Fiskal Discovery, ${nicole}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${state.business}.`;
+
+  // Use the new summary generator
+  const summaryInput = {
+    businessName: state.business,
+    industry: state.industry,
+    turnover: state.turnover,
+    fundingAmount: state.fundingAmount,
+    fundingPurpose: state.fundingPurpose,
+    cashflowPressure: state.cashflowPressure,
+    currentFunding: state.currentFunding,
+    repaymentPressure: state.repaymentPressure,
+    mainChallenge: state.mainChallenge,
+    growthGoal: state.growthGoal,
+    urgency: state.urgency,
+    creditConcern: state.creditConcern,
+    propertySecurity: state.propertySecurity,
+    invoiceCustomers: state.invoiceCustomers,
+    cardSales: state.cardSales,
+    assetNeed: state.assetNeed
+  };
+
+  // Try to use generateDiscoverySummary if available
+  if (typeof generateDiscoverySummary === 'function') {
+    const generatedSummary = generateDiscoverySummary(summaryInput);
+    document.getElementById('summary-headline').textContent = generatedSummary.headline;
+    document.getElementById('ai-summary-text').textContent = generatedSummary.summary;
+    
+    // Display key findings
+    if (generatedSummary.keyFindings.length > 0) {
+      const findingsList = document.getElementById('key-findings-list');
+      findingsList.innerHTML = '';
+      generatedSummary.keyFindings.forEach(finding => {
+        const li = document.createElement('li');
+        li.textContent = '• ' + finding;
+        li.style.marginBottom = '8px';
+        li.style.color = 'var(--dark)';
+        li.style.lineHeight = '1.5';
+        findingsList.appendChild(li);
+      });
+      document.getElementById('key-findings').style.display = 'block';
+    }
+    
+    // Display recommended funding types
+    if (generatedSummary.recommendedFundingTypes.length > 0) {
+      const fundingList = document.getElementById('recommended-funding-list');
+      fundingList.innerHTML = '';
+      generatedSummary.recommendedFundingTypes.forEach(type => {
+        const span = document.createElement('span');
+        span.textContent = type;
+        span.style.background = 'rgba(126,9,165,0.1)';
+        span.style.color = 'var(--indigo)';
+        span.style.padding = '6px 12px';
+        span.style.borderRadius = '20px';
+        span.style.fontSize = '13px';
+        span.style.fontWeight = '500';
+        fundingList.appendChild(span);
+      });
+      document.getElementById('recommended-funding').style.display = 'block';
+    }
+    
+    // Display next step
+    document.getElementById('next-step-text').textContent = generatedSummary.nextStep;
+    document.getElementById('next-step').style.display = 'block';
+    
+    // Display confidence note
+    document.getElementById('confidence-note').textContent = generatedSummary.confidenceNote;
+    document.getElementById('confidence-note').style.display = 'block';
+  } else {
+    // Fallback to original summary
+    document.getElementById('summary-headline').textContent = 'Your personal summary';
+    document.getElementById('ai-summary-text').textContent = summary;
+  }
 
   const list = document.getElementById('matched-products-list');
   list.innerHTML = '';
@@ -2450,8 +2534,11 @@ async function loadNicolePhoto() {
   };
 }
 </script>
-</body>
+<script type="module" src="discoverySummaryGenerator.js"></script></body>
 </html>
+
+
+
 
 
 
