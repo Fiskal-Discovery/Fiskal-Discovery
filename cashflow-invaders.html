@@ -117,10 +117,12 @@ if(window.visualViewport){window.visualViewport.addEventListener('resize',()=>{d
   <div class="leaderboard-form">
     <label>ENTER YOUR NAME FOR THE LEADERBOARD (OPTIONAL)</label>
     <input type="text" id="leaderboard-name" placeholder="YOUR NAME" maxlength="22">
+    <label>ENTER YOUR BUSINESS / COMPANY (OPTIONAL)</label>
+    <input type="text" id="leaderboard-company" placeholder="BUSINESS / COMPANY" maxlength="22">
     <button class="btn-submit" id="btn-submit-score">🏆 SUBMIT TO LEADERBOARD</button>
   </div>
   <div class="leaderboard-title">🏆 CASHFLOW CHAMPIONS</div>
-  <table class="score-table"><thead><tr><th class="rank-col">#</th><th>NAME</th><th>CASH</th><th>WAVE</th></tr></thead><tbody id="leaderboard-body"></tbody></table>
+  <table class="score-table"><thead><tr><th class="rank-col">#</th><th>NAME</th><th>COMPANY</th><th>CASH</th><th>WAVE</th></tr></thead><tbody id="leaderboard-body"></tbody></table>
   <div class="gameover-buttons">
     <button class="btn-play-again" id="btn-play-again">▶ PLAY AGAIN</button>
     <button class="btn-home" id="btn-home">⌂ RETURN TO HOME</button>
@@ -145,12 +147,39 @@ function getLocalLB() {
   }
 }
 
-async function saveLB(biz,score,wave){
+function getStoredUserDetails() {
+  return {
+    name:
+      localStorage.getItem("name") ||
+      localStorage.getItem("fullName") ||
+      localStorage.getItem("contactName") ||
+      localStorage.getItem("customerName") ||
+      sessionStorage.getItem("name") ||
+      sessionStorage.getItem("fullName") ||
+      sessionStorage.getItem("contactName") ||
+      sessionStorage.getItem("customerName") ||
+      "",
+
+    company:
+      localStorage.getItem("businessName") ||
+      localStorage.getItem("companyName") ||
+      localStorage.getItem("company") ||
+      localStorage.getItem("business") ||
+      sessionStorage.getItem("businessName") ||
+      sessionStorage.getItem("companyName") ||
+      sessionStorage.getItem("company") ||
+      sessionStorage.getItem("business") ||
+      ""
+  };
+}
+
+async function saveLB(name, company, score, wave){
   const entry={
-    name:(biz||'ANONYMOUS').toUpperCase().slice(0,22),
+    name: (name || 'ANONYMOUS').toUpperCase().slice(0,22),
+    company: (company || 'N/A').toUpperCase().slice(0,22),
     score: Number(score) || 0,
     wave: Number(wave) || 1,
-    timestamp:Date.now()
+    timestamp: Date.now()
   };
   console.log('Saving to leaderboard:', entry);
   
@@ -190,10 +219,10 @@ async function renderLB(){
 
   function renderRows(data) {
     if (!data.length) {
-      tb.innerHTML = '<tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.3);padding:14px;font-size:0.38rem">NO SCORES YET — BE FIRST!</td></tr>';
+      tb.innerHTML = '<tr><td colspan="5" style="text-align:center;color:rgba(255,255,255,0.3);padding:14px;font-size:0.38rem">NO SCORES YET — BE FIRST!</td></tr>';
       return;
     }
-    tb.innerHTML = data.map((e,i) => '<tr><td class="rank-col">' + (i+1) + '</td><td>' + (e.name || e.business) + '</td><td>£' + e.score + '</td><td>' + e.wave + '</td></tr>').join('');
+    tb.innerHTML = data.map((e,i) => '<tr><td class="rank-col">' + (i+1) + '</td><td>' + (e.name || e.business) + '</td><td>' + (e.company || 'N/A') + '</td><td>£' + e.score + '</td><td>' + e.wave + '</td></tr>').join('');
   }
 
   if (!db) {
@@ -230,7 +259,7 @@ function drawBoss(c,boss){if(!boss)return;const r=boss.r;drawTentacles(c,boss.x,
 function drawWordEnemy(c,e){c.save();if(e.trail){e.trail.forEach((pt,i)=>{c.globalAlpha=i/e.trail.length*.22;c.font='700 '+Math.max(9,e.size-2)+'px Orbitron,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillStyle='#FF2244';c.fillText(e.display,pt.x,pt.y)})}c.globalAlpha=.82+Math.sin(e.angle*2)*.15;c.translate(e.x,e.y);c.rotate(Math.sin(e.angle)*.11);c.font='700 '+e.size+'px Orbitron,sans-serif';c.textAlign='center';c.textBaseline='middle';c.shadowColor='#FF2244';c.shadowBlur=8;c.lineWidth=4;c.strokeStyle='rgba(0,0,0,.9)';c.strokeText(e.display,0,0);c.fillStyle='#FF6680';c.fillText(e.display,0,0);c.restore()}
 function renderPreviewAliens(){const prev=document.getElementById('alien-preview');prev.innerHTML='';ALIEN_TYPES.forEach(t=>{const c=document.createElement('canvas'),w=t.pixels[0].length*4,h=t.pixels.length*4;c.width=w+4;c.height=h+4;c.style.cssText='image-rendering:pixelated';drawPixelSprite(c.getContext('2d'),t.pixels,t.color,(w+4)/2,(h+4)/2,4);prev.appendChild(c)})}
 function showQuitBtn(show){document.getElementById('quit-btn').style.display=show?'block':'none';document.getElementById('home-btn').style.display=show?'none':'block'}
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('playing-mobile',id==='game-screen'&&window.innerWidth<=520);if(id!=='game-screen')showQuitBtn(false);if(id==='start-screen'){renderPreviewAliens();}if(id==='gameover-screen'){const savedName=localStorage.getItem('fiskal_ci_player_name');if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;}}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('playing-mobile',id==='game-screen'&&window.innerWidth<=520);if(id!=='game-screen')showQuitBtn(false);if(id==='start-screen'){renderPreviewAliens();}if(id==='gameover-screen'){const savedName=localStorage.getItem('fiskal_ci_player_name');if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;const stored=getStoredUserDetails();if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;}}
 function updateHUD(){if(!G)return;document.getElementById('score-display').textContent=G.score;document.getElementById('wave-display').textContent=G.wave;document.getElementById('lives-display').textContent='❤'.repeat(Math.max(0,G.lives))}
 function showMsg(title,color,subtitle,duration){const el=document.getElementById('msg-flash');el.style.color=color;el.style.borderColor=color;el.style.textShadow='0 0 20px '+color;el.innerHTML=subtitle?title+'<br><span style="color:white;font-size:0.5rem;line-height:2">'+subtitle+'</span>':title;el.style.opacity=1;clearTimeout(el._t);el._t=setTimeout(()=>el.style.opacity=0,duration||2000)}
 function stopGame(){if(rafId)cancelAnimationFrame(rafId);rafId=null;paused=false;screenShake=0;ctx.setTransform(1,0,0,1,0,0);document.getElementById('pause-overlay').classList.remove('active');G=null}
@@ -417,8 +446,9 @@ renderPreviewAliens();runTests();
 document.getElementById('pause-btn').addEventListener('click',togglePause);document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-quit-pause').addEventListener('click',quitGame);document.getElementById('quit-btn').addEventListener('click',quitGame);document.getElementById('btn-start').addEventListener('click',initGame);document.getElementById('btn-play-again').addEventListener('click',()=>{stopGame();showScreen('start-screen')});document.getElementById('btn-submit-score').addEventListener('click',async()=>{
   const btn = document.getElementById('btn-submit-score');
   const nameInput = document.getElementById('leaderboard-name').value.trim() || 'ANONYMOUS';
+  const companyInput = document.getElementById('leaderboard-company').value.trim() || 'N/A';
   localStorage.setItem('fiskal_ci_player_name', nameInput);
-  console.log('Submit button clicked - name:', nameInput, 'score:', finalScore, 'wave:', finalWave);
+  console.log('Submit button clicked - name:', nameInput, 'company:', companyInput, 'score:', finalScore, 'wave:', finalWave);
   
   btn.disabled = true;
   btn.textContent = 'Saving...';
@@ -427,7 +457,7 @@ document.getElementById('pause-btn').addEventListener('click',togglePause);docum
     setTimeout(() => reject(new Error('Timeout')), 4000)
   );
   
-  Promise.race([saveLB(nameInput, finalScore, finalWave), timeoutPromise])
+  Promise.race([saveLB(nameInput, companyInput, finalScore, finalWave), timeoutPromise])
     .then(() => renderLB())
     .then(() => showScreen('gameover-screen'))
     .catch(() => {
