@@ -2015,7 +2015,8 @@ function obGoBack() {
     obAddFiskalBubble("Are you filling this in for yourself, or on behalf of someone else?", () => {
       showChoices([
         { label: "🙋 It's for me — my own business", value: 'self' },
-        { label: "👤 I'm filling this in for a client", value: 'other' }
+        { label: "👤 I'm filling this in for a client", value: 'other' },
+        { label: "🎮 I just want to try Cashflow Invaders", value: 'game', action: () => { window.location.href = 'cashflow-invaders.html'; } }
       ], obHandleUserType);
     });
   }
@@ -2055,7 +2056,8 @@ function startOnboarding() {
             setTimeout(() => {
               showChoices([
                 { label: "🙋 It's for me — my own business", value: 'self' },
-                { label: "👤 I'm filling this in for a client", value: 'other' }
+                { label: "👤 I'm filling this in for a client", value: 'other' },
+                { label: "🎮 I just want to try Cashflow Invaders", value: 'game', action: () => { window.location.href = 'cashflow-invaders.html'; } }
               ], obHandleUserType);
             }, 400);
           });
