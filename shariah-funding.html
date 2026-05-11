@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiskal Discovery — Shariah-Compliant Funding</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --indigo: #7E09A5;
+    --indigo-deep: #5a0075;
+    --indigo-light: #9B20C2;
+    --indigo-pale: #f9f0ff;
+    --blue: #0099FF;
+    --cream: #FAF8F5;
+    --dark: #1a1025;
+    --mid: #5a4a6a;
+    --light-text: #8a7a9a;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .bg-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.12;
+  }
+  .bg-orb-1 { width: 600px; height: 600px; background: var(--indigo); top: -200px; right: -200px; }
+  .bg-orb-2 { width: 400px; height: 400px; background: var(--blue); bottom: -100px; left: -100px; }
+
+  .screen {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.5s ease forwards;
+    flex-direction: column;
+  }
+  .screen.active { display: flex; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .logo-corner { position: fixed; top: 20px; left: 20px; z-index: 10002; }
+  .logo-corner .site-logo { width: 60px; height: auto; opacity: 0.85; transition: opacity 0.2s ease; }
+  .logo-corner:hover .site-logo { opacity: 1; }
+  .brand-header { text-align: center; padding: 28px 20px 12px; }
+  .brand-title { font-family: 'Libre Baskerville', serif; font-style: italic; font-weight: 700; font-size: 42px; color: var(--indigo); line-height: 1.1; }
+  .brand-sub { font-size: 17px; color: var(--indigo); margin-top: 4px; }
+  .brand-label { display: inline-block; background: var(--indigo); color: white; font-size: 11px; padding: 4px 12px; border-radius: 20px; font-weight: 500; letter-spacing: 0.5px; margin-top: 12px; }
+
+  .app-header {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .module-badge {
+    background: var(--indigo);
+    color: white;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .progress-bar-wrap { padding: 0 24px 8px; }
+  .progress-track {
+    height: 3px;
+    background: rgba(126,9,165,0.12);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--indigo), var(--blue));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+  .progress-label {
+    font-size: 11px;
+    color: var(--light-text);
+    margin-top: 6px;
+    text-align: right;
+  }
+
+  .screen-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 24px 32px;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .question-icon { font-size: 40px; margin-bottom: 12px; }
+
+  .question-product {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .question-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--indigo-deep);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .question-sub {
+    font-size: 14px;
+    color: var(--light-text);
+    font-style: italic;
+    margin-bottom: 24px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .answer-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .answer-btn {
+    background: white;
+    border: 1.5px solid rgba(126,9,165,0.15);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 15px;
+    color: var(--dark);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .answer-btn:hover {
+    border-color: var(--indigo);
+    background: var(--indigo-pale);
+    transform: translateX(4px);
+  }
+
+  .answer-btn.selected {
+    border-color: var(--indigo);
+    background: var(--indigo);
+    color: white;
+  }
+
+  .answer-emoji { font-size: 18px; flex-shrink: 0; }
+
+  /* Form inputs */
+  .form-group { margin-bottom: 16px; }
+
+  .form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mid);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .form-input {
+    width: 100%;
+    background: white;
+    border: 1.5px solid rgba(126,9,165,0.15);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 15px;
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s ease;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--indigo);
+  }
+
+  .form-input::placeholder {
+    color: var(--light-text);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(126,9,165,0.3);
+  }
+
+  .btn-secondary {
+    background: white;
+    border: 1.5px solid rgba(126,9,165,0.15);
+    color: var(--indigo);
+    border-radius: 10px;
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--indigo);
+    background: var(--indigo-pale);
+  }
+
+  .btn-back {
+    background: transparent;
+    border: none;
+    color: var(--light-text);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    padding: 8px 0;
+    transition: color 0.2s ease;
+  }
+
+  .btn-back:hover { color: var(--indigo); }
+
+  /* Loading Screen */
+  .loading-screen {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1000;
+    background: var(--cream);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .loading-screen.active { display: flex; }
+
+  .loading-content {
+    text-align: center;
+    max-width: 400px;
+  }
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(126, 9, 165, 0.2);
+    border-top-color: var(--indigo);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 24px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loading-message {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--indigo-deep);
+    position: relative;
+    display: inline-block;
+    padding: 8px 16px;
+    overflow: hidden;
+  }
+
+  .loading-message.thinking-phrase {
+    font-size: clamp(1.1rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: center;
+    color: #ffffff;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 500ms ease, transform 500ms ease;
+  }
+
+  .loading-message.thinking-phrase.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .loading-message.thinking-phrase.shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255,255,255,0.45) 0%,
+      #ffffff 35%,
+      #FFE600 50%,
+      #ffffff 65%,
+      rgba(255,255,255,0.45) 100%
+    );
+    background-size: 220% auto;
+    background-position: 220% center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: thinkingShimmer 1.8s ease-in-out forwards;
+    text-shadow: 0 0 18px rgba(126, 9, 165, 0.35);
+  }
+
+  @keyframes thinkingShimmer {
+    0% {
+      background-position: 220% center;
+    }
+    100% {
+      background-position: -220% center;
+    }
+  }
+
+  .loading-message::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    animation: shimmer 1s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    to { left: 100%; }
+  }
+
+  /* Results */
+  .results-header { text-align: center; padding: 20px 0 24px; }
+
+  .results-check {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 26px;
+  }
+
+  .results-title {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--indigo-deep);
+    margin-bottom: 8px;
+  }
+
+  .ai-summary {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1.5px solid rgba(126,9,165,0.1);
+  }
+
+  .ai-summary-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--blue);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .ai-summary-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--dark);
+    font-weight: 300;
+  }
+
+  .nicole-card {
+    background: linear-gradient(135deg, var(--indigo-deep) 0%, var(--indigo) 100%);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: white;
+  }
+
+  .nicole-photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--blue);
+    flex-shrink: 0;
+  }
+
+  .nicole-info { flex: 1; }
+  .nicole-name { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+  .nicole-role { font-size: 12px; opacity: 0.75; margin-bottom: 8px; font-weight: 300; }
+  .nicole-message { font-size: 13px; opacity: 0.9; line-height: 1.5; font-weight: 300; }
+
+  .nicole-website-note {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .visit-fiskal-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: #FFE600;
+    color: #08000F;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 22px rgba(255,230,0,0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .visit-fiskal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(255,230,0,0.35);
+  }
+
+  @media (max-width: 600px) {
+    .visit-fiskal-btn {
+      width: 100%;
+    }
+  }
+
+  .visit-linkedin-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: white;
+    color: #6200EA;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 22px rgba(255,255,255,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .visit-linkedin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(255,255,255,0.25);
+  }
+
+  @media (max-width: 600px) {
+    .visit-linkedin-btn {
+      width: 100%;
+    }
+  }
+
+  .screen-footer {
+    padding: 12px 24px 24px;
+    text-align: center;
+  }
+
+  .footer-legal {
+    font-size: 11px;
+    color: var(--light-text);
+    line-height: 1.6;
+  }
+
+  .divider {
+    height: 1px;
+    background: rgba(126,9,165,0.08);
+    margin: 16px 0;
+  }
+
+  .info-box {
+    background: var(--indigo-pale);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .error-msg {
+    font-size: 12px;
+    color: #e53e3e;
+    margin-top: 6px;
+    display: none;
+  }
+
+  .currency-input-wrapper {
+    position: relative;
+  }
+
+  .currency-input-wrapper::before {
+    content: '£';
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--mid);
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .currency-input-wrapper .form-input {
+    padding-left: 36px;
+  }
+
+  .intro-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--mid);
+    margin-bottom: 24px;
+  }
+
+  .intro-cta {
+    background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 16px 28px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s ease;
+  }
+
+  .intro-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(126,9,165,0.3);
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+
+<div class="logo-corner">
+  <a href="index.html">
+    <img src="https://fiskal.online/wp-content/uploads/2024/09/fiskal-logo.png" alt="Fiskal" class="site-logo">
+  </a>
+</div>
+
+<!-- ====== HOME SCREEN ====== -->
+<div class="screen active" id="screen-home">
+  <div class="brand-header">
+    <h1 class="brand-title">Fiskal Discovery</h1>
+    <p class="brand-sub">Find out what's possible for your business</p>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-icon">🕌</div>
+    <div class="question-product">Shariah-Compliant Funding</div>
+    <h2 class="question-text">Could the right funding help your business move forward — without compromising your principles?</h2>
+    <p class="intro-text">
+      Finding suitable Shariah-compliant business funding can be difficult. Many mainstream products are built around conventional interest-based lending, which means they may not feel appropriate for businesses looking for funding structured around Shariah-compliant principles.
+    </p>
+    <p class="intro-text">
+      At Fiskal, we know this can make the search feel more complicated than it should. We've spent time researching the market and identifying providers who may be able to support businesses looking for more suitable, principle-conscious funding routes.
+    </p>
+    <p class="intro-text">
+      This short discovery is not about ticking boxes. It's about understanding what you're trying to achieve, what support would genuinely help, and whether there may be appropriate funding options worth exploring.
+    </p>
+    <button class="intro-cta" onclick="startJourney()">Explore Shariah-Compliant Options</button>
+  </div>
+
+  <div class="screen-footer">
+    <p class="footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539.<br><a href="https://fiskal.online" target="_blank" style="color:inherit;">fiskal.online</a> | All information is treated in confidence.</p>
+  </div>
+</div>
+
+<!-- ====== QUESTION 1: Purpose ====== -->
+<div class="screen" id="screen-q1">
+  <div class="app-header">
+    <button class="btn-back" onclick="goHome()">← Back</button>
+    <span class="module-badge">Shariah-Compliant Funding</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track">
+      <div class="progress-fill" style="width: 33%"></div>
+    </div>
+    <div class="progress-label">Question 1 of 3</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">🎯</div>
+    <h2 class="question-text">What would the right funding help you achieve?</h2>
+    <p class="question-sub">Think about what would genuinely move your business forward — whether that's growth, stability, stock, equipment, property, or simply creating more breathing room.</p>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectPurpose('Purchase equipment or assets', this)">
+        <span class="answer-emoji">🔧</span> Purchase equipment or assets
+      </button>
+      <button class="answer-btn" onclick="selectPurpose('Support business growth', this)">
+        <span class="answer-emoji">🚀</span> Support business growth
+      </button>
+      <button class="answer-btn" onclick="selectPurpose('Improve working capital', this)">
+        <span class="answer-emoji">💰</span> Improve working capital
+      </button>
+      <button class="answer-btn" onclick="selectPurpose('Fund stock or trade purchases', this)">
+        <span class="answer-emoji">📦</span> Fund stock or trade purchases
+      </button>
+      <button class="answer-btn" onclick="selectPurpose('Support property or premises', this)">
+        <span class="answer-emoji">🏢</span> Support property or premises
+      </button>
+      <button class="answer-btn" onclick="selectPurpose('Refinance existing funding', this)">
+        <span class="answer-emoji">🔄</span> Refinance existing funding
+      </button>
+      <button class="answer-btn" onclick="selectPurpose('Something else', this)">
+        <span class="answer-emoji">✨</span> Something else
+      </button>
+    </div>
+    <div id="other-purpose-container" style="display: none;">
+      <div class="form-group">
+        <label class="form-label">Tell us what you're hoping to achieve</label>
+        <input type="text" class="form-input" id="other-purpose" placeholder="Describe your funding purpose...">
+      </div>
+      <button class="btn-primary" onclick="saveOtherPurpose()">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== QUESTION 2: Amount ====== -->
+<div class="screen" id="screen-q2">
+  <div class="app-header">
+    <button class="btn-back" onclick="goBackToQ1()">← Back</button>
+    <span class="module-badge">Shariah-Compliant Funding</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track">
+      <div class="progress-fill" style="width: 66%"></div>
+    </div>
+    <div class="progress-label">Question 2 of 3</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">💵</div>
+    <h2 class="question-text">How much funding would help you move forward?</h2>
+    <p class="question-sub">You don't need to know the exact figure yet. A rough idea is enough — and if you're unsure, that's completely fine.</p>
+    <div class="form-group">
+      <label class="form-label">Funding amount (optional)</label>
+      <div class="currency-input-wrapper">
+        <input type="number" class="form-input" id="funding-amount" placeholder="Enter amount">
+      </div>
+    </div>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectNotSure(this)">
+        <span class="answer-emoji">🤔</span> I'm not sure yet
+      </button>
+    </div>
+    <button class="btn-primary" onclick="saveAmount()">Continue</button>
+  </div>
+</div>
+
+<!-- ====== QUESTION 3: Timeline ====== -->
+<div class="screen" id="screen-q3">
+  <div class="app-header">
+    <button class="btn-back" onclick="goBackToQ2()">← Back</button>
+    <span class="module-badge">Shariah-Compliant Funding</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-track">
+      <div class="progress-fill" style="width: 100%"></div>
+    </div>
+    <div class="progress-label">Question 3 of 3</div>
+  </div>
+  <div class="screen-content">
+    <div class="question-icon">⏰</div>
+    <h2 class="question-text">How soon would the right funding make a difference?</h2>
+    <p class="question-sub">This helps us understand whether you're looking for something immediate, or simply exploring what may be possible.</p>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectTimeline('As soon as possible', this)">
+        <span class="answer-emoji">⚡</span> As soon as possible
+      </button>
+      <button class="answer-btn" onclick="selectTimeline('Within the next month', this)">
+        <span class="answer-emoji">📅</span> Within the next month
+      </button>
+      <button class="answer-btn" onclick="selectTimeline('In the next 1–3 months', this)">
+        <span class="answer-emoji">🗓️</span> In the next 1–3 months
+      </button>
+      <button class="answer-btn" onclick="selectTimeline('I\'m just exploring options', this)">
+        <span class="answer-emoji">🔍</span> I'm just exploring options
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== LOADING SCREEN ====== -->
+<div class="loading-screen" id="screen-loading">
+  <div class="loading-content">
+    <div class="loading-spinner"></div>
+    <div class="loading-message thinking-phrase" id="thinking-phrase">Thinking...</div>
+  </div>
+</div>
+
+<!-- ====== RESULTS SCREEN ====== -->
+<div class="screen" id="screen-results">
+  <div class="app-header">
+    <button class="btn-back" onclick="goHome()">← Back to Home</button>
+    <span class="module-badge">Shariah-Compliant Funding</span>
+  </div>
+  <div class="screen-content">
+    <div class="results-header">
+      <div class="results-check">✓</div>
+      <h2 class="results-title">Discovery Complete</h2>
+    </div>
+    <div class="ai-summary">
+      <div class="ai-summary-label">Your Discovery Summary</div>
+      <div class="ai-summary-text" id="summary-text"></div>
+    </div>
+    <div class="nicole-card">
+      <img src="https://fiskal.online/wp-content/uploads/2024/09/nicole-headshot.jpg" alt="Nicole" class="nicole-photo">
+      <div class="nicole-info">
+        <div class="nicole-name">Nicole</div>
+        <div class="nicole-role">Funding Specialist at Fiskal</div>
+        <div class="nicole-message" id="nicole-message"></div>
+        <div class="nicole-website-note">
+          Visit <a href="https://www.fiskal.online" target="_blank" style="color: #FFE600; text-decoration: none; font-weight: 500;">fiskal.online</a> to explore funding products designed around Shariah-compliant principles.
+        </div>
+        <a href="https://www.fiskal.online/funding-products#shariah-compliant" target="_blank" class="visit-fiskal-btn">Explore Shariah-Compliant Options</a>
+        <a href="https://www.linkedin.com/company/fiskal-discovery" target="_blank" class="visit-linkedin-btn">Connect on LinkedIn</a>
+      </div>
+    </div>
+    <div class="screen-footer">
+      <p class="footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539.<br><a href="https://fiskal.online" target="_blank" style="color:inherit;">fiskal.online</a> | All information is treated in confidence.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// STATE MANAGEMENT
+// ============================================================
+const state = {
+  purpose: '',
+  otherPurpose: '',
+  amount: '',
+  notSure: false,
+  timeline: ''
+};
+
+// ============================================================
+// SCREEN NAVIGATION
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+}
+
+function goHome() {
+  state.purpose = '';
+  state.otherPurpose = '';
+  state.amount = '';
+  state.notSure = false;
+  state.timeline = '';
+  document.getElementById('other-purpose-container').style.display = 'none';
+  document.getElementById('other-purpose').value = '';
+  document.getElementById('funding-amount').value = '';
+  showScreen('screen-home');
+}
+
+function goBackToQ1() {
+  showScreen('screen-q1');
+}
+
+function goBackToQ2() {
+  showScreen('screen-q2');
+}
+
+// ============================================================
+// JOURNEY FLOW
+// ============================================================
+function startJourney() {
+  showScreen('screen-q1');
+}
+
+function selectPurpose(purpose, btn) {
+  state.purpose = purpose;
+  
+  // Update button styles
+  document.querySelectorAll('#screen-q1 .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  
+  if (purpose === 'Something else') {
+    document.getElementById('other-purpose-container').style.display = 'block';
+  } else {
+    setTimeout(() => showScreen('screen-q2'), 300);
+  }
+}
+
+function saveOtherPurpose() {
+  const otherPurpose = document.getElementById('other-purpose').value.trim();
+  if (!otherPurpose) {
+    alert('Please tell us what you\'re hoping to achieve');
+    return;
+  }
+  state.otherPurpose = otherPurpose;
+  setTimeout(() => showScreen('screen-q2'), 300);
+}
+
+function selectNotSure(btn) {
+  state.notSure = true;
+  state.amount = 'Not sure yet';
+  document.getElementById('funding-amount').value = '';
+  
+  // Update button styles
+  document.querySelectorAll('#screen-q2 .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  
+  setTimeout(() => showScreen('screen-q3'), 300);
+}
+
+function saveAmount() {
+  if (state.notSure) {
+    setTimeout(() => showScreen('screen-q3'), 300);
+    return;
+  }
+  
+  const amount = document.getElementById('funding-amount').value.trim();
+  if (amount) {
+    state.amount = amount;
+  }
+  setTimeout(() => showScreen('screen-q3'), 300);
+}
+
+function selectTimeline(timeline, btn) {
+  state.timeline = timeline;
+  
+  // Update button styles
+  document.querySelectorAll('#screen-q3 .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  
+  setTimeout(() => submitDiscovery(), 300);
+}
+
+// ============================================================
+// SUBMIT & RESULTS
+// ============================================================
+function submitDiscovery() {
+  showScreen('screen-loading');
+  
+  const thinkingPhrase = document.getElementById('thinking-phrase');
+  const phrases = [
+    'Analysing your requirements...',
+    'Exploring Shariah-compliant options...',
+    'Identifying suitable providers...',
+    'Preparing your discovery summary...'
+  ];
+  
+  let phraseIndex = 0;
+  thinkingPhrase.classList.add('active');
+  thinkingPhrase.textContent = phrases[0];
+  
+  const phraseInterval = setInterval(() => {
+    phraseIndex++;
+    if (phraseIndex < phrases.length) {
+      thinkingPhrase.textContent = phrases[phraseIndex];
+    } else {
+      clearInterval(phraseInterval);
+      thinkingPhrase.classList.add('shimmer');
+      thinkingPhrase.textContent = 'Almost there...';
+    }
+  }, 1200);
+  
+  setTimeout(() => {
+    clearInterval(phraseInterval);
+    displayResults();
+  }, 5000);
+}
+
+function displayResults() {
+  const purpose = state.otherPurpose || state.purpose;
+  const amount = state.amount;
+  const timeline = state.timeline;
+  
+  // Build summary text
+  let summaryText = `Based on what you've told us, your requirement may be suitable for a more specialist funding review.\n\n`;
+  summaryText += `You're looking for funding to help with ${purpose.toLowerCase()}`;
+  
+  if (amount && amount !== 'Not sure yet') {
+    summaryText += `, with an estimated funding need of £${Number(amount).toLocaleString()}`;
+  } else if (amount === 'Not sure yet') {
+    summaryText += `. As you're not yet sure how much funding may be required, the first step would be to understand the purpose of the funding and estimate a suitable range before approaching providers`;
+  }
+  
+  summaryText += `.\n\n`;
+  summaryText += `Shariah-compliant funding can be more complex to source than conventional finance, so the next step is to understand what you're trying to achieve and whether there are appropriate providers who may be able to support that requirement.\n\n`;
+  summaryText += `Fiskal can review the details personally and help explore funding routes that may align more closely with Shariah-compliant principles.`;
+  
+  document.getElementById('summary-text').textContent = summaryText;
+  
+  // Build Nicole message
+  let nicoleMessage = `Thank you for sharing your requirements. Based on what you've told me, I believe a more specialist funding review would be appropriate for your business.\n\n`;
+  nicoleMessage += `Shariah-compliant funding requires careful consideration, and I'd be happy to help you explore options that may align with your principles.`;
+  
+  document.getElementById('nicole-message').textContent = nicoleMessage;
+  
+  showScreen('screen-results');
+  
+  // Send notification
+  sendNotification();
+}
+
+// ============================================================
+// NOTIFICATION SYSTEM
+// ============================================================
+async function sendNotification() {
+  const purpose = state.otherPurpose || state.purpose;
+  const amount = state.amount;
+  const timeline = state.timeline;
+  
+  const notificationData = {
+    module: 'shariah-funding',
+    purpose: purpose,
+    amount: amount,
+    timeline: timeline,
+    timestamp: new Date().toISOString()
+  };
+  
+  try {
+    const response = await fetch('https://fiskal-discovery.firebaseio.com/notifications.json', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(notificationData)
+    });
+    
+    console.log('Notification sent successfully');
+  } catch (error) {
+    console.log('Notification failed (Firebase may be unavailable):', error);
+  }
+}
+
+// ============================================================
+// FUNDING LINK MAP
+// ============================================================
+const fundingLinks = {
+  "Shariah-Compliant Funding": "https://www.fiskal.online/funding-products#shariah-compliant",
+  "Shariah Compliant Funding": "https://www.fiskal.online/funding-products#shariah-compliant"
+};
+
+</script>
+
+</body>
+</html>
