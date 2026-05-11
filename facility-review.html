@@ -1512,7 +1512,32 @@
   </div>
 </div>
 
-<!-- Asset Finance Q1: Asset Type -->
+<!-- Asset Finance Q1: Provider -->
+<div class="screen" id="screen-asset-provider">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Asset Finance Review</div>
+    <h2 class="question-text">Who is your current asset finance provider?</h2>
+    <div class="form-group">
+      <label class="form-label">Provider name</label>
+      <input type="text" class="form-input" id="asset-provider" placeholder="e.g. Close Brothers, Shire Leasing, Lombard">
+    </div>
+    <button class="btn-primary" onclick="saveAssetProvider()">Continue →</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Asset Finance Q2: Asset Type -->
 <div class="screen" id="screen-asset-type">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
@@ -1524,23 +1549,22 @@
 
   <div class="screen-content">
     <div class="question-product">Asset Finance Review</div>
-    <h2 class="question-text">What type of assets do you need finance for?</h2>
+    <h2 class="question-text">What type of asset is being financed?</h2>
     <div class="answer-options" id="asset-type-opts">
-      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Vehicles / Fleet', this, 'asset-type-opts', 'screen-asset-value')">🚛 Vehicles / Fleet</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Machinery / Equipment', this, 'asset-type-opts', 'screen-asset-value')">🏭 Machinery / Equipment</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Technology / IT Equipment', this, 'asset-type-opts', 'screen-asset-value')">💻 Technology / IT Equipment</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Property / Real Estate', this, 'asset-type-opts', 'screen-asset-value')">🏢 Property / Real Estate</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Other assets', this, 'asset-type-opts', 'screen-asset-value')">📦 Other assets</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Vehicle', this, 'asset-type-opts', 'screen-asset-remaining')">🚛 Vehicle</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Equipment', this, 'asset-type-opts', 'screen-asset-remaining')">🏭 Equipment</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Machinery', this, 'asset-type-opts', 'screen-asset-remaining')">⚙️ Machinery</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Other', this, 'asset-type-opts', 'screen-asset-remaining')">📦 Other</button>
     </div>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-asset-provider')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
 </div>
 
-<!-- Asset Finance Q2: Asset Value -->
-<div class="screen" id="screen-asset-value">
+<!-- Asset Finance Q3: Agreement Remaining -->
+<div class="screen" id="screen-asset-remaining">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
   <div class="brand-header">
@@ -1551,12 +1575,12 @@
 
   <div class="screen-content">
     <div class="question-product">Asset Finance Review</div>
-    <h2 class="question-text">What is the approximate value of the assets?</h2>
+    <h2 class="question-text">How long is remaining on your current agreement?</h2>
     <div class="form-group">
-      <label class="form-label">Asset value (£)</label>
-      <input type="text" class="form-input" id="asset-value" placeholder="e.g. £50,000">
+      <label class="form-label">Time remaining (months/years)</label>
+      <input type="text" class="form-input" id="asset-remaining" placeholder="e.g. 18 months, 2 years">
     </div>
-    <button class="btn-primary" onclick="saveAssetValue()">Continue →</button>
+    <button class="btn-primary" onclick="saveAssetRemaining()">Continue →</button>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-asset-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
@@ -1564,8 +1588,8 @@
   </div>
 </div>
 
-<!-- Asset Finance Q3: Existing Finance -->
-<div class="screen" id="screen-asset-finance">
+<!-- Asset Finance Q4: Outstanding Amount -->
+<div class="screen" id="screen-asset-outstanding">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
   <div class="brand-header">
@@ -1576,21 +1600,21 @@
 
   <div class="screen-content">
     <div class="question-product">Asset Finance Review</div>
-    <h2 class="question-text">Do you have existing finance on these assets?</h2>
-    <div class="answer-options" id="asset-finance-opts">
-      <button class="answer-btn" onclick="assetSelectAndGo('assetFinance', 'No existing finance', this, 'asset-finance-opts', 'screen-asset-upload')">✅ No — they're fully owned</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetFinance', 'Yes — some finance outstanding', this, 'asset-finance-opts', 'screen-asset-upload')">🏦 Yes — some finance outstanding</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetFinance', 'Not sure', this, 'asset-finance-opts', 'screen-asset-upload')">🤔 Not sure</button>
+    <h2 class="question-text">How much is still outstanding on your current agreement?</h2>
+    <div class="form-group">
+      <label class="form-label">Outstanding amount (£)</label>
+      <input type="text" class="form-input" id="asset-outstanding" placeholder="e.g. £25,000">
     </div>
+    <button class="btn-primary" onclick="saveAssetOutstanding()">Continue →</button>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-asset-value')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-asset-remaining')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
 </div>
 
-<!-- Asset Finance Upload -->
-<div class="screen" id="screen-asset-upload">
+<!-- Asset Finance Q5: Monthly Repayments -->
+<div class="screen" id="screen-asset-repayments">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
   <div class="brand-header">
@@ -1601,25 +1625,72 @@
 
   <div class="screen-content">
     <div class="question-product">Asset Finance Review</div>
-    <h2 class="question-text">Upload your asset details</h2>
-    <p class="question-sub">Upload invoices, valuations, or asset lists if available.</p>
-    <div class="info-box">💡 If you don't have documents, don't worry — Nicole can help when she calls.</div>
-    <div class="upload-area" id="asset-upload-area" onclick="document.getElementById('asset-file-input').click()">
-      <div class="upload-icon">📎</div>
-      <div class="upload-text"><strong>Tap to upload</strong> your asset documents<br>PDF, image or Excel accepted</div>
-      <div id="asset-files-list"></div>
+    <h2 class="question-text">What are your current monthly repayments?</h2>
+    <div class="form-group">
+      <label class="form-label">Monthly repayment (£)</label>
+      <input type="text" class="form-input" id="asset-repayments" placeholder="e.g. £850 per month">
     </div>
-    <input type="file" id="asset-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display:none" onchange="handleFileUpload('asset', this)">
-    <button class="btn-primary" onclick="showScreen('screen-asset-barriers')">Continue →</button>
-    <button class="btn-secondary" onclick="showScreen('screen-asset-barriers')">Skip — no documents to upload</button>
+    <button class="btn-primary" onclick="saveAssetRepayments()">Continue →</button>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-asset-finance')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-asset-outstanding')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
 </div>
 
-<!-- Asset Finance Barriers -->
+<!-- Asset Finance Q6: Asset Value Change -->
+<div class="screen" id="screen-asset-value-change">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Asset Finance Review</div>
+    <h2 class="question-text">Has the value or usage of the asset changed since you took out the agreement?</h2>
+    <div class="answer-options" id="asset-value-change-opts">
+      <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'Value increased significantly', this, 'asset-value-change-opts', 'screen-asset-upgrade')">📈 Value increased significantly</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'Value decreased', this, 'asset-value-change-opts', 'screen-asset-upgrade')">📉 Value decreased</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'Usage increased significantly', this, 'asset-value-change-opts', 'screen-asset-upgrade')">📊 Usage increased significantly</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'No significant change', this, 'asset-value-change-opts', 'screen-asset-upgrade')">➡️ No significant change</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-asset-repayments')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Asset Finance Q7: Upgrade Plans -->
+<div class="screen" id="screen-asset-upgrade">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Asset Finance Review</div>
+    <h2 class="question-text">Are you looking to upgrade, replace or add assets soon?</h2>
+    <div class="answer-options" id="asset-upgrade-opts">
+      <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'Yes, planning to upgrade', this, 'asset-upgrade-opts', 'screen-asset-barriers')">🔄 Yes, planning to upgrade</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'Yes, planning to replace', this, 'asset-upgrade-opts', 'screen-asset-barriers')">🔧 Yes, planning to replace</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'Yes, planning to add more assets', this, 'asset-upgrade-opts', 'screen-asset-barriers')">➕ Yes, planning to add more assets</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'No plans at the moment', this, 'asset-upgrade-opts', 'screen-asset-barriers')">❌ No plans at the moment</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-asset-value-change')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Asset Finance Q8: Barriers -->
 <div class="screen" id="screen-asset-barriers">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
@@ -1630,21 +1701,21 @@
   </div>
 
   <div class="screen-content">
-    <div class="question-product">One last thing</div>
-    <h2 class="question-text">Is there anything that might make getting asset finance difficult?</h2>
-    <div class="answer-options">
-      <button class="answer-btn" onclick="selectAssetBarrier('yes', this)">✋ Yes — I have some concerns</button>
-      <button class="answer-btn" onclick="selectAssetBarrier('no', this)">✅ No — nothing I'm aware of</button>
+    <div class="question-product">Asset Finance Review</div>
+    <h2 class="question-text">Do you have any concerns that might make refinancing difficult?</h2>
+    <div class="answer-options" id="asset-barriers-opts">
+      <button class="answer-btn" onclick="selectAssetBarrier('yes', this)">❌ Yes</button>
+      <button class="answer-btn" onclick="selectAssetBarrier('no', this)">✅ No</button>
     </div>
-    <div id="asset-barrier-detail-section" style="display:none">
-      <div class="form-group" style="margin-top:12px;">
-        <label class="form-label">Brief details</label>
-        <textarea class="form-textarea" id="asset-barrier-details" placeholder="Any context that might help..."></textarea>
+    <div id="asset-barrier-detail" style="display:none;margin-top:16px;">
+      <div class="form-group">
+        <label class="form-label">Please describe your concerns</label>
+        <textarea class="form-input" id="asset-barrier-details" rows="3" placeholder="e.g. Contract terms, relationship with current provider, early repayment charges..."></textarea>
       </div>
     </div>
-    <button class="btn-primary" id="asset-barriers-submit" onclick="submitAssetReview()" style="display:none;margin-top:16px">Submit my Asset Review →</button>
+    <button class="btn-primary" id="asset-barriers-submit" onclick="submitAssetReview()" style="display:none;margin-top:16px">Submit Review →</button>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-asset-upload')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-asset-upgrade')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
@@ -1691,7 +1762,8 @@
 </div>
 
 <!-- Trade Finance Q1: Import/Export -->
-<div class="screen" id="screen-trade-type">
+<!-- Trade Finance Q1: Provider -->
+<div class="screen" id="screen-trade-provider">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
   <div class="brand-header">
@@ -1702,12 +1774,12 @@
 
   <div class="screen-content">
     <div class="question-product">Trade Finance Review</div>
-    <h2 class="question-text">Do you primarily import or export?</h2>
-    <div class="answer-options" id="trade-type-opts">
-      <button class="answer-btn" onclick="tradeSelectAndGo('tradeType', 'Import', this, 'trade-type-opts', 'screen-trade-volume')">📥 Import</button>
-      <button class="answer-btn" onclick="tradeSelectAndGo('tradeType', 'Export', this, 'trade-type-opts', 'screen-trade-volume')">📤 Export</button>
-      <button class="answer-btn" onclick="tradeSelectAndGo('tradeType', 'Both import and export', this, 'trade-type-opts', 'screen-trade-volume')">🔄 Both import and export</button>
+    <h2 class="question-text">Who is your current trade finance provider?</h2>
+    <div class="form-group">
+      <label class="form-label">Provider name</label>
+      <input type="text" class="form-input" id="trade-provider" placeholder="e.g. Barclays, HSBC, Santander">
     </div>
+    <button class="btn-primary" onclick="saveTradeProvider()">Continue →</button>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
@@ -1715,8 +1787,8 @@
   </div>
 </div>
 
-<!-- Trade Finance Q2: Trade Volume -->
-<div class="screen" id="screen-trade-volume">
+<!-- Trade Finance Q2: Facility Duration -->
+<div class="screen" id="screen-trade-duration">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
   <div class="brand-header">
@@ -1727,21 +1799,21 @@
 
   <div class="screen-content">
     <div class="question-product">Trade Finance Review</div>
-    <h2 class="question-text">What is your annual trade volume?</h2>
+    <h2 class="question-text">How long have you had your facility?</h2>
     <div class="form-group">
-      <label class="form-label">Annual trade volume (£)</label>
-      <input type="text" class="form-input" id="trade-volume" placeholder="e.g. £250,000">
+      <label class="form-label">Duration (years/months)</label>
+      <input type="text" class="form-input" id="trade-duration" placeholder="e.g. 2 years, 6 months">
     </div>
-    <button class="btn-primary" onclick="saveTradeVolume()">Continue →</button>
+    <button class="btn-primary" onclick="saveTradeDuration()">Continue →</button>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-trade-type')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-trade-provider')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
 </div>
 
-<!-- Trade Finance Q3: Trade Routes -->
-<div class="screen" id="screen-trade-routes">
+<!-- Trade Finance Q3: Facility Limit -->
+<div class="screen" id="screen-trade-limit">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
   <div class="brand-header">
@@ -1752,27 +1824,21 @@
 
   <div class="screen-content">
     <div class="question-product">Trade Finance Review</div>
-    <h2 class="question-text">Which regions do you trade with?</h2>
-    <p class="question-sub">Select all that apply.</p>
-    <div class="checkbox-options">
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'Europe')"><div class="checkbox-tick"></div> 🇪🇺 Europe</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'North America')"><div class="checkbox-tick"></div> 🇺🇸 North America</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'Asia')"><div class="checkbox-tick"></div> 🌏 Asia</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'Middle East')"><div class="checkbox-tick"></div> 🌍 Middle East</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'Africa')"><div class="checkbox-tick"></div> 🌍 Africa</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'South America')"><div class="checkbox-tick"></div> 🌎 South America</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'tradeRoutes', 'UK only')"><div class="checkbox-tick"></div> 🇬🇧 UK only</button>
+    <h2 class="question-text">What is your current facility limit?</h2>
+    <div class="form-group">
+      <label class="form-label">Facility limit (£)</label>
+      <input type="text" class="form-input" id="trade-limit" placeholder="e.g. £100,000">
     </div>
-    <button class="btn-primary" onclick="showScreen('screen-trade-upload')" style="margin-top:8px">Continue →</button>
+    <button class="btn-primary" onclick="saveTradeLimit()">Continue →</button>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-trade-volume')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-trade-duration')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
 </div>
 
-<!-- Trade Finance Upload -->
-<div class="screen" id="screen-trade-upload">
+<!-- Trade Finance Q4: Rates and Fees -->
+<div class="screen" id="screen-trade-rates">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
   <div class="brand-header">
@@ -1783,25 +1849,71 @@
 
   <div class="screen-content">
     <div class="question-product">Trade Finance Review</div>
-    <h2 class="question-text">Upload your trade documents</h2>
-    <p class="question-sub">Upload invoices, shipping documents, or trade agreements if available.</p>
-    <div class="info-box">💡 If you don't have documents, don't worry — Nicole can help when she calls.</div>
-    <div class="upload-area" id="trade-upload-area" onclick="document.getElementById('trade-file-input').click()">
-      <div class="upload-icon">📎</div>
-      <div class="upload-text"><strong>Tap to upload</strong> your trade documents<br>PDF, image or Excel accepted</div>
-      <div id="trade-files-list"></div>
+    <h2 class="question-text">What rate or fees are you currently paying?</h2>
+    <div class="form-group">
+      <label class="form-label">Current rates/fees</label>
+      <input type="text" class="form-input" id="trade-rates" placeholder="e.g. 2.5% over base, £500 per annum">
     </div>
-    <input type="file" id="trade-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display:none" onchange="handleFileUpload('trade', this)">
-    <button class="btn-primary" onclick="showScreen('screen-trade-barriers')">Continue →</button>
-    <button class="btn-secondary" onclick="showScreen('screen-trade-barriers')">Skip — no documents to upload</button>
+    <button class="btn-primary" onclick="saveTradeRates()">Continue →</button>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-trade-routes')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-trade-limit')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
 </div>
 
-<!-- Trade Finance Barriers -->
+<!-- Trade Finance Q5: Reaching Limit -->
+<div class="screen" id="screen-trade-reaching">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Trade Finance Review</div>
+    <h2 class="question-text">Are you regularly reaching your facility limit?</h2>
+    <div class="answer-options" id="trade-reaching-opts">
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeReaching', 'Yes, regularly', this, 'trade-reaching-opts', 'screen-trade-growth')">✅ Yes, regularly</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeReaching', 'Sometimes', this, 'trade-reaching-opts', 'screen-trade-growth')">🔄 Sometimes</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeReaching', 'No, rarely or never', this, 'trade-reaching-opts', 'screen-trade-growth')">❌ No, rarely or never</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-trade-rates')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trade Finance Q6: Business Growth -->
+<div class="screen" id="screen-trade-growth">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+
+  <div class="screen-content">
+    <div class="question-product">Trade Finance Review</div>
+    <h2 class="question-text">Has your business grown or changed since you took out the facility?</h2>
+    <div class="answer-options" id="trade-growth-opts">
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'Yes, significant growth', this, 'trade-growth-opts', 'screen-trade-barriers')">📈 Yes, significant growth</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'Some growth', this, 'trade-growth-opts', 'screen-trade-barriers')">📊 Some growth</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'No significant change', this, 'trade-growth-opts', 'screen-trade-barriers')">➡️ No significant change</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'Declined', this, 'trade-growth-opts', 'screen-trade-barriers')">📉 Declined</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-trade-reaching')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trade Finance Q7: Barriers -->
 <div class="screen" id="screen-trade-barriers">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
@@ -1812,21 +1924,21 @@
   </div>
 
   <div class="screen-content">
-    <div class="question-product">One last thing</div>
-    <h2 class="question-text">Is there anything that might make getting trade finance difficult?</h2>
-    <div class="answer-options">
-      <button class="answer-btn" onclick="selectTradeBarrier('yes', this)">✋ Yes — I have some concerns</button>
-      <button class="answer-btn" onclick="selectTradeBarrier('no', this)">✅ No — nothing I'm aware of</button>
+    <div class="question-product">Trade Finance Review</div>
+    <h2 class="question-text">Do you have any concerns that might make switching difficult?</h2>
+    <div class="answer-options" id="trade-barriers-opts">
+      <button class="answer-btn" onclick="selectTradeBarrier('yes', this)">❌ Yes</button>
+      <button class="answer-btn" onclick="selectTradeBarrier('no', this)">✅ No</button>
     </div>
-    <div id="trade-barrier-detail-section" style="display:none">
-      <div class="form-group" style="margin-top:12px;">
-        <label class="form-label">Brief details</label>
-        <textarea class="form-textarea" id="trade-barrier-details" placeholder="Any context that might help..."></textarea>
+    <div id="trade-barrier-detail" style="display:none;margin-top:16px;">
+      <div class="form-group">
+        <label class="form-label">Please describe your concerns</label>
+        <textarea class="form-input" id="trade-barrier-details" rows="3" placeholder="e.g. Contract terms, relationship with current provider, transition costs..."></textarea>
       </div>
     </div>
-    <button class="btn-primary" id="trade-barriers-submit" onclick="submitTradeReview()" style="display:none;margin-top:16px">Submit my Trade Review →</button>
+    <button class="btn-primary" id="trade-barriers-submit" onclick="submitTradeReview()" style="display:none;margin-top:16px">Submit Review →</button>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-trade-upload')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-trade-growth')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
@@ -1855,7 +1967,7 @@
     </div>
 
     <div class="nicole-card">
-      <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCADIAMgDASIAAhEBAxEB/8QAHQAAAgIDAQEBAAAAAAAAAAAABgcFCAADBAkCAf/EAE4QAAEDAwIDBAcDBwkGBAcAAAECAwQABREGIQcSMRNBUWEIFCIycYGRQrGyFSMlUnShwRYkQ2JzgrPR4QkYM0Ry8BcmU8I1NlSSk9Lx/8QAGwEAAgMBAQEAAAAAAAAAAAAAAAQDBQYCAQf/xAAsEQACAgICAgICAQEJAAAAAAAAAQIDBBESIRMxBUEiUWEGFCMyM1JxkaGx/9oADAMBAAIRAxEAPwDz1Yu0+x3q8rt8p2GuV6zEeW0cFbK1ELRnwUBg46jbvqTuOornqdu1JukozDbYaIEZa0jmSwgkoQVdVBPMQM9BgdAKtj6I/oC3H0h7JrK/3qXGsVplsusWSYpQefEn1kZf7FKgQ2EpWj2iMlW3TNV+4p6GsegeI9605p6/uaot1seMU3RcX1YOup2cCUcx9lKgUg53wTQAwNT+kfxE4xcLbRw/uyG73ZrIllyO4zEUuU2toKTzqWjrlKikgjGAMbirl8Y/RJvesvQ/4LsaYsjtx1XY4rKXIrfKhxTMpPaO55iB7LhSd+mTSc9HL0/tWcLEQ7JN0pY75Zz2bCGrZCbt8oDZIAU2nlWTt7yck99eqL+ubLAulktFynxrbe7u2XIltkOpDznKAVhI7ynOPuoA8juIPoca64N6ORqHVTlkt7KilKYYuKVyVqJA5UIAwsjOTgnAzS7t9...[12920 bytes truncated]
+      <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCADIAMgDASIAAhEBAxEB/8QAHQAAAgIDAQEBAAAAAAAAAAAABgcFCAADBAkCAf/EAE4QAAEDAwIDBAcDBwkGBAcAAAECAwQABREGIQcSMRNBUWEIFCIycYGRQrGyFSMlUnShwRYkQ2JzgrPR4QkYM0Ry8BcmU8I1NlSSk9Lx/8QAGwEAAgMBAQEAAAAAAAAAAAAAAAQDBQYCAQf/xAAsEQACAgICAgICAQEJAAAAAAAAAQIDBBESIRMxBUEiUWEGFCMyM1JxkaGx/9oADAMBAAIRAxEAPwDz1Yu0+x3q8rt8p2GuV6zEeW0cFbK1ELRnwUBg46jbvqTuOornqdu1JukozDbYaIEZa0jmSwgkoQVdVBPMQM9BgdAKtj6I/oC3H0h7JrK/3qXGsVplsusWSYpQefEn1kZf7FKgQ2EpWj2iMlW3TNV+4p6GsegeI9605p6/uaot1seMU3RcX1YOup2cCUcx9lKgUg53wTQAwNT+kfxE4xcLbRw/uyG73ZrIllyO4zEUuU2toKTzqWjrlKikgjGAMbirl8Y/RJvesvQ/4LsaYsjtx1XY4rKXIrfKhxTMpPaO55iB7LhSd+mTSc9HL0/tWcLEQ7JN0pY75Zz2bCGrZCbt8oDZIAU2nlWTt7yck99eqL+ubLAulktFynxrbe7u2XIltkOpDznKAVhI7ynOPuoA8juIPoca64N6ORqHVTlkt7KilKYYuKVyVqJA5UIAwsjOTgnAzS7t9uzjanB6UVw1Pe+POrIup7g9Pdt05yPDQ5s2zGzzNpbSNkgpKT5nc0E2225wAKANdutnTaiSDas49muu22vptRPAtWAPZoAjIdozg4qai2np7NTUK05xtU5FtGMezQAOMWj+rXY3Z/6tS1ylxLLGcekLShDYypa1cqUgdTmq7699LWJBmSIWnIxnqbBSJOMNFQ7ge/5GoZ2qL0ltk1dMrPQ9vyPt0rhmstMJwkpccPRCVCqmf7zWoLlK/POxME5DbbgUU48sY/fRbpnji9MdHbLQtzwyP8gaVsvsXqI4sKT+x5t6fVLPauFQUSc4GAU+A8s9/fjwr7ftGB7tBUPjLHZay4jBA6E7GuN/0gIjxQ36mhLnOtJbK9vZxv8Av6UQylrtMjeJan6CmZagM9BUDNtiVZG2fjQreuOEH1oMryk4ycDYeQxXxE4lW6VlZiOPNjGS37RAzgdP412sht+jh400uzsuFrwD7NDNwtvLnajS13q1X9pfqMkulBIUhXVJrmuVt2O1NxkpehVpp6Yrrjb+u1DM+FjO1My527lJ2oTucDGdq6PBezomM7VAy4+5o4uEPGdqG50bGdqAIC1s4v1t/a2f8RNZXfbWcX22/tTP+ImsoAZXDbj3rbgq7qKJoq6Cwv3S4tyJU+O2DIWllxZQ1zHIDZUolSce1gA7bVwau1XO4j6xuuprozEZud0eMmUILIZaU6QOZYRuAVHKjjbJNDL0fN3nHH/MOfjNTtti7jagBvei6rTdl4w2K+atktx7FZO0urqFjKpC2UFTTSE/aWpzkwPKirizxmv/ABq4nvaymOLt76FJTbmWFkGE0gktpSofaBPMVd5JpS2qHzKTt0o0tEDPKcUAGGqtW3fiZqZy/wB+cbkXV9plp15tsI7Ts0BAUQPtEAZPea77Va+mBXNaLd023o0tNt93agD7tlr93aiq3WnYbVttdr6bUU2+2dNqAOOJbAlOSAAOprnvV6iWNpPar5SsEpSB7WB1Uf1U/...[12920 bytes truncated]
       <div class="nicole-photo-placeholder" id="nicole-placeholder" style="display:none">—</div>
       <div class="nicole-info">
         <div class="nicole-name">Nicole Bertolissi</div>
@@ -2062,11 +2174,13 @@ const state = {
   loanMonthlyKnown: '', loanPriorities: [], loanFiles: [],
   loanBarrier: '', loanBarrierDetails: '',
   // Asset Finance
-  assetType: '', assetValue: '', assetFinance: '',
-  assetFiles: [], assetBarrier: '', assetBarrierDetails: '',
+  assetProvider: '', assetType: '', assetRemaining: '', assetOutstanding: '',
+  assetRepayments: '', assetValueChange: '', assetUpgrade: '',
+  assetBarrier: '', assetBarrierDetails: '',
   // Trade Finance
-  tradeType: '', tradeVolume: '', tradeRoutes: [],
-  tradeFiles: [], tradeBarrier: '', tradeBarrierDetails: '',
+  tradeProvider: '', tradeDuration: '', tradeLimit: '', tradeRates: '',
+  tradeReaching: '', tradeGrowth: '',
+  tradeBarrier: '', tradeBarrierDetails: '',
 };
 
 // ============================================================
@@ -2115,8 +2229,8 @@ function selectReviewType(type) {
   if (type === 'invoice') showScreen('screen-if-lender');
   else if (type === 'loan') showScreen('screen-loan-lender');
   else if (type === 'fx') showScreen('screen-fx-provider');
-  else if (type === 'asset') showScreen('screen-asset-type');
-  else if (type === 'trade') showScreen('screen-trade-type');
+  else if (type === 'asset') showScreen('screen-asset-provider');
+  else if (type === 'trade') showScreen('screen-trade-provider');
   else if (type === 'other') alert('Other Facility Review — coming soon!');
 }
 
@@ -2125,8 +2239,8 @@ function selectFacilityType(type) {
   if (type === 'invoice') showScreen('screen-if-lender');
   else if (type === 'loan') showScreen('screen-loan-lender');
   else if (type === 'fx') showScreen('screen-fx-provider');
-  else if (type === 'asset') showScreen('screen-asset-type');
-  else if (type === 'trade') showScreen('screen-trade-type');
+  else if (type === 'asset') showScreen('screen-asset-provider');
+  else if (type === 'trade') showScreen('screen-trade-provider');
   else if (type === 'other') alert('Other Facility Review — coming soon!');
 }
 
@@ -2141,6 +2255,233 @@ function nextIF(key, value, nextScreen) {
 function saveAndGo(key, value, nextScreen) {
   state[key] = value;
   showScreen(nextScreen);
+}
+
+// ============================================================
+// TRADE REVIEW FUNCTIONS
+// ============================================================
+function saveTradeProvider() {
+  state.tradeProvider = document.getElementById('trade-provider').value.trim();
+  if (!state.tradeProvider) {
+    alert('Please enter your trade finance provider');
+    return;
+  }
+  showScreen('screen-trade-duration');
+}
+
+function saveTradeDuration() {
+  state.tradeDuration = document.getElementById('trade-duration').value.trim();
+  if (!state.tradeDuration) {
+    alert('Please enter how long you have had your facility');
+    return;
+  }
+  showScreen('screen-trade-limit');
+}
+
+function saveTradeLimit() {
+  state.tradeLimit = document.getElementById('trade-limit').value.trim();
+  if (!state.tradeLimit) {
+    alert('Please enter your facility limit');
+    return;
+  }
+  showScreen('screen-trade-rates');
+}
+
+function saveTradeRates() {
+  state.tradeRates = document.getElementById('trade-rates').value.trim();
+  if (!state.tradeRates) {
+    alert('Please enter your current rates or fees');
+    return;
+  }
+  showScreen('screen-trade-reaching');
+}
+
+function tradeSelectAndGo(key, value, btn, optsId, nextScreen) {
+  document.querySelectorAll('#' + optsId + ' .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state[key] = value;
+  showScreen(nextScreen);
+}
+
+function selectTradeBarrier(value, btn) {
+  state.tradeBarrier = value;
+  document.querySelectorAll('#trade-barriers-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('trade-barrier-detail').style.display = value === 'yes' ? 'block' : 'none';
+  document.getElementById('trade-barriers-submit').style.display = 'block';
+}
+
+// ============================================================
+// ASSET REVIEW FUNCTIONS
+// ============================================================
+function saveAssetProvider() {
+  state.assetProvider = document.getElementById('asset-provider').value.trim();
+  if (!state.assetProvider) {
+    alert('Please enter your asset finance provider');
+    return;
+  }
+  showScreen('screen-asset-type');
+}
+
+function saveAssetRemaining() {
+  state.assetRemaining = document.getElementById('asset-remaining').value.trim();
+  if (!state.assetRemaining) {
+    alert('Please enter how long is remaining on your agreement');
+    return;
+  }
+  showScreen('screen-asset-outstanding');
+}
+
+function saveAssetOutstanding() {
+  state.assetOutstanding = document.getElementById('asset-outstanding').value.trim();
+  if (!state.assetOutstanding) {
+    alert('Please enter the outstanding amount');
+    return;
+  }
+  showScreen('screen-asset-repayments');
+}
+
+function saveAssetRepayments() {
+  state.assetRepayments = document.getElementById('asset-repayments').value.trim();
+  if (!state.assetRepayments) {
+    alert('Please enter your monthly repayments');
+    return;
+  }
+  showScreen('screen-asset-value-change');
+}
+
+function assetSelectAndGo(key, value, btn, optsId, nextScreen) {
+  document.querySelectorAll('#' + optsId + ' .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state[key] = value;
+  showScreen(nextScreen);
+}
+
+function selectAssetBarrier(value, btn) {
+  state.assetBarrier = value;
+  document.querySelectorAll('#asset-barriers-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('asset-barrier-detail').style.display = value === 'yes' ? 'block' : 'none';
+  document.getElementById('asset-barriers-submit').style.display = 'block';
+}
+
+async function submitAssetReview() {
+  state.assetBarrierDetails = document.getElementById('asset-barrier-details').value.trim();
+  showLoadingScreen(async () => {
+    showScreen('screen-asset-loading');
+
+    const prompt = `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Asset Finance Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
+
+Business owner: ${state.name}
+Business: ${state.business}
+Asset finance provider: ${state.assetProvider || 'Not provided'}
+Asset type: ${state.assetType || 'Not provided'}
+Time remaining on agreement: ${state.assetRemaining || 'Not provided'}
+Outstanding amount: ${state.assetOutstanding || 'Not provided'}
+Monthly repayments: ${state.assetRepayments || 'Not provided'}
+Asset value/usage change: ${state.assetValueChange || 'Not provided'}
+Upgrade plans: ${state.assetUpgrade || 'Not provided'}
+Barriers: ${state.assetBarrier === 'yes' ? state.assetBarrierDetails || 'Yes — no details' : 'None'}
+Annual turnover: ${state.turnover}
+Property ownership: ${state.propertyOwnership}
+
+Write a warm, plain English summary (3-4 sentences) about their asset finance situation.
+CRITICAL RULES: No provider names. No specific replacement rates. Be warm and personal. Suggest there may be room for improvement if terms look unfavorable. End with "Nicole will be in touch within a few hours". Under 120 words. No bullet points.`;
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+      });
+      const data = await response.json();
+      const summary = data.content?.[0]?.text || `Thank you for completing your Asset Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current asset finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
+      document.getElementById('asset-results-name').textContent = `Here's what we found for you, ${state.name}`;
+      document.getElementById('asset-ai-summary').textContent = summary;
+      document.getElementById('asset-nicole-message').textContent = `I've received your Asset Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+      sendAssetNotification(summary);
+    } catch(e) {
+      const summary = `Thank you for completing your Asset Finance Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what's possible for ${state.business}.`;
+      document.getElementById('asset-results-name').textContent = `Here's what we found for you, ${state.name}`;
+      document.getElementById('asset-ai-summary').textContent = summary;
+      document.getElementById('asset-nicole-message').textContent = `I've received your Asset Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+      sendAssetNotification(summary);
+    }
+  });
+}
+
+async function sendAssetNotification(summary) {
+  const templateParams = {
+    name: state.name,
+    business_name: state.business,
+    email: state.email,
+    phone: state.phone,
+    company_number: 'N/A',
+    module: 'Asset Finance Review',
+    matched_products: `Provider: ${state.assetProvider} | Asset Type: ${state.assetType} | Remaining: ${state.assetRemaining} | Outstanding: ${state.assetOutstanding} | Repayments: ${state.assetRepayments} | Value Change: ${state.assetValueChange} | Upgrade: ${state.assetUpgrade} | Barriers: ${state.assetBarrier}`,
+    barriers: state.assetBarrier === 'yes' ? state.assetBarrierDetails : 'N/A',
+    summary: summary
+  };
+  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+}
+
+async function submitTradeReview() {
+  state.tradeBarrierDetails = document.getElementById('trade-barrier-details').value.trim();
+  showLoadingScreen(async () => {
+    showScreen('screen-trade-loading');
+
+    const prompt = `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Trade Finance Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
+
+Business owner: ${state.name}
+Business: ${state.business}
+Trade finance provider: ${state.tradeProvider || 'Not provided'}
+Facility duration: ${state.tradeDuration || 'Not provided'}
+Facility limit: ${state.tradeLimit || 'Not provided'}
+Current rates/fees: ${state.tradeRates || 'Not provided'}
+Reaching limit: ${state.tradeReaching || 'Not provided'}
+Business growth: ${state.tradeGrowth || 'Not provided'}
+Barriers: ${state.tradeBarrier === 'yes' ? state.tradeBarrierDetails || 'Yes — no details' : 'None'}
+Annual turnover: ${state.turnover}
+Property ownership: ${state.propertyOwnership}
+
+Write a warm, plain English summary (3-4 sentences) about their trade finance situation.
+CRITICAL RULES: No provider names. No specific replacement rates. Be warm and personal. Suggest there may be room for improvement if terms look unfavorable. End with "Nicole will be in touch within a few hours". Under 120 words. No bullet points.`;
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+      });
+      const data = await response.json();
+      const summary = data.content?.[0]?.text || `Thank you for completing your Trade Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current trade finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
+      document.getElementById('trade-results-name').textContent = `Here's what we found for you, ${state.name}`;
+      document.getElementById('trade-ai-summary').textContent = summary;
+      document.getElementById('trade-nicole-message').textContent = `I've received your Trade Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+      sendTradeNotification(summary);
+    } catch(e) {
+      const summary = `Thank you for completing your Trade Finance Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what's possible for ${state.business}.`;
+      document.getElementById('trade-results-name').textContent = `Here's what we found for you, ${state.name}`;
+      document.getElementById('trade-ai-summary').textContent = summary;
+      document.getElementById('trade-nicole-message').textContent = `I've received your Trade Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+      sendTradeNotification(summary);
+    }
+  });
+}
+
+async function sendTradeNotification(summary) {
+  const templateParams = {
+    name: state.name,
+    business_name: state.business,
+    email: state.email,
+    phone: state.phone,
+    company_number: 'N/A',
+    module: 'Trade Finance Review',
+    matched_products: `Provider: ${state.tradeProvider} | Duration: ${state.tradeDuration} | Limit: ${state.tradeLimit} | Rates: ${state.tradeRates} | Reaching: ${state.tradeReaching} | Growth: ${state.tradeGrowth} | Barriers: ${state.tradeBarrier}`,
+    barriers: state.tradeBarrier === 'yes' ? state.tradeBarrierDetails : 'N/A',
+    summary: summary
+  };
+  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 function saveIFPathA() {
