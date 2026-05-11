@@ -823,6 +823,20 @@
     font-weight: 300;
   }
 
+  .nicole-phone {
+    font-size: 13px;
+    opacity: 0.85;
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
+
+  .nicole-email {
+    font-size: 12px;
+    opacity: 0.75;
+    margin-bottom: 8px;
+    font-weight: 300;
+  }
+
   .nicole-message {
     font-size: 13px;
     opacity: 0.9;
@@ -1269,10 +1283,12 @@
     </div>
 
     <div class="nicole-card">
-      <div class="nicole-photo-placeholder" id="nicole-placeholder">—</div>
+      <img id="nicole-photo" class="nicole-photo" alt="Nicole Bertolissi" />
       <div class="nicole-info">
         <div class="nicole-name">Nicole Bertolissi</div>
         <div class="nicole-role">Direct Sales Executive, Fiskal</div>
+        <div class="nicole-phone">07946 074 268</div>
+        <div class="nicole-email">nicole@fiskal.co.uk</div>
         <div class="nicole-message" id="nicole-message">I've received your Discovery and will be in touch within a few hours.</div>
       </div>
     </div>
@@ -1851,6 +1867,7 @@ function displayResults(summary, matchedProducts) {
 
   showScreen('results');
   sendNotification(summary, matchedProducts);
+  loadNicolePhoto();
 }
 
 // ============================================================
@@ -1899,13 +1916,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function loadNicolePhoto() {
-  // In production this would be base64 embedded
-  // For now we use a style fallback
-  const img = document.getElementById('nicole-photo');
-  img.onerror = () => {
-    img.style.display = 'none';
-    document.getElementById('nicole-placeholder').style.display = 'flex';
+  const img = document.getElementById("nicole-photo");
+
+  if (!img) {
+    console.warn("Nicole photo element not found on this page");
+    return;
+  }
+
+  img.onerror = function () {
+    console.warn("Nicole photo failed to load");
+    img.style.display = "none";
   };
+
+  img.src = "https://media.licdn.com/dms/image/C4E03AQG3z0B4NwLUMg/profile-displayphoto-shrink_200_200/0/1517726614115?e=2147483647&v=beta&t=NAEaa5T7wNFllXthRVOx7hXqZh2bLoWcPOAyChWzcnY";
 }
 
 // ---- Load profile from onboarding ----
