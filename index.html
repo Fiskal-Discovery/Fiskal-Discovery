@@ -1625,7 +1625,7 @@
     </div>
 
     <div class="nicole-card">
-      <img src="nicole.jpg" alt="Nicole Bertolissi" class="nicole-photo" id="nicole-photo" onerror="this.style.display='none';document.getElementById('nicole-fallback').style.display='flex'">
+      <img src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" class="nicole-photo" id="nicole-photo" onerror="this.style.display='none';document.getElementById('nicole-fallback').style.display='flex'">
       <div class="nicole-photo-placeholder" id="nicole-fallback" style="display:none">NB</div>
       <div class="nicole-info">
         <div class="nicole-name">Nicole Bertolissi</div>
@@ -2057,29 +2057,9 @@ function submitBarriers() {
 // ============================================================
 // AI RESULTS GENERATION
 // ============================================================
-async function generateResults() {
+function generateResults() {
   const matchedProducts = getMatchedProducts();
-  const answersText = buildAnswersSummary();
-
-  const prompt = buildAIPrompt(answersText, matchedProducts);
-
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-
-    const data = await response.json();
-    const summary = data.content?.[0]?.text || getFallbackSummary(matchedProducts);
-    displayResults(summary, matchedProducts);
-  } catch (e) {
-    displayResults(getFallbackSummary(matchedProducts), matchedProducts);
-  }
+  displayResults(getFallbackSummary(matchedProducts), matchedProducts);
 }
 
 function buildAIPrompt(answersText, matchedProducts) {

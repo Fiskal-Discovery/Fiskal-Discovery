@@ -570,13 +570,34 @@
     color: white;
   }
 
-  .nicole-photo {
-    width: 60px;
-    height: 60px;
+  .nicole-photo-wrap {
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--blue);
+    overflow: hidden;
     flex-shrink: 0;
+    border: 2px solid var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .nicole-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .nicole-photo-fallback {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    background: rgba(255,255,255,0.12);
   }
 
   .nicole-info { flex: 1; }
@@ -1605,8 +1626,8 @@
       <div id="files-list"></div>
     </div>
     <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display:none" onchange="handleUpload(this)">
-    <button class="btn-primary" onclick="submitReview()">Submit my FX Review →</button>
-    <button class="btn-secondary" onclick="submitReview()">Skip — no report to upload</button>
+    <button class="btn-primary" onclick="submitFXReview()">Submit my FX Review →</button>
+    <button class="btn-secondary" onclick="submitFXReview()">Skip — no report to upload</button>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-fx-goals')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
@@ -1846,7 +1867,10 @@
     </div>
 
     <div class="nicole-card">
-      <div class="nicole-photo-placeholder" id="nicole-placeholder">—</div>
+      <div class="nicole-photo-wrap">
+        <img class="nicole-photo" alt="Nicole Bertolissi">
+        <div class="nicole-photo-fallback">NB</div>
+      </div>
       <div class="nicole-info">
         <div class="nicole-name">Nicole Bertolissi</div>
         <div class="nicole-role">Direct Sales Executive, Fiskal</div>
@@ -2172,7 +2196,10 @@
     </div>
 
     <div class="nicole-card">
-      <div class="nicole-photo-placeholder" id="nicole-placeholder">—</div>
+      <div class="nicole-photo-wrap">
+        <img class="nicole-photo" alt="Nicole Bertolissi">
+        <div class="nicole-photo-fallback">NB</div>
+      </div>
       <div class="nicole-info">
         <div class="nicole-name">Nicole Bertolissi</div>
         <div class="nicole-role">Direct Sales Executive, Fiskal</div>
@@ -2215,7 +2242,10 @@
     </div>
 
     <div class="nicole-card">
-      <div class="nicole-photo-placeholder" id="nicole-placeholder">—</div>
+      <div class="nicole-photo-wrap">
+        <img class="nicole-photo" alt="Nicole Bertolissi">
+        <div class="nicole-photo-fallback">NB</div>
+      </div>
       <div class="nicole-info">
         <div class="nicole-name">Nicole Bertolissi</div>
         <div class="nicole-role">Direct Sales Executive, Fiskal</div>
@@ -2266,7 +2296,10 @@
     </div>
 
     <div class="nicole-card">
-      <div class="nicole-photo-placeholder" id="nicole-placeholder">—</div>
+      <div class="nicole-photo-wrap">
+        <img class="nicole-photo" alt="Nicole Bertolissi">
+        <div class="nicole-photo-fallback">NB</div>
+      </div>
       <div class="nicole-info">
         <div class="nicole-name">Nicole Bertolissi</div>
         <div class="nicole-role">Direct Sales Executive, Fiskal</div>
@@ -2492,28 +2525,14 @@ function saveOtherCost() {
   showScreen('screen-other-provider');
 }
 
-async function submitOtherReview() {
+function submitOtherReview() {
   state.otherFundingProvider = document.getElementById('other-provider').value.trim();
   if (!state.otherFundingProvider) {
     alert('Please enter the provider');
     return;
   }
-  showDiscoveryThinkingScreen(async () => {
-    const prompt = `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Other Funding Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
-
-Business owner: ${state.name}
-Business: ${state.business}
-Other funding type: ${state.otherFundingType}
-Amount: ${state.otherFundingAmount}
-Cost: ${state.otherFundingCost}
-Provider: ${state.otherFundingProvider}
-Annual turnover: ${state.turnover}
-Property ownership: ${state.propertyOwnership}
-
-Write a warm, plain English summary (3-4 sentences) about their other funding situation.
-CRITICAL RULES: No specific provider names. Warm and personal. If they use their bank, gently note that banks typically charge more than specialists. If unsure of costs, acknowledge this is very common. End with "Nicole will be in touch within a few hours to talk through your options". Under 120 words. No bullet points.`;
-
-    const summary = await generateAIResponse(prompt);
+  showDiscoveryThinkingScreen(function() {
+    const summary = `Thank you for completing your Other Funding Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what options might be available for ${state.business}.`;
     displayOtherResults(summary);
   });
 }
@@ -2522,7 +2541,7 @@ function displayOtherResults(summary) {
   document.getElementById('ai-summary-text').textContent = summary;
   const firstName = state.name.split(' ')[0];
   document.getElementById('nicole-message').textContent = `I've received your Other Funding Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${state.business}.`;
-  showScreen('screen-trade-loading');
+  showScreen('screen-loading');
   console.log("Showing discovery results");
   sendOtherNotification(summary);
   loadNicolePhoto();
@@ -2673,45 +2692,13 @@ function selectAssetBarrier(value, btn) {
 async function submitAssetReview() {
   state.assetBarrierDetails = document.getElementById('asset-barrier-details').value.trim();
   showDiscoveryThinkingScreen(async () => {
-    const prompt = `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Asset Finance Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
-
-Business owner: ${state.name}
-Business: ${state.business}
-Asset finance provider: ${state.assetProvider || 'Not provided'}
-Asset type: ${state.assetType || 'Not provided'}
-Time remaining on agreement: ${state.assetRemaining || 'Not provided'}
-Outstanding amount: ${state.assetOutstanding || 'Not provided'}
-Monthly repayments: ${state.assetRepayments || 'Not provided'}
-Asset value/usage change: ${state.assetValueChange || 'Not provided'}
-Upgrade plans: ${state.assetUpgrade || 'Not provided'}
-Barriers: ${state.assetBarrier === 'yes' ? state.assetBarrierDetails || 'Yes — no details' : 'None'}
-Annual turnover: ${state.turnover}
-Property ownership: ${state.propertyOwnership}
-
-Write a warm, plain English summary (3-4 sentences) about their asset finance situation.
-CRITICAL RULES: No provider names. No specific replacement rates. Be warm and personal. Suggest there may be room for improvement if terms look unfavorable. End with "Nicole will be in touch within a few hours". Under 120 words. No bullet points.`;
-
-    try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
-      });
-      const data = await response.json();
-      const summary = data.content?.[0]?.text || `Thank you for completing your Asset Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current asset finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
-      document.getElementById('asset-results-name').textContent = `Here's what we found for you, ${state.name}`;
-      document.getElementById('asset-ai-summary').textContent = summary;
-      document.getElementById('asset-nicole-message').textContent = `I've received your Asset Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
-      console.log("Showing discovery results");
-      sendAssetNotification(summary);
-    } catch(e) {
-      const summary = `Thank you for completing your Asset Finance Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what's possible for ${state.business}.`;
-      document.getElementById('asset-results-name').textContent = `Here's what we found for you, ${state.name}`;
-      document.getElementById('asset-ai-summary').textContent = summary;
-      document.getElementById('asset-nicole-message').textContent = `I've received your Asset Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
-      console.log("Showing discovery results");
-      sendAssetNotification(summary);
-    }
+    const summary = `Thank you for completing your Asset Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current asset finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
+    document.getElementById('asset-results-name').textContent = `Here's what we found for you, ${state.name}`;
+    document.getElementById('asset-ai-summary').textContent = summary;
+    document.getElementById('asset-nicole-message').textContent = `I've received your Asset Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+    showScreen('screen-asset-loading');
+    loadNicolePhoto();
+    sendAssetNotification(summary);
   });
 }
 
@@ -2733,43 +2720,13 @@ async function sendAssetNotification(summary) {
 async function submitTradeReview() {
   state.tradeBarrierDetails = document.getElementById('trade-barrier-details').value.trim();
   showDiscoveryThinkingScreen(async () => {
-    const prompt = `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Trade Finance Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
-
-Business owner: ${state.name}
-Business: ${state.business}
-Trade finance provider: ${state.tradeProvider || 'Not provided'}
-Facility duration: ${state.tradeDuration || 'Not provided'}
-Facility limit: ${state.tradeLimit || 'Not provided'}
-Current rates/fees: ${state.tradeRates || 'Not provided'}
-Reaching limit: ${state.tradeReaching || 'Not provided'}
-Business growth: ${state.tradeGrowth || 'Not provided'}
-Barriers: ${state.tradeBarrier === 'yes' ? state.tradeBarrierDetails || 'Yes — no details' : 'None'}
-Annual turnover: ${state.turnover}
-Property ownership: ${state.propertyOwnership}
-
-Write a warm, plain English summary (3-4 sentences) about their trade finance situation.
-CRITICAL RULES: No provider names. No specific replacement rates. Be warm and personal. Suggest there may be room for improvement if terms look unfavorable. End with "Nicole will be in touch within a few hours". Under 120 words. No bullet points.`;
-
-    try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
-      });
-      const data = await response.json();
-      const summary = data.content?.[0]?.text || `Thank you for completing your Trade Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current trade finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
-      document.getElementById('trade-results-name').textContent = `Here's what we found for you, ${state.name}`;
-      document.getElementById('trade-ai-summary').textContent = summary;
-      document.getElementById('trade-nicole-message').textContent = `I've received your Trade Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
-      console.log("Showing discovery results");
-      sendTradeNotification(summary);
-    } catch(e) {
-      const summary = `Thank you for completing your Trade Finance Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what's possible for ${state.business}.`;
-      document.getElementById('trade-results-name').textContent = `Here's what we found for you, ${state.name}`;
-      document.getElementById('trade-ai-summary').textContent = summary;
-      document.getElementById('trade-nicole-message').textContent = `I've received your Trade Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
-      sendTradeNotification(summary);
-    }
+    const summary = `Thank you for completing your Trade Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current trade finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
+    document.getElementById('trade-results-name').textContent = `Here's what we found for you, ${state.name}`;
+    document.getElementById('trade-ai-summary').textContent = summary;
+    document.getElementById('trade-nicole-message').textContent = `I've received your Trade Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+    showScreen('screen-trade-loading');
+    loadNicolePhoto();
+    sendTradeNotification(summary);
   });
 }
 
@@ -2847,24 +2804,14 @@ function selectBarrier(value, btn) {
   document.getElementById('barrier-detail-section').style.display = value === 'yes' ? 'block' : 'none';
   document.getElementById('barriers-submit-btn').style.display = 'block';
 }
-async function generateResults() {
-  const prompt = buildPrompt();
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    const data = await response.json();
-    const summary = data.content?.[0]?.text || getFallbackSummary();
-    displayResults(summary);
-  } catch(e) {
-    displayResults(getFallbackSummary());
-  }
+function generateResults() {
+  displayResults(getFallbackSummary());
+}
+
+function submitReview() {
+  var bd = document.getElementById('barrier-details');
+  if (bd) state.barrierDetails = bd.value.trim();
+  showDiscoveryThinkingScreen(function() { generateResults(); });
 }
 
 function buildPrompt() {
@@ -2919,7 +2866,8 @@ function displayResults(summary) {
   document.getElementById('results-name').textContent = `Here's what we found for you, ${name}`;
   document.getElementById('ai-summary-text').textContent = summary;
   document.getElementById('nicole-message').textContent = `I've received your Facility Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${business}.`;
-  showScreen('screen-loan-results');
+  showScreen('screen-loading');
+  loadNicolePhoto();
   console.log("Showing discovery results");
   sendNotification(summary);
 }
@@ -3042,43 +2990,9 @@ function selectLoanBarrier(value, btn) {
 async function submitLoanReview() {
   state.loanBarrierDetails = document.getElementById('loan-barrier-details').value.trim();
   showDiscoveryThinkingScreen(async () => {
-    const prompt = `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Loan Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
-
-Business owner: ${state.name}
-Business: ${state.business}
-Loan provider: ${state.loanLender || 'Not provided'}
-Loan type: ${state.loanType || 'Not provided'}
-Original amount: ${state.loanOriginal || 'Not provided'}
-Outstanding: ${state.loanOutstanding || 'Not provided'}
-Interest rate: ${state.loanRate || 'Not provided'}
-Rate type: ${state.loanRateType || 'Not provided'}
-Monthly repayment: ${state.loanRepayment || 'Not provided'}
-Term remaining: ${state.loanTerm || 'Not provided'}
-Early repayment charges: ${state.loanERC || 'Not provided'}
-Monthly cost: ${state.loanMonthlyCost || 'Not provided'}
-Priorities: ${(state.loanPriorities || []).join(', ') || 'Not specified'}
-Barriers: ${state.loanBarrier === 'yes' ? state.loanBarrierDetails || 'Yes — no details' : 'None'}
-Annual turnover: ${state.turnover}
-Property ownership: ${state.propertyOwnership}
-
-Write a warm, plain English summary (3-4 sentences) about their business loan.
-CRITICAL RULES: No lender names. No specific replacement rates. Be warm and personal. Suggest there may be room for improvement if rates look high. End with "Nicole will be in touch within a few hours". Under 120 words. No bullet points.`;
-
-    try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
-      });
-      const data = await response.json();
-      const summary = data.content?.[0]?.text || `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
-      displayResults(summary);
-      sendLoanNotification(summary);
-    } catch(e) {
-      const summary = `Thank you for completing your Loan Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what's possible for ${state.business}.`;
-      displayResults(summary);
-      sendLoanNotification(summary);
-    }
+    const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
+    displayResults(summary);
+    sendLoanNotification(summary);
   });
 }
 
@@ -3143,48 +3057,30 @@ function fxHandleUpload(input) {
   }
 }
 
-async function submitFXReview() {
-  showDiscoveryThinkingScreen(async () => {
-    const prompt = `You are writing a warm, personal FX review summary for a business owner who has just completed Fiskal Discovery.
-
-Business owner: ${state.name}
-Business: ${state.business}
-Current FX provider: ${state.fxProvider}
-Transaction type: ${state.fxTransactionType}
-Currencies: ${state.fxCurrencies}
-Awareness of charges: ${state.fxAwareness}
-Online platforms: ${(state.fxPlatforms || []).join(', ') || 'None'}
-Goals: ${(state.fxGoals || []).join(', ') || 'Not specified'}
-
-Write a warm, plain English summary (3-4 sentences) for ${state.name} about their FX situation.
-CRITICAL RULES: No specific provider names. Warm and personal. If they use their bank, gently note that banks typically charge more than specialists. If unaware of charges, acknowledge this is very common. End with "Nicole will be in touch within a few hours to talk through your options". Under 120 words. No bullet points.`;
-
-    let summary;
-    try {
-      const response = await fetch('/.netlify/functions/claude', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
-      });
-      const data = await response.json();
-      summary = data.content?.[0]?.text || `Thank you for completing your FX Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what savings might be possible for ${state.business}.`;
-    } catch(e) {
-      summary = `Thank you for completing your FX Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what savings might be possible for ${state.business}.`;
-    }
-
+function submitFXReview() {
+  showDiscoveryThinkingScreen(function() {
+    const summary = `Thank you for completing your FX Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what savings might be possible for ${state.business}.`;
     document.getElementById('fx-results-name').textContent = `Here's what we found for you, ${state.name}`;
     document.getElementById('fx-ai-summary').textContent = summary;
     document.getElementById('fx-nicole-message').textContent = `I've received your FX Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
-    showScreen('screen-fx-results');
-    console.log("Showing discovery results");
-
+    showScreen('screen-fx-loading');
+    loadNicolePhoto();
     const templateParams = {
       name: state.name, business_name: state.business, email: state.email, phone: state.phone,
       company_number: 'N/A', module: 'FX Review',
       matched_products: `Provider: ${state.fxProvider} | Transactions: ${state.fxTransactionType} | Currencies: ${state.fxCurrencies} | Awareness: ${state.fxAwareness} | Platforms: ${(state.fxPlatforms || []).join(', ') || 'None'} | Goals: ${(state.fxGoals || []).join(', ') || 'N/A'}`,
       barriers: 'N/A', summary: summary
     };
-    try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+    try { emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  });
+}
+
+function loadNicolePhoto() {
+  document.querySelectorAll('.nicole-photo').forEach(function(img) {
+    if (img.getAttribute('src')) return;
+    img.onload = function() { img.style.display = 'block'; var f = img.parentNode.querySelector('.nicole-photo-fallback'); if (f) f.style.display = 'none'; };
+    img.onerror = function() { img.style.display = 'none'; var f = img.parentNode.querySelector('.nicole-photo-fallback'); if (f) f.style.display = 'flex'; };
+    img.src = 'assets/nicole-bertolissi.jpg';
   });
 }
 
