@@ -102,13 +102,6 @@
     50% { opacity: 0; }
   }
 
-  /* Typing indicator */
-  .ob-typing {
-    display: flex; gap: 5px; align-items: center;
-    width: fit-content; margin: 0 auto;
-    opacity: 0.5;
-  }
-
 
   /* Input area */
   .ob-input-area {
@@ -1960,7 +1953,6 @@ const clientFields = [
 
 let obFieldIndex = 0;
 let obCurrentFields = [];
-let obTypingTimer = null;
 
 function getFirstName(fullName) {
   return (fullName || '').split(' ')[0] || '';
@@ -2088,25 +2080,8 @@ function obAskNextField() {
   obShowNavButtons(obFieldIndex > 0, true);
   const field = obCurrentFields[obFieldIndex];
   const prompt = interpolate(field.prompt, obState.profile);
-  obShowTyping(() => {
-    obAddFiskalBubble(prompt);
-    showInput(field.key);
-  });
-}
-
-function obShowTyping(cb) {
-  const chat = document.getElementById('ob-chat');
-  const typing = document.createElement('div');
-  typing.className = 'ob-typing';
-  typing.id = 'ob-typing-indicator';
-  typing.innerHTML = '';
-  chat.appendChild(typing);
-  scrollChat();
-  clearTimeout(obTypingTimer);
-  obTypingTimer = setTimeout(() => {
-    typing.remove();
-    cb();
-  }, 900);
+  obAddFiskalBubble(prompt);
+  showInput(field.key);
 }
 
 let obBubbleCount = 0;
@@ -2121,35 +2096,14 @@ function obAddFiskalBubble(html, onDone) {
   obBubbleCount++;
   const div = document.createElement('div');
   div.className = 'ob-bubble fiskal';
+  div.innerHTML = html;
   chat.appendChild(div);
-  // Strip HTML tags for typewriter - just use plain text
-  const tmp = document.createElement('div');
-  tmp.innerHTML = html;
-  const text = tmp.textContent || tmp.innerText || '';
-  typeWriter(div, text, 32, onDone);
+  scrollChat();
+  if (onDone) onDone();
 }
 
 function obResetBubbleCount() {
   obBubbleCount = 0;
-}
-
-function typeWriter(el, text, speed, onDone) {
-  let i = 0;
-  // Add cursor
-  const cursor = document.createElement('span');
-  cursor.className = 'ob-cursor';
-  el.appendChild(cursor);
-  function tick() {
-    if (i < text.length) {
-      cursor.before(document.createTextNode(text[i]));
-      i++;
-      setTimeout(tick, speed);
-    } else {
-      cursor.remove();
-      if (onDone) onDone();
-    }
-  }
-  tick();
 }
 
 function obAddUserBubble(text, onDone) {
@@ -2265,9 +2219,8 @@ function obComplete() {
     ? `Perfect — thanks ${getFirstName(p.intrName)}! Let's find the right funding for ${p.businessName} 🚀`
     : `Perfect, ${firstName}! Let's find the right funding for ${p.businessName || 'your business'} 🚀`;
 
-  obShowTyping(() => {
-    obAddFiskalBubble(msg);
-    setTimeout(() => {
+  obAddFiskalBubble(msg);
+  setTimeout(() => {
       // Save profile
       const profile = {
         name: p.name,
@@ -2289,7 +2242,6 @@ function obComplete() {
       showProfileBadge(profile);
       setTimeout(() => hideOnboarding(), 1200);
     }, 1400);
-  });
 }
 
 function applyProfileToApp(profile) {
