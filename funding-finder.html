@@ -966,6 +966,49 @@
     overflow: hidden;
   }
 
+  .loading-message.thinking-phrase {
+    font-size: clamp(1.1rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: center;
+    color: #ffffff;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 500ms ease, transform 500ms ease;
+  }
+
+  .loading-message.thinking-phrase.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .loading-message.thinking-phrase.shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255,255,255,0.45) 0%,
+      #ffffff 35%,
+      #FFE600 50%,
+      #ffffff 65%,
+      rgba(255,255,255,0.45) 100%
+    );
+    background-size: 220% auto;
+    background-position: 220% center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: thinkingShimmer 1.8s ease-in-out forwards;
+    text-shadow: 0 0 18px rgba(126, 9, 165, 0.35);
+  }
+
+  @keyframes thinkingShimmer {
+    0% {
+      background-position: 220% center;
+    }
+    100% {
+      background-position: -220% center;
+    }
+  }
+
   .loading-message::before {
     content: '';
     position: absolute;
@@ -1408,35 +1451,40 @@ function showDiscoveryThinkingScreen(callback) {
   const loadingScreen = document.getElementById('screen-submission-loading');
   const messageEl = document.getElementById('loading-message');
   let messageCount = 0;
-  const messageInterval = 2500; // 2.5 seconds per message
-  const fadeDuration = 500;
+  const fadeInDuration = 500;
+  const visibleDuration = 1800;
+  const fadeOutDuration = 500;
+  const gapDuration = 200;
 
   loadingScreen.classList.add('active');
-  messageEl.textContent = getRandomMessage();
-  messageEl.classList.remove('fade-out');
-  messageEl.classList.add('fade-in');
-
-  const interval = setInterval(() => {
-    messageCount++;
+  messageEl.classList.add('thinking-phrase');
+  
+  function showPhrase() {
     if (messageCount >= 3) {
-      clearInterval(interval);
       setTimeout(() => {
         loadingScreen.classList.remove('active');
+        messageEl.classList.remove('thinking-phrase', 'active', 'shimmer');
         console.log("Thinking screen finished");
         if (callback) callback();
-      }, fadeDuration);
+      }, fadeOutDuration);
       return;
     }
 
-    messageEl.classList.remove('fade-in');
-    messageEl.classList.add('fade-out');
+    messageEl.textContent = getRandomMessage();
+    messageEl.classList.remove('active', 'shimmer');
+    void messageEl.offsetWidth; // Force reflow
+    messageEl.classList.add('active', 'shimmer');
+
+    messageCount++;
 
     setTimeout(() => {
-      messageEl.textContent = getRandomMessage();
-      messageEl.classList.remove('fade-out');
-      messageEl.classList.add('fade-in');
-    }, fadeDuration);
-  }, messageInterval);
+      messageEl.classList.remove('shimmer');
+      messageEl.classList.remove('active');
+      setTimeout(showPhrase, gapDuration);
+    }, visibleDuration);
+  }
+
+  showPhrase();
 }
 
 // ============================================================
