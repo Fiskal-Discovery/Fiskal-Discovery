@@ -2239,6 +2239,13 @@ function goToReviewSelection() {
   
   sendInitialInfoNotification();
   
+  // If only one facility type selected, skip chooser screen and start review directly
+  if (state.facilityTypes.length === 1) {
+    selectReviewType(state.facilityTypes[0]);
+    return;
+  }
+  
+  // If multiple facility types selected, show chooser screen
   const container = document.getElementById('review-selection-options');
   container.innerHTML = '';
   
