@@ -901,6 +901,32 @@
     }
   }
 
+  .visit-linkedin-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: white;
+    color: #6200EA;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 22px rgba(255,255,255,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .visit-linkedin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(255,255,255,0.25);
+  }
+
+  @media (max-width: 600px) {
+    .visit-linkedin-btn {
+      width: 100%;
+    }
+  }
+
   .call-btn {
     display: flex;
     align-items: center;
@@ -1420,6 +1446,7 @@
         <div class="nicole-message" id="nicole-message">I've received your Discovery and will be in touch within a few hours.</div>
         <p class="nicole-website-note">In the meantime, feel free to explore the Fiskal website to learn more about who we are and how we can help.</p>
         <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Visit the Fiskal Website</a>
+        <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="visit-linkedin-btn">Fiskal on LinkedIn</a>
       </div>
     </div>
 
