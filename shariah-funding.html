@@ -262,6 +262,28 @@
 
   .btn-back:hover { color: var(--indigo); }
 
+  .back-btn {
+    background: none;
+    border: none;
+    color: var(--light-text);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s ease;
+  }
+  .back-btn:hover { color: var(--indigo); }
+
+  .nav-row {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 4px;
+  }
+
   /* Loading Screen */
   .loading-screen {
     display: none;
@@ -580,14 +602,10 @@
 <div class="bg-orb bg-orb-1"></div>
 <div class="bg-orb bg-orb-2"></div>
 
-<div class="logo-corner">
-  <a href="index.html">
-    <img src="https://fiskal.online/wp-content/uploads/2024/09/fiskal-logo.png" alt="Fiskal" class="site-logo">
-  </a>
-</div>
-
 <!-- ====== HOME SCREEN ====== -->
 <div class="screen active" id="screen-home">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
   <div class="brand-header">
     <h1 class="brand-title">Fiskal Discovery</h1>
     <p class="brand-sub">Find out what's possible for your business</p>
@@ -609,6 +627,10 @@
     <button class="intro-cta" onclick="startJourney()">Explore Shariah-Compliant Options</button>
   </div>
 
+  <div class="nav-row" style="padding: 16px 24px;">
+    <button class="back-btn" onclick="window.location.href='index.html'">← Home</button>
+  </div>
+
   <div class="screen-footer">
     <p class="footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539.<br><a href="https://fiskal.online" target="_blank" style="color:inherit;">fiskal.online</a> | All information is treated in confidence.</p>
   </div>
@@ -616,9 +638,12 @@
 
 <!-- ====== QUESTION 1: Purpose ====== -->
 <div class="screen" id="screen-q1">
-  <div class="app-header">
-    <button class="btn-back" onclick="goHome()">← Back</button>
-    <span class="module-badge">Shariah-Compliant Funding</span>
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">Find out what's possible for your business</div>
+    <span class="brand-label">Shariah-Compliant Funding</span>
   </div>
   <div class="progress-bar-wrap">
     <div class="progress-track">
@@ -660,14 +685,21 @@
       </div>
       <button class="btn-primary" onclick="saveOtherPurpose()">Continue</button>
     </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-home')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
   </div>
 </div>
 
 <!-- ====== QUESTION 2: Amount ====== -->
 <div class="screen" id="screen-q2">
-  <div class="app-header">
-    <button class="btn-back" onclick="goBackToQ1()">← Back</button>
-    <span class="module-badge">Shariah-Compliant Funding</span>
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">Find out what's possible for your business</div>
+    <span class="brand-label">Shariah-Compliant Funding</span>
   </div>
   <div class="progress-bar-wrap">
     <div class="progress-track">
@@ -691,14 +723,21 @@
       </button>
     </div>
     <button class="btn-primary" onclick="saveAmount()">Continue</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="goBackToQ1()">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
   </div>
 </div>
 
 <!-- ====== QUESTION 3: Timeline ====== -->
 <div class="screen" id="screen-q3">
-  <div class="app-header">
-    <button class="btn-back" onclick="goBackToQ2()">← Back</button>
-    <span class="module-badge">Shariah-Compliant Funding</span>
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">Find out what's possible for your business</div>
+    <span class="brand-label">Shariah-Compliant Funding</span>
   </div>
   <div class="progress-bar-wrap">
     <div class="progress-track">
@@ -724,11 +763,17 @@
         <span class="answer-emoji">🔍</span> I'm just exploring options
       </button>
     </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="goBackToQ2()">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
   </div>
 </div>
 
 <!-- ====== LOADING SCREEN ====== -->
 <div class="loading-screen" id="screen-loading">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
   <div class="loading-content">
     <div class="loading-spinner"></div>
     <div class="loading-message thinking-phrase" id="thinking-phrase">Thinking...</div>
@@ -737,9 +782,12 @@
 
 <!-- ====== RESULTS SCREEN ====== -->
 <div class="screen" id="screen-results">
-  <div class="app-header">
-    <button class="btn-back" onclick="goHome()">← Back to Home</button>
-    <span class="module-badge">Shariah-Compliant Funding</span>
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">Find out what's possible for your business</div>
+    <span class="brand-label">Shariah-Compliant Funding</span>
   </div>
   <div class="screen-content">
     <div class="results-header">
@@ -764,6 +812,9 @@
       </div>
     </div>
     <div class="screen-footer">
+      <div class="nav-row">
+        <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+      </div>
       <p class="footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539.<br><a href="https://fiskal.online" target="_blank" style="color:inherit;">fiskal.online</a> | All information is treated in confidence.</p>
     </div>
   </div>
@@ -943,8 +994,10 @@ function displayResults() {
   
   showScreen('screen-results');
   
-  // Send notification
-  sendNotification();
+  // Send notification (non-blocking)
+  sendNotification().catch(error => {
+    console.warn('Notification failed, but results already shown:', error);
+  });
 }
 
 // ============================================================
@@ -954,7 +1007,7 @@ async function sendNotification() {
   const purpose = state.otherPurpose || state.purpose;
   const amount = state.amount;
   const timeline = state.timeline;
-  
+
   const notificationData = {
     module: 'shariah-funding',
     purpose: purpose,
@@ -962,19 +1015,19 @@ async function sendNotification() {
     timeline: timeline,
     timestamp: new Date().toISOString()
   };
-  
+
   try {
-    const response = await fetch('https://fiskal-discovery.firebaseio.com/notifications.json', {
+    const response = await fetch('https://cashflow-invaders-default-rtdb.europe-west1.firebasedatabase.app/notifications.json', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(notificationData)
     });
-    
+
     console.log('Notification sent successfully');
   } catch (error) {
-    console.log('Notification failed (Firebase may be unavailable):', error);
+    console.warn('Notification failed (Firebase may be unavailable):', error);
   }
 }
 
