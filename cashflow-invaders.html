@@ -298,101 +298,99 @@ function saveToLocalStorage(entry){
   console.log('Saved to localStorage:', lb);
 }
 
-async function renderLB(){
-  const tb = document.getElementById('leaderboard-body');
+function renderLB() {
+  const tb = document.getElementById("leaderboard-body");
 
-  function renderRows(data) {
-    tb.innerHTML = ''; // Clear tbody before rendering
-    if (!data.length) {
-      tb.innerHTML = '<tr><td colspan="5" style="text-align:center;color:rgba(255,255,255,0.3);padding:14px;font-size:0.38rem">NO SCORES YET — BE FIRST!</td></tr>';
+  function renderRows(rows) {
+    tb.innerHTML = "";
+
+    if (!rows || !rows.length) {
+      tb.innerHTML =
+        '<tr><td colspan="5" style="text-align:center;color:rgba(255,255,255,0.3);padding:14px;font-size:0.38rem">NO SCORES YET — BE FIRST!</td></tr>';
       return;
     }
-    tb.innerHTML = data.map((e,i) => '<tr><td class="rank-col">' + (i+1) + '</td><td>' + (e.name || e.business) + '</td><td>' + (e.company || 'N/A') + '</td><td>£' + e.score + '</td><td>' + e.wave + '</td></tr>').join('');
+
+    tb.innerHTML = rows.map((e, i) =>
+      '<tr>' +
+        '<td class="rank-col">' + (i + 1) + '</td>' +
+        '<td>' + e.name + '</td>' +
+        '<td>' + e.company + '</td>' +
+        '<td>£' + e.score + '</td>' +
+        '<td>' + e.wave + '</td>' +
+      '</tr>'
+    ).join("");
+  }
+
+  function normaliseEntry(entry) {
+    return {
+      name: String(entry.name || entry.business || "ANONYMOUS").toUpperCase().slice(0, 22),
+      company: String(entry.company || entry.businessName || "N/A").toUpperCase().slice(0, 32),
+      score: Number(entry.score) || 0,
+      wave: Number(entry.wave) || 1,
+      timestamp: Number(entry.timestamp) || 0
+    };
+  }
+
+  function makeKey(entry) {
+    return (entry.name + "_" + entry.company)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "");
+  }
+
+  function dedupeAndSort(rawEntries) {
+    const bestByPlayer = {};
+
+    rawEntries
+      .filter(Boolean)
+      .map(normaliseEntry)
+      .forEach(entry => {
+        const key = makeKey(entry);
+        const existing = bestByPlayer[key];
+
+        if (
+          !existing ||
+          entry.score > existing.score ||
+          (entry.score === existing.score && entry.timestamp > existing.timestamp)
+        ) {
+          bestByPlayer[key] = entry;
+        }
+      });
+
+    return Object.values(bestByPlayer)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10);
   }
 
   if (!db) {
-    console.log('renderLB: Using localStorage fallback (db not available)');
-    const lb = getLocalLB();
-    console.log('Retrieved from localStorage (raw):', lb);
-    
-    // Deduplicate by Name + Company, keeping highest score
-    const bestByPlayer = {};
-    
-    lb.forEach(entry => {
-      const key = (entry.name + "_" + entry.company)
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "_")
-        .replace(/^_+|_+$/g, "");
-
-      const existing = bestByPlayer[key];
-
-      if (
-        !existing ||
-        Number(entry.score) > Number(existing.score) ||
-        (
-          Number(entry.score) === Number(existing.score) &&
-          Number(entry.timestamp || 0) > Number(existing.timestamp || 0)
-        )
-      ) {
-        bestByPlayer[key] = entry;
-      }
-    });
-
-    const finalRows = Object.values(bestByPlayer)
-      .sort((a, b) => Number(b.score) - Number(a.score))
-      .slice(0, 10);
-
-    console.log("Final leaderboard rows (localStorage):", finalRows);
-    renderRows(finalRows);
-    return Promise.resolve(finalRows);
+    const localRows = dedupeAndSort(getLocalLB());
+    console.log("FINAL LOCAL ROWS BEING RENDERED:", JSON.stringify(localRows));
+    renderRows(localRows);
+    return Promise.resolve(localRows);
   }
 
-  console.log('renderLB: Fetching from Firebase');
   console.log("READING FROM:", "scores");
-  return db.ref('scores').once('value').then((snapshot)=>{
-    console.log("FULL SNAPSHOT VAL:", snapshot.val());
-    const data = [];
-    snapshot.forEach((child)=>data.push(child.val()));
-    console.log("Raw Firebase scores:", data);
-    
-    // Deduplicate by Name + Company, keeping highest score
-    const bestByPlayer = {};
-    
-    data.forEach(entry => {
-      const key = (entry.name + "_" + entry.company)
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "_")
-        .replace(/^_+|_+$/g, "");
 
-      const existing = bestByPlayer[key];
+  return db.ref("scores").once("value")
+    .then(snapshot => {
+      const snapshotVal = snapshot.val() || {};
+      console.log("FULL SNAPSHOT VAL:", snapshotVal);
 
-      if (
-        !existing ||
-        Number(entry.score) > Number(existing.score) ||
-        (
-          Number(entry.score) === Number(existing.score) &&
-          Number(entry.timestamp || 0) > Number(existing.timestamp || 0)
-        )
-      ) {
-        bestByPlayer[key] = entry;
-      }
+      const rawEntries = Object.values(snapshotVal);
+      console.log("RAW ENTRIES:", rawEntries);
+
+      const finalRows = dedupeAndSort(rawEntries);
+      console.log("FINAL FIREBASE ROWS BEING RENDERED:", JSON.stringify(finalRows));
+
+      renderRows(finalRows);
+      return finalRows;
+    })
+    .catch(err => {
+      console.warn("Firebase renderLB failed, using localStorage fallback", err);
+      const localRows = dedupeAndSort(getLocalLB());
+      renderRows(localRows);
+      return localRows;
     });
-
-    const finalRows = Object.values(bestByPlayer)
-      .sort((a, b) => Number(b.score) - Number(a.score))
-      .slice(0, 10);
-
-    console.log("Deduped leaderboard rows:", finalRows);
-    console.log("FINAL ROWS BEING RENDERED:", JSON.stringify(finalRows));
-    renderRows(finalRows);
-    return finalRows;
-  }).catch((e)=>{
-    console.error('Firebase fetch failed, using localStorage:', e);
-    const lb = getLocalLB();
-    lb.sort((a,b)=>b.score-a.score);
-    renderRows(lb.slice(0,10));
-    return lb;
-  });
 }
 function getAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx}
 function tone(start,end,dur,vol,type){try{const ac=getAudio(),o=ac.createOscillator(),g=ac.createGain();o.type=type||'square';o.connect(g);g.connect(ac.destination);o.frequency.setValueAtTime(start,ac.currentTime);if(end)o.frequency.exponentialRampToValueAtTime(end,ac.currentTime+dur);g.gain.setValueAtTime(vol||.1,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+dur);o.start();o.stop(ac.currentTime+dur)}catch(e){}}
