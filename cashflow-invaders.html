@@ -6,8 +6,8 @@
 <title>Fiskal Discovery: Cashflow Invaders</title>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@1,700&family=Press+Start+2P&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
   // Firebase Configuration
   const firebaseConfig = {
@@ -20,13 +20,29 @@
     appId: "1:224775292240:web:71167c3049cb676c315855",
     measurementId: "G-Y5CXQKG9E0"
   };
-  
-  // Initialize Firebase
+
+  // Initialize Firebase safely ONCE
+  let db = null;
+
   try {
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-  } catch(e) {
-    console.error("Firebase initialization failed:", e);
+    const hasRealConfig =
+      firebaseConfig.apiKey &&
+      firebaseConfig.apiKey !== "PASTE_HERE" &&
+      firebaseConfig.databaseURL &&
+      firebaseConfig.databaseURL !== "PASTE_HERE";
+
+    if (window.firebase && hasRealConfig && !firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    if (window.firebase && firebase.apps.length) {
+      db = firebase.database();
+      console.log("Firebase leaderboard connected");
+    }
+  } catch (err) {
+    console.warn("Firebase init failed, using localStorage fallback", err);
+    db = null;
+  }
 </script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -121,73 +137,87 @@ const TICKS_10=600;
 let audioCtx=null,G=null,rafId=null,paused=false,screenShake=0;
 const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d');
 function titleCase(t){return String(t).toLowerCase().split(' ').map(w=>w?w[0].toUpperCase()+w.slice(1):w).join(' ')}
-async function getLB(){
-  return new Promise((resolve)=>{
-    try{
-      if(typeof firebase!=='undefined'&&firebase.database()){
-        const db=firebase.database();
-        db.ref('scores').orderByChild('score').limitToLast(10).once('value').then((snapshot)=>{
-          if(snapshot.exists()){
-            const scores=[];
-            snapshot.forEach((child)=>{
-              scores.push(child.val())
-            });
-            scores.sort((a,b)=>b.score-a.score);
-            console.log('Retrieved from Firebase:', scores);
-            resolve(scores)
-          }else{
-            console.log('Firebase has no scores');
-            resolve([])
-          }
-        }).catch((e)=>{
-          console.error('Firebase fetch failed, using localStorage:', e);
-          resolve(JSON.parse(localStorage.getItem(LB_KEY))||[])
-        })
-      }else{
-        console.log('Firebase not available, using localStorage');
-        resolve(JSON.parse(localStorage.getItem(LB_KEY))||[])
-      }
-    }catch(e){
-      console.error('getLB error:', e);
-      resolve([])
-    }
-  })
+function getLocalLB() {
+  try {
+    return JSON.parse(localStorage.getItem(LB_KEY)) || [];
+  } catch (e) {
+    return [];
+  }
 }
+
 async function saveLB(biz,score,wave){
   const entry={
     name:(biz||'ANONYMOUS').toUpperCase().slice(0,22),
-    score,
-    wave,
+    score: Number(score) || 0,
+    wave: Number(wave) || 1,
     timestamp:Date.now()
   };
   console.log('Saving to leaderboard:', entry);
-  try{
-    if(typeof firebase!=='undefined'&&firebase.database()){
-      const db=firebase.database();
-      db.ref('scores').push(entry).then(()=>{
-        console.log('Firebase save successful');
-      }).catch((e)=>{
-        console.error('Firebase save failed, using localStorage:', e);
-        saveToLocalStorage(entry)
-      })
-    }else{
-      console.log('Firebase not available, using localStorage');
-      saveToLocalStorage(entry)
-    }
-  }catch(e){
-    console.error('saveLB error:', e);
-    saveToLocalStorage(entry)
+  
+  if (!db) {
+    const lb = getLocalLB();
+    lb.push(entry);
+    lb.sort((a,b)=>b.score-a.score);
+    lb.splice(10);
+    localStorage.setItem(LB_KEY,JSON.stringify(lb));
+    console.log('Saved to localStorage:', lb);
+    return Promise.resolve(entry);
   }
+
+  return db.ref("scores").push(entry).then(()=>{
+    console.log('Firebase save successful');
+  }).catch((e)=>{
+    console.error('Firebase save failed, using localStorage:', e);
+    const lb = getLocalLB();
+    lb.push(entry);
+    lb.sort((a,b)=>b.score-a.score);
+    lb.splice(10);
+    localStorage.setItem(LB_KEY,JSON.stringify(lb));
+    return entry;
+  });
 }
 function saveToLocalStorage(entry){
-  const lb=JSON.parse(localStorage.getItem(LB_KEY))||[];
+  const lb = getLocalLB();
   lb.push(entry);
   lb.sort((a,b)=>b.score-a.score);
   lb.splice(10);
   localStorage.setItem(LB_KEY,JSON.stringify(lb));
   console.log('Saved to localStorage:', lb);
 }
-async function renderLB(){const lb=await getLB(),tb=document.getElementById('leaderboard-body');if(!lb.length){tb.innerHTML='<tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.3);padding:14px;font-size:0.38rem">NO SCORES YET — BE FIRST!</td></tr>';return}tb.innerHTML=lb.map((e,i)=>'<tr><td class="rank-col">'+(i+1)+'</td><td>'+(e.name||e.business)+'</td><td>£'+e.score+'</td><td>'+e.wave+'</td></tr>').join('')}
+
+async function renderLB(){
+  const tb = document.getElementById('leaderboard-body');
+
+  function renderRows(data) {
+    if (!data.length) {
+      tb.innerHTML = '<tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.3);padding:14px;font-size:0.38rem">NO SCORES YET — BE FIRST!</td></tr>';
+      return;
+    }
+    tb.innerHTML = data.map((e,i) => '<tr><td class="rank-col">' + (i+1) + '</td><td>' + (e.name || e.business) + '</td><td>£' + e.score + '</td><td>' + e.wave + '</td></tr>').join('');
+  }
+
+  if (!db) {
+    const lb = getLocalLB();
+    lb.sort((a,b)=>b.score-a.score);
+    renderRows(lb.slice(0,10));
+    return Promise.resolve(lb);
+  }
+
+  return db.ref('scores').orderByChild('score').limitToLast(10).once('value').then((snapshot)=>{
+    const data = [];
+    snapshot.forEach((child)=>data.push(child.val()));
+    data.sort((a,b)=>b.score-a.score);
+    console.log('Retrieved from Firebase:', data);
+    renderRows(data);
+    return data;
+  }).catch((e)=>{
+    console.error('Firebase fetch failed, using localStorage:', e);
+    const lb = getLocalLB();
+    lb.sort((a,b)=>b.score-a.score);
+    renderRows(lb.slice(0,10));
+    return lb;
+  });
+}
 function getAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx}
 function tone(start,end,dur,vol,type){try{const ac=getAudio(),o=ac.createOscillator(),g=ac.createGain();o.type=type||'square';o.connect(g);g.connect(ac.destination);o.frequency.setValueAtTime(start,ac.currentTime);if(end)o.frequency.exponentialRampToValueAtTime(end,ac.currentTime+dur);g.gain.setValueAtTime(vol||.1,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+dur);o.start();o.stop(ac.currentTime+dur)}catch(e){}}
 function noise(dur,vol,freq){try{const ac=getAudio(),buf=ac.createBuffer(1,ac.sampleRate*dur,ac.sampleRate),data=buf.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*(1-i/data.length);const src=ac.createBufferSource(),gain=ac.createGain(),filter=ac.createBiquadFilter();src.buffer=buf;filter.type='lowpass';filter.frequency.value=freq||700;src.connect(filter);filter.connect(gain);gain.connect(ac.destination);gain.gain.setValueAtTime(vol||.1,ac.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ac.currentTime+dur);src.start();src.stop(ac.currentTime+dur)}catch(e){}}
@@ -384,7 +414,7 @@ if(G.shield>0){ctx.beginPath();ctx.arc(p.x,p.y,38,0,Math.PI*2);ctx.strokeStyle='
 ctx.font='5px "Press Start 2P"';ctx.textAlign='center';let ind=[];if(G.doubleBullet>0)ind.push({t:'2x',c:'#CC44FF'});if(G.rapidFire>0)ind.push({t:'FAST',c:'#CC44FF'});if(G.speedBoost>0)ind.push({t:'SPD',c:'#DD66FF'});ind.forEach((v,i)=>{ctx.fillStyle=v.c;ctx.fillText(v.t,p.x+(i-ind.length/2+.5)*26,p.y-32)});if(G.state==='wave_clear'&&G.stateTimer>80){ctx.save();ctx.font='14px "Press Start 2P",monospace';ctx.fillStyle='#FFE600';ctx.textAlign='center';ctx.shadowColor='#FFE600';ctx.shadowBlur=20;ctx.fillText('WAVE CLEAR!',canvas.width/2,canvas.height/2);ctx.restore()}ctx.setTransform(1,0,0,1,0,0)}
 function runTests(){console.assert(ALIEN_TYPES.length===3,'aliens available');console.assert(document.getElementById('alien-preview'),'alien preview element exists');console.assert(typeof initGame==='function','init exists');console.assert(typeof spawnWordEnemy==='function','word spawn exists');console.log('Fiskal game tests passed')}
 renderPreviewAliens();runTests();
-document.getElementById('pause-btn').addEventListener('click',togglePause);document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-quit-pause').addEventListener('click',quitGame);document.getElementById('quit-btn').addEventListener('click',quitGame);document.getElementById('btn-start').addEventListener('click',initGame);document.getElementById('btn-play-again').addEventListener('click',()=>{stopGame();showScreen('start-screen')});document.getElementById('btn-submit-score').addEventListener('click',async()=>{const nameInput=document.getElementById('leaderboard-name').value.trim()||'ANONYMOUS';localStorage.setItem('fiskal_ci_player_name',nameInput);console.log('Submit button clicked - name:', nameInput, 'score:', finalScore, 'wave:', finalWave);await saveLB(nameInput,finalScore,finalWave);await renderLB();showScreen('gameover-screen');});document.getElementById('gameover-screen').querySelector('.btn-home').addEventListener('click',()=>window.location.href='index.html');document.getElementById('champions-btn').addEventListener('click',async()=>{stopGame();await renderLB();document.querySelector('.leaderboard-form').style.display='none';showScreen('gameover-screen')});document.getElementById('home-btn').addEventListener('click',quitGame);document.addEventListener('keydown',e=>{if(!G||G.dead)return;G.keys[e.key]=true;if(e.key===' ')e.preventDefault();if(e.key==='p'||e.key==='P')togglePause()});document.addEventListener('keyup',e=>{if(!G||G.dead)return;G.keys[e.key]=false});canvas.addEventListener('mousemove',e=>{if(!G||!G.player||paused)return;const r=canvas.getBoundingClientRect();G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,e.clientX-r.left))});canvas.addEventListener('click',shoot);let lastTX=0;canvas.addEventListener('touchstart',e=>{lastTX=e.touches[0].clientX;shoot()},{passive:true});canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!G||!G.player||paused)return;const dx=e.touches[0].clientX-lastTX;G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x+dx*.75));lastTX=e.touches[0].clientX},{passive:false});
+document.getElementById('pause-btn').addEventListener('click',togglePause);document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-quit-pause').addEventListener('click',quitGame);document.getElementById('quit-btn').addEventListener('click',quitGame);document.getElementById('btn-start').addEventListener('click',initGame);document.getElementById('btn-play-again').addEventListener('click',()=>{stopGame();showScreen('start-screen')});document.getElementById('btn-submit-score').addEventListener('click',async()=>{const nameInput=document.getElementById('leaderboard-name').value.trim()||'ANONYMOUS';localStorage.setItem('fiskal_ci_player_name',nameInput);console.log('Submit button clicked - name:', nameInput, 'score:', finalScore, 'wave:', finalWave);saveLB(nameInput,finalScore,finalWave).then(()=>renderLB()).then(()=>showScreen('gameover-screen')).catch(()=>{renderLB();showScreen('gameover-screen')});});document.getElementById('gameover-screen').querySelector('.btn-home').addEventListener('click',()=>window.location.href='index.html');document.getElementById('champions-btn').addEventListener('click',async()=>{stopGame();await renderLB();document.querySelector('.leaderboard-form').style.display='none';showScreen('gameover-screen');});document.getElementById('home-btn').addEventListener('click',quitGame);document.addEventListener('keydown',e=>{if(!G||G.dead)return;G.keys[e.key]=true;if(e.key===' ')e.preventDefault();if(e.key==='p'||e.key==='P')togglePause()});document.addEventListener('keyup',e=>{if(!G||G.dead)return;G.keys[e.key]=false});canvas.addEventListener('mousemove',e=>{if(!G||!G.player||paused)return;const r=canvas.getBoundingClientRect();G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,e.clientX-r.left))});canvas.addEventListener('click',shoot);let lastTX=0;canvas.addEventListener('touchstart',e=>{lastTX=e.touches[0].clientX;shoot()},{passive:true});canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!G||!G.player||paused)return;const dx=e.touches[0].clientX-lastTX;G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x+dx*.75));lastTX=e.touches[0].clientX},{passive:false});
 </script>
 </body>
 </html>
