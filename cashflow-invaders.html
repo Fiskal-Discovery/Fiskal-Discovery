@@ -190,9 +190,30 @@ async function saveLB(name, company, score, wave){
   console.log('Saving to leaderboard:', entry);
   console.log("Leaderboard entry being saved:", entry);
   
+  const playerKey = (entry.name + "_" + entry.company)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+  
   if (!db) {
     const lb = getLocalLB();
-    lb.push(entry);
+    const existingIndex = lb.findIndex(e => 
+      e.name === entry.name && e.company === entry.company
+    );
+    
+    if (existingIndex >= 0) {
+      console.log('Existing leaderboard entry found:', lb[existingIndex]);
+      if (entry.score > lb[existingIndex].score) {
+        console.log('New high score saved');
+        lb[existingIndex] = entry;
+      } else {
+        console.log('Existing score kept');
+        return Promise.resolve(lb[existingIndex]);
+      }
+    } else {
+      lb.push(entry);
+    }
+    
     lb.sort((a,b)=>b.score-a.score);
     lb.splice(10);
     localStorage.setItem(LB_KEY,JSON.stringify(lb));
@@ -200,12 +221,55 @@ async function saveLB(name, company, score, wave){
     return Promise.resolve(entry);
   }
 
-  return db.ref("scores").push(entry).then(()=>{
+  // Check if entry exists in Firebase
+  const snapshot = await db.ref("scores/" + playerKey).once('value');
+  const existingEntry = snapshot.val();
+  
+  if (existingEntry) {
+    console.log('Existing leaderboard entry found:', existingEntry);
+    if (entry.score > existingEntry.score) {
+      console.log('New high score saved');
+      return db.ref("scores/" + playerKey).set(entry).then(()=>{
+        console.log('Firebase save successful');
+      }).catch((e)=>{
+        console.error('Firebase save failed, using localStorage:', e);
+        const lb = getLocalLB();
+        const existingIndex = lb.findIndex(e => 
+          e.name === entry.name && e.company === entry.company
+        );
+        if (existingIndex >= 0) {
+          if (entry.score > lb[existingIndex].score) {
+            lb[existingIndex] = entry;
+          }
+        } else {
+          lb.push(entry);
+        }
+        lb.sort((a,b)=>b.score-a.score);
+        lb.splice(10);
+        localStorage.setItem(LB_KEY,JSON.stringify(lb));
+        return entry;
+      });
+    } else {
+      console.log('Existing score kept');
+      return Promise.resolve(existingEntry);
+    }
+  }
+  
+  return db.ref("scores/" + playerKey).set(entry).then(()=>{
     console.log('Firebase save successful');
   }).catch((e)=>{
     console.error('Firebase save failed, using localStorage:', e);
     const lb = getLocalLB();
-    lb.push(entry);
+    const existingIndex = lb.findIndex(e => 
+      e.name === entry.name && e.company === entry.company
+    );
+    if (existingIndex >= 0) {
+      if (entry.score > lb[existingIndex].score) {
+        lb[existingIndex] = entry;
+      }
+    } else {
+      lb.push(entry);
+    }
     lb.sort((a,b)=>b.score-a.score);
     lb.splice(10);
     localStorage.setItem(LB_KEY,JSON.stringify(lb));
@@ -239,13 +303,13 @@ async function renderLB(){
     return Promise.resolve(lb);
   }
 
-  return db.ref('scores').orderByChild('score').limitToLast(10).once('value').then((snapshot)=>{
+  return db.ref('scores').once('value').then((snapshot)=>{
     const data = [];
     snapshot.forEach((child)=>data.push(child.val()));
     data.sort((a,b)=>b.score-a.score);
     console.log('Retrieved from Firebase:', data);
-    renderRows(data);
-    return data;
+    renderRows(data.slice(0,10));
+    return data.slice(0,10);
   }).catch((e)=>{
     console.error('Firebase fetch failed, using localStorage:', e);
     const lb = getLocalLB();
