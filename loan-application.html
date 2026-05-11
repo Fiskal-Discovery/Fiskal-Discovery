@@ -102,6 +102,25 @@
   .nicole-role { font-size: 12px; opacity: 0.75; margin-bottom: 8px; font-weight: 300; }
   .nicole-message { font-size: 13px; opacity: 0.9; line-height: 1.5; font-weight: 300; }
   .call-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--blue); color: white; border: none; border-radius: 10px; padding: 12px 18px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; text-decoration: none; margin-top: 12px; transition: all 0.2s ease; }
+  .call-now-mobile {
+    display: none;
+  }
+  @media (max-width: 600px) {
+    .call-now-mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 16px 20px;
+      margin-top: 20px;
+      border-radius: 12px;
+      background: #0099ff;
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+    }
+  }
   .divider { height: 1px; background: rgba(126,9,165,0.08); margin: 16px 0; }
   .info-box { background: var(--indigo-pale); border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 13px; color: var(--mid); line-height: 1.6; }
   .error-msg { font-size: 12px; color: #e53e3e; margin-top: 6px; display: none; }
@@ -786,7 +805,7 @@
         <div class="nicole-message" id="nicole-message">I've received your application and will be in touch within a few hours.</div>
       </div>
     </div>
-    <a href="tel:07946074268" class="call-btn">&#128222; Can't wait? Call me now</a>
+    <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
 
     <div class="divider"></div>
   </div>
