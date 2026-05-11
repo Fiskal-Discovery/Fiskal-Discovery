@@ -1052,17 +1052,13 @@
     margin-bottom: 40px;
     font-weight: 300;
     opacity: 0;
-    animation: fadeInOut 0.8s ease-in-out;
+    transform: translateY(10px);
+    transition: opacity 500ms ease-in-out, transform 500ms ease-in-out;
   }
 
   .thinking-phrase.visible {
     opacity: 1;
-  }
-
-  @keyframes fadeInOut {
-    0% { opacity: 0; transform: translateY(10px); }
-    50% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-10px); }
+    transform: translateY(0);
   }
 
   .thinking-loader {
@@ -1827,7 +1823,7 @@ function showScreen(id) {
 }
 
 function showDiscoveryThinkingScreen(callback) {
-  const phrases = [
+  const allPhrases = [
     "Assessing your requirements",
     "Analysing your business profile",
     "Reviewing funding options",
@@ -1840,33 +1836,44 @@ function showDiscoveryThinkingScreen(callback) {
     "Looking for smarter cashflow options"
   ];
 
+  // Randomly select 3 phrases
+  const phrases = allPhrases.sort(() => Math.random() - 0.5).slice(0, 3);
+
   showScreen('thinking');
   
   const phraseEl = document.getElementById('thinking-phrase');
   let phraseIndex = 0;
-  let intervalId = null;
   
-  function rotatePhrase() {
+  function showPhrase(index) {
+    if (index >= phrases.length) {
+      // All phrases shown, call callback
+      setTimeout(() => {
+        callback();
+      }, 200);
+      return;
+    }
+    
+    phraseEl.textContent = phrases[index];
     phraseEl.classList.remove('visible');
+    
+    // Fade in
     setTimeout(() => {
-      phraseEl.textContent = phrases[phraseIndex];
       phraseEl.classList.add('visible');
-      phraseIndex = (phraseIndex + 1) % phrases.length;
-    }, 100);
+      
+      // Fade out after visible period
+      setTimeout(() => {
+        phraseEl.classList.remove('visible');
+        
+        // Show next phrase after fade out
+        setTimeout(() => {
+          showPhrase(index + 1);
+        }, 200);
+      }, 1500);
+    }, 500);
   }
   
-  // Start phrase rotation
-  rotatePhrase();
-  intervalId = setInterval(rotatePhrase, 700);
-  
-  // After 4 seconds, stop rotation and call callback
-  setTimeout(() => {
-    clearInterval(intervalId);
-    phraseEl.classList.remove('visible');
-    setTimeout(() => {
-      callback();
-    }, 300);
-  }, 4000);
+  // Start showing phrases
+  showPhrase(0);
 }
 
 function goHome() {
