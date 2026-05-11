@@ -1215,60 +1215,23 @@ function selectBarrier(value, btn) {
   document.getElementById('barriers-submit').style.display = 'block';
 }
 
-async function submitApplication() {
+function submitApplication() {
   state.barrierDetails = document.getElementById('barrier-details').value.trim();
-  showDiscoveryThinkingScreen(async () => {
-    // Collect existing facilities
-    const facilities = [];
-    for (let i = 1; i <= facilityCount; i++) {
-      const type = document.getElementById('facility-type-' + i)?.value;
-      const lender = document.getElementById('facility-lender-' + i)?.value;
-      const outstanding = document.getElementById('facility-outstanding-' + i)?.value;
-      if (type || lender || outstanding) facilities.push(`${type} with ${lender} — ${outstanding} outstanding`);
-    }
-    state.existingFacilities = facilities;
 
-    const prompt = `You are writing a warm, personal loan assessment for a business owner who has just completed a Fiskal Loan Application — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
+  // Collect existing facilities before showing loading screen
+  const facilities = [];
+  for (let i = 1; i <= facilityCount; i++) {
+    const type = document.getElementById('facility-type-' + i)?.value;
+    const lender = document.getElementById('facility-lender-' + i)?.value;
+    const outstanding = document.getElementById('facility-outstanding-' + i)?.value;
+    if (type || lender || outstanding) facilities.push(`${type} with ${lender} — ${outstanding} outstanding`);
+  }
+  state.existingFacilities = facilities;
 
-Business owner: ${state.name}
-Business: ${state.business}
-Annual turnover: ${state.turnover}
-Director property ownership: ${state.propertyOwners}
-Loan purpose: ${state.purpose}
-Amount required: ${state.amount}
-Term required: ${state.term}
-Security: ${state.security}${state.properties.length > 0 ? ' (' + state.properties.map(p => `${p.type || 'No type'}, ${p.charges || 'No charges info'}, value: ${p.value || 'N/A'}, mortgage: ${p.mortgage || 'N/A'}${p.address ? ', address: ' + p.address : ''}${p.owner ? ', owner: ' + p.owner : ''}`).join('; ') + ')' : ''}${state.assetType ? ' (Asset: ' + state.assetType + ', value: ' + state.assetValue + ')' : ''}
-Credit history: ${state.credit}
-Urgency: ${state.urgency}
-Existing finance: ${state.existingFacilities.join(', ') || 'None'}
-Barriers: ${state.barrier === 'yes' ? state.barrierDetails || 'Yes — no details' : 'None'}
-
-Write a warm, plain English indicative assessment (3-4 sentences) for ${state.name}.
-
-CRITICAL RULES:
-- Do NOT mention any lender names
-- Give an INDICATIVE borrowing range based on their turnover (typically up to 20-25% of annual turnover for unsecured, more if secured)
-- Be warm and encouraging but honest
-- If credit issues mentioned, acknowledge these are not necessarily barriers
-- Always include: "This is an indicative estimate only — actual terms subject to full underwriting"
-- End with "Nicole will be in touch within a few hours to discuss your options"
-- Under 130 words. No bullet points.`;
-
-    try {
-      const response = await fetch('/.netlify/functions/claude', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
-      });
-      const data = await response.json();
-      const summary = data.content?.[0]?.text || getFallback();
-      displayResults(summary);
-      sendNotification(summary);
-    } catch(e) {
-      const summary = getFallback();
-      displayResults(summary);
-      sendNotification(summary);
-    }
+  showDiscoveryThinkingScreen(() => {
+    const summary = getFallback();
+    displayResults(summary);
+    sendNotification(summary);
   });
 }
 
@@ -1501,8 +1464,9 @@ function showDiscoveryThinkingScreen(callback) {
   function showPhrase() {
     if (messageCount >= 3) {
       setTimeout(() => {
+        loadingScreen.classList.remove('active');
         messageEl.classList.remove('thinking-phrase', 'active', 'shimmer');
-        console.log("Thinking screen finished — keeping visible during API call");
+        console.log("Thinking screen finished");
         if (callback) callback();
       }, fadeOutDuration);
       return;
