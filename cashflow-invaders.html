@@ -227,6 +227,7 @@ async function saveLB(name, company, score, wave){
   }
 
   // Check if entry exists in Firebase
+  console.log("SAVE PATH:", "scores/" + playerKey);
   const snapshot = await db.ref("scores/" + playerKey).once('value');
   const existingEntry = snapshot.val();
   
@@ -239,6 +240,7 @@ async function saveLB(name, company, score, wave){
     
     if (newScore > existingScore) {
       console.log('Updating high score');
+      console.log("WRITING TO:", "scores/" + playerKey, entry);
       return db.ref("scores/" + playerKey).set(entry).then(()=>{
         console.log('Firebase save successful');
       }).catch((e)=>{
@@ -265,6 +267,7 @@ async function saveLB(name, company, score, wave){
     }
   }
   
+  console.log("WRITING TO:", "scores/" + playerKey, entry);
   return db.ref("scores/" + playerKey).set(entry).then(()=>{
     console.log('Firebase save successful');
   }).catch((e)=>{
@@ -345,7 +348,9 @@ async function renderLB(){
   }
 
   console.log('renderLB: Fetching from Firebase');
+  console.log("READING FROM:", "scores");
   return db.ref('scores').once('value').then((snapshot)=>{
+    console.log("FULL SNAPSHOT VAL:", snapshot.val());
     const data = [];
     snapshot.forEach((child)=>data.push(child.val()));
     console.log("Raw Firebase scores:", data);
