@@ -531,26 +531,34 @@
 
   @media (max-width: 600px) {
     .module-grid {
+      position: static !important;
+      transform: none !important;
+      margin-top: 24px !important;
       display: flex !important;
       flex-direction: column !important;
       gap: 16px !important;
       width: 100% !important;
+      clear: both !important;
+      z-index: auto !important;
     }
 
     .module-card {
+      position: static !important;
+      transform: none !important;
       width: 100% !important;
       max-width: 100% !important;
+      height: auto !important;
+      min-height: unset !important;
       margin: 0 !important;
     }
 
-    .module-card-title {
-      font-size: 1.1rem !important;
-      line-height: 1.3 !important;
-    }
-
-    .module-card-desc {
-      font-size: 0.9rem !important;
-      line-height: 1.5 !important;
+    .hero,
+    .homepage-hero,
+    .app-home,
+    .main-content {
+      height: auto !important;
+      min-height: unset !important;
+      overflow: visible !important;
     }
   }
 
