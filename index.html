@@ -1017,6 +1017,83 @@
     margin-bottom: 12px;
   }
 
+  /* ---- THINKING SCREEN ---- */
+  .thinking-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .thinking-logo {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--purple);
+    margin-bottom: 16px;
+    text-shadow: 0 0 30px rgba(126,9,165,.5);
+  }
+
+  .thinking-title {
+    font-size: 1.2rem;
+    color: var(--gold);
+    margin-bottom: 32px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .thinking-phrase {
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 40px;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeInOut 0.8s ease-in-out;
+  }
+
+  .thinking-phrase.visible {
+    opacity: 1;
+  }
+
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(10px); }
+    50% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-10px); }
+  }
+
+  .thinking-loader {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .thinking-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  .thinking-dot:nth-child(2) {
+    animation-delay: 0.3s;
+    background: var(--gold);
+  }
+
+  .thinking-dot:nth-child(3) {
+    animation-delay: 0.6s;
+    background: var(--purple);
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(0.8); opacity: 0.5; }
+    50% { transform: scale(1.2); opacity: 1; }
+  }
+
   .ai-summary-text {
     font-size: 15px;
     line-height: 1.7;
@@ -1489,6 +1566,20 @@
   </div>
 </div>
 
+<!-- ====== DISCOVERY THINKING SCREEN ====== -->
+<div class="screen" id="screen-thinking">
+  <div class="thinking-container">
+    <div class="thinking-logo">Fiskal Discovery</div>
+    <div class="thinking-title">Preparing your Fiskal Discovery Summary</div>
+    <div class="thinking-phrase" id="thinking-phrase">Assessing your requirements</div>
+    <div class="thinking-loader">
+      <div class="thinking-dot"></div>
+      <div class="thinking-dot"></div>
+      <div class="thinking-dot"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ====== RESULTS SCREEN ====== -->
 <div class="screen" id="screen-results">
   <div class="app-header">
@@ -1732,6 +1823,49 @@ function showScreen(id) {
   }
 }
 
+function showDiscoveryThinkingScreen(callback) {
+  const phrases = [
+    "Assessing your requirements",
+    "Analysing your business profile",
+    "Reviewing funding options",
+    "Checking cashflow solutions",
+    "Matching lender criteria",
+    "Structuring suitable finance routes",
+    "Preparing your Fiskal Discovery summary",
+    "Identifying potential funding routes",
+    "Reviewing repayment flexibility",
+    "Looking for smarter cashflow options"
+  ];
+
+  showScreen('thinking');
+  
+  const phraseEl = document.getElementById('thinking-phrase');
+  let phraseIndex = 0;
+  let intervalId = null;
+  
+  function rotatePhrase() {
+    phraseEl.classList.remove('visible');
+    setTimeout(() => {
+      phraseEl.textContent = phrases[phraseIndex];
+      phraseEl.classList.add('visible');
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+    }, 100);
+  }
+  
+  // Start phrase rotation
+  rotatePhrase();
+  intervalId = setInterval(rotatePhrase, 700);
+  
+  // After 4 seconds, stop rotation and call callback
+  setTimeout(() => {
+    clearInterval(intervalId);
+    phraseEl.classList.remove('visible');
+    setTimeout(() => {
+      callback();
+    }, 300);
+  }, 4000);
+}
+
 function goHome() {
   Object.assign(state, {
     module: 'funding-finder', name: '', business: '', email: '', phone: '',
@@ -1897,8 +2031,9 @@ function selectBarrier(value) {
 
 function submitBarriers() {
   state.barrierDetails = document.getElementById('barrier-details').value.trim();
-  showScreen('loading');
-  generateResults();
+  showDiscoveryThinkingScreen(() => {
+    generateResults();
+  });
 }
 
 // ============================================================

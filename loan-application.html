@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -735,7 +735,7 @@
       <p class="ai-summary-text" id="ai-summary-text">Analysing your application...</p>
     </div>
     <div class="nicole-card">
-      <div class="nicole-photo-placeholder" id="nicole-placeholder">�</div>
+      <div class="nicole-photo-placeholder" id="nicole-placeholder">�</div>
       <div class="nicole-photo-placeholder" id="nicole-placeholder" style="display:none">—</div>
       <div class="nicole-info">
         <div class="nicole-name">Nicole Bertolissi</div>
@@ -1078,7 +1078,7 @@ function selectBarrier(value, btn) {
 
 async function submitApplication() {
   state.barrierDetails = document.getElementById('barrier-details').value.trim();
-  showLoadingScreen(async () => {
+  showDiscoveryThinkingScreen(async () => {
     showScreen('screen-loading');
 
     // Collect existing facilities
@@ -1206,5 +1206,128 @@ async function sendNotification(summary) {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
+<!-- DISCOVERY THINKING SCREEN -->
+<div class="screen" id="screen-thinking" style="display:none;position:fixed;inset:0;background:#08000F;z-index:9999;">
+  <div class="thinking-container">
+    <div class="thinking-logo">Fiskal Discovery</div>
+    <div class="thinking-title">Preparing your Fiskal Discovery Summary</div>
+    <div class="thinking-phrase" id="thinking-phrase">Assessing your requirements</div>
+    <div class="thinking-loader">
+      <div class="thinking-dot"></div>
+      <div class="thinking-dot"></div>
+      <div class="thinking-dot"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .thinking-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+  }
+  .thinking-logo {
+    font-family: "Libre Baskerville", serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #7E09A5;
+    margin-bottom: 16px;
+    text-shadow: 0 0 30px rgba(126,9,165,.5);
+  }
+  .thinking-title {
+    font-size: 1.2rem;
+    color: #FFE600;
+    margin-bottom: 32px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .thinking-phrase {
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 40px;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeInOut 0.8s ease-in-out;
+  }
+  .thinking-phrase.visible {
+    opacity: 1;
+  }
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(10px); }
+    50% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-10px); }
+  }
+  .thinking-loader {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .thinking-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #00FF88;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  .thinking-dot:nth-child(2) {
+    animation-delay: 0.3s;
+    background: #FFE600;
+  }
+  .thinking-dot:nth-child(3) {
+    animation-delay: 0.6s;
+    background: #7E09A5;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(0.8); opacity: 0.5; }
+    50% { transform: scale(1.2); opacity: 1; }
+  }
+</style>
+
+<script>
+function showDiscoveryThinkingScreen(callback) {
+  const phrases = [
+    "Assessing your requirements",
+    "Analysing your business profile",
+    "Reviewing funding options",
+    "Checking cashflow solutions",
+    "Matching lender criteria",
+    "Structuring suitable finance routes",
+    "Preparing your Fiskal Discovery summary",
+    "Identifying potential funding routes",
+    "Reviewing repayment flexibility",
+    "Looking for smarter cashflow options"
+  ];
+  const thinkingScreen = document.getElementById("screen-thinking");
+  thinkingScreen.style.display = "flex";
+  const phraseEl = document.getElementById("thinking-phrase");
+  let phraseIndex = 0;
+  let intervalId = null;
+  function rotatePhrase() {
+    phraseEl.classList.remove("visible");
+    setTimeout(() => {
+      phraseEl.textContent = phrases[phraseIndex];
+      phraseEl.classList.add("visible");
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+    }, 100);
+  }
+  rotatePhrase();
+  intervalId = setInterval(rotatePhrase, 700);
+  setTimeout(() => {
+    clearInterval(intervalId);
+    phraseEl.classList.remove("visible");
+    setTimeout(() => {
+      thinkingScreen.style.display = "none";
+      callback();
+    }, 300);
+  }, 4000);
+}
+</script>
+
 </body>
 </html>
+
