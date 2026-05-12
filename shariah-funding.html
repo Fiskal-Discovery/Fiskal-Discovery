@@ -440,22 +440,18 @@
   /* ---- NICOLE CONTACT CARD ---- */
   .nicole-contact-card {
     display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
+    grid-template-columns: 0.78fr 1.22fr;
     grid-template-areas:
       "photo message"
       "details actions";
     align-items: center;
-    gap: 16px 24px;
+    gap: 14px 24px;
     width: 100%;
-    max-width: 820px;
-    margin-top: 28px;
-    margin-left: auto;
-    margin-right: auto;
     background: linear-gradient(135deg, #670087 0%, #8b00ac 52%, #a300c9 100%);
     color: #ffffff;
-    border-radius: 28px;
-    padding: 28px;
-    box-shadow: 0 22px 55px rgba(126, 9, 165, 0.28);
+    border-radius: 24px;
+    padding: 24px 28px;
+    box-shadow: 0 14px 34px rgba(126, 9, 165, 0.24);
     overflow: hidden;
     position: relative;
   }
@@ -486,13 +482,13 @@
   }
 
   .nicole-photo-wrap {
-    width: min(180px, 100%);
+    width: min(165px, 100%);
     aspect-ratio: 1 / 1;
-    border-radius: 24px;
+    border-radius: 22px;
     overflow: hidden;
     border: 3px solid #00aaff;
     background: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22), 0 0 30px rgba(0, 170, 255, 0.22);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2), 0 0 18px rgba(0, 170, 255, 0.18);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -526,11 +522,11 @@
   }
 
   .nicole-message {
-    line-height: 1.55;
-    font-size: clamp(0.9rem, 1.2vw, 1.02rem);
+    line-height: 1.5;
+    font-size: clamp(0.9rem, 1.15vw, 1rem);
     font-weight: 700;
     color: rgba(255, 255, 255, 0.96);
-    max-width: 540px;
+    max-width: 480px;
   }
 
   .nicole-details {
@@ -543,14 +539,14 @@
   }
 
   .nicole-details h3 {
-    font-size: clamp(1.2rem, 2vw, 1.55rem);
+    font-size: clamp(1.15rem, 1.8vw, 1.45rem);
     line-height: 1.1;
-    margin: 0 0 8px;
+    margin: 0 0 6px;
     font-weight: 800;
   }
 
   .nicole-title {
-    font-size: 0.92rem;
+    font-size: 0.88rem;
     color: rgba(255, 255, 255, 0.88);
     margin-bottom: 8px;
     font-weight: 700;
@@ -558,7 +554,7 @@
 
   .nicole-phone,
   .nicole-email {
-    font-size: 0.96rem;
+    font-size: 0.92rem;
     line-height: 1.45;
     color: #ffffff;
     font-weight: 800;
@@ -569,10 +565,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 22px;
+    gap: 16px;
     flex-wrap: nowrap;
     width: 100%;
-    max-width: 560px;
+    max-width: 480px;
     align-self: center;
     justify-self: center;
     padding-top: 2px;
@@ -583,13 +579,13 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 42px;
-    min-width: 175px;
+    min-height: 40px;
+    min-width: 155px;
     flex: 0 1 auto;
-    padding: 10px 16px;
+    padding: 9px 15px;
+    font-size: 0.88rem;
     border-radius: 999px;
     font-weight: 800;
-    font-size: 0.9rem;
     text-decoration: none;
     white-space: nowrap;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
@@ -626,12 +622,12 @@
         "message"
         "actions";
       text-align: center;
-      padding: 24px 20px;
-      gap: 18px;
+      padding: 22px 18px;
+      gap: 16px;
     }
 
     .nicole-photo-wrap {
-      width: 150px;
+      width: 145px;
       border-radius: 50%;
     }
 
