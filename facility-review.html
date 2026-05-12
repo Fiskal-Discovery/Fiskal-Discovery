@@ -2813,12 +2813,21 @@ function displayResults(summary) {
   if (summaryTextEl) summaryTextEl.textContent = summary;
   if (nicoleMessageEl) nicoleMessageEl.textContent = `I've received your Facility Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${business}.`;
   
+  // Hide the loading overlay
+  const loadingOverlay = document.getElementById('discovery-thinking-screen');
+  if (loadingOverlay) {
+    loadingOverlay.classList.remove('active');
+    loadingOverlay.style.display = 'none';
+    console.log("Hidden loading overlay");
+  }
+  
   // Show the results screen
   showScreen('screen-loading');
   loadNicolePhoto();
   console.log("Showing discovery results");
   console.log("Facility results container after render:", screenContentEl?.innerHTML?.slice(0, 300));
   console.log("Active screen:", document.querySelector('.screen.active')?.id);
+  console.log("Active screen display:", document.querySelector('.screen.active')?.style.display);
   sendNotification(summary);
 }
 
