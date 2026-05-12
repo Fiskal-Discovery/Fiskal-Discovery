@@ -50,7 +50,7 @@ function getInvoiceFinanceReviewInsight(state, businessName) {
   const priorities = state['if-priorities'] || state.ifPriorities || [];
   if (priorities.length > 0) {
     const priorityList = priorities.join(', ').toLowerCase();
-    insights.push(`You've made it clear that ${priorityList} matter most. That is useful, because the review should not just focus on finding another facility — it should focus on finding one that actually addresses the issues that matter to ${name}.`);
+    insights.push(`You've made it clear that ${priorityList} matter most. That is useful, because the review should not just focus on finding another finance arrangement — it should focus on finding one that actually addresses the issues that matter to ${name}.`);
   }
 
   return insights.slice(0, 2);
@@ -142,11 +142,11 @@ function getFXReviewInsight(state, businessName) {
 
 function getOtherFacilityReviewInsight(state, businessName) {
   const name = businessName || 'the business';
-  const fundingType = state.otherFundingType || 'facility';
+  const fundingType = state.otherFundingType || 'current finance arrangement';
   const provider = state.otherFundingProvider || '';
 
-  let para = `Because this is a more specific type of facility`;
-  if (fundingType && fundingType !== 'facility') para += ` — ${fundingType.toLowerCase()} —`;
+  let para = `Because this is a more specific type of finance arrangement`;
+  if (fundingType && fundingType !== 'current finance arrangement' && fundingType !== 'facility') para += ` — ${fundingType.toLowerCase()} —`;
   para += `, the first step is to understand exactly what it is, how much is outstanding or available, what it costs, and whether it is still helping ${name}.`;
 
   if (provider) {

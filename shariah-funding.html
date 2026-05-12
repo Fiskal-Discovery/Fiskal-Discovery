@@ -288,6 +288,57 @@
     flex-wrap: wrap;
   }
 
+  /* ---- SHARED NAV BUTTONS ---- */
+  .discovery-bottom-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin: 34px auto 34px;
+    padding-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .discovery-nav-btn {
+    min-width: 160px;
+    min-height: 44px;
+    padding: 11px 22px;
+    border-radius: 999px;
+    border: 1px solid rgba(126, 9, 165, 0.25);
+    background: #ffffff;
+    color: #7E09A5;
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+  .discovery-nav-btn:hover {
+    background: rgba(126, 9, 165, 0.08);
+  }
+  .discovery-nav-btn.primary {
+    background: #FFE600;
+    color: #08000F;
+    border-color: #FFE600;
+  }
+  .discovery-nav-btn.primary:hover {
+    filter: brightness(0.98);
+  }
+  @media (max-width: 760px) {
+    .discovery-bottom-nav {
+      width: min(92vw, 360px);
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 30px;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+    }
+    .discovery-nav-btn {
+      width: 100%;
+    }
+  }
+
   /* Loading Screen */
   .loading-screen {
     display: none;
@@ -1374,6 +1425,31 @@ function displayResults() {
   sendNotification().catch(function(error) {
     console.warn('Notification failed, but results already shown:', error);
   });
+
+  // Send client summary email
+  const summaryContent = summary.summaryHtml || '';
+  sendClientSummaryEmail(summaryContent).then(success => {
+    if (success) {
+      // Add confirmation message
+      const confirmText = document.createElement('p');
+      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
+      const contact = getStoredContactDetails();
+      confirmText.textContent = `A copy of your Discovery summary has been emailed to ${contact.email}.`;
+      const nicoleCard = document.querySelector('.nicole-contact-card');
+      if (nicoleCard) {
+        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
+      }
+    } else {
+      // Add fallback message
+      const confirmText = document.createElement('p');
+      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
+      confirmText.textContent = `We couldn't automatically send your summary email, but Nicole has received your details and will still be in touch.`;
+      const nicoleCard = document.querySelector('.nicole-contact-card');
+      if (nicoleCard) {
+        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
+      }
+    }
+  });
 }
 
 async function renderNicoleMessage() {
@@ -1420,6 +1496,14 @@ function getStoredContactDetails() {
   try { profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}'); } catch(e) {}
   var ls = localStorage;
   var ss = sessionStorage;
+  
+  // Load marketing consent from profile
+  if (profile.marketingConsent !== undefined) {
+    state.marketingConsent = profile.marketingConsent;
+    state.marketingConsentText = profile.marketingConsentText || '';
+    state.marketingConsentTimestamp = profile.marketingConsentTimestamp || '';
+  }
+  
   return {
     name:
       profile.name ||
@@ -1463,6 +1547,9 @@ async function sendNotification() {
     email: contact.email,
     phone: contact.phone,
     company_number: contact.companyNumber,
+    marketing_consent: state.marketingConsent ? 'Yes' : 'No',
+    consent_timestamp: state.marketingConsentTimestamp || 'N/A',
+    consent_text: state.marketingConsentText || 'N/A',
     module: 'Shariah-Compliant Funding',
     matched_products: purpose || 'Not provided',
     barriers: timeline,
@@ -1478,6 +1565,33 @@ async function sendNotification() {
     }
   } catch (error) {
     console.warn('EmailJS notification failed — continuing', error);
+  }
+}
+
+async function sendClientSummaryEmail(summary) {
+  const contact = getStoredContactDetails();
+  const firstName = contact.name.split(' ')[0];
+  const clientTemplateParams = {
+    to_email: contact.email,
+    subject: `Your Fiskal Discovery Summary — ${contact.business}`,
+    from_name: 'Fiskal Funding Solutions',
+    name: firstName,
+    business_name: contact.business,
+    summary: summary
+  };
+  
+  try {
+    if (typeof emailjs !== 'undefined') {
+      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', clientTemplateParams);
+      console.log('Client summary email sent successfully');
+      return true;
+    } else {
+      console.warn('EmailJS not loaded — client email skipped');
+      return false;
+    }
+  } catch (error) {
+    console.error('Client summary email failed:', error);
+    return false;
   }
 }
 

@@ -2290,9 +2290,9 @@
 
     <div class="divider"></div>
 
-    <div class="facility-result-actions">
-      <button type="button" class="facility-result-btn secondary" id="facility-home-btn">Home</button>
-      <button type="button" class="facility-result-btn primary" id="facility-next-review-btn" onclick="continueToNextReview()">Continue to Next Review</button>
+    <div class="discovery-bottom-nav">
+      <button class="discovery-nav-btn" id="facility-home-btn">Home</button>
+      <button class="discovery-nav-btn primary" id="facility-next-review-btn" onclick="continueToNextReview()">Continue to Next Review</button>
     </div>
   </div>
 </div>
@@ -2494,7 +2494,7 @@ function submitOtherReview() {
     return;
   }
   showDiscoveryThinkingScreen(function() {
-    const summary = `Thank you for completing your Other Funding Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what options might be available for ${state.business}.`;
+    const summary = `Thank you for completing your Finance Arrangement Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what options might be available for ${state.business}.`;
     displayOtherResults(summary);
   });
 }
@@ -2502,7 +2502,7 @@ function submitOtherReview() {
 function displayOtherResults(summary) {
   document.getElementById('ai-summary-text').textContent = summary;
   const firstName = state.name.split(' ')[0];
-  document.getElementById('nicole-message').textContent = `I've received your Other Funding Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${state.business}.`;
+  document.getElementById('nicole-message').textContent = `I've received your Finance Arrangement Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${state.business}.`;
   showScreen('screen-loading');
   sendOtherNotification(summary);
   loadNicolePhoto();
@@ -2515,7 +2515,7 @@ async function sendOtherNotification(summary) {
     email: state.email,
     phone: state.phone,
     company_number: state.companyNumber || 'Not provided',
-    module: 'Other Funding Review',
+    module: 'Finance Arrangement Review',
     matched_products: `Type: ${state.otherFundingType} | Amount: ${state.otherFundingAmount} | Cost: ${state.otherFundingCost} | Provider: ${state.otherFundingProvider}`,
     barriers: 'N/A',
     summary: summary
@@ -3169,6 +3169,29 @@ function displayResults(summary) {
   updateResultsButtons();
   
   sendNotification(summary);
+  
+  // Send client summary email
+  sendClientSummaryEmail(summary).then(success => {
+    if (success) {
+      // Add confirmation message
+      const confirmText = document.createElement('p');
+      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
+      confirmText.textContent = `A copy of your Discovery summary has been emailed to ${state.email}.`;
+      const nicoleCard = document.querySelector('.nicole-contact-card');
+      if (nicoleCard) {
+        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
+      }
+    } else {
+      // Add fallback message
+      const confirmText = document.createElement('p');
+      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
+      confirmText.textContent = `We couldn't automatically send your summary email, but Nicole has received your details and will still be in touch.`;
+      const nicoleCard = document.querySelector('.nicole-contact-card');
+      if (nicoleCard) {
+        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
+      }
+    }
+  });
 }
 
 function updateResultsButtons() {
@@ -3362,22 +3385,8 @@ async function submitLoanReview() {
     const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
     displayResults(summary);
     sendLoanNotification(summary);
+    sendClientSummaryEmail(summary);
   });
-}
-
-async function sendLoanNotification(summary) {
-  const templateParams = {
-    name: state.name,
-    business_name: state.business,
-    email: state.email,
-    phone: state.phone,
-    company_number: state.companyNumber || 'Not provided',
-    module: 'Facility Review — Business Loan',
-    matched_products: `Lender: ${state.loanLender || 'N/A'} | Type: ${state.loanType || 'N/A'} | Original: ${state.loanOriginal || 'N/A'} | Outstanding: ${state.loanOutstanding || 'N/A'} | Rate: ${state.loanRate || 'N/A'} | Monthly: ${state.loanRepayment || state.loanMonthlyCost || 'N/A'} | Priorities: ${(state.loanPriorities || []).join(', ') || 'N/A'} | Turnover: ${state.turnover} | Property: ${state.propertyOwnership}`,
-    barriers: state.loanBarrier === 'yes' ? state.loanBarrierDetails || 'Yes' : 'None',
-    summary: summary
-  };
-  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 
@@ -3461,6 +3470,9 @@ function submitFXReview() {
       if (p.email) state.email = p.email;
       if (p.phone) state.phone = p.phone;
       if (p.companyNumber) state.companyNumber = p.companyNumber;
+      if (p.marketingConsent !== undefined) state.marketingConsent = p.marketingConsent;
+      if (p.marketingConsentText) state.marketingConsentText = p.marketingConsentText;
+      if (p.marketingConsentTimestamp) state.marketingConsentTimestamp = p.marketingConsentTimestamp;
     }
     // Pre-fill form fields on DOMContentLoaded
     document.addEventListener("DOMContentLoaded", function() {
@@ -3736,6 +3748,56 @@ function submitFXReview() {
   .discovery-textarea.fx-cost-input:focus {
     border-color: #8d0db3;
     box-shadow: 0 0 0 3px rgba(126, 9, 165, 0.12);
+  }
+  /* ---- SHARED NAV BUTTONS ---- */
+  .discovery-bottom-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin: 34px auto 34px;
+    padding-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .discovery-nav-btn {
+    min-width: 160px;
+    min-height: 44px;
+    padding: 11px 22px;
+    border-radius: 999px;
+    border: 1px solid rgba(126, 9, 165, 0.25);
+    background: #ffffff;
+    color: #7E09A5;
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+  .discovery-nav-btn:hover {
+    background: rgba(126, 9, 165, 0.08);
+  }
+  .discovery-nav-btn.primary {
+    background: #FFE600;
+    color: #08000F;
+    border-color: #FFE600;
+  }
+  .discovery-nav-btn.primary:hover {
+    filter: brightness(0.98);
+  }
+  @media (max-width: 760px) {
+    .discovery-bottom-nav {
+      width: min(92vw, 360px);
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 30px;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+    }
+    .discovery-nav-btn {
+      width: 100%;
+    }
   }
 </style>
 

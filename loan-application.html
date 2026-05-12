@@ -1477,6 +1477,30 @@ function displayResults(summary) {
   // Render Nicole message and load photo after showing results
   renderNicoleMessage();
   loadNicolePhoto();
+
+  // Send client summary email
+  const summaryContent = summary.summaryHtml || summary.summaryText || '';
+  sendClientSummaryEmail(summaryContent).then(success => {
+    if (success) {
+      // Add confirmation message
+      const confirmText = document.createElement('p');
+      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
+      confirmText.textContent = `A copy of your Discovery summary has been emailed to ${state.email}.`;
+      const nicoleCard = document.querySelector('.nicole-contact-card');
+      if (nicoleCard) {
+        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
+      }
+    } else {
+      // Add fallback message
+      const confirmText = document.createElement('p');
+      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
+      confirmText.textContent = `We couldn't automatically send your summary email, but Nicole has received your details and will still be in touch.`;
+      const nicoleCard = document.querySelector('.nicole-contact-card');
+      if (nicoleCard) {
+        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
+      }
+    }
+  });
 }
 
 async function loadNicolePhoto() {
@@ -1550,12 +1574,36 @@ async function sendNotification(summary) {
     email: state.email,
     phone: state.phone,
     company_number: state.companyNumber || 'Not provided',
+    marketing_consent: state.marketingConsent ? 'Yes' : 'No',
+    consent_timestamp: state.marketingConsentTimestamp || 'N/A',
+    consent_text: state.marketingConsentText || 'N/A',
     module: 'Loan Application',
     matched_products: `Purpose: ${state.purpose} | Amount: ${state.amount} | Term: ${state.term} | Security: ${state.security}${state.properties.length > 0 ? ' (' + state.properties.map(p => `${p.type || 'No type'}, ${p.charges || 'No charges info'}, value: ${p.value || 'N/A'}, mortgage: ${p.mortgage || 'N/A'}${p.address ? ', address: ' + p.address : ''}${p.owner ? ', owner: ' + p.owner : ''}`).join('; ') + ')' : ''} | Credit: ${state.credit} | Urgency: ${state.urgency} | Existing finance: ${state.existingFacilities.join(', ') || 'None'} | Turnover: ${state.turnover} | Director property ownership: ${state.propertyOwners}`,
     barriers: state.barrier === 'yes' ? state.barrierDetails || 'Yes' : 'None',
     summary: summary
   };
   try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+}
+
+async function sendClientSummaryEmail(summary) {
+  const firstName = state.name.split(' ')[0];
+  const clientTemplateParams = {
+    to_email: state.email,
+    subject: `Your Fiskal Discovery Summary — ${state.business}`,
+    from_name: 'Fiskal Funding Solutions',
+    name: firstName,
+    business_name: state.business,
+    summary: summary
+  };
+  
+  try {
+    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', clientTemplateParams);
+    console.log('Client summary email sent successfully');
+    return true;
+  } catch (error) {
+    console.error('Client summary email failed:', error);
+    return false;
+  }
 }
 
 // ---- Load profile from onboarding ----
@@ -1573,6 +1621,9 @@ async function sendNotification(summary) {
       if (p.email) state.email = p.email;
       if (p.phone) state.phone = p.phone;
       if (p.companyNumber) state.companyNumber = p.companyNumber;
+      if (p.marketingConsent !== undefined) state.marketingConsent = p.marketingConsent;
+      if (p.marketingConsentText) state.marketingConsentText = p.marketingConsentText;
+      if (p.marketingConsentTimestamp) state.marketingConsentTimestamp = p.marketingConsentTimestamp;
       if (p.turnoverLast) state.turnover = p.turnoverLast;
       if (p.turnoverNext) state.turnoverNext = p.turnoverNext;
       if (p.propertyOwners) state.propertyOwners = p.propertyOwners;
@@ -1748,6 +1799,57 @@ async function sendNotification(summary) {
   }
   @keyframes spinThinking {
     to { transform: rotate(360deg); }
+  }
+
+  /* ---- SHARED NAV BUTTONS ---- */
+  .discovery-bottom-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin: 34px auto 34px;
+    padding-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .discovery-nav-btn {
+    min-width: 160px;
+    min-height: 44px;
+    padding: 11px 22px;
+    border-radius: 999px;
+    border: 1px solid rgba(126, 9, 165, 0.25);
+    background: #ffffff;
+    color: #7E09A5;
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+  .discovery-nav-btn:hover {
+    background: rgba(126, 9, 165, 0.08);
+  }
+  .discovery-nav-btn.primary {
+    background: #FFE600;
+    color: #08000F;
+    border-color: #FFE600;
+  }
+  .discovery-nav-btn.primary:hover {
+    filter: brightness(0.98);
+  }
+  @media (max-width: 760px) {
+    .discovery-bottom-nav {
+      width: min(92vw, 360px);
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 30px;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+    }
+    .discovery-nav-btn {
+      width: 100%;
+    }
   }
 </style>
 

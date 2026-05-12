@@ -1312,6 +1312,57 @@
     flex-wrap: wrap;
   }
 
+  /* ---- SHARED NAV BUTTONS ---- */
+  .discovery-bottom-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin: 34px auto 34px;
+    padding-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .discovery-nav-btn {
+    min-width: 160px;
+    min-height: 44px;
+    padding: 11px 22px;
+    border-radius: 999px;
+    border: 1px solid rgba(126, 9, 165, 0.25);
+    background: #ffffff;
+    color: #7E09A5;
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+  .discovery-nav-btn:hover {
+    background: rgba(126, 9, 165, 0.08);
+  }
+  .discovery-nav-btn.primary {
+    background: #FFE600;
+    color: #08000F;
+    border-color: #FFE600;
+  }
+  .discovery-nav-btn.primary:hover {
+    filter: brightness(0.98);
+  }
+  @media (max-width: 760px) {
+    .discovery-bottom-nav {
+      width: min(92vw, 360px);
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 30px;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+    }
+    .discovery-nav-btn {
+      width: 100%;
+    }
+  }
+
   /* ---- RESPONSIVE ---- */
   @media (max-width: 400px) {
     .home-title { font-size: 42px; }
@@ -1496,6 +1547,13 @@
       <label class="form-label">Company number <span style="font-weight:300;color:var(--light-text)">(optional)</span></label>
       <input type="text" class="form-input" id="field-company-number" placeholder="e.g. 12345678">
     </div>
+    <div class="form-group" style="margin-top:16px;">
+      <label class="checkbox-label" style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.9rem;color:var(--light-text);">
+        <input type="checkbox" id="marketing-consent" style="margin-top:3px;flex-shrink:0;">
+        <span>Yes, I'd like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news.</span>
+      </label>
+    </div>
+    <p style="font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;">You'll receive a copy of your Fiskal Discovery summary by email, and Nicole will be in touch within the next couple of hours where possible. If you complete this outside normal working hours, she'll come back to you as soon as she can.</p>
     <p class="error-msg" id="details-error">Please fill in all required fields.</p>
     <button class="btn-primary" onclick="submitDetails()" style="margin-top:8px">Continue →</button>
   </div>
@@ -1957,6 +2015,10 @@ function submitDetails() {
   state.email = email;
   state.phone = phone;
   state.companyNumber = document.getElementById('field-company-number').value.trim();
+  state.marketingConsent = document.getElementById('marketing-consent').checked;
+  state.marketingConsentText = state.marketingConsent ? "Yes, I'd like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news." : "";
+  state.marketingConsentTimestamp = state.marketingConsent ? new Date().toISOString() : "";
+  state.marketingConsentSource = "Fiskal Discovery contact details screen";
 
   // Persist contact details for cross-journey use (e.g. Shariah-Compliant Funding)
   try {
@@ -1966,12 +2028,54 @@ function submitDetails() {
     existing.email = email;
     existing.phone = phone;
     existing.companyNumber = state.companyNumber;
+    existing.marketingConsent = state.marketingConsent;
+    existing.marketingConsentText = state.marketingConsentText;
+    existing.marketingConsentTimestamp = state.marketingConsentTimestamp;
+    existing.marketingConsentSource = state.marketingConsentSource;
     localStorage.setItem('fiskal_profile', JSON.stringify(existing));
-  } catch(e) { console.warn('Could not save profile to localStorage:', e); }
+  } catch (e) {
+    console.warn('Failed to save profile:', e);
+  }
+
+  // Send contact-start notification once per session
+  const contactCaptureKey = 'contactCaptureSent';
+  if (!sessionStorage.getItem(contactCaptureKey)) {
+    sendContactStartNotification().then(() => {
+      sessionStorage.setItem(contactCaptureKey, 'true');
+    }).catch(e => {
+      console.warn('Contact-start notification failed:', e);
+    });
+  }
 
   state.currentQuestion = 0;
   renderQuestion();
   showScreen('question');
+}
+
+async function sendContactStartNotification() {
+  const templateParams = {
+    name: state.name,
+    business_name: state.business,
+    email: state.email,
+    phone: state.phone,
+    company_number: state.companyNumber || 'Not provided',
+    marketing_consent: state.marketingConsent ? 'Yes' : 'No',
+    consent_timestamp: state.marketingConsentTimestamp || 'N/A',
+    consent_text: state.marketingConsentText || 'N/A',
+    consent_source: state.marketingConsentSource || 'N/A',
+    module: 'Fiskal Discovery - Contact Started',
+    matched_products: 'Contact details captured',
+    barriers: 'N/A',
+    summary: `New Fiskal Discovery Contact Started\n\nName: ${state.name}\nBusiness: ${state.business}\nEmail: ${state.email}\nPhone: ${state.phone}\nCompany Number: ${state.companyNumber || 'Not provided'}\nMarketing Consent: ${state.marketingConsent ? 'Yes' : 'No'}\n${state.marketingConsent ? `Consent Text: ${state.marketingConsentText}\nConsent Timestamp: ${state.marketingConsentTimestamp}\n` : ''}Timestamp: ${new Date().toISOString()}`
+  };
+
+  try {
+    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    console.log('Contact-start notification sent successfully');
+  } catch (error) {
+    console.error('Contact-start notification failed:', error);
+    throw error;
+  }
 }
 
 // ============================================================
@@ -2223,6 +2327,30 @@ function displayResults(summary, matchedProducts) {
     loadNicolePhoto();
   }
 
+  // Send client summary email
+  const summaryContent = summary.summaryHtml || summary.summaryText || '';
+  sendClientSummaryEmail(summaryContent).then(success => {
+    if (success) {
+      // Add confirmation message
+      const confirmText = document.createElement('p');
+      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
+      confirmText.textContent = `A copy of your Discovery summary has been emailed to ${state.email}.`;
+      const nicoleCard = document.querySelector('.nicole-contact-card');
+      if (nicoleCard) {
+        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
+      }
+    } else {
+      // Add fallback message
+      const confirmText = document.createElement('p');
+      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
+      confirmText.textContent = `We couldn't automatically send your summary email, but Nicole has received your details and will still be in touch.`;
+      const nicoleCard = document.querySelector('.nicole-contact-card');
+      if (nicoleCard) {
+        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
+      }
+    }
+  });
+
   const list = document.getElementById('matched-products-list');
   list.innerHTML = '';
   if (matchedProducts.length > 0) {
@@ -2259,6 +2387,9 @@ async function sendNotification(summary, matchedProducts) {
     email: state.email,
     phone: state.phone,
     company_number: state.companyNumber || 'Not provided',
+    marketing_consent: state.marketingConsent ? 'Yes' : 'No',
+    consent_timestamp: state.marketingConsentTimestamp || 'N/A',
+    consent_text: state.marketingConsentText || 'N/A',
     module: moduleLabels[state.module] || state.module,
     matched_products: matchedProducts.map(p => productInfo[p]?.name).filter(Boolean).join(', ') || 'None matched',
     barriers: state.barrier === 'yes' ? (state.barrierDetails || 'Yes - no details provided') : 'None mentioned',
@@ -2269,6 +2400,27 @@ async function sendNotification(summary, matchedProducts) {
     await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
   } catch (error) {
     console.error('Email notification failed:', error);
+  }
+}
+
+async function sendClientSummaryEmail(summary) {
+  const firstName = state.name.split(' ')[0];
+  const clientTemplateParams = {
+    to_email: state.email,
+    subject: `Your Fiskal Discovery Summary — ${state.business}`,
+    from_name: 'Fiskal Funding Solutions',
+    name: firstName,
+    business_name: state.business,
+    summary: summary
+  };
+  
+  try {
+    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', clientTemplateParams);
+    console.log('Client summary email sent successfully');
+    return true;
+  } catch (error) {
+    console.error('Client summary email failed:', error);
+    return false;
   }
 }
 
