@@ -98,8 +98,12 @@ function getCreditHistoryInsight(creditHistory, barrier, barrierDetails, busines
   const name = businessName || 'the business';
   const credit = (creditHistory || '').toLowerCase();
   
+  console.log('[Loan Credit History] creditHistory:', creditHistory);
+  console.log('[Loan Credit History] credit (lowercase):', credit);
+  
   // If CCJs/defaults are selected or mentioned in free text, use adverse credit block
   if (credit.includes('ccj') || credit.includes('default')) {
+    console.log('[Loan Credit History] Matched CCJs/defaults');
     return `You've mentioned CCJs or defaults, so it is important to be realistic. Some lenders may be cautious, and rates may be higher than they would be for a clean-credit application. However, this does not automatically mean funding is impossible. Fiskal regularly comes across businesses with historic challenges, and there may still be flexible lenders prepared to look at the full picture.`;
   }
   
@@ -109,6 +113,7 @@ function getCreditHistoryInsight(creditHistory, barrier, barrierDetails, busines
     const adverseKeywords = ['ccj', 'ccjs', 'defaults', 'default'];
     for (const keyword of adverseKeywords) {
       if (text.includes(keyword)) {
+        console.log('[Loan Credit History] Matched CCJs/defaults in barrier details');
         return `You've mentioned CCJs or defaults, so it is important to be realistic. Some lenders may be cautious, and rates may be higher than they would be for a clean-credit application. However, this does not automatically mean funding is impossible. Fiskal regularly comes across businesses with historic challenges, and there may still be flexible lenders prepared to look at the full picture.`;
       }
     }
@@ -116,19 +121,23 @@ function getCreditHistoryInsight(creditHistory, barrier, barrierDetails, busines
   
   // Clean credit
   if (credit.includes('clean') || credit.includes('no issues')) {
+    console.log('[Loan Credit History] Matched clean credit');
     return `A clean credit history is a strong starting point. It may put ${name} in a better position to access more competitive rates and a wider choice of lenders, although affordability, trading history and the purpose of the funding will still need to stack up.`;
   }
   
   // Minor issues
   if (credit.includes('minor') || credit.includes('late payments')) {
+    console.log('[Loan Credit History] Matched minor issues');
     return `The minor credit issues mentioned do not automatically rule funding out, but they may affect which lenders are the best fit. Some providers may still be comfortable if the wider business position, affordability and funding purpose make sense.`;
   }
   
   // Not sure
   if (credit.includes('not sure') || credit.includes('unsure')) {
+    console.log('[Loan Credit History] Matched not sure');
     return `If you're not completely sure about the business credit history, that is okay. The important thing is to check the position early, because credit profile can affect lender choice, rates and how the application should be packaged.`;
   }
   
+  console.log('[Loan Credit History] No match, returning null');
   return null;
 }
 
