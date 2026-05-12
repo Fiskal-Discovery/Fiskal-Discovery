@@ -113,12 +113,14 @@ function buildLoanApplicationSummary(answers) {
   // Paragraph 1 — positive opening
   blocks.push(`Great news — based on what you've shared, there are still funding options worth exploring for ${business}. The key is finding the right structure for what the funding needs to achieve, rather than treating this as a generic loan application.`);
 
-  // Paragraph 2 — purpose insight + credit concern
+  // Paragraph 2 — purpose insight + credit history + credit concern
   const purposeInsight = getLoanPurposeInsight(purpose, business);
+  const creditHistoryInsight = getCreditHistoryInsight(credit, barrier, barrierDetails, business);
   const creditConcern = getLoanCreditConcernInsight(barrier, barrierDetails, business);
   
   let para2 = '';
   if (purposeInsight) para2 += purposeInsight + ' ';
+  if (creditHistoryInsight) para2 += creditHistoryInsight + ' ';
   if (creditConcern) para2 += creditConcern;
   if (para2) blocks.push(para2.trim());
 

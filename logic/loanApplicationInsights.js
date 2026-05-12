@@ -93,3 +93,42 @@ function getLoanCreditConcernInsight(barrier, barrierDetails, businessName) {
   
   return null;
 }
+
+function getCreditHistoryInsight(creditHistory, barrier, barrierDetails, businessName) {
+  const name = businessName || 'the business';
+  const credit = (creditHistory || '').toLowerCase();
+  
+  // If CCJs/defaults are selected or mentioned in free text, use adverse credit block
+  if (credit.includes('ccj') || credit.includes('default')) {
+    return `You've mentioned CCJs or defaults, so it is important to be realistic. Some lenders may be cautious, and rates may be higher than they would be for a clean-credit application. However, this does not automatically mean funding is impossible. Fiskal regularly comes across businesses with historic challenges, and there may still be flexible lenders prepared to look at the full picture.`;
+  }
+  
+  // Also check barrier details for CCJs/defaults mentions
+  if (barrierDetails) {
+    const text = barrierDetails.toLowerCase();
+    const adverseKeywords = ['ccj', 'ccjs', 'defaults', 'default'];
+    for (const keyword of adverseKeywords) {
+      if (text.includes(keyword)) {
+        return `You've mentioned CCJs or defaults, so it is important to be realistic. Some lenders may be cautious, and rates may be higher than they would be for a clean-credit application. However, this does not automatically mean funding is impossible. Fiskal regularly comes across businesses with historic challenges, and there may still be flexible lenders prepared to look at the full picture.`;
+      }
+    }
+  }
+  
+  // Clean credit
+  if (credit.includes('clean') || credit.includes('no issues')) {
+    return `A clean credit history is a strong starting point. It may put ${name} in a better position to access more competitive rates and a wider choice of lenders, although affordability, trading history and the purpose of the funding will still need to stack up.`;
+  }
+  
+  // Minor issues
+  if (credit.includes('minor') || credit.includes('late payments')) {
+    return `The minor credit issues mentioned do not automatically rule funding out, but they may affect which lenders are the best fit. Some providers may still be comfortable if the wider business position, affordability and funding purpose make sense.`;
+  }
+  
+  // Not sure
+  if (credit.includes('not sure') || credit.includes('unsure')) {
+    return `If you're not completely sure about the business credit history, that is okay. The important thing is to check the position early, because credit profile can affect lender choice, rates and how the application should be packaged.`;
+  }
+  
+  return null;
+}
+
