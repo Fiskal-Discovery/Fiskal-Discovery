@@ -2802,19 +2802,23 @@ function displayResults(summary) {
   const resultsNameEl = document.getElementById('results-name');
   const summaryTextEl = document.getElementById('ai-summary-text');
   const nicoleMessageEl = document.getElementById('nicole-message');
+  const screenContentEl = document.querySelector('#screen-loading .screen-content');
   
   console.log("Facility results container - results-name:", resultsNameEl);
   console.log("Facility results container - ai-summary-text:", summaryTextEl);
   console.log("Facility results container - nicole-message:", nicoleMessageEl);
+  console.log("Facility results container - screen-content:", screenContentEl);
   
   if (resultsNameEl) resultsNameEl.textContent = `Here's what we found for you, ${name}`;
   if (summaryTextEl) summaryTextEl.textContent = summary;
   if (nicoleMessageEl) nicoleMessageEl.textContent = `I've received your Facility Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${business}.`;
   
+  // Show the results screen
   showScreen('screen-loading');
   loadNicolePhoto();
   console.log("Showing discovery results");
-  console.log("Facility results container after render:", document.querySelector('.screen-content')?.innerHTML?.slice(0, 300));
+  console.log("Facility results container after render:", screenContentEl?.innerHTML?.slice(0, 300));
+  console.log("Active screen:", document.querySelector('.screen.active')?.id);
   sendNotification(summary);
 }
 
