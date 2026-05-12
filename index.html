@@ -1052,13 +1052,24 @@
     margin-bottom: 40px;
     font-weight: 300;
     opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 500ms ease-in-out, transform 500ms ease-in-out;
+    transform: translateY(8px);
+    transition: opacity 450ms ease-in-out, transform 450ms ease-in-out;
+  }
+
+  @keyframes phraseSweep {
+    0%   { background-position: 200% center; }
+    100% { background-position: -200% center; }
   }
 
   .thinking-phrase.visible {
     opacity: 1;
     transform: translateY(0);
+    background: linear-gradient(90deg, #ffffff 0%, #ffffff 25%, #FFE600 50%, #ffffff 75%, #ffffff 100%);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: phraseSweep 2s ease-in-out forwards;
   }
 
   .thinking-loader {
@@ -1883,58 +1894,53 @@ function showScreen(id) {
 }
 
 function showDiscoveryThinkingScreen(callback) {
-  const allPhrases = [
-    "Assessing your requirements",
-    "Analysing your business profile",
-    "Reviewing funding options",
-    "Checking cashflow solutions",
-    "Matching lender criteria",
-    "Structuring suitable finance routes",
-    "Preparing your Fiskal Discovery summary",
-    "Identifying potential funding routes",
-    "Reviewing repayment flexibility",
-    "Looking for smarter cashflow options"
+  var allPhrases = [
+    'Assessing your requirements',
+    'Analysing your business profile',
+    'Reviewing funding options',
+    'Checking cashflow solutions',
+    'Matching lender criteria',
+    'Structuring suitable finance routes',
+    'Preparing your Fiskal Discovery summary',
+    'Identifying potential funding routes',
+    'Reviewing repayment flexibility',
+    'Looking for smarter cashflow options'
   ];
 
-  // Randomly select 3 phrases
-  const phrases = allPhrases.sort(() => Math.random() - 0.5).slice(0, 3);
+  var phrases = allPhrases.sort(() => Math.random() - 0.5).slice(0, 3);
 
-  console.log('[Funding Finder] thinking screen started');
-  showScreen('screen-thinking');
-  
-  const phraseEl = document.getElementById('thinking-phrase');
-  let phraseIndex = 0;
-  
+  console.log('Funding Finder thinking screen started');
+  showScreen('thinking');
+
+  var phraseEl = document.getElementById('thinking-phrase');
+
   function showPhrase(index) {
     if (index >= phrases.length) {
-      // All phrases shown, call callback
-      setTimeout(() => {
-        console.log('[Funding Finder] thinking screen finished');
+      setTimeout(function() {
+        console.log('Funding Finder thinking screen finished');
         callback();
       }, 200);
       return;
     }
-    
+
     phraseEl.textContent = phrases[index];
     phraseEl.classList.remove('visible');
-    
-    // Fade in
-    setTimeout(() => {
+    void phraseEl.offsetWidth; // force reflow to restart animation
+
+    setTimeout(function() {
       phraseEl.classList.add('visible');
-      
-      // Fade out after visible period
-      setTimeout(() => {
+      console.log('Funding Finder phrase ' + (index + 1) + ' shown');
+
+      setTimeout(function() {
         phraseEl.classList.remove('visible');
-        
-        // Show next phrase after fade out
-        setTimeout(() => {
+        // wait for 450ms CSS fade-out to complete before next phrase
+        setTimeout(function() {
           showPhrase(index + 1);
-        }, 200);
-      }, 1500);
-    }, 500);
+        }, 520);
+      }, 2000); // phrase visible for 2 seconds
+    }, 30); // tiny delay to ensure reflow
   }
-  
-  // Start showing phrases
+
   showPhrase(0);
 }
 
@@ -2265,10 +2271,13 @@ function displayResults(summary, matchedProducts) {
     document.getElementById('matched-products-section').style.display = 'none';
   }
 
-  console.log('[Funding Finder] showing results');
   showScreen('results');
   loadNicolePhoto();
-  sendNotification(summary, matchedProducts);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  console.log('Funding Finder results showing');
+  sendNotification(summary, matchedProducts).catch(function(e) {
+    console.warn('Notification failed, results already showing:', e);
+  });
 }
 
 // ============================================================
