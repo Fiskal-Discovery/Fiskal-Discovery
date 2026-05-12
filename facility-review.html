@@ -1422,12 +1422,59 @@
     <h2 class="question-text">Are you aware of what your current provider charges on foreign currency transactions?</h2>
     <p class="question-sub">Most businesses are surprised when they find out.</p>
     <div class="answer-options" id="fx-awareness-opts">
-      <button class="answer-btn" onclick="fxSelectAndGo('fxAwareness', 'Yes — I know roughly what I pay', this, 'fx-awareness-opts', 'screen-fx-online-selling')">✅ Yes — I know roughly what I pay</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxAwareness', 'Yes — I know roughly what I pay', this, 'fx-awareness-opts', 'screen-fx-costs')">✅ Yes — I know roughly what I pay</button>
       <button class="answer-btn" onclick="fxSelectAndGo('fxAwareness', 'No — I have no idea', this, 'fx-awareness-opts', 'screen-fx-online-selling')">🤷 No — I have no idea</button>
       <button class="answer-btn" onclick="fxSelectAndGo('fxAwareness', 'Did not know they charged anything extra', this, 'fx-awareness-opts', 'screen-fx-online-selling')">😮 I didn't know they charged anything extra</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-fx-currencies')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- FX Cost Details -->
+<div class="screen" id="screen-fx-costs">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">2 minutes. Endless possibilities.</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+  <div class="screen-content">
+    <div class="question-product">FX Review</div>
+    <h2 class="question-text">Tell us what you know about your FX costs</h2>
+    <p class="question-sub">You can leave any fields blank if you're not sure.</p>
+    
+    <div class="input-group">
+      <label>Approx annual FX/payment volume</label>
+      <input type="text" id="fx-annual-volume" placeholder="e.g. £50,000 per month">
+    </div>
+    
+    <div class="input-group">
+      <label>Main currencies used</label>
+      <input type="text" id="fx-currencies-details" placeholder="e.g. EUR, USD">
+    </div>
+    
+    <div class="input-group">
+      <label>Exchange rate margin/spread, if known</label>
+      <input type="text" id="fx-margin" placeholder="e.g. 1-2%">
+    </div>
+    
+    <div class="input-group">
+      <label>Transfer fees, if known</label>
+      <input type="text" id="fx-transfer-fees" placeholder="e.g. £15 per transfer">
+    </div>
+    
+    <div class="input-group">
+      <label>Anything else you've noticed</label>
+      <textarea id="fx-notes" rows="3" placeholder="Any other details about your FX costs..."></textarea>
+    </div>
+    
+    <button class="btn-primary" onclick="submitFXCosts()" style="margin-top:16px">Continue →</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-fx-awareness')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
@@ -2240,10 +2287,11 @@
     </section>
 
     <div class="divider"></div>
-  </div>
-  <div class="results-actions" id="results-actions">
-    <button class="btn-primary" id="home-btn" onclick="window.location.href='index.html'">Home</button>
-    <button class="btn-primary" id="continue-next-btn" onclick="continueToNextReview()" style="display:none;">Continue to Next Review</button>
+
+    <div class="results-actions" id="results-actions">
+      <button class="btn-primary" id="home-btn" onclick="window.location.href='index.html'">Home</button>
+      <button class="btn-primary" id="continue-next-btn" onclick="continueToNextReview()" style="display:none;">Continue to Next Review</button>
+    </div>
   </div>
 </div>
 
@@ -3070,12 +3118,18 @@ function displayResults(summary) {
       facilitySummary = `Based on what you've told us, ${businessText}'s FX or foreign currency arrangements are worth reviewing properly. Even small differences in exchange rates, margins, fees and timing can add up where a business makes regular overseas payments or receives money in different currencies.`;
     }
     
+    // Add FX cost details insight
+    const hasCostDetails = state.fxAnnualVolume || state.fxCurrenciesDetails || state.fxMargin || state.fxTransferFees || state.fxNotes;
+    if (hasCostDetails) {
+      facilitySummary += ` The details you provided give a useful starting point to compare the rates, margins and charges being applied, and to check whether ${businessText} could be getting better value from its current currency provider.`;
+    } else {
+      facilitySummary += ` Even without the full cost details, it is still worth reviewing how ${formattedProvider || 'the current provider'} handles exchange rates, fees and transfer timing for ${businessText}.`;
+    }
+    
     // Add transaction report insight
     const hasReport = state.files && state.files.length > 0;
     if (hasReport) {
       facilitySummary += ` The transaction report should give a useful starting point to review the rates, margins and charges being applied, and to check whether ${businessText} could be getting better value from its current currency provider.`;
-    } else {
-      facilitySummary += ` Even without a transaction report, it is still worth reviewing how ${formattedProvider || 'the current provider'} handles exchange rates, fees and transfer timing for ${businessText}.`;
     }
     
   } else {
@@ -3369,6 +3423,15 @@ function fxHandleUpload(input) {
   if (input.files) {
     Array.from(input.files).forEach(f => { if (!state.files) state.files = []; state.files.push(f.name); });
   }
+}
+
+function submitFXCosts() {
+  state.fxAnnualVolume = document.getElementById('fx-annual-volume').value.trim();
+  state.fxCurrenciesDetails = document.getElementById('fx-currencies-details').value.trim();
+  state.fxMargin = document.getElementById('fx-margin').value.trim();
+  state.fxTransferFees = document.getElementById('fx-transfer-fees').value.trim();
+  state.fxNotes = document.getElementById('fx-notes').value.trim();
+  showScreen('screen-fx-online-selling');
 }
 
 function submitFXReview() {
