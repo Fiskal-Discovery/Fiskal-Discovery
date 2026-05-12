@@ -1447,30 +1447,20 @@
     <h2 class="question-text">Tell us what you know about your FX costs</h2>
     <p class="question-sub">You can leave any fields blank if you're not sure.</p>
     
-    <div class="input-group">
-      <label>Approx annual FX/payment volume</label>
-      <input type="text" id="fx-annual-volume" placeholder="e.g. £50,000 per month">
-    </div>
+    <label class="field-label">Approx annual FX/payment volume</label>
+    <input class="discovery-input" id="fx-annual-volume" placeholder="e.g. £50,000 per month">
     
-    <div class="input-group">
-      <label>Main currencies used</label>
-      <input type="text" id="fx-currencies-details" placeholder="e.g. EUR, USD">
-    </div>
+    <label class="field-label">Main currencies used</label>
+    <input class="discovery-input" id="fx-currencies-details" placeholder="e.g. EUR, USD">
     
-    <div class="input-group">
-      <label>Exchange rate margin/spread, if known</label>
-      <input type="text" id="fx-margin" placeholder="e.g. 1-2%">
-    </div>
+    <label class="field-label">Exchange rate margin/spread, if known</label>
+    <input class="discovery-input" id="fx-margin" placeholder="e.g. 1-2%">
     
-    <div class="input-group">
-      <label>Transfer fees, if known</label>
-      <input type="text" id="fx-transfer-fees" placeholder="e.g. £15 per transfer">
-    </div>
+    <label class="field-label">Transfer fees, if known</label>
+    <input class="discovery-input" id="fx-transfer-fees" placeholder="e.g. £15 per transfer">
     
-    <div class="input-group">
-      <label>Anything else you've noticed</label>
-      <textarea id="fx-notes" rows="3" placeholder="Any other details about your FX costs..."></textarea>
-    </div>
+    <label class="field-label">Anything else you've noticed</label>
+    <textarea class="discovery-input discovery-textarea" id="fx-notes" rows="3" placeholder="Any other details about your FX costs..."></textarea>
     
     <button class="btn-primary" onclick="submitFXCosts()" style="margin-top:16px">Continue →</button>
     <div class="nav-row">
@@ -2288,9 +2278,9 @@
 
     <div class="divider"></div>
 
-    <div class="results-actions" id="results-actions">
-      <button class="btn-primary" id="home-btn" onclick="window.location.href='index.html'">Home</button>
-      <button class="btn-primary" id="continue-next-btn" onclick="continueToNextReview()" style="display:none;">Continue to Next Review</button>
+    <div class="facility-result-actions">
+      <button type="button" class="facility-result-btn secondary" id="facility-home-btn">Home</button>
+      <button type="button" class="facility-result-btn primary" id="facility-next-review-btn" onclick="continueToNextReview()">Continue to Next Review</button>
     </div>
   </div>
 </div>
@@ -3176,8 +3166,8 @@ function displayResults(summary) {
 }
 
 function updateResultsButtons() {
-  const continueBtn = document.getElementById('continue-next-btn');
-  const homeBtn = document.getElementById('home-btn');
+  const continueBtn = document.getElementById('facility-next-review-btn');
+  const homeBtn = document.getElementById('facility-home-btn');
   
   if (!continueBtn || !homeBtn) return;
   
@@ -3195,6 +3185,11 @@ function updateResultsButtons() {
   
   // Always show Home button
   homeBtn.style.display = 'inline-block';
+  
+  // Add click handlers
+  homeBtn.onclick = () => {
+    window.location.href = 'index.html';
+  };
 }
 
 function continueToNextReview() {
@@ -3657,6 +3652,44 @@ function submitFXReview() {
     padding: 14px 24px;
     font-size: 16px;
     font-weight: 600;
+  }
+  .facility-result-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin: 28px auto 0;
+    flex-wrap: wrap;
+  }
+  .facility-result-btn {
+    min-width: 190px;
+    min-height: 44px;
+    padding: 11px 22px;
+    border-radius: 999px;
+    border: none;
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: center;
+  }
+  .facility-result-btn.primary {
+    background: #FFE600;
+    color: #08000F;
+  }
+  .facility-result-btn.secondary {
+    background: #ffffff;
+    color: #7E09A5;
+    border: 1px solid rgba(126, 9, 165, 0.25);
+  }
+  @media (max-width: 760px) {
+    .facility-result-actions {
+      flex-direction: column;
+      width: min(92vw, 360px);
+    }
+    .facility-result-btn {
+      width: 100%;
+    }
   }
 </style>
 
