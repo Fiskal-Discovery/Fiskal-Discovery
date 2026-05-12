@@ -474,10 +474,10 @@
       <div class="welcome-label">Loan Application</div>
       <h2 class="welcome-title">Find out how much your business could borrow</h2>
       <div class="welcome-box">
-        <p>Answer a few simple questions about your business and what you need — and we'll give you an <strong>indicative assessment</strong> of how much you could borrow and what it might cost.</p>
+        <p>Answer a few simple questions about your business and what you need — and we'll give you a clear picture of what you could borrow and what it might cost.</p>
         <p>No credit checks. No commitment. Just a clear, honest picture of what's possible — followed by a personal call from <strong>Nicole</strong> to talk through your options.</p>
       </div>
-      <button class="btn-primary" onclick="showDetailsConfirm()">Start my Application ></button>
+      <button class="btn-primary" onclick="showDetailsConfirm()">Start My Discovery</button>
       <div class="nav-row">
         <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
       </div>
@@ -912,7 +912,7 @@
     <div class="question-icon">📄</div>
     <div class="question-product">Loan Application</div>
     <h2 class="question-text">Upload your financial documents</h2>
-    <p class="question-sub">To give you the most accurate indicative assessment, please upload as many of the following as you have available.</p>
+    <p class="question-sub">To give you the most accurate results, please upload as many of the following as you have available.</p>
     <div class="info-box">
       📋 Last 2 years filed accounts including profit and loss<br>
       📊 Up to date management accounts<br>
@@ -1004,10 +1004,10 @@
     <div class="results-header">
       <div class="results-check">&#10024;</div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
-      <p class="results-name" id="results-name">Here's what we found for you</p>
+      <p class="results-name" id="results-name">Here's what we discovered</p>
     </div>
     <div class="ai-summary">
-      <div class="ai-summary-label">Here's what we discovered</div>
+      <div class="ai-summary-label">Your summary</div>
       <p class="ai-summary-text" id="ai-summary-text">Analysing your application...</p>
     </div>
     <section class="nicole-contact-card" aria-label="Nicole Bertolissi contact card">
@@ -1041,7 +1041,7 @@
     <div class="divider"></div>
   </div>
   <div style="text-align:center;padding:0 24px 8px;">
-    <button class="back-btn" onclick="window.location.href='index.html'" style="margin:0 auto;justify-content:center;">&#8962; Start a new Application</button>
+    <a href="index.html" class="back-btn" style="margin:0 auto;justify-content:center;">&#8962; Home</a>
   </div>
 </div>
 
@@ -1400,7 +1400,7 @@ function submitApplication() {
 }
 
 function getFallback() {
-  return `Thank you for submitting your loan application, ${state.name}. Based on what you've shared, there are funding options worth exploring for ${state.business}. Nicole will be in touch within a few hours to discuss your options in detail. This is an indicative estimate only — actual terms subject to full underwriting.`;
+  return `Thank you for completing your Fiskal Discovery, ${state.name}. Based on what you've shared, there are funding options worth exploring for ${state.business}. Nicole will review your answers personally and be in touch within the next couple of hours.`;
 }
 
 function renderNicoleMessage() {
@@ -1418,7 +1418,7 @@ function renderNicoleMessage() {
 }
 
 function displayResults(summary) {
-  document.getElementById('results-name').textContent = `Here's your indicative assessment, ${state.name}`;
+  document.getElementById('results-name').textContent = `Here's what we discovered, ${state.name}`;
   document.getElementById('ai-summary-text').textContent = summary;
   showScreen('screen-results');
 
