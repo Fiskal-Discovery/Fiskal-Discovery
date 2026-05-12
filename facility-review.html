@@ -1447,20 +1447,32 @@
     <h2 class="question-text">Tell us what you know about your FX costs</h2>
     <p class="question-sub">You can leave any fields blank if you're not sure.</p>
     
-    <label class="field-label">Approx annual FX/payment volume</label>
-    <input class="discovery-input" id="fx-annual-volume" placeholder="e.g. £50,000 per month">
-    
-    <label class="field-label">Main currencies used</label>
-    <input class="discovery-input" id="fx-currencies-details" placeholder="e.g. EUR, USD">
-    
-    <label class="field-label">Exchange rate margin/spread, if known</label>
-    <input class="discovery-input" id="fx-margin" placeholder="e.g. 1-2%">
-    
-    <label class="field-label">Transfer fees, if known</label>
-    <input class="discovery-input" id="fx-transfer-fees" placeholder="e.g. £15 per transfer">
-    
-    <label class="field-label">Anything else you've noticed</label>
-    <textarea class="discovery-input discovery-textarea" id="fx-notes" rows="3" placeholder="Any other details about your FX costs..."></textarea>
+    <div class="fx-cost-fields">
+      <div class="form-field">
+        <label class="field-label" for="fx-annual-volume">Approx annual FX/payment volume</label>
+        <input id="fx-annual-volume" class="discovery-input fx-cost-input" type="text" placeholder="e.g. £50,000 per month">
+      </div>
+      
+      <div class="form-field">
+        <label class="field-label" for="fx-currencies">Main currencies used</label>
+        <input id="fx-currencies" class="discovery-input fx-cost-input" type="text" placeholder="e.g. EUR, USD">
+      </div>
+      
+      <div class="form-field">
+        <label class="field-label" for="fx-margin">Exchange rate margin/spread, if known</label>
+        <input id="fx-margin" class="discovery-input fx-cost-input" type="text" placeholder="e.g. 1–2%">
+      </div>
+      
+      <div class="form-field">
+        <label class="field-label" for="fx-transfer-fees">Transfer fees, if known</label>
+        <input id="fx-transfer-fees" class="discovery-input fx-cost-input" type="text" placeholder="e.g. £15 per transfer">
+      </div>
+      
+      <div class="form-field">
+        <label class="field-label" for="fx-notes">Anything else you've noticed</label>
+        <textarea id="fx-notes" class="discovery-input discovery-textarea fx-cost-input" placeholder="Any other details about your FX costs..."></textarea>
+      </div>
+    </div>
     
     <button class="btn-primary" onclick="submitFXCosts()" style="margin-top:16px">Continue →</button>
     <div class="nav-row">
@@ -3109,17 +3121,11 @@ function displayResults(summary) {
     }
     
     // Add FX cost details insight
-    const hasCostDetails = state.fxAnnualVolume || state.fxCurrenciesDetails || state.fxMargin || state.fxTransferFees || state.fxNotes;
+    const hasCostDetails = state.fxAnnualVolume || state.fxCurrencies || state.fxMargin || state.fxTransferFees || state.fxNotes;
     if (hasCostDetails) {
       facilitySummary += ` The details you provided give a useful starting point to compare the rates, margins and charges being applied, and to check whether ${businessText} could be getting better value from its current currency provider.`;
     } else {
       facilitySummary += ` Even without the full cost details, it is still worth reviewing how ${formattedProvider || 'the current provider'} handles exchange rates, fees and transfer timing for ${businessText}.`;
-    }
-    
-    // Add transaction report insight
-    const hasReport = state.files && state.files.length > 0;
-    if (hasReport) {
-      facilitySummary += ` The transaction report should give a useful starting point to review the rates, margins and charges being applied, and to check whether ${businessText} could be getting better value from its current currency provider.`;
     }
     
   } else {
@@ -3422,7 +3428,7 @@ function fxHandleUpload(input) {
 
 function submitFXCosts() {
   state.fxAnnualVolume = document.getElementById('fx-annual-volume').value.trim();
-  state.fxCurrenciesDetails = document.getElementById('fx-currencies-details').value.trim();
+  state.fxCurrencies = document.getElementById('fx-currencies').value.trim();
   state.fxMargin = document.getElementById('fx-margin').value.trim();
   state.fxTransferFees = document.getElementById('fx-transfer-fees').value.trim();
   state.fxNotes = document.getElementById('fx-notes').value.trim();
@@ -3690,6 +3696,46 @@ function submitFXReview() {
     .facility-result-btn {
       width: 100%;
     }
+  }
+  .fx-cost-fields {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+    max-width: 760px;
+    margin: 28px auto 0;
+  }
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .field-label {
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #2A1735;
+  }
+  .discovery-input.fx-cost-input,
+  .discovery-textarea.fx-cost-input {
+    width: 100%;
+    border: 1px solid rgba(126, 9, 165, 0.22);
+    border-radius: 16px;
+    background: #ffffff;
+    padding: 15px 18px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+    color: #24182f;
+    box-sizing: border-box;
+    outline: none;
+  }
+  .discovery-textarea.fx-cost-input {
+    min-height: 110px;
+    resize: vertical;
+  }
+  .discovery-input.fx-cost-input:focus,
+  .discovery-textarea.fx-cost-input:focus {
+    border-color: #8d0db3;
+    box-shadow: 0 0 0 3px rgba(126, 9, 165, 0.12);
   }
 </style>
 
