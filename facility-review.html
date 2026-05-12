@@ -2888,19 +2888,22 @@ function displayResults(summary) {
   const businessText = businessName || "the business";
   const type = String(facilityType).toLowerCase();
   
-  // Get current provider/lender based on facility type
-  let currentProvider = "";
-  if (type.includes("invoice")) {
-    currentProvider = state['if-lender-val'] || state.ifLender || "";
-  } else if (type.includes("loan")) {
-    currentProvider = state.loanLender || "";
-  } else if (type.includes("asset")) {
-    currentProvider = state.assetProvider || "";
-  } else if (type.includes("trade")) {
-    currentProvider = state.tradeProvider || "";
-  } else if (type.includes("fx") || type.includes("foreign")) {
-    currentProvider = state.fxProvider || "";
-  }
+  // Get current provider/lender from state
+  const currentProvider =
+    state['if-lender-val'] ||
+    state.ifLender ||
+    state.loanLender ||
+    state.assetProvider ||
+    state.tradeProvider ||
+    state.fxProvider ||
+    "";
+  
+  // Get facility subtype
+  const facilitySubType =
+    state['if-type'] ||
+    state.loanType ||
+    state.assetType ||
+    "";
   
   // Detect whether user provided meaningful facility details
   const hasFacilityDetails = Boolean(
@@ -2928,18 +2931,28 @@ function displayResults(summary) {
     (state.barrier === 'yes')
   );
   
+  // Get priorities
+  const priorities = state['if-priorities'] || state.loanPriorities || [];
+  
   // Generate facility-specific summary
   let facilitySummary = "";
   
   // Generate provider-aware opening
   let opening = "";
-  if (currentProvider && hasFacilityDetails) {
+  if (currentProvider && facilitySubType) {
+    opening = `Based on the details you've provided, it is definitely worth reviewing your ${currentProvider} ${facilitySubType} facility properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
+  } else if (currentProvider) {
     opening = `Based on the details you've provided, it is definitely worth reviewing your ${currentProvider} facility properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
-  } else if (currentProvider && !hasFacilityDetails) {
-    opening = `Based on my experience with other clients using a ${currentProvider} facility, I believe a review may be very beneficial. The details still need to be checked properly, but it is worth understanding whether the structure, cost, flexibility and service are still right for ${businessText}.`;
+  } else if (facilitySubType) {
+    opening = `Based on the details you've provided, it is definitely worth reviewing your ${facilitySubType} facility properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
   } else {
     // Keep general wording for no provider
     opening = `Based on what you've told us, ${businessText}'s current ${facilityType} facility is worth reviewing properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
+  }
+  
+  // Add sentence if no rates/costs but provider exists
+  if (currentProvider && !hasFacilityDetails) {
+    opening += ` Even without the full rate details, the information you have provided gives a useful starting point. The review can focus on whether the facility structure, service, flexibility and overall cost still work for ${businessText}.`;
   }
   
   if (type.includes("loan")) {
@@ -2960,48 +2973,22 @@ function displayResults(summary) {
   } else if (type.includes("invoice")) {
     const ifType = state['if-type'] || '';
     const ifKnowledge = state['if-knowledge'] || '';
-    const ifPriorities = state['if-priorities'] || [];
     const barrierDetails = state.barrierDetails || '';
     
-    // Build smart Invoice Finance summary
-    let insights = [];
-    
-    // Add type-specific insight
-    if (ifType.toLowerCase().includes('spot')) {
-      insights.push(`Spot funding can be useful for immediate cash needs, but it is often more expensive than selective or full ledger facilities. For ${businessText}, it would be worth checking whether the current structure is still the most cost-effective option.`);
-    } else if (ifType.toLowerCase().includes('construction')) {
-      insights.push(`As ${businessText} appears to operate in construction or a related trade, the facility should be reviewed carefully. Construction invoice finance is more specialist because of contractual invoices, applications for payment and staged payments, but that does not mean the business should accept poor terms.`);
-    } else if (ifType.toLowerCase().includes('recruitment')) {
-      insights.push(`Back-office support varies a lot between providers — some are mostly software-led, while others provide more hands-on payroll, invoicing and admin support. For ${businessText}, it is worth checking whether the current level of support still meets the business needs.`);
-    } else if (ifType.toLowerCase().includes('not sure')) {
-      insights.push(`If ${businessText} is not sure what type of facility you have, that alone makes the facility worth reviewing because the details matter.`);
-    }
-    
-    // Add knowledge insight
-    if (ifKnowledge === 'Does not know details' || ifKnowledge === 'Not sure') {
-      insights.push(`If you're not sure exactly what ${businessText} is paying, that is not unusual. Invoice Finance costs can include service fees, discount charges, minimums, disbursements and other costs, so the true cost is not always obvious.`);
-    } else if (ifKnowledge === 'Knows details') {
-      insights.push(`Having the facility details to hand is a strong starting point because the review can look properly at cost, flexibility, minimums and disbursements for ${businessText}.`);
-    }
+    // Use the provider-aware opening
+    facilitySummary = opening;
     
     // Add priorities insight (top 1 or 2)
-    if (ifPriorities.length > 0) {
-      const topPriorities = ifPriorities.slice(0, 2);
+    if (priorities.length > 0) {
+      const topPriorities = priorities.slice(0, 2);
       const priorityText = topPriorities.join(' and ');
-      insights.push(`Because ${priorityText} matter to you, the review should focus on whether the current provider is delivering value to ${businessText}, not just whether the headline rate looks acceptable.`);
+      facilitySummary += ` Because ${priorityText} matter to you, the review should focus on whether the current provider is delivering value to ${businessText}, not just whether the headline rate looks acceptable.`;
     }
     
     // Add concern insight
     const concernText = barrierDetails.toLowerCase();
     if (concernText.includes('contract') || concernText.includes('tied') || concernText.includes('stuck') || concernText.includes('notice') || concernText.includes('exit') || concernText.includes('fee')) {
-      insights.push(`Feeling tied into a facility does not always mean there are no options. Some agreements can sometimes be negotiated, refinanced or moved away from more smoothly than expected.`);
-    }
-    
-    // Build summary from insights
-    if (insights.length > 0) {
-      facilitySummary = insights.slice(0, 2).join(' ');
-    } else {
-      facilitySummary = opening;
+      facilitySummary += ` Feeling tied into a facility does not always mean there are no options. Some agreements can sometimes be negotiated, refinanced or moved away from more smoothly than expected.`;
     }
     
   } else if (type.includes("asset")) {
