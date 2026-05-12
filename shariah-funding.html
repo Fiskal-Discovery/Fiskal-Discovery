@@ -815,6 +815,7 @@
         <span class="answer-emoji">🔍</span> I'm just exploring options
       </button>
     </div>
+    <button class="btn-primary" id="shariah-submit-btn" onclick="submitDiscovery()" style="display:none;margin-top:20px">Submit My Discovery</button>
     <div class="nav-row">
       <button class="back-btn" onclick="goBackToQ2()">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
@@ -978,12 +979,9 @@ function saveAmount() {
 
 function selectTimeline(timeline, btn) {
   state.timeline = timeline;
-  
-  // Update button styles
   document.querySelectorAll('#screen-q3 .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  
-  setTimeout(() => submitDiscovery(), 300);
+  document.getElementById('shariah-submit-btn').style.display = 'block';
 }
 
 // ============================================================
