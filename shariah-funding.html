@@ -1276,11 +1276,23 @@ function showShariahThinkingScreen(callback) {
       return;
     }
 
-    phraseEl.textContent = phrases[index];
+    var phrase = phrases[index];
+    // Personalize final phrase with user's name
+    if (index === phrases.length - 1) {
+      var profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}');
+      var name = profile.name || '';
+      if (name) {
+        phrase = 'Thanks for waiting ' + name + ', your Discovery is ready';
+      } else {
+        phrase = 'Thanks for waiting, your Discovery is ready';
+      }
+    }
+
+    phraseEl.textContent = phrase;
     phraseEl.classList.remove('active', 'shimmer');
     void phraseEl.offsetWidth;
     phraseEl.classList.add('active', 'shimmer');
-    console.log('Shariah phrase shown: ' + phrases[index]);
+    console.log('Shariah phrase shown: ' + phrase);
 
     setTimeout(function() {
       phraseEl.classList.remove('active', 'shimmer');

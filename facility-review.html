@@ -3627,7 +3627,18 @@ function showDiscoveryThinkingScreen(callback) {
       return;
     }
 
-    phraseEl.textContent = phrases[index];
+    let phrase = phrases[index];
+    // Personalize final phrase with user's name
+    if (index === phrases.length - 1) {
+      const name = state.name || '';
+      if (name) {
+        phrase = 'Thanks for waiting ' + name + ', your Discovery is ready';
+      } else {
+        phrase = 'Thanks for waiting, your Discovery is ready';
+      }
+    }
+
+    phraseEl.textContent = phrase;
     phraseEl.classList.remove('active', 'shimmer');
     void phraseEl.offsetWidth;
     phraseEl.classList.add('active', 'shimmer');
