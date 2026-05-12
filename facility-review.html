@@ -2786,40 +2786,48 @@ function getFallbackSummary() {
 }
 
 function forceShowFacilityReviewResults(resultsContainer) {
-  const loadingScreen = document.getElementById("screen-loading");
+  // Never use screen-loading as the results screen
+  let resultsScreen =
+    document.getElementById("screen-results") ||
+    document.getElementById("results-screen") ||
+    document.getElementById("facility-results-screen");
 
+  // Create screen-results if it doesn't exist
+  if (!resultsScreen) {
+    resultsScreen = document.createElement("div");
+    resultsScreen.id = "screen-results";
+    resultsScreen.className = "screen";
+    document.body.appendChild(resultsScreen);
+  }
+
+  // Copy results HTML from screen-loading to screen-results
+  if (resultsContainer && resultsContainer.innerHTML) {
+    resultsScreen.innerHTML = resultsContainer.innerHTML;
+  }
+
+  // Hide every screen
+  document.querySelectorAll(".screen").forEach((screen) => {
+    screen.classList.remove("active");
+    screen.style.display = "none";
+  });
+
+  // Show only screen-results
+  resultsScreen.classList.add("active");
+  resultsScreen.style.display = "flex";
+  resultsScreen.removeAttribute("aria-hidden");
+
+  // Explicitly hide screen-loading
+  const loadingScreen = document.getElementById("screen-loading");
   if (loadingScreen) {
     loadingScreen.classList.remove("active");
     loadingScreen.style.display = "none";
     loadingScreen.setAttribute("aria-hidden", "true");
   }
 
-  const resultsScreen =
-    resultsContainer.closest(".screen") ||
-    document.getElementById("screen-results") ||
-    document.getElementById("results-screen") ||
-    document.getElementById("facility-results-screen");
-
-  document.querySelectorAll(".screen").forEach((screen) => {
-    screen.classList.remove("active");
-    screen.style.display = "none";
-  });
-
-  if (resultsScreen) {
-    resultsScreen.classList.add("active");
-    resultsScreen.style.display = "flex";
-    resultsScreen.removeAttribute("aria-hidden");
-  } else {
-    console.warn("Facility Review results screen not found, showing results container directly");
-    resultsContainer.style.display = "block";
-  }
-
   window.scrollTo({ top: 0, behavior: "smooth" });
 
-  console.log(
-    "Active screen after Facility Review result switch:",
-    document.querySelector(".screen.active")?.id
-  );
+  console.log("Facility Review actual results screen:", resultsScreen.id);
+  console.log("Active screen after Facility Review result switch:", document.querySelector(".screen.active")?.id);
 }
 
 function displayResults(summary) {
