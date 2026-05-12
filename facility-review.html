@@ -2886,13 +2886,64 @@ function displayResults(summary) {
   const facilityTypes = state.facilityTypes || [];
   const facilityType = facilityTypes.length > 0 ? facilityTypes[0] : "facility";
   const businessText = businessName || "the business";
+  const type = String(facilityType).toLowerCase();
+  
+  // Get current provider/lender based on facility type
+  let currentProvider = "";
+  if (type.includes("invoice")) {
+    currentProvider = state['if-lender-val'] || state.ifLender || "";
+  } else if (type.includes("loan")) {
+    currentProvider = state.loanLender || "";
+  } else if (type.includes("asset")) {
+    currentProvider = state.assetProvider || "";
+  } else if (type.includes("trade")) {
+    currentProvider = state.tradeProvider || "";
+  } else if (type.includes("fx") || type.includes("foreign")) {
+    currentProvider = state.fxProvider || "";
+  }
+  
+  // Detect whether user provided meaningful facility details
+  const hasFacilityDetails = Boolean(
+    state.ifLimit ||
+    state.ifAdvance ||
+    state.ifServiceFee ||
+    state.ifDiscount ||
+    state.ifMinimums ||
+    state.ifDisbursements ||
+    state.ifMonthlyCost ||
+    state.loanRepayment ||
+    state.loanMonthlyCost ||
+    state.loanOriginal ||
+    state.loanOutstanding ||
+    state.loanRate ||
+    state.loanTerm ||
+    state.assetRepayments ||
+    state.assetRemaining ||
+    state.assetOutstanding ||
+    state.tradeLimit ||
+    state.tradeRates ||
+    state.tradeDuration ||
+    state.fxCurrencies ||
+    state.barrierDetails ||
+    (state.barrier === 'yes')
+  );
   
   // Generate facility-specific summary
   let facilitySummary = "";
-  const type = String(facilityType).toLowerCase();
+  
+  // Generate provider-aware opening
+  let opening = "";
+  if (currentProvider && hasFacilityDetails) {
+    opening = `Based on the details you've provided, it is definitely worth reviewing your ${currentProvider} facility properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
+  } else if (currentProvider && !hasFacilityDetails) {
+    opening = `Based on my experience with other clients using a ${currentProvider} facility, I believe a review may be very beneficial. The details still need to be checked properly, but it is worth understanding whether the structure, cost, flexibility and service are still right for ${businessText}.`;
+  } else {
+    // Keep general wording for no provider
+    opening = `Based on what you've told us, ${businessText}'s current ${facilityType} facility is worth reviewing properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
+  }
   
   if (type.includes("loan")) {
-    facilitySummary = `Based on what you've told us, ${businessText}'s current loan is worth reviewing properly. The aim is not just to see whether something cheaper exists, but to understand whether the monthly repayment, remaining balance, term and structure still work for ${businessText}.`;
+    facilitySummary = opening;
     
     // Add loan-specific insights
     if (state.loanRepayment || state.loanMonthlyCost) {
@@ -2950,26 +3001,11 @@ function displayResults(summary) {
     if (insights.length > 0) {
       facilitySummary = insights.slice(0, 2).join(' ');
     } else {
-      facilitySummary = `Based on what you've told us, ${businessText}'s current Invoice Finance facility is worth reviewing properly. The aim is to understand whether the rates, service, flexibility and facility structure still fit the way ${businessText} trades.`;
-    }
-    
-  } else if (type.includes("loan")) {
-    facilitySummary = `Based on what you've told us, ${businessText}'s current loan is worth reviewing properly. The aim is not just to see whether something cheaper exists, but to understand whether the monthly repayment, remaining balance, term and structure still work for ${businessText}.`;
-    
-    // Add loan-specific insights
-    if (state.loanRepayment || state.loanMonthlyCost) {
-      facilitySummary += ` With the current repayment in place, it is worth checking whether the monthly pressure on cashflow is manageable for ${businessText} or whether refinancing or consolidation could improve the position.`;
-    }
-    
-    if (state.loanBarrier === 'yes' && state.loanBarrierDetails) {
-      const concernText = state.loanBarrierDetails.toLowerCase();
-      if (concernText.includes('contract') || concernText.includes('tied') || concernText.includes('stuck') || concernText.includes('notice') || concernText.includes('exit') || concernText.includes('fee')) {
-        facilitySummary += ` Feeling tied into a facility does not always mean there are no options. Some agreements can sometimes be negotiated, refinanced or moved away from more smoothly than expected.`;
-      }
+      facilitySummary = opening;
     }
     
   } else if (type.includes("asset")) {
-    facilitySummary = `Based on what you've told us, ${businessText}'s current Asset Finance agreement is worth reviewing properly. The aim is to understand whether the monthly repayment, remaining term, ownership position and structure still work for ${businessText}.`;
+    facilitySummary = opening;
     
     if (state.assetRepayments) {
       facilitySummary += ` With the current repayment level, it is worth checking whether the asset still supports ${businessText} properly or whether the facility structure needs adjustment.`;
@@ -2983,7 +3019,7 @@ function displayResults(summary) {
     }
     
   } else if (type.includes("trade")) {
-    facilitySummary = `Based on what you've told us, ${businessText}'s current Trade Finance facility is worth reviewing properly. The aim is to understand whether the limit, fees, supplier terms and repayment timing still match the way ${businessText} buys and sells.`;
+    facilitySummary = opening;
     
     if (state.tradeLimit) {
       facilitySummary += ` With the current limit in place, it is worth checking whether the facility is supporting ${businessText}'s supplier relationships or constraining growth opportunities.`;
@@ -2997,7 +3033,7 @@ function displayResults(summary) {
     }
     
   } else if (type.includes("fx") || type.includes("foreign")) {
-    facilitySummary = `Based on what you've told us, ${businessText}'s current FX or foreign currency arrangement is worth reviewing properly. Even small differences in exchange rates, fees and timing can add up if ${businessText} makes regular currency payments.`;
+    facilitySummary = opening;
     
     if (state.fxCurrencies) {
       facilitySummary += ` With the currencies you deal in, it is worth checking whether the current provider is offering competitive rates to ${businessText} and whether the timing of currency exchanges could be optimized.`;
