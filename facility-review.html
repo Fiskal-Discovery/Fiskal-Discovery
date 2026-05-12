@@ -2862,16 +2862,47 @@ function forceShowFacilityReviewResults(resultsContainer) {
 function displayResults(summary) {
   const name = state.name || 'there';
   const firstName = name.split(' ')[0];
-  const business = state.business || 'your business';
   
   console.log("Facility review answers:", state);
   console.log("Facility results summary:", summary);
   
-  // Add safe fallback if summary is empty
-  if (!summary || summary.trim() === '') {
-    summary = `Based on what you've told us, your current facility is worth reviewing properly. The aim is to understand whether the structure, cost, flexibility and service still work for ${business}.`;
-    console.log("Using fallback summary");
+  // Get business name for subtitle
+  const businessName =
+    state.business ||
+    state.company ||
+    sessionStorage.getItem("businessName") ||
+    localStorage.getItem("businessName") ||
+    "";
+  
+  const resultSubtitle = businessName
+    ? `Here's what we found for ${businessName}` 
+    : "Here's what we found";
+  
+  // Get facility type for summary
+  const facilityTypes = state.facilityTypes || [];
+  const facilityType = facilityTypes.length > 0 ? facilityTypes[0] : "facility";
+  const businessText = businessName || "the business";
+  
+  // Generate facility-specific summary
+  let facilitySummary = "";
+  const type = String(facilityType).toLowerCase();
+  
+  if (type.includes("loan")) {
+    facilitySummary = `Based on what you've told us, your current loan is worth reviewing properly. The aim is not just to see whether something cheaper exists, but to understand whether the monthly repayment, remaining balance, term and structure still work for ${businessText}.`;
+  } else if (type.includes("invoice")) {
+    facilitySummary = `Based on what you've told us, your current Invoice Finance facility is worth reviewing properly. The aim is to understand whether the rates, service, flexibility and facility structure still fit the way ${businessText} trades.`;
+  } else if (type.includes("asset")) {
+    facilitySummary = `Based on what you've told us, your current Asset Finance agreement is worth reviewing properly. The aim is to understand whether the monthly repayment, remaining term, ownership position and structure still work for ${businessText}.`;
+  } else if (type.includes("trade")) {
+    facilitySummary = `Based on what you've told us, your current Trade Finance facility is worth reviewing properly. The aim is to understand whether the limit, fees, supplier terms and repayment timing still match the way ${businessText} buys and sells.`;
+  } else if (type.includes("fx") || type.includes("foreign")) {
+    facilitySummary = `Based on what you've told us, your current FX or foreign currency arrangement is worth reviewing properly. Even small differences in exchange rates, fees and timing can add up if ${businessText} makes regular currency payments.`;
+  } else {
+    facilitySummary = `Based on what you've told us, your current facility is worth reviewing properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
   }
+  
+  // Use the facility-specific summary instead of the passed summary
+  summary = facilitySummary;
   
   const resultsNameEl = document.getElementById('results-name');
   const summaryTextEl = document.getElementById('ai-summary-text');
@@ -2883,9 +2914,9 @@ function displayResults(summary) {
   console.log("Facility results container - nicole-message:", nicoleMessageEl);
   console.log("Facility results container - screen-content:", screenContentEl);
   
-  if (resultsNameEl) resultsNameEl.textContent = `Here's what we found for you, ${name}`;
+  if (resultsNameEl) resultsNameEl.textContent = resultSubtitle;
   if (summaryTextEl) summaryTextEl.textContent = summary;
-  if (nicoleMessageEl) nicoleMessageEl.textContent = `I've received your Facility Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${business}.`;
+  if (nicoleMessageEl) nicoleMessageEl.textContent = `I've received your Facility Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${businessText}.`;
   
   // Hide the loading overlay
   const loadingOverlay = document.getElementById('discovery-thinking-screen');
