@@ -1179,26 +1179,26 @@
     font-weight: 300;
   }
 
-  .call-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--gold);
-    color: var(--dark);
-    border: none;
-    border-radius: 10px;
-    padding: 12px 18px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    text-decoration: none;
-    margin-top: 12px;
-    display: inline-flex;
-    transition: all 0.2s ease;
+  .call-now-mobile {
+    display: none;
   }
 
-  .call-btn:hover { background: var(--gold-light); }
+  @media (max-width: 600px) {
+    .call-now-mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 16px 20px;
+      margin-top: 20px;
+      border-radius: 12px;
+      background: #0099ff;
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+    }
+  }
 
   /* ---- PRICING PROMPT ---- */
   .pricing-prompt {
@@ -1644,7 +1644,7 @@
       </div>
     </div>
 
-    <a href="tel:07946074268" class="call-btn" style="display:inline-flex !important;color:white !important">📞 Can't wait? Call me now</a>
+    <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
 
     <div class="divider"></div>
 
@@ -1670,7 +1670,7 @@
       <div class="confirm-icon">✅</div>
       <h2 class="confirm-title">You're all set,<br><span id="confirm-name">there</span>!</h2>
       <p class="confirm-text">A summary of your Fiskal Discovery has been sent to your email. Nicole will be in touch personally within a few hours.<br><br>Can't wait?</p>
-      <a href="tel:07946074268" class="btn-primary" style="text-decoration:none;display:block;text-align:center">📞 Call Nicole — 07946 074 268</a>
+      <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
       <button class="btn-secondary" onclick="goHome()">Start a new Discovery</button>
     </div>
   </div>
