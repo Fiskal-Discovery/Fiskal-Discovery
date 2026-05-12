@@ -3,28 +3,27 @@
 
 function getShariahOpeningInsight(businessName, purpose) {
   const name = businessName || 'the business';
-  const p = (purpose || '').toLowerCase();
 
-  let para = `Based on what you've told us, ${name} is looking for funding`;
+  let para = `Based on what you've told us, ${name} is looking for funding to support`;
   if (purpose && purpose !== 'Something else') {
-    para += ` for ${purpose.toLowerCase()}`;
+    para += ` ${purpose.toLowerCase()}`;
+  } else {
+    para += ` a specific requirement`;
   }
   para += `. Because you are specifically looking for a Shariah-compliant route, this needs to be approached differently from a standard business loan or conventional finance application.`;
-
-  para += `\n\nShariah-compliant business funding can be more specialist and sometimes harder to source through mainstream routes, but that does not mean there are no options worth exploring. The key is understanding what the funding needs to achieve, how much may be required, and whether there are providers who may be able to support ${name} in a way that aligns more closely with Shariah-compliant principles.`;
 
   return para;
 }
 
 function getShariahAmountInsight(amount, notSure) {
   if (notSure || !amount || amount === 'Not sure yet') {
-    return `As you're not yet sure how much funding may be needed, that is completely fine. The first step would be to understand what you are trying to achieve and then work backwards to a sensible funding range.`;
+    return `As you're not yet sure how much funding may be needed, the first step would be to work backwards from the purpose and identify a sensible funding range.`;
   }
 
   const parsed = parseMoneyString(amount);
   if (parsed) {
-    const formatted = '£' + parsed.toLocaleString('en-GB');
-    return `You've indicated that around ${formatted} may be needed, so the next step would be to look at whether that level of funding is realistic for the purpose, structure and provider criteria.`;
+    const formatted = '\u00a3' + parsed.toLocaleString('en-GB');
+    return `You've indicated that around ${formatted} may be needed, so this can be reviewed against the purpose, structure and provider criteria.`;
   }
 
   return null;
