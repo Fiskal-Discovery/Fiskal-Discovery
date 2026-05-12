@@ -2465,7 +2465,8 @@ const selfFields = [
   { key: 'companyNumber',   prompt: "Do you know your company registration number? (You can skip this if not — just press enter or type 'skip')" },
   { key: 'turnoverLast',    prompt: "What was your turnover last year? (e.g. £500,000 — or an estimate is fine)" },
   { key: 'turnoverNext',    prompt: "And what are you expecting this year? (Your best guess is perfect)" },
-  { key: 'propertyOwners',  prompt: "Are any directors of the business home or property owners?" }
+  { key: 'propertyOwners',  prompt: "Are any directors of the business home or property owners?" },
+  { key: 'marketingConsent', prompt: "One last thing — would you like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news?", type: 'checkbox' }
 ];
 
 // Field sequences for introducer
@@ -2484,7 +2485,8 @@ const clientFields = [
   { key: 'companyNumber',   prompt: "Do you have their company registration number? (Type 'skip' if not)" },
   { key: 'turnoverLast',    prompt: "What was their turnover last year?" },
   { key: 'turnoverNext',    prompt: "And what are they expecting this year?" },
-  { key: 'propertyOwners',  prompt: "Are any directors of the business home or property owners?" }
+  { key: 'propertyOwners',  prompt: "Are any directors of the business home or property owners?" },
+  { key: 'marketingConsent', prompt: "One last thing — would {firstName} like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news?", type: 'checkbox' }
 ];
 
 let obFieldIndex = 0;
@@ -2663,11 +2665,56 @@ function scrollChat() {
 }
 
 function showInput(fieldKey) {
+  const field = obCurrentFields[obFieldIndex];
+  
+  // Handle checkbox input for marketing consent
+  if (field.type === 'checkbox') {
+    const inputArea = document.getElementById('ob-input-area');
+    const input = document.getElementById('ob-input');
+    
+    // Hide text input, show checkbox
+    input.style.display = 'none';
+    document.getElementById('ob-choices').style.display = 'none';
+    
+    // Create checkbox container
+    const checkboxContainer = document.getElementById('ob-checkbox-container');
+    if (!checkboxContainer) {
+      const container = document.createElement('div');
+      container.id = 'ob-checkbox-container';
+      container.style.cssText = 'display:flex;flex-direction:column;gap:12px;margin-top:12px;';
+      container.innerHTML = `
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.9rem;color:var(--light-text);">
+          <input type="checkbox" id="ob-marketing-consent" style="margin-top:3px;flex-shrink:0;">
+          <span>Yes, I'd like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news.</span>
+        </label>
+        <button class="btn-primary" id="ob-checkbox-submit" style="margin-top:8px">Continue →</button>
+      `;
+      inputArea.appendChild(container);
+      
+      document.getElementById('ob-checkbox-submit').onclick = () => {
+        const checkbox = document.getElementById('ob-marketing-consent');
+        const value = checkbox.checked ? 'yes' : 'no';
+        obState.profile[field.key] = checkbox.checked;
+        obAddUserBubble(checkbox.checked ? 'Yes' : 'No');
+        checkboxContainer.remove();
+        input.style.display = 'block';
+        obFieldIndex++;
+        setTimeout(() => obAskNextField(), 400);
+      };
+    } else {
+      checkboxContainer.style.display = 'flex';
+    }
+    
+    inputArea.style.display = 'flex';
+    return;
+  }
+  
   const inputArea = document.getElementById('ob-input-area');
   const input = document.getElementById('ob-input');
   inputArea.style.display = 'flex';
   document.getElementById('ob-choices').style.display = 'none';
   input.value = '';
+  input.style.display = 'block';
 
   // Set keyboard type hints
   if (fieldKey === 'email') input.type = 'email';
@@ -2764,6 +2811,17 @@ function obComplete() {
 
   obAddFiskalBubble(msg);
   setTimeout(() => {
+      // Add marketing consent text and timestamp if consent was given
+      if (p.marketingConsent) {
+        p.marketingConsentText = "Yes, I'd like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news.";
+        p.marketingConsentTimestamp = new Date().toISOString();
+        p.marketingConsentSource = "Fiskal Discovery onboarding";
+      } else {
+        p.marketingConsentText = "";
+        p.marketingConsentTimestamp = "";
+        p.marketingConsentSource = "Fiskal Discovery onboarding";
+      }
+      
       // Save profile
       const profile = {
         name: p.name,
@@ -2774,6 +2832,10 @@ function obComplete() {
         turnoverLast: p.turnoverLast || '',
         turnoverNext: p.turnoverNext || '',
         propertyOwners: p.propertyOwners || '',
+        marketingConsent: p.marketingConsent || false,
+        marketingConsentText: p.marketingConsentText || '',
+        marketingConsentTimestamp: p.marketingConsentTimestamp || '',
+        marketingConsentSource: p.marketingConsentSource || '',
         userType: obState.userType,
         intrName: p.intrName || '',
         intrEmail: p.intrEmail || '',
@@ -2783,6 +2845,17 @@ function obComplete() {
       localStorage.setItem(OB_KEY, JSON.stringify(profile));
       applyProfileToApp(profile);
       showProfileBadge(profile);
+      
+      // Send contact-start notification once per session
+      const contactCaptureKey = 'contactCaptureSent';
+      if (!sessionStorage.getItem(contactCaptureKey)) {
+        sendOnboardingContactStartNotification(profile).then(() => {
+          sessionStorage.setItem(contactCaptureKey, 'true');
+        }).catch(e => {
+          console.warn('Onboarding contact-start notification failed:', e);
+        });
+      }
+      
       setTimeout(() => hideOnboarding(), 1200);
     }, 1400);
 }
@@ -2794,25 +2867,21 @@ function applyProfileToApp(profile) {
   state.email = profile.email || '';
   state.phone = profile.phone || '';
   state.companyNumber = profile.companyNumber || '';
+  state.marketingConsent = profile.marketingConsent || false;
+  state.marketingConsentText = profile.marketingConsentText || '';
+  state.marketingConsentTimestamp = profile.marketingConsentTimestamp || '';
+  state.marketingConsentSource = profile.marketingConsentSource || '';
+  state.turnover = profile.turnoverLast || '';
+  state.turnoverNext = profile.turnoverNext || '';
+  state.propertyOwners = profile.propertyOwners || '';
 
-  // Pre-fill any visible form fields (details screen)
-  const fields = {
-    'field-name': profile.name,
-    'field-business': profile.businessName,
-    'field-email': profile.email,
-    'field-phone': profile.phone,
-    'field-company-number': profile.companyNumber
-  };
-  Object.entries(fields).forEach(([id, val]) => {
+  // Pre-fill form fields if they exist
+  const fields = ['field-name', 'field-business', 'field-email', 'field-phone', 'field-company-number', 'field-turnover', 'field-turnover-next', 'field-property-owners'];
+  const values = [profile.name, profile.businessName, profile.email, profile.phone, profile.companyNumber, profile.turnoverLast, profile.turnoverNext, profile.propertyOwners];
+  fields.forEach((id, i) => {
     const el = document.getElementById(id);
-    if (el && val) el.value = val;
+    if (el && values[i]) el.value = values[i];
   });
-
-  // Personalise home eyebrow
-  const eyebrow = document.getElementById('home-eyebrow');
-  if (eyebrow && profile.name) {
-    eyebrow.textContent = `Welcome back, ${getFirstName(profile.name)} 👋`;
-  }
 }
 
 function showProfileBadge(profile) {
@@ -2823,6 +2892,32 @@ function showProfileBadge(profile) {
   document.getElementById('home-profile-name').textContent = profile.name || '';
   document.getElementById('home-profile-company').textContent = profile.businessName || '';
   badge.style.display = 'flex';
+}
+
+async function sendOnboardingContactStartNotification(profile) {
+  const templateParams = {
+    name: profile.name,
+    business_name: profile.businessName,
+    email: profile.email,
+    phone: profile.phone,
+    company_number: profile.companyNumber || 'Not provided',
+    marketing_consent: profile.marketingConsent ? 'Yes' : 'No',
+    consent_timestamp: profile.marketingConsentTimestamp || 'N/A',
+    consent_text: profile.marketingConsentText || 'N/A',
+    consent_source: profile.marketingConsentSource || 'N/A',
+    module: 'Fiskal Discovery - Onboarding Contact Started',
+    matched_products: 'Contact details captured via onboarding',
+    barriers: 'N/A',
+    summary: `New Fiskal Discovery Contact Started (Onboarding)\n\nName: ${profile.name}\nBusiness: ${profile.businessName}\nEmail: ${profile.email}\nPhone: ${profile.phone}\nCompany Number: ${profile.companyNumber || 'Not provided'}\nMarketing Consent: ${profile.marketingConsent ? 'Yes' : 'No'}\n${profile.marketingConsent ? `Consent Text: ${profile.marketingConsentText}\nConsent Timestamp: ${profile.marketingConsentTimestamp}\n` : ''}User Type: ${profile.userType || 'N/A'}\nTimestamp: ${new Date().toISOString()}`
+  };
+
+  try {
+    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    console.log('Onboarding contact-start notification sent successfully');
+  } catch (error) {
+    console.error('Onboarding contact-start notification failed:', error);
+    throw error;
+  }
 }
 
 function resetOnboarding() {
