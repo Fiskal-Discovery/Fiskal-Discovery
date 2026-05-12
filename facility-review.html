@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fiskal Discovery — Facility Review</title>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
     --indigo: #7E09A5;
@@ -558,240 +559,6 @@
     line-height: 1.7;
     color: var(--dark);
     font-weight: 300;
-  }
-
-  /* ---- NICOLE CONTACT CARD ---- */
-  .nicole-contact-card {
-    display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
-    grid-template-areas:
-      "photo message"
-      "details actions";
-    align-items: center;
-    gap: 20px 34px;
-    width: 100%;
-    background: linear-gradient(135deg, #670087 0%, #8b00ac 52%, #a300c9 100%);
-    color: #ffffff;
-    border-radius: 28px;
-    padding: 38px;
-    box-shadow: 0 22px 55px rgba(126, 9, 165, 0.28);
-    overflow: hidden;
-    position: relative;
-    margin-top: 28px;
-  }
-
-  .nicole-contact-card::before {
-    content: "";
-    position: absolute;
-    inset: -40%;
-    background:
-      radial-gradient(circle at 18% 20%, rgba(255, 230, 0, 0.16), transparent 28%),
-      radial-gradient(circle at 82% 80%, rgba(0, 153, 255, 0.14), transparent 30%);
-    pointer-events: none;
-  }
-
-  .nicole-photo-side,
-  .nicole-message-wrap,
-  .nicole-details,
-  .nicole-card-actions {
-    position: relative;
-    z-index: 1;
-  }
-
-  .nicole-photo-side {
-    grid-area: photo;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .nicole-photo-wrap {
-    width: min(235px, 100%);
-    aspect-ratio: 1 / 1;
-    border-radius: 30px;
-    overflow: hidden;
-    border: 4px solid #00aaff;
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22), 0 0 30px rgba(0, 170, 255, 0.22);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .nicole-photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .nicole-photo-fallback {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    font-size: 4rem;
-    font-weight: 800;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.12);
-  }
-
-  .nicole-message-wrap {
-    grid-area: message;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100%;
-  }
-
-  .nicole-message {
-    line-height: 1.65;
-    font-size: clamp(1rem, 1.55vw, 1.18rem);
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.96);
-    max-width: 540px;
-  }
-
-  .nicole-details {
-    grid-area: details;
-    text-align: center;
-    align-self: flex-start;
-    justify-self: center;
-    width: 100%;
-    padding-top: 2px;
-  }
-
-  .nicole-details h3 {
-    font-size: clamp(1.45rem, 2.6vw, 2rem);
-    line-height: 1.1;
-    margin: 0 0 8px;
-    font-weight: 800;
-  }
-
-  .nicole-title {
-    font-size: 1.02rem;
-    color: rgba(255, 255, 255, 0.88);
-    margin-bottom: 12px;
-    font-weight: 700;
-  }
-
-  .nicole-phone,
-  .nicole-email {
-    font-size: 1.08rem;
-    line-height: 1.45;
-    color: #ffffff;
-    font-weight: 800;
-  }
-
-  .nicole-card-actions {
-    grid-area: actions;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 22px;
-    flex-wrap: nowrap;
-    width: 100%;
-    max-width: 560px;
-    align-self: center;
-    justify-self: center;
-    padding-top: 2px;
-  }
-
-  .visit-fiskal-btn,
-  .fiskal-linkedin-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 48px;
-    min-width: 220px;
-    flex: 0 1 auto;
-    padding: 13px 22px;
-    border-radius: 999px;
-    font-weight: 800;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-  }
-
-  .visit-fiskal-btn {
-    min-width: 220px;
-    background: #FFE600;
-    color: #08000F;
-    box-shadow: 0 10px 25px rgba(255, 230, 0, 0.24);
-  }
-
-  .fiskal-linkedin-btn {
-    background: #ffffff;
-    color: #7E09A5;
-    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.18);
-  }
-
-  .visit-fiskal-btn:hover,
-  .fiskal-linkedin-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
-  }
-
-  .call-now-mobile {
-    display: none;
-  }
-
-  @media (max-width: 760px) {
-    .nicole-contact-card {
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        "photo"
-        "details"
-        "message"
-        "actions";
-      text-align: center;
-      padding: 28px 22px;
-      gap: 22px;
-    }
-
-    .nicole-photo-wrap {
-      width: 190px;
-      border-radius: 50%;
-    }
-
-    .nicole-photo-side,
-    .nicole-message-wrap,
-    .nicole-details,
-    .nicole-card-actions {
-      align-self: center;
-    }
-
-    .nicole-message-wrap {
-      justify-content: center;
-    }
-
-    .nicole-card-actions {
-      flex-direction: column;
-      gap: 14px;
-      max-width: 100%;
-    }
-
-    .visit-fiskal-btn,
-    .fiskal-linkedin-btn,
-    .call-now-mobile {
-      width: 100%;
-      min-width: 0;
-      flex: none;
-    }
-
-    .call-now-mobile {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 13px 20px;
-      border-radius: 999px;
-      background: #0099ff;
-      color: #ffffff;
-      font-weight: 800;
-      text-decoration: none;
-    }
   }
 
   .screen-footer {
@@ -1967,12 +1734,12 @@
   <div class="screen-content">
     <div class="results-header">
       <div class="results-check">&#10024;</div>
-      <h2 class="results-title">Your Asset Review is ready</h2>
+      <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="asset-results-name">Here's what we found for you</p>
     </div>
 
     <div class="ai-summary">
-      <div class="ai-summary-label">Your personal summary</div>
+      <div class="ai-summary-label">Here's what we discovered</div>
       <p class="ai-summary-text" id="asset-ai-summary">Analysing your responses...</p>
     </div>
 
@@ -2308,12 +2075,12 @@
   <div class="screen-content">
     <div class="results-header">
       <div class="results-check">&#10024;</div>
-      <h2 class="results-title">Your Trade Review is ready</h2>
+      <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="trade-results-name">Here's what we found for you</p>
     </div>
 
     <div class="ai-summary">
-      <div class="ai-summary-label">Your personal summary</div>
+      <div class="ai-summary-label">Here's what we discovered</div>
       <p class="ai-summary-text" id="trade-ai-summary">Analysing your responses...</p>
     </div>
 
@@ -2359,12 +2126,12 @@
   <div class="screen-content">
     <div class="results-header">
       <div class="results-check">&#10024;</div>
-      <h2 class="results-title">Your FX Review is ready</h2>
+      <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="fx-results-name">Here's what we found for you</p>
     </div>
 
     <div class="ai-summary">
-      <div class="ai-summary-label">Your personal summary</div>
+      <div class="ai-summary-label">Here's what we discovered</div>
       <p class="ai-summary-text" id="fx-ai-summary">Analysing your responses...</p>
     </div>
 
@@ -2424,12 +2191,12 @@
   <div class="screen-content">
     <div class="results-header">
       <div class="results-check">&#10024;</div>
-      <h2 class="results-title">Your Review is ready</h2>
+      <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="results-name">Here's what we found for you</p>
     </div>
 
     <div class="ai-summary">
-      <div class="ai-summary-label">Your personal summary</div>
+      <div class="ai-summary-label">Here's what we discovered</div>
       <p class="ai-summary-text" id="ai-summary-text">Analysing your responses...</p>
     </div>
 
@@ -3234,42 +3001,6 @@ function submitFXReview() {
   });
 }
 
-function renderNicoleMessage() {
-  const messageEl = document.getElementById("nicole-message");
-  if (!messageEl) return;
-
-  const nicoleMessages = [
-    "Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website or our LinkedIn page to learn more about who we are and how we can help.",
-    "Thank you for sharing your details. I'll take a look through your Discovery and come back to you within the next couple of hours. While you wait, you're welcome to explore the Fiskal website or our LinkedIn page and see how we support businesses like yours.",
-    "Your Discovery has been received. I'll review everything personally and will be in touch within the next couple of hours. In the meantime, feel free to visit the Fiskal website or LinkedIn page to learn more about the support available.",
-    "Thanks for taking the time to complete your Discovery. I'll review your answers and contact you within the next couple of hours. While you're here, you can explore the Fiskal website or our LinkedIn page to learn more about how we can help."
-  ];
-
-  messageEl.textContent = nicoleMessages[Math.floor(Math.random() * nicoleMessages.length)];
-}
-
-function loadNicolePhoto() {
-  const img = document.getElementById("nicole-photo");
-  const fallback = document.querySelector(".nicole-photo-fallback");
-
-  if (!img) {
-    console.warn("Nicole photo element not found on this page");
-    return;
-  }
-
-  img.onload = function () {
-    img.style.display = "block";
-    if (fallback) fallback.style.display = "none";
-  };
-
-  img.onerror = function () {
-    img.style.display = "none";
-    if (fallback) fallback.style.display = "flex";
-  };
-
-  img.src = "assets/nicole-bertolissi.jpg";
-}
-
 
 // ---- Load profile from onboarding ----
 (function() {
@@ -3491,6 +3222,7 @@ function showDiscoveryThinkingScreen(callback) {
   showPhrase();
 }
 </script>
+<script src="shared-components.js"></script>
 
 </body>
 </html>
