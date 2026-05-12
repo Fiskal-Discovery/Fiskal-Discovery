@@ -2152,14 +2152,26 @@ function displayResults(summary, matchedProducts) {
   
   // Render shared Nicole contact card
   const nicoleCardContainer = document.getElementById('nicole-contact-card-container');
-  if (nicoleCardContainer && typeof renderNicoleContactCard === 'function') {
-    nicoleCardContainer.innerHTML = renderNicoleContactCard();
-    if (typeof renderNicoleMessage === 'function') {
-      renderNicoleMessage();
+  if (nicoleCardContainer) {
+    if (typeof renderNicoleContactCard === 'function') {
+      const cardHtml = renderNicoleContactCard();
+      if (cardHtml) {
+        nicoleCardContainer.innerHTML = cardHtml;
+        console.log('Nicole contact card rendered');
+        if (typeof renderNicoleMessage === 'function') {
+          renderNicoleMessage();
+        }
+        if (typeof loadNicolePhoto === 'function') {
+          loadNicolePhoto();
+        }
+      } else {
+        console.warn('renderNicoleContactCard returned empty string');
+      }
+    } else {
+      console.warn('renderNicoleContactCard is not available on Funding Finder');
     }
-    if (typeof loadNicolePhoto === 'function') {
-      loadNicolePhoto();
-    }
+  } else {
+    console.warn('nicole-contact-card-container element not found');
   }
   
   console.log("Showing discovery results");
