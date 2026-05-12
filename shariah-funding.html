@@ -816,7 +816,11 @@
     to { transform: rotate(360deg); }
   }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="logic/globalInsights.js"></script>
+<script src="logic/sectorInsights.js"></script>
+<script src="logic/shariahInsights.js"></script>
+<script src="logic/summaryBuilder.js"></script>
+<script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
 </head>
 <body>
@@ -1266,29 +1270,46 @@ function displayResults() {
   const purpose = state.otherPurpose || state.purpose;
   const amount = state.amount;
   const timeline = state.timeline;
-  
-  // Build summary text
-  let summaryText = `Based on what you've told us, your requirement may be suitable for a more specialist funding review.\n\n`;
-  summaryText += `You're looking for funding to help with ${purpose.toLowerCase()}`;
-  
+
+  // Build fallback summary HTML (used if summaryBuilder fails)
+  let fallbackParts = [];
+  fallbackParts.push(`Based on what you've told us, your requirement may be suitable for a more specialist funding review.`);
+  let purposeLine = `You're looking for funding to help with ${(purpose || '').toLowerCase()}`;
   if (amount && amount !== 'Not sure yet') {
-    summaryText += `, with an estimated funding need of £${Number(amount).toLocaleString()}`;
-  } else if (amount === 'Not sure yet') {
-    summaryText += `. As you're not yet sure how much funding may be required, the first step would be to understand the purpose of the funding and estimate a suitable range before approaching providers`;
+    purposeLine += `, with an estimated funding need of \u00a3${Number(amount).toLocaleString('en-GB')}`;
+  } else if (!amount || amount === 'Not sure yet') {
+    purposeLine += `. As you're not yet sure how much funding may be required, the first step would be to understand the purpose and estimate a suitable range`;
   }
-  
-  summaryText += `.\n\n`;
-  summaryText += `Shariah-compliant funding can be more complex to source than conventional finance, so the next step is to understand what you're trying to achieve and whether there are appropriate providers who may be able to support that requirement.\n\n`;
-  summaryText += `Fiskal can review the details personally and help explore funding routes that may align more closely with Shariah-compliant principles.`;
-  
-  document.getElementById('summary-text').textContent = summaryText;
-  
-  // Build Nicole message
-  let nicoleMessage = `Thank you for sharing your requirements. Based on what you've told me, I believe a more specialist funding review would be appropriate for your business.\n\n`;
-  nicoleMessage += `Shariah-compliant funding requires careful consideration, and I'd be happy to help you explore options that may align with your principles.`;
-  
-  document.getElementById('nicole-message').textContent = nicoleMessage;
-  
+  fallbackParts.push(purposeLine + '.');
+  fallbackParts.push(`Shariah-compliant funding can be more complex to source than conventional finance, so the next step is to understand what you're trying to achieve and whether there are appropriate providers who may be able to support that requirement.`);
+  fallbackParts.push(`Fiskal can review the details personally and help explore funding routes that may align more closely with Shariah-compliant principles.`);
+  const existingFallbackSummaryHtml = fallbackParts.map(p => `<p>${p}</p>`).join('\n');
+
+  // Build personalised summary using logic module
+  const shariahAnswers = {
+    purpose:      state.purpose,
+    otherPurpose: state.otherPurpose,
+    amount:       state.amount,
+    notSure:      state.notSure,
+    timeline:     state.timeline,
+    business:     '' // Shariah journey does not collect business name
+  };
+
+  let summary;
+  try {
+    summary = buildDiscoverySummary('shariah', shariahAnswers);
+  } catch (error) {
+    console.warn('Summary builder failed, using fallback Shariah summary', error);
+    summary = {
+      pageHeading:    'Your Fiskal Discovery is ready',
+      summaryHeading: "Here's what we discovered",
+      summaryHtml:    existingFallbackSummaryHtml
+    };
+  }
+
+  // Inject summary content
+  document.getElementById('summary-text').innerHTML = summary.summaryHtml;
+
   console.log('[Shariah] showing results');
   showScreen('screen-results');
   window.scrollTo({ top: 0, behavior: 'smooth' });
