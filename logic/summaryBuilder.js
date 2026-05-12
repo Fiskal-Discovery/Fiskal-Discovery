@@ -63,12 +63,12 @@ function buildFundingFinderSummary(answers) {
 
   const blocks = [];
 
-  // Opening
+  // Opening - stronger, more specific
   const sectorNote = getSectorNote(business, industry);
   if (sectorNote) {
-    blocks.push(`Based on what you've told us, ${sectorNote}. Here is what looks worth exploring for ${business}.`);
+    blocks.push(`Great news — based on what you've told us, there are several funding options worth exploring for ${business}. Because ${sectorNote}, the right structure needs to take account of how work is completed, invoiced and paid.`);
   } else {
-    blocks.push(`Based on what you've told us, here is what looks worth exploring for ${business}.`);
+    blocks.push(`Great news — based on what you've told us, there are several funding options worth exploring for ${business}.`);
   }
 
   // Top 2 product insights
@@ -80,8 +80,7 @@ function buildFundingFinderSummary(answers) {
     blocks.push(getCreditConcernInsight());
   }
 
-  // Practical close
-  blocks.push(`The next step is to have a conversation about the details. Every business is different, and the best structure for ${business} will depend on what the funding needs to achieve and how the numbers stack up.`);
+  // No generic close - contact card handles follow-up
 
   const summaryText = blocks.join('\n\n');
   return {

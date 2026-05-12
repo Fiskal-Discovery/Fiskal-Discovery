@@ -62,7 +62,7 @@ function getSectorInvoiceFinanceInsight(businessName, industry) {
 
   switch (sector) {
     case 'construction':
-      return `As ${name} appears to operate in construction or a related trade, it may be worth looking at specialist construction finance facilities. These can sometimes support contractual invoices, applications for payment or staged payments, where standard invoice finance may not always fit neatly.`;
+      return `Invoice Finance may be worth exploring, especially if ${name} waits for customers or contractors to pay invoices. For construction-related businesses, it may be worth looking at specialist facilities that can support contractual invoices, applications for payment or staged payments, where standard invoice finance may not always fit neatly.`;
 
     case 'recruitment':
       return `As ${name} appears to operate in recruitment or staffing, specialist recruitment finance may be worth exploring. This can help fund payroll before clients pay their invoices, and some providers may also offer optional back-office or payroll support.`;
