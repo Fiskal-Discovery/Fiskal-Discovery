@@ -246,7 +246,6 @@
   align-items: center;
 }
 
-.nicole-contact-card .nicole-card-actions a,
 .nicole-contact-card .visit-fiskal-btn,
 .nicole-contact-card .fiskal-linkedin-btn {
   margin: 0 !important;
@@ -260,9 +259,7 @@
   align-items: center !important;
   justify-content: center !important;
   line-height: 1 !important;
-  vertical-align: middle;
   box-sizing: border-box;
-  align-self: center;
   white-space: nowrap;
 }
 
@@ -272,7 +269,6 @@
     max-width: 100%;
   }
 
-  .nicole-contact-card .nicole-card-actions a,
   .nicole-contact-card .visit-fiskal-btn,
   .nicole-contact-card .fiskal-linkedin-btn,
   .nicole-contact-card .call-now-mobile {
