@@ -3063,18 +3063,19 @@ function displayResults(summary) {
     }
     
   } else if (type.includes("fx") || type.includes("foreign")) {
-    facilitySummary = opening;
-    
-    if (state.fxCurrencies) {
-      facilitySummary += ` With the currencies you deal in, it is worth checking whether the current provider is offering competitive rates to ${businessText} and whether the timing of currency exchanges could be optimized.`;
+    // Use FX-specific wording instead of "facility"
+    if (formattedProvider) {
+      facilitySummary = `Based on the details you've provided, it is definitely worth reviewing your ${formattedProvider} FX arrangement properly. Even small differences in exchange rates, margins, transfer fees and timing can add up where ${businessText} makes regular overseas payments or receives money in different currencies.`;
+    } else {
+      facilitySummary = `Based on what you've told us, ${businessText}'s FX or foreign currency arrangements are worth reviewing properly. Even small differences in exchange rates, margins, fees and timing can add up where a business makes regular overseas payments or receives money in different currencies.`;
     }
     
     // Add transaction report insight
     const hasReport = state.files && state.files.length > 0;
     if (hasReport) {
-      facilitySummary += ` The transaction report should give a useful starting point to review the rates, margins and charges being applied.`;
+      facilitySummary += ` The transaction report should give a useful starting point to review the rates, margins and charges being applied, and to check whether ${businessText} could be getting better value from its current currency provider.`;
     } else {
-      facilitySummary += ` Even without a transaction report, it is still worth reviewing how the current provider handles exchange rates, fees and timing.`;
+      facilitySummary += ` Even without a transaction report, it is still worth reviewing how ${formattedProvider || 'the current provider'} handles exchange rates, fees and transfer timing for ${businessText}.`;
     }
     
   } else {
