@@ -3401,45 +3401,95 @@ function loadNicolePhoto() {
     0%, 100% { transform: scale(0.8); opacity: 0.5; }
     50% { transform: scale(1.2); opacity: 1; }
   }
+
+  /* ---- DISCOVERY THINKING SCREEN ---- */
+  #discovery-thinking-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ffffff 0%, #f8efff 45%, #eaf8ff 100%);
+    text-align: center;
+  }
+  #discovery-thinking-screen.active {
+    display: flex;
+  }
+  #discovery-thinking-screen .thinking-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 32px;
+  }
+  #discovery-thinking-screen .thinking-spinner {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 4px solid rgba(126,9,165,0.18);
+    border-top-color: #7E09A5;
+    animation: spinThinking 1s linear infinite;
+  }
+  #discovery-thinking-screen .thinking-phrase {
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    font-weight: 700;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 500ms ease, transform 500ms ease;
+  }
+  #discovery-thinking-screen .thinking-phrase.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @keyframes spinThinking {
+    to { transform: rotate(360deg); }
+  }
 </style>
 
 <script>
 function showDiscoveryThinkingScreen(callback) {
   console.log('[Facility Review] thinking screen started');
-  const loadingScreen = document.getElementById('screen-submission-loading');
-  const messageEl = document.getElementById('loading-message');
-  let messageCount = 0;
-  const fadeInDuration = 500;
-  const visibleDuration = 1800;
-  const fadeOutDuration = 500;
-  const gapDuration = 200;
 
-  loadingScreen.classList.add('active');
-  messageEl.classList.add('thinking-phrase');
-  
+  const phrases = [
+    'Assessing your requirements',
+    'Analysing your business profile',
+    'Reviewing funding options',
+    'Preparing your Fiskal Discovery summary'
+  ];
+
+  const screen = document.getElementById('discovery-thinking-screen');
+  if (!screen) {
+    screen = document.createElement('div');
+    screen.id = 'discovery-thinking-screen';
+    screen.innerHTML = '<div class="thinking-inner"><div class="thinking-spinner"></div><div id="discovery-thinking-phrase" class="thinking-phrase"></div></div>';
+    document.body.appendChild(screen);
+  }
+
+  const phraseEl = document.getElementById('discovery-thinking-phrase');
+  screen.style.display = 'flex';
+  screen.classList.add('active');
+
+  let index = 0;
+
   function showPhrase() {
-    if (messageCount >= 3) {
-      setTimeout(() => {
-        loadingScreen.classList.remove('active');
-        messageEl.classList.remove('thinking-phrase', 'active', 'shimmer');
-        console.log('[Facility Review] thinking screen finished');
-        if (callback) callback();
-      }, fadeOutDuration);
+    if (index >= phrases.length) {
+      screen.classList.remove('active');
+      screen.style.display = 'none';
+      console.log('[Facility Review] thinking screen finished');
+      if (callback) callback();
       return;
     }
 
-    messageEl.textContent = getRandomMessage();
-    messageEl.classList.remove('active', 'shimmer');
-    void messageEl.offsetWidth; // Force reflow
-    messageEl.classList.add('active', 'shimmer');
+    phraseEl.textContent = phrases[index];
+    phraseEl.classList.add('active');
 
-    messageCount++;
-
-    setTimeout(() => {
-      messageEl.classList.remove('shimmer');
-      messageEl.classList.remove('active');
-      setTimeout(showPhrase, gapDuration);
-    }, visibleDuration);
+    setTimeout(function() {
+      phraseEl.classList.remove('active');
+      index++;
+      setTimeout(showPhrase, 200);
+    }, 1200);
   }
 
   showPhrase();
