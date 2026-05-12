@@ -2672,9 +2672,10 @@ function showInput(fieldKey) {
     const inputArea = document.getElementById('ob-input-area');
     const input = document.getElementById('ob-input');
     
-    // Hide text input, show checkbox
+    // Hide text input and nav buttons, show checkbox
     input.style.display = 'none';
     document.getElementById('ob-choices').style.display = 'none';
+    obShowNavButtons(false, false); // Hide nav buttons since checkbox has its own continue button
     
     // Create checkbox container
     const checkboxContainer = document.getElementById('ob-checkbox-container');
@@ -2687,13 +2688,12 @@ function showInput(fieldKey) {
           <input type="checkbox" id="ob-marketing-consent" style="margin-top:3px;flex-shrink:0;">
           <span>Yes, I'd like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news.</span>
         </label>
-        <button class="btn-primary" id="ob-checkbox-submit" style="margin-top:8px">Continue →</button>
+        <button class="btn-primary" id="ob-checkbox-submit" style="margin-top:8px">Continue</button>
       `;
       inputArea.appendChild(container);
       
       document.getElementById('ob-checkbox-submit').onclick = () => {
         const checkbox = document.getElementById('ob-marketing-consent');
-        const value = checkbox.checked ? 'yes' : 'no';
         obState.profile[field.key] = checkbox.checked;
         obAddUserBubble(checkbox.checked ? 'Yes' : 'No');
         checkboxContainer.remove();
