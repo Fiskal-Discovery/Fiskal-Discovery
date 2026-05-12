@@ -2785,6 +2785,43 @@ function getFallbackSummary() {
   return `Thank you for completing your Facility Review, ${name}. Based on what you've shared about your invoice finance facility, there are some interesting questions worth exploring — particularly around whether your current rates and structure are still working as hard as they should be for ${business}. Nicole will be in touch within a few hours to talk through what's possible.`;
 }
 
+function forceShowFacilityReviewResults(resultsContainer) {
+  const loadingScreen = document.getElementById("screen-loading");
+
+  if (loadingScreen) {
+    loadingScreen.classList.remove("active");
+    loadingScreen.style.display = "none";
+    loadingScreen.setAttribute("aria-hidden", "true");
+  }
+
+  const resultsScreen =
+    resultsContainer.closest(".screen") ||
+    document.getElementById("screen-results") ||
+    document.getElementById("results-screen") ||
+    document.getElementById("facility-results-screen");
+
+  document.querySelectorAll(".screen").forEach((screen) => {
+    screen.classList.remove("active");
+    screen.style.display = "none";
+  });
+
+  if (resultsScreen) {
+    resultsScreen.classList.add("active");
+    resultsScreen.style.display = "flex";
+    resultsScreen.removeAttribute("aria-hidden");
+  } else {
+    console.warn("Facility Review results screen not found, showing results container directly");
+    resultsContainer.style.display = "block";
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  console.log(
+    "Active screen after Facility Review result switch:",
+    document.querySelector(".screen.active")?.id
+  );
+}
+
 function displayResults(summary) {
   const name = state.name || 'there';
   const firstName = name.split(' ')[0];
@@ -2828,6 +2865,10 @@ function displayResults(summary) {
   console.log("Facility results container after render:", screenContentEl?.innerHTML?.slice(0, 300));
   console.log("Active screen:", document.querySelector('.screen.active')?.id);
   console.log("Active screen display:", document.querySelector('.screen.active')?.style.display);
+  
+  // Force show results screen
+  forceShowFacilityReviewResults(screenContentEl);
+  
   sendNotification(summary);
 }
 
