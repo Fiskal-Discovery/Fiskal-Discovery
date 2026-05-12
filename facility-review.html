@@ -2789,12 +2789,32 @@ function displayResults(summary) {
   const name = state.name || 'there';
   const firstName = name.split(' ')[0];
   const business = state.business || 'your business';
-  document.getElementById('results-name').textContent = `Here's what we found for you, ${name}`;
-  document.getElementById('ai-summary-text').textContent = summary;
-  document.getElementById('nicole-message').textContent = `I've received your Facility Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${business}.`;
+  
+  console.log("Facility review answers:", state);
+  console.log("Facility results summary:", summary);
+  
+  // Add safe fallback if summary is empty
+  if (!summary || summary.trim() === '') {
+    summary = `Based on what you've told us, your current facility is worth reviewing properly. The aim is to understand whether the structure, cost, flexibility and service still work for ${business}.`;
+    console.log("Using fallback summary");
+  }
+  
+  const resultsNameEl = document.getElementById('results-name');
+  const summaryTextEl = document.getElementById('ai-summary-text');
+  const nicoleMessageEl = document.getElementById('nicole-message');
+  
+  console.log("Facility results container - results-name:", resultsNameEl);
+  console.log("Facility results container - ai-summary-text:", summaryTextEl);
+  console.log("Facility results container - nicole-message:", nicoleMessageEl);
+  
+  if (resultsNameEl) resultsNameEl.textContent = `Here's what we found for you, ${name}`;
+  if (summaryTextEl) summaryTextEl.textContent = summary;
+  if (nicoleMessageEl) nicoleMessageEl.textContent = `I've received your Facility Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${business}.`;
+  
   showScreen('screen-loading');
   loadNicolePhoto();
   console.log("Showing discovery results");
+  console.log("Facility results container after render:", document.querySelector('.screen-content')?.innerHTML?.slice(0, 300));
   sendNotification(summary);
 }
 
