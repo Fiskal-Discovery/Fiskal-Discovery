@@ -2893,16 +2893,110 @@ function displayResults(summary) {
   
   if (type.includes("loan")) {
     facilitySummary = `Based on what you've told us, your current loan is worth reviewing properly. The aim is not just to see whether something cheaper exists, but to understand whether the monthly repayment, remaining balance, term and structure still work for ${businessText}.`;
+    
+    // Add loan-specific insights
+    if (state.loanRepayment || state.loanMonthlyCost) {
+      facilitySummary += ` With the current repayment in place, it is worth checking whether the monthly pressure on cashflow is manageable or whether refinancing or consolidation could improve the position.`;
+    }
+    
+    if (state.loanBarrier === 'yes' && state.loanBarrierDetails) {
+      const concernText = state.loanBarrierDetails.toLowerCase();
+      if (concernText.includes('contract') || concernText.includes('tied') || concernText.includes('stuck') || concernText.includes('notice') || concernText.includes('exit') || concernText.includes('fee')) {
+        facilitySummary += ` Feeling tied into a facility does not always mean there are no options. Some agreements can sometimes be negotiated, refinanced or moved away from more smoothly than expected.`;
+      }
+    }
+    
   } else if (type.includes("invoice")) {
-    facilitySummary = `Based on what you've told us, your current Invoice Finance facility is worth reviewing properly. The aim is to understand whether the rates, service, flexibility and facility structure still fit the way ${businessText} trades.`;
+    const ifType = state['if-type'] || '';
+    const ifKnowledge = state['if-knowledge'] || '';
+    const ifPriorities = state['if-priorities'] || [];
+    const barrierDetails = state.barrierDetails || '';
+    
+    // Build smart Invoice Finance summary
+    let insights = [];
+    
+    // Add type-specific insight
+    if (ifType.toLowerCase().includes('spot')) {
+      insights.push(`Spot funding can be useful for immediate cash needs, but it is often more expensive than selective or full ledger facilities, so it is worth checking whether the current structure is still the most cost-effective option.`);
+    } else if (ifType.toLowerCase().includes('construction')) {
+      insights.push(`Construction invoice finance is more specialist because of contractual invoices, applications for payment and staged payments, but that does not mean the business should accept poor terms.`);
+    } else if (ifType.toLowerCase().includes('recruitment')) {
+      insights.push(`Back-office support varies a lot between providers — some are mostly software-led, while others provide more hands-on payroll, invoicing and admin support.`);
+    } else if (ifType.toLowerCase().includes('not sure')) {
+      insights.push(`If you are not sure what type of facility you have, that alone makes the facility worth reviewing because the details matter.`);
+    }
+    
+    // Add knowledge insight
+    if (ifKnowledge === 'Does not know details' || ifKnowledge === 'Not sure') {
+      insights.push(`Not knowing exactly what you're paying is common and exactly why a review is useful. Invoice Finance costs can include service fees, discount charges, minimums, disbursements and other costs, so the true cost is not always obvious.`);
+    } else if (ifKnowledge === 'Knows details') {
+      insights.push(`Having the facility details to hand is a strong starting point because the review can look properly at cost, flexibility, minimums and disbursements.`);
+    }
+    
+    // Add priorities insight (top 1 or 2)
+    if (ifPriorities.length > 0) {
+      const topPriorities = ifPriorities.slice(0, 2);
+      const priorityText = topPriorities.join(' and ');
+      insights.push(`Because ${priorityText} matter to you, the review should focus on whether the current provider is delivering value, not just whether the headline rate looks acceptable.`);
+    }
+    
+    // Add concern insight
+    const concernText = barrierDetails.toLowerCase();
+    if (concernText.includes('contract') || concernText.includes('tied') || concernText.includes('stuck') || concernText.includes('notice') || concernText.includes('exit') || concernText.includes('fee')) {
+      insights.push(`Feeling tied into a facility does not always mean there are no options. Some agreements can sometimes be negotiated, refinanced or moved away from more smoothly than expected.`);
+    }
+    
+    // Build summary from insights
+    if (insights.length > 0) {
+      facilitySummary = insights.slice(0, 2).join(' ');
+    } else {
+      facilitySummary = `Based on what you've told us, your current Invoice Finance facility is worth reviewing properly. The aim is to understand whether the rates, service, flexibility and facility structure still fit the way ${businessText} trades.`;
+    }
+    
   } else if (type.includes("asset")) {
     facilitySummary = `Based on what you've told us, your current Asset Finance agreement is worth reviewing properly. The aim is to understand whether the monthly repayment, remaining term, ownership position and structure still work for ${businessText}.`;
+    
+    if (state.assetRepayments) {
+      facilitySummary += ` With the current repayment level, it is worth checking whether the asset still supports the business properly or whether the facility structure needs adjustment.`;
+    }
+    
+    if (state.assetBarrier === 'yes' && state.assetBarrierDetails) {
+      const concernText = state.assetBarrierDetails.toLowerCase();
+      if (concernText.includes('contract') || concernText.includes('tied') || concernText.includes('stuck') || concernText.includes('notice') || concernText.includes('exit') || concernText.includes('fee')) {
+        facilitySummary += ` Feeling tied into a facility does not always mean there are no options. Some agreements can sometimes be negotiated, refinanced or moved away from more smoothly than expected.`;
+      }
+    }
+    
   } else if (type.includes("trade")) {
     facilitySummary = `Based on what you've told us, your current Trade Finance facility is worth reviewing properly. The aim is to understand whether the limit, fees, supplier terms and repayment timing still match the way ${businessText} buys and sells.`;
+    
+    if (state.tradeLimit) {
+      facilitySummary += ` With the current limit in place, it is worth checking whether the facility is supporting supplier relationships or constraining growth opportunities.`;
+    }
+    
+    if (state.tradeBarrier === 'yes' && state.tradeBarrierDetails) {
+      const concernText = state.tradeBarrierDetails.toLowerCase();
+      if (concernText.includes('contract') || concernText.includes('tied') || concernText.includes('stuck') || concernText.includes('notice') || concernText.includes('exit') || concernText.includes('fee')) {
+        facilitySummary += ` Feeling tied into a facility does not always mean there are no options. Some agreements can sometimes be negotiated, refinanced or moved away from more smoothly than expected.`;
+      }
+    }
+    
   } else if (type.includes("fx") || type.includes("foreign")) {
     facilitySummary = `Based on what you've told us, your current FX or foreign currency arrangement is worth reviewing properly. Even small differences in exchange rates, fees and timing can add up if ${businessText} makes regular currency payments.`;
+    
+    if (state.fxCurrencies) {
+      facilitySummary += ` With the currencies you deal in, it is worth checking whether the current provider is offering competitive rates and whether the timing of currency exchanges could be optimized.`;
+    }
+    
   } else {
     facilitySummary = `Based on what you've told us, your current facility is worth reviewing properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
+    
+    if (state.barrier === 'yes' && state.barrierDetails) {
+      const concernText = state.barrierDetails.toLowerCase();
+      if (concernText.includes('contract') || concernText.includes('tied') || concernText.includes('stuck') || concernText.includes('notice') || concernText.includes('exit') || concernText.includes('fee')) {
+        facilitySummary += ` Feeling tied into a facility does not always mean there are no options. Some agreements can sometimes be negotiated, refinanced or moved away from more smoothly than expected.`;
+      }
+    }
   }
   
   // Use the facility-specific summary instead of the passed summary
@@ -3302,6 +3396,26 @@ function submitFXReview() {
     opacity: 1;
     transform: translateY(0);
   }
+  #discovery-thinking-screen .thinking-phrase.shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(126,9,165,0.65) 0%,
+      #7E09A5 35%,
+      #FFE600 50%,
+      #7E09A5 65%,
+      rgba(126,9,165,0.65) 100%
+    );
+    background-size: 260% auto;
+    background-position: 260% center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: thinkingShimmer 3.8s ease-in-out forwards;
+  }
+  @keyframes thinkingShimmer {
+    0%   { background-position: 260% center; }
+    100% { background-position: -260% center; }
+  }
   @keyframes spinThinking {
     to { transform: rotate(360deg); }
   }
@@ -3346,10 +3460,12 @@ function showDiscoveryThinkingScreen(callback) {
     }
 
     phraseEl.textContent = phrases[index];
-    phraseEl.classList.add('active');
+    phraseEl.classList.remove('active', 'shimmer');
+    void phraseEl.offsetWidth;
+    phraseEl.classList.add('active', 'shimmer');
 
     setTimeout(function() {
-      phraseEl.classList.remove('active');
+      phraseEl.classList.remove('active', 'shimmer');
       index++;
       setTimeout(showPhrase, 300);
     }, 1500);
