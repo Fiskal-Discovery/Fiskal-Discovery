@@ -95,6 +95,47 @@ function getFXInsight(answers, businessName) {
   return `Foreign currency may be worth reviewing for ${name} if the business regularly sends or receives payments in other currencies. Most businesses using their bank for foreign currency have no clear idea how much is quietly being taken on each transaction through exchange rates and fees. Even small differences can add up materially over time.`;
 }
 
+function normaliseFundingProduct(product) {
+  const key = String(product || "").toLowerCase().trim();
+
+  const map = {
+    invoice: "invoice-finance",
+    "invoice finance": "invoice-finance",
+
+    trade: "trade-finance",
+    "trade finance": "trade-finance",
+
+    asset: "asset-finance",
+    "asset finance": "asset-finance",
+
+    loan: "business-loan",
+    "business loan": "business-loan",
+    "business loans": "business-loan",
+
+    revolving: "revolving-credit",
+    "revolving credit": "revolving-credit",
+    "revolving credit facility": "revolving-credit",
+
+    mca: "merchant-cash-advance",
+    "merchant cash advance": "merchant-cash-advance",
+
+    property: "property-finance",
+    "commercial property finance": "property-finance",
+    "property finance": "property-finance",
+
+    fx: "fx",
+    "foreign currency / fx": "fx",
+    "foreign currency": "fx",
+
+    rd: "r-and-d",
+    rnd: "r-and-d",
+    "r&d tax credits": "r-and-d",
+    "r&d": "r-and-d"
+  };
+
+  return map[key] || key;
+}
+
 // Returns the two strongest matched product insights for a given answers object.
 // Priority order follows commercial relevance and match strength.
 function getTopFundingFinderInsights(answers, businessName, industry) {
@@ -107,46 +148,84 @@ function getTopFundingFinderInsights(answers, businessName, industry) {
   console.log('[Funding Finder Insights] matchedProducts:', matchedProducts);
   console.log('[Funding Finder Insights] hasMatchedProducts:', hasMatchedProducts);
   
+  // Normalise product keys
+  const normalisedProducts = matchedProducts.map(normaliseFundingProduct);
+  console.log('[Funding Finder Insights] normalisedProducts:', normalisedProducts);
+  
   // If matchedProducts is provided, only include insights for matched products
   if (hasMatchedProducts) {
-    const productMap = {
-      'Invoice Finance': getInvoiceFinanceInsight,
-      'invoice': getInvoiceFinanceInsight,
-      'Trade Finance': getTradeFinanceInsight,
-      'trade': getTradeFinanceInsight,
-      'Asset Finance': getAssetFinanceInsight,
-      'asset': getAssetFinanceInsight,
-      'Business Loan': getBusinessLoanInsight,
-      'Business Loans': getBusinessLoanInsight,
-      'loan': getBusinessLoanInsight,
-      'Property Finance': getPropertyFinanceInsight,
-      'Commercial Property Finance': getPropertyFinanceInsight,
-      'property': getPropertyFinanceInsight,
-      'Revolving Credit Facility': getRevolvingCreditInsight,
-      'Revolving Credit': getRevolvingCreditInsight,
-      'revolving': getRevolvingCreditInsight,
-      'R&D Tax Credits': getRDTaxCreditInsight,
-      'R&D Tax Credit': getRDTaxCreditInsight,
-      'rd': getRDTaxCreditInsight,
-      'rnd': getRDTaxCreditInsight,
-      'Merchant Cash Advance': getMerchantCashAdvanceInsight,
-      'mca': getMerchantCashAdvanceInsight,
-      'Foreign Currency': getFXInsight,
-      'Foreign Currency / FX': getFXInsight,
-      'FX': getFXInsight,
-      'fx': getFXInsight
-    };
-    
-    matchedProducts.forEach(product => {
-      const insightFn = productMap[product];
-      if (insightFn) {
-        const insight = insightFn(answers, businessName, industry);
-        if (insight) {
-          candidates.push(insight);
-          console.log('[Funding Finder Insights] Added insight for:', product);
-        }
+    // Check normalised products and add corresponding insights
+    if (normalisedProducts.includes("invoice-finance")) {
+      const insight = getInvoiceFinanceInsight(answers, businessName, industry);
+      if (insight) {
+        candidates.push(insight);
+        console.log('[Funding Finder Insights] Added Invoice Finance insight');
       }
-    });
+    }
+    
+    if (normalisedProducts.includes("trade-finance")) {
+      const insight = getTradeFinanceInsight(answers, businessName);
+      if (insight) {
+        candidates.push(insight);
+        console.log('[Funding Finder Insights] Added Trade Finance insight');
+      }
+    }
+    
+    if (normalisedProducts.includes("asset-finance")) {
+      const insight = getAssetFinanceInsight(answers, businessName);
+      if (insight) {
+        candidates.push(insight);
+        console.log('[Funding Finder Insights] Added Asset Finance insight');
+      }
+    }
+    
+    if (normalisedProducts.includes("business-loan")) {
+      const insight = getBusinessLoanInsight(answers, businessName);
+      if (insight) {
+        candidates.push(insight);
+        console.log('[Funding Finder Insights] Added Business Loan insight');
+      }
+    }
+    
+    if (normalisedProducts.includes("property-finance")) {
+      const insight = getPropertyFinanceInsight(answers, businessName);
+      if (insight) {
+        candidates.push(insight);
+        console.log('[Funding Finder Insights] Added Property Finance insight');
+      }
+    }
+    
+    if (normalisedProducts.includes("revolving-credit")) {
+      const insight = getRevolvingCreditInsight(answers, businessName);
+      if (insight) {
+        candidates.push(insight);
+        console.log('[Funding Finder Insights] Added Revolving Credit insight');
+      }
+    }
+    
+    if (normalisedProducts.includes("r-and-d")) {
+      const insight = getRDTaxCreditInsight(answers, businessName);
+      if (insight) {
+        candidates.push(insight);
+        console.log('[Funding Finder Insights] Added R&D Tax Credits insight');
+      }
+    }
+    
+    if (normalisedProducts.includes("merchant-cash-advance")) {
+      const insight = getMerchantCashAdvanceInsight(answers, businessName);
+      if (insight) {
+        candidates.push(insight);
+        console.log('[Funding Finder Insights] Added Merchant Cash Advance insight');
+      }
+    }
+    
+    if (normalisedProducts.includes("fx")) {
+      const insight = getFXInsight(answers, businessName);
+      if (insight) {
+        candidates.push(insight);
+        console.log('[Funding Finder Insights] Added FX insight');
+      }
+    }
   } else {
     // Fall back to checking individual answer fields
     candidates.push(
