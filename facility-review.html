@@ -2780,9 +2780,29 @@ CRITICAL RULES:
 }
 
 function getFallbackSummary() {
-  const name = state.name || 'there';
   const business = state.business || 'your business';
-  return `Thank you for completing your Facility Review, ${name}. Based on what you've shared about your invoice finance facility, there are some interesting questions worth exploring — particularly around whether your current rates and structure are still working as hard as they should be for ${business}. Nicole will be in touch within a few hours to talk through what's possible.`;
+  const facilityTypes = state.facilityTypes || [];
+  const isInvoiceFinance = facilityTypes.includes('Invoice Finance');
+  const notSureOnRates = state.ifKnowledge === 'not sure';
+  const hasConcerns = state.barrier === 'yes';
+  
+  let summary = '';
+  
+  if (isInvoiceFinance) {
+    summary = `Your current Invoice Finance facility should be reviewed around the funding structure, rates, service, flexibility and whether it still fits the way ${business} trades.`;
+    
+    if (notSureOnRates) {
+      summary += ` If you're not sure exactly what you're paying, that is not unusual. Invoice Finance costs can include service fees, discount charges, minimums, disbursements and other costs, so the true cost is not always obvious from the headline rate.`;
+    }
+  } else {
+    summary = `Based on what you've told us, your current facility is worth reviewing properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${business}.`;
+  }
+  
+  if (hasConcerns) {
+    summary += ` The concern you mentioned is understandable and worth reviewing properly.`;
+  }
+  
+  return summary;
 }
 
 function forceShowFacilityReviewResults(resultsContainer) {
