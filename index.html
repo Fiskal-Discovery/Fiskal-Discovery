@@ -1128,56 +1128,91 @@
     padding: 20px;
     margin-bottom: 16px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 16px;
     color: white;
   }
 
-  .nicole-photo {
-    width: 60px;
-    height: 60px;
+  .nicole-photo-wrap {
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--gold);
+    overflow: hidden;
     flex-shrink: 0;
-    display: block;
-    background: rgba(255,255,255,0.2);
-  }
-
-  .nicole-photo-placeholder {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
+    position: relative;
+    border: 2px solid var(--gold);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-    border: 2px solid var(--gold);
+  }
+
+  .nicole-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .nicole-photo-fallback {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    background: rgba(255,255,255,0.12);
   }
 
   .nicole-info { flex: 1; }
+  .nicole-name { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+  .nicole-role { font-size: 12px; opacity: 0.75; margin-bottom: 4px; font-weight: 300; }
+  .nicole-phone, .nicole-email { font-size: 12px; opacity: 0.85; font-weight: 300; margin-bottom: 2px; }
+  .nicole-email { margin-bottom: 8px; }
+  .nicole-message { font-size: 13px; opacity: 0.9; line-height: 1.5; font-weight: 300; }
 
-  .nicole-name {
-    font-size: 15px;
-    font-weight: 500;
-    margin-bottom: 3px;
-  }
-
-  .nicole-role {
-    font-size: 12px;
-    opacity: 0.75;
-    margin-bottom: 8px;
-    font-weight: 300;
-  }
-
-  .nicole-message {
-    font-size: 13px;
-    opacity: 0.9;
+  .nicole-website-note {
+    margin-top: 14px;
+    font-size: 0.95rem;
     line-height: 1.5;
-    font-weight: 300;
+    color: rgba(255,255,255,0.9);
   }
+
+  .visit-fiskal-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12px;
+    padding: 10px 20px;
+    background: var(--gold);
+    color: var(--dark);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-right: 8px;
+  }
+  .visit-fiskal-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,230,0,0.35); }
+  @media (max-width: 600px) { .visit-fiskal-btn { width: 100%; margin-right: 0; } }
+
+  .visit-linkedin-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .visit-linkedin-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,255,255,0.25); }
+  @media (max-width: 600px) { .visit-linkedin-btn { width: 100%; } }
 
   .call-now-mobile {
     display: none;
@@ -1635,12 +1670,19 @@
     </div>
 
     <div class="nicole-card">
-      <img src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" class="nicole-photo" id="nicole-photo" onerror="this.style.display='none';document.getElementById('nicole-fallback').style.display='flex'">
-      <div class="nicole-photo-placeholder" id="nicole-fallback" style="display:none">NB</div>
+      <div class="nicole-photo-wrap">
+        <img id="nicole-photo" class="nicole-photo" alt="Nicole Bertolissi">
+        <div class="nicole-photo-fallback">NB</div>
+      </div>
       <div class="nicole-info">
         <div class="nicole-name">Nicole Bertolissi</div>
         <div class="nicole-role">Direct Sales Executive, Fiskal</div>
-        <div class="nicole-message" id="nicole-message">I've received your Discovery and will be in touch within a few hours.</div>
+        <div class="nicole-phone">07946 074 268</div>
+        <div class="nicole-email">nicole@fiskal.co.uk</div>
+        <div class="nicole-message" id="nicole-message">I've received your Discovery and will be in touch personally within a few hours.</div>
+        <p class="nicole-website-note">In the meantime, feel free to explore the Fiskal website to learn more about who we are and how we can help.</p>
+        <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Visit the Fiskal Website</a>
+        <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="visit-linkedin-btn">Fiskal on LinkedIn</a>
       </div>
     </div>
 
@@ -2225,6 +2267,7 @@ function displayResults(summary, matchedProducts) {
 
   console.log('[Funding Finder] showing results');
   showScreen('results');
+  loadNicolePhoto();
   sendNotification(summary, matchedProducts);
 }
 
@@ -2670,14 +2713,13 @@ document.addEventListener('DOMContentLoaded', () => {
   loadNicolePhoto();
 });
 
-async function loadNicolePhoto() {
-  // In production this would be base64 embedded
-  // For now we use a style fallback
+function loadNicolePhoto() {
   const img = document.getElementById('nicole-photo');
-  img.onerror = () => {
-    img.style.display = 'none';
-    document.getElementById('nicole-placeholder').style.display = 'flex';
-  };
+  const fallback = document.querySelector('.nicole-photo-fallback');
+  if (!img) { console.warn('Nicole photo element not found'); return; }
+  img.onload = function() { img.style.display = 'block'; if (fallback) fallback.style.display = 'none'; };
+  img.onerror = function() { console.warn('Nicole photo failed to load'); img.style.display = 'none'; if (fallback) fallback.style.display = 'flex'; };
+  img.src = 'assets/nicole-bertolissi.jpg';
 }
 </script>
 <script type="module" src="discoverySummaryGenerator.js"></script></body>

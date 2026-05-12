@@ -482,7 +482,9 @@
 
   .nicole-info { flex: 1; }
   .nicole-name { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
-  .nicole-role { font-size: 12px; opacity: 0.75; margin-bottom: 8px; font-weight: 300; }
+  .nicole-role { font-size: 12px; opacity: 0.75; margin-bottom: 4px; font-weight: 300; }
+  .nicole-phone, .nicole-email { font-size: 12px; opacity: 0.85; font-weight: 300; margin-bottom: 2px; }
+  .nicole-email { margin-bottom: 8px; }
   .nicole-message { font-size: 13px; opacity: 0.9; line-height: 1.5; font-weight: 300; }
 
   .nicole-website-note {
@@ -541,6 +543,27 @@
   @media (max-width: 600px) {
     .visit-linkedin-btn {
       width: 100%;
+    }
+  }
+
+  .call-now-mobile {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    .call-now-mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 16px 20px;
+      margin-top: 20px;
+      border-radius: 12px;
+      background: #0099ff;
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
     }
   }
 
@@ -833,16 +856,17 @@
         <div class="nicole-photo-fallback">NB</div>
       </div>
       <div class="nicole-info">
-        <div class="nicole-name">Nicole</div>
-        <div class="nicole-role">Funding Specialist at Fiskal</div>
+        <div class="nicole-name">Nicole Bertolissi</div>
+        <div class="nicole-role">Direct Sales Executive, Fiskal</div>
+        <div class="nicole-phone">07946 074 268</div>
+        <div class="nicole-email">nicole@fiskal.co.uk</div>
         <div class="nicole-message" id="nicole-message"></div>
-        <div class="nicole-website-note">
-          Visit <a href="https://www.fiskal.online" target="_blank" style="color: #FFE600; text-decoration: none; font-weight: 500;">fiskal.online</a> to explore funding products designed around Shariah-compliant principles.
-        </div>
-        <a href="https://www.fiskal.online/funding-products#shariah-compliant" target="_blank" class="visit-fiskal-btn">Explore Shariah-Compliant Options</a>
-        <a href="https://www.linkedin.com/company/fiskal-discovery" target="_blank" class="visit-linkedin-btn">Connect on LinkedIn</a>
+        <p class="nicole-website-note">In the meantime, feel free to explore the Fiskal website to learn more about who we are and how we can help.</p>
+        <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Visit the Fiskal Website</a>
+        <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="visit-linkedin-btn">Fiskal on LinkedIn</a>
       </div>
     </div>
+    <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
     <div class="screen-footer">
       <div class="nav-row">
         <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
