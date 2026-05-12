@@ -298,3 +298,14 @@
     box-sizing: border-box;
   }
 }
+
+/* ---- NICOLE CARD BUTTON UNDERLINE REMOVAL ---- */
+.nicole-contact-card .visit-fiskal-btn,
+.nicole-contact-card .fiskal-linkedin-btn {
+  text-decoration: none !important;
+}
+
+.nicole-contact-card .visit-fiskal-btn:hover,
+.nicole-contact-card .fiskal-linkedin-btn:hover {
+  text-decoration: none !important;
+}
