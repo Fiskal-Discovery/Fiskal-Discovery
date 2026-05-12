@@ -1856,53 +1856,56 @@ function showScreen(id) {
   }
 }
 
-function showDiscoveryThinkingScreen(callback) {
-  console.log('Funding Finder thinking screen started');
-
-  var phrases = [
-    'Assessing your requirements',
-    'Analysing your business profile',
-    'Reviewing funding options',
-    'Preparing your Fiskal Discovery summary'
+function showFundingFinderThinkingScreen(callback) {
+  const phrases = [
+    'Analysing your business',
+    'Reviewing your details',
+    'Exploring your options',
+    'Calculating your position',
+    'Checking the market',
+    'Matching you to lenders',
+    'Assessing your profile',
+    'Preparing your results',
+    'Running the numbers',
+    'Scanning the landscape',
+    'Identifying opportunities',
+    'Comparing facilities',
+    'Finalising your Discovery'
   ];
 
-  var screen = document.getElementById('discovery-thinking-screen');
+  let screen = document.getElementById('funding-finder-thinking-screen');
   if (!screen) {
     screen = document.createElement('div');
-    screen.id = 'discovery-thinking-screen';
-    screen.innerHTML = '<div class="thinking-inner"><div class="thinking-spinner"></div><div id="discovery-thinking-phrase" class="thinking-phrase"></div></div>';
+    screen.id = 'funding-finder-thinking-screen';
+    screen.innerHTML = '<div class="thinking-inner"><div class="thinking-spinner"></div><div id="funding-finder-thinking-phrase" class="thinking-phrase"></div></div>';
     document.body.appendChild(screen);
   }
 
-  var phraseEl = document.getElementById('discovery-thinking-phrase');
+  const phraseEl = document.getElementById('funding-finder-thinking-phrase');
   screen.style.display = 'flex';
   screen.classList.add('active');
 
-  var index = 0;
+  let index = 0;
 
   function showPhrase() {
     if (index >= phrases.length) {
       screen.classList.remove('active');
       screen.style.display = 'none';
-      console.log('Funding Finder thinking screen finished');
-      callback();
+      if (callback) callback();
       return;
     }
 
     phraseEl.textContent = phrases[index];
-    phraseEl.classList.remove('active', 'shimmer');
-    void phraseEl.offsetWidth;
-    phraseEl.classList.add('active', 'shimmer');
-    console.log('Funding Finder phrase shown: ' + phrases[index]);
+    phraseEl.classList.add('active');
 
     setTimeout(function() {
-      phraseEl.classList.remove('active', 'shimmer');
+      phraseEl.classList.remove('active');
       index++;
       setTimeout(showPhrase, 300);
-    }, 2300);
+    }, 1500);
   }
 
-  showPhrase(0);
+  showPhrase();
 }
 
 function goHome() {
@@ -2230,7 +2233,6 @@ function displayResults(summary, matchedProducts) {
   renderNicoleMessage();
   loadNicolePhoto();
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  console.log('Funding Finder results showing');
   sendNotification(summary, matchedProducts).catch(function(e) {
     console.warn('Notification failed, results already showing:', e);
   });
@@ -2254,7 +2256,6 @@ async function sendNotification(summary, matchedProducts) {
 
   try {
     await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-    console.log('Notification sent successfully');
   } catch (error) {
     console.error('Email notification failed:', error);
   }
@@ -2394,7 +2395,7 @@ function initOnboarding() {
         return; // don't show onboarding
       }
     }
-  } catch(e) { console.log('Profile load error:', e); }
+  } catch(e) { console.error('Profile load error:', e); }
   // Show onboarding overlay
   const overlay = document.getElementById('onboarding-overlay');
   overlay.style.display = 'flex';
