@@ -1681,6 +1681,26 @@ async function sendNotification(summary) {
     opacity: 1;
     transform: translateY(0);
   }
+  #discovery-thinking-screen .thinking-phrase.shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(126,9,165,0.65) 0%,
+      #7E09A5 35%,
+      #FFE600 50%,
+      #7E09A5 65%,
+      rgba(126,9,165,0.65) 100%
+    );
+    background-size: 260% auto;
+    background-position: 260% center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: thinkingShimmer 3.8s ease-in-out forwards;
+  }
+  @keyframes thinkingShimmer {
+    0%   { background-position: 260% center; }
+    100% { background-position: -260% center; }
+  }
   @keyframes spinThinking {
     to { transform: rotate(360deg); }
   }
@@ -1721,13 +1741,16 @@ function showDiscoveryThinkingScreen(callback) {
     }
 
     phraseEl.textContent = phrases[index];
-    phraseEl.classList.add('active');
+    phraseEl.classList.remove('active', 'shimmer');
+    void phraseEl.offsetWidth;
+    phraseEl.classList.add('active', 'shimmer');
+    console.log('[Loan Application] phrase shown: ' + phrases[index]);
 
     setTimeout(function() {
-      phraseEl.classList.remove('active');
+      phraseEl.classList.remove('active', 'shimmer');
       index++;
-      setTimeout(showPhrase, 200);
-    }, 1200);
+      setTimeout(showPhrase, 300);
+    }, 2300);
   }
 
   showPhrase();
