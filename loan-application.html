@@ -98,9 +98,9 @@
   /* ---- NICOLE CONTACT CARD ---- */
   .nicole-contact-card {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(180px, 0.75fr) minmax(0, 1.25fr);
     align-items: center;
-    gap: 34px;
+    gap: 28px;
     width: 100%;
     min-height: 360px;
     background: linear-gradient(135deg, #670087 0%, #8b00ac 52%, #a300c9 100%);
@@ -138,7 +138,7 @@
   }
 
   .nicole-photo-wrap {
-    width: min(310px, 100%);
+    width: min(240px, 100%);
     aspect-ratio: 1 / 1;
     border-radius: 30px;
     overflow: hidden;
@@ -213,10 +213,10 @@
   .nicole-card-actions {
     grid-column: 1 / -1;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
-    gap: 28px;
-    flex-wrap: wrap;
+    gap: 24px;
+    flex-wrap: nowrap;
     width: 100%;
     margin-top: 12px;
     padding-top: 4px;
@@ -228,7 +228,8 @@
     align-items: center;
     justify-content: center;
     min-height: 48px;
-    min-width: 230px;
+    min-width: 220px;
+    flex: 0 1 240px;
     padding: 13px 20px;
     border-radius: 999px;
     font-weight: 800;
@@ -278,6 +279,7 @@
     .nicole-card-actions {
       width: 100%;
       flex-direction: column;
+      flex-wrap: nowrap;
       margin-top: 0;
     }
 
@@ -286,6 +288,7 @@
     .call-now-mobile {
       width: 100%;
       min-width: 0;
+      flex: none;
     }
 
     .call-now-mobile {
