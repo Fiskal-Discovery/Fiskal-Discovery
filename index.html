@@ -1522,7 +1522,6 @@
     <button class="btn-primary" id="q-next-btn" onclick="nextQuestion()" style="display:none;margin-top:16px">Next →</button>
     <div style="display:flex;gap:8px;justify-content:center;">
         <button class="back-btn" onclick="goBackQuestion()" style="justify-content:center;flex:1;">&lt; Back</button>
-        <button class="btn-skip" onclick="skipQuestion()" style="flex:1;">Skip this one</button>
       </div>
   </div>
 </div>
@@ -1609,7 +1608,7 @@
     <div class="results-header">
       <div class="results-check">✨</div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
-      <p class="results-name" id="results-name">Here's what we found for you</p>
+      <p class="results-name" id="results-name">Here's what we found</p>
     </div>
 
     <div class="ai-summary">
@@ -2092,7 +2091,44 @@ function submitBarriers() {
 // ============================================================
 function generateResults() {
   const matchedProducts = getMatchedProducts();
-  displayResults(getFallbackSummary(matchedProducts), matchedProducts);
+  
+  // Build personalised summary using logic module
+  const fundingFinderAnswers = {
+    name: state.name,
+    business: state.business,
+    industry: state.industry,
+    turnover: state.turnover,
+    fundingAmount: state.fundingAmount,
+    fundingPurpose: state.fundingPurpose,
+    cashflowPressure: state.cashflowPressure,
+    currentFunding: state.currentFunding,
+    repaymentPressure: state.repaymentPressure,
+    mainChallenge: state.mainChallenge,
+    growthGoal: state.growthGoal,
+    urgency: state.urgency,
+    creditConcern: state.creditConcern,
+    propertySecurity: state.propertySecurity,
+    invoiceCustomers: state.invoiceCustomers,
+    cardSales: state.cardSales,
+    assetNeed: state.assetNeed,
+    answers: state.answers,
+    barrier: state.barrier,
+    barrierDetails: state.barrierDetails
+  };
+  
+  let summary;
+  try {
+    summary = buildDiscoverySummary('funding-finder', fundingFinderAnswers);
+  } catch (error) {
+    console.warn('Funding Finder summary builder failed, using fallback', error);
+    summary = {
+      pageHeading: 'Your Fiskal Discovery is ready',
+      summaryHeading: 'Here\'s what we discovered',
+      summaryHtml: '<p>Great news — based on what you\'ve shared, there are funding options worth exploring for ' + (state.business || 'your business') + '. The most suitable route will depend on what the funding needs to achieve, how quickly it is needed, and which providers are the best fit.</p>'
+    };
+  }
+  
+  displayResults(summary, matchedProducts);
 }
 
 function buildAIPrompt(answersText, matchedProducts) {
@@ -2149,81 +2185,28 @@ function getFallbackSummary(matchedProducts) {
 }
 
 function displayResults(summary, matchedProducts) {
-  document.getElementById('results-name').textContent = `Here's what we found for you, ${state.name}`;
-  document.getElementById('confirm-name').textContent = state.name.split(' ')[0];
-
-  // Message will be set by renderNicoleMessage() function
-
-  // Use the new summary generator
-  const summaryInput = {
-    businessName: state.business,
-    industry: state.industry,
-    turnover: state.turnover,
-    fundingAmount: state.fundingAmount,
-    fundingPurpose: state.fundingPurpose,
-    cashflowPressure: state.cashflowPressure,
-    currentFunding: state.currentFunding,
-    repaymentPressure: state.repaymentPressure,
-    mainChallenge: state.mainChallenge,
-    growthGoal: state.growthGoal,
-    urgency: state.urgency,
-    creditConcern: state.creditConcern,
-    propertySecurity: state.propertySecurity,
-    invoiceCustomers: state.invoiceCustomers,
-    cardSales: state.cardSales,
-    assetNeed: state.assetNeed
-  };
-
-  // Try to use generateDiscoverySummary if available
-  if (typeof generateDiscoverySummary === 'function') {
-    const generatedSummary = generateDiscoverySummary(summaryInput);
-    document.getElementById('summary-headline').textContent = generatedSummary.headline;
-    document.getElementById('ai-summary-text').textContent = generatedSummary.summary;
-    
-    // Display key findings
-    if (generatedSummary.keyFindings.length > 0) {
-      const findingsList = document.getElementById('key-findings-list');
-      findingsList.innerHTML = '';
-      generatedSummary.keyFindings.forEach(finding => {
-        const li = document.createElement('li');
-        li.textContent = '• ' + finding;
-        li.style.marginBottom = '8px';
-        li.style.color = 'var(--dark)';
-        li.style.lineHeight = '1.5';
-        findingsList.appendChild(li);
-      });
-      document.getElementById('key-findings').style.display = 'block';
-    }
-    
-    // Display recommended funding types
-    if (generatedSummary.recommendedFundingTypes.length > 0) {
-      const fundingList = document.getElementById('recommended-funding-list');
-      fundingList.innerHTML = '';
-      generatedSummary.recommendedFundingTypes.forEach(type => {
-        const span = document.createElement('span');
-        span.textContent = type;
-        span.style.background = 'rgba(126,9,165,0.1)';
-        span.style.color = 'var(--indigo)';
-        span.style.padding = '6px 12px';
-        span.style.borderRadius = '20px';
-        span.style.fontSize = '13px';
-        span.style.fontWeight = '500';
-        fundingList.appendChild(span);
-      });
-      document.getElementById('recommended-funding').style.display = 'block';
-    }
-    
-    // Display next step
-    document.getElementById('next-step-text').textContent = generatedSummary.nextStep;
-    document.getElementById('next-step').style.display = 'block';
-    
-    // Display confidence note
-    document.getElementById('confidence-note').textContent = generatedSummary.confidenceNote;
-    document.getElementById('confidence-note').style.display = 'block';
-  } else {
-    // Fallback to original summary
-    document.getElementById('summary-headline').textContent = 'Your personal summary';
-    document.getElementById('ai-summary-text').textContent = summary;
+  // Set main heading
+  document.getElementById('results-name').textContent = state.business ? `Here's what we found for ${state.business}` : "Here's what we found";
+  
+  // Set summary card heading and content
+  const summaryHeadingEl = document.querySelector('.ai-summary-label');
+  if (summaryHeadingEl) {
+    summaryHeadingEl.textContent = summary.summaryHeading || "Here's what we discovered";
+  }
+  
+  const summaryTextEl = document.getElementById('ai-summary-text');
+  if (summaryTextEl) {
+    summaryTextEl.innerHTML = summary.summaryHtml || summary.summaryText || '';
+  }
+  
+  showScreen('screen-results');
+  
+  // Render Nicole message and load photo
+  if (typeof renderNicoleMessage === 'function') {
+    renderNicoleMessage();
+  }
+  if (typeof loadNicolePhoto === 'function') {
+    loadNicolePhoto();
   }
 
   const list = document.getElementById('matched-products-list');
@@ -2696,6 +2679,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
+<script src="logic/globalInsights.js"></script>
+<script src="logic/sectorInsights.js"></script>
+<script src="logic/fundingFinderInsights.js"></script>
+<script src="logic/productLinks.js"></script>
+<script src="logic/summaryBuilder.js"></script>
 <script src="shared-components.js"></script>
 <script type="module" src="discoverySummaryGenerator.js"></script></body>
 </html>
