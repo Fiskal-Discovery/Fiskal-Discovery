@@ -65,11 +65,11 @@
   .btn-primary:hover { opacity: 0.9; }
   .btn-secondary { background: transparent; color: var(--indigo); border: 1.5px solid var(--indigo); border-radius: 12px; padding: 14px 28px; font-size: 14px; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.2s ease; margin-top: 8px; }
   .btn-secondary:hover { background: var(--indigo-pale); }
-  .back-btn { background: none; border: none; color: var(--light-text); font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 6px; transition: color 0.2s ease; padding: 12px; }
+  .back-btn { background: none; border: none; color: var(--light-text); font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 6px; transition: color 0.2s ease; padding: 12px; min-width: 110px; justify-content: center; text-align: center; }
   .back-btn:hover { color: var(--indigo); }
   .btn-skip { background: transparent; border: 1.5px solid var(--indigo); border-radius: 12px; padding: 12px 20px; font-size: 13px; color: var(--indigo); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s ease; }
   .btn-skip:hover { background: var(--indigo-pale); }
-  .nav-row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+  .nav-row { display: flex; gap: 10px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
   .welcome-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
   .welcome-label { font-size: 16px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 16px; font-weight: 500; }
   .welcome-title { font-family: 'Libre Baskerville', serif; font-style: italic; font-size: 36px; color: var(--indigo-deep); line-height: 1.2; margin-bottom: 24px; }
@@ -1253,7 +1253,7 @@ function displayResults(summary) {
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  console.log("Showing discovery results");
+  console.log('[Loan Application] showing results');
   loadNicolePhoto();
 }
 
@@ -1449,7 +1449,7 @@ async function sendNotification(summary) {
 
 <script>
 function showDiscoveryThinkingScreen(callback) {
-  console.log("Thinking screen started");
+  console.log('[Loan Application] thinking screen started');
   const loadingScreen = document.getElementById('screen-submission-loading');
   const messageEl = document.getElementById('loading-message');
   let messageCount = 0;
@@ -1466,7 +1466,7 @@ function showDiscoveryThinkingScreen(callback) {
       setTimeout(() => {
         loadingScreen.classList.remove('active');
         messageEl.classList.remove('thinking-phrase', 'active', 'shimmer');
-        console.log("Thinking screen finished");
+        console.log('[Loan Application] thinking screen finished');
         if (callback) callback();
       }, fadeOutDuration);
       return;

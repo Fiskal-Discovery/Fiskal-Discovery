@@ -1178,14 +1178,24 @@
     color: var(--light-text);
     font-size: 13px;
     cursor: pointer;
-    padding: 4px 0;
+    padding: 10px 12px;
     font-family: 'DM Sans', sans-serif;
     display: flex;
     align-items: center;
     gap: 6px;
     transition: color 0.2s ease;
+    min-width: 110px;
+    justify-content: center;
+    text-align: center;
   }
   .back-btn:hover { color: var(--indigo); }
+  .nav-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
 
   /* ---- RESPONSIVE ---- */
   @media (max-width: 400px) {
@@ -1534,7 +1544,7 @@ function getRandomMessage() {
 }
 
 function showDiscoveryThinkingScreen(callback) {
-  console.log("Thinking screen started");
+  console.log('[Funding Finder (standalone)] thinking screen started');
   const loadingScreen = document.getElementById('screen-submission-loading');
   const messageEl = document.getElementById('loading-message');
   let messageCount = 0;
@@ -1551,7 +1561,7 @@ function showDiscoveryThinkingScreen(callback) {
       setTimeout(() => {
         loadingScreen.classList.remove('active');
         messageEl.classList.remove('thinking-phrase', 'active', 'shimmer');
-        console.log("Thinking screen finished");
+        console.log('[Funding Finder (standalone)] thinking screen finished');
         if (callback) callback();
       }, fadeOutDuration);
       return;

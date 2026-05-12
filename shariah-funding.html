@@ -269,19 +269,23 @@
     font-size: 13px;
     cursor: pointer;
     font-family: 'DM Sans', sans-serif;
-    padding: 8px 0;
+    padding: 10px 12px;
     display: flex;
     align-items: center;
     gap: 6px;
     transition: color 0.2s ease;
+    min-width: 110px;
+    justify-content: center;
+    text-align: center;
   }
   .back-btn:hover { color: var(--indigo); }
 
   .nav-row {
     display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-    margin-top: 4px;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
   }
 
   /* Loading Screen */
@@ -961,36 +965,50 @@ function selectTimeline(timeline, btn) {
 // ============================================================
 // SUBMIT & RESULTS
 // ============================================================
-function submitDiscovery() {
-  showScreen('screen-loading');
-  
-  const thinkingPhrase = document.getElementById('thinking-phrase');
-  const phrases = [
-    'Analysing your requirements...',
+function showDiscoveryThinkingScreen(callback) {
+  console.log('[Shariah] thinking screen started');
+  var phrases = [
+    'Reviewing your requirements...',
     'Exploring Shariah-compliant options...',
-    'Identifying suitable providers...',
-    'Preparing your discovery summary...'
+    'Preparing your summary...'
   ];
-  
-  let phraseIndex = 0;
-  thinkingPhrase.classList.add('active');
-  thinkingPhrase.textContent = phrases[0];
-  
-  const phraseInterval = setInterval(() => {
-    phraseIndex++;
-    if (phraseIndex < phrases.length) {
-      thinkingPhrase.textContent = phrases[phraseIndex];
-    } else {
-      clearInterval(phraseInterval);
-      thinkingPhrase.classList.add('shimmer');
-      thinkingPhrase.textContent = 'Almost there...';
+  var loadingScreen = document.getElementById('screen-loading');
+  var messageEl = document.getElementById('thinking-phrase');
+  var phraseIndex = 0;
+  var visibleDuration = 1800;
+  var fadeOutDuration = 500;
+  var gapDuration = 200;
+
+  loadingScreen.classList.add('active');
+
+  function showPhrase() {
+    if (phraseIndex >= phrases.length) {
+      setTimeout(function() {
+        loadingScreen.classList.remove('active');
+        loadingScreen.style.display = 'none';
+        messageEl.classList.remove('active', 'shimmer');
+        console.log('[Shariah] thinking screen finished');
+        if (callback) callback();
+      }, fadeOutDuration);
+      return;
     }
-  }, 1200);
-  
-  setTimeout(() => {
-    clearInterval(phraseInterval);
+    messageEl.textContent = phrases[phraseIndex];
+    messageEl.classList.remove('active', 'shimmer');
+    void messageEl.offsetWidth;
+    messageEl.classList.add('active', 'shimmer');
+    phraseIndex++;
+    setTimeout(function() {
+      messageEl.classList.remove('shimmer', 'active');
+      setTimeout(showPhrase, gapDuration);
+    }, visibleDuration);
+  }
+  showPhrase();
+}
+
+function submitDiscovery() {
+  showDiscoveryThinkingScreen(function() {
     displayResults();
-  }, 5000);
+  });
 }
 
 function displayResults() {
@@ -1020,20 +1038,13 @@ function displayResults() {
   
   document.getElementById('nicole-message').textContent = nicoleMessage;
   
+  console.log('[Shariah] showing results');
   showScreen('screen-results');
-
-  // Hide loading screen — it uses .loading-screen class, not .screen, so showScreen() won't clear it
-  const loadingEl = document.getElementById('screen-loading');
-  if (loadingEl) {
-    loadingEl.classList.remove('active');
-    loadingEl.style.display = 'none';
-  }
-
   window.scrollTo({ top: 0, behavior: 'smooth' });
   loadNicolePhoto();
 
   // Send notification (non-blocking)
-  sendNotification().catch(error => {
+  sendNotification().catch(function(error) {
     console.warn('Notification failed, but results already shown:', error);
   });
 }

@@ -1296,14 +1296,24 @@
     color: var(--light-text);
     font-size: 13px;
     cursor: pointer;
-    padding: 4px 0;
+    padding: 10px 12px;
     font-family: 'DM Sans', sans-serif;
     display: flex;
     align-items: center;
     gap: 6px;
     transition: color 0.2s ease;
+    min-width: 110px;
+    justify-content: center;
+    text-align: center;
   }
   .back-btn:hover { color: var(--indigo); }
+  .nav-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
 
   /* ---- RESPONSIVE ---- */
   @media (max-width: 400px) {
@@ -1429,7 +1439,7 @@
     </div>
     <span class="module-badge" id="welcome-badge">Funding Finder</span>
   </div>
-  <div style="padding: 0 24px 4px;"><button class="back-btn" onclick="goHome()">&lt; Back</button></div>
+  <div class="nav-row" style="padding: 0 24px 4px;"><button class="back-btn" onclick="goHome()">&lt; Back</button></div>
   <div class="screen-content">
     <div class="welcome-body">
       <div class="welcome-label">Before you begin</div>
@@ -1455,7 +1465,7 @@
     </div>
     <span class="module-badge" id="details-badge">Funding Finder</span>
   </div>
-  <div style="padding: 0 24px 4px;"><button class="back-btn" onclick="showScreen('welcome')">&lt; Back</button></div>
+  <div class="nav-row" style="padding: 0 24px 4px;"><button class="back-btn" onclick="showScreen('welcome')">&lt; Back</button></div>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:5%"></div></div>
     <div class="progress-label">Your details</div>
@@ -1847,7 +1857,8 @@ function showDiscoveryThinkingScreen(callback) {
   // Randomly select 3 phrases
   const phrases = allPhrases.sort(() => Math.random() - 0.5).slice(0, 3);
 
-  showScreen('thinking');
+  console.log('[Funding Finder] thinking screen started');
+  showScreen('screen-thinking');
   
   const phraseEl = document.getElementById('thinking-phrase');
   let phraseIndex = 0;
@@ -1856,6 +1867,7 @@ function showDiscoveryThinkingScreen(callback) {
     if (index >= phrases.length) {
       // All phrases shown, call callback
       setTimeout(() => {
+        console.log('[Funding Finder] thinking screen finished');
         callback();
       }, 200);
       return;
@@ -2211,6 +2223,7 @@ function displayResults(summary, matchedProducts) {
     document.getElementById('matched-products-section').style.display = 'none';
   }
 
+  console.log('[Funding Finder] showing results');
   showScreen('results');
   sendNotification(summary, matchedProducts);
 }

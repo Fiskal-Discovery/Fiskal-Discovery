@@ -353,9 +353,10 @@
     align-items: center;
     gap: 6px;
     transition: color 0.2s ease;
-    flex: 1;
     justify-content: center;
     padding: 12px;
+    min-width: 110px;
+    text-align: center;
   }
   .back-btn:hover { color: var(--indigo); }
 
@@ -373,9 +374,9 @@
 
   .nav-row {
     display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-    margin-top: 4px;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 8px;
   }
 
   /* Welcome screen */
@@ -1959,6 +1960,7 @@
       <input type="text" class="form-input" id="trade-limit" placeholder="e.g. £100,000">
     </div>
     <button class="btn-primary" onclick="saveTradeLimit()">Continue →</button>
+    <button class="btn-secondary" onclick="setTradeLimitNotSure()">🤔 I'm not sure</button>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-duration')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
@@ -1984,6 +1986,7 @@
       <input type="text" class="form-input" id="trade-rates" placeholder="e.g. 3% per month">
     </div>
     <button class="btn-primary" onclick="saveTradeRates()">Continue →</button>
+    <button class="btn-secondary" onclick="setTradeRatesNotSure()">🤔 I'm not sure</button>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-limit')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
@@ -2033,7 +2036,6 @@
       <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'Yes, significant growth', this, 'trade-growth-opts', 'screen-trade-barriers')">📈 Yes, significant growth</button>
       <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'Some growth', this, 'trade-growth-opts', 'screen-trade-barriers')">📊 Some growth</button>
       <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'No significant change', this, 'trade-growth-opts', 'screen-trade-barriers')">➡️ No significant change</button>
-      <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'Declined', this, 'trade-growth-opts', 'screen-trade-barriers')">📉 Declined</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-reaching')">&lt; Back</button>
@@ -2605,18 +2607,28 @@ function saveTradeDuration() {
 function saveTradeLimit() {
   state.tradeLimit = document.getElementById('trade-limit').value.trim();
   if (!state.tradeLimit) {
-    alert('Please enter your facility limit');
+    alert('Please enter your facility limit or tap "I\'m not sure"');
     return;
   }
+  showScreen('screen-trade-rates');
+}
+
+function setTradeLimitNotSure() {
+  state.tradeLimit = 'Not sure';
   showScreen('screen-trade-rates');
 }
 
 function saveTradeRates() {
   state.tradeRates = document.getElementById('trade-rates').value.trim();
   if (!state.tradeRates) {
-    alert('Please enter your current rates or fees');
+    alert('Please enter your current rates/fees or tap "I\'m not sure"');
     return;
   }
+  showScreen('screen-trade-reaching');
+}
+
+function setTradeRatesNotSure() {
+  state.tradeRates = 'Not sure';
   showScreen('screen-trade-reaching');
 }
 
@@ -3214,7 +3226,7 @@ function loadNicolePhoto() {
 
 <script>
 function showDiscoveryThinkingScreen(callback) {
-  console.log("Thinking screen started");
+  console.log('[Facility Review] thinking screen started');
   const loadingScreen = document.getElementById('screen-submission-loading');
   const messageEl = document.getElementById('loading-message');
   let messageCount = 0;
@@ -3231,7 +3243,7 @@ function showDiscoveryThinkingScreen(callback) {
       setTimeout(() => {
         loadingScreen.classList.remove('active');
         messageEl.classList.remove('thinking-phrase', 'active', 'shimmer');
-        console.log("Thinking screen finished");
+        console.log('[Facility Review] thinking screen finished');
         if (callback) callback();
       }, fadeOutDuration);
       return;
