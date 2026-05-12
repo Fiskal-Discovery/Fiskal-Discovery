@@ -1179,11 +1179,13 @@
   /* ---- NICOLE CONTACT CARD ---- */
   .nicole-contact-card {
     display: grid;
-    grid-template-columns: minmax(180px, 0.75fr) minmax(0, 1.25fr);
+    grid-template-columns: 0.85fr 1.15fr;
+    grid-template-areas:
+      "photo message"
+      "details actions";
     align-items: center;
-    gap: 28px;
+    gap: 20px 34px;
     width: 100%;
-    min-height: 360px;
     background: linear-gradient(135deg, #670087 0%, #8b00ac 52%, #a300c9 100%);
     color: #ffffff;
     border-radius: 28px;
@@ -1205,21 +1207,22 @@
   }
 
   .nicole-photo-side,
-  .nicole-contact-content,
+  .nicole-message-wrap,
+  .nicole-details,
   .nicole-card-actions {
     position: relative;
     z-index: 1;
   }
 
   .nicole-photo-side {
+    grid-area: photo;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
   }
 
   .nicole-photo-wrap {
-    width: min(240px, 100%);
+    width: min(235px, 100%);
     aspect-ratio: 1 / 1;
     border-radius: 30px;
     overflow: hidden;
@@ -1250,27 +1253,33 @@
     background: rgba(255, 255, 255, 0.12);
   }
 
-  .nicole-contact-content {
+  .nicole-message-wrap {
+    grid-area: message;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
     min-height: 100%;
   }
 
   .nicole-message {
-    margin-top: 0;
     line-height: 1.65;
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.95);
-    max-width: 520px;
+    font-size: clamp(1rem, 1.55vw, 1.18rem);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.96);
+    max-width: 540px;
   }
 
   .nicole-details {
-    margin-top: 22px;
+    grid-area: details;
+    text-align: center;
+    align-self: flex-start;
+    justify-self: center;
+    width: 100%;
+    padding-top: 2px;
   }
 
-  .nicole-contact-content h3 {
-    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  .nicole-details h3 {
+    font-size: clamp(1.45rem, 2.6vw, 2rem);
     line-height: 1.1;
     margin: 0 0 8px;
     font-weight: 800;
@@ -1278,29 +1287,31 @@
 
   .nicole-title {
     font-size: 1.02rem;
-    color: rgba(255, 255, 255, 0.86);
-    margin-bottom: 14px;
-    font-weight: 600;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 12px;
+    font-weight: 700;
   }
 
   .nicole-phone,
   .nicole-email {
-    font-size: 1.05rem;
+    font-size: 1.08rem;
     line-height: 1.45;
     color: #ffffff;
-    font-weight: 700;
+    font-weight: 800;
   }
 
   .nicole-card-actions {
-    grid-column: 1 / -1;
+    grid-area: actions;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 24px;
+    gap: 22px;
     flex-wrap: nowrap;
     width: 100%;
-    margin-top: 12px;
-    padding-top: 4px;
+    max-width: 560px;
+    align-self: center;
+    justify-self: center;
+    padding-top: 2px;
   }
 
   .visit-fiskal-btn,
@@ -1310,15 +1321,17 @@
     justify-content: center;
     min-height: 48px;
     min-width: 220px;
-    flex: 0 1 240px;
-    padding: 13px 20px;
+    flex: 0 1 auto;
+    padding: 13px 22px;
     border-radius: 999px;
     font-weight: 800;
     text-decoration: none;
+    white-space: nowrap;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   }
 
   .visit-fiskal-btn {
+    min-width: 220px;
     background: #FFE600;
     color: #08000F;
     box-shadow: 0 10px 25px rgba(255, 230, 0, 0.24);
@@ -1343,9 +1356,14 @@
   @media (max-width: 760px) {
     .nicole-contact-card {
       grid-template-columns: 1fr;
+      grid-template-areas:
+        "photo"
+        "details"
+        "message"
+        "actions";
       text-align: center;
       padding: 28px 22px;
-      gap: 24px;
+      gap: 22px;
     }
 
     .nicole-photo-wrap {
@@ -1353,15 +1371,21 @@
       border-radius: 50%;
     }
 
-    .nicole-contact-content {
-      align-items: center;
+    .nicole-photo-side,
+    .nicole-message-wrap,
+    .nicole-details,
+    .nicole-card-actions {
+      align-self: center;
+    }
+
+    .nicole-message-wrap {
+      justify-content: center;
     }
 
     .nicole-card-actions {
-      width: 100%;
       flex-direction: column;
-      flex-wrap: nowrap;
-      margin-top: 0;
+      gap: 14px;
+      max-width: 100%;
     }
 
     .visit-fiskal-btn,
@@ -1828,31 +1852,23 @@
         </div>
       </div>
 
-      <div class="nicole-contact-content">
+      <div class="nicole-message-wrap">
         <p class="nicole-message" id="nicole-message">
-          Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website to learn more about who we are and how we can help.
+          Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website or our LinkedIn page to learn more about who we are and how we can help.
         </p>
+      </div>
 
-        <div class="nicole-details">
-          <h3>Nicole Bertolissi</h3>
-          <p class="nicole-title">Direct Sales Executive, Fiskal</p>
-          <p class="nicole-phone">07946 074 268</p>
-          <p class="nicole-email">nicole@fiskal.co.uk</p>
-        </div>
+      <div class="nicole-details">
+        <h3>Nicole Bertolissi</h3>
+        <p class="nicole-title">Direct Sales Executive, Fiskal</p>
+        <p class="nicole-phone">07946 074 268</p>
+        <p class="nicole-email">nicole@fiskal.co.uk</p>
       </div>
 
       <div class="nicole-card-actions">
-        <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">
-          Visit the Fiskal Website
-        </a>
-
-        <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="fiskal-linkedin-btn">
-          Fiskal on LinkedIn
-        </a>
-
-        <a href="tel:+447946074268" class="call-now-mobile">
-          📞 Call Nicole now
-        </a>
+        <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Fiskal Website</a>
+        <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="fiskal-linkedin-btn">Fiskal LinkedIn</a>
+        <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
       </div>
     </section>
 
@@ -2890,10 +2906,10 @@ function renderNicoleMessage() {
   if (!messageEl) return;
 
   const nicoleMessages = [
-    "Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website to learn more about who we are and how we can help.",
-    "Thank you for sharing your details. I'll take a look through your Discovery and come back to you within the next couple of hours. While you wait, you're welcome to explore the Fiskal website and see how we support businesses like yours.",
-    "Your Discovery has been received. I'll review everything personally and will be in touch within the next couple of hours. In the meantime, feel free to visit the Fiskal website to learn more about the support available.",
-    "Thanks for taking the time to complete your Discovery. I'll review your answers and contact you within the next couple of hours. While you're here, you can explore the Fiskal website to learn more about how we can help."
+    "Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website or our LinkedIn page to learn more about who we are and how we can help.",
+    "Thank you for sharing your details. I'll take a look through your Discovery and come back to you within the next couple of hours. While you wait, you're welcome to explore the Fiskal website or our LinkedIn page and see how we support businesses like yours.",
+    "Your Discovery has been received. I'll review everything personally and will be in touch within the next couple of hours. In the meantime, feel free to visit the Fiskal website or LinkedIn page to learn more about the support available.",
+    "Thanks for taking the time to complete your Discovery. I'll review your answers and contact you within the next couple of hours. While you're here, you can explore the Fiskal website or our LinkedIn page to learn more about how we can help."
   ];
 
   messageEl.textContent = nicoleMessages[Math.floor(Math.random() * nicoleMessages.length)];
