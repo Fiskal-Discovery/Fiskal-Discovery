@@ -89,10 +89,11 @@
 }
 
 .nicole-message {
-  line-height: 1.45;
-  font-size: clamp(0.82rem, 1vw, 0.94rem);
-  font-weight: 700;
+  font-weight: 500;
+  line-height: 1.55;
   color: rgba(255, 255, 255, 0.96);
+  text-shadow: none;
+  font-size: clamp(0.82rem, 1vw, 0.94rem);
   max-width: 480px;
 }
 
