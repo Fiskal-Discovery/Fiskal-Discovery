@@ -645,6 +645,71 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(126,9,165,0.3);
   }
+
+  /* ---- SHARIAH THINKING SCREEN OVERLAY ---- */
+  #shariah-thinking-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ffffff 0%, #f8efff 45%, #eaf8ff 100%);
+    text-align: center;
+  }
+  #shariah-thinking-screen.active {
+    display: flex;
+  }
+  #shariah-thinking-screen .thinking-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 32px;
+  }
+  #shariah-thinking-screen .thinking-spinner {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 4px solid rgba(126,9,165,0.18);
+    border-top-color: #7E09A5;
+    animation: spinThinking 1s linear infinite;
+  }
+  #shariah-thinking-screen .thinking-phrase {
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    font-weight: 700;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 500ms ease, transform 500ms ease;
+  }
+  #shariah-thinking-screen .thinking-phrase.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #shariah-thinking-screen .thinking-phrase.shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(126,9,165,0.45) 0%,
+      #7E09A5 30%,
+      #FFE600 50%,
+      #7E09A5 70%,
+      rgba(126,9,165,0.45) 100%
+    );
+    background-size: 220% auto;
+    background-position: 220% center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: thinkingShimmer 1.8s ease-in-out forwards;
+  }
+  @keyframes thinkingShimmer {
+    0%   { background-position: 220% center; }
+    100% { background-position: -220% center; }
+  }
+  @keyframes spinThinking {
+    to { transform: rotate(360deg); }
+  }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
@@ -1027,9 +1092,58 @@ function showDiscoveryThinkingScreen(callback) {
   showPhrase();
 }
 
+function showShariahThinkingScreen(callback) {
+  console.log('Shariah thinking screen started');
+
+  var phrases = [
+    'Understanding your funding needs',
+    'Reviewing Shariah-compliant possibilities',
+    'Preparing your Fiskal Discovery'
+  ];
+
+  var screen = document.getElementById('shariah-thinking-screen');
+  if (!screen) {
+    screen = document.createElement('div');
+    screen.id = 'shariah-thinking-screen';
+    screen.innerHTML = '<div class="thinking-inner"><div class="thinking-spinner"></div><div id="shariah-thinking-phrase" class="thinking-phrase"></div></div>';
+    document.body.appendChild(screen);
+  }
+
+  var phraseEl = document.getElementById('shariah-thinking-phrase');
+  screen.style.display = 'flex';
+  screen.classList.add('active');
+
+  var index = 0;
+
+  function showPhrase() {
+    if (index >= phrases.length) {
+      screen.classList.remove('active');
+      screen.style.display = 'none';
+      console.log('Shariah thinking screen finished');
+      callback();
+      return;
+    }
+
+    phraseEl.textContent = phrases[index];
+    phraseEl.classList.remove('active', 'shimmer');
+    void phraseEl.offsetWidth;
+    phraseEl.classList.add('active', 'shimmer');
+    console.log('Shariah phrase shown: ' + phrases[index]);
+
+    setTimeout(function() {
+      phraseEl.classList.remove('active', 'shimmer');
+      index++;
+      setTimeout(showPhrase, 300);
+    }, 2300);
+  }
+
+  showPhrase();
+}
+
 function submitDiscovery() {
-  showDiscoveryThinkingScreen(function() {
+  showShariahThinkingScreen(function() {
     displayResults();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
 
