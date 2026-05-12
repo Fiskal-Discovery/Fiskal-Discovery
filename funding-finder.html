@@ -2024,6 +2024,12 @@ async function generateResults() {
     barrierDetails: state.barrierDetails
   };
   
+  console.log("Funding Finder answers passed to summary builder:", fundingFinderAnswers);
+  console.log("Matched products:", matchedProducts);
+  
+  // Add matched products to answers if not already present
+  fundingFinderAnswers.matchedProducts = fundingFinderAnswers.matchedProducts || matchedProducts || [];
+  
   let summary;
   try {
     summary = buildDiscoverySummary('funding-finder', fundingFinderAnswers);

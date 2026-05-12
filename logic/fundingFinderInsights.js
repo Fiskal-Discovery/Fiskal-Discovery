@@ -98,18 +98,61 @@ function getFXInsight(answers, businessName) {
 // Returns the two strongest matched product insights for a given answers object.
 // Priority order follows commercial relevance and match strength.
 function getTopFundingFinderInsights(answers, businessName, industry) {
-  const candidates = [
-    getInvoiceFinanceInsight(answers, businessName, industry),
-    getTradeFinanceInsight(answers, businessName),
-    getAssetFinanceInsight(answers, businessName),
-    getBusinessLoanInsight(answers, businessName),
-    getPropertyFinanceInsight(answers, businessName),
-    getRevolvingCreditInsight(answers, businessName),
-    getRDTaxCreditInsight(answers, businessName),
-    getMerchantCashAdvanceInsight(answers, businessName),
-    getFXInsight(answers, businessName)
-  ].filter(Boolean);
+  const candidates = [];
+  
+  // Check if matchedProducts is provided
+  const matchedProducts = answers.matchedProducts || [];
+  const hasMatchedProducts = matchedProducts.length > 0;
+  
+  console.log('[Funding Finder Insights] matchedProducts:', matchedProducts);
+  console.log('[Funding Finder Insights] hasMatchedProducts:', hasMatchedProducts);
+  
+  // If matchedProducts is provided, only include insights for matched products
+  if (hasMatchedProducts) {
+    const productMap = {
+      'Invoice Finance': getInvoiceFinanceInsight,
+      'Trade Finance': getTradeFinanceInsight,
+      'Asset Finance': getAssetFinanceInsight,
+      'Business Loan': getBusinessLoanInsight,
+      'Business Loans': getBusinessLoanInsight,
+      'Property Finance': getPropertyFinanceInsight,
+      'Commercial Property Finance': getPropertyFinanceInsight,
+      'Revolving Credit Facility': getRevolvingCreditInsight,
+      'Revolving Credit': getRevolvingCreditInsight,
+      'R&D Tax Credits': getRDTaxCreditInsight,
+      'R&D Tax Credit': getRDTaxCreditInsight,
+      'Merchant Cash Advance': getMerchantCashAdvanceInsight,
+      'Foreign Currency': getFXInsight,
+      'FX': getFXInsight
+    };
+    
+    matchedProducts.forEach(product => {
+      const insightFn = productMap[product];
+      if (insightFn) {
+        const insight = insightFn(answers, businessName, industry);
+        if (insight) {
+          candidates.push(insight);
+          console.log('[Funding Finder Insights] Added insight for:', product);
+        }
+      }
+    });
+  } else {
+    // Fall back to checking individual answer fields
+    candidates.push(
+      getInvoiceFinanceInsight(answers, businessName, industry),
+      getTradeFinanceInsight(answers, businessName),
+      getAssetFinanceInsight(answers, businessName),
+      getBusinessLoanInsight(answers, businessName),
+      getPropertyFinanceInsight(answers, businessName),
+      getRevolvingCreditInsight(answers, businessName),
+      getRDTaxCreditInsight(answers, businessName),
+      getMerchantCashAdvanceInsight(answers, businessName),
+      getFXInsight(answers, businessName)
+    ).filter(Boolean);
+  }
 
+  console.log('[Funding Finder Insights] Total candidates:', candidates.length);
+  
   // Return top 2
   return candidates.slice(0, 2);
 }
