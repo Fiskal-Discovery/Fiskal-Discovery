@@ -1983,6 +1983,17 @@ function submitDetails() {
   state.phone = phone;
   state.companyNumber = document.getElementById('field-company-number').value.trim();
 
+  // Persist contact details for cross-journey use (e.g. Shariah-Compliant Funding)
+  try {
+    const existing = JSON.parse(localStorage.getItem('fiskal_profile') || '{}');
+    existing.name = name;
+    existing.businessName = business;
+    existing.email = email;
+    existing.phone = phone;
+    existing.companyNumber = state.companyNumber;
+    localStorage.setItem('fiskal_profile', JSON.stringify(existing));
+  } catch(e) { console.warn('Could not save profile to localStorage:', e); }
+
   state.currentQuestion = 0;
   renderQuestion();
   showScreen('question');

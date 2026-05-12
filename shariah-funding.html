@@ -1197,7 +1197,42 @@ async function loadNicolePhoto() {
 // ============================================================
 // NOTIFICATION SYSTEM
 // ============================================================
+function getStoredContactDetails() {
+  var profile = {};
+  try { profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}'); } catch(e) {}
+  var ls = localStorage;
+  var ss = sessionStorage;
+  return {
+    name:
+      profile.name ||
+      ls.getItem('contactName') || ls.getItem('fullName') || ls.getItem('name') ||
+      ss.getItem('contactName') || ss.getItem('fullName') || ss.getItem('name') ||
+      'Not provided',
+    business:
+      profile.businessName ||
+      ls.getItem('businessName') || ls.getItem('companyName') || ls.getItem('business') ||
+      ss.getItem('businessName') || ss.getItem('companyName') || ss.getItem('business') ||
+      'Not provided',
+    email:
+      profile.email ||
+      ls.getItem('email') || ls.getItem('contactEmail') ||
+      ss.getItem('email') || ss.getItem('contactEmail') ||
+      'Not provided',
+    phone:
+      profile.phone ||
+      ls.getItem('phone') || ls.getItem('mobile') || ls.getItem('phoneNumber') ||
+      ss.getItem('phone') || ss.getItem('mobile') || ss.getItem('phoneNumber') ||
+      'Not provided',
+    companyNumber:
+      profile.companyNumber ||
+      ls.getItem('companyNumber') || ls.getItem('registrationNumber') ||
+      ss.getItem('companyNumber') || ss.getItem('registrationNumber') ||
+      'Not provided'
+  };
+}
+
 async function sendNotification() {
+  const contact = getStoredContactDetails();
   const purpose = state.otherPurpose || state.purpose;
   const amount = state.notSure ? 'Not sure yet' : (state.amount ? '\u00a3' + Number(state.amount).toLocaleString() : 'Not provided');
   const timeline = state.timeline || 'Not provided';
@@ -1205,11 +1240,11 @@ async function sendNotification() {
   const summary = `Shariah-Compliant Funding Discovery\n\nPurpose: ${purpose}\nAmount: ${amount}\nTimeline: ${timeline}`;
 
   const templateParams = {
-    name: 'Not provided',
-    business_name: 'Not provided',
-    email: 'Not provided',
-    phone: 'Not provided',
-    company_number: 'Not provided',
+    name: contact.name,
+    business_name: contact.business,
+    email: contact.email,
+    phone: contact.phone,
+    company_number: contact.companyNumber,
     module: 'Shariah-Compliant Funding',
     matched_products: purpose || 'Not provided',
     barriers: timeline,
