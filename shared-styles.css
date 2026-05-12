@@ -279,3 +279,25 @@
     width: 100%;
   }
 }
+
+/* ---- HIDE CALL NICOLE ON DESKTOP ---- */
+.nicole-contact-card .call-now-mobile {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  .nicole-contact-card .call-now-mobile {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #0099ff;
+    color: #ffffff;
+    font-weight: 800;
+    text-decoration: none;
+    box-sizing: border-box;
+  }
+}
