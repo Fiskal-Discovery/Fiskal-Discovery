@@ -2465,7 +2465,7 @@ const selfFields = [
   { key: 'companyNumber',   prompt: "Do you know your company registration number? (You can skip this if not — just press enter or type 'skip')" },
   { key: 'turnoverLast',    prompt: "What was your turnover last year? (e.g. £500,000 — or an estimate is fine)" },
   { key: 'turnoverNext',    prompt: "And what are you expecting this year? (Your best guess is perfect)" },
-  { key: 'propertyOwners',  prompt: "Are any directors of the business home or property owners?" },
+  { key: 'propertyOwners',  prompt: "Are any directors of the business home or property owners?", type: 'checkbox' },
   { key: 'marketingConsent', prompt: "One last thing — would you like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news?", type: 'checkbox' }
 ];
 
@@ -2485,7 +2485,7 @@ const clientFields = [
   { key: 'companyNumber',   prompt: "Do you have their company registration number? (Type 'skip' if not)" },
   { key: 'turnoverLast',    prompt: "What was their turnover last year?" },
   { key: 'turnoverNext',    prompt: "And what are they expecting this year?" },
-  { key: 'propertyOwners',  prompt: "Are any directors of the business home or property owners?" },
+  { key: 'propertyOwners',  prompt: "Are any directors of the business home or property owners?", type: 'checkbox' },
   { key: 'marketingConsent', prompt: "One last thing — would {firstName} like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news?", type: 'checkbox' }
 ];
 
@@ -2667,7 +2667,7 @@ function scrollChat() {
 function showInput(fieldKey) {
   const field = obCurrentFields[obFieldIndex];
   
-  // Handle checkbox input for marketing consent
+  // Handle checkbox input for marketing consent and property owners
   if (field.type === 'checkbox') {
     const inputArea = document.getElementById('ob-input-area');
     const input = document.getElementById('ob-input');
@@ -2677,6 +2677,11 @@ function showInput(fieldKey) {
     document.getElementById('ob-choices').style.display = 'none';
     obShowNavButtons(false, false); // Hide nav buttons since checkbox has its own continue button
     
+    // Determine checkbox label based on field key
+    const checkboxLabel = field.key === 'marketingConsent' 
+      ? "Yes, I'd like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news."
+      : "Yes, there are directors who are home or property owners.";
+    
     // Create checkbox container
     const checkboxContainer = document.getElementById('ob-checkbox-container');
     if (!checkboxContainer) {
@@ -2685,15 +2690,15 @@ function showInput(fieldKey) {
       container.style.cssText = 'display:flex;flex-direction:column;gap:12px;margin-top:12px;';
       container.innerHTML = `
         <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.9rem;color:var(--light-text);">
-          <input type="checkbox" id="ob-marketing-consent" style="margin-top:3px;flex-shrink:0;">
-          <span>Yes, I'd like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news.</span>
+          <input type="checkbox" id="ob-checkbox" style="margin-top:3px;flex-shrink:0;">
+          <span>${checkboxLabel}</span>
         </label>
         <button class="btn-primary" id="ob-checkbox-submit" style="margin-top:8px">Continue</button>
       `;
       inputArea.appendChild(container);
       
       document.getElementById('ob-checkbox-submit').onclick = () => {
-        const checkbox = document.getElementById('ob-marketing-consent');
+        const checkbox = document.getElementById('ob-checkbox');
         obState.profile[field.key] = checkbox.checked;
         obAddUserBubble(checkbox.checked ? 'Yes' : 'No');
         checkboxContainer.remove();
