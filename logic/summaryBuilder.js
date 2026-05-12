@@ -104,39 +104,26 @@ function buildLoanApplicationSummary(answers) {
   const credit   = answers.credit || '';
   const turnover = answers.turnover || '';
   const existingFacilities = answers.existingFacilities || [];
+  const barrier  = answers.barrier || '';
+  const barrierDetails = answers.barrierDetails || '';
   const hasSecurityOrAsset = security && security !== 'None' && security !== 'Unsecured';
 
   const blocks = [];
 
-  // Opening
-  blocks.push(`Based on what you've shared with us, here is what looks worth exploring for ${business}.`);
+  // Paragraph 1 — positive opening
+  blocks.push(`Great news — based on what you've shared, there are still funding options worth exploring for ${business}. The key is finding the right structure for what the funding needs to achieve, rather than treating this as a generic loan application.`);
 
-  // Purpose insight
+  // Paragraph 2 — purpose insight + credit concern
   const purposeInsight = getLoanPurposeInsight(purpose, business);
-  if (purposeInsight) blocks.push(purposeInsight);
+  const creditConcern = getLoanCreditConcernInsight(barrier, barrierDetails, business);
+  
+  let para2 = '';
+  if (purposeInsight) para2 += purposeInsight + ' ';
+  if (creditConcern) para2 += creditConcern;
+  if (para2) blocks.push(para2.trim());
 
-  // Security insight
-  const securityInsight = getLoanSecurityInsight(security, answers.properties, business);
-  if (securityInsight) blocks.push(securityInsight);
-
-  // Amount vs turnover reality check
-  const amountInsight = getFundingAmountInsight(amount, turnover, hasSecurityOrAsset);
-  if (amountInsight && blocks.length < 4) blocks.push(amountInsight);
-
-  // Existing facilities note
-  const existingNote = getExistingFacilitiesNote(existingFacilities, business);
-  if (existingNote && blocks.length < 5) blocks.push(existingNote);
-
-  // Credit concern
-  const hasCreditFlag = hasCreditConcern(answers)
-    || (credit && ['poor', 'bad', 'ccj', 'default', 'declined', 'adverse'].some(k => credit.toLowerCase().includes(k)));
-  if (hasCreditFlag) blocks.push(getCreditConcernInsight());
-
-  // Practical close
-  blocks.push(`The next step is to review the full picture properly. Every application is different, and the right structure will depend on the full details — including affordability, trading history and lender criteria.`);
-
-  // Cap at 5 blocks max
-  const finalBlocks = [blocks[0], ...blocks.slice(1, 4), blocks[blocks.length - 1]].filter(Boolean);
+  // Keep to 2 paragraphs max
+  const finalBlocks = blocks.slice(0, 2);
 
   const summaryText = finalBlocks.join('\n\n');
   return {

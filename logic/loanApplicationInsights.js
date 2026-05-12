@@ -70,3 +70,26 @@ function getExistingFacilitiesNote(existingFacilities, businessName) {
   const name = businessName || 'the business';
   return `It is also worth noting that ${name} already has existing finance in place. Any new facility will need to be considered alongside the current commitments to make sure the overall position remains manageable.`;
 }
+
+function getLoanCreditConcernInsight(barrier, barrierDetails, businessName) {
+  const name = businessName || 'the business';
+  
+  // Check if user said Yes to barriers/concerns
+  if (barrier === 'yes') {
+    return `You've mentioned that there may be some credit concerns, CCJs, defaults or other issues that could affect an application. It is important to be realistic — some lenders may be cautious, and not every lender will be the right fit. However, this does not automatically mean funding is not possible. Fiskal regularly comes across businesses with historic challenges, and there may still be flexible lenders prepared to look at the full picture when the funding purpose makes sense.`;
+  }
+  
+  // Check if free text mentions credit concerns
+  if (barrierDetails) {
+    const text = barrierDetails.toLowerCase();
+    const creditKeywords = ['ccj', 'ccjs', 'bad credit', 'poor credit', 'defaults', 'missed payments', 'arrears', 'previous decline', 'declined', 'iva', 'debt', 'hmrc arrears'];
+    
+    for (const keyword of creditKeywords) {
+      if (text.includes(keyword)) {
+        return `You've mentioned that there may be some credit concerns, CCJs, defaults or other issues that could affect an application. It is important to be realistic — some lenders may be cautious, and not every lender will be the right fit. However, this does not automatically mean funding is not possible. Fiskal regularly comes across businesses with historic challenges, and there may still be flexible lenders prepared to look at the full picture when the funding purpose makes sense.`;
+      }
+    }
+  }
+  
+  return null;
+}

@@ -1004,10 +1004,10 @@
     <div class="results-header">
       <div class="results-check">&#10024;</div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
-      <p class="results-name" id="results-name">Here's what we discovered</p>
+      <p class="results-name" id="results-name">Here's what we found</p>
     </div>
     <div class="ai-summary">
-      <div class="ai-summary-label">Your summary</div>
+      <div class="ai-summary-label">Here's what we discovered</div>
       <p class="ai-summary-text" id="ai-summary-text">Analysing your application...</p>
     </div>
     <section class="nicole-contact-card" aria-label="Nicole Bertolissi contact card">
@@ -1393,9 +1393,39 @@ function submitApplication() {
   state.existingFacilities = facilities;
 
   showDiscoveryThinkingScreen(() => {
-    const summary = getFallback();
+    // Build personalised summary using logic module
+    const loanAnswers = {
+      name: state.name,
+      business: state.business,
+      purpose: state.purpose,
+      amount: state.amount,
+      term: state.term,
+      security: state.security,
+      properties: state.properties,
+      credit: state.credit,
+      urgency: state.urgency,
+      existingFinance: state.existingFinance,
+      existingFacilities: state.existingFacilities,
+      barrier: state.barrier,
+      barrierDetails: state.barrierDetails,
+      turnover: state.turnover,
+      propertyOwners: state.propertyOwners
+    };
+    
+    let summary;
+    try {
+      summary = buildDiscoverySummary('loan-application', loanAnswers);
+    } catch (error) {
+      console.warn('Loan summary builder failed, using fallback', error);
+      summary = {
+        pageHeading: 'Your Fiskal Discovery is ready',
+        summaryHeading: 'Here\'s what we discovered',
+        summaryHtml: '<p>Great news — based on what you\'ve shared, there are funding options worth exploring. The next step is to look at the full picture and find the most suitable route for the business.</p>'
+      };
+    }
+    
     displayResults(summary);
-    sendNotification(summary);
+    sendNotification(summary.summaryText || summary.summaryHtml);
   });
 }
 
@@ -1418,8 +1448,20 @@ function renderNicoleMessage() {
 }
 
 function displayResults(summary) {
-  document.getElementById('results-name').textContent = `Here's what we discovered, ${state.name}`;
-  document.getElementById('ai-summary-text').textContent = summary;
+  // Set main heading
+  document.getElementById('results-name').textContent = state.business ? `Here's what we found for ${state.business}` : "Here's what we found";
+  
+  // Set summary card heading and content
+  const summaryHeadingEl = document.querySelector('.ai-summary-label');
+  if (summaryHeadingEl) {
+    summaryHeadingEl.textContent = summary.summaryHeading || "Here's what we discovered";
+  }
+  
+  const summaryTextEl = document.getElementById('ai-summary-text');
+  if (summaryTextEl) {
+    summaryTextEl.innerHTML = summary.summaryHtml || summary.summaryText || '';
+  }
+  
   showScreen('screen-results');
 
   // Hide thinking/loading screen — kept visible during API call, must be cleared here
@@ -1557,9 +1599,12 @@ async function sendNotification(summary) {
   } catch(e) {}
 })();
 
-
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="logic/globalInsights.js"></script>
+<script src="logic/loanApplicationInsights.js"></script>
+<script src="logic/summaryBuilder.js"></script>
+
 <script>emailjs.init("g710KFSryN241SQWm");</script>
 <!-- DISCOVERY THINKING SCREEN -->
 <div class="screen" id="screen-thinking" style="display:none;position:fixed;inset:0;background:#08000F;z-index:9999;">
