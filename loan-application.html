@@ -1659,7 +1659,7 @@ function showDiscoveryThinkingScreen(callback) {
     'Preparing your Fiskal Discovery summary'
   ];
 
-  const screen = document.getElementById('discovery-thinking-screen');
+  let screen = document.getElementById('discovery-thinking-screen');
   if (!screen) {
     screen = document.createElement('div');
     screen.id = 'discovery-thinking-screen';
