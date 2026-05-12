@@ -156,59 +156,125 @@ function getTopFundingFinderInsights(answers, businessName, industry) {
   
   // If matchedProducts is provided, only include insights for matched products
   if (hasMatchedProducts) {
-    // Check normalised products and add corresponding insights
+    const candidatesWithPriority = [];
+    
+    // Check normalised products and add corresponding insights with priority
     if (normalisedProducts.includes("invoice-finance")) {
       const insight = getInvoiceFinanceInsight(answers, businessName, industry);
       if (insight) {
-        candidates.push(insight);
+        candidatesWithPriority.push({
+          product: "Invoice Finance",
+          priority: 100,
+          insight: insight
+        });
         console.log('[Funding Finder Insights] Added Invoice Finance insight');
+      } else {
+        // Fallback if insight function returns null
+        candidatesWithPriority.push({
+          product: "Invoice Finance",
+          priority: 100,
+          insight: `Invoice Finance may be worth exploring, especially if ${businessName} waits for customers or contractors to pay invoices. For construction-related businesses, it may be worth looking at specialist facilities that can support contractual invoices, applications for payment or staged payments, where standard invoice finance may not always fit neatly.`
+        });
+        console.log('[Funding Finder Insights] Added Invoice Finance fallback insight');
       }
     }
     
     if (normalisedProducts.includes("trade-finance")) {
       const insight = getTradeFinanceInsight(answers, businessName);
       if (insight) {
-        candidates.push(insight);
+        candidatesWithPriority.push({
+          product: "Trade Finance",
+          priority: 90,
+          insight: insight
+        });
         console.log('[Funding Finder Insights] Added Trade Finance insight');
+      } else {
+        candidatesWithPriority.push({
+          product: "Trade Finance",
+          priority: 90,
+          insight: `Trade Finance may be useful if ${businessName} needs to pay suppliers upfront for materials, stock or goods before customer payments come back in. This can help the business fulfil orders without tying up all available cash.`
+        });
+        console.log('[Funding Finder Insights] Added Trade Finance fallback insight');
       }
     }
     
     if (normalisedProducts.includes("asset-finance")) {
       const insight = getAssetFinanceInsight(answers, businessName);
       if (insight) {
-        candidates.push(insight);
+        candidatesWithPriority.push({
+          product: "Asset Finance",
+          priority: 85,
+          insight: insight
+        });
         console.log('[Funding Finder Insights] Added Asset Finance insight');
-      }
-    }
-    
-    if (normalisedProducts.includes("business-loan")) {
-      const insight = getBusinessLoanInsight(answers, businessName);
-      if (insight) {
-        candidates.push(insight);
-        console.log('[Funding Finder Insights] Added Business Loan insight');
-      }
-    }
-    
-    if (normalisedProducts.includes("property-finance")) {
-      const insight = getPropertyFinanceInsight(answers, businessName);
-      if (insight) {
-        candidates.push(insight);
-        console.log('[Funding Finder Insights] Added Property Finance insight');
+      } else {
+        candidatesWithPriority.push({
+          product: "Asset Finance",
+          priority: 85,
+          insight: `Asset Finance may be worth exploring if ${businessName} needs equipment, machinery, vehicles or other business-critical assets without using a large amount of cash upfront.`
+        });
+        console.log('[Funding Finder Insights] Added Asset Finance fallback insight');
       }
     }
     
     if (normalisedProducts.includes("revolving-credit")) {
       const insight = getRevolvingCreditInsight(answers, businessName);
       if (insight) {
-        candidates.push(insight);
+        candidatesWithPriority.push({
+          product: "Revolving Credit Facility",
+          priority: 80,
+          insight: insight
+        });
         console.log('[Funding Finder Insights] Added Revolving Credit insight');
+      } else {
+        candidatesWithPriority.push({
+          product: "Revolving Credit Facility",
+          priority: 80,
+          insight: `A Revolving Credit Facility may be useful where ${businessName} needs flexible access to cash for different purposes, such as supplier invoices, working capital or short-term pressure.`
+        });
+        console.log('[Funding Finder Insights] Added Revolving Credit fallback insight');
+      }
+    }
+    
+    if (normalisedProducts.includes("business-loan")) {
+      const insight = getBusinessLoanInsight(answers, businessName);
+      if (insight) {
+        candidatesWithPriority.push({
+          product: "Business Loan",
+          priority: 75,
+          insight: insight
+        });
+        console.log('[Funding Finder Insights] Added Business Loan insight');
+      } else {
+        candidatesWithPriority.push({
+          product: "Business Loan",
+          priority: 75,
+          insight: `A business loan may be worth exploring if ${businessName} needs a lump sum to support cashflow, growth, suppliers, wages or general working capital.`
+        });
+        console.log('[Funding Finder Insights] Added Business Loan fallback insight');
+      }
+    }
+    
+    if (normalisedProducts.includes("property-finance")) {
+      const insight = getPropertyFinanceInsight(answers, businessName);
+      if (insight) {
+        candidatesWithPriority.push({
+          product: "Property Finance",
+          priority: 70,
+          insight: insight
+        });
+        console.log('[Funding Finder Insights] Added Property Finance insight');
       }
     }
     
     if (normalisedProducts.includes("r-and-d")) {
       const insight = getRDTaxCreditInsight(answers, businessName);
       if (insight) {
-        candidates.push(insight);
+        candidatesWithPriority.push({
+          product: "R&D Tax Credits",
+          priority: 65,
+          insight: insight
+        });
         console.log('[Funding Finder Insights] Added R&D Tax Credits insight');
       }
     }
@@ -216,7 +282,11 @@ function getTopFundingFinderInsights(answers, businessName, industry) {
     if (normalisedProducts.includes("merchant-cash-advance")) {
       const insight = getMerchantCashAdvanceInsight(answers, businessName);
       if (insight) {
-        candidates.push(insight);
+        candidatesWithPriority.push({
+          product: "Merchant Cash Advance",
+          priority: 50,
+          insight: insight
+        });
         console.log('[Funding Finder Insights] Added Merchant Cash Advance insight');
       }
     }
@@ -224,10 +294,21 @@ function getTopFundingFinderInsights(answers, businessName, industry) {
     if (normalisedProducts.includes("fx")) {
       const insight = getFXInsight(answers, businessName);
       if (insight) {
-        candidates.push(insight);
+        candidatesWithPriority.push({
+          product: "Foreign Currency",
+          priority: 40,
+          insight: insight
+        });
         console.log('[Funding Finder Insights] Added FX insight');
       }
     }
+    
+    // Sort by priority (highest first) and take top 2
+    candidatesWithPriority.sort((a, b) => b.priority - a.priority);
+    const topCandidates = candidatesWithPriority.slice(0, 2);
+    topCandidates.forEach(c => candidates.push(c.insight));
+    
+    console.log('[Funding Finder Insights] Total candidates:', candidates.length);
   } else {
     // Fall back to checking individual answer fields
     candidates.push(
