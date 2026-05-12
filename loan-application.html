@@ -1380,6 +1380,20 @@ function getFallback() {
   return `Thank you for submitting your loan application, ${state.name}. Based on what you've shared, there are funding options worth exploring for ${state.business}. Nicole will be in touch within a few hours to discuss your options in detail. This is an indicative estimate only — actual terms subject to full underwriting.`;
 }
 
+function renderNicoleMessage() {
+  const messageEl = document.getElementById("nicole-message");
+  if (!messageEl) return;
+
+  const nicoleMessages = [
+    "Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website to learn more about who we are and how we can help.",
+    "Thank you for sharing your details. I'll take a look through your Discovery and come back to you within the next couple of hours. While you wait, you're welcome to explore the Fiskal website and see how we support businesses like yours.",
+    "Your Discovery has been received. I'll review everything personally and will be in touch within the next couple of hours. In the meantime, feel free to visit the Fiskal website to learn more about the support available.",
+    "Thanks for taking the time to complete your Discovery. I'll review your answers and contact you within the next couple of hours. While you're here, you can explore the Fiskal website to learn more about how we can help."
+  ];
+
+  messageEl.textContent = nicoleMessages[Math.floor(Math.random() * nicoleMessages.length)];
+}
+
 function displayResults(summary) {
   document.getElementById('results-name').textContent = `Here's your indicative assessment, ${state.name}`;
   document.getElementById('ai-summary-text').textContent = summary;
