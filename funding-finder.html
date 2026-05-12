@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fiskal Discovery</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Libre+Baskerville:ital,wght@1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
     --indigo: #7E09A5;
@@ -1406,8 +1407,6 @@
     <button class="btn-primary" id="q-next-btn" onclick="nextQuestion()" style="display:none;margin-top:16px">Next ></button>
     <div style="display:flex;gap:8px;justify-content:center;">
         <button class="back-btn" onclick="goBackQuestion()" style="justify-content:center;flex:1;">&lt; Back</button>
-        <button class="back-btn" onclick="window.location.href='index.html'" style="justify-content:center;flex:1;">Home</button>
-        <button class="btn-skip" onclick="skipQuestion()" style="flex:1;">Skip this one</button>
       </div>
   </div>
 </div>
@@ -1452,8 +1451,6 @@
     <button class="btn-primary" id="barriers-next" onclick="submitBarriers()" style="display:none;margin-top:20px">Submit my Discovery ></button>
     <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;">
       <button class="back-btn" onclick="goBackBarriers()" style="flex:1;justify-content:center;">&lt; Back</button>
-      <button class="back-btn" onclick="window.location.href='index.html'" style="flex:1;justify-content:center;">Home</button>
-      <button class="btn-skip" onclick="submitBarriers()" style="flex:1;">Skip this one</button>
     </div>
   </div>
 </div>
