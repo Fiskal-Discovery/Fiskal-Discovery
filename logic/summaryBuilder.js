@@ -202,22 +202,22 @@ function buildFacilityReviewSummary(answers, reviewType) {
 // SHARIAH SUMMARY
 // ============================================================
 function buildShariahSummary(answers) {
-  const purpose   = answers.otherPurpose || answers.purpose || '';
+  const purposes  = answers.purposes || [];
+  const otherPurpose = answers.otherPurpose || '';
   const amount    = answers.amount || '';
   const notSure   = answers.notSure || amount === 'Not sure yet';
   const business  = answers.business || '';
 
   const blocks = [];
 
-  // Paragraph 1 — opening sentence
-  blocks.push(getShariahOpeningInsight(business, purpose));
+  // Paragraph 1 — opening sentence with purposes mentioned naturally
+  blocks.push(getShariahOpeningInsight(business, purposes, otherPurpose));
 
-  // Paragraph 2 — core Shariah context + single amount sentence appended
-  const amountSentence = getShariahAmountInsight(amount, notSure);
-  let para2 = `Shariah-compliant business funding can be more specialist and sometimes harder to source through mainstream routes, but that does not mean there are no options worth exploring. The key is understanding what the funding needs to achieve, whether the amount required is realistic, and whether there are providers who may be able to support the business in a way that aligns more closely with Shariah-compliant principles.`;
-  if (amountSentence) para2 += ` ${amountSentence}`;
-  blocks.push(para2);
-
+  // Paragraph 2 — purpose-specific insight + Shariah context
+  const purposeInsight = getShariahPurposeInsight(purposes, otherPurpose, business);
+  let para2 = `Shariah-compliant business funding can be more specialist and sometimes harder to source through mainstream routes, but that does not mean there are no options worth exploring.`;
+  if (purposeInsight) para2 += ` ${purposeInsight}`;
+  
   const summaryText = blocks.join('\n\n');
   return {
     pageHeading:    PAGE_HEADING,

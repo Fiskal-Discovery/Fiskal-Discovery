@@ -911,6 +911,7 @@
         <span class="answer-emoji">✨</span> Something else
       </button>
     </div>
+    <button class="btn-primary" id="q1-continue" onclick="savePurposes()" style="display:none;margin-top:16px">Continue</button>
     <div id="other-purpose-container" style="display: none;">
       <div class="form-group">
         <label class="form-label">Tell us what you're hoping to achieve</label>
@@ -1073,7 +1074,7 @@
 // STATE MANAGEMENT
 // ============================================================
 const state = {
-  purpose: '',
+  purposes: [],
   otherPurpose: '',
   amount: '',
   notSure: false,
@@ -1120,17 +1121,42 @@ function startJourney() {
 }
 
 function selectPurpose(purpose, btn) {
-  state.purpose = purpose;
+  // Initialize purposes array if needed
+  if (!state.purposes) state.purposes = [];
   
-  // Update button styles
-  document.querySelectorAll('#screen-q1 .answer-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  
-  if (purpose === 'Something else') {
-    document.getElementById('other-purpose-container').style.display = 'block';
+  // Toggle selection
+  if (state.purposes.includes(purpose)) {
+    state.purposes = state.purposes.filter(p => p !== purpose);
+    btn.classList.remove('selected');
   } else {
-    setTimeout(() => showScreen('screen-q2'), 300);
+    state.purposes.push(purpose);
+    btn.classList.add('selected');
   }
+  
+  // Handle 'Something else' separately
+  if (purpose === 'Something else') {
+    if (state.purposes.includes('Something else')) {
+      document.getElementById('other-purpose-container').style.display = 'block';
+    } else {
+      document.getElementById('other-purpose-container').style.display = 'none';
+    }
+  }
+  
+  // Show/hide Continue button based on selection
+  const continueBtn = document.getElementById('q1-continue');
+  if (state.purposes.length > 0 && !state.purposes.includes('Something else')) {
+    continueBtn.style.display = 'block';
+  } else {
+    continueBtn.style.display = 'none';
+  }
+}
+
+function savePurposes() {
+  if (!state.purposes || state.purposes.length === 0) {
+    alert('Please select at least one purpose');
+    return;
+  }
+  showScreen('screen-q2');
 }
 
 function saveOtherPurpose() {
@@ -1274,14 +1300,16 @@ function submitDiscovery() {
 }
 
 function displayResults() {
-  const purpose = state.otherPurpose || state.purpose;
+  const purposes = state.purposes || [];
+  const otherPurpose = state.otherPurpose || '';
+  const purposeText = otherPurpose || purposes.join(' and ');
   const amount = state.amount;
   const timeline = state.timeline;
 
   // Build fallback summary HTML (used if summaryBuilder fails)
   let fallbackParts = [];
   fallbackParts.push(`Based on what you've told us, your requirement may be suitable for a more specialist funding review.`);
-  let purposeLine = `You're looking for funding to help with ${(purpose || '').toLowerCase()}`;
+  let purposeLine = `You're looking for funding to help with ${(purposeText || '').toLowerCase()}`;
   if (amount && amount !== 'Not sure yet') {
     purposeLine += `, with an estimated funding need of \u00a3${Number(amount).toLocaleString('en-GB')}`;
   } else if (!amount || amount === 'Not sure yet') {
@@ -1301,7 +1329,7 @@ function displayResults() {
   } catch (e) {}
 
   const shariahAnswers = {
-    purpose:      state.purpose,
+    purposes:     state.purposes,
     otherPurpose: state.otherPurpose,
     amount:       state.amount,
     notSure:      state.notSure,
