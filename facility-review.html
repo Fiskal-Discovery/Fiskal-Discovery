@@ -3069,6 +3069,14 @@ function displayResults(summary) {
       facilitySummary += ` With the currencies you deal in, it is worth checking whether the current provider is offering competitive rates to ${businessText} and whether the timing of currency exchanges could be optimized.`;
     }
     
+    // Add transaction report insight
+    const hasReport = state.files && state.files.length > 0;
+    if (hasReport) {
+      facilitySummary += ` The transaction report should give a useful starting point to review the rates, margins and charges being applied.`;
+    } else {
+      facilitySummary += ` Even without a transaction report, it is still worth reviewing how the current provider handles exchange rates, fees and timing.`;
+    }
+    
   } else {
     facilitySummary = `Based on what you've told us, ${businessText}'s current facility is worth reviewing properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
     
@@ -3363,21 +3371,13 @@ function fxHandleUpload(input) {
 }
 
 function submitFXReview() {
-  showDiscoveryThinkingScreen(function() {
-    const summary = `Thank you for completing your FX Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what savings might be possible for ${state.business}.`;
-    document.getElementById('fx-results-name').textContent = `Here's what we found for you, ${state.name}`;
-    document.getElementById('fx-ai-summary').textContent = summary;
-    document.getElementById('fx-nicole-message').textContent = `I've received your FX Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
-    showScreen('screen-fx-loading');
-    loadNicolePhoto();
-    const templateParams = {
-      name: state.name, business_name: state.business, email: state.email, phone: state.phone,
-      company_number: 'N/A', module: 'FX Review',
-      matched_products: `Provider: ${state.fxProvider} | Transactions: ${state.fxTransactionType} | Currencies: ${state.fxCurrencies} | Awareness: ${state.fxAwareness} | Platforms: ${(state.fxPlatforms || []).join(', ') || 'None'} | Goals: ${(state.fxGoals || []).join(', ') || 'N/A'}`,
-      barriers: 'N/A', summary: summary
-    };
-    try { emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
-  });
+  // Track completed review
+  const currentFacilityType = state.selectedReviewType || state.facilityType;
+  if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
+    state.completedFacilityReviews.push(currentFacilityType);
+  }
+  
+  showDiscoveryThinkingScreen(function() { generateResults(); });
 }
 
 
