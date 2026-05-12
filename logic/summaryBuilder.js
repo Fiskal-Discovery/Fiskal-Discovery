@@ -115,7 +115,7 @@ function buildLoanApplicationSummary(answers) {
 
   // Paragraph 2 — purpose insight + credit history + credit concern
   const purposeInsight = getLoanPurposeInsight(purpose, business);
-  const creditHistoryInsight = getCreditHistoryInsight(credit, barrier, barrierDetails, business);
+  const creditHistoryInsight = getCreditHistoryInsight(credit);
   const creditConcern = getLoanCreditConcernInsight(barrier, barrierDetails, business);
   
   let para2 = '';
