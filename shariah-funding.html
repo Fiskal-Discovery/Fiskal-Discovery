@@ -1286,13 +1286,20 @@ function displayResults() {
   const existingFallbackSummaryHtml = fallbackParts.map(p => `<p>${p}</p>`).join('\n');
 
   // Build personalised summary using logic module
+  // Attempt to retrieve business name saved from a previous journey
+  let savedBusiness = '';
+  try {
+    const profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}');
+    savedBusiness = profile.businessName || '';
+  } catch (e) {}
+
   const shariahAnswers = {
     purpose:      state.purpose,
     otherPurpose: state.otherPurpose,
     amount:       state.amount,
     notSure:      state.notSure,
     timeline:     state.timeline,
-    business:     '' // Shariah journey does not collect business name
+    business:     savedBusiness
   };
 
   let summary;
