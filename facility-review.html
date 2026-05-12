@@ -2866,6 +2866,54 @@ function forceShowFacilityReviewResults(resultsContainer) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+// ============================================================
+// PROVIDER NAME FORMATTING
+// ============================================================
+function formatProviderName(provider) {
+  const value = String(provider || "").trim();
+  if (!value) return "";
+
+  const knownNames = {
+    bibby: "Bibby",
+    "bibby financial services": "Bibby Financial Services",
+    skipton: "Skipton",
+    "skipton business finance": "Skipton Business Finance",
+    close: "Close",
+    "close brothers": "Close Brothers",
+    hitachi: "Hitachi",
+    novuna: "Novuna",
+    barclays: "Barclays",
+    hsbc: "HSBC",
+    lloyds: "Lloyds",
+    natwest: "NatWest",
+    rbs: "RBS",
+    santander: "Santander",
+    metro: "Metro Bank",
+    aldermore: "Aldermore",
+    iwoca: "Iwoca",
+    capify: "Capify",
+    "funding circle": "Funding Circle",
+    fleximize: "Fleximize",
+    ecapital: "eCapital",
+    pulse: "Pulse",
+    ultimate: "Ultimate Finance",
+    "ultimate finance": "Ultimate Finance",
+    "time finance": "Time Finance",
+    apollo: "Apollo"
+  };
+
+  const lower = value.toLowerCase();
+
+  if (knownNames[lower]) {
+    return knownNames[lower];
+  }
+
+  return value
+    .split(" ")
+    .map(word => word ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : "")
+    .join(" ");
+}
+
 function displayResults(summary) {
   const name = state.name || 'there';
   const firstName = name.split(' ')[0];
@@ -2897,6 +2945,9 @@ function displayResults(summary) {
     state.tradeProvider ||
     state.fxProvider ||
     "";
+  
+  // Format provider name for display
+  const formattedProvider = formatProviderName(currentProvider);
   
   // Get facility subtype
   const facilitySubType =
@@ -2939,10 +2990,10 @@ function displayResults(summary) {
   
   // Generate provider-aware opening
   let opening = "";
-  if (currentProvider && facilitySubType) {
-    opening = `Based on the details you've provided, it is definitely worth reviewing your ${currentProvider} ${facilitySubType} facility properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
-  } else if (currentProvider) {
-    opening = `Based on the details you've provided, it is definitely worth reviewing your ${currentProvider} facility properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
+  if (formattedProvider && facilitySubType) {
+    opening = `Based on the details you've provided, it is definitely worth reviewing your ${formattedProvider} ${facilitySubType} facility properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
+  } else if (formattedProvider) {
+    opening = `Based on the details you've provided, it is definitely worth reviewing your ${formattedProvider} facility properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
   } else if (facilitySubType) {
     opening = `Based on the details you've provided, it is definitely worth reviewing your ${facilitySubType} facility properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${businessText}.`;
   } else {
@@ -2951,7 +3002,7 @@ function displayResults(summary) {
   }
   
   // Add sentence if no rates/costs but provider exists
-  if (currentProvider && !hasFacilityDetails) {
+  if (formattedProvider && !hasFacilityDetails) {
     opening += ` Even without the full rate details, the information you have provided gives a useful starting point. The review can focus on whether the facility structure, service, flexibility and overall cost still work for ${businessText}.`;
   }
   
@@ -3108,6 +3159,7 @@ async function sendInitialInfoNotification() {
 }
 
 async function sendNotification(summary) {
+  const formattedProvider = formatProviderName(state['if-lender-val'] || state.ifLender || "");
   const templateParams = {
     name: state.name || 'Not provided',
     business_name: state.business || 'Not provided',
@@ -3115,7 +3167,7 @@ async function sendNotification(summary) {
     phone: state.phone || 'Not provided',
     company_number: state.companyNumber || 'Not provided',
     module: 'Facility Review — Invoice Finance',
-    matched_products: `Lender: ${state['if-lender-val'] || 'Not provided'} | Type: ${state['if-type'] || 'Not provided'} | Advance: ${state.ifAdvance || 'Not provided'} | Service Fee: ${state.ifServiceFee || 'Not provided'} | Minimums: ${state.ifMinimums || 'Not provided'} | Disbursements: ${state.ifDisbursements || 'Not provided'} | Priorities: ${(state['if-priorities'] || []).join(', ') || 'Not specified'}`,
+    matched_products: `Lender: ${formattedProvider || 'Not provided'} | Type: ${state['if-type'] || 'Not provided'} | Advance: ${state.ifAdvance || 'Not provided'} | Service Fee: ${state.ifServiceFee || 'Not provided'} | Minimums: ${state.ifMinimums || 'Not provided'} | Disbursements: ${state.ifDisbursements || 'Not provided'} | Priorities: ${(state['if-priorities'] || []).join(', ') || 'Not specified'}`,
     barriers: state.barrier === 'yes' ? state.barrierDetails || 'Yes — no details' : 'None',
     summary: summary
   };
