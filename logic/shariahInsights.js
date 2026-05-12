@@ -5,20 +5,20 @@ function getShariahOpeningInsight(businessName, purposes, otherPurpose) {
   const name = businessName || 'the business';
   const purposeText = otherPurpose || (Array.isArray(purposes) ? purposes.join(' and ') : purposes);
 
-  let para = `Based on what you've told us, ${name} is looking for Shariah-compliant funding to support`;
+  let para = `Great news — based on what you've told us, there are options worth exploring for ${name}. You're looking for Shariah-compliant funding to support`;
   if (purposeText && purposeText !== 'Something else') {
     para += ` ${purposeText.toLowerCase()}`;
   } else {
     para += ` a specific requirement`;
   }
-  para += `. This needs to be approached differently from a standard business loan or conventional finance application.`;
+  para += `, which means this needs to be approached differently from a standard business loan or conventional finance application.`;
 
   return para;
 }
 
 function getShariahAmountInsight(amount, notSure) {
   if (notSure || !amount || amount === 'Not sure yet') {
-    return `As you're not yet sure how much funding may be needed, the first step would be to work backwards from the purpose and identify a sensible funding range.`;
+    return `As you're not yet sure how much funding may be needed, the sensible first step is to work backwards from the purpose and identify a realistic funding range.`;
   }
 
   const parsed = parseMoneyString(amount);

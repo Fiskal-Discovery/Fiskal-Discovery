@@ -213,10 +213,12 @@ function buildShariahSummary(answers) {
   // Paragraph 1 — opening sentence with purposes mentioned naturally
   blocks.push(getShariahOpeningInsight(business, purposes, otherPurpose));
 
-  // Paragraph 2 — purpose-specific insight + Shariah context
+  // Paragraph 2 — Shariah context + purpose-specific insight + amount sentence
   const purposeInsight = getShariahPurposeInsight(purposes, otherPurpose, business);
-  let para2 = `Shariah-compliant business funding can be more specialist and sometimes harder to source through mainstream routes, but that does not mean there are no options worth exploring.`;
+  const amountSentence = getShariahAmountInsight(amount, notSure);
+  let para2 = `Shariah-compliant business funding can be more specialist and sometimes harder to source through mainstream routes, but that does not mean suitable options are out of reach. The key is understanding exactly what the funding needs to achieve, whether the amount required is realistic, and which providers may be able to support the business in a way that aligns more closely with Shariah-compliant principles.`;
   if (purposeInsight) para2 += ` ${purposeInsight}`;
+  if (amountSentence) para2 += ` ${amountSentence}`;
   
   const summaryText = blocks.join('\n\n');
   return {
