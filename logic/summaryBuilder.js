@@ -92,7 +92,7 @@ function buildFundingFinderSummary(answers) {
 }
 
 // ============================================================
-// LOAN APPLICATION SUMMARY
+// LOAN ENQUIRY SUMMARY
 // ============================================================
 function buildLoanApplicationSummary(answers) {
   const name     = answers.name || '';
@@ -110,7 +110,7 @@ function buildLoanApplicationSummary(answers) {
   const blocks = [];
 
   // Paragraph 1 — positive opening
-  blocks.push(`Great news — based on what you've shared, there are still funding options worth exploring for ${business}. The key is finding the right structure for what the funding needs to achieve, rather than treating this as a generic loan application.`);
+  blocks.push(`Great news — based on what you've shared, there are still funding options worth exploring for ${business}. The key is finding the right structure for what the funding needs to achieve, rather than treating this as a generic loan enquiry.`);
 
   // Paragraph 2 — purpose insight + credit history + credit concern
   const purposeInsight = getLoanPurposeInsight(purpose, business);

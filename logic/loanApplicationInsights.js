@@ -1,5 +1,5 @@
 // loanApplicationInsights.js
-// Insight blocks for the Loan Application results page.
+// Insight blocks for the Loan Enquiry results page.
 // State fields used: state.purpose, state.amount, state.security,
 // state.credit, state.turnover, state.existingFacilities
 
