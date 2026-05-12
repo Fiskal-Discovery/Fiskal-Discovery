@@ -2726,9 +2726,32 @@ function showInput(fieldKey) {
   else if (fieldKey === 'phone') input.type = 'tel';
   else input.type = 'text';
 
-  input.placeholder = fieldKey === 'companyNumber' ? "Company number (or type 'skip')" :
-                       fieldKey === 'turnoverLast' ? "e.g. £250,000" :
-                       fieldKey === 'turnoverNext' ? "e.g. £400,000" : 'Type your answer...';
+  // Check if this is a money field
+  const isMoneyField = fieldKey === 'turnoverLast' || fieldKey === 'turnoverNext';
+  
+  if (isMoneyField) {
+    input.placeholder = "£0";
+    input.value = '£';
+    
+    // Format numbers with commas as user types
+    input.oninput = (e) => {
+      let value = e.target.value;
+      // Remove £ and commas, keep only digits
+      let digits = value.replace(/[£,]/g, '');
+      if (digits) {
+        // Format with commas
+        let formatted = parseInt(digits).toLocaleString();
+        e.target.value = '£' + formatted;
+      } else {
+        e.target.value = '£';
+      }
+    };
+  } else {
+    input.placeholder = fieldKey === 'companyNumber' ? "Company number (or type 'skip')" :
+                         fieldKey === 'turnoverLast' ? "e.g. £250,000" :
+                         fieldKey === 'turnoverNext' ? "e.g. £400,000" : 'Type your answer...';
+    input.oninput = null; // Clear any previous input handler
+  }
 
   setTimeout(() => input.focus(), 100);
 
@@ -2778,6 +2801,11 @@ function obSubmitInput() {
     return;
   }
   input.style.borderColor = '';
+
+  // Strip £ and commas from money fields before saving
+  if (field.key === 'turnoverLast' || field.key === 'turnoverNext') {
+    value = value.replace(/[£,]/g, '');
+  }
 
   obState.profile[field.key] = value;
   obAddUserBubble(value || '(skipped)');
