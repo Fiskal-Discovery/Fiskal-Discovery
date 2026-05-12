@@ -2783,19 +2783,28 @@ function getFallbackSummary() {
   const business = state.business || 'your business';
   const facilityTypes = state.facilityTypes || [];
   const isInvoiceFinance = facilityTypes.includes('Invoice Finance');
-  const notSureOnRates = state.ifKnowledge === 'not sure';
+  const isLoan = facilityTypes.includes('Business Loan') || facilityTypes.includes('Loan');
+  const isAssetFinance = facilityTypes.includes('Asset Finance');
+  const isTradeFinance = facilityTypes.includes('Trade Finance');
+  const notSureOnRates = state.ifKnowledge === 'not sure' || state.loanKnowledge === 'not sure' || state.assetKnowledge === 'not sure' || state.tradeKnowledge === 'not sure';
   const hasConcerns = state.barrier === 'yes';
   
   let summary = '';
   
   if (isInvoiceFinance) {
     summary = `Your current Invoice Finance facility should be reviewed around the funding structure, rates, service, flexibility and whether it still fits the way ${business} trades.`;
-    
-    if (notSureOnRates) {
-      summary += ` If you're not sure exactly what you're paying, that is not unusual. Invoice Finance costs can include service fees, discount charges, minimums, disbursements and other costs, so the true cost is not always obvious from the headline rate.`;
-    }
+  } else if (isLoan) {
+    summary = `Your current loan is worth reviewing around the monthly repayment, remaining balance, term and whether it still suits ${business}. If the repayment is putting pressure on cashflow, refinancing or restructuring may be worth exploring.`;
+  } else if (isAssetFinance) {
+    summary = `Your current Asset Finance agreement is worth reviewing around the monthly repayment, remaining term, ownership position and whether the asset still supports ${business} properly.`;
+  } else if (isTradeFinance) {
+    summary = `Your current Trade Finance facility is worth reviewing around the limit, fees, supplier terms, repayment timing and whether it still matches the way ${business} buys and sells.`;
   } else {
     summary = `Based on what you've told us, your current facility is worth reviewing properly. The aim is not just to see whether something cheaper exists, but to understand whether the structure, cost, flexibility and service still work for ${business}.`;
+  }
+  
+  if (notSureOnRates) {
+    summary += ` If you're not sure exactly what you're paying, that is not unusual. Facility costs can include headline rates, fees, minimums and other charges, so the true cost is not always obvious at first glance.`;
   }
   
   if (hasConcerns) {
