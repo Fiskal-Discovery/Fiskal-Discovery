@@ -2027,8 +2027,27 @@ async function generateResults() {
   console.log("Funding Finder answers passed to summary builder:", fundingFinderAnswers);
   console.log("Matched products:", matchedProducts);
   
-  // Add matched products to answers if not already present
-  fundingFinderAnswers.matchedProducts = fundingFinderAnswers.matchedProducts || matchedProducts || [];
+  // Normalise product names from short keys to full names
+  const productNameMap = {
+    invoice: "Invoice Finance",
+    trade: "Trade Finance",
+    asset: "Asset Finance",
+    loan: "Business Loan",
+    revolving: "Revolving Credit Facility",
+    mca: "Merchant Cash Advance",
+    property: "Commercial Property Finance",
+    fx: "Foreign Currency / FX",
+    rd: "R&D Tax Credits",
+    rnd: "R&D Tax Credits"
+  };
+  
+  const rawMatchedProducts = fundingFinderAnswers.matchedProducts || matchedProducts || [];
+  fundingFinderAnswers.matchedProducts = rawMatchedProducts.map(product => {
+    const key = String(product || "").toLowerCase().trim();
+    return productNameMap[key] || product;
+  });
+  
+  console.log("Normalised matched products:", fundingFinderAnswers.matchedProducts);
   
   let summary;
   try {

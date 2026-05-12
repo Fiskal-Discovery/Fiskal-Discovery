@@ -111,19 +111,30 @@ function getTopFundingFinderInsights(answers, businessName, industry) {
   if (hasMatchedProducts) {
     const productMap = {
       'Invoice Finance': getInvoiceFinanceInsight,
+      'invoice': getInvoiceFinanceInsight,
       'Trade Finance': getTradeFinanceInsight,
+      'trade': getTradeFinanceInsight,
       'Asset Finance': getAssetFinanceInsight,
+      'asset': getAssetFinanceInsight,
       'Business Loan': getBusinessLoanInsight,
       'Business Loans': getBusinessLoanInsight,
+      'loan': getBusinessLoanInsight,
       'Property Finance': getPropertyFinanceInsight,
       'Commercial Property Finance': getPropertyFinanceInsight,
+      'property': getPropertyFinanceInsight,
       'Revolving Credit Facility': getRevolvingCreditInsight,
       'Revolving Credit': getRevolvingCreditInsight,
+      'revolving': getRevolvingCreditInsight,
       'R&D Tax Credits': getRDTaxCreditInsight,
       'R&D Tax Credit': getRDTaxCreditInsight,
+      'rd': getRDTaxCreditInsight,
+      'rnd': getRDTaxCreditInsight,
       'Merchant Cash Advance': getMerchantCashAdvanceInsight,
+      'mca': getMerchantCashAdvanceInsight,
       'Foreign Currency': getFXInsight,
-      'FX': getFXInsight
+      'Foreign Currency / FX': getFXInsight,
+      'FX': getFXInsight,
+      'fx': getFXInsight
     };
     
     matchedProducts.forEach(product => {
