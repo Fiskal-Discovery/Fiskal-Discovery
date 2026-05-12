@@ -821,7 +821,7 @@
 <script src="logic/shariahInsights.js"></script>
 <script src="logic/summaryBuilder.js"></script>
 <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
-<script>emailjs.init("g710KFSryN241SQWm");</script>
+<script>if (typeof emailjs !== "undefined") { emailjs.init("g710KFSryN241SQWm"); } else { console.warn("EmailJS not loaded — init skipped"); }</script>
 </head>
 <body>
 
@@ -1423,10 +1423,14 @@ async function sendNotification() {
   };
 
   try {
-    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-    console.log('Shariah notification sent successfully');
+    if (typeof emailjs !== 'undefined') {
+      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      console.log('Shariah notification sent successfully');
+    } else {
+      console.warn('EmailJS not loaded — notification skipped');
+    }
   } catch (error) {
-    console.warn('Shariah notification skipped:', error);
+    console.warn('EmailJS notification failed — continuing', error);
   }
 }
 
