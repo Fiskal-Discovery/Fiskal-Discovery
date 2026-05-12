@@ -99,41 +99,43 @@ function normaliseFundingProduct(product) {
   const key = String(product || "").toLowerCase().trim();
 
   const map = {
-    invoice: "invoice-finance",
+    "invoice": "invoice-finance",
     "invoice finance": "invoice-finance",
 
-    trade: "trade-finance",
+    "trade": "trade-finance",
     "trade finance": "trade-finance",
 
-    asset: "asset-finance",
+    "asset": "asset-finance",
     "asset finance": "asset-finance",
 
-    loan: "business-loan",
+    "loan": "business-loan",
     "business loan": "business-loan",
     "business loans": "business-loan",
 
-    revolving: "revolving-credit",
+    "revolving": "revolving-credit",
     "revolving credit": "revolving-credit",
     "revolving credit facility": "revolving-credit",
 
-    mca: "merchant-cash-advance",
+    "mca": "merchant-cash-advance",
     "merchant cash advance": "merchant-cash-advance",
 
-    property: "property-finance",
-    "commercial property finance": "property-finance",
+    "property": "property-finance",
     "property finance": "property-finance",
+    "commercial property finance": "property-finance",
 
-    fx: "fx",
+    "fx": "fx",
     "foreign currency / fx": "fx",
     "foreign currency": "fx",
 
-    rd: "r-and-d",
-    rnd: "r-and-d",
-    "r&d tax credits": "r-and-d",
-    "r&d": "r-and-d"
+    "rd": "r-and-d",
+    "rnd": "r-and-d",
+    "r&d": "r-and-d",
+    "r&d tax credits": "r-and-d"
   };
 
-  return map[key] || key;
+  const result = map[key] || key;
+  console.log('[normaliseFundingProduct] Input:', product, '-> Key:', key, '-> Result:', result);
+  return result;
 }
 
 // Returns the two strongest matched product insights for a given answers object.
