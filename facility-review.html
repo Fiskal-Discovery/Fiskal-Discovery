@@ -2241,8 +2241,9 @@
 
     <div class="divider"></div>
   </div>
-  <div style="text-align:center;padding:0 24px 8px;">
-    <button class="back-btn" onclick="window.location.href='index.html'" style="margin:0 auto;justify-content:center;">&#8962; Start a new Review</button>
+  <div class="results-actions" id="results-actions">
+    <button class="btn-primary" id="home-btn" onclick="window.location.href='index.html'">Home</button>
+    <button class="btn-primary" id="continue-next-btn" onclick="continueToNextReview()" style="display:none;">Continue to Next Review</button>
   </div>
 </div>
 
@@ -2326,6 +2327,7 @@ const state = {
   fxProvider: '', fxTransactionType: '', fxCurrencies: '',
   fxAwareness: '', fxPlatforms: [], fxGoals: [],
   facilityType: '', facilityTypes: [], selectedReviewType: '',
+  selectedFacilityTypes: [], completedFacilityReviews: [],
   // Invoice Finance
   ifLender: '', ifType: '', ifKnowledge: '',
   ifLimit: '', ifAdvance: '', ifServiceFee: '', ifDiscount: '', ifMinimums: '', ifDisbursements: '',
@@ -2370,6 +2372,9 @@ function goToReviewSelection() {
     return;
   }
   
+  // Track selected facility types for multi-review flow
+  state.selectedFacilityTypes = [...state.facilityTypes];
+  
   sendInitialInfoNotification();
   
   // If only one facility type selected, skip chooser screen and start review directly
@@ -2379,27 +2384,7 @@ function goToReviewSelection() {
   }
   
   // If multiple facility types selected, show chooser screen
-  const container = document.getElementById('review-selection-options');
-  container.innerHTML = '';
-  
-  const facilityNames = {
-    'invoice': '📋 Invoice Finance',
-    'loan': '💰 Business Loan',
-    'fx': '💱 Foreign Currency / FX',
-    'asset': '🔧 Asset Finance',
-    'trade': '🚛 Trade Finance',
-    'other': '📁 Other'
-  };
-  
-  state.facilityTypes.forEach(type => {
-    const btn = document.createElement('button');
-    btn.className = 'answer-btn';
-    btn.textContent = facilityNames[type] || type;
-    btn.onclick = () => selectReviewType(type);
-    container.appendChild(btn);
-  });
-  
-  showScreen('screen-review-selection');
+  showReviewSelection(state.facilityTypes);
 }
 
 function selectReviewType(type) {
@@ -2747,6 +2732,13 @@ function generateResults() {
 function submitReview() {
   var bd = document.getElementById('barrier-details');
   if (bd) state.barrierDetails = bd.value.trim();
+  
+  // Track completed review
+  const currentFacilityType = state.selectedReviewType || state.facilityType;
+  if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
+    state.completedFacilityReviews.push(currentFacilityType);
+  }
+  
   showDiscoveryThinkingScreen(function() { generateResults(); });
 }
 
@@ -3114,7 +3106,78 @@ function displayResults(summary) {
   // Force show results screen
   forceShowFacilityReviewResults(screenContentEl);
   
+  // Update button visibility based on remaining facility types
+  updateResultsButtons();
+  
   sendNotification(summary);
+}
+
+function updateResultsButtons() {
+  const continueBtn = document.getElementById('continue-next-btn');
+  const homeBtn = document.getElementById('home-btn');
+  
+  if (!continueBtn || !homeBtn) return;
+  
+  // Get remaining facility types
+  const remainingFacilityTypes = state.facilityTypes.filter(
+    type => !state.completedFacilityReviews.includes(type)
+  );
+  
+  // Show/hide Continue to Next Review button based on remaining types
+  if (remainingFacilityTypes.length > 0) {
+    continueBtn.style.display = 'inline-block';
+  } else {
+    continueBtn.style.display = 'none';
+  }
+  
+  // Always show Home button
+  homeBtn.style.display = 'inline-block';
+}
+
+function continueToNextReview() {
+  // Get remaining facility types
+  const remainingFacilityTypes = state.facilityTypes.filter(
+    type => !state.completedFacilityReviews.includes(type)
+  );
+  
+  if (remainingFacilityTypes.length === 0) {
+    // No more reviews, go to home
+    window.location.href = 'index.html';
+    return;
+  }
+  
+  // If only one remaining type, start it directly
+  if (remainingFacilityTypes.length === 1) {
+    selectReviewType(remainingFacilityTypes[0]);
+    return;
+  }
+  
+  // If multiple remaining types, show selection screen with only remaining types
+  showReviewSelection(remainingFacilityTypes);
+}
+
+function showReviewSelection(availableTypes) {
+  const container = document.getElementById('review-selection-options');
+  container.innerHTML = '';
+  
+  const facilityNames = {
+    'invoice': '📋 Invoice Finance',
+    'loan': '💰 Business Loan',
+    'fx': '💱 Foreign Currency / FX',
+    'asset': '🔧 Asset Finance',
+    'trade': '🚛 Trade Finance',
+    'other': '📁 Other'
+  };
+  
+  availableTypes.forEach(type => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.textContent = facilityNames[type] || type;
+    btn.onclick = () => selectReviewType(type);
+    container.appendChild(btn);
+  });
+  
+  showScreen('screen-review-selection');
 }
 
 // ============================================================
@@ -3515,6 +3578,21 @@ function submitFXReview() {
   #screen-fx-loading .screen-content,
   #screen-loading .screen-content {
     max-width: 860px;
+  }
+
+  .results-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 24px 24px;
+    align-items: center;
+  }
+  .results-actions .btn-primary {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 600;
   }
 </style>
 
