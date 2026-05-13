@@ -45,7 +45,7 @@
     position: fixed; inset: 0; z-index: 9999;
     background: #FAF8F5;
     display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
+    align-items: center;
     overflow: hidden;
     transition: opacity 0.5s ease;
   }
@@ -76,6 +76,7 @@
     margin: 0 auto;
     position: relative;
     z-index: 1;
+    min-height: 200px;
   }
 
   .ob-bubble {
@@ -1967,7 +1968,14 @@ function startWelcome() {
 }
 
 function renderWelcomeQuestion() {
+  const overlay = document.getElementById('onboarding-overlay');
+  console.log("Onboarding overlay:", overlay);
+  console.log("Overlay classes:", overlay?.classList);
+  console.log("Overlay display:", window.getComputedStyle(overlay)?.display);
+  console.log("Welcome questions:", welcomeFlow);
+  console.log("Current welcome index:", welcomeState.currentQuestion);
   const q = welcomeFlow[welcomeState.currentQuestion];
+  console.log("Rendering welcome question:", q);
   if (!q) {
     completeWelcome();
     return;
@@ -1981,6 +1989,8 @@ function renderWelcomeQuestion() {
   }
 
   const chat = document.getElementById('ob-chat');
+  console.log("Chat container:", chat);
+  console.log("Chat display:", window.getComputedStyle(chat)?.display);
   chat.innerHTML = '';
 
   // Add Fiskal bubble with question
@@ -1988,10 +1998,13 @@ function renderWelcomeQuestion() {
   fiskalBubble.className = 'ob-bubble fiskal';
   fiskalBubble.textContent = q.question;
   chat.appendChild(fiskalBubble);
+  console.log("Added fiskal bubble with text:", q.question);
+  console.log("Chat children after adding bubble:", chat.children.length);
 
   // Render options based on question type
   if (q.type === 'single-choice') {
     const choicesDiv = document.getElementById('ob-choices');
+    console.log("Choices container:", choicesDiv);
     choicesDiv.innerHTML = '';
     choicesDiv.style.display = 'flex';
 
@@ -2002,6 +2015,7 @@ function renderWelcomeQuestion() {
       btn.onclick = () => handleWelcomeAnswer(q.saveAs, option);
       choicesDiv.appendChild(btn);
     });
+    console.log("Added", q.options.length, "choice buttons");
 
     document.getElementById('ob-input-area').style.display = 'none';
   } else if (q.type === 'text') {
