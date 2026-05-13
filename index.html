@@ -1446,7 +1446,7 @@
 <div class="bg-orb bg-orb-2"></div>
 
 <!-- ====== HOME SCREEN ====== -->
-<div class="screen active" id="screen-home">
+<div class="screen" id="screen-home">
   <div class="app-header">
     <div class="logo-area">
       <a href="https://fiskal.online" target="_blank"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
@@ -1811,7 +1811,8 @@ const appState = {
   fundingFinder: {},
   facilityReview: {},
   loanApp: {},
-  currentModule: null
+  currentModule: null,
+  welcomeCompleted: false
 };
 
 // ============================================================
@@ -1847,7 +1848,7 @@ const welcomeFlow = [
   {
     id: "userType",
     type: "single-choice",
-    question: "One quick question, is this for you or a client?",
+    question: "One quick question — is this for a client?",
     options: [
       "For me / my business",
       "For a client",
@@ -1943,8 +1944,9 @@ let welcomeState = {
 };
 
 function startWelcome() {
-  // Check if profile already exists
-  if (appState.profile.name && appState.profile.email) {
+  // Check if welcome is completed and profile data exists
+  const isProfileComplete = appState.profile.name && appState.profile.email && appState.profile.companyName;
+  if (appState.welcomeCompleted === true && isProfileComplete) {
     showHomepage();
     return;
   }
@@ -2068,6 +2070,7 @@ function completeWelcome() {
     ...appState.profile,
     ...welcomeState.answers
   };
+  appState.welcomeCompleted = true;
   saveAppState();
 
   // Show completion message
@@ -2114,6 +2117,7 @@ function resetOnboarding() {
     annualTurnover: null,
     fundingAmount: null
   };
+  appState.welcomeCompleted = false;
   document.getElementById('home-profile-badge').style.display = 'none';
   startWelcome();
 }
