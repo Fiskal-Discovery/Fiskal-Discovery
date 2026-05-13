@@ -140,7 +140,7 @@ const LB_KEY='fiskal_ci_clean_fixed';
 let finalScore=0,finalWave=1;
 const ALIEN_TYPES=[{pixels:['01110111011','11111111111','11011101101','11111111111','01011010110','10000000001'],color:'#FF4488',scale:3},{pixels:['00010001000','00111111100','01101101101','01111111110','00101010100','01000000010'],color:'#44AAFF',scale:3},{pixels:['00001000000','00011100000','01111111100','11011011110','11111111111','00101010100'],color:'#88FF44',scale:3}];
 const BOSS_NAMES=[{name:'BAD SERVICE',color:'#8B4513'},{name:'HIGH INTEREST',color:'#2F4F4F'},{name:'HIDDEN FEES',color:'#483D8B'},{name:'DEFAULTS',color:'#800000'},{name:'DEBT TRAP',color:'#4A4A4A'},{name:'WINDFALL TAX',color:'#556B2F'},{name:'FROZEN FUNDS',color:'#4682B4'},{name:'DISPUTES',color:'#6B4423'},{name:'CLAWBACKS',color:'#5F4B32'},{name:'DEBT SPIRAL',color:'#3D3D3D'}];
-const POWERUPS=[{lines:['INVOICE','FINANCE'],effect:'shield',desc:'SHIELD FOR 10 SECS',color:'#FF6600'},{lines:['ASSET','FINANCE'],effect:'double',desc:'DOUBLE BULLETS FOR 10 SECS',color:'#FFE600'},{lines:['TRADE','FINANCE'],effect:'life',desc:'EXTRA LIFE!',color:'#CC44FF'},{lines:['BUSINESS','LOAN'],effect:'fast',desc:'RAPID FIRE FOR 10 SECS',color:'#00FF88'},{lines:['REVOLVING','CREDIT'],effect:'bonus',desc:'+£100 CASH RELEASED',color:'#00AAFF'}];
+const POWERUPS=[{lines:['INVOICE','FINANCE'],effect:'shield',desc:'SHIELD FOR 10 SECS',color:'#FFFF00'},{lines:['ASSET','FINANCE'],effect:'double',desc:'DOUBLE BULLETS FOR 10 SECS',color:'#FFE600'},{lines:['TRADE','FINANCE'],effect:'life',desc:'EXTRA LIFE!',color:'#CC44FF'},{lines:['BUSINESS','LOAN'],effect:'fast',desc:'RAPID FIRE FOR 10 SECS',color:'#00FF88'},{lines:['REVOLVING','CREDIT'],effect:'bonus',desc:'+£100 CASH RELEASED',color:'#00AAFF'}];
 const TICKS_10=600;
 let audioCtx=null,G=null,rafId=null,paused=false,screenShake=0;
 const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d');
@@ -598,7 +598,7 @@ G.bullets=G.bullets.filter(b=>{
 
     if(G.boss.hp<=0){
       const bx=G.boss.x,by=G.boss.y,defeatedName=G.boss.name;
-      const pieces=12;
+      const pieces=24;
       for(let i=0;i<pieces;i++){
         const a=Math.PI*2*i/pieces+Math.random()*.45,speed=2+Math.random()*2.5;
         G.wordBits.push({x:bx,y:by,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed-.8,life:300,size:10+Math.random()*15,collectable:true});
