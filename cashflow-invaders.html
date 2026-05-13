@@ -549,16 +549,16 @@ G.bullets=G.bullets.filter(b=>{let hit=false;G.wordEnemies=G.wordEnemies.filter(
 if(G.boss&&G.state==='boss'){const boss=G.boss;boss.frame++;
 
 // movement patterns
-if(boss.behaviour==='zigzag'){boss.x+=Math.sin(boss.frame*.1)*boss.vx*2}
-else if(boss.behaviour==='dash'){boss.x+=boss.vx*2}
-else if(boss.behaviour==='curve'){boss.x+=Math.sin(boss.frame*.05)*boss.vx*3}
-else if(boss.behaviour==='chaos'){boss.x+=Math.cos(boss.frame*.2)*boss.vx*2}
-else{boss.x+=boss.vx}
-
-boss.y+=Math.sin(boss.frame*.05)*0.6;
+if(boss.behaviour==='zigzag'){boss.x+=Math.sin(boss.frame*.1)*boss.vx*2;boss.y+=Math.sin(boss.frame*.07)*boss.vx}
+else if(boss.behaviour==='dash'){boss.x+=boss.vx*2;boss.y+=Math.sin(boss.frame*.08)*boss.vx*1.5}
+else if(boss.behaviour==='curve'){boss.x+=Math.sin(boss.frame*.05)*boss.vx*3;boss.y+=Math.cos(boss.frame*.06)*boss.vx*2}
+else if(boss.behaviour==='chaos'){boss.x+=Math.cos(boss.frame*.2)*boss.vx*2;boss.y+=Math.sin(boss.frame*.15)*boss.vx*2}
+else{boss.x+=boss.vx;boss.y+=Math.sin(boss.frame*.05)*boss.vx}
 
 if(boss.x-boss.r<0){boss.x=boss.r;boss.vx=Math.abs(boss.vx)}
 if(boss.x+boss.r>canvas.width){boss.x=canvas.width-boss.r;boss.vx=-Math.abs(boss.vx)}
+if(boss.y-boss.r<0){boss.y=boss.r}
+if(boss.y+boss.r>canvas.height-100){boss.y=canvas.height-100-boss.r}
 if(boss.flash>0)boss.flash--;
 
 G.bossShootTimer++;
