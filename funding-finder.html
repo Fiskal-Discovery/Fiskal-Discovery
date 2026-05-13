@@ -1719,13 +1719,323 @@ const state = {
   phone: '',
   companyNumber: '',
   answers: {},
+  flowAnswers: {},
   currentQuestion: 0,
   barrier: '',
   barrierDetails: ''
 };
 
 // ============================================================
-// QUESTIONS — FUNDING FINDER
+// DYNAMIC QUESTION FLOW — FUNDING FINDER
+// ============================================================
+const fundingFinderFlow = [
+  {
+    id: "name",
+    type: "text",
+    question: "What's your name?",
+    saveAs: "name"
+  },
+  {
+    id: "contact",
+    type: "multi-input",
+    question: "How can we reach you?",
+    fields: [
+      { label: "Email", saveAs: "email", inputType: "email" },
+      { label: "Phone", saveAs: "phone", inputType: "tel" }
+    ]
+  },
+  {
+    id: "fundingAmount",
+    type: "single-choice",
+    question: "How much funding would make a real difference to your business right now?",
+    options: [
+      "Under £10k",
+      "£10k–£25k",
+      "£25k–£50k",
+      "£50k–£100k",
+      "£100k–£250k",
+      "£250k+",
+      "I'm not sure yet"
+    ],
+    saveAs: "fundingAmount"
+  },
+  {
+    id: "companyName",
+    type: "text",
+    question: "What's your company name?",
+    saveAs: "companyName"
+  },
+  {
+    id: "hasCompanyNumber",
+    type: "single-choice",
+    question: "Do you know your company number?",
+    options: ["Yes", "No"],
+    saveAs: "hasCompanyNumber"
+  },
+  {
+    id: "companyNumber",
+    type: "text",
+    question: "Enter your company number",
+    saveAs: "companyNumber",
+    condition: (answers) => answers.hasCompanyNumber === "Yes"
+  },
+  {
+    id: "industry",
+    type: "single-choice",
+    question: "What industry is your business in?",
+    options: [
+      "Construction",
+      "Recruitment",
+      "Manufacturing",
+      "Wholesale",
+      "Retail",
+      "Transport",
+      "Professional Services",
+      "Healthcare",
+      "Other"
+    ],
+    saveAs: "industry"
+  },
+  {
+    id: "turnover",
+    type: "single-choice",
+    question: "What is your annual turnover?",
+    options: [
+      "Under £100k",
+      "£100k–£250k",
+      "£250k–£500k",
+      "£500k–£1m",
+      "£1m+"
+    ],
+    saveAs: "turnover"
+  },
+  {
+    id: "purpose",
+    type: "single-choice",
+    question: "What do you need funding for?",
+    options: [
+      "Cashflow",
+      "Growth",
+      "Stock",
+      "Equipment",
+      "Refinance existing finance",
+      "Other"
+    ],
+    saveAs: "purpose"
+  },
+  {
+    id: "urgency",
+    type: "single-choice",
+    question: "How quickly do you need the funding?",
+    options: [
+      "Immediately",
+      "Within 1 month",
+      "1–3 months",
+      "Just exploring"
+    ],
+    saveAs: "urgency"
+  },
+  {
+    id: "invoiceCustomers",
+    type: "single-choice",
+    question: "Do you invoice your customers?",
+    options: ["Yes", "Sometimes", "No"],
+    saveAs: "invoiceCustomers"
+  },
+  {
+    id: "paymentTerms",
+    type: "single-choice",
+    question: "How long do your customers typically take to pay?",
+    options: ["30 days", "60 days", "90 days", "90+ days"],
+    saveAs: "paymentTerms",
+    condition: (answers) =>
+      answers.invoiceCustomers === "Yes" ||
+      answers.invoiceCustomers === "Sometimes"
+  },
+  {
+    id: "cardPayments",
+    type: "single-choice",
+    question: "Do you take card payments?",
+    options: ["Yes", "No"],
+    saveAs: "cardPayments"
+  },
+  {
+    id: "assetFinance",
+    type: "single-choice",
+    question: "Are you looking to purchase equipment or assets?",
+    options: ["Yes", "No"],
+    saveAs: "assetFinance"
+  },
+  {
+    id: "creditConcern",
+    type: "single-choice",
+    question: "Do you have any concerns about your credit history?",
+    options: ["Yes", "No", "Prefer not to say"],
+    saveAs: "creditConcern"
+  },
+  {
+    id: "previousIssues",
+    type: "single-choice",
+    question: "Have you had difficulty getting funding before?",
+    options: ["Yes", "No"],
+    saveAs: "previousIssues"
+  },
+  {
+    id: "extraInfo",
+    type: "text",
+    question: "Anything else you'd like us to know?",
+    saveAs: "extraInfo",
+    optional: true
+  }
+];
+
+// ============================================================
+// DYNAMIC FLOW RENDERER
+// ============================================================
+function getVisibleQuestions() {
+  return fundingFinderFlow.filter(q => {
+    if (!q.condition) return true;
+    return q.condition(state.flowAnswers);
+  });
+}
+
+function saveAnswer(key, value) {
+  state.flowAnswers[key] = value;
+}
+
+function renderFlowQuestion() {
+  const visibleQuestions = getVisibleQuestions();
+  if (state.currentQuestion >= visibleQuestions.length) {
+    submitFlow();
+    return;
+  }
+
+  const q = visibleQuestions[state.currentQuestion];
+  if (!q) return;
+
+  const total = visibleQuestions.length;
+  const current = state.currentQuestion + 1;
+  const pct = Math.round((current / total) * 100);
+
+  document.getElementById('question-progress').style.width = pct + '%';
+  document.getElementById('question-progress-label').textContent = `Question ${current} of ${total}`;
+  document.getElementById('q-icon').textContent = '💬';
+  document.getElementById('q-product').textContent = 'Discovery';
+  document.getElementById('q-text').textContent = q.question;
+  document.getElementById('q-followup').innerHTML = '';
+  document.getElementById('q-next-btn').style.display = 'none';
+
+  const optionsEl = document.getElementById('q-options');
+  optionsEl.innerHTML = '';
+
+  if (q.type === 'single-choice') {
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'answer-btn';
+      btn.textContent = opt;
+      btn.onclick = () => {
+        saveAnswer(q.saveAs, opt);
+        goNext();
+      };
+      optionsEl.appendChild(btn);
+    });
+  } else if (q.type === 'text') {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'form-input';
+    input.placeholder = q.optional ? 'Optional — leave blank to skip' : 'Enter your answer';
+    input.style.width = '100%';
+    input.style.padding = '12px 16px';
+    input.style.border = '1px solid rgba(75,0,130,0.2)';
+    input.style.borderRadius = '8px';
+    input.style.fontSize = '16px';
+    input.style.marginBottom = '16px';
+    optionsEl.appendChild(input);
+
+    const nextBtn = document.getElementById('q-next-btn');
+    nextBtn.style.display = 'block';
+    nextBtn.onclick = () => {
+      const value = input.value.trim();
+      if (value || q.optional) {
+        saveAnswer(q.saveAs, value);
+        goNext();
+      }
+    };
+  } else if (q.type === 'multi-input') {
+    q.fields.forEach(field => {
+      const label = document.createElement('label');
+      label.textContent = field.label;
+      label.style.display = 'block';
+      label.style.marginBottom = '6px';
+      label.style.fontSize = '14px';
+      label.style.color = 'var(--mid)';
+      optionsEl.appendChild(label);
+
+      const input = document.createElement('input');
+      input.type = field.inputType || 'text';
+      input.className = 'form-input';
+      input.placeholder = `Enter ${field.label.toLowerCase()}`;
+      input.style.width = '100%';
+      input.style.padding = '12px 16px';
+      input.style.border = '1px solid rgba(75,0,130,0.2)';
+      input.style.borderRadius = '8px';
+      input.style.fontSize = '16px';
+      input.style.marginBottom = '16px';
+      input.dataset.saveAs = field.saveAs;
+      optionsEl.appendChild(input);
+    });
+
+    const nextBtn = document.getElementById('q-next-btn');
+    nextBtn.style.display = 'block';
+    nextBtn.onclick = () => {
+      q.fields.forEach(field => {
+        const input = optionsEl.querySelector(`[data-save-as="${field.saveAs}"]`);
+        if (input) {
+          saveAnswer(field.saveAs, input.value.trim());
+        }
+      });
+      goNext();
+    };
+  }
+}
+
+function goNext() {
+  state.currentQuestion++;
+  renderFlowQuestion();
+}
+
+function goBack() {
+  if (state.currentQuestion > 0) {
+    state.currentQuestion--;
+    renderFlowQuestion();
+  } else {
+    showScreen('welcome');
+  }
+}
+
+function submitFlow() {
+  // Map flowAnswers to existing state structure for compatibility
+  state.name = state.flowAnswers.name || '';
+  state.business = state.flowAnswers.companyName || '';
+  state.email = state.flowAnswers.email || '';
+  state.phone = state.flowAnswers.phone || '';
+  state.companyNumber = state.flowAnswers.companyNumber || '';
+  state.fundingAmount = state.flowAnswers.fundingAmount || '';
+  state.industry = state.flowAnswers.industry || '';
+  state.turnover = state.flowAnswers.turnover || '';
+  state.fundingPurpose = state.flowAnswers.purpose || '';
+  state.urgency = state.flowAnswers.urgency || '';
+  state.invoiceCustomers = state.flowAnswers.invoiceCustomers || '';
+  state.cardSales = state.flowAnswers.cardPayments || '';
+  state.assetNeed = state.flowAnswers.assetFinance || '';
+  state.creditConcern = state.flowAnswers.creditConcern || '';
+
+  // Show barriers screen
+  showScreen('barriers');
+}
+
+// ============================================================
+// LEGACY QUESTIONS — FUNDING FINDER (preserved for reference)
 // ============================================================
 const fundingFinderQuestions = [
   {
@@ -1887,8 +2197,10 @@ function startModule(module) {
 }
 
 function startQuestions() {
-  showScreen('details');
-  startTypingIntro();
+  state.currentQuestion = 0;
+  state.flowAnswers = {};
+  renderFlowQuestion();
+  showScreen('question');
 }
 
 // ---- TYPING INTRO ----
@@ -1905,7 +2217,8 @@ function startTypingIntro() {
 
 function startQuestionFlow() {
   state.currentQuestion = 0;
-  renderQuestion();
+  state.flowAnswers = {};
+  renderFlowQuestion();
   showScreen('question');
 }
 
@@ -2022,17 +2335,13 @@ function skipQuestion() {
 }
 
 function goBackQuestion() {
-  if (state.currentQuestion === 0) {
-    showScreen('details');
-  } else {
-    state.currentQuestion--;
-    renderQuestion();
-  }
+  goBack();
 }
 
 function goBackBarriers() {
-  state.currentQuestion = getQuestions().length - 1;
-  renderQuestion();
+  const visibleQuestions = getVisibleQuestions();
+  state.currentQuestion = visibleQuestions.length - 1;
+  renderFlowQuestion();
   showScreen('question');
 }
 
