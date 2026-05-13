@@ -36,8 +36,7 @@
   #onboarding-overlay {
     position: fixed; inset: 0; z-index: 9999;
     background:
-      radial-gradient(circle at 50% 45%, rgba(126, 9, 165, 0.15), transparent 45%),
-      linear-gradient(135deg, #020106 0%, #05020a 50%, #020106 100%);
+      linear-gradient(135deg, #030510 0%, #0a0a1a 25%, #050815 50%, #0a0a1a 75%, #030510 100%);
     display: none; flex-direction: column;
     align-items: center; justify-content: center;
     overflow: hidden;
@@ -46,56 +45,35 @@
   #onboarding-overlay::before {
     content: "";
     position: absolute;
-    width: 200vw;
-    height: 3px;
-    left: -50vw;
-    top: 35%;
+    inset: 0;
     background:
-      linear-gradient(90deg,
-        transparent 0%,
-        transparent 40%,
-        rgba(126, 9, 165, 0.1) 45%,
-        rgba(210, 85, 255, 0.6) 50%,
-        rgba(126, 9, 165, 0.1) 55%,
-        transparent 60%,
-        transparent 100%);
-    filter: blur(18px);
-    transform: rotate(-12deg);
-    opacity: 0.7;
-    animation: ribbonDriftOne 26s ease-in-out infinite alternate;
+      linear-gradient(45deg, transparent 48%, rgba(126, 9, 165, 0.4) 49%, rgba(126, 9, 165, 0.4) 51%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, rgba(126, 9, 165, 0.3) 49%, rgba(126, 9, 165, 0.3) 51%, transparent 52%),
+      linear-gradient(90deg, transparent 48%, rgba(126, 9, 165, 0.35) 49%, rgba(126, 9, 165, 0.35) 51%, transparent 52%),
+      linear-gradient(0deg, transparent 48%, rgba(126, 9, 165, 0.3) 49%, rgba(126, 9, 165, 0.3) 51%, transparent 52%);
+    background-size: 100% 100%;
     z-index: 0;
     pointer-events: none;
   }
   #onboarding-overlay::after {
     content: "";
     position: absolute;
-    width: 180vw;
-    height: 2px;
-    left: -40vw;
-    bottom: 25%;
+    width: 100%;
+    height: 100%;
     background:
-      linear-gradient(90deg,
-        transparent 0%,
-        transparent 35%,
-        rgba(126, 9, 165, 0.12) 42%,
-        rgba(190, 65, 240, 0.55) 50%,
-        rgba(126, 9, 165, 0.12) 58%,
-        transparent 65%,
-        transparent 100%);
-    filter: blur(14px);
-    transform: rotate(8deg);
-    opacity: 0.65;
-    animation: ribbonDriftTwo 22s ease-in-out infinite alternate;
-    z-index: 0;
+      radial-gradient(ellipse at 30% 40%, rgba(255, 255, 255, 0.15) 0%, rgba(210, 85, 255, 0.4) 15%, transparent 40%),
+      radial-gradient(ellipse at 70% 60%, rgba(255, 255, 255, 0.12) 0%, rgba(190, 65, 240, 0.35) 12%, transparent 35%),
+      radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.1) 0%, rgba(126, 9, 165, 0.3) 10%, transparent 30%),
+      radial-gradient(ellipse at 45% 70%, rgba(255, 255, 255, 0.08) 0%, rgba(210, 85, 255, 0.25) 8%, transparent 25%);
+    filter: blur(8px);
+    animation: crackGlow 18s ease-in-out infinite alternate;
+    z-index: 1;
     pointer-events: none;
   }
-  @keyframes ribbonDriftOne {
-    from { transform: translateX(-5vw) translateY(0) rotate(-12deg); }
-    to { transform: translateX(5vw) translateY(8px) rotate(-9deg); }
-  }
-  @keyframes ribbonDriftTwo {
-    from { transform: translateX(4vw) translateY(0) rotate(8deg); }
-    to { transform: translateX(-4vw) translateY(-6px) rotate(11deg); }
+  @keyframes crackGlow {
+    0% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.05); }
+    100% { opacity: 0.7; transform: scale(1); }
   }
   #onboarding-overlay.hidden { opacity: 0; pointer-events: none; }
 
