@@ -42,42 +42,6 @@
     overflow: hidden;
     transition: opacity 0.5s ease;
   }
-  #onboarding-overlay::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(37deg, transparent 47%, rgba(126, 9, 165, 0.5) 48%, rgba(126, 9, 165, 0.5) 49%, transparent 50%),
-      linear-gradient(-73deg, transparent 46%, rgba(126, 9, 165, 0.4) 47%, rgba(126, 9, 165, 0.4) 48%, transparent 49%),
-      linear-gradient(112deg, transparent 48%, rgba(126, 9, 165, 0.35) 49%, rgba(126, 9, 165, 0.35) 50%, transparent 51%),
-      linear-gradient(-23deg, transparent 47%, rgba(126, 9, 165, 0.45) 48%, rgba(126, 9, 165, 0.45) 49%, transparent 50%),
-      linear-gradient(67deg, transparent 46%, rgba(126, 9, 165, 0.3) 47%, rgba(126, 9, 165, 0.3) 48%, transparent 49%),
-      linear-gradient(-157deg, transparent 48%, rgba(126, 9, 165, 0.4) 49%, rgba(126, 9, 165, 0.4) 50%, transparent 51%);
-    background-size: 100% 100%;
-    z-index: 0;
-    pointer-events: none;
-  }
-  #onboarding-overlay::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background:
-      radial-gradient(ellipse at 27% 38%, rgba(255, 255, 255, 0.2) 0%, rgba(210, 85, 255, 0.5) 12%, transparent 35%),
-      radial-gradient(ellipse at 73% 52%, rgba(255, 255, 255, 0.15) 0%, rgba(190, 65, 240, 0.45) 10%, transparent 30%),
-      radial-gradient(ellipse at 48% 25%, rgba(255, 255, 255, 0.12) 0%, rgba(126, 9, 165, 0.35) 8%, transparent 25%),
-      radial-gradient(ellipse at 42% 72%, rgba(255, 255, 255, 0.1) 0%, rgba(210, 85, 255, 0.3) 7%, transparent 22%),
-      radial-gradient(ellipse at 65% 35%, rgba(255, 255, 255, 0.08) 0%, rgba(190, 65, 240, 0.25) 6%, transparent 20%);
-    filter: blur(6px);
-    animation: crackGlow 18s ease-in-out infinite alternate;
-    z-index: 1;
-    pointer-events: none;
-  }
-  @keyframes crackGlow {
-    0% { opacity: 0.7; transform: scale(1); }
-    50% { opacity: 0.9; transform: scale(1.05); }
-    100% { opacity: 0.7; transform: scale(1); }
-  }
   #onboarding-overlay.hidden { opacity: 0; pointer-events: none; }
 
   .ob-header {
@@ -1414,6 +1378,44 @@
 
 <!-- ====== ONBOARDING OVERLAY ====== -->
 <div id="onboarding-overlay">
+  <div style="position:absolute; top:0; left:0; width:100%; pointer-events:none; z-index:0;">
+    <svg width="100%" viewBox="0 0 1400 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glow1">
+          <feGaussianBlur stdDeviation="8" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow2">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Outer purple halo -->
+      <path d="M0,65 L200,52 L320,30 L440,58 L580,40 L720,68 L860,44 L980,60 L1100,48 L1400,55"
+        fill="none" stroke="#6a0080" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"
+        filter="url(#glow1)" opacity="0.6"/>
+
+      <!-- Mid bright purple -->
+      <path d="M0,65 L200,52 L320,30 L440,58 L580,40 L720,68 L860,44 L980,60 L1100,48 L1400,55"
+        fill="none" stroke="#cc44ff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"
+        filter="url(#glow1)" opacity="0.9"/>
+
+      <!-- Bright core -->
+      <path d="M0,65 L200,52 L320,30 L440,58 L580,40 L720,68 L860,44 L980,60 L1100,48 L1400,55"
+        fill="none" stroke="#f0aaff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+        filter="url(#glow2)"/>
+
+      <!-- White hot centre line -->
+      <path d="M0,65 L200,52 L320,30 L440,58 L580,40 L720,68 L860,44 L980,60 L1100,48 L1400,55"
+        fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+
+      <!-- Spark nodes at the sharp bends -->
+      <circle cx="320" cy="30" r="5" fill="white" filter="url(#glow2)" opacity="0.95"/>
+      <circle cx="580" cy="40" r="4" fill="#f0aaff" filter="url(#glow2)" opacity="0.9"/>
+      <circle cx="860" cy="44" r="5" fill="white" filter="url(#glow2)" opacity="0.95"/>
+    </svg>
+  </div>
   <a href="https://fiskal.online" target="_blank" class="ob-logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
   <div class="ob-brand-wrap">
