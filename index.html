@@ -36,7 +36,7 @@
   #onboarding-overlay {
     position: fixed; inset: 0; z-index: 9999;
     background:
-      radial-gradient(circle at 50% 45%, rgba(126, 9, 165, 0.20), transparent 42%),
+      radial-gradient(circle at 50% 45%, rgba(126, 9, 165, 0.15), transparent 45%),
       linear-gradient(135deg, #020106 0%, #05020a 50%, #020106 100%);
     display: none; flex-direction: column;
     align-items: center; justify-content: center;
@@ -46,58 +46,56 @@
   #onboarding-overlay::before {
     content: "";
     position: absolute;
-    width: 160vw;
-    height: 42vh;
-    left: -30vw;
-    top: 18vh;
+    width: 200vw;
+    height: 3px;
+    left: -50vw;
+    top: 35%;
     background:
-      linear-gradient(105deg,
+      linear-gradient(90deg,
         transparent 0%,
-        transparent 28%,
-        rgba(126, 9, 165, 0.18) 42%,
-        rgba(210, 85, 255, 0.65) 50%,
-        rgba(126, 9, 165, 0.20) 58%,
-        transparent 74%,
+        transparent 40%,
+        rgba(126, 9, 165, 0.1) 45%,
+        rgba(210, 85, 255, 0.6) 50%,
+        rgba(126, 9, 165, 0.1) 55%,
+        transparent 60%,
         transparent 100%);
-    filter: blur(42px);
-    border-radius: 50%;
-    transform: rotate(-8deg);
-    opacity: 0.85;
-    animation: purpleWaveOne 24s ease-in-out infinite alternate;
+    filter: blur(18px);
+    transform: rotate(-12deg);
+    opacity: 0.7;
+    animation: ribbonDriftOne 26s ease-in-out infinite alternate;
     z-index: 0;
     pointer-events: none;
   }
   #onboarding-overlay::after {
     content: "";
     position: absolute;
-    width: 170vw;
-    height: 46vh;
-    left: -35vw;
-    bottom: -4vh;
+    width: 180vw;
+    height: 2px;
+    left: -40vw;
+    bottom: 25%;
     background:
-      linear-gradient(110deg,
+      linear-gradient(90deg,
         transparent 0%,
-        transparent 22%,
-        rgba(126, 9, 165, 0.20) 38%,
-        rgba(190, 65, 240, 0.72) 52%,
-        rgba(126, 9, 165, 0.22) 64%,
-        transparent 82%,
+        transparent 35%,
+        rgba(126, 9, 165, 0.12) 42%,
+        rgba(190, 65, 240, 0.55) 50%,
+        rgba(126, 9, 165, 0.12) 58%,
+        transparent 65%,
         transparent 100%);
-    filter: blur(50px);
-    border-radius: 50%;
-    transform: rotate(-6deg);
-    opacity: 0.9;
-    animation: purpleWaveTwo 28s ease-in-out infinite alternate;
+    filter: blur(14px);
+    transform: rotate(8deg);
+    opacity: 0.65;
+    animation: ribbonDriftTwo 22s ease-in-out infinite alternate;
     z-index: 0;
     pointer-events: none;
   }
-  @keyframes purpleWaveOne {
-    from { transform: translateX(-3vw) translateY(0) rotate(-8deg); }
-    to { transform: translateX(4vw) translateY(3vh) rotate(-5deg); }
+  @keyframes ribbonDriftOne {
+    from { transform: translateX(-5vw) translateY(0) rotate(-12deg); }
+    to { transform: translateX(5vw) translateY(8px) rotate(-9deg); }
   }
-  @keyframes purpleWaveTwo {
-    from { transform: translateX(4vw) translateY(0) rotate(-6deg); }
-    to { transform: translateX(-4vw) translateY(-3vh) rotate(-9deg); }
+  @keyframes ribbonDriftTwo {
+    from { transform: translateX(4vw) translateY(0) rotate(8deg); }
+    to { transform: translateX(-4vw) translateY(-6px) rotate(11deg); }
   }
   #onboarding-overlay.hidden { opacity: 0; pointer-events: none; }
 
