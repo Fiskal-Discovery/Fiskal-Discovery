@@ -1,9 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
   <rect width="16" height="16" fill="#08000F"/>
-  <g>
-    <animateTransform attributeName="transform" type="rotate" from="0 8 8" to="360 8 8" dur="4s" repeatCount="indefinite"/>
-    <text x="8" y="12" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">
-      <tspan fill="#FFFFFF">F</tspan><tspan fill="#7E09A5">D</tspan>
-    </text>
-  </g>
+  <text x="8" y="12" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle">
+    <tspan fill="#FFFFFF">F</tspan><tspan fill="#7E09A5">D</tspan>
+  </text>
 </svg>
