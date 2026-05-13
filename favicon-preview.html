@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favicon Animation Preview</title>
+  <link id="favicon" rel="icon" href="favicon-game-1.svg">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #08000F;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 30px;
+      color: #7E09A5;
+    }
+    .preview-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .large-preview {
+      width: 128px;
+      height: 128px;
+      border: 2px solid #7E09A5;
+      border-radius: 8px;
+      background: #08000F;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background: #7E09A5;
+      color: white;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #9E0BC5;
+    }
+    button:active {
+      transform: scale(0.95);
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .status {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #FFE600;
+    }
+    .speed-display {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #00FF88;
+    }
+  </style>
+</head>
+<body>
+  <h1>Favicon Animation Preview</h1>
+  
+  <div class="preview-container">
+    <img id="large-preview" class="large-preview" src="favicon-game-1.svg" alt="Favicon Preview">
+    
+    <div class="controls">
+      <button id="btn-start">Start</button>
+      <button id="btn-stop" disabled>Stop</button>
+      <button id="btn-faster">Faster</button>
+      <button id="btn-slower">Slower</button>
+    </div>
+    
+    <div class="status" id="status">Status: Stopped</div>
+    <div class="speed-display" id="speed-display">Speed: 300ms per frame</div>
+  </div>
+
+  <script>
+    const frames = [
+      "favicon-game-1.svg",
+      "favicon-game-2.svg",
+      "favicon-game-3.svg"
+    ];
+    
+    let interval = null;
+    let currentIndex = 0;
+    let speed = 300;
+    
+    const favicon = document.getElementById("favicon");
+    const largePreview = document.getElementById("large-preview");
+    const btnStart = document.getElementById("btn-start");
+    const btnStop = document.getElementById("btn-stop");
+    const btnFaster = document.getElementById("btn-faster");
+    const btnSlower = document.getElementById("btn-slower");
+    const status = document.getElementById("status");
+    const speedDisplay = document.getElementById("speed-display");
+    
+    function updateFavicon() {
+      const currentFrame = frames[currentIndex];
+      favicon.href = currentFrame + "?v=" + Date.now();
+      largePreview.src = currentFrame + "?v=" + Date.now();
+      currentIndex = (currentIndex + 1) % frames.length;
+    }
+    
+    function startAnimation() {
+      if (interval) return;
+      
+      interval = setInterval(updateFavicon, speed);
+      btnStart.disabled = true;
+      btnStop.disabled = false;
+      status.textContent = "Status: Running";
+    }
+    
+    function stopAnimation() {
+      if (!interval) return;
+      
+      clearInterval(interval);
+      interval = null;
+      btnStart.disabled = false;
+      btnStop.disabled = true;
+      status.textContent = "Status: Stopped";
+    }
+    
+    function changeSpeed(delta) {
+      speed = Math.max(50, Math.min(1000, speed + delta));
+      speedDisplay.textContent = "Speed: " + speed + "ms per frame";
+      
+      if (interval) {
+        stopAnimation();
+        startAnimation();
+      }
+    }
+    
+    btnStart.addEventListener("click", startAnimation);
+    btnStop.addEventListener("click", stopAnimation);
+    btnFaster.addEventListener("click", () => changeSpeed(-50));
+    btnSlower.addEventListener("click", () => changeSpeed(50));
+  </script>
+</body>
+</html>
