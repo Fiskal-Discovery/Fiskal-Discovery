@@ -2594,17 +2594,8 @@ function obHandleUserType(value) {
     return;
   }
 
-  if (value === 'self') {
-    obCurrentFields = selfFields;
-    obFieldIndex = 0;
-    obState.step = 'self';
-    obAskNextField();
-  } else {
-    obCurrentFields = introducerFields;
-    obFieldIndex = 0;
-    obState.step = 'introducer';
-    obAskNextField();
-  }
+  // Redirect to funding-finder.html to use the new dynamic renderer
+  window.location.href = 'funding-finder.html?from=onboarding';
 }
 
 function obAskNextField() {

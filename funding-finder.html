@@ -2696,6 +2696,16 @@ async function loadNicolePhoto() {
     });
   } catch(e) {}
 })();
+
+// Check if coming from onboarding - skip welcome/details and go directly to question flow
+const urlParams = new URLSearchParams(window.location.search);
+const fromOnboarding = urlParams.get('from') === 'onboarding';
+
+if (fromOnboarding) {
+  document.addEventListener('DOMContentLoaded', () => {
+    startQuestions();
+  });
+}
 </script>
 <script src="logic/globalInsights.js"></script>
 <script src="logic/sectorInsights.js"></script>
