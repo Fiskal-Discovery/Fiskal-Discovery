@@ -69,60 +69,6 @@ body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block
 <!-- ================= FAVICON ================= -->
 <link id="favicon" rel="icon" href="favicon-main.svg">
 
-<!-- ================= FAVICON SCRIPT ================= -->
-<script>
-// Change to GAME favicon
-function setGameFavicon() {
-    var favicon = document.getElementById("favicon");
-    if (favicon) {
-        favicon.href = "favicon-game-1.svg?v=" + Date.now();
-    }
-}
-
-// Change to MAIN favicon
-function setMainFavicon() {
-    var favicon = document.getElementById("favicon");
-    if (favicon) {
-        favicon.href = "favicon-main.svg?v=" + Date.now();
-    }
-}
-
-// ================= AUTO HOOKS =================
-
-// Detect game start (try common function names)
-const originalStartGame = window.startGame;
-if (typeof originalStartGame === "function") {
-    window.startGame = function() {
-        setGameFavicon();
-        return originalStartGame.apply(this, arguments);
-    };
-}
-
-// Detect game over
-const originalGameOver = window.gameOver;
-if (typeof originalGameOver === "function") {
-    window.gameOver = function() {
-        setMainFavicon();
-        return originalGameOver.apply(this, arguments);
-    };
-}
-
-// Detect return to home buttons automatically
-document.addEventListener("click", function(e) {
-    const btn = e.target.closest("button");
-    if (!btn) return;
-
-    const text = btn.innerText.toLowerCase();
-
-    if (text.includes("return") || text.includes("home")) {
-        setMainFavicon();
-    }
-
-    if (text.includes("play") || text.includes("start")) {
-        setGameFavicon();
-    }
-});
-</script>
 </head>
 <body>
 <div id="starfield"></div>
@@ -149,6 +95,37 @@ document.addEventListener("click", function(e) {
   initStars();drawStars();window.addEventListener('resize',()=>{document.body.classList.toggle('playing-mobile',!!G&&window.innerWidth<=520);if(G&&!G.dead){canvas.width=Math.min(window.innerWidth,720);const headerH=document.body.classList.contains('playing-mobile')?0:document.querySelector('.fiskal-header').offsetHeight;canvas.height=Math.max(300,window.innerHeight-headerH-document.getElementById('hud').offsetHeight-2);if(G.player){G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x));G.player.y=canvas.height-40}}});
 if(window.visualViewport){window.visualViewport.addEventListener('resize',()=>{document.body.classList.toggle('playing-mobile',!!G&&window.innerWidth<=520);if(G&&!G.dead){canvas.width=Math.min(window.innerWidth,720);const headerH=document.body.classList.contains('playing-mobile')?0:document.querySelector('.fiskal-header').offsetHeight;canvas.height=Math.max(300,window.innerHeight-headerH-document.getElementById('hud').offsetHeight-2);if(G.player){G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x));G.player.y=canvas.height-40}}});}
 })();
+
+// ================= ANIMATED FAVICON =================
+let faviconInterval = null;
+
+const frames = [
+  "favicon-game-1.svg",
+  "favicon-game-2.svg",
+  "favicon-game-3.svg"
+];
+
+function startFaviconAnimation() {
+  let i = 0;
+  stopFaviconAnimation();
+
+  faviconInterval = setInterval(() => {
+    const favicon = document.getElementById("favicon");
+    if (!favicon) return;
+
+    favicon.href = frames[i] + "?v=" + Date.now();
+    i = (i + 1) % frames.length;
+  }, 300);
+}
+
+function stopFaviconAnimation() {
+  if (faviconInterval) clearInterval(faviconInterval);
+
+  const favicon = document.getElementById("favicon");
+  if (favicon) {
+    favicon.href = "favicon-main.svg?v=" + Date.now();
+  }
+}
 </script>
 <div class="fiskal-header">
   <div class="fiskal-header-inner"><div class="fiskal-title">Fiskal Discovery</div><div class="fiskal-sub">2 minutes. Endless possibilities.</div></div>
@@ -472,8 +449,8 @@ function updateHUD(){if(!G)return;document.getElementById('score-display').textC
 function showMsg(title,color,subtitle,duration){const el=document.getElementById('msg-flash');el.style.color=color;el.style.borderColor=color;el.style.textShadow='0 0 20px '+color;el.innerHTML=subtitle?title+'<br><span style="color:white;font-size:0.5rem;line-height:2">'+subtitle+'</span>':title;el.style.opacity=1;clearTimeout(el._t);el._t=setTimeout(()=>el.style.opacity=0,duration||2000)}
 function showUpgradeAnnouncement(){showMsg('BUSINESS UPGRADED','#FFE600',"You've unlocked Advanced Cashflow Mode",4000)}
 function stopGame(){if(rafId)cancelAnimationFrame(rafId);rafId=null;paused=false;screenShake=0;ctx.setTransform(1,0,0,1,0,0);document.getElementById('pause-overlay').classList.remove('active');G=null}
-function initGame(){stopGame();showScreen('game-screen');showQuitBtn(true);const hud=document.getElementById('hud');canvas.width=Math.min(window.innerWidth,720);canvas.height=Math.max(300,window.innerHeight-document.querySelector('.fiskal-header').offsetHeight-hud.offsetHeight-2);const bizName='ANONYMOUS';G={player:{x:canvas.width/2,y:canvas.height-40,w:44,h:30,speed:6},bullets:[],bossBlasts:[],enemies:[],powerups:[],particles:[],wordEnemies:[],wordBits:[],defeatedBossWords:[],wordTimer:0,score:0,lives:3,wave:1,doubleBullet:0,tripleBullet:0,shield:0,slowmo:0,rapidFire:0,speedBoost:0,supportShip:0,advancedMode:false,keys:{},lastShot:0,shotDelay:290,state:'playing',spawnTimer:0,spawnRate:120,waveKills:0,waveTarget:6,playerInv:0,biz:bizName,frame:0,boss:null,bossShootTimer:0,stateTimer:0,puCooldown:0,dead:false};spawnWave(4);updateHUD();rafId=requestAnimationFrame(gameLoop)}
-function quitGame(){stopGame();showScreen('start-screen')}
+function initGame(){stopGame();showScreen('game-screen');showQuitBtn(true);startFaviconAnimation();const hud=document.getElementById('hud');canvas.width=Math.min(window.innerWidth,720);canvas.height=Math.max(300,window.innerHeight-document.querySelector('.fiskal-header').offsetHeight-hud.offsetHeight-2);const bizName='ANONYMOUS';G={player:{x:canvas.width/2,y:canvas.height-40,w:44,h:30,speed:6},bullets:[],bossBlasts:[],enemies:[],powerups:[],particles:[],wordEnemies:[],wordBits:[],defeatedBossWords:[],wordTimer:0,score:0,lives:3,wave:1,doubleBullet:0,tripleBullet:0,shield:0,slowmo:0,rapidFire:0,speedBoost:0,supportShip:0,advancedMode:false,keys:{},lastShot:0,shotDelay:290,state:'playing',spawnTimer:0,spawnRate:120,waveKills:0,waveTarget:6,playerInv:0,biz:bizName,frame:0,boss:null,bossShootTimer:0,stateTimer:0,puCooldown:0,dead:false};spawnWave(4);updateHUD();rafId=requestAnimationFrame(gameLoop)}
+function quitGame(){stopGame();stopFaviconAnimation();showScreen('start-screen')}
 function togglePause(){if(!G||G.dead)return;paused=!paused;document.getElementById('pause-overlay').classList.toggle('active',paused);document.getElementById('pause-btn').textContent=paused?'▶ RESUME':'⏸ PAUSE';if(!paused)rafId=requestAnimationFrame(gameLoop)}
 function spawnWave(n){for(let i=0;i<n;i++)setTimeout(()=>{if(G&&!G.dead&&G.state==='playing')spawnAlien()},i*700)}
 function spawnAlien(){if(!G)return;const t=ALIEN_TYPES[Math.floor(Math.random()*ALIEN_TYPES.length)],w=t.pixels[0].length*t.scale,h=t.pixels.length*t.scale,dir=Math.random()>.5?1:-1,advancedMultiplier=G.wave>10?1+((G.wave-10)*0.08):1,spd=(.7+G.wave*.12)*(G.slowmo>0?.35:1)*advancedMultiplier;G.enemies.push({x:Math.max(w/2+10,Math.min(canvas.width-w/2-10,40+Math.random()*(canvas.width-100))),y:-h,type:t,w,h,vx:dir*(.7+Math.random()*.6+G.wave*.08)*advancedMultiplier,vy:spd,frame:0})}
@@ -592,7 +569,7 @@ function applyPU(effect,lines,desc){
     G.supportShip=TICKS_10;
   }
 }
-async function gameOver(){if(!G||G.dead)return;finalScore=G.score;finalWave=G.wave;const finalBiz=G.biz;G.dead=true;if(rafId)cancelAnimationFrame(rafId);rafId=null;paused=false;document.getElementById('pause-overlay').classList.remove('active');showQuitBtn(false);document.getElementById('final-score').textContent=finalScore;setTimeout(()=>showScreen('gameover-screen'),500)}
+async function gameOver(){if(!G||G.dead)return;finalScore=G.score;finalWave=G.wave;const finalBiz=G.biz;G.dead=true;if(rafId)cancelAnimationFrame(rafId);rafId=null;paused=false;document.getElementById('pause-overlay').classList.remove('active');showQuitBtn(false);stopFaviconAnimation();document.getElementById('final-score').textContent=finalScore;setTimeout(()=>showScreen('gameover-screen'),500)}
 function damagePlayer(){if(!G||!G.player||G.playerInv>0||G.shield>0)return;G.lives--;G.playerInv=100;boom(G.player.x,G.player.y,'#FF3355',14);SFX.player();updateHUD();if(G.lives<=0)gameOver()}
 function updateTimers(){['doubleBullet','tripleBullet','shield','slowmo','rapidFire','playerInv','puCooldown','speedBoost','supportShip'].forEach(k=>{if(G[k]>0)G[k]--})}
 function gameLoop(){if(!G||G.dead||paused){ctx.setTransform(1,0,0,1,0,0);return}rafId=requestAnimationFrame(gameLoop);let shakeX=0,shakeY=0;if(screenShake>0){shakeX=(Math.random()-.5)*screenShake;shakeY=(Math.random()-.5)*screenShake;screenShake*=.85;if(screenShake<.5)screenShake=0}ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,canvas.width,canvas.height);ctx.setTransform(1,0,0,1,shakeX,shakeY);G.frame++;updateTimers();const p=G.player;if(!p)return;
@@ -715,7 +692,7 @@ document.getElementById('pause-btn').addEventListener('click',togglePause);docum
       btn.disabled = false;
       btn.textContent = 'Submit to Leaderboard';
     });
-});document.getElementById('btn-home').addEventListener('click',()=>window.location.href='index.html');document.getElementById('champions-btn').addEventListener('click',async()=>{stopGame();showLeaderboardScreen();});document.getElementById('btn-play-again-lb').addEventListener('click',()=>{stopGame();showScreen('start-screen')});document.getElementById('btn-home-lb').addEventListener('click',()=>window.location.href='index.html');document.getElementById('home-btn').addEventListener('click',quitGame);document.addEventListener('keydown',e=>{if(!G||G.dead)return;G.keys[e.key]=true;if(e.key===' ')e.preventDefault();if(e.key==='p'||e.key==='P')togglePause()});document.addEventListener('keyup',e=>{if(!G||G.dead)return;G.keys[e.key]=false});canvas.addEventListener('mousemove',e=>{if(!G||!G.player||paused)return;const r=canvas.getBoundingClientRect();G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,e.clientX-r.left))});canvas.addEventListener('click',shoot);let lastTX=0;canvas.addEventListener('touchstart',e=>{lastTX=e.touches[0].clientX;shoot()},{passive:true});canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!G||!G.player||paused)return;const dx=e.touches[0].clientX-lastTX;G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x+dx*.75));lastTX=e.touches[0].clientX},{passive:false});
+});document.getElementById('btn-home').addEventListener('click',()=>{stopFaviconAnimation();window.location.href='index.html'});document.getElementById('champions-btn').addEventListener('click',async()=>{stopGame();showLeaderboardScreen();});document.getElementById('btn-play-again-lb').addEventListener('click',()=>{stopGame();showScreen('start-screen')});document.getElementById('btn-home-lb').addEventListener('click',()=>{stopFaviconAnimation();window.location.href='index.html'});document.getElementById('home-btn').addEventListener('click',quitGame);document.addEventListener('keydown',e=>{if(!G||G.dead)return;G.keys[e.key]=true;if(e.key===' ')e.preventDefault();if(e.key==='p'||e.key==='P')togglePause()});document.addEventListener('keyup',e=>{if(!G||G.dead)return;G.keys[e.key]=false});canvas.addEventListener('mousemove',e=>{if(!G||!G.player||paused)return;const r=canvas.getBoundingClientRect();G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,e.clientX-r.left))});canvas.addEventListener('click',shoot);let lastTX=0;canvas.addEventListener('touchstart',e=>{lastTX=e.touches[0].clientX;shoot()},{passive:true});canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!G||!G.player||paused)return;const dx=e.touches[0].clientX-lastTX;G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x+dx*.75));lastTX=e.touches[0].clientX},{passive:false});
 </script>
 </body>
 </html>
