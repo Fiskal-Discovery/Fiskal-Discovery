@@ -44,7 +44,7 @@
   #onboarding-overlay {
     position: fixed; inset: 0; z-index: 9999;
     background: linear-gradient(135deg, #0a0a12 0%, #12121a 50%, #0a0a12 100%);
-    display: none; flex-direction: column;
+    display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     overflow: hidden;
     transition: opacity 0.5s ease;
@@ -1943,14 +1943,19 @@ let welcomeState = {
   answers: {}
 };
 
-function startWelcome() {
-  // Check if welcome is completed and profile data exists
-  const isProfileComplete = appState.profile.name && appState.profile.email && appState.profile.companyName;
-  if (appState.welcomeCompleted === true && isProfileComplete) {
-    showHomepage();
-    return;
-  }
+function showWelcome() {
+  // Hide all screens
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-home').classList.remove('active');
 
+  // Show onboarding overlay
+  document.getElementById('onboarding-overlay').classList.remove('hidden');
+
+  // Start the welcome flow
+  startWelcome();
+}
+
+function startWelcome() {
   welcomeState = {
     currentQuestion: 0,
     answers: {}
@@ -2126,8 +2131,20 @@ function resetOnboarding() {
 // INITIALIZATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Start welcome flow or show homepage if profile exists
-  startWelcome();
+  // Read appState from localStorage safely
+  loadAppState();
+
+  // Log initial route
+  console.log("Initial route:", appState?.welcomeCompleted ? "homepage" : "welcome");
+
+  // Check if welcome is completed
+  if (appState.welcomeCompleted === true) {
+    // Show Homepage, hide Welcome
+    showHomepage();
+  } else {
+    // Show Welcome, hide all other screens
+    showWelcome();
+  }
 });
 
 // ============================================================
