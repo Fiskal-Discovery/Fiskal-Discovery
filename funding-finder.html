@@ -20,14 +20,22 @@
     --light-text: #8a7a9a;
     --white: #ffffff;
     --success: #2d9e6b;
+    --bg-deep: #0a0a12;
+    --bg-card: #12121a;
+    --bg-card-light: #1a1a28;
+    --accent-blue: #2563eb;
+    --accent-purple: #7c3aed;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --shadow-card: 0 8px 30px rgba(124, 9, 165, 0.15);
+    --shadow-glow: 0 0 40px rgba(124, 9, 165, 0.2);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--dark);
+    background: linear-gradient(135deg, var(--bg-deep) 0%, #0f0f1a 50%, var(--bg-deep) 100%);
+    color: var(--white);
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -39,10 +47,10 @@
     filter: blur(80px);
     pointer-events: none;
     z-index: 0;
-    opacity: 0.12;
+    opacity: 0.15;
   }
   .bg-orb-1 { width: 600px; height: 600px; background: var(--indigo); top: -200px; right: -200px; }
-  .bg-orb-2 { width: 400px; height: 400px; background: var(--gold); bottom: -100px; left: -100px; }
+  .bg-orb-2 { width: 400px; height: 400px; background: var(--accent-blue); bottom: -100px; left: -100px; }
 
   /* ---- SCREENS ---- */
   .screen {
@@ -142,7 +150,7 @@
     font-family: 'Cormorant Garamond', serif;
     font-size: 52px;
     font-weight: 300;
-    color: var(--indigo-deep);
+    color: var(--white);
     line-height: 1.1;
     margin-bottom: 8px;
   }
@@ -175,30 +183,50 @@
   }
 
   .module-card {
-    background: white;
-    border: 1.5px solid rgba(75,0,130,0.1);
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-light) 100%);
+    border: 1px solid rgba(124, 9, 165, 0.2);
     border-radius: 16px;
     padding: 20px;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     gap: 16px;
     text-align: left;
     position: relative;
     overflow: hidden;
+    box-shadow: var(--shadow-card);
   }
 
   .module-card::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-light) 100%);
+    background: linear-gradient(135deg, var(--indigo) 0%, var(--accent-purple) 50%, var(--accent-blue) 100%);
     opacity: 0;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
   }
 
-  .module-card:hover::before { opacity: 1; }
+  .module-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--indigo) 0%, var(--accent-purple) 50%, var(--accent-blue) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .module-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow);
+    border-color: rgba(124, 9, 165, 0.4);
+  }
+  .module-card:hover::before { opacity: 0.9; }
+  .module-card:hover::after { opacity: 1; }
   .module-card:hover .module-card-title { color: white; }
   .module-card:hover .module-card-desc { color: rgba(255,255,255,0.75); }
   .module-card:hover .module-card-icon { background: rgba(255,255,255,0.2); }
@@ -207,7 +235,7 @@
   .module-card-icon {
     width: 48px;
     height: 48px;
-    background: var(--indigo-pale);
+    background: linear-gradient(135deg, var(--indigo) 0%, var(--accent-purple) 100%);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -217,6 +245,7 @@
     position: relative;
     z-index: 1;
     transition: background 0.25s ease;
+    box-shadow: 0 4px 12px rgba(124, 9, 165, 0.3);
   }
 
   .module-card-body {
@@ -228,7 +257,7 @@
   .module-card-title {
     font-size: 15px;
     font-weight: 500;
-    color: var(--dark);
+    color: var(--white);
     margin-bottom: 3px;
     transition: color 0.25s ease;
   }
@@ -242,7 +271,7 @@
   }
 
   .module-arrow {
-    color: var(--indigo);
+    color: var(--indigo-light);
     font-size: 18px;
     position: relative;
     z-index: 1;
@@ -1594,6 +1623,34 @@
 
 <script>
 // ============================================================
+// DEVELOPMENT MODE
+// ============================================================
+const DEV_MODE = true;
+const SEND_EMAILS = false;
+
+// ============================================================
+// APP STATE
+// ============================================================
+const appState = {
+  profile: {
+    userType: null,
+    name: null,
+    email: null,
+    phone: null,
+    companyName: null,
+    hasCompanyNumber: null,
+    companyNumber: null,
+    industry: null,
+    annualTurnover: null,
+    fundingAmount: null
+  },
+  fundingFinder: {},
+  facilityReview: {},
+  loanApp: {},
+  currentModule: null
+};
+
+// ============================================================
 // LOADING SCREEN MESSAGES
 // ============================================================
 const loadingMessages = [
@@ -1709,15 +1766,41 @@ function showDiscoveryThinkingScreen(callback) {
 }
 
 // ============================================================
+// LOAD APP STATE
+// ============================================================
+function loadAppState() {
+  try {
+    const saved = localStorage.getItem('fiskal_appState');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      Object.assign(appState, parsed);
+    }
+  } catch (e) {
+    console.warn('Failed to load appState:', e);
+  }
+}
+
+function saveAppState() {
+  try {
+    localStorage.setItem('fiskal_appState', JSON.stringify(appState));
+  } catch (e) {
+    console.warn('Failed to save appState:', e);
+  }
+}
+
+// Load app state on page load
+loadAppState();
+
+// ============================================================
 // STATE
 // ============================================================
 const state = {
   module: 'funding-finder',
-  name: '',
-  business: '',
-  email: '',
-  phone: '',
-  companyNumber: '',
+  name: appState.profile.name || '',
+  business: appState.profile.companyName || '',
+  email: appState.profile.email || '',
+  phone: appState.profile.phone || '',
+  companyNumber: appState.profile.companyNumber || '',
   answers: {},
   flowAnswers: {},
   currentQuestion: 0,
@@ -1729,86 +1812,7 @@ const state = {
 // DYNAMIC QUESTION FLOW — FUNDING FINDER
 // ============================================================
 const fundingFinderFlow = [
-  {
-    id: "name",
-    type: "text",
-    question: "What's your name?",
-    saveAs: "name"
-  },
-  {
-    id: "contact",
-    type: "multi-input",
-    question: "How can we reach you?",
-    fields: [
-      { label: "Email", saveAs: "email", inputType: "email" },
-      { label: "Phone", saveAs: "phone", inputType: "tel" }
-    ]
-  },
-  {
-    id: "fundingAmount",
-    type: "single-choice",
-    question: "How much funding would make a real difference to your business right now?",
-    options: [
-      "Under £10k",
-      "£10k–£25k",
-      "£25k–£50k",
-      "£50k–£100k",
-      "£100k–£250k",
-      "£250k+",
-      "I'm not sure yet"
-    ],
-    saveAs: "fundingAmount"
-  },
-  {
-    id: "companyName",
-    type: "text",
-    question: "What's your company name?",
-    saveAs: "companyName"
-  },
-  {
-    id: "hasCompanyNumber",
-    type: "single-choice",
-    question: "Do you know your company number?",
-    options: ["Yes", "No"],
-    saveAs: "hasCompanyNumber"
-  },
-  {
-    id: "companyNumber",
-    type: "text",
-    question: "Enter your company number",
-    saveAs: "companyNumber",
-    condition: (answers) => answers.hasCompanyNumber === "Yes"
-  },
-  {
-    id: "industry",
-    type: "single-choice",
-    question: "What industry is your business in?",
-    options: [
-      "Construction",
-      "Recruitment",
-      "Manufacturing",
-      "Wholesale",
-      "Retail",
-      "Transport",
-      "Professional Services",
-      "Healthcare",
-      "Other"
-    ],
-    saveAs: "industry"
-  },
-  {
-    id: "turnover",
-    type: "single-choice",
-    question: "What is your annual turnover?",
-    options: [
-      "Under £100k",
-      "£100k–£250k",
-      "£250k–£500k",
-      "£500k–£1m",
-      "£1m+"
-    ],
-    saveAs: "turnover"
-  },
+  // Product-discovery questions only - profile data comes from appState.profile
   {
     id: "purpose",
     type: "single-choice",
@@ -1901,6 +1905,8 @@ function getVisibleQuestions() {
 
 function saveAnswer(key, value) {
   state.flowAnswers[key] = value;
+  appState.fundingFinder[key] = value;
+  saveAppState();
 }
 
 function renderFlowQuestion() {
@@ -2592,9 +2598,13 @@ async function sendInitialInfoNotification() {
   };
 
   try {
-    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-    sessionStorage.setItem(key, "true");
-    console.log("Initial info notification sent");
+    if (DEV_MODE || !SEND_EMAILS) {
+      console.log("Email sending disabled during development", templateParams);
+    } else {
+      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      sessionStorage.setItem(key, "true");
+      console.log("Initial info notification sent");
+    }
   } catch (error) {
     console.warn("Initial info notification failed", error);
   }
@@ -2614,8 +2624,12 @@ async function sendNotification(summary, matchedProducts) {
   };
 
   try {
-    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-    console.log('Notification sent successfully');
+    if (DEV_MODE || !SEND_EMAILS) {
+      console.log("Email sending disabled during development", templateParams);
+    } else {
+      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      console.log('Notification sent successfully');
+    }
   } catch (error) {
     console.error('Email notification failed:', error);
   }

@@ -2299,6 +2299,60 @@
 
 <script>
 // ============================================================
+// DEVELOPMENT MODE
+// ============================================================
+const DEV_MODE = true;
+const SEND_EMAILS = false;
+
+// ============================================================
+// APP STATE
+// ============================================================
+const appState = {
+  profile: {
+    userType: null,
+    name: null,
+    email: null,
+    phone: null,
+    companyName: null,
+    hasCompanyNumber: null,
+    companyNumber: null,
+    industry: null,
+    annualTurnover: null,
+    fundingAmount: null
+  },
+  fundingFinder: {},
+  facilityReview: {},
+  loanApp: {},
+  currentModule: null
+};
+
+// ============================================================
+// APP STATE MANAGEMENT
+// ============================================================
+function loadAppState() {
+  try {
+    const saved = localStorage.getItem('fiskal_appState');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      Object.assign(appState, parsed);
+    }
+  } catch (e) {
+    console.warn('Failed to load appState:', e);
+  }
+}
+
+function saveAppState() {
+  try {
+    localStorage.setItem('fiskal_appState', JSON.stringify(appState));
+  } catch (e) {
+    console.warn('Failed to save appState:', e);
+  }
+}
+
+// Load app state on page load
+loadAppState();
+
+// ============================================================
 // LOADING SCREEN MESSAGES
 // ============================================================
 const loadingMessages = [
@@ -2372,8 +2426,13 @@ function showLoadingScreen(callback) {
 // STATE
 // ============================================================
 const state = {
-  name: '', business: '', email: '', phone: '', companyNumber: '',
-  turnover: '', propertyOwnership: '',
+  name: appState.profile.name || '',
+  business: appState.profile.companyName || '',
+  email: appState.profile.email || '',
+  phone: appState.profile.phone || '',
+  companyNumber: appState.profile.companyNumber || '',
+  turnover: appState.profile.annualTurnover || '',
+  propertyOwnership: '',
   fxProvider: '', fxTransactionType: '', fxCurrencies: '',
   fxAwareness: '', fxPlatforms: [], fxGoals: [],
   facilityType: '', facilityTypes: [], selectedReviewType: '',
