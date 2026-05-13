@@ -65,6 +65,64 @@ body.playing-mobile #hud{margin:0!important;padding-top:8px!important;width:100%
 body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block!important}
 }
 </style>
+
+<!-- ================= FAVICON ================= -->
+<link id="favicon" rel="icon" href="favicon-main.ico">
+
+<!-- ================= FAVICON SCRIPT ================= -->
+<script>
+// Change to GAME favicon
+function setGameFavicon() {
+    var favicon = document.getElementById("favicon");
+    if (favicon) {
+        favicon.href = "favicon-game.ico?v=" + Date.now();
+    }
+}
+
+// Change to MAIN favicon
+function setMainFavicon() {
+    var favicon = document.getElementById("favicon");
+    if (favicon) {
+        favicon.href = "favicon-main.ico?v=" + Date.now();
+    }
+}
+
+// ================= AUTO HOOKS =================
+
+// Detect game start (try common function names)
+const originalStartGame = window.startGame;
+if (typeof originalStartGame === "function") {
+    window.startGame = function() {
+        setGameFavicon();
+        return originalStartGame.apply(this, arguments);
+    };
+}
+
+// Detect game over
+const originalGameOver = window.gameOver;
+if (typeof originalGameOver === "function") {
+    window.gameOver = function() {
+        setMainFavicon();
+        return originalGameOver.apply(this, arguments);
+    };
+}
+
+// Detect return to home buttons automatically
+document.addEventListener("click", function(e) {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+
+    const text = btn.innerText.toLowerCase();
+
+    if (text.includes("return") || text.includes("home")) {
+        setMainFavicon();
+    }
+
+    if (text.includes("play") || text.includes("start")) {
+        setGameFavicon();
+    }
+});
+</script>
 </head>
 <body>
 <div id="starfield"></div>
