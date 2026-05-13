@@ -1298,10 +1298,12 @@ function showDiscoveryThinkingScreen(callback) {
 function showShariahThinkingScreen(callback) {
   console.log('Shariah thinking screen started');
 
+  var profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}');
+  var userName = profile.name || '';
   var phrases = [
-    'Understanding your funding needs',
-    'Reviewing Shariah-compliant possibilities',
-    'Preparing your Fiskal Discovery'
+    'Every great business is on a journey.',
+    'Mapping your funding options...',
+    userName + ', your discovery is ready.'
   ];
 
   var screen = document.getElementById('shariah-thinking-screen');
@@ -1320,36 +1322,43 @@ function showShariahThinkingScreen(callback) {
 
   function showPhrase() {
     if (index >= phrases.length) {
-      screen.classList.remove('active');
-      screen.style.display = 'none';
-      console.log('Shariah thinking screen finished');
-      callback();
+      // Fade out the entire loading screen
+      screen.style.opacity = '0';
+      screen.style.transition = 'opacity 400ms ease';
+      setTimeout(function() {
+        screen.classList.remove('active');
+        screen.style.display = 'none';
+        screen.style.opacity = '1';
+        screen.style.transition = '';
+        console.log('Shariah thinking screen finished');
+        callback();
+      }, 400);
       return;
     }
 
-    var phrase = phrases[index];
-    // Personalize final phrase with user's name
-    if (index === phrases.length - 1) {
-      var profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}');
-      var name = profile.name || '';
-      if (name) {
-        phrase = 'Thanks for waiting ' + name + ', your Discovery is ready';
-      } else {
-        phrase = 'Thanks for waiting, your Discovery is ready';
-      }
-    }
-
-    phraseEl.textContent = phrase;
-    phraseEl.classList.remove('active', 'shimmer');
-    void phraseEl.offsetWidth;
-    phraseEl.classList.add('active', 'shimmer');
-    console.log('Shariah phrase shown: ' + phrase);
-
+    // Fade out current phrase (opacity 1 → 0, 300ms)
+    phraseEl.style.transition = 'opacity 300ms ease, transform 300ms ease';
+    phraseEl.style.opacity = '0';
+    phraseEl.style.transform = 'translateY(10px)';
+    
     setTimeout(function() {
-      phraseEl.classList.remove('active', 'shimmer');
+      // Update text
+      phraseEl.textContent = phrases[index];
+      console.log('Shariah phrase shown: ' + phrases[index]);
+      
+      // Fade in next phrase (opacity 0 → 1, 400ms, translateY 10px → 0)
+      phraseEl.style.transition = 'opacity 400ms ease, transform 400ms ease';
+      phraseEl.style.opacity = '1';
+      phraseEl.style.transform = 'translateY(0)';
+      
+      // Determine display duration: 2s for normal phrases, 3s for final phrase
+      var isFinalPhrase = index === phrases.length - 1;
+      var displayDuration = isFinalPhrase ? 3000 : 2000;
+      
       index++;
-      setTimeout(showPhrase, 300);
-    }, 2300);
+      
+      setTimeout(showPhrase, displayDuration);
+    }, 300);
   }
 
   showPhrase();

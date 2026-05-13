@@ -1643,11 +1643,11 @@ function getRandomMessage() {
 function showDiscoveryThinkingScreen(callback) {
   console.log('[Funding Finder] thinking screen started');
 
+  const userName = state.name || '';
   const phrases = [
-    'Assessing your requirements',
-    'Analysing your business profile',
-    'Reviewing funding options',
-    'Preparing your Fiskal Discovery summary'
+    'Every great business is on a journey.',
+    'Mapping your funding options...',
+    `${userName}, your discovery is ready.`
   ];
 
   let screen = document.getElementById('discovery-thinking-screen');
@@ -1666,25 +1666,43 @@ function showDiscoveryThinkingScreen(callback) {
 
   function showPhrase() {
     if (index >= phrases.length) {
-      screen.classList.remove('active');
-      screen.style.display = 'none';
-      console.log('[Funding Finder] thinking screen finished');
-      if (callback) callback();
+      // Fade out the entire loading screen
+      screen.style.opacity = '0';
+      screen.style.transition = 'opacity 400ms ease';
+      setTimeout(function() {
+        screen.classList.remove('active');
+        screen.style.display = 'none';
+        screen.style.opacity = '1';
+        screen.style.transition = '';
+        console.log('[Funding Finder] thinking screen finished');
+        if (callback) callback();
+      }, 400);
       return;
     }
 
-    phraseEl.textContent = phrases[index];
-    phraseEl.classList.remove('active', 'shimmer');
-    void phraseEl.offsetWidth;
-    phraseEl.classList.add('active', 'shimmer');
-    console.log('[Funding Finder] phrase shown: ' + phrases[index]);
-
-    index++;
-
+    // Fade out current phrase (opacity 1 → 0, 300ms)
+    phraseEl.style.transition = 'opacity 300ms ease, transform 300ms ease';
+    phraseEl.style.opacity = '0';
+    phraseEl.style.transform = 'translateY(10px)';
+    
     setTimeout(function() {
-      phraseEl.classList.remove('active', 'shimmer');
-      setTimeout(showPhrase, 300);
-    }, 2300);
+      // Update text
+      phraseEl.textContent = phrases[index];
+      console.log('[Funding Finder] phrase shown: ' + phrases[index]);
+      
+      // Fade in next phrase (opacity 0 → 1, 400ms, translateY 10px → 0)
+      phraseEl.style.transition = 'opacity 400ms ease, transform 400ms ease';
+      phraseEl.style.opacity = '1';
+      phraseEl.style.transform = 'translateY(0)';
+      
+      // Determine display duration: 2s for normal phrases, 3s for final phrase
+      const isFinalPhrase = index === phrases.length - 1;
+      const displayDuration = isFinalPhrase ? 3000 : 2000;
+      
+      index++;
+      
+      setTimeout(showPhrase, displayDuration);
+    }, 300);
   }
 
   showPhrase();
