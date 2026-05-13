@@ -598,7 +598,11 @@ G.bullets=G.bullets.filter(b=>{
 
     if(G.boss.hp<=0){
       const bx=G.boss.x,by=G.boss.y,defeatedName=G.boss.name;
-      bigBoom(bx,by);
+      const pieces=12;
+      for(let i=0;i<pieces;i++){
+        const a=Math.PI*2*i/pieces+Math.random()*.45,speed=2+Math.random()*2.5;
+        G.wordBits.push({x:bx,y:by,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed-.8,life:300,size:10+Math.random()*15,collectable:true});
+      }
       SFX.bossDead();
       G.score+=200+G.wave*50;
       updateHUD();
