@@ -2153,16 +2153,15 @@ function completeWelcome() {
   appState.welcomeCompleted = true;
   saveAppState();
 
-  // Show completion message
-  const chat = document.getElementById('ob-chat');
-  const fiskalBubble = document.createElement('div');
-  fiskalBubble.className = 'ob-bubble fiskal';
-  fiskalBubble.textContent = `Thanks ${appState.profile.name}, let's get started.`;
-  chat.appendChild(fiskalBubble);
-
-  // Hide input and choices
-  document.getElementById('ob-input-area').style.display = 'none';
-  document.getElementById('ob-choices').style.display = 'none';
+  // Show completion message in the same container used for questions
+  const container = document.getElementById('welcome-question-container');
+  if (container) {
+    container.innerHTML = '';
+    const msg = document.createElement('div');
+    msg.style.cssText = 'color: white; font-size: 24px; font-weight: 600; text-align: center; font-family: DM Sans, sans-serif;';
+    msg.textContent = `Thanks ${appState.profile.name}, let's get started.`;
+    container.appendChild(msg);
+  }
 
   // Show homepage after a delay
   setTimeout(() => {
