@@ -1145,15 +1145,7 @@ function showScreen(id) {
 }
 
 function goHome() {
-  state.purpose = '';
-  state.otherPurpose = '';
-  state.amount = '';
-  state.notSure = false;
-  state.timeline = '';
-  document.getElementById('other-purpose-container').style.display = 'none';
-  document.getElementById('other-purpose').value = '';
-  document.getElementById('funding-amount').value = '';
-  showScreen('screen-home');
+  window.location.href = 'index.html';
 }
 
 function goBackToQ1() {

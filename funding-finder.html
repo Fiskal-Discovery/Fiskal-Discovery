@@ -2174,11 +2174,7 @@ function showScreen(id) {
 }
 
 function goHome() {
-  Object.assign(state, {
-    module: 'funding-finder', name: '', business: '', email: '', phone: '',
-    companyNumber: '', answers: {}, currentQuestion: 0, barrier: '', barrierDetails: ''
-  });
-  showScreen('home');
+  window.location.href = 'index.html';
 }
 
 function startModule(module) {
