@@ -1531,7 +1531,6 @@ function displayResults(summary) {
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  console.log('[Loan Enquiry] showing results');
   
   // Render Nicole message and load photo after showing results
   renderNicoleMessage();
@@ -1588,7 +1587,6 @@ async function sendInitialInfoNotification() {
   const key = "initialNotificationSent_loanApplication";
   
   if (sessionStorage.getItem(key)) {
-    console.log("Initial info notification already sent for this session");
     return;
   }
 
@@ -1602,8 +1600,6 @@ async function sendInitialInfoNotification() {
     timestamp: new Date().toISOString(),
     page: window.location.href
   };
-
-  console.log("Initial info notification attempted", initialData);
 
   const templateParams = {
     name: state.name,
@@ -1620,7 +1616,6 @@ async function sendInitialInfoNotification() {
   try {
     await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
     sessionStorage.setItem(key, "true");
-    console.log("Initial info notification sent");
   } catch (error) {
     console.warn("Initial info notification failed", error);
   }
@@ -1657,7 +1652,6 @@ async function sendClientSummaryEmail(summary) {
   
   try {
     await emailjs.send('service_vvqkwzn', 'template_5uc5ida', clientTemplateParams);
-    console.log('Client summary email sent successfully');
     return true;
   } catch (error) {
     console.error('Client summary email failed:', error);
@@ -1914,7 +1908,6 @@ async function sendClientSummaryEmail(summary) {
 
 <script>
 function showDiscoveryThinkingScreen(callback) {
-  console.log('[Loan Enquiry] thinking screen started');
 
   const userName = state.name || '';
   const phrases = [
@@ -1947,7 +1940,6 @@ function showDiscoveryThinkingScreen(callback) {
         screen.style.display = 'none';
         screen.style.opacity = '1';
         screen.style.transition = '';
-        console.log('[Loan Enquiry] thinking screen finished');
         if (callback) callback();
       }, 400);
       return;
@@ -1961,7 +1953,6 @@ function showDiscoveryThinkingScreen(callback) {
     setTimeout(function() {
       // Update text
       phraseEl.textContent = phrases[index];
-      console.log('[Loan Enquiry] phrase shown: ' + phrases[index]);
       
       // Fade in next phrase (opacity 0 → 1, 400ms, translateY 10px → 0)
       phraseEl.style.transition = 'opacity 400ms ease, transform 400ms ease';

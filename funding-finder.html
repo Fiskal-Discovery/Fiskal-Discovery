@@ -1698,7 +1698,6 @@ function getRandomMessage() {
 }
 
 function showDiscoveryThinkingScreen(callback) {
-  console.log('[Funding Finder] thinking screen started');
 
   const userName = state.name || '';
   const phrases = [
@@ -1731,7 +1730,6 @@ function showDiscoveryThinkingScreen(callback) {
         screen.style.display = 'none';
         screen.style.opacity = '1';
         screen.style.transition = '';
-        console.log('[Funding Finder] thinking screen finished');
         if (callback) callback();
       }, 400);
       return;
@@ -1745,7 +1743,6 @@ function showDiscoveryThinkingScreen(callback) {
     setTimeout(function() {
       // Update text
       phraseEl.textContent = phrases[index];
-      console.log('[Funding Finder] phrase shown: ' + phrases[index]);
       
       // Fade in next phrase (opacity 0 → 1, 400ms, translateY 10px → 0)
       phraseEl.style.transition = 'opacity 400ms ease, transform 400ms ease';
@@ -1910,11 +1907,7 @@ function saveAnswer(key, value) {
 }
 
 function renderFlowQuestion() {
-  console.log("Funding Finder questions:", fundingFinderFlow);
-  console.log("Current Funding Finder index:", state.currentQuestion);
-  console.log("Funding Finder container:", document.getElementById("q-text"));
   const visibleQuestions = getVisibleQuestions();
-  console.log("Visible questions:", visibleQuestions);
   if (state.currentQuestion >= visibleQuestions.length) {
     submitFlow();
     return;
@@ -2217,20 +2210,13 @@ function startQuestions() {
 const introMessage = "I'm going to ask a few questions about your business. This helps me figure out which funding options are worth exploring for you.";
 
 function startTypingIntro() {
-  console.log("Starting typing intro");
   const textEl = document.getElementById('intro-text');
   const continueBtn = document.getElementById('intro-continue');
-  console.log("intro-text element:", textEl);
-  console.log("intro-continue element:", continueBtn);
-  if (!textEl) {
-    console.error("intro-text element not found");
-    return;
-  }
+  if (!textEl) return;
 
   textEl.textContent = introMessage;
   if (continueBtn) {
     continueBtn.style.display = 'inline-flex';
-    console.log("Continue button shown");
   }
 }
 
@@ -2552,7 +2538,6 @@ function displayResults(summary, matchedProducts) {
       const cardHtml = renderNicoleContactCard();
       if (cardHtml) {
         nicoleCardContainer.innerHTML = cardHtml;
-        console.log('Nicole contact card rendered');
         if (typeof renderNicoleMessage === 'function') {
           renderNicoleMessage();
         }
@@ -2569,7 +2554,6 @@ function displayResults(summary, matchedProducts) {
     console.warn('nicole-contact-card-container element not found');
   }
   
-  console.log("Showing discovery results");
   sendNotification(summary.summaryText || summary.summaryHtml, matchedProducts);
   loadNicolePhoto();
 }
@@ -2581,7 +2565,6 @@ async function sendInitialInfoNotification() {
   const key = "initialNotificationSent_fundingFinder";
   
   if (sessionStorage.getItem(key)) {
-    console.log("Initial info notification already sent for this session");
     return;
   }
 
@@ -2596,8 +2579,6 @@ async function sendInitialInfoNotification() {
     page: window.location.href
   };
 
-  console.log("Initial info notification attempted", initialData);
-
   const templateParams = {
     name: state.name,
     business_name: state.business,
@@ -2611,12 +2592,9 @@ async function sendInitialInfoNotification() {
   };
 
   try {
-    if (DEV_MODE || !SEND_EMAILS) {
-      console.log("Email sending disabled during development", templateParams);
-    } else {
+    if (!(DEV_MODE || !SEND_EMAILS)) {
       await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
       sessionStorage.setItem(key, "true");
-      console.log("Initial info notification sent");
     }
   } catch (error) {
     console.warn("Initial info notification failed", error);
@@ -2637,11 +2615,8 @@ async function sendNotification(summary, matchedProducts) {
   };
 
   try {
-    if (DEV_MODE || !SEND_EMAILS) {
-      console.log("Email sending disabled during development", templateParams);
-    } else {
+    if (!(DEV_MODE || !SEND_EMAILS)) {
       await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-      console.log('Notification sent successfully');
     }
   } catch (error) {
     console.error('Email notification failed:', error);
@@ -2665,7 +2640,6 @@ function hidePricingPrompt() {
 // Photo will be embedded as base64 in production
 // For now using a placeholder
 document.addEventListener('DOMContentLoaded', () => {
-  console.log("Starting Funding Finder");
   // Load Nicole's photo
   loadNicolePhoto();
   // Start typing intro
@@ -2701,21 +2675,16 @@ async function loadNicolePhoto() {
   try {
     const saved = localStorage.getItem(OB_KEY);
     if (!saved) {
-      console.log("Funding Finder profile check: No appState found in localStorage");
       window.location.href = 'index.html';
       return;
     }
     const appState = JSON.parse(saved);
     if (!appState || !appState.profile) {
-      console.log("Funding Finder profile check: appState or appState.profile is missing");
       window.location.href = 'index.html';
       return;
     }
-    console.log("Funding Finder profile check:", appState.profile);
-    
     // Check if welcome is completed and profile has required fields
     if (!appState.profile.welcomeCompleted || !appState.profile.name || !appState.profile.email) {
-      console.log("Funding Finder profile check: Welcome not completed or profile incomplete, redirecting to index.html");
       window.location.href = 'index.html';
       return;
     }
