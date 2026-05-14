@@ -1588,14 +1588,6 @@
 
     <div id="nicole-contact-card-container"></div>
 
-    <div class="divider"></div>
-
-    <div class="pricing-prompt" id="pricing-prompt">
-      <h3 class="pricing-prompt-title">Want indicative pricing?</h3>
-      <p class="pricing-prompt-text">We can give you a rough idea of what your matched funding options might cost — based on your specific circumstances.</p>
-      <button class="btn-primary" onclick="startPricing()">Yes, show me indicative pricing</button>
-      <button class="btn-secondary" onclick="hidePricingPrompt()">No thanks, I'll wait for Nicole's call</button>
-    </div>
   </div>
   <div style="text-align:center;padding:0 24px 8px;">
     <button class="back-btn" onclick="window.location.href='index.html'" style="margin:0 auto;justify-content:center;">&#8962; Home</button>
@@ -2623,16 +2615,6 @@ async function sendNotification(summary, matchedProducts) {
   }
 }
 
-// ============================================================
-// PRICING
-// ============================================================
-function startPricing() {
-  alert('Indicative pricing module coming soon! Nicole will discuss this when she calls.');
-}
-
-function hidePricingPrompt() {
-  document.getElementById('pricing-prompt').style.display = 'none';
-}
 
 // ============================================================
 // PHOTO (encode Nicole's photo)
