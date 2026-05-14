@@ -2063,12 +2063,29 @@ function handleWelcomeAnswer(key, value) {
 }
 
 function answerWelcomeUserType(value) {
-  if (value === 'I just want to try Cashflow Invaders') {
-    window.location.href = 'cashflow-invaders.html';
-    return;
+  if (!window.appState) {
+    window.appState = JSON.parse(localStorage.getItem("appState") || "{}");
   }
-  handleWelcomeAnswer('userType', value);
+
+  window.appState.profile = window.appState.profile || {};
+  window.appState.profile.userType = value;
+
+  localStorage.setItem("appState", JSON.stringify(window.appState));
+
+  if (!window.welcomeState) {
+    window.welcomeState = { currentQuestion: 0 };
+  }
+
+  window.welcomeState.currentQuestion += 1;
+
+  if (typeof renderWelcomeQuestion === "function") {
+    renderWelcomeQuestion();
+  } else {
+    console.error("renderWelcomeQuestion is not defined");
+  }
 }
+
+window.answerWelcomeUserType = answerWelcomeUserType;
 
 function completeWelcome() {
   // Save all answers to appState.profile
