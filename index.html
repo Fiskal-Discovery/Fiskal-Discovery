@@ -2128,7 +2128,20 @@ function renderFallbackWelcome() {
 }
 
 function answerWelcomeUserType(value) {
-  handleWelcomeAnswer('userType', value);
+  if (value === 'I just want to try Cashflow Invaders') {
+    window.location.href = 'cashflow-invaders.html';
+    return;
+  }
+  appState.profile = appState.profile || {};
+  appState.profile.userType = value;
+  saveAppState();
+  welcomeState = welcomeState || { currentQuestion: 0, answers: {} };
+  welcomeState.answers = welcomeState.answers || {};
+  welcomeState.answers.userType = value;
+  welcomeState.currentQuestion = (welcomeState.currentQuestion || 0) + 1;
+  var container = document.getElementById('welcome-question-container');
+  if (container) container.innerHTML = '';
+  renderWelcomeQuestion();
 }
 
 function renderMultiInputQuestion(q) {
