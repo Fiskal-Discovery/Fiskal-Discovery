@@ -1909,7 +1909,7 @@ async function sendClientSummaryEmail(summary) {
 <script>
 function showDiscoveryThinkingScreen(callback) {
 
-  const userName = state.name || '';
+  const userName = state.name || appState.profile.name || (JSON.parse(localStorage.getItem('fiskal_appState') || '{}').profile || {}).name || '';
   const phrases = [
     'Every great business is on a journey.',
     'Mapping your funding options...',
