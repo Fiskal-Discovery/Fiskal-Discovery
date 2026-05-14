@@ -2205,6 +2205,31 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log("DOM loaded");
   loadAppState();
   console.log("appState:", appState);
+  
+  // DEV: Clear localStorage to test fresh welcome flow
+  if (DEV_MODE) {
+    console.log("DEV_MODE: Clearing localStorage for fresh test");
+    localStorage.removeItem('fiskal_appState');
+    appState = {
+      profile: {
+        userType: null,
+        name: null,
+        email: null,
+        phone: null,
+        companyName: null,
+        hasCompanyNumber: null,
+        companyNumber: null,
+        industry: null,
+        annualTurnover: null,
+        fundingAmount: null
+      },
+      fundingFinder: {},
+      facilityReview: {},
+      loanApp: {},
+      currentModule: null
+    };
+  }
+  
   if (appState.welcomeCompleted) {
     console.log("Showing homepage");
     showHomepage();
