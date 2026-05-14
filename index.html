@@ -1435,7 +1435,19 @@
     </div>
     <div class="ob-brand-tagline">Find out what's possible for your business.</div>
   </div>
-  <div id="welcome-question-container" class="welcome-question-container"></div>
+  <div id="welcome-question-container" class="welcome-question-container" style="position:relative;z-index:10000;width:100%;max-width:560px;margin:0 auto;padding:24px 20px;"></div>
+  <script>
+    (function() {
+      var appState = {};
+      try { appState = JSON.parse(localStorage.getItem('fiskal_appState')) || {}; } catch(e) {}
+      if (!appState.welcomeCompleted) {
+        var c = document.getElementById('welcome-question-container');
+        if (c) {
+          c.innerHTML = '<div style="text-align:center;font-family:Cormorant Garamond,serif;color:#1a1025;"><p style="font-size:14px;letter-spacing:2px;text-transform:uppercase;color:#7E09A5;margin-bottom:12px;">One quick question</p><h2 style="font-size:26px;font-weight:600;margin-bottom:32px;">Is this for you or a client?</h2><div style="display:flex;flex-direction:column;gap:12px;align-items:center;"><button onclick="answerWelcomeUserType(\'For me / my business\')" style="width:280px;padding:14px 20px;border:2px solid #7E09A5;background:transparent;color:#7E09A5;border-radius:8px;font-size:16px;cursor:pointer;">For me / my business</button><button onclick="answerWelcomeUserType(\'For a client\')" style="width:280px;padding:14px 20px;border:2px solid #7E09A5;background:transparent;color:#7E09A5;border-radius:8px;font-size:16px;cursor:pointer;">For a client</button><button onclick="window.location.href=\'cashflow-invaders.html\'" style="width:280px;padding:14px 20px;border:2px solid #ccc;background:transparent;color:#888;border-radius:8px;font-size:16px;cursor:pointer;">I just want to try Cashflow Invaders</button></div></div>';
+        }
+      }
+    })();
+  </script>
   <div class="ob-chat" id="ob-chat" style="position:relative;z-index:1;"></div>
   <div class="ob-input-area" id="ob-input-area" style="display:none;z-index:10001;">
     <input class="ob-input" id="ob-input" type="text" placeholder="Type your answer..." autocomplete="off">
