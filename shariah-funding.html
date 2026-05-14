@@ -1255,48 +1255,7 @@ function selectTimeline(timeline, btn) {
 // ============================================================
 // SUBMIT & RESULTS
 // ============================================================
-function showDiscoveryThinkingScreen(callback) {
-  console.log('[Shariah] thinking screen started');
-  var phrases = [
-    'Reviewing your requirements...',
-    'Exploring Shariah-compliant options...',
-    'Preparing your summary...'
-  ];
-  var loadingScreen = document.getElementById('screen-loading');
-  var messageEl = document.getElementById('thinking-phrase');
-  var phraseIndex = 0;
-  var visibleDuration = 1800;
-  var fadeOutDuration = 500;
-  var gapDuration = 200;
-
-  loadingScreen.classList.add('active');
-
-  function showPhrase() {
-    if (phraseIndex >= phrases.length) {
-      setTimeout(function() {
-        loadingScreen.classList.remove('active');
-        loadingScreen.style.display = 'none';
-        messageEl.classList.remove('active', 'shimmer');
-        console.log('[Shariah] thinking screen finished');
-        if (callback) callback();
-      }, fadeOutDuration);
-      return;
-    }
-    messageEl.textContent = phrases[phraseIndex];
-    messageEl.classList.remove('active', 'shimmer');
-    void messageEl.offsetWidth;
-    messageEl.classList.add('active', 'shimmer');
-    phraseIndex++;
-    setTimeout(function() {
-      messageEl.classList.remove('shimmer', 'active');
-      setTimeout(showPhrase, gapDuration);
-    }, visibleDuration);
-  }
-  showPhrase();
-}
-
 function showShariahThinkingScreen(callback) {
-  console.log('Shariah thinking screen started');
 
   var profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}');
   var userName = profile.name || '';
@@ -1330,7 +1289,6 @@ function showShariahThinkingScreen(callback) {
         screen.style.display = 'none';
         screen.style.opacity = '1';
         screen.style.transition = '';
-        console.log('Shariah thinking screen finished');
         callback();
       }, 400);
       return;
@@ -1344,7 +1302,6 @@ function showShariahThinkingScreen(callback) {
     setTimeout(function() {
       // Update text
       phraseEl.textContent = phrases[index];
-      console.log('Shariah phrase shown: ' + phrases[index]);
       
       // Fade in next phrase (opacity 0 → 1, 400ms, translateY 10px → 0)
       phraseEl.style.transition = 'opacity 400ms ease, transform 400ms ease';
@@ -1424,7 +1381,6 @@ function displayResults() {
   // Inject summary content
   document.getElementById('summary-text').innerHTML = summary.summaryHtml;
 
-  console.log('[Shariah] showing results');
   showScreen('screen-results');
   window.scrollTo({ top: 0, behavior: 'smooth' });
   renderNicoleMessage();
@@ -1568,7 +1524,6 @@ async function sendNotification() {
   try {
     if (typeof emailjs !== 'undefined') {
       await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-      console.log('Shariah notification sent successfully');
     } else {
       console.warn('EmailJS not loaded — notification skipped');
     }
@@ -1592,7 +1547,6 @@ async function sendClientSummaryEmail(summary) {
   try {
     if (typeof emailjs !== 'undefined') {
       await emailjs.send('service_vvqkwzn', 'template_5uc5ida', clientTemplateParams);
-      console.log('Client summary email sent successfully');
       return true;
     } else {
       console.warn('EmailJS not loaded — client email skipped');
