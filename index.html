@@ -43,11 +43,9 @@
   /* ====== ONBOARDING OVERLAY ====== */
   #onboarding-overlay {
     position: fixed; inset: 0; z-index: 9999;
-    background: #FAF8F5;
+    background: linear-gradient(135deg, #0a0a12 0%, #12121a 50%, #0a0a12 100%);
     display: flex; flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
+    align-items: center; justify-content: center;
     overflow-y: auto;
     transition: opacity 0.5s ease;
   }
@@ -55,9 +53,9 @@
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(circle at 20% 30%, rgba(126, 9, 165, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(0, 153, 255, 0.05) 0%, transparent 50%);
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(124, 9, 165, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(0, 153, 255, 0.1) 0%, transparent 50%);
     pointer-events: none;
   }
   #onboarding-overlay.hidden { opacity: 0; pointer-events: none; }
@@ -77,28 +75,25 @@
     padding-top: 42px;
     margin: 0 auto;
     position: relative;
-    z-index: 10;
-    min-height: 200px;
+    z-index: 1;
   }
 
   .ob-bubble {
     max-width: 520px; width: 90%;
     font-size: 20px; line-height: 1.5;
-    color: #1a1025;
+    color: #ffffff;
     text-align: center;
     margin: 0 auto;
     min-height: 1.7em;
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    display: block;
-    visibility: visible;
   }
   .ob-bubble.fiskal {
-    color: #1a1025;
+    color: #ffffff;
     font-size: 20px;
   }
   .ob-bubble.user {
-    color: #7E09A5;
+    color: #b8a9ff;
     font-weight: 600;
     font-style: normal;
     font-family: 'DM Sans', sans-serif;
@@ -130,18 +125,18 @@
     flex: 1; border: 1.5px solid rgba(126,9,165,0.25);
     border-radius: 24px; padding: 11px 18px;
     font-size: 15px; font-family: 'DM Sans', sans-serif;
-    background: #ffffff; color: #1a1025;
+    background: var(--cream); color: var(--dark);
     outline: none; transition: border-color 0.2s;
   }
-  .ob-input:focus { border-color: #7E09A5; }
+  .ob-input:focus { border-color: var(--indigo); }
   .ob-send {
     width: 44px; height: 44px; border-radius: 50%;
-    background: #7E09A5; border: none; cursor: pointer;
+    background: var(--indigo); border: none; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     color: white; font-size: 18px; transition: background 0.2s;
     flex-shrink: 0;
   }
-  .ob-send:hover { background: #5a0675; }
+  .ob-send:hover { background: var(--indigo-deep); }
   .ob-send:disabled { background: #ccc; cursor: not-allowed; }
 
   /* Choice buttons */
@@ -165,12 +160,12 @@
   }
   .ob-choice-btn {
     padding: 13px 18px; border-radius: 12px;
-    border: 1.5px solid rgba(126,9,165,0.2); color: #7E09A5;
-    background: #ffffff; font-size: 14px; font-weight: 500;
+    border: 1.5px solid var(--indigo); color: var(--indigo);
+    background: white; font-size: 14px; font-weight: 500;
     cursor: pointer; text-align: left; transition: all 0.2s;
     font-family: 'DM Sans', sans-serif;
   }
-  .ob-choice-btn:hover { background: #7E09A5; color: white; }
+  .ob-choice-btn:hover { background: var(--indigo); color: white; }
 
   .ob-home-bottom {
     position: fixed;
@@ -307,14 +302,14 @@
     font-style: italic;
     font-weight: 700;
     font-size: 42px;
-    color: #1a1025;
+    color: #ffffff;
     line-height: 1.1;
     white-space: nowrap;
   }
 
   .discovery-brand-sub {
     font-size: 17px;
-    color: #7E09A5;
+    color: #b8a9ff;
     margin-top: 4px;
     white-space: nowrap;
   }
@@ -322,7 +317,7 @@
   .ob-brand-tagline {
     text-align: center;
     font-size: 13px;
-    color: #7E09A5;
+    color: #b8a9ff;
     letter-spacing: 4px;
     text-transform: uppercase;
     margin-top: 12px;
@@ -1329,7 +1324,7 @@
   .back-btn {
     background: none;
     border: none;
-    color: #1a1025;
+    color: var(--light-text);
     font-size: 13px;
     cursor: pointer;
     padding: 10px 12px;
@@ -1342,7 +1337,7 @@
     justify-content: center;
     text-align: center;
   }
-  .back-btn:hover { color: #7E09A5; }
+  .back-btn:hover { color: var(--indigo); }
   .nav-row {
     display: flex;
     gap: 10px;
@@ -1435,28 +1430,15 @@
     </div>
     <div class="ob-brand-tagline">Find out what's possible for your business.</div>
   </div>
-  <div id="welcome-question-container" class="welcome-question-container" style="position:relative;z-index:10000;width:100%;max-width:560px;margin:0 auto;padding:24px 20px;"></div>
-  <script>
-    (function() {
-      var appState = {};
-      try { appState = JSON.parse(localStorage.getItem('fiskal_appState')) || {}; } catch(e) {}
-      if (!appState.welcomeCompleted) {
-        var c = document.getElementById('welcome-question-container');
-        if (c) {
-          c.innerHTML = '<div style="text-align:center;font-family:Cormorant Garamond,serif;color:#1a1025;"><p style="font-size:14px;letter-spacing:2px;text-transform:uppercase;color:#7E09A5;margin-bottom:12px;">One quick question</p><h2 style="font-size:26px;font-weight:600;margin-bottom:32px;">Is this for you or a client?</h2><div style="display:flex;flex-direction:column;gap:12px;align-items:center;"><button onclick="answerWelcomeUserType(\'For me / my business\')" style="width:280px;padding:14px 20px;border:2px solid #7E09A5;background:transparent;color:#7E09A5;border-radius:8px;font-size:16px;cursor:pointer;">For me / my business</button><button onclick="answerWelcomeUserType(\'For a client\')" style="width:280px;padding:14px 20px;border:2px solid #7E09A5;background:transparent;color:#7E09A5;border-radius:8px;font-size:16px;cursor:pointer;">For a client</button><button onclick="window.location.href=\'cashflow-invaders.html\'" style="width:280px;padding:14px 20px;border:2px solid #ccc;background:transparent;color:#888;border-radius:8px;font-size:16px;cursor:pointer;">I just want to try Cashflow Invaders</button></div></div>';
-        }
-      }
-    })();
-  </script>
   <div class="ob-chat" id="ob-chat" style="position:relative;z-index:1;"></div>
   <div class="ob-input-area" id="ob-input-area" style="display:none;z-index:10001;">
     <input class="ob-input" id="ob-input" type="text" placeholder="Type your answer..." autocomplete="off">
-    <button class="ob-send" id="ob-send">➤</button>
+    <button class="ob-send" id="ob-send" onclick="obSubmitInput()">➤</button>
   </div>
   <div class="ob-choices" id="ob-choices" style="display:none;z-index:10001;"></div>
   <div class="ob-home-bottom">
-    <button class="back-btn" id="ob-back-btn" style="display:none;">&lt; Back</button>
-    <button class="back-btn" id="ob-home-btn" style="display:none;">Home</button>
+    <button class="back-btn" id="ob-back-btn" onclick="obGoBack()" style="display:none;">&lt; Back</button>
+    <button class="back-btn" id="ob-home-btn" onclick="obGoHome()" style="display:none;">Home</button>
   </div>
 </div>
 
@@ -1464,7 +1446,7 @@
 <div class="bg-orb bg-orb-2"></div>
 
 <!-- ====== HOME SCREEN ====== -->
-<div class="screen" id="screen-home">
+<div class="screen active" id="screen-home">
   <div class="app-header">
     <div class="logo-area">
       <a href="https://fiskal.online" target="_blank"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
@@ -1813,7 +1795,7 @@ const SEND_EMAILS = false;
 // ============================================================
 // APP STATE
 // ============================================================
-const defaultAppState = {
+let appState = {
   profile: {
     userType: null,
     name: null,
@@ -1829,11 +1811,8 @@ const defaultAppState = {
   fundingFinder: {},
   facilityReview: {},
   loanApp: {},
-  currentModule: null,
-  welcomeCompleted: false
+  currentModule: null
 };
-
-let appState = {...defaultAppState};
 
 // ============================================================
 // APP STATE MANAGEMENT
@@ -1843,11 +1822,10 @@ function loadAppState() {
     const saved = localStorage.getItem('fiskal_appState');
     if (saved) {
       const parsed = JSON.parse(saved);
-      appState = {...defaultAppState, ...parsed};
+      Object.assign(appState, parsed);
     }
   } catch (e) {
     console.warn('Failed to load appState:', e);
-    appState = {...defaultAppState};
   }
 }
 
@@ -1869,7 +1847,7 @@ const welcomeFlow = [
   {
     id: "userType",
     type: "single-choice",
-    question: "One quick question — is this for a client?",
+    question: "One quick question, is this for you or a client?",
     options: [
       "For me / my business",
       "For a client",
@@ -1964,59 +1942,25 @@ let welcomeState = {
   answers: {}
 };
 
-function showWelcome() {
-  // Hide all screens
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-home').classList.remove('active');
-
-  // Show onboarding overlay
-  document.getElementById('onboarding-overlay').classList.remove('hidden');
-
-  // Start the welcome flow
-  startWelcome();
-}
-
 function startWelcome() {
-  console.log("=== START WELCOME ===");
+  // Check if profile already exists
+  if (appState.profile.name && appState.profile.email) {
+    showHomepage();
+    return;
+  }
+
   welcomeState = {
     currentQuestion: 0,
     answers: {}
   };
 
-  const overlay = document.getElementById('onboarding-overlay');
-  console.log("Before removing hidden class - overlay classes:", overlay.classList);
   document.getElementById('onboarding-overlay').classList.remove('hidden');
-  console.log("After removing hidden class - overlay classes:", overlay.classList);
   document.getElementById('screen-home').classList.remove('active');
-  console.log("Calling renderWelcomeQuestion");
   renderWelcomeQuestion();
 }
 
 function renderWelcomeQuestion() {
-  console.log("renderWelcomeQuestion running");
-  console.log("welcome-question-container:", document.getElementById("welcome-question-container"));
-
-  const container = document.getElementById("welcome-question-container");
-  if (!container) {
-    console.error("Container not found");
-    return;
-  }
-  
-  const overlay = document.getElementById('onboarding-overlay');
-  console.log("Onboarding overlay:", overlay);
-  console.log("Overlay classes:", overlay?.classList);
-  console.log("Overlay display:", window.getComputedStyle(overlay)?.display);
-  console.log("Welcome questions:", welcomeFlow);
-  console.log("Current welcome index:", welcomeState.currentQuestion);
-  
-  if (!welcomeFlow || welcomeFlow.length === 0) {
-    console.error("welcomeFlow is empty or undefined");
-    renderFallbackWelcome();
-    return;
-  }
-  
   const q = welcomeFlow[welcomeState.currentQuestion];
-  console.log("Rendering welcome question:", q);
   if (!q) {
     completeWelcome();
     return;
@@ -2030,15 +1974,6 @@ function renderWelcomeQuestion() {
   }
 
   const chat = document.getElementById('ob-chat');
-  const welcomeContainer = document.getElementById('welcome-question-container');
-  console.log("Chat container:", chat);
-  console.log("Welcome container:", welcomeContainer);
-  if (!chat) {
-    console.error("Chat container not found!");
-    renderFallbackWelcome();
-    return;
-  }
-  console.log("Chat display:", window.getComputedStyle(chat)?.display);
   chat.innerHTML = '';
 
   // Add Fiskal bubble with question
@@ -2046,27 +1981,10 @@ function renderWelcomeQuestion() {
   fiskalBubble.className = 'ob-bubble fiskal';
   fiskalBubble.textContent = q.question;
   chat.appendChild(fiskalBubble);
-  console.log("Added fiskal bubble with text:", q.question);
-  console.log("Chat children after adding bubble:", chat.children.length);
-
-  // Also render to welcome-question-container as fallback
-  if (welcomeContainer) {
-    welcomeContainer.innerHTML = '';
-    const containerBubble = document.createElement('div');
-    containerBubble.className = 'ob-bubble fiskal';
-    containerBubble.textContent = q.question;
-    welcomeContainer.appendChild(containerBubble);
-  }
 
   // Render options based on question type
   if (q.type === 'single-choice') {
     const choicesDiv = document.getElementById('ob-choices');
-    console.log("Choices container:", choicesDiv);
-    if (!choicesDiv) {
-      console.error("Choices container not found!");
-      renderFallbackWelcome();
-      return;
-    }
     choicesDiv.innerHTML = '';
     choicesDiv.style.display = 'flex';
 
@@ -2077,23 +1995,15 @@ function renderWelcomeQuestion() {
       btn.onclick = () => handleWelcomeAnswer(q.saveAs, option);
       choicesDiv.appendChild(btn);
     });
-    console.log("Added", q.options.length, "choice buttons");
 
     document.getElementById('ob-input-area').style.display = 'none';
   } else if (q.type === 'text') {
-    const inputArea = document.getElementById('ob-input-area');
-    const input = document.getElementById('ob-input');
-    if (!inputArea || !input) {
-      console.error("Input area or input not found!");
-      renderFallbackWelcome();
-      return;
-    }
-    inputArea.style.display = 'flex';
-    input.value = '';
-    input.placeholder = 'Type your answer...';
-    input.onkeypress = (e) => {
+    document.getElementById('ob-input-area').style.display = 'flex';
+    document.getElementById('ob-input').value = '';
+    document.getElementById('ob-input').placeholder = 'Type your answer...';
+    document.getElementById('ob-input').onkeypress = (e) => {
       if (e.key === 'Enter') {
-        handleWelcomeAnswer(q.saveAs, input.value);
+        handleWelcomeAnswer(q.saveAs, document.getElementById('ob-input').value);
       }
     };
     document.getElementById('ob-choices').style.display = 'none';
@@ -2101,47 +2011,6 @@ function renderWelcomeQuestion() {
     // For multi-input, we'll handle each field sequentially
     renderMultiInputQuestion(q);
   }
-  
-  // Check if rendering succeeded and add fallback if needed
-  setTimeout(() => {
-    const container = document.getElementById("welcome-question-container");
-    if (container && !container.innerHTML.trim()) {
-      console.warn("Dynamic renderer failed, using fallback");
-      renderFallbackWelcome();
-    }
-  }, 100);
-}
-
-function renderFallbackWelcome() {
-  const container = document.getElementById("welcome-question-container");
-  if (container && !container.innerHTML.trim()) {
-    container.innerHTML = `
-      <div class="welcome-question-card">
-        <p class="welcome-kicker">One quick question</p>
-        <h2>Is this for you or a client?</h2>
-        <button onclick="answerWelcomeUserType('For me / my business')">For me / my business</button>
-        <button onclick="answerWelcomeUserType('For a client')">For a client</button>
-        <button onclick="window.location.href='cashflow-invaders.html'">I just want to try Cashflow Invaders</button>
-      </div>
-    `;
-  }
-}
-
-function answerWelcomeUserType(value) {
-  if (value === 'I just want to try Cashflow Invaders') {
-    window.location.href = 'cashflow-invaders.html';
-    return;
-  }
-  appState.profile = appState.profile || {};
-  appState.profile.userType = value;
-  saveAppState();
-  welcomeState = welcomeState || { currentQuestion: 0, answers: {} };
-  welcomeState.answers = welcomeState.answers || {};
-  welcomeState.answers.userType = value;
-  welcomeState.currentQuestion = (welcomeState.currentQuestion || 0) + 1;
-  var container = document.getElementById('welcome-question-container');
-  if (container) container.innerHTML = '';
-  renderWelcomeQuestion();
 }
 
 function renderMultiInputQuestion(q) {
@@ -2193,6 +2062,14 @@ function handleWelcomeAnswer(key, value) {
   renderWelcomeQuestion();
 }
 
+function answerWelcomeUserType(value) {
+  if (value === 'I just want to try Cashflow Invaders') {
+    window.location.href = 'cashflow-invaders.html';
+    return;
+  }
+  handleWelcomeAnswer('userType', value);
+}
+
 function completeWelcome() {
   // Save all answers to appState.profile
   appState.profile = {
@@ -2221,13 +2098,6 @@ function completeWelcome() {
 }
 
 function showHomepage() {
-  // Hide onboarding overlay
-  document.getElementById('onboarding-overlay').classList.add('hidden');
-  
-  // Hide all screens
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  
-  // Show homepage
   document.getElementById('screen-home').classList.add('active');
 
   // Update profile badge if profile exists
@@ -2253,7 +2123,6 @@ function resetOnboarding() {
     annualTurnover: null,
     fundingAmount: null
   };
-  appState.welcomeCompleted = false;
   document.getElementById('home-profile-badge').style.display = 'none';
   startWelcome();
 }
@@ -2261,19 +2130,16 @@ function resetOnboarding() {
 // ============================================================
 // INITIALIZATION
 // ============================================================
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   console.log("DOM loaded");
-
   loadAppState();
   console.log("appState:", appState);
-
-  if (!appState.welcomeCompleted) {
-    console.log("Showing welcome");
-    showWelcome();
-    renderWelcomeQuestion();
-  } else {
+  if (appState.welcomeCompleted) {
     console.log("Showing homepage");
     showHomepage();
+  } else {
+    console.log("Showing welcome");
+    startWelcome();
   }
 });
 
