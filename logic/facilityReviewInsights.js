@@ -29,6 +29,19 @@ function getInvoiceFinanceReviewInsight(state, businessName) {
   const sector = detectSector(businessName, '');
   const insights = [];
 
+  // Personalised debtor book calculation if we have turnover + payment terms
+  const paymentTerms = state['if-payment-terms'] || '';
+  const turnover = parseMoneyString(state.turnover || state.annualTurnover || '');
+  if (turnover && paymentTerms && !paymentTerms.includes('varies')) {
+    const days = paymentTerms.includes('90+') ? 90 : paymentTerms.includes('90') ? 90 : paymentTerms.includes('60') ? 60 : 30;
+    const debtorBook = Math.round((turnover / 365) * days);
+    const advancedAmount = Math.round(debtorBook * 0.85);
+    const costLow = Math.round((turnover * 0.008) / 12);
+    const costHigh = Math.round((turnover * 0.015) / 12);
+    const fmt = n => n >= 1000 ? '£' + Math.round(n / 1000) + 'k' : '£' + n;
+    insights.push(`Based on your turnover and ${paymentTerms} payment terms, ${name} likely has around ${fmt(debtorBook)} sitting in unpaid invoices at any given time. A well-structured facility could be advancing around ${fmt(advancedAmount)} of that — so if the current arrangement is costing more than ${fmt(costHigh)}/month or advancing less than ${fmt(advancedAmount)}, the review could identify real savings or headroom.`);
+  }
+
   // Spot funding note
   if (ifType.includes('spot')) {
     insights.push(`Because ${name} is using spot funding, it would be worth reviewing whether this is still the most cost-effective structure. Spot funding can be useful when funding individual invoices as needed, but it is generally more expensive than a selective or full ledger facility.`);

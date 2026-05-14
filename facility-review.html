@@ -844,12 +844,12 @@
     <div class="question-product">Invoice Finance Review</div>
     <h2 class="question-text">What type of invoice finance do you have?</h2>
     <div class="answer-options">
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Full ledger — all invoices go through the facility', 'screen-if-knowledge')">📚 Full ledger — all my invoices go through the facility</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Selective — I choose which invoices to fund', 'screen-if-knowledge')">🎯 Selective — I choose which invoices to fund</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Spot funding — individual invoices as needed', 'screen-if-knowledge')">⚡ Spot funding — I fund individual invoices as and when needed</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Construction — stage payments or applications for payment', 'screen-if-knowledge')">🏗️ Construction — stage payments or applications for payment</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Recruitment — includes payroll funding or back office support', 'screen-if-knowledge')">👥 Recruitment — includes payroll funding or back office support</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Not sure', 'screen-if-knowledge')">🤔 Not sure</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Full ledger — all invoices go through the facility', 'screen-if-payment-terms')">📚 Full ledger — all my invoices go through the facility</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Selective — I choose which invoices to fund', 'screen-if-payment-terms')">🎯 Selective — I choose which invoices to fund</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Spot funding — individual invoices as needed', 'screen-if-payment-terms')">⚡ Spot funding — I fund individual invoices as and when needed</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Construction — stage payments or applications for payment', 'screen-if-payment-terms')">🏗️ Construction — stage payments or applications for payment</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Recruitment — includes payroll funding or back office support', 'screen-if-payment-terms')">👥 Recruitment — includes payroll funding or back office support</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Not sure', 'screen-if-payment-terms')">🤔 Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-if-lender')">&lt; Back</button>
@@ -858,7 +858,32 @@
   </div>
 </div>
 
-<!-- IF Q3: Knowledge Check -->
+<!-- IF Q3: Payment Terms -->
+<div class="screen" id="screen-if-payment-terms">
+  <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+  <div class="brand-header">
+    <div class="brand-title">Fiskal Discovery</div>
+    <div class="brand-sub">Refuse to Stand Still</div>
+    <span class="brand-label">Facility Review</span>
+  </div>
+  <div class="screen-content">
+    <div class="question-product">Invoice Finance Review</div>
+    <h2 class="question-text">How long do your customers typically take to pay?</h2>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="saveAndGo('if-payment-terms', '30 days', 'screen-if-knowledge')">30 days</button>
+      <button class="answer-btn" onclick="saveAndGo('if-payment-terms', '60 days', 'screen-if-knowledge')">60 days</button>
+      <button class="answer-btn" onclick="saveAndGo('if-payment-terms', '90 days', 'screen-if-knowledge')">90 days</button>
+      <button class="answer-btn" onclick="saveAndGo('if-payment-terms', '90+ days', 'screen-if-knowledge')">90+ days</button>
+      <button class="answer-btn" onclick="saveAndGo('if-payment-terms', 'It varies', 'screen-if-knowledge')">It varies</button>
+    </div>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-if-type')">&lt; Back</button>
+      <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- IF Q4: Knowledge Check -->
 <div class="screen" id="screen-if-knowledge">
   <a href="https://fiskal.online" target="_blank" class="logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
@@ -876,7 +901,7 @@
       <button class="answer-btn" onclick="saveAndGo('if-knowledge', 'Has statements', 'screen-if-upload')">📄 I have my statements and can upload them</button>
     </div>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-if-type')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-if-payment-terms')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>

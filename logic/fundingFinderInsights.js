@@ -3,6 +3,79 @@
 // Each function takes the answers state and business name/industry and returns
 // a paragraph string (or null if not applicable).
 
+// ============================================================
+// FINANCIAL CALCULATION HELPERS
+// ============================================================
+
+function parsePaymentTermsDays(paymentTerms) {
+  if (!paymentTerms) return null;
+  const t = String(paymentTerms).toLowerCase();
+  if (t.includes('90+') || t.includes('90 +')) return 90;
+  if (t.includes('90')) return 90;
+  if (t.includes('60')) return 60;
+  if (t.includes('30')) return 30;
+  return null;
+}
+
+function getSectorDefaultDays(industry) {
+  const s = (industry || '').toLowerCase();
+  if (s.includes('construction') || s.includes('build') || s.includes('contractor')) return 60;
+  if (s.includes('recruitment') || s.includes('staffing')) return 30;
+  if (s.includes('transport') || s.includes('haulage') || s.includes('logistics')) return 45;
+  if (s.includes('healthcare') || s.includes('care')) return 45;
+  if (s.includes('manufacturing') || s.includes('engineering')) return 45;
+  if (s.includes('wholesale')) return 45;
+  return null;
+}
+
+function formatCurrency(n) {
+  if (n >= 1000000) return '£' + (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'm';
+  if (n >= 1000) return '£' + Math.round(n / 1000) + 'k';
+  return '£' + Math.round(n).toLocaleString('en-GB');
+}
+
+function buildInvoiceFinanceCalculation(answers, businessName, industry) {
+  const turnover = parseMoneyString(answers.turnover);
+  if (!turnover || turnover < 50000) return null;
+
+  const name = businessName || 'the business';
+
+  // Get payment terms — prefer explicit answer, fall back to sector default
+  const termsDays = parsePaymentTermsDays(answers.paymentTerms) || getSectorDefaultDays(industry);
+  if (!termsDays) return null;
+
+  const monthlyTurnover = turnover / 12;
+  const debtorBook = Math.round((turnover / 365) * termsDays);
+  const advancedAmount = Math.round(debtorBook * 0.85);
+
+  // Cost estimate: service fee 0.8–1.5% of turnover per annum, discount ~3% over base on drawn funds
+  const costLow = Math.round((turnover * 0.008) / 12);
+  const costHigh = Math.round((turnover * 0.015) / 12);
+
+  const sector = detectSector(businessName, industry);
+  const termLabel = termsDays >= 90 ? '90-day' : termsDays >= 60 ? '60-day' : '30-day';
+  const sectorNote = sector === 'construction'
+    ? `Construction businesses commonly face ${termLabel} payment terms`
+    : sector === 'recruitment'
+    ? `Recruitment businesses often face a tight gap — weekly payroll against monthly client payments`
+    : `With ${termLabel} payment terms`;
+
+  return `${sectorNote}, ${name} likely has around ${formatCurrency(debtorBook)} sitting in unpaid invoices at any given time. Invoice finance could release around ${formatCurrency(advancedAmount)} of that within 24 hours — at a typical cost of ${formatCurrency(costLow)}–${formatCurrency(costHigh)}/month at your turnover level.`;
+}
+
+function buildMCACalculation(answers, businessName) {
+  const turnover = parseMoneyString(answers.turnover);
+  if (!turnover) return null;
+
+  const name = businessName || 'the business';
+  const monthlyCardSales = Math.round(turnover * 0.6 / 12); // assume 60% card
+  const advance = Math.round(monthlyCardSales * 1.2);
+
+  if (advance < 5000) return null;
+
+  return `If ${name} takes regular card payments, a Merchant Cash Advance could provide around ${formatCurrency(advance)} based on a typical month's card revenue — repaid automatically as a small percentage of future card sales.`;
+}
+
 function getInvoiceFinanceInsight(answers, businessName, industry) {
   const val = answers.invoice;
   if (val !== 'yes' && val !== 'maybe') return null;
@@ -10,7 +83,11 @@ function getInvoiceFinanceInsight(answers, businessName, industry) {
   const name = businessName || 'the business';
   const type = answers.invoice_type;
 
-  // Sector-specific version takes priority
+  // Personalised calculation takes highest priority if we have the data
+  const calculation = buildInvoiceFinanceCalculation(answers, businessName, industry);
+  if (calculation) return calculation;
+
+  // Sector-specific version next
   const sectorInsight = getSectorInvoiceFinanceInsight(businessName, industry);
   if (sectorInsight) return sectorInsight;
 
@@ -76,6 +153,9 @@ function getMerchantCashAdvanceInsight(answers, businessName) {
   if (val !== 'yes' && val !== 'maybe') return null;
 
   const name = businessName || 'the business';
+  const calculation = buildMCACalculation(answers, businessName);
+  if (calculation) return calculation + ` It is important to be honest: Merchant Cash Advances can be expensive compared with other funding options, so it should normally be treated as a fallback after checking whether a loan, revolving facility or Invoice Finance could work more cost-effectively.`;
+
   return `A Merchant Cash Advance may be worth considering if ${name} takes regular card payments from customers. It provides funding upfront, with repayments usually taken in small increments from future card transactions. It is important to be honest: Merchant Cash Advances can be expensive compared with other funding options, so it should normally be treated as a fallback after checking whether a loan, revolving facility or Invoice Finance could work more cost-effectively.`;
 }
 

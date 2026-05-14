@@ -2021,6 +2021,7 @@ function submitFlow() {
   state.fundingPurpose = state.flowAnswers.purpose || '';
   state.urgency = state.flowAnswers.urgency || '';
   state.invoiceCustomers = state.flowAnswers.invoiceCustomers || '';
+  state.paymentTerms = state.flowAnswers.paymentTerms || '';
   state.cardSales = state.flowAnswers.cardPayments || '';
   state.assetNeed = state.flowAnswers.assetFinance || '';
   state.creditConcern = state.flowAnswers.creditConcern || '';
@@ -2388,6 +2389,7 @@ async function generateResults() {
     creditConcern: state.creditConcern,
     propertySecurity: state.propertySecurity,
     invoiceCustomers: state.invoiceCustomers,
+    paymentTerms: state.paymentTerms,
     cardSales: state.cardSales,
     assetNeed: state.assetNeed,
     answers: state.answers,
