@@ -2015,7 +2015,12 @@ function renderWelcomeQuestion() {
       const btn = document.createElement('button');
       btn.className = 'ob-choice-btn';
       btn.textContent = option;
-      btn.onclick = () => handleWelcomeAnswer(q.saveAs, option);
+      // Use answerWelcomeUserType for userType question, handleWelcomeAnswer for others
+      if (q.id === 'userType') {
+        btn.onclick = () => answerWelcomeUserType(option);
+      } else {
+        btn.onclick = () => handleWelcomeAnswer(q.saveAs, option);
+      }
       choicesDiv.appendChild(btn);
     });
 
@@ -2027,7 +2032,12 @@ function renderWelcomeQuestion() {
         const btn = document.createElement('button');
         btn.style.cssText = 'background: linear-gradient(135deg, #7c09a5 0%, #0099ff 100%); color: white; padding: 16px 24px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: DM Sans, sans-serif;';
         btn.textContent = option;
-        btn.onclick = () => handleWelcomeAnswer(q.saveAs, option);
+        // Use answerWelcomeUserType for userType question, handleWelcomeAnswer for others
+        if (q.id === 'userType') {
+          btn.onclick = () => answerWelcomeUserType(option);
+        } else {
+          btn.onclick = () => handleWelcomeAnswer(q.saveAs, option);
+        }
         buttonsDiv.appendChild(btn);
       });
       welcomeContainer.appendChild(buttonsDiv);
@@ -2117,14 +2127,20 @@ function handleWelcomeAnswer(key, value) {
 }
 
 function answerWelcomeUserType(value) {
+  // Handle Cashflow Invaders option
+  if (value === 'I just want to try Cashflow Invaders') {
+    window.location.href = 'cashflow-invaders.html';
+    return;
+  }
+
   if (!window.appState) {
-    window.appState = JSON.parse(localStorage.getItem("appState") || "{}");
+    window.appState = JSON.parse(localStorage.getItem("fiskal_appState") || "{}");
   }
 
   window.appState.profile = window.appState.profile || {};
   window.appState.profile.userType = value;
 
-  localStorage.setItem("appState", JSON.stringify(window.appState));
+  localStorage.setItem("fiskal_appState", JSON.stringify(window.appState));
 
   if (!window.welcomeState) {
     window.welcomeState = { currentQuestion: 0 };
