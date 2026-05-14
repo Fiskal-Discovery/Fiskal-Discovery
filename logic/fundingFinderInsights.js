@@ -1,10 +1,8 @@
 // fundingFinderInsights.js
-// Insight blocks for the Funding Finder results page.
-// Each function takes the answers state and business name/industry and returns
-// a paragraph string (or null if not applicable).
+// Personalised insight blocks for the Funding Finder results page.
 
 // ============================================================
-// FINANCIAL CALCULATION HELPERS
+// HELPERS
 // ============================================================
 
 function parsePaymentTermsDays(paymentTerms) {
@@ -34,103 +32,134 @@ function formatCurrency(n) {
   return '£' + Math.round(n).toLocaleString('en-GB');
 }
 
-function buildInvoiceFinanceCalculation(answers, businessName, industry) {
-  const turnover = parseMoneyString(answers.turnover);
-  if (!turnover || turnover < 50000) return null;
-
-  const name = businessName || 'the business';
-
-  // Get payment terms — prefer explicit answer, fall back to sector default
-  const termsDays = parsePaymentTermsDays(answers.paymentTerms) || getSectorDefaultDays(industry);
-  if (!termsDays) return null;
-
-  const monthlyTurnover = turnover / 12;
-  const debtorBook = Math.round((turnover / 365) * termsDays);
-  const advancedAmount = Math.round(debtorBook * 0.85);
-
-  // Cost estimate: service fee 0.8–1.5% of turnover per annum, discount ~3% over base on drawn funds
-  const costLow = Math.round((turnover * 0.008) / 12);
-  const costHigh = Math.round((turnover * 0.015) / 12);
-
-  const sector = detectSector(businessName, industry);
-  const termLabel = termsDays >= 90 ? '90-day' : termsDays >= 60 ? '60-day' : '30-day';
-  const sectorNote = sector === 'construction'
-    ? `Construction businesses commonly face ${termLabel} payment terms`
-    : sector === 'recruitment'
-    ? `Recruitment businesses often face a tight gap — weekly payroll against monthly client payments`
-    : `With ${termLabel} payment terms`;
-
-  return `${sectorNote}, ${name} likely has around ${formatCurrency(debtorBook)} sitting in unpaid invoices at any given time. Invoice finance could release around ${formatCurrency(advancedAmount)} of that within 24 hours — at a typical cost of ${formatCurrency(costLow)}–${formatCurrency(costHigh)}/month at your turnover level.`;
+function isRDSector(industry) {
+  const s = (industry || '').toLowerCase();
+  return ['manufacturing', 'construction', 'healthcare', 'medtech', 'software', 'tech',
+          'engineering', 'food', 'renewable', 'pharma'].some(k => s.includes(k));
 }
 
-function buildMCACalculation(answers, businessName) {
-  const turnover = parseMoneyString(answers.turnover);
-  if (!turnover) return null;
-
-  const name = businessName || 'the business';
-  const monthlyCardSales = Math.round(turnover * 0.6 / 12); // assume 60% card
-  const advance = Math.round(monthlyCardSales * 1.2);
-
-  if (advance < 5000) return null;
-
-  return `If ${name} takes regular card payments, a Merchant Cash Advance could provide around ${formatCurrency(advance)} based on a typical month's card revenue — repaid automatically as a small percentage of future card sales.`;
-}
+// ============================================================
+// INVOICE FINANCE
+// ============================================================
 
 function getInvoiceFinanceInsight(answers, businessName, industry) {
   const val = answers.invoice;
   if (val !== 'yes' && val !== 'maybe') return null;
 
   const name = businessName || 'the business';
-  const type = answers.invoice_type;
+  const turnover = parseMoneyString(answers.turnover);
+  const sector = detectSector(businessName, industry);
+  const termsDays = parsePaymentTermsDays(answers.paymentTerms) || getSectorDefaultDays(industry);
+  const isConstruction = sector === 'construction';
 
-  // Personalised calculation takes highest priority if we have the data
-  const calculation = buildInvoiceFinanceCalculation(answers, businessName, industry);
-  if (calculation) return calculation;
+  if (turnover && turnover >= 50000 && termsDays) {
+    const debtorBook = Math.round((turnover / 365) * termsDays);
+    const advanceLow = Math.round(debtorBook * (isConstruction ? 0.50 : 0.90));
+    const advanceHigh = isConstruction ? Math.round(debtorBook * 0.80) : null;
+    const advanceText = advanceHigh
+      ? `${formatCurrency(advanceLow)}–${formatCurrency(advanceHigh)}`
+      : formatCurrency(advanceLow);
+    const termLabel = termsDays >= 90 ? '90' : termsDays >= 60 ? '60' : '30';
 
-  // Sector-specific version next
+    let para = `Right now, every invoice ${name} raises sits unpaid for around ${termLabel} days. That's money already earned — just not collected yet. `;
+
+    if (isConstruction) {
+      para += `Contractual invoices are more complex for lenders due to retention clauses and application-based billing, so advance rates typically sit between 50–80% rather than the standard 90% — but even so, that's roughly ${advanceText} from a debtor book of around ${formatCurrency(debtorBook)} that could be in your account within 24 hours of raising an invoice. `;
+    } else {
+      para += `Based on a turnover of ${formatCurrency(turnover)} and ${termLabel}-day terms, ${name} likely has around ${formatCurrency(debtorBook)} sitting in unpaid invoices at any given time. Invoice finance could release around ${advanceText} of that within 24 hours of invoicing — not the day a customer decides to pay. `;
+    }
+
+    para += `A facility can typically be set up in 5–10 working days. Once live, that cash is available the same day you invoice.`;
+    return para;
+  }
+
+  if (!turnover) {
+    return `Right now, every invoice ${name} raises sits unpaid until the customer decides to pay. Invoice finance changes that — funds are released within 24 hours of raising an invoice, not 30, 60 or 90 days later. If you share your turnover, I can give you a real idea of how much could be sitting untapped right now. A facility can typically be set up in 5–10 working days.`;
+  }
+
+  // Sector-specific fallback
   const sectorInsight = getSectorInvoiceFinanceInsight(businessName, industry);
   if (sectorInsight) return sectorInsight;
 
-  let para = `Invoice Finance may be worth exploring for ${name} because the business appears to wait for customers to pay invoices. If cash is tied up for 30, 60 or even 90 days, this type of facility could help release money earlier and give the business more breathing room.`;
-
-  if (type === 'selective') {
-    para += ` You've indicated a preference for selective funding — funding individual invoices as needed rather than all of them at once — which gives more flexibility, although it is worth noting that selective facilities are generally slightly more expensive per invoice than a full ledger arrangement.`;
-  }
-
-  return para;
+  return `Invoice Finance may be worth exploring for ${name}. Cash tied up in unpaid invoices can be released within 24 hours of invoicing rather than waiting 30, 60 or 90 days for customers to pay. A facility can typically be set up in 5–10 working days.`;
 }
+
+// ============================================================
+// TRADE FINANCE
+// ============================================================
 
 function getTradeFinanceInsight(answers, businessName) {
   const val = answers.trade;
   if (val !== 'yes' && val !== 'maybe') return null;
 
   const name = businessName || 'the business';
-  const hasInvoice = answers.invoice === 'yes' || answers.invoice === 'maybe';
+  const turnover = parseMoneyString(answers.turnover);
 
-  let para = `Trade Finance may be worth exploring for ${name}. It can provide a funding line to help pay suppliers upfront, which may be useful if the business needs to purchase stock, materials or goods before customer payments come back in. This could help fulfil more orders without tying up all available cash, and may also improve buying power if suppliers offer better terms or discounts for upfront payment.`;
+  if (turnover && turnover >= 50000) {
+    const facilityLow = Math.round(turnover * 0.10);
+    const facilityHigh = Math.round(turnover * 0.15);
+    const savingLow = Math.round(facilityLow * 0.02);
+    const savingHigh = Math.round(facilityHigh * 0.05);
 
-  if (!hasInvoice) {
-    para += ` Trade Finance and Invoice Finance can also work well together: Trade Finance helps pay the supplier, the goods are sold and invoiced, Invoice Finance helps repay the trade facility, and the customer then repays the invoice facility.`;
+    return `Most businesses don't realise their suppliers will offer better prices for upfront payment — they just never ask. Trade finance lets ${name} pay like a cash buyer without tying up its own capital. Based on turnover, a facility of around ${formatCurrency(facilityLow)}–${formatCurrency(facilityHigh)} is a reasonable starting point. Early payment discounts from suppliers typically run at 2–5% of the facility value — that's a potential saving of ${formatCurrency(savingLow)}–${formatCurrency(savingHigh)} a year, often enough to offset the cost of the facility entirely. It also means never turning down a large order because the stock can't be funded. First facilities typically take 2–3 weeks to set up; once live, supplier payments can be made the same day.`;
   }
 
-  return para;
+  return `Most businesses don't realise their suppliers will offer better prices for upfront payment — they just never ask. Trade finance lets ${name} pay like a cash buyer without tying up its own capital. It means never turning down a large order because the stock can't be funded, and supplier relationships improve when you're known as someone who pays on time. First facilities typically take 2–3 weeks to set up; once live, supplier payments can be made the same day.`;
 }
+
+// ============================================================
+// ASSET FINANCE
+// ============================================================
 
 function getAssetFinanceInsight(answers, businessName) {
   const val = answers.asset;
   if (val !== 'yes' && val !== 'maybe') return null;
 
   const name = businessName || 'the business';
-  return `Asset Finance may be worth exploring for ${name} because equipment, machinery, vehicles or other business-critical assets can be difficult to purchase outright. Rather than using a large amount of cash upfront, this type of funding could help the business access what it needs and spread the cost over time, through a leasing or hire purchase-style arrangement.`;
+  const amount = parseMoneyString(answers.fundingAmount);
+
+  if (amount && amount >= 1000) {
+    const m36 = formatCurrency(Math.round(amount / 36));
+    const m48 = formatCurrency(Math.round(amount / 48));
+    const m60 = formatCurrency(Math.round(amount / 60));
+
+    return `The equipment or vehicles ${name} needs shouldn't have to wait until there's enough cash saved. Instead of committing ${formatCurrency(amount)} today, asset finance could spread that across monthly payments — roughly ${m36}/month over 3 years, ${m48}/month over 4 years, or ${m60}/month over 5 years. The asset is working for the business from day one, generating revenue while it's still being paid for. Because the finance is secured against the asset itself, credit history is less of a barrier than with an unsecured loan. Decisions often come through within 24–48 hours, with funds or the asset available in as little as 3–5 working days.`;
+  }
+
+  return `The equipment or vehicles ${name} needs shouldn't have to wait until there's enough cash saved. Asset finance spreads the cost into manageable monthly payments, keeps working capital free for day-to-day operations, and means the asset is generating revenue from day one. Because the finance is secured against the asset itself, credit history is less of a barrier than with an unsecured loan. Decisions often come through within 24–48 hours, with funds or the asset available in as little as 3–5 working days.`;
 }
+
+// ============================================================
+// BUSINESS LOAN
+// ============================================================
 
 function getBusinessLoanInsight(answers, businessName) {
   const val = answers.loan;
   if (val !== 'yes' && val !== 'maybe') return null;
 
   const name = businessName || 'the business';
-  return `A business loan may be worth exploring if ${name} needs a lump sum to support cashflow, growth, suppliers, wages or general working capital. It could give the business a useful injection of capital to support the next stage without relying on cash that is needed elsewhere.`;
+  const rawPurpose = answers.fundingPurpose || '';
+  const purposes = Array.isArray(rawPurpose) ? rawPurpose : rawPurpose.split(',').map(s => s.trim()).filter(Boolean);
+  const purposeText = purposes.length > 0 ? purposes.join(', ').toLowerCase() : null;
+
+  let para = `A business loan gives ${name} one clean injection of capital — no drip feed, no waiting. `;
+  if (purposeText) {
+    para += `Based on what's been shared, the funding is needed for ${purposeText}. Having that capital available changes what's possible — the right loan at the right time can be the difference between taking an opportunity and watching someone else take it. `;
+  } else {
+    para += `Whatever it needs to achieve, having that capital available changes what's possible. `;
+  }
+  para += `Some lenders can approve and fund within 24–48 hours. More involved applications typically take 5–10 working days. Nicole will know which lenders move fastest for your specific circumstances.`;
+
+  if (answers.barrier === 'yes' || answers.barrierDetails) {
+    para += ` Credit history doesn't automatically rule this out — there are lenders who look at the whole picture, not just a score.`;
+  }
+
+  return para;
 }
+
+// ============================================================
+// PROPERTY FINANCE
+// ============================================================
 
 function getPropertyFinanceInsight(answers, businessName) {
   const val = answers.property;
@@ -140,248 +169,162 @@ function getPropertyFinanceInsight(answers, businessName) {
   return `Property Finance may be worth exploring for ${name}. If the funding need is linked to buying premises, refinancing property, refurbishment, development or raising funds against an existing asset, a property-backed facility may be more suitable than a standard unsecured loan. A commercial mortgage could be the longer-term route, although this is usually a more detailed process. If timing is important, bridging finance may also be worth considering while the longer-term structure is arranged.`;
 }
 
+// ============================================================
+// REVOLVING CREDIT
+// ============================================================
+
 function getRevolvingCreditInsight(answers, businessName) {
   const val = answers.revolving;
   if (val !== 'yes' && val !== 'maybe') return null;
 
   const name = businessName || 'the business';
-  return `A Revolving Credit Facility may be worth exploring for ${name}. It can provide access to a flexible funding line rather than a single fixed loan, which may be useful if the business needs cash available for different purposes at different times — whether for creditor invoices, working capital, or handling short-term pressure.`;
+  const turnover = parseMoneyString(answers.turnover);
+
+  if (turnover && turnover >= 50000) {
+    const facilityLow = formatCurrency(Math.round(turnover * 0.10));
+    const facilityHigh = formatCurrency(Math.round(turnover * 0.15));
+
+    return `Imagine never having to say no to an opportunity because the timing was wrong. Based on turnover, ${name} could likely access a revolving credit facility of around ${facilityLow}–${facilityHigh} — available when needed, and costing nothing when it's not being used. It sits in the background, invisible until required, then available same day or next day once live. Setup typically takes 1–2 weeks. Whether it's smoothing a seasonal cashflow dip, jumping on a stock opportunity, or covering payroll ahead of a big client payment — the facility is there without having to reapply each time.`;
+  }
+
+  return `Imagine never having to say no to an opportunity because the timing was wrong. A revolving credit facility sits in the background — available when needed, and costing nothing when it's not being used. Once live, drawdowns are available same day or next day. Setup typically takes 1–2 weeks. Whether it's smoothing a seasonal cashflow dip, jumping on a stock opportunity, or covering payroll — the facility is there without having to reapply each time.`;
 }
+
+// ============================================================
+// MERCHANT CASH ADVANCE
+// ============================================================
 
 function getMerchantCashAdvanceInsight(answers, businessName) {
   const val = answers.mca;
   if (val !== 'yes' && val !== 'maybe') return null;
 
   const name = businessName || 'the business';
-  const calculation = buildMCACalculation(answers, businessName);
-  if (calculation) return calculation + ` It is important to be honest: Merchant Cash Advances can be expensive compared with other funding options, so it should normally be treated as a fallback after checking whether a loan, revolving facility or Invoice Finance could work more cost-effectively.`;
+  const turnover = parseMoneyString(answers.turnover);
 
-  return `A Merchant Cash Advance may be worth considering if ${name} takes regular card payments from customers. It provides funding upfront, with repayments usually taken in small increments from future card transactions. It is important to be honest: Merchant Cash Advances can be expensive compared with other funding options, so it should normally be treated as a fallback after checking whether a loan, revolving facility or Invoice Finance could work more cost-effectively.`;
+  if (turnover && turnover >= 50000) {
+    const monthlyCard = Math.round(turnover * 0.6 / 12);
+    const advance = Math.round(monthlyCard * 1.2);
+    if (advance >= 5000) {
+      return `If ${name} takes regular card payments, a Merchant Cash Advance could provide around ${formatCurrency(advance)} based on a typical month's card revenue — repaid automatically as a small percentage of future card transactions, so repayments flex with the business. It is important to be honest: Merchant Cash Advances can be more expensive than other options, so it should normally be considered after checking whether invoice finance, a revolving facility or a loan could work more cost-effectively.`;
+    }
+  }
+
+  return `A Merchant Cash Advance may be worth considering if ${name} takes regular card payments. It provides funding upfront, with repayments taken automatically as a small percentage of future card transactions. It is important to be honest: Merchant Cash Advances can be more expensive than other options, so it should normally be considered after checking whether invoice finance, a revolving facility or a loan could work more cost-effectively.`;
 }
 
-function getRDTaxCreditInsight(answers, businessName) {
+// ============================================================
+// R&D TAX CREDITS
+// ============================================================
+
+function getRDTaxCreditInsight(answers, businessName, industry) {
   const val = answers.rd;
   if (val !== 'yes' && val !== 'maybe') return null;
 
   const name = businessName || 'the business';
-  return `R&D Tax Credits may be worth exploring for ${name}. Many businesses that are eligible do not realise they qualify, especially where they have spent time improving products, processes, systems, software or technical ways of working. Fiskal works with trusted accountants who take a careful, evidence-led approach — they do not charge anything upfront, and payment is only due if a successful refund or benefit is secured. If eligible, this could provide a welcome cash boost without taking on new borrowing.`;
+  const sectorMatch = isRDSector(industry);
+  const sectorLine = sectorMatch
+    ? `Businesses in this sector are among the most likely to qualify — often without realising it. `
+    : ``;
+
+  return `Most businesses that qualify for R&D Tax Credits have never claimed — either because they didn't know they qualified, or because they didn't realise what counts as R&D in HMRC's eyes. It's not just lab coats and scientists. If ${name} has developed a new process, solved a technical problem, improved a product, or built something that didn't exist before — it may already be owed money. ${sectorLine}The SME scheme can return up to 33p for every £1 of qualifying spend. The average SME claim is £53,000 — that's not a rebate, that's a cheque. HMRC also allows claims for the previous two accounting years, so there could already be money sitting there. Claims are typically paid within 28–40 days of submission. Fiskal works with trusted accountants who take a careful, evidence-led approach — no upfront charge, payment only on a successful claim.`;
 }
+
+// ============================================================
+// FX
+// ============================================================
 
 function getFXInsight(answers, businessName) {
   const val = answers.fx;
   if (val !== 'yes' && val !== 'maybe') return null;
 
   const name = businessName || 'the business';
-  return `Foreign currency may be worth reviewing for ${name} if the business regularly sends or receives payments in other currencies. Most businesses using their bank for foreign currency have no clear idea how much is quietly being taken on each transaction through exchange rates and fees. Even small differences can add up materially over time.`;
+  const turnover = parseMoneyString(answers.turnover);
+
+  if (turnover && turnover >= 50000) {
+    const fxExposureLow = Math.round(turnover * 0.20);
+    const fxExposureHigh = Math.round(turnover * 0.30);
+    const bankCostLow = Math.round(fxExposureLow * 0.025);
+    const bankCostHigh = Math.round(fxExposureHigh * 0.035);
+    const specialistCostHigh = Math.round(fxExposureHigh * 0.005);
+    const savingLow = Math.round(bankCostLow - specialistCostHigh);
+
+    return `Your bank isn't showing ${name} a fee on foreign currency — it doesn't have to. The margin is built into the exchange rate, and most businesses never notice it as a line item. High street banks typically charge 2.5–3.5% on currency conversion. On estimated FX volumes of ${formatCurrency(fxExposureLow)}–${formatCurrency(fxExposureHigh)}, that's quietly costing ${formatCurrency(bankCostLow)}–${formatCurrency(bankCostHigh)} a year. Specialist FX providers charge 0.1–0.5% — near-interbank rates — and also offer forward contracts to lock in today's rate for future payments, removing currency risk entirely. Switching typically takes the same week with no disruption to existing banking. The saving usually surprises people.`;
+  }
+
+  return `Your bank isn't showing a fee on foreign currency — it doesn't have to. The margin is built into the exchange rate, and most businesses never notice it as a line item. High street banks typically charge 2.5–3.5% on currency conversion; specialist providers charge 0.1–0.5%. On £100k of international transactions, that difference is £2,000–£3,400 a year quietly disappearing. Specialist providers also offer forward contracts to lock in today's rate for future payments, removing currency risk entirely. Switching typically takes the same week with no disruption to existing banking.`;
 }
 
+// ============================================================
+// NORMALISE PRODUCT KEY
+// ============================================================
+
 function normaliseFundingProduct(product) {
-  const key = String(product || "").toLowerCase().trim();
-
+  const key = String(product || '').toLowerCase().trim();
   const map = {
-    "invoice": "invoice-finance",
-    "invoice finance": "invoice-finance",
-
-    "trade": "trade-finance",
-    "trade finance": "trade-finance",
-
-    "asset": "asset-finance",
-    "asset finance": "asset-finance",
-
-    "loan": "business-loan",
-    "business loan": "business-loan",
-    "business loans": "business-loan",
-
-    "revolving": "revolving-credit",
-    "revolving credit": "revolving-credit",
-    "revolving credit facility": "revolving-credit",
-
-    "mca": "merchant-cash-advance",
-    "merchant cash advance": "merchant-cash-advance",
-
-    "property": "property-finance",
-    "property finance": "property-finance",
-    "commercial property finance": "property-finance",
-
-    "fx": "fx",
-    "foreign currency / fx": "fx",
-    "foreign currency": "fx",
-
-    "rd": "r-and-d",
-    "rnd": "r-and-d",
-    "r&d": "r-and-d",
-    "r&d tax credits": "r-and-d"
+    'invoice': 'invoice-finance',
+    'invoice finance': 'invoice-finance',
+    'trade': 'trade-finance',
+    'trade finance': 'trade-finance',
+    'asset': 'asset-finance',
+    'asset finance': 'asset-finance',
+    'loan': 'business-loan',
+    'business loan': 'business-loan',
+    'business loans': 'business-loan',
+    'revolving': 'revolving-credit',
+    'revolving credit': 'revolving-credit',
+    'revolving credit facility': 'revolving-credit',
+    'mca': 'merchant-cash-advance',
+    'merchant cash advance': 'merchant-cash-advance',
+    'property': 'property-finance',
+    'property finance': 'property-finance',
+    'commercial property finance': 'property-finance',
+    'fx': 'fx',
+    'foreign currency / fx': 'fx',
+    'foreign currency': 'fx',
+    'rd': 'r-and-d',
+    'rnd': 'r-and-d',
+    'r&d': 'r-and-d',
+    'r&d tax credits': 'r-and-d'
   };
-
   return map[key] || key;
 }
 
-// Returns the two strongest matched product insights for a given answers object.
-// Priority order follows commercial relevance and match strength.
+// ============================================================
+// TOP 2 INSIGHTS — priority ordered
+// ============================================================
+
 function getTopFundingFinderInsights(answers, businessName, industry) {
   const candidates = [];
-  
-  // Check if matchedProducts is provided
   const matchedProducts = answers.matchedProducts || [];
   const hasMatchedProducts = matchedProducts.length > 0;
-  
-  // Normalise product keys
   const normalisedProducts = matchedProducts.map(normaliseFundingProduct);
-  
-  // If matchedProducts is provided, only include insights for matched products
+
+  const productInsightMap = [
+    { key: 'invoice-finance',       priority: 100, fn: () => getInvoiceFinanceInsight(answers, businessName, industry) },
+    { key: 'trade-finance',         priority: 90,  fn: () => getTradeFinanceInsight(answers, businessName) },
+    { key: 'asset-finance',         priority: 85,  fn: () => getAssetFinanceInsight(answers, businessName) },
+    { key: 'revolving-credit',      priority: 80,  fn: () => getRevolvingCreditInsight(answers, businessName) },
+    { key: 'business-loan',         priority: 75,  fn: () => getBusinessLoanInsight(answers, businessName) },
+    { key: 'property-finance',      priority: 70,  fn: () => getPropertyFinanceInsight(answers, businessName) },
+    { key: 'r-and-d',               priority: 65,  fn: () => getRDTaxCreditInsight(answers, businessName, industry) },
+    { key: 'merchant-cash-advance', priority: 50,  fn: () => getMerchantCashAdvanceInsight(answers, businessName) },
+    { key: 'fx',                    priority: 40,  fn: () => getFXInsight(answers, businessName) },
+  ];
+
   if (hasMatchedProducts) {
-    const candidatesWithPriority = [];
-    
-    // Check normalised products and add corresponding insights with priority
-    if (normalisedProducts.includes("invoice-finance")) {
-      const insight = getInvoiceFinanceInsight(answers, businessName, industry);
-      if (insight) {
-        candidatesWithPriority.push({
-          product: "Invoice Finance",
-          priority: 100,
-          insight: insight
-        });
-      } else {
-        // Fallback if insight function returns null
-        candidatesWithPriority.push({
-          product: "Invoice Finance",
-          priority: 100,
-          insight: `Invoice Finance may be worth exploring, especially if ${businessName} waits for customers or contractors to pay invoices. For construction-related businesses, it may be worth looking at specialist facilities that can support contractual invoices, applications for payment or staged payments, where standard invoice finance may not always fit neatly.`
-        });
-      }
-    }
-    
-    if (normalisedProducts.includes("trade-finance")) {
-      const insight = getTradeFinanceInsight(answers, businessName);
-      if (insight) {
-        candidatesWithPriority.push({
-          product: "Trade Finance",
-          priority: 90,
-          insight: insight
-        });
-      } else {
-        candidatesWithPriority.push({
-          product: "Trade Finance",
-          priority: 90,
-          insight: `Trade Finance may be useful if ${businessName} needs to pay suppliers upfront for materials, stock or goods before customer payments come back in. This can help the business fulfil orders without tying up all available cash.`
-        });
-      }
-    }
-    
-    if (normalisedProducts.includes("asset-finance")) {
-      const insight = getAssetFinanceInsight(answers, businessName);
-      if (insight) {
-        candidatesWithPriority.push({
-          product: "Asset Finance",
-          priority: 85,
-          insight: insight
-        });
-      } else {
-        candidatesWithPriority.push({
-          product: "Asset Finance",
-          priority: 85,
-          insight: `Asset Finance may be worth exploring if ${businessName} needs equipment, machinery, vehicles or other business-critical assets without using a large amount of cash upfront.`
-        });
-      }
-    }
-    
-    if (normalisedProducts.includes("revolving-credit")) {
-      const insight = getRevolvingCreditInsight(answers, businessName);
-      if (insight) {
-        candidatesWithPriority.push({
-          product: "Revolving Credit Facility",
-          priority: 80,
-          insight: insight
-        });
-      } else {
-        candidatesWithPriority.push({
-          product: "Revolving Credit Facility",
-          priority: 80,
-          insight: `A Revolving Credit Facility may be useful where ${businessName} needs flexible access to cash for different purposes, such as supplier invoices, working capital or short-term pressure.`
-        });
-      }
-    }
-    
-    if (normalisedProducts.includes("business-loan")) {
-      const insight = getBusinessLoanInsight(answers, businessName);
-      if (insight) {
-        candidatesWithPriority.push({
-          product: "Business Loan",
-          priority: 75,
-          insight: insight
-        });
-      } else {
-        candidatesWithPriority.push({
-          product: "Business Loan",
-          priority: 75,
-          insight: `A business loan may be worth exploring if ${businessName} needs a lump sum to support cashflow, growth, suppliers, wages or general working capital.`
-        });
-      }
-    }
-    
-    if (normalisedProducts.includes("property-finance")) {
-      const insight = getPropertyFinanceInsight(answers, businessName);
-      if (insight) {
-        candidatesWithPriority.push({
-          product: "Property Finance",
-          priority: 70,
-          insight: insight
-        });
-      }
-    }
-    
-    if (normalisedProducts.includes("r-and-d")) {
-      const insight = getRDTaxCreditInsight(answers, businessName);
-      if (insight) {
-        candidatesWithPriority.push({
-          product: "R&D Tax Credits",
-          priority: 65,
-          insight: insight
-        });
-      }
-    }
-    
-    if (normalisedProducts.includes("merchant-cash-advance")) {
-      const insight = getMerchantCashAdvanceInsight(answers, businessName);
-      if (insight) {
-        candidatesWithPriority.push({
-          product: "Merchant Cash Advance",
-          priority: 50,
-          insight: insight
-        });
-      }
-    }
-    
-    if (normalisedProducts.includes("fx")) {
-      const insight = getFXInsight(answers, businessName);
-      if (insight) {
-        candidatesWithPriority.push({
-          product: "Foreign Currency",
-          priority: 40,
-          insight: insight
-        });
-      }
-    }
-    
-    // Sort by priority (highest first) and take top 2
-    candidatesWithPriority.sort((a, b) => b.priority - a.priority);
-    const topCandidates = candidatesWithPriority.slice(0, 2);
-    topCandidates.forEach(c => candidates.push(c.insight));
+    productInsightMap
+      .filter(p => normalisedProducts.includes(p.key))
+      .sort((a, b) => b.priority - a.priority)
+      .forEach(p => {
+        const insight = p.fn();
+        if (insight) candidates.push(insight);
+      });
   } else {
-    // Fall back to checking individual answer fields
-    candidates.push(
-      getInvoiceFinanceInsight(answers, businessName, industry),
-      getTradeFinanceInsight(answers, businessName),
-      getAssetFinanceInsight(answers, businessName),
-      getBusinessLoanInsight(answers, businessName),
-      getPropertyFinanceInsight(answers, businessName),
-      getRevolvingCreditInsight(answers, businessName),
-      getRDTaxCreditInsight(answers, businessName),
-      getMerchantCashAdvanceInsight(answers, businessName),
-      getFXInsight(answers, businessName)
-    ).filter(Boolean);
+    productInsightMap.forEach(p => {
+      const insight = p.fn();
+      if (insight) candidates.push(insight);
+    });
   }
-  
-  // Return top 2
+
   return candidates.slice(0, 2);
 }
