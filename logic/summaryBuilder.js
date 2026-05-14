@@ -63,10 +63,10 @@ function buildFundingFinderSummary(answers) {
 
   const blocks = [];
 
-  // Opening - stronger, more specific
+  // Opening - name used once, then "you"
   const sectorNote = getSectorNote(business, industry);
   if (sectorNote) {
-    blocks.push(`Great news — based on what you've told us, there are several funding options worth exploring for ${business}. Because ${sectorNote}, the right structure needs to take account of how work is completed, invoiced and paid.`);
+    blocks.push(`Great news — based on what you've told us, there are several funding options worth exploring for ${business}. Because ${sectorNote.replace(business, 'you').replace('appears to operate', 'operate')}, the right structure needs to take account of how work is completed, invoiced and paid.`);
   } else {
     blocks.push(`Great news — based on what you've told us, there are several funding options worth exploring for ${business}.`);
   }

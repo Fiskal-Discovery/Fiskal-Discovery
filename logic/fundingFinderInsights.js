@@ -61,12 +61,12 @@ function getInvoiceFinanceInsight(answers, businessName, industry) {
       : formatCurrency(advanceLow);
     const termLabel = termsDays >= 90 ? '90' : termsDays >= 60 ? '60' : '30';
 
-    let para = `Right now, every invoice ${name} raises sits unpaid for around ${termLabel} days. That's money already earned — just not collected yet. `;
+    let para = `Right now, every invoice you raise sits unpaid for around ${termLabel} days. That's money already earned — just not collected yet. `;
 
     if (isConstruction) {
       para += `Contractual invoices are more complex for lenders due to retention clauses and application-based billing, so advance rates typically sit between 50–80% rather than the standard 90% — but even so, that's roughly ${advanceText} from a debtor book of around ${formatCurrency(debtorBook)} that could be in your account within 24 hours of raising an invoice. `;
     } else {
-      para += `Based on a turnover of ${formatCurrency(turnover)} and ${termLabel}-day terms, ${name} likely has around ${formatCurrency(debtorBook)} sitting in unpaid invoices at any given time. Invoice finance could release around ${advanceText} of that within 24 hours of invoicing — not the day a customer decides to pay. `;
+      para += `Based on a turnover of ${formatCurrency(turnover)} and ${termLabel}-day terms, you likely have around ${formatCurrency(debtorBook)} sitting in unpaid invoices at any given time. Invoice finance could release around ${advanceText} of that within 24 hours of invoicing — not the day a customer decides to pay. `;
     }
 
     para += `A facility can typically be set up in 5–10 working days. Once live, that cash is available the same day you invoice.`;
@@ -74,14 +74,14 @@ function getInvoiceFinanceInsight(answers, businessName, industry) {
   }
 
   if (!turnover) {
-    return `Right now, every invoice ${name} raises sits unpaid until the customer decides to pay. Invoice finance changes that — funds are released within 24 hours of raising an invoice, not 30, 60 or 90 days later. If you share your turnover, I can give you a real idea of how much could be sitting untapped right now. A facility can typically be set up in 5–10 working days.`;
+    return `Right now, every invoice you raise sits unpaid until the customer decides to pay. Invoice finance changes that — funds are released within 24 hours of raising an invoice, not 30, 60 or 90 days later. If you share your turnover, I can give you a real idea of how much could be sitting untapped right now. A facility can typically be set up in 5–10 working days.`;
   }
 
   // Sector-specific fallback
   const sectorInsight = getSectorInvoiceFinanceInsight(businessName, industry);
   if (sectorInsight) return sectorInsight;
 
-  return `Invoice Finance may be worth exploring for ${name}. Cash tied up in unpaid invoices can be released within 24 hours of invoicing rather than waiting 30, 60 or 90 days for customers to pay. A facility can typically be set up in 5–10 working days.`;
+  return `Invoice finance may be worth exploring for ${name}. Cash tied up in unpaid invoices can be released within 24 hours of invoicing rather than waiting 30, 60 or 90 days for customers to pay. A facility can typically be set up in 5–10 working days.`;
 }
 
 // ============================================================
@@ -101,10 +101,10 @@ function getTradeFinanceInsight(answers, businessName) {
     const savingLow = Math.round(facilityLow * 0.02);
     const savingHigh = Math.round(facilityHigh * 0.05);
 
-    return `Most businesses don't realise their suppliers will offer better prices for upfront payment — they just never ask. Trade finance lets ${name} pay like a cash buyer without tying up its own capital. Based on turnover, a facility of around ${formatCurrency(facilityLow)}–${formatCurrency(facilityHigh)} is a reasonable starting point. Early payment discounts from suppliers typically run at 2–5% of the facility value — that's a potential saving of ${formatCurrency(savingLow)}–${formatCurrency(savingHigh)} a year, often enough to offset the cost of the facility entirely. It also means never turning down a large order because the stock can't be funded. First facilities typically take 2–3 weeks to set up; once live, supplier payments can be made the same day.`;
+    return `Most businesses don't realise their suppliers will offer better prices for upfront payment — they just never ask. Trade finance lets you pay like a cash buyer without tying up your own capital. Based on your turnover, a facility of around ${formatCurrency(facilityLow)}–${formatCurrency(facilityHigh)} is a reasonable starting point. Early payment discounts from suppliers typically run at 2–5% of the facility value — that's a potential saving of ${formatCurrency(savingLow)}–${formatCurrency(savingHigh)} a year, often enough to offset the cost of the facility entirely. It also means never turning down a large order because you can't fund the stock. First facilities typically take 2–3 weeks to set up; once live, supplier payments can be made the same day.`;
   }
 
-  return `Most businesses don't realise their suppliers will offer better prices for upfront payment — they just never ask. Trade finance lets ${name} pay like a cash buyer without tying up its own capital. It means never turning down a large order because the stock can't be funded, and supplier relationships improve when you're known as someone who pays on time. First facilities typically take 2–3 weeks to set up; once live, supplier payments can be made the same day.`;
+  return `Most businesses don't realise their suppliers will offer better prices for upfront payment — they just never ask. Trade finance lets you pay like a cash buyer without tying up your own capital. It means never turning down a large order because the stock can't be funded, and supplier relationships improve when you're known as someone who pays on time. First facilities typically take 2–3 weeks to set up; once live, supplier payments can be made the same day.`;
 }
 
 // ============================================================
@@ -123,10 +123,10 @@ function getAssetFinanceInsight(answers, businessName) {
     const m48 = formatCurrency(Math.round(amount / 48));
     const m60 = formatCurrency(Math.round(amount / 60));
 
-    return `The equipment or vehicles ${name} needs shouldn't have to wait until there's enough cash saved. Instead of committing ${formatCurrency(amount)} today, asset finance could spread that across monthly payments — roughly ${m36}/month over 3 years, ${m48}/month over 4 years, or ${m60}/month over 5 years. The asset is working for the business from day one, generating revenue while it's still being paid for. Because the finance is secured against the asset itself, credit history is less of a barrier than with an unsecured loan. Decisions often come through within 24–48 hours, with funds or the asset available in as little as 3–5 working days.`;
+    return `The equipment or vehicles you need shouldn't have to wait until there's enough cash saved. Instead of committing ${formatCurrency(amount)} today, asset finance could spread that across monthly payments — roughly ${m36}/month over 3 years, ${m48}/month over 4 years, or ${m60}/month over 5 years. The asset is working for your business from day one, generating revenue while you're still paying for it. Because the finance is secured against the asset itself, credit history is less of a barrier than with an unsecured loan. Decisions often come through within 24–48 hours, with funds or the asset available in as little as 3–5 working days.`;
   }
 
-  return `The equipment or vehicles ${name} needs shouldn't have to wait until there's enough cash saved. Asset finance spreads the cost into manageable monthly payments, keeps working capital free for day-to-day operations, and means the asset is generating revenue from day one. Because the finance is secured against the asset itself, credit history is less of a barrier than with an unsecured loan. Decisions often come through within 24–48 hours, with funds or the asset available in as little as 3–5 working days.`;
+  return `The equipment or vehicles you need shouldn't have to wait until there's enough cash saved. Asset finance spreads the cost into manageable monthly payments, keeps working capital free for day-to-day operations, and means the asset is generating revenue from day one. Because the finance is secured against the asset itself, credit history is less of a barrier than with an unsecured loan. Decisions often come through within 24–48 hours, with funds or the asset available in as little as 3–5 working days.`;
 }
 
 // ============================================================
@@ -142,9 +142,9 @@ function getBusinessLoanInsight(answers, businessName) {
   const purposes = Array.isArray(rawPurpose) ? rawPurpose : rawPurpose.split(',').map(s => s.trim()).filter(Boolean);
   const purposeText = purposes.length > 0 ? purposes.join(', ').toLowerCase() : null;
 
-  let para = `A business loan gives ${name} one clean injection of capital — no drip feed, no waiting. `;
+  let para = `A business loan gives you one clean injection of capital — no drip feed, no waiting. `;
   if (purposeText) {
-    para += `Based on what's been shared, the funding is needed for ${purposeText}. Having that capital available changes what's possible — the right loan at the right time can be the difference between taking an opportunity and watching someone else take it. `;
+    para += `Based on what you've shared, the funding is needed for ${purposeText}. Having that capital available changes what's possible — the right loan at the right time can be the difference between taking an opportunity and watching someone else take it. `;
   } else {
     para += `Whatever it needs to achieve, having that capital available changes what's possible. `;
   }
@@ -166,7 +166,7 @@ function getPropertyFinanceInsight(answers, businessName) {
   if (val !== 'yes' && val !== 'maybe') return null;
 
   const name = businessName || 'the business';
-  return `Property Finance may be worth exploring for ${name}. If the funding need is linked to buying premises, refinancing property, refurbishment, development or raising funds against an existing asset, a property-backed facility may be more suitable than a standard unsecured loan. A commercial mortgage could be the longer-term route, although this is usually a more detailed process. If timing is important, bridging finance may also be worth considering while the longer-term structure is arranged.`;
+  return `Property finance may be worth exploring for ${name}. If the funding need is linked to buying premises, refinancing property, refurbishment, development or raising funds against an existing asset, a property-backed facility may be more suitable than a standard unsecured loan. A commercial mortgage could be the longer-term route, although this is usually a more detailed process. If timing is important, bridging finance may also be worth considering while the longer-term structure is arranged.`;
 }
 
 // ============================================================
@@ -184,10 +184,10 @@ function getRevolvingCreditInsight(answers, businessName) {
     const facilityLow = formatCurrency(Math.round(turnover * 0.10));
     const facilityHigh = formatCurrency(Math.round(turnover * 0.15));
 
-    return `Imagine never having to say no to an opportunity because the timing was wrong. Based on turnover, ${name} could likely access a revolving credit facility of around ${facilityLow}–${facilityHigh} — available when needed, and costing nothing when it's not being used. It sits in the background, invisible until required, then available same day or next day once live. Setup typically takes 1–2 weeks. Whether it's smoothing a seasonal cashflow dip, jumping on a stock opportunity, or covering payroll ahead of a big client payment — the facility is there without having to reapply each time.`;
+    return `Imagine never having to say no to an opportunity because the timing was wrong. Based on your turnover, you could likely access a revolving credit facility of around ${facilityLow}–${facilityHigh} — available when you need it, and costing nothing when you don't. It sits in the background, invisible until required, then available same day or next day once live. Setup typically takes 1–2 weeks. Whether it's smoothing a seasonal cashflow dip, jumping on a stock opportunity, or covering payroll ahead of a big client payment — the facility is there without having to reapply each time.`;
   }
 
-  return `Imagine never having to say no to an opportunity because the timing was wrong. A revolving credit facility sits in the background — available when needed, and costing nothing when it's not being used. Once live, drawdowns are available same day or next day. Setup typically takes 1–2 weeks. Whether it's smoothing a seasonal cashflow dip, jumping on a stock opportunity, or covering payroll — the facility is there without having to reapply each time.`;
+  return `Imagine never having to say no to an opportunity because the timing was wrong. A revolving credit facility sits in the background — available when you need it, and costing nothing when you don't. Once live, drawdowns are available same day or next day. Setup typically takes 1–2 weeks. Whether it's smoothing a seasonal cashflow dip, jumping on a stock opportunity, or covering payroll — the facility is there without having to reapply each time.`;
 }
 
 // ============================================================
@@ -205,11 +205,11 @@ function getMerchantCashAdvanceInsight(answers, businessName) {
     const monthlyCard = Math.round(turnover * 0.6 / 12);
     const advance = Math.round(monthlyCard * 1.2);
     if (advance >= 5000) {
-      return `If ${name} takes regular card payments, a Merchant Cash Advance could provide around ${formatCurrency(advance)} based on a typical month's card revenue — repaid automatically as a small percentage of future card transactions, so repayments flex with the business. It is important to be honest: Merchant Cash Advances can be more expensive than other options, so it should normally be considered after checking whether invoice finance, a revolving facility or a loan could work more cost-effectively.`;
+      return `If you take regular card payments, a Merchant Cash Advance could provide around ${formatCurrency(advance)} based on a typical month's card revenue — repaid automatically as a small percentage of future card transactions, so repayments flex with the business. It is important to be honest: Merchant Cash Advances can be more expensive than other options, so it should normally be considered after checking whether invoice finance, a revolving facility or a loan could work more cost-effectively.`;
     }
   }
 
-  return `A Merchant Cash Advance may be worth considering if ${name} takes regular card payments. It provides funding upfront, with repayments taken automatically as a small percentage of future card transactions. It is important to be honest: Merchant Cash Advances can be more expensive than other options, so it should normally be considered after checking whether invoice finance, a revolving facility or a loan could work more cost-effectively.`;
+  return `A Merchant Cash Advance may be worth considering if you take regular card payments. It provides funding upfront, with repayments taken automatically as a small percentage of future card transactions. It is important to be honest: Merchant Cash Advances can be more expensive than other options, so it should normally be considered after checking whether invoice finance, a revolving facility or a loan could work more cost-effectively.`;
 }
 
 // ============================================================
@@ -226,7 +226,7 @@ function getRDTaxCreditInsight(answers, businessName, industry) {
     ? `Businesses in this sector are among the most likely to qualify — often without realising it. `
     : ``;
 
-  return `Most businesses that qualify for R&D Tax Credits have never claimed — either because they didn't know they qualified, or because they didn't realise what counts as R&D in HMRC's eyes. It's not just lab coats and scientists. If ${name} has developed a new process, solved a technical problem, improved a product, or built something that didn't exist before — it may already be owed money. ${sectorLine}The SME scheme can return up to 33p for every £1 of qualifying spend. The average SME claim is £53,000 — that's not a rebate, that's a cheque. HMRC also allows claims for the previous two accounting years, so there could already be money sitting there. Claims are typically paid within 28–40 days of submission. Fiskal works with trusted accountants who take a careful, evidence-led approach — no upfront charge, payment only on a successful claim.`;
+  return `Most businesses that qualify for R&D Tax Credits have never claimed — either because they didn't know they qualified, or because they didn't realise what counts as R&D in HMRC's eyes. It's not just lab coats and scientists. If you've developed a new process, solved a technical problem, improved a product, or built something that didn't exist before — it may already be owed money. ${sectorLine}The SME scheme can return up to 33p for every £1 of qualifying spend. The average SME claim is £53,000 — that's not a rebate, that's a cheque. HMRC also allows claims for the previous two accounting years, so there could already be money sitting there. Claims are typically paid within 28–40 days of submission. Fiskal works with trusted accountants who take a careful, evidence-led approach — no upfront charge, payment only on a successful claim.`;
 }
 
 // ============================================================
@@ -248,7 +248,7 @@ function getFXInsight(answers, businessName) {
     const specialistCostHigh = Math.round(fxExposureHigh * 0.005);
     const savingLow = Math.round(bankCostLow - specialistCostHigh);
 
-    return `Your bank isn't showing ${name} a fee on foreign currency — it doesn't have to. The margin is built into the exchange rate, and most businesses never notice it as a line item. High street banks typically charge 2.5–3.5% on currency conversion. On estimated FX volumes of ${formatCurrency(fxExposureLow)}–${formatCurrency(fxExposureHigh)}, that's quietly costing ${formatCurrency(bankCostLow)}–${formatCurrency(bankCostHigh)} a year. Specialist FX providers charge 0.1–0.5% — near-interbank rates — and also offer forward contracts to lock in today's rate for future payments, removing currency risk entirely. Switching typically takes the same week with no disruption to existing banking. The saving usually surprises people.`;
+    return `Your bank isn't showing you a fee on foreign currency — it doesn't have to. The margin is built into the exchange rate, and most businesses never notice it as a line item. High street banks typically charge 2.5–3.5% on currency conversion. On estimated annual FX volumes of ${formatCurrency(fxExposureLow)}–${formatCurrency(fxExposureHigh)}, that's quietly costing ${formatCurrency(bankCostLow)}–${formatCurrency(bankCostHigh)} a year. Specialist FX providers charge 0.1–0.5% — near-interbank rates — and also offer forward contracts to lock in today's rate for future payments, removing currency risk entirely. Switching typically takes the same week with no disruption to existing banking. The saving usually surprises people.`;
   }
 
   return `Your bank isn't showing a fee on foreign currency — it doesn't have to. The margin is built into the exchange rate, and most businesses never notice it as a line item. High street banks typically charge 2.5–3.5% on currency conversion; specialist providers charge 0.1–0.5%. On £100k of international transactions, that difference is £2,000–£3,400 a year quietly disappearing. Specialist providers also offer forward contracts to lock in today's rate for future payments, removing currency risk entirely. Switching typically takes the same week with no disruption to existing banking.`;
