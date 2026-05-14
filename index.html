@@ -1836,6 +1836,10 @@ function loadAppState() {
 function saveAppState() {
   try {
     localStorage.setItem('fiskal_appState', JSON.stringify(appState));
+    // Also sync profile to fiskal_profile so shariah-funding and cashflow-invaders can read it
+    if (appState.profile) {
+      localStorage.setItem('fiskal_profile', JSON.stringify(appState.profile));
+    }
   } catch (e) {
     console.warn('Failed to save appState:', e);
   }
