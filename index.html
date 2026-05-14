@@ -2152,6 +2152,7 @@ function completeWelcome() {
     ...appState.profile,
     ...welcomeState.answers
   };
+  appState.profile.welcomeCompleted = true;
   appState.welcomeCompleted = true;
   saveAppState();
 

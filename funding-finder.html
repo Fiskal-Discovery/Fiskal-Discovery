@@ -2681,15 +2681,33 @@ async function loadNicolePhoto() {
 
 // ---- Load profile from onboarding ----
 (function() {
-  const OB_KEY = "fiskal_profile";
+  const OB_KEY = "fiskal_appState";
   try {
     const saved = localStorage.getItem(OB_KEY);
-    if (!saved) return;
-    const p = JSON.parse(saved);
-    if (!p) return;
+    if (!saved) {
+      console.log("Funding Finder profile check: No appState found in localStorage");
+      window.location.href = 'index.html';
+      return;
+    }
+    const appState = JSON.parse(saved);
+    if (!appState || !appState.profile) {
+      console.log("Funding Finder profile check: appState or appState.profile is missing");
+      window.location.href = 'index.html';
+      return;
+    }
+    console.log("Funding Finder profile check:", appState.profile);
+    
+    // Check if welcome is completed and profile has required fields
+    if (!appState.profile.welcomeCompleted || !appState.profile.name || !appState.profile.email) {
+      console.log("Funding Finder profile check: Welcome not completed or profile incomplete, redirecting to index.html");
+      window.location.href = 'index.html';
+      return;
+    }
+    
+    const p = appState.profile;
     if (typeof state !== "undefined") {
       if (p.name) state.name = p.name;
-      if (p.businessName) state.business = p.businessName;
+      if (p.companyName) state.business = p.companyName;
       if (p.email) state.email = p.email;
       if (p.phone) state.phone = p.phone;
       if (p.companyNumber) state.companyNumber = p.companyNumber;
@@ -2697,18 +2715,21 @@ async function loadNicolePhoto() {
     document.addEventListener("DOMContentLoaded", function() {
       var map = {
         "field-name": p.name,
-        "field-business": p.businessName,
+        "field-business": p.companyName,
         "field-email": p.email,
         "field-phone": p.phone,
         "field-company-number": p.companyNumber,
-        "field-turnover": p.turnoverLast
+        "field-turnover": p.annualTurnover
       };
       Object.entries(map).forEach(function(e) {
         var el = document.getElementById(e[0]);
         if (el && e[1]) el.value = e[1];
       });
     });
-  } catch(e) {}
+  } catch(e) {
+    console.error("Funding Finder profile check error:", e);
+    window.location.href = 'index.html';
+  }
 })();
 
 // Check if coming from onboarding - skip welcome/details and go directly to question flow
