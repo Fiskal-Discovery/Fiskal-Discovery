@@ -2750,7 +2750,7 @@ async function submitAssetReview() {
   showDiscoveryThinkingScreen(async () => {
     const summary = `Thank you for completing your Asset Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current asset finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
     document.getElementById('asset-results-name').textContent = `Here's what we found for you, ${state.name}`;
-    document.getElementById('asset-ai-summary').textContent = summary;
+    document.getElementById('asset-ai-summary').innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
     document.getElementById('asset-nicole-message').textContent = `I've received your Asset Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
     showScreen('screen-asset-loading');
     loadNicolePhoto();
@@ -2778,7 +2778,7 @@ async function submitTradeReview() {
   showDiscoveryThinkingScreen(async () => {
     const summary = `Thank you for completing your Trade Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current trade finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
     document.getElementById('trade-results-name').textContent = `Here's what we found for you, ${state.name}`;
-    document.getElementById('trade-ai-summary').textContent = summary;
+    document.getElementById('trade-ai-summary').innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
     document.getElementById('trade-nicole-message').textContent = `I've received your Trade Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
     showScreen('screen-trade-loading');
     loadNicolePhoto();
@@ -2860,23 +2860,274 @@ function selectBarrier(value, btn) {
   document.getElementById('barrier-detail-section').style.display = value === 'yes' ? 'block' : 'none';
   document.getElementById('barriers-submit-btn').style.display = 'block';
 }
+// ============================================================
+// FACILITY REVIEW SUMMARY ENGINE
+// ============================================================
 function generateResults() {
-  displayResults(getFallbackSummary());
+  const summary = buildFacilityReviewSummary();
+  displayResults(summary);
+  sendNotification(summary);
 }
 
 function submitReview() {
   var bd = document.getElementById('barrier-details');
   if (bd) state.barrierDetails = bd.value.trim();
-  
-  // Track completed review
+
   const currentFacilityType = state.selectedReviewType || state.facilityType;
   if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
     state.completedFacilityReviews.push(currentFacilityType);
   }
-  
+
   showDiscoveryThinkingScreen(function() { generateResults(); });
 }
 
+function _fmtK(n) {
+  if (!n) return null;
+  if (n >= 1000000) return '£' + (n / 1000000).toFixed(1).replace('.0','') + 'm';
+  if (n >= 1000) return '£' + Math.round(n / 1000) + 'k';
+  return '£' + Math.round(n);
+}
+
+function _turnoverMid() {
+  const map = { 'under-100k': 75000, '100k-250k': 175000, '250k-500k': 375000, '500k-1m': 750000, '1m+': 1250000 };
+  const raw = (state.turnover || '').toLowerCase().replace(/[£,\s]/g,'').replace('under','under-').replace('+','');
+  for (const [k,v] of Object.entries(map)) { if ((state.turnover||'').includes(k.replace('-',' ')) || state.turnover === k) return v; }
+  for (const [k,v] of Object.entries(map)) { if ((state.turnover||'').replace(/[^0-9km+]/gi,'').includes(k.replace('under-100k','75'))) return v; }
+  const num = parseFloat((state.turnover||'').replace(/[^0-9.]/g,''));
+  return isNaN(num) ? null : (num < 1000 ? num * 1000 : num);
+}
+
+function buildFacilityReviewSummary() {
+  const facilityType = (state.selectedReviewType || state.facilityType || '').toLowerCase();
+  const firstName = (state.name || '').split(' ')[0] || 'there';
+  const lender = formatProviderName(
+    state['if-lender-val'] || state.ifLender || state.loanLender ||
+    state.assetProvider || state.tradeProvider || state.fxProvider ||
+    state.otherFundingProvider || ''
+  );
+  const turnover = _turnoverMid();
+  const industry = state.industry || '';
+  const switchConcern = state.barrier === 'yes' || state.loanBarrier === 'yes' || state.assetBarrier === 'yes' || state.tradeBarrier === 'yes';
+  const switchDetail = state.barrierDetails || state.loanBarrierDetails || state.assetBarrierDetails || state.tradeBarrierDetails || '';
+  const statementUploaded = state.files && state.files.length > 0;
+
+  let paras = [];
+
+  if (facilityType.includes('invoice')) {
+    paras = _buildIFSummary(lender, turnover, industry, statementUploaded, firstName);
+  } else if (facilityType.includes('overdraft')) {
+    paras = _buildOverdraftSummary(lender, turnover);
+  } else if (facilityType.includes('loan')) {
+    paras = _buildLoanSummary(lender, turnover);
+  } else if (facilityType.includes('asset')) {
+    paras = _buildAssetSummary(lender, turnover, industry);
+  } else if (facilityType.includes('merchant') || facilityType.includes('mca')) {
+    paras = _buildMCASummary(lender, turnover);
+  } else if (facilityType.includes('trade')) {
+    paras = _buildTradeSummary(lender, turnover);
+  } else {
+    paras = _buildOtherSummary(lender);
+  }
+
+  // Switching concern addendum
+  if (switchConcern) {
+    paras.push('You mentioned some concerns about switching — that\'s completely understandable and very common. Nicole deals with facility transitions regularly and will talk you through exactly what\'s involved before anything is actioned.');
+  }
+
+  // Statement CTA if no upload
+  if (!statementUploaded && (facilityType.includes('invoice') || facilityType.includes('loan') || facilityType.includes('asset') || facilityType.includes('trade'))) {
+    paras.push('If you\'d like a complete breakdown and a precise indication of how much you could save, send Nicole a copy of your client summary statement — she\'ll do the full analysis for you.');
+  }
+
+  paras.push('Nicole will be in touch personally to talk through what\'s possible.');
+
+  return paras.filter(Boolean).join('\n\n');
+}
+
+function _buildIFSummary(lender, turnover, industry, statementUploaded, firstName) {
+  const knowledge = state['if-knowledge'] || '';
+  const paymentTerms = state['if-payment-terms'] || state.paymentTerms || '60 days';
+  const ifType = (state['if-type'] || '').toLowerCase();
+  const paras = [];
+
+  const termDays = paymentTerms.includes('90+') ? 90 : paymentTerms.includes('90') ? 90 : paymentTerms.includes('60') ? 60 : 30;
+
+  let advanceRate = 0.90;
+  let advanceNote = '';
+  if (industry.toLowerCase().includes('recruit')) { advanceRate = 1.00; advanceNote = 'Recruitment businesses can access up to 100% advance.'; }
+  else if (industry.toLowerCase().includes('construct') || ifType.includes('construct')) { advanceRate = 0.70; advanceNote = 'Construction facilities typically advance 50–70%.'; }
+
+  const debtorBook = turnover ? Math.round((turnover / 365) * termDays) : null;
+  const advanceAmount = debtorBook ? Math.round(debtorBook * advanceRate) : null;
+
+  const lenderRef = lender ? `your ${lender} facility` : 'your current facility';
+
+  if (knowledge === 'Knows details' || knowledge === 'knows details') {
+    // Path A — knows rates
+    if (debtorBook && advanceAmount) {
+      paras.push(`Based on your turnover and ${paymentTerms} payment terms, your debtor book sits at around ${_fmtK(debtorBook)}. A well-structured facility should be releasing up to ${_fmtK(advanceAmount)} within 24 hours of invoicing${lender ? ` — if ${lender} isn't delivering that, it's worth a conversation` : ''}.`);
+    }
+    if (advanceNote) paras.push(advanceNote);
+
+    const serviceFee = parseFloat(state.ifServiceFee) || null;
+    const minimums = parseFloat(state.ifMinimums) || null;
+    const discountRate = parseFloat(state.ifDiscount) || null;
+    const bdpRate = parseFloat(state.ifBdp || state['if-bdp'] || 0) || null;
+
+    const expectedMin = serviceFee && turnover ? Math.round((serviceFee / 100) * turnover / 12) : null;
+    if (expectedMin && minimums && minimums > expectedMin * 1.1) {
+      paras.push(`Your monthly minimum of ${_fmtK(minimums)} looks higher than your turnover justifies — the benchmark for a facility your size is closer to ${_fmtK(expectedMin)}. That alone is worth challenging.`);
+    }
+    if (discountRate && discountRate > 3) {
+      paras.push(`Your discount rate of ${discountRate}% is above what Nicole would expect — this is the interest element charged on funds drawn, and at that level there are likely cheaper options available.`);
+    }
+    if (bdpRate && bdpRate > 0.8) {
+      const bdpAnnual = turnover ? Math.round((bdpRate / 100) * turnover) : null;
+      const bdpMonthly = bdpAnnual ? Math.round(bdpAnnual / 12) : null;
+      paras.push(`Your bad debt protection charge of ${bdpRate}% is towards the higher end of the market range (0.4–1.5%).${bdpAnnual ? ` On your turnover that's costing you ${_fmtK(bdpAnnual)} per year — ${_fmtK(bdpMonthly)} every month.` : ''} Nicole sources BDP at between 0.4–0.8% — if you're above that, there's a direct saving available before she's even looked at anything else.`);
+    }
+
+  } else if (statementUploaded) {
+    // Path C — uploaded statement
+    if (debtorBook && advanceAmount) {
+      paras.push(`Based on your turnover and ${paymentTerms} payment terms, your debtor book sits at around ${_fmtK(debtorBook)}. A well-structured facility should be releasing up to ${_fmtK(advanceAmount)} of that within 24 hours of invoicing.`);
+    }
+    if (advanceNote) paras.push(advanceNote);
+    paras.push('Nicole will do a full detailed analysis of your statement and come back to you with a precise breakdown of your current costs and exactly how they compare to what\'s available today.');
+
+  } else {
+    // Path B — doesn't know rates
+    if (debtorBook && advanceAmount) {
+      paras.push(`Based on your turnover and ${paymentTerms} payment terms, your debtor book is around ${_fmtK(debtorBook)}. A well-structured facility should be releasing up to ${_fmtK(advanceAmount)} of that within 24 hours of invoicing.`);
+    }
+    if (advanceNote) paras.push(advanceNote);
+    paras.push('Most people don\'t know the full cost of their invoice finance facility — between service fees, discount charges, monthly minimums, disbursements and bad debt protection, the real cost is rarely obvious from a single statement. What Nicole finds, more often than not, is that clients are genuinely surprised when they see what they\'re actually paying — and even more surprised by what\'s available elsewhere.');
+    paras.push('Nicole sources bad debt protection at 0.4–0.8% — most clients are surprised to find it\'s available that cheaply.');
+    paras.push('You don\'t need to know your exact terms to get a review. Nicole will request your facility agreement and do the full analysis for you.');
+  }
+
+  return paras;
+}
+
+function _buildOverdraftSummary(lender, turnover) {
+  const paras = [];
+  const rate = parseFloat(state.overdraftRate || state['overdraft-rate'] || 0) || null;
+  const lenderRef = lender ? lender : 'your bank';
+
+  paras.push('An overdraft feels like a safety net — until the bank removes it. In the current climate, banks are reviewing and cutting business overdrafts with very little warning, leaving businesses suddenly exposed with no alternative in place.');
+
+  if (rate) {
+    const level = rate < 8 ? 'on the cheaper end' : rate > 12 ? 'above average' : 'mid-range';
+    paras.push(`At ${rate}% your overdraft is ${level} compared to the typical range of 8–15% EAR — but cost is only part of the story.`);
+  }
+
+  paras.push(`A revolving credit facility gives you the same flexibility — money available when you need it, repaid when you don't — but with a fixed term, a guaranteed limit, and a lender who can't pull it overnight. Nicole will show you exactly what's available at your turnover level.`);
+
+  return paras;
+}
+
+function _buildLoanSummary(lender, turnover) {
+  const paras = [];
+  const knows = state.loanKnowledge === 'Knows details';
+  const lenderRef = lender || 'your current lender';
+
+  if (knows) {
+    paras.push(`Business loan rates vary enormously depending on when and how yours was arranged. Nicole will review your current terms against what's available in the market today — without running any credit checks that could affect your score. She'll come back to you with a clear picture of whether there's a better deal available.`);
+    const repayment = parseFloat(state.loanRepayment || state.loanMonthlyCost || 0) || null;
+    if (repayment) {
+      paras.push(`If the monthly repayment is putting pressure on cashflow, refinancing or consolidating may be worth exploring alongside the rate review.`);
+    }
+  } else {
+    paras.push(`It costs nothing to have your business loan reviewed — and Nicole can do it without running any credit checks that could affect your score. Send her your current agreement and she'll tell you honestly whether you're on a good deal or whether there's something better available right now.`);
+  }
+
+  return paras;
+}
+
+function _buildAssetSummary(lender, turnover, industry) {
+  const paras = [];
+  const knows = state.assetKnowledge === 'Knows details' || state['asset-knowledge'] === 'Knows details';
+  const nearlyPaidOff = (state.assetNearlyPaidOff || '').toLowerCase() === 'yes';
+  const ind = industry.toLowerCase();
+
+  if (knows) {
+    paras.push(`Nicole will review your current agreements against what's available in the market today — no credit checks, no obligation.`);
+    if (nearlyPaidOff) {
+      paras.push(`With some of your agreements coming to the end of their term, now could be the perfect time to look at refinancing your next acquisition on better terms — while your repayment history works in your favour.`);
+    }
+  } else {
+    paras.push(`It costs nothing to have your asset finance reviewed and Nicole can do it without affecting your credit score. Send her your current agreements and she'll tell you honestly whether there's a better deal available.`);
+  }
+
+  if (ind.includes('construct') || ind.includes('transport') || ind.includes('manufactur') || ind.includes('haulage') || ind.includes('logistics')) {
+    paras.push(`There are specialist asset finance lenders who understand ${industry} equipment and vehicles inside out — they often offer better terms than generalist lenders because they know exactly what the asset is worth.`);
+  }
+
+  return paras;
+}
+
+function _buildMCASummary(lender, turnover) {
+  const paras = [];
+  const factorRate = parseFloat(state.mcaFactorRate || state['mca-factor-rate'] || 0) || null;
+  const amountKey = state.mcaAmount || state['mca-amount'] || '';
+  const amountMap = { 'under-10k': 7500, '10k-25k': 17500, '25k-50k': 37500, '50k-100k': 75000, '100k+': 125000 };
+  const mcaAmount = amountMap[amountKey] || null;
+  const mcaCost = factorRate && mcaAmount ? Math.round((factorRate - 1) * mcaAmount) : null;
+  const b2c = state.mcaB2C || state['mca-b2c'] || '';
+
+  if (factorRate && mcaAmount && mcaCost) {
+    paras.push(`At a factor rate of ${factorRate}, your original advance of ${_fmtK(mcaAmount)} will cost you ${_fmtK(mcaCost)} in total — that's ${_fmtK(mcaCost)} on top of what you borrowed. Merchant cash advances are fast but they're one of the most expensive ways to borrow, and in Nicole's experience there's almost always a better alternative available.`);
+  }
+
+  if (b2c.toLowerCase().includes('b2c') || b2c.toLowerCase().includes('consumer')) {
+    paras.push(`What many B2C businesses don't realise is that trade finance is available to them too — at a fraction of the cost of a merchant cash advance, with none of the daily repayment pressure, and with all the benefits of being able to pay suppliers upfront and negotiate better prices. Nicole will explore that option alongside any alternatives.`);
+  } else {
+    paras.push(`If you're raising invoices as well as taking card payments, invoice finance or a revolving credit facility could replace your MCA at significantly lower cost — Nicole will look at the full picture.`);
+  }
+
+  paras.push(`Nicole has yet to review a merchant cash advance that couldn't be improved upon.`);
+
+  return paras;
+}
+
+function _buildTradeSummary(lender, turnover) {
+  const paras = [];
+  const rate = parseFloat(state.tradeRate || state['trade-rate'] || 0) || null;
+  const propertyCharge = (state.tradePropertyCharge || state['trade-property-charge'] || '').toLowerCase();
+  const facilityLow = turnover ? _fmtK(Math.round(turnover * 0.10)) : null;
+  const facilityHigh = turnover ? _fmtK(Math.round(turnover * 0.15)) : null;
+  const savingLow = turnover ? _fmtK(Math.round(turnover * 0.10 * 0.02)) : null;
+  const savingHigh = turnover ? _fmtK(Math.round(turnover * 0.15 * 0.05)) : null;
+
+  if (rate) {
+    if (rate > 1.5) {
+      paras.push(`Your current rate of ${rate}% per month is above what Nicole would expect for a well-structured trade finance facility. She has lenders who operate below that threshold — it's worth a conversation.`);
+    } else {
+      paras.push(`Your rate looks reasonable — but there may still be room to improve terms, increase your facility limit, or remove restrictive conditions.`);
+    }
+  } else {
+    paras.push(`Trade finance facilities vary enormously in how they're structured and what they actually cost. Nicole will review yours and tell you honestly whether the rate, the security requirements, and the overall structure are working in your favour.`);
+  }
+
+  if (propertyCharge === 'yes') {
+    paras.push(`Some trade finance lenders require a charge on property as security — Nicole doesn't work with those lenders. If your current facility has a property charge attached, she can almost certainly find you an equivalent facility without one. That's worth exploring.`);
+  }
+
+  if (facilityLow && savingLow) {
+    paras.push(`Based on your turnover, a well-structured trade finance facility of ${facilityLow}–${facilityHigh} is a reasonable benchmark. Paying suppliers upfront typically unlocks early payment discounts of 2–5% — that's a potential saving of ${savingLow}–${savingHigh} a year, often enough to offset the cost of the facility entirely.`);
+  }
+
+  return paras;
+}
+
+function _buildOtherSummary(lender) {
+  const facilityType = state.otherFundingType || state.otherFacilityType || 'your current finance arrangement';
+  const paras = [];
+  paras.push(`Every type of funding${facilityType && facilityType !== 'your current finance arrangement' ? ` — including ${facilityType}` : ''} should be reviewed regularly. Markets move, lenders' appetites change, and the deal that made sense when you set it up may not be the best available today. Nicole has access to the whole market and would love to take a look at what you have in place and explore whether there's something better out there for you.`);
+  return paras;
+}
+
+// legacy — kept for reference but not called
 function buildPrompt() {
   const details = `
 Facility type: Invoice Finance
@@ -3224,8 +3475,9 @@ function displayResults(summary) {
     }
   }
   
-  // Use the facility-specific summary instead of the passed summary
-  summary = facilitySummary;
+  // Use the passed summary (built by buildFacilityReviewSummary)
+  // facilitySummary kept as fallback only if summary is empty
+  if (!summary) summary = facilitySummary;
   
   const resultsNameEl = document.getElementById('results-name');
   const summaryTextEl = document.getElementById('ai-summary-text');
@@ -3233,7 +3485,7 @@ function displayResults(summary) {
   const screenContentEl = document.querySelector('#screen-loading .screen-content');
   
   if (resultsNameEl) resultsNameEl.textContent = resultSubtitle;
-  if (summaryTextEl) summaryTextEl.textContent = summary;
+  if (summaryTextEl) summaryTextEl.innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
   if (nicoleMessageEl) nicoleMessageEl.textContent = `I've received your Facility Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${businessText}.`;
   
   // Hide the loading overlay
@@ -3394,16 +3646,54 @@ async function sendInitialInfoNotification() {
 }
 
 async function sendNotification(summary) {
-  const formattedProvider = formatProviderName(state['if-lender-val'] || state.ifLender || "");
+  const facilityType = state.selectedReviewType || state.facilityType || 'Not provided';
+  const lenderName = formatProviderName(
+    state['if-lender-val'] || state.ifLender || state.loanLender ||
+    state.assetProvider || state.tradeProvider || state.fxProvider ||
+    state.otherFundingProvider || ''
+  ) || 'Not provided';
+  const knowledgeLevel = state['if-knowledge'] || state.loanKnowledge || state.assetKnowledge || state.tradeKnowledge || 'Not provided';
+  const painPoints = (state['if-priorities'] || state.loanPriorities || state.assetPriorities || state.tradePriorities || []).join(', ') || 'None';
+  const switchingConcerns = (state.barrier === 'yes' || state.loanBarrier === 'yes' || state.assetBarrier === 'yes' || state.tradeBarrier === 'yes') ? 'Yes' : 'No';
+  const switchingConcernDetails = state.barrierDetails || state.loanBarrierDetails || state.assetBarrierDetails || state.tradeBarrierDetails || '';
+  const statementUploaded = (state.files && state.files.length > 0) ? 'Yes' : 'No';
+
+  const rateDetails = [
+    state.ifLimit       ? `Limit: ${state.ifLimit}`             : '',
+    state.ifAdvance     ? `Advance: ${state.ifAdvance}%`        : '',
+    state.ifServiceFee  ? `Service fee: ${state.ifServiceFee}%` : '',
+    state.ifDiscount    ? `Discount rate: ${state.ifDiscount}%` : '',
+    state.ifMinimums    ? `Minimums: £${state.ifMinimums}`      : '',
+    state.ifDisbursements ? `Disbursements: £${state.ifDisbursements}` : '',
+    state.loanRate      ? `Loan rate: ${state.loanRate}%`       : '',
+    state.loanRepayment ? `Repayment: £${state.loanRepayment}/mo` : '',
+    state.loanTerm      ? `Term: ${state.loanTerm} months`      : '',
+    state.tradeRate     ? `Trade rate: ${state.tradeRate}%/mo`  : '',
+    state.mcaFactorRate ? `MCA factor: ${state.mcaFactorRate}`  : '',
+    state.overdraftRate ? `Overdraft rate: ${state.overdraftRate}%` : '',
+  ].filter(Boolean).join(' | ') || 'Not provided';
+
   const templateParams = {
     name: state.name || 'Not provided',
     business_name: state.business || 'Not provided',
     email: state.email || 'Not provided',
     phone: state.phone || 'Not provided',
     company_number: state.companyNumber || 'Not provided',
-    module: 'Facility Review — Invoice Finance',
-    matched_products: `Lender: ${formattedProvider || 'Not provided'} | Type: ${state['if-type'] || 'Not provided'} | Advance: ${state.ifAdvance || 'Not provided'} | Service Fee: ${state.ifServiceFee || 'Not provided'} | Minimums: ${state.ifMinimums || 'Not provided'} | Disbursements: ${state.ifDisbursements || 'Not provided'} | Priorities: ${(state['if-priorities'] || []).join(', ') || 'Not specified'}`,
-    barriers: state.barrier === 'yes' ? state.barrierDetails || 'Yes — no details' : 'None',
+    module: `Facility Review — ${facilityType}`,
+    facility_type: facilityType,
+    lender_name: lenderName,
+    knowledge_level: knowledgeLevel,
+    rate_details: rateDetails,
+    pain_points: painPoints,
+    switching_concerns: switchingConcerns,
+    switching_concern_details: switchingConcernDetails || 'N/A',
+    statement_uploaded: statementUploaded,
+    other_facility_type: state.otherFundingType || state.otherFacilityType || 'N/A',
+    mca_b2c: state.mcaB2C || state['mca-b2c'] || 'N/A',
+    trade_property_charge: state.tradePropertyCharge || state['trade-property-charge'] || 'N/A',
+    asset_nearly_paid_off: state.assetNearlyPaidOff || state['asset-nearly-paid-off'] || 'N/A',
+    matched_products: `Type: ${facilityType} | Lender: ${lenderName} | ${rateDetails}`,
+    barriers: switchingConcernDetails || 'None',
     summary: summary
   };
 
