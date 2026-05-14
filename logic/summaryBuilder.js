@@ -116,15 +116,25 @@ function buildLoanApplicationSummary(answers) {
   const purposeInsight = getLoanPurposeInsight(purpose, business);
   const creditHistoryInsight = getCreditHistoryInsight(credit);
   const creditConcern = getLoanCreditConcernInsight(barrier, barrierDetails, business);
-  
+
   let para2 = '';
   if (purposeInsight) para2 += purposeInsight + ' ';
   if (creditHistoryInsight) para2 += creditHistoryInsight + ' ';
   if (creditConcern) para2 += creditConcern;
   if (para2) blocks.push(para2.trim());
 
-  // Keep to 2 paragraphs max
-  const finalBlocks = blocks.slice(0, 2);
+  // Paragraph 3 — security + funding amount sense-check + existing facilities
+  const securityInsight = getLoanSecurityInsight(security, [], business);
+  const amountInsight = getFundingAmountInsight(amount, turnover, hasSecurityOrAsset);
+  const facilitiesNote = getExistingFacilitiesNote(existingFacilities, business);
+
+  let para3 = '';
+  if (securityInsight) para3 += securityInsight + ' ';
+  if (amountInsight) para3 += amountInsight + ' ';
+  if (facilitiesNote) para3 += facilitiesNote;
+  if (para3) blocks.push(para3.trim());
+
+  const finalBlocks = blocks.slice(0, 3);
 
   const summaryText = finalBlocks.join('\n\n');
   return {
@@ -207,7 +217,8 @@ function buildShariahSummary(answers) {
   let para2 = `Shariah-compliant business funding can be more specialist and sometimes harder to source through mainstream routes, but that does not mean suitable options are out of reach. The key is understanding exactly what the funding needs to achieve, whether the amount required is realistic, and which providers may be able to support the business in a way that aligns more closely with Shariah-compliant principles.`;
   if (purposeInsight) para2 += ` ${purposeInsight}`;
   if (amountSentence) para2 += ` ${amountSentence}`;
-  
+  blocks.push(para2);
+
   const summaryText = blocks.join('\n\n');
   return {
     pageHeading:    PAGE_HEADING,

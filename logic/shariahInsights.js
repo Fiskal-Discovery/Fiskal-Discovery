@@ -78,13 +78,3 @@ function getShariahPurposeInsight(purposes, otherPurpose, businessName) {
   return insights.slice(0, 2).join(' ');
 }
 
-// Utility — also defined in globalInsights but included here for standalone use
-function parseMoneyString(value) {
-  if (!value) return null;
-  const cleaned = String(value)
-    .replace(/[£$,\s]/g, '')
-    .replace(/k$/i, '000')
-    .replace(/m$/i, '000000');
-  const n = parseFloat(cleaned);
-  return isNaN(n) ? null : n;
-}
