@@ -1442,6 +1442,7 @@
     </div>
     <div class="ob-brand-tagline">Find out what's possible for your business.</div>
   </div>
+  <div id="welcome-question-container" class="welcome-question-container" style="position:relative;z-index:10000;width:100%;max-width:560px;margin:0 auto;padding:24px 20px;"></div>
   <div class="ob-chat" id="ob-chat" style="position:relative;z-index:1;"></div>
   <div class="ob-input-area" id="ob-input-area" style="display:none;z-index:10001;">
     <input class="ob-input" id="ob-input" type="text" placeholder="Type your answer..." autocomplete="off">
@@ -1986,13 +1987,23 @@ function renderWelcomeQuestion() {
   }
 
   const chat = document.getElementById('ob-chat');
+  const welcomeContainer = document.getElementById('welcome-question-container');
   chat.innerHTML = '';
+  if (welcomeContainer) welcomeContainer.innerHTML = '';
 
-  // Add Fiskal bubble with question
+  // Add Fiskal bubble with question to chat
   const fiskalBubble = document.createElement('div');
   fiskalBubble.className = 'ob-bubble fiskal';
   fiskalBubble.textContent = q.question;
   chat.appendChild(fiskalBubble);
+
+  // Also render to welcome-question-container for better visibility
+  if (welcomeContainer) {
+    const questionDiv = document.createElement('div');
+    questionDiv.style.cssText = 'color: white; font-size: 24px; font-weight: 600; margin-bottom: 24px; text-align: center; font-family: DM Sans, sans-serif;';
+    questionDiv.textContent = q.question;
+    welcomeContainer.appendChild(questionDiv);
+  }
 
   // Render options based on question type
   if (q.type === 'single-choice') {
@@ -2008,6 +2019,20 @@ function renderWelcomeQuestion() {
       choicesDiv.appendChild(btn);
     });
 
+    // Also render buttons to welcome-question-container
+    if (welcomeContainer) {
+      const buttonsDiv = document.createElement('div');
+      buttonsDiv.style.cssText = 'display: flex; flex-direction: column; gap: 12px; margin-top: 24px;';
+      q.options.forEach(option => {
+        const btn = document.createElement('button');
+        btn.style.cssText = 'background: linear-gradient(135deg, #7c09a5 0%, #0099ff 100%); color: white; padding: 16px 24px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: DM Sans, sans-serif;';
+        btn.textContent = option;
+        btn.onclick = () => handleWelcomeAnswer(q.saveAs, option);
+        buttonsDiv.appendChild(btn);
+      });
+      welcomeContainer.appendChild(buttonsDiv);
+    }
+
     document.getElementById('ob-input-area').style.display = 'none';
   } else if (q.type === 'text') {
     document.getElementById('ob-input-area').style.display = 'flex';
@@ -2019,6 +2044,23 @@ function renderWelcomeQuestion() {
       }
     };
     document.getElementById('ob-choices').style.display = 'none';
+
+    // Also render input to welcome-question-container
+    if (welcomeContainer) {
+      const inputContainer = document.createElement('div');
+      inputContainer.style.cssText = 'margin-top: 24px;';
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.style.cssText = 'width: 100%; padding: 16px; border: 2px solid #7c09a5; border-radius: 8px; font-size: 16px; background: rgba(255,255,255,0.1); color: white; font-family: DM Sans, sans-serif;';
+      input.placeholder = 'Type your answer...';
+      input.onkeypress = (e) => {
+        if (e.key === 'Enter') {
+          handleWelcomeAnswer(q.saveAs, input.value);
+        }
+      };
+      inputContainer.appendChild(input);
+      welcomeContainer.appendChild(inputContainer);
+    }
   } else if (q.type === 'multi-input') {
     // For multi-input, we'll handle each field sequentially
     renderMultiInputQuestion(q);
