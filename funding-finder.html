@@ -1804,13 +1804,13 @@ const fundingFinderFlow = [
   // Product-discovery questions only - profile data comes from appState.profile
   {
     id: "purpose",
-    type: "single-choice",
-    question: "What do you need funding for?",
+    type: "multi-choice",
+    question: "What do you need funding for? Select all that apply.",
     options: [
       "Cashflow",
       "Growth",
       "Stock",
-      "Equipment",
+      "Vehicles or equipment",
       "Refinance existing finance",
       "Other"
     ],
@@ -1898,6 +1898,23 @@ function saveAnswer(key, value) {
   saveAppState();
 }
 
+function applyPurposeToMatchedProducts(purposes) {
+  const map = {
+    'Cashflow':                  ['invoice', 'revolving'],
+    'Stock':                     ['trade'],
+    'Vehicles or equipment':     ['asset'],
+    'Growth':                    ['loan'],
+    'Refinance existing finance':['loan', 'revolving'],
+  };
+  purposes.forEach(p => {
+    (map[p] || []).forEach(product => {
+      if (!state.flowAnswers[product]) {
+        state.flowAnswers[product] = 'maybe';
+      }
+    });
+  });
+}
+
 function renderFlowQuestion() {
   const visibleQuestions = getVisibleQuestions();
   if (state.currentQuestion >= visibleQuestions.length) {
@@ -1934,6 +1951,37 @@ function renderFlowQuestion() {
       };
       optionsEl.appendChild(btn);
     });
+  } else if (q.type === 'multi-choice') {
+    const selected = new Set();
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'answer-btn';
+      btn.textContent = opt;
+      btn.onclick = () => {
+        if (selected.has(opt)) {
+          selected.delete(opt);
+          btn.style.background = '';
+          btn.style.borderColor = '';
+          btn.style.color = '';
+        } else {
+          selected.add(opt);
+          btn.style.background = 'linear-gradient(135deg, #7c09a5 0%, #0099ff 100%)';
+          btn.style.borderColor = '#7c09a5';
+          btn.style.color = 'white';
+        }
+        nextBtn.style.display = selected.size > 0 ? 'block' : 'none';
+      };
+      optionsEl.appendChild(btn);
+    });
+    const nextBtn = document.getElementById('q-next-btn');
+    nextBtn.style.display = 'none';
+    nextBtn.textContent = 'Continue →';
+    nextBtn.onclick = () => {
+      const values = Array.from(selected);
+      saveAnswer(q.saveAs, values);
+      applyPurposeToMatchedProducts(values);
+      goNext();
+    };
   } else if (q.type === 'text') {
     const input = document.createElement('input');
     input.type = 'text';
@@ -2018,7 +2066,8 @@ function submitFlow() {
   state.fundingAmount = state.flowAnswers.fundingAmount || '';
   state.industry = state.flowAnswers.industry || '';
   state.turnover = state.flowAnswers.turnover || '';
-  state.fundingPurpose = state.flowAnswers.purpose || '';
+  const rawPurpose = state.flowAnswers.purpose || '';
+  state.fundingPurpose = Array.isArray(rawPurpose) ? rawPurpose.join(', ') : rawPurpose;
   state.urgency = state.flowAnswers.urgency || '';
   state.invoiceCustomers = state.flowAnswers.invoiceCustomers || '';
   state.paymentTerms = state.flowAnswers.paymentTerms || '';
