@@ -1981,8 +1981,15 @@ function startWelcome() {
 }
 
 function renderWelcomeQuestion() {
-  console.log("Welcome visible");
+  console.log("renderWelcomeQuestion running");
   console.log("welcome-question-container:", document.getElementById("welcome-question-container"));
+
+  const container = document.getElementById("welcome-question-container");
+  if (!container) {
+    console.error("Container not found");
+    return;
+  }
+  container.innerHTML = "<p>Test question loaded</p>";
   
   const overlay = document.getElementById('onboarding-overlay');
   console.log("Onboarding overlay:", overlay);
@@ -2230,26 +2237,19 @@ function resetOnboarding() {
 // ============================================================
 // INITIALIZATION
 // ============================================================
-document.addEventListener('DOMContentLoaded', () => {
-  console.log("=== APP LOADED ===");
-  
-  // Read appState from localStorage safely
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM loaded");
+
   loadAppState();
-  console.log("appState loaded:", appState);
-  console.log("welcomeCompleted:", appState?.welcomeCompleted);
+  console.log("appState:", appState);
 
-  // Log initial route
-  console.log("Initial route:", appState?.welcomeCompleted ? "homepage" : "welcome");
-
-  // Check if welcome is completed
-  if (appState.welcomeCompleted === true) {
-    // Show Homepage, hide Welcome
-    console.log("Showing homepage (welcome completed)");
-    showHomepage();
-  } else {
-    // Show Welcome, hide all other screens
-    console.log("Showing welcome (not completed)");
+  if (!appState.welcomeCompleted) {
+    console.log("Showing welcome");
     showWelcome();
+    renderWelcomeQuestion();
+  } else {
+    console.log("Showing homepage");
+    showHomepage();
   }
 });
 
