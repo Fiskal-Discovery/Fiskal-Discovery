@@ -1991,13 +1991,7 @@ function renderWelcomeQuestion() {
   chat.innerHTML = '';
   if (welcomeContainer) welcomeContainer.innerHTML = '';
 
-  // Add Fiskal bubble with question to chat
-  const fiskalBubble = document.createElement('div');
-  fiskalBubble.className = 'ob-bubble fiskal';
-  fiskalBubble.textContent = q.question;
-  chat.appendChild(fiskalBubble);
-
-  // Also render to welcome-question-container for better visibility
+  // Render to welcome-question-container for better visibility
   if (welcomeContainer) {
     const questionDiv = document.createElement('div');
     questionDiv.style.cssText = 'color: white; font-size: 24px; font-weight: 600; margin-bottom: 24px; text-align: center; font-family: DM Sans, sans-serif;';
@@ -2007,24 +2001,10 @@ function renderWelcomeQuestion() {
 
   // Render options based on question type
   if (q.type === 'single-choice') {
-    const choicesDiv = document.getElementById('ob-choices');
-    choicesDiv.innerHTML = '';
-    choicesDiv.style.display = 'flex';
+    // Hide old chat-style choices
+    document.getElementById('ob-choices').style.display = 'none';
 
-    q.options.forEach(option => {
-      const btn = document.createElement('button');
-      btn.className = 'ob-choice-btn';
-      btn.textContent = option;
-      // Use answerWelcomeUserType for userType question, handleWelcomeAnswer for others
-      if (q.id === 'userType') {
-        btn.onclick = () => answerWelcomeUserType(option);
-      } else {
-        btn.onclick = () => handleWelcomeAnswer(q.saveAs, option);
-      }
-      choicesDiv.appendChild(btn);
-    });
-
-    // Also render buttons to welcome-question-container
+    // Render buttons to welcome-question-container
     if (welcomeContainer) {
       const buttonsDiv = document.createElement('div');
       buttonsDiv.style.cssText = 'display: flex; flex-direction: column; gap: 12px; margin-top: 24px;';
@@ -2045,17 +2025,11 @@ function renderWelcomeQuestion() {
 
     document.getElementById('ob-input-area').style.display = 'none';
   } else if (q.type === 'text') {
-    document.getElementById('ob-input-area').style.display = 'flex';
-    document.getElementById('ob-input').value = '';
-    document.getElementById('ob-input').placeholder = 'Type your answer...';
-    document.getElementById('ob-input').onkeypress = (e) => {
-      if (e.key === 'Enter') {
-        handleWelcomeAnswer(q.saveAs, document.getElementById('ob-input').value);
-      }
-    };
+    // Hide old chat-style input
+    document.getElementById('ob-input-area').style.display = 'none';
     document.getElementById('ob-choices').style.display = 'none';
 
-    // Also render input to welcome-question-container
+    // Render input to welcome-question-container
     if (welcomeContainer) {
       const inputContainer = document.createElement('div');
       inputContainer.style.cssText = 'margin-top: 24px;';
@@ -2133,20 +2107,12 @@ function answerWelcomeUserType(value) {
     return;
   }
 
-  if (!window.appState) {
-    window.appState = JSON.parse(localStorage.getItem("fiskal_appState") || "{}");
-  }
+  // Use module-level appState and welcomeState, not window.*
+  appState.profile = appState.profile || {};
+  appState.profile.userType = value;
+  saveAppState();
 
-  window.appState.profile = window.appState.profile || {};
-  window.appState.profile.userType = value;
-
-  localStorage.setItem("fiskal_appState", JSON.stringify(window.appState));
-
-  if (!window.welcomeState) {
-    window.welcomeState = { currentQuestion: 0 };
-  }
-
-  window.welcomeState.currentQuestion += 1;
+  welcomeState.currentQuestion++;
 
   if (typeof renderWelcomeQuestion === "function") {
     renderWelcomeQuestion();
