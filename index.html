@@ -1411,11 +1411,23 @@
   #screen-results .screen-content {
     max-width: 860px;
   }
+
+  #debug-circle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    background: red;
+    border-radius: 50%;
+    z-index: 9999;
+  }
 </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
 </head>
 <body>
+<div id="debug-circle"></div>
 
 <!-- ====== ONBOARDING OVERLAY ====== -->
 <div id="onboarding-overlay">
