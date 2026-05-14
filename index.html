@@ -8,33 +8,34 @@
 <link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
-    --indigo: #7E09A5;
-    --indigo-deep: #5a0075;
-    --indigo-light: #9B20C2;
-    --indigo-pale: #f9f0ff;
-    --gold: #0099FF;
-    --gold-light: #33AAFF;
+    --indigo: #4f46e5;
+    --indigo-deep: #3730a3;
+    --indigo-light: #6366f1;
+    --indigo-pale: #eef2ff;
+    --gold: #38bdf8;
+    --gold-light: #7dd3fc;
     --cream: #FAF8F5;
-    --dark: #1a1025;
-    --mid: #5a4a6a;
-    --light-text: #8a7a9a;
+    --dark: #0d0d1f;
+    --mid: #4a4a72;
+    --light-text: #8b8bb0;
     --white: #ffffff;
-    --success: #2d9e6b;
-    --bg-deep: #0a0a12;
-    --bg-card: #12121a;
-    --bg-card-light: #1a1a28;
+    --success: #10b981;
+    --bg-deep: #04040e;
+    --bg-card: #0a0a1e;
+    --bg-card-light: #10102a;
     --accent-blue: #2563eb;
-    --accent-purple: #7c3aed;
-    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
-    --shadow-card: 0 8px 30px rgba(124, 9, 165, 0.15);
-    --shadow-glow: 0 0 40px rgba(124, 9, 165, 0.2);
+    --accent-purple: #6d28d9;
+    --btn-gradient: linear-gradient(135deg, #4338ca 0%, #6d28d9 60%, #2563eb 100%);
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --shadow-card: 0 8px 30px rgba(79, 70, 229, 0.18);
+    --shadow-glow: 0 0 50px rgba(79, 70, 229, 0.25);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: linear-gradient(135deg, var(--bg-deep) 0%, #0f0f1a 50%, var(--bg-deep) 100%);
+    background: linear-gradient(135deg, var(--bg-deep) 0%, #08081c 50%, var(--bg-deep) 100%);
     color: var(--white);
     min-height: 100vh;
     overflow-x: hidden;
@@ -43,7 +44,7 @@
   /* ====== ONBOARDING OVERLAY ====== */
   #onboarding-overlay {
     position: fixed; inset: 0; z-index: 9999;
-    background: linear-gradient(135deg, #0a0a12 0%, #12121a 50%, #0a0a12 100%);
+    background: linear-gradient(135deg, #04040e 0%, #0a0a1e 50%, #04040e 100%);
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     overflow-y: auto;
@@ -54,7 +55,7 @@
     position: absolute;
     inset: 0;
     background: 
-      radial-gradient(circle at 20% 30%, rgba(124, 9, 165, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 20% 30%, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
       radial-gradient(circle at 80% 70%, rgba(0, 153, 255, 0.1) 0%, transparent 50%);
     pointer-events: none;
   }
@@ -122,22 +123,23 @@
     width: 100%; max-width: 560px;
   }
   .ob-input {
-    flex: 1; border: 1.5px solid rgba(126,9,165,0.25);
-    border-radius: 24px; padding: 11px 18px;
+    flex: 1; border: 1.5px solid rgba(79, 70, 229, 0.3);
+    border-radius: 999px; padding: 11px 20px;
     font-size: 15px; font-family: 'DM Sans', sans-serif;
-    background: var(--cream); color: var(--dark);
+    background: rgba(255,255,255,0.06); color: var(--white);
     outline: none; transition: border-color 0.2s;
   }
-  .ob-input:focus { border-color: var(--indigo); }
+  .ob-input::placeholder { color: rgba(255,255,255,0.35); }
+  .ob-input:focus { border-color: var(--indigo); background: rgba(255,255,255,0.09); }
   .ob-send {
     width: 44px; height: 44px; border-radius: 50%;
-    background: var(--indigo); border: none; cursor: pointer;
+    background: var(--btn-gradient); border: none; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 18px; transition: background 0.2s;
-    flex-shrink: 0;
+    color: white; font-size: 18px; transition: all 0.2s;
+    flex-shrink: 0; box-shadow: 0 2px 12px rgba(79, 70, 229, 0.4);
   }
-  .ob-send:hover { background: var(--indigo-deep); }
-  .ob-send:disabled { background: #ccc; cursor: not-allowed; }
+  .ob-send:hover { transform: scale(1.05); box-shadow: 0 4px 18px rgba(79, 70, 229, 0.55); }
+  .ob-send:disabled { background: #333; cursor: not-allowed; box-shadow: none; }
 
   /* Choice buttons */
   .ob-choices {
@@ -159,13 +161,13 @@
     }
   }
   .ob-choice-btn {
-    padding: 13px 18px; border-radius: 12px;
-    border: 1.5px solid var(--indigo); color: var(--indigo);
-    background: white; font-size: 14px; font-weight: 500;
+    padding: 13px 20px; border-radius: 999px;
+    border: 1.5px solid rgba(99, 102, 241, 0.45); color: var(--indigo-light);
+    background: rgba(79, 70, 229, 0.08); font-size: 14px; font-weight: 500;
     cursor: pointer; text-align: left; transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Sans', sans-serif; backdrop-filter: blur(4px);
   }
-  .ob-choice-btn:hover { background: var(--indigo); color: white; }
+  .ob-choice-btn:hover { background: var(--btn-gradient); color: white; border-color: transparent; box-shadow: 0 4px 16px rgba(79,70,229,0.4); }
 
   .ob-home-bottom {
     position: fixed;
@@ -184,7 +186,7 @@
   .profile-badge {
     display: flex; align-items: center; gap: 10px;
     background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-light) 100%);
-    border: 1px solid rgba(124, 9, 165, 0.2);
+    border: 1px solid rgba(79, 70, 229, 0.2);
     border-radius: 12px;
     padding: 10px 14px; margin: 0 24px 8px;
     box-shadow: var(--shadow-soft);
@@ -195,7 +197,7 @@
     color: white;
     display: flex; align-items: center; justify-content: center;
     font-size: 16px; font-weight: 600; flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(124, 9, 165, 0.3);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
   }
   .profile-badge-info { flex: 1; }
   .profile-badge-name { font-size: 14px; font-weight: 600; color: var(--white); }
@@ -486,7 +488,7 @@
 
   .module-card {
     background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-light) 100%);
-    border: 1px solid rgba(124, 9, 165, 0.2);
+    border: 1px solid rgba(79, 70, 229, 0.2);
     border-radius: 16px;
     padding: 20px;
     cursor: pointer;
@@ -525,7 +527,7 @@
   .module-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-glow);
-    border-color: rgba(124, 9, 165, 0.4);
+    border-color: rgba(79, 70, 229, 0.4);
   }
   .module-card:hover::before { opacity: 0.9; }
   .module-card:hover::after { opacity: 1; }
@@ -547,7 +549,7 @@
     position: relative;
     z-index: 1;
     transition: background 0.25s ease;
-    box-shadow: 0 4px 12px rgba(124, 9, 165, 0.3);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
   }
 
   .module-card-body {
@@ -867,20 +869,21 @@
 
   /* ---- BUTTONS ---- */
   .btn-primary {
-    background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-light) 100%);
+    background: var(--btn-gradient);
     color: white;
     border: none;
-    border-radius: 12px;
-    padding: 16px 28px;
+    border-radius: 999px;
+    padding: 16px 32px;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     width: 100%;
     font-family: 'DM Sans', sans-serif;
     transition: all 0.25s ease;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.4px;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.35);
   }
 
   .btn-primary::after {
@@ -889,18 +892,20 @@
     inset: 0;
     background: rgba(255,255,255,0);
     transition: background 0.2s ease;
+    border-radius: 999px;
   }
 
-  .btn-primary:hover::after { background: rgba(255,255,255,0.1); }
+  .btn-primary:hover { box-shadow: 0 6px 28px rgba(79, 70, 229, 0.5); transform: translateY(-1px); }
+  .btn-primary:hover::after { background: rgba(255,255,255,0.08); }
   .btn-primary:active { transform: scale(0.98); }
   .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
   .btn-secondary {
     background: transparent;
-    color: var(--indigo);
-    border: 1.5px solid var(--indigo);
-    border-radius: 12px;
-    padding: 14px 28px;
+    color: var(--indigo-light);
+    border: 1.5px solid rgba(99, 102, 241, 0.4);
+    border-radius: 999px;
+    padding: 14px 32px;
     font-size: 14px;
     font-weight: 400;
     cursor: pointer;
@@ -911,7 +916,8 @@
   }
 
   .btn-secondary:hover {
-    background: var(--indigo-pale);
+    background: rgba(79, 70, 229, 0.1);
+    border-color: var(--indigo-light);
   }
 
   .btn-skip {
@@ -961,8 +967,8 @@
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    border: 4px solid rgba(126,9,165,0.18);
-    border-top-color: #7E09A5;
+    border: 4px solid rgba(79,70,229,0.18);
+    border-top-color: #4f46e5;
     animation: spinThinking 1s linear infinite;
   }
   #discovery-thinking-screen .thinking-phrase {
@@ -981,11 +987,11 @@
   #discovery-thinking-screen .thinking-phrase.shimmer {
     background: linear-gradient(
       90deg,
-      rgba(126,9,165,0.65) 0%,
-      #7E09A5 35%,
+      rgba(79,70,229,0.65) 0%,
+      #4f46e5 35%,
       #FFE600 50%,
-      #7E09A5 65%,
-      rgba(126,9,165,0.65) 100%
+      #4f46e5 65%,
+      rgba(79,70,229,0.65) 100%
     );
     background-size: 260% auto;
     background-position: 260% center;
@@ -1134,7 +1140,7 @@
     font-size: 1.8rem;
     color: var(--purple);
     margin-bottom: 16px;
-    text-shadow: 0 0 30px rgba(126,9,165,.5);
+    text-shadow: 0 0 30px rgba(79,70,229,.5);
   }
 
   .thinking-title {
@@ -1361,9 +1367,9 @@
     min-height: 44px;
     padding: 11px 22px;
     border-radius: 999px;
-    border: 1px solid rgba(126, 9, 165, 0.25);
+    border: 1px solid rgba(79, 70, 229, 0.25);
     background: #ffffff;
-    color: #7E09A5;
+    color: #4f46e5;
     font-family: "Open Sans", sans-serif;
     font-size: 0.95rem;
     font-weight: 800;
@@ -1373,7 +1379,7 @@
     box-sizing: border-box;
   }
   .discovery-nav-btn:hover {
-    background: rgba(126, 9, 165, 0.08);
+    background: rgba(79, 70, 229, 0.08);
   }
   .discovery-nav-btn.primary {
     background: #FFE600;
@@ -1456,8 +1462,8 @@
   <div class="screen-content">
     <div class="home-hero">
       <div class="home-eyebrow" id="home-eyebrow">Welcome to</div>
-      <h1 class="home-title"><span style="font-family:'Libre Baskerville',serif;font-style:italic;font-weight:700;font-size:44px;color:#7E09A5;">Fiskal Discovery</span></h1>
-      <p class="home-tagline"><strong>Refuse to Stand Still</strong><br><span style="color:#0099FF;text-transform:uppercase;letter-spacing:3px;font-size:16px;font-weight:500;">Find out what's possible for your business.</span></p>
+      <h1 class="home-title"><span style="font-family:'Libre Baskerville',serif;font-style:italic;font-weight:700;font-size:44px;color:#4f46e5;">Fiskal Discovery</span></h1>
+      <p class="home-tagline"><strong>Refuse to Stand Still</strong><br><span style="color:#38bdf8;text-transform:uppercase;letter-spacing:3px;font-size:16px;font-weight:500;">Find out what's possible for your business.</span></p>
     </div>
     <div id="home-profile-badge" style="display:none;" class="profile-badge">
       <div class="profile-badge-avatar" id="home-avatar">?</div>
@@ -1528,8 +1534,8 @@
   <div class="nav-row" style="padding: 0 24px 4px;"></div>
   <div class="screen-content">
     <div class="welcome-body">
-      <h1 class="welcome-title" style="font-family:'Libre Baskerville',serif;font-style:italic;font-weight:700;font-size:44px;color:#7E09A5;margin-bottom:8px;">Fiskal Discovery</h1>
-      <p class="welcome-subtitle" style="font-size:18px;color:#0099FF;margin-bottom:24px;"><strong>Refuse to Stand Still</strong></p>
+      <h1 class="welcome-title" style="font-family:'Libre Baskerville',serif;font-style:italic;font-weight:700;font-size:44px;color:#4f46e5;margin-bottom:8px;">Fiskal Discovery</h1>
+      <p class="welcome-subtitle" style="font-size:18px;color:#38bdf8;margin-bottom:24px;"><strong>Refuse to Stand Still</strong></p>
       <div class="welcome-label">Before you begin</div>
       <h2 class="welcome-title">This isn't a comparison website.</h2>
       <div class="welcome-box">
@@ -1720,7 +1726,7 @@
         <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--light-text);margin-bottom:10px;font-weight:500;">Next step</div>
         <p id="next-step-text" style="color:var(--dark);line-height:1.6"></p>
       </div>
-      <div id="confidence-note" style="margin-top:16px;padding:12px;background:rgba(126,9,165,0.05);border-left:3px solid var(--indigo);border-radius:4px;font-size:13px;color:var(--mid);line-height:1.5;display:none"></div>
+      <div id="confidence-note" style="margin-top:16px;padding:12px;background:rgba(79,70,229,0.05);border-left:3px solid var(--indigo);border-radius:4px;font-size:13px;color:var(--mid);line-height:1.5;display:none"></div>
     </div>
 
     <div id="matched-products-section">
@@ -2030,7 +2036,7 @@ function renderWelcomeQuestion() {
       buttonsDiv.style.cssText = 'display: flex; flex-direction: column; gap: 12px; margin-top: 24px;';
       q.options.forEach(option => {
         const btn = document.createElement('button');
-        btn.style.cssText = 'background: linear-gradient(135deg, #7c09a5 0%, #0099ff 100%); color: white; padding: 16px 24px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: DM Sans, sans-serif;';
+        btn.style.cssText = 'background: linear-gradient(135deg, #4f46e5 0%, #38bdf8 100%); color: white; padding: 16px 24px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: DM Sans, sans-serif;';
         btn.textContent = option;
         // Use answerWelcomeUserType for userType question, handleWelcomeAnswer for others
         if (q.id === 'userType') {
@@ -2055,7 +2061,7 @@ function renderWelcomeQuestion() {
       inputContainer.style.cssText = 'margin-top: 24px;';
       const input = document.createElement('input');
       input.type = 'text';
-      input.style.cssText = 'width: 100%; padding: 16px; border: 2px solid #7c09a5; border-radius: 8px; font-size: 16px; background: rgba(255,255,255,0.1); color: white; font-family: DM Sans, sans-serif;';
+      input.style.cssText = 'width: 100%; padding: 16px; border: 2px solid #4f46e5; border-radius: 8px; font-size: 16px; background: rgba(255,255,255,0.1); color: white; font-family: DM Sans, sans-serif;';
       input.placeholder = 'Type your answer...';
       input.onkeypress = (e) => {
         if (e.key === 'Enter') {

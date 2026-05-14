@@ -7,11 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --indigo: #7E09A5;
-    --indigo-deep: #5a0075;
-    --indigo-light: #9B20C2;
+    --indigo: #4f46e5;
+    --indigo-deep: #3730a3;
+    --indigo-light: #6366f1;
     --indigo-pale: #f9f0ff;
-    --blue: #0099FF;
+    --blue: #38bdf8;
     --cream: #FAF8F5;
     --dark: #1a1025;
     --mid: #5a4a6a;
@@ -83,7 +83,7 @@
   .progress-bar-wrap { padding: 0 24px 8px; }
   .progress-track {
     height: 3px;
-    background: rgba(126,9,165,0.12);
+    background: rgba(79,70,229,0.12);
     border-radius: 3px;
     overflow: hidden;
   }
@@ -148,7 +148,7 @@
 
   .answer-btn {
     background: white;
-    border: 1.5px solid rgba(126,9,165,0.15);
+    border: 1.5px solid rgba(79,70,229,0.15);
     border-radius: 12px;
     padding: 14px 18px;
     font-size: 15px;
@@ -193,7 +193,7 @@
   .form-input {
     width: 100%;
     background: white;
-    border: 1.5px solid rgba(126,9,165,0.15);
+    border: 1.5px solid rgba(79,70,229,0.15);
     border-radius: 10px;
     padding: 14px 16px;
     font-size: 15px;
@@ -212,29 +212,30 @@
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+    background: var(--btn-gradient);
     color: white;
     border: none;
-    border-radius: 10px;
-    padding: 14px 24px;
+    border-radius: 999px;
+    padding: 16px 32px;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
     width: 100%;
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.35);
   }
 
   .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(126,9,165,0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 28px rgba(79,70,229,0.5);
   }
 
   .btn-secondary {
-    background: white;
-    border: 1.5px solid rgba(126,9,165,0.15);
-    color: var(--indigo);
-    border-radius: 10px;
+    background: transparent;
+    border: 1.5px solid rgba(99, 102, 241, 0.4);
+    color: var(--indigo-light);
+    border-radius: 999px;
     padding: 14px 24px;
     font-size: 15px;
     font-weight: 500;
@@ -303,9 +304,9 @@
     min-height: 44px;
     padding: 11px 22px;
     border-radius: 999px;
-    border: 1px solid rgba(126, 9, 165, 0.25);
+    border: 1px solid rgba(79, 70, 229, 0.25);
     background: #ffffff;
-    color: #7E09A5;
+    color: #4f46e5;
     font-family: "Open Sans", sans-serif;
     font-size: 0.95rem;
     font-weight: 800;
@@ -315,7 +316,7 @@
     box-sizing: border-box;
   }
   .discovery-nav-btn:hover {
-    background: rgba(126, 9, 165, 0.08);
+    background: rgba(79, 70, 229, 0.08);
   }
   .discovery-nav-btn.primary {
     background: #FFE600;
@@ -361,7 +362,7 @@
   .loading-spinner {
     width: 50px;
     height: 50px;
-    border: 3px solid rgba(126, 9, 165, 0.2);
+    border: 3px solid rgba(79, 70, 229, 0.2);
     border-top-color: var(--indigo);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -414,7 +415,7 @@
     background-clip: text;
     color: transparent;
     animation: thinkingShimmer 1.8s ease-in-out forwards;
-    text-shadow: 0 0 18px rgba(126, 9, 165, 0.35);
+    text-shadow: 0 0 18px rgba(79, 70, 229, 0.35);
   }
 
   @keyframes thinkingShimmer {
@@ -469,7 +470,7 @@
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 16px;
-    border: 1.5px solid rgba(126,9,165,0.1);
+    border: 1.5px solid rgba(79,70,229,0.1);
   }
 
   .ai-summary-label {
@@ -505,7 +506,7 @@
     color: #ffffff;
     border-radius: 22px;
     padding: 20px 24px;
-    box-shadow: 0 14px 34px rgba(126, 9, 165, 0.24);
+    box-shadow: 0 14px 34px rgba(79, 70, 229, 0.24);
     overflow: hidden;
     position: relative;
   }
@@ -653,7 +654,7 @@
 
   .fiskal-linkedin-btn {
     background: #ffffff;
-    color: #7E09A5;
+    color: #4f46e5;
     box-shadow: 0 10px 25px rgba(255, 255, 255, 0.18);
   }
 
@@ -718,7 +719,7 @@
       min-height: 48px;
       padding: 13px 20px;
       border-radius: 999px;
-      background: #0099ff;
+      background: #38bdf8;
       color: #ffffff;
       font-weight: 800;
       text-decoration: none;
@@ -738,7 +739,7 @@
 
   .divider {
     height: 1px;
-    background: rgba(126,9,165,0.08);
+    background: rgba(79,70,229,0.08);
     margin: 16px 0;
   }
 
@@ -801,7 +802,7 @@
 
   .intro-cta:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(126,9,165,0.3);
+    box-shadow: 0 8px 20px rgba(79,70,229,0.3);
   }
 
   /* ---- SHARIAH THINKING SCREEN OVERLAY ---- */
@@ -829,8 +830,8 @@
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    border: 4px solid rgba(126,9,165,0.18);
-    border-top-color: #7E09A5;
+    border: 4px solid rgba(79,70,229,0.18);
+    border-top-color: #4f46e5;
     animation: spinThinking 1s linear infinite;
   }
   #shariah-thinking-screen .thinking-phrase {
@@ -849,11 +850,11 @@
   #shariah-thinking-screen .thinking-phrase.shimmer {
     background: linear-gradient(
       90deg,
-      rgba(126,9,165,0.65) 0%,
-      #7E09A5 35%,
+      rgba(79,70,229,0.65) 0%,
+      #4f46e5 35%,
       #FFE600 50%,
-      #7E09A5 65%,
-      rgba(126,9,165,0.65) 100%
+      #4f46e5 65%,
+      rgba(79,70,229,0.65) 100%
     );
     background-size: 260% auto;
     background-position: 260% center;
