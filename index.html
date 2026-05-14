@@ -1411,17 +1411,6 @@
   #screen-results .screen-content {
     max-width: 860px;
   }
-
-  #debug-circle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 80px;
-    height: 80px;
-    background: red;
-    border-radius: 50%;
-    z-index: 9999;
-  }
 </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
@@ -1430,7 +1419,6 @@
 
 <!-- ====== ONBOARDING OVERLAY ====== -->
 <div id="onboarding-overlay">
-<div id="debug-circle"></div>
   <a href="https://fiskal.online" target="_blank" class="ob-logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
   <div class="ob-brand-wrap">
@@ -1956,15 +1944,12 @@ let welcomeState = {
 };
 
 function startWelcome() {
-  console.log("startWelcome called");
   // Check if profile already exists
   if (appState.profile.name && appState.profile.email) {
-    console.log("Profile exists, showing homepage");
     showHomepage();
     return;
   }
 
-  console.log("Profile does not exist, starting welcome flow");
   welcomeState = {
     currentQuestion: 0,
     answers: {}
@@ -1972,24 +1957,18 @@ function startWelcome() {
 
   document.getElementById('onboarding-overlay').classList.remove('hidden');
   document.getElementById('screen-home').classList.remove('active');
-  console.log("Calling renderWelcomeQuestion");
   renderWelcomeQuestion();
 }
 
 function renderWelcomeQuestion() {
-  console.log("renderWelcomeQuestion called, currentQuestion:", welcomeState.currentQuestion);
-  console.log("welcomeFlow:", welcomeFlow);
   const q = welcomeFlow[welcomeState.currentQuestion];
   if (!q) {
-    console.log("No question found, calling completeWelcome");
     completeWelcome();
     return;
   }
 
-  console.log("Question found:", q);
   // Check condition
   if (q.condition && !q.condition(welcomeState.answers)) {
-    console.log("Condition not met, skipping to next question");
     welcomeState.currentQuestion++;
     renderWelcomeQuestion();
     return;
@@ -1997,24 +1976,15 @@ function renderWelcomeQuestion() {
 
   const chat = document.getElementById('ob-chat');
   const welcomeContainer = document.getElementById('welcome-question-container');
-  console.log("chat element:", chat);
-  console.log("welcomeContainer element:", welcomeContainer);
   chat.innerHTML = '';
-  if (welcomeContainer) {
-    welcomeContainer.innerHTML = '';
-    console.log("Cleared welcomeContainer");
-  }
+  if (welcomeContainer) welcomeContainer.innerHTML = '';
 
   // Render to welcome-question-container for better visibility
   if (welcomeContainer) {
-    console.log("Rendering question to welcomeContainer");
     const questionDiv = document.createElement('div');
     questionDiv.style.cssText = 'color: white; font-size: 24px; font-weight: 600; margin-bottom: 24px; text-align: center; font-family: DM Sans, sans-serif;';
     questionDiv.textContent = q.question;
     welcomeContainer.appendChild(questionDiv);
-    console.log("Question appended to welcomeContainer");
-  } else {
-    console.error("welcomeContainer not found!");
   }
 
   // Render options based on question type
@@ -2202,13 +2172,10 @@ function resetOnboarding() {
 // INITIALIZATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', function () {
-  console.log("DOM loaded");
   loadAppState();
-  console.log("appState:", appState);
-  
+
   // DEV: Clear localStorage to test fresh welcome flow
   if (DEV_MODE) {
-    console.log("DEV_MODE: Clearing localStorage for fresh test");
     localStorage.removeItem('fiskal_appState');
     appState = {
       profile: {
@@ -2229,12 +2196,10 @@ document.addEventListener('DOMContentLoaded', function () {
       currentModule: null
     };
   }
-  
+
   if (appState.welcomeCompleted) {
-    console.log("Showing homepage");
     showHomepage();
   } else {
-    console.log("Showing welcome");
     startWelcome();
   }
 });
