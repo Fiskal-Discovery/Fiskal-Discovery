@@ -1910,7 +1910,11 @@ function saveAnswer(key, value) {
 }
 
 function renderFlowQuestion() {
+  console.log("Funding Finder questions:", fundingFinderFlow);
+  console.log("Current Funding Finder index:", state.currentQuestion);
+  console.log("Funding Finder container:", document.getElementById("q-text"));
   const visibleQuestions = getVisibleQuestions();
+  console.log("Visible questions:", visibleQuestions);
   if (state.currentQuestion >= visibleQuestions.length) {
     submitFlow();
     return;
@@ -2213,12 +2217,21 @@ function startQuestions() {
 const introMessage = "I'm going to ask a few questions about your business. This helps me figure out which funding options are worth exploring for you.";
 
 function startTypingIntro() {
+  console.log("Starting typing intro");
   const textEl = document.getElementById('intro-text');
   const continueBtn = document.getElementById('intro-continue');
-  if (!textEl) return;
+  console.log("intro-text element:", textEl);
+  console.log("intro-continue element:", continueBtn);
+  if (!textEl) {
+    console.error("intro-text element not found");
+    return;
+  }
 
   textEl.textContent = introMessage;
-  if (continueBtn) continueBtn.style.display = 'inline-flex';
+  if (continueBtn) {
+    continueBtn.style.display = 'inline-flex';
+    console.log("Continue button shown");
+  }
 }
 
 function startQuestionFlow() {
@@ -2652,8 +2665,11 @@ function hidePricingPrompt() {
 // Photo will be embedded as base64 in production
 // For now using a placeholder
 document.addEventListener('DOMContentLoaded', () => {
+  console.log("Starting Funding Finder");
   // Load Nicole's photo
   loadNicolePhoto();
+  // Start typing intro
+  startTypingIntro();
 });
 
 async function loadNicolePhoto() {
