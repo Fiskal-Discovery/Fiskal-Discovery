@@ -2190,6 +2190,8 @@ function clearModuleBadge() {
 
 function showHomepage() {
   clearModuleBadge();
+  document.getElementById('screen-landing').classList.remove('active');
+  document.getElementById('onboarding-overlay').classList.add('hidden');
   document.getElementById('screen-home').classList.add('active');
 
   // Update profile badge if profile exists
