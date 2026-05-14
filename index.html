@@ -46,6 +46,8 @@
     background: #FAF8F5;
     display: flex; flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
     overflow: hidden;
     transition: opacity 0.5s ease;
   }
@@ -75,7 +77,7 @@
     padding-top: 42px;
     margin: 0 auto;
     position: relative;
-    z-index: 1;
+    z-index: 10;
     min-height: 200px;
   }
 
@@ -88,6 +90,8 @@
     min-height: 1.7em;
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
+    display: block;
+    visibility: visible;
   }
   .ob-bubble.fiskal {
     color: #1a1025;
@@ -1957,13 +1961,18 @@ function showWelcome() {
 }
 
 function startWelcome() {
+  console.log("=== START WELCOME ===");
   welcomeState = {
     currentQuestion: 0,
     answers: {}
   };
 
+  const overlay = document.getElementById('onboarding-overlay');
+  console.log("Before removing hidden class - overlay classes:", overlay.classList);
   document.getElementById('onboarding-overlay').classList.remove('hidden');
+  console.log("After removing hidden class - overlay classes:", overlay.classList);
   document.getElementById('screen-home').classList.remove('active');
+  console.log("Calling renderWelcomeQuestion");
   renderWelcomeQuestion();
 }
 
