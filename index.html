@@ -1418,7 +1418,7 @@
 <body>
 
 <!-- ====== ONBOARDING OVERLAY ====== -->
-<div id="onboarding-overlay">
+<div id="onboarding-overlay" class="hidden">
   <a href="https://fiskal.online" target="_blank" class="ob-logo-corner"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
 
   <div class="ob-brand-wrap">
@@ -1961,15 +1961,38 @@ function startWelcome() {
   document.getElementById('onboarding-overlay').classList.remove('hidden');
   document.getElementById('screen-welcome').classList.remove('active');
   document.getElementById('screen-home').classList.remove('active');
+  // Show back button on onboarding overlay
   document.getElementById('ob-back-btn').style.display = 'block';
   renderWelcomeQuestion();
 }
 
 function obGoBack() {
-  // Hide onboarding overlay and show welcome intro
-  document.getElementById('onboarding-overlay').classList.add('hidden');
-  document.getElementById('screen-welcome').classList.add('active');
-  document.getElementById('ob-back-btn').style.display = 'none';
+  // Safe fallback: if welcomeState is invalid, go to WELCOME_INTRO
+  if (!welcomeState || typeof welcomeState.currentQuestion === 'undefined') {
+    document.getElementById('onboarding-overlay').classList.add('hidden');
+    document.getElementById('screen-welcome').classList.add('active');
+    document.getElementById('screen-home').classList.remove('active');
+    document.getElementById('ob-back-btn').style.display = 'none';
+    return;
+  }
+
+  // If on first onboarding question (index 0), go back to WELCOME_INTRO
+  if (welcomeState.currentQuestion === 0) {
+    document.getElementById('onboarding-overlay').classList.add('hidden');
+    document.getElementById('screen-welcome').classList.add('active');
+    document.getElementById('screen-home').classList.remove('active');
+    document.getElementById('ob-back-btn').style.display = 'none';
+  } else if (welcomeState.currentQuestion > 0) {
+    // Otherwise, go to previous onboarding question
+    welcomeState.currentQuestion--;
+    renderWelcomeQuestion();
+  } else {
+    // Fallback for negative or invalid index: go to WELCOME_INTRO
+    document.getElementById('onboarding-overlay').classList.add('hidden');
+    document.getElementById('screen-welcome').classList.add('active');
+    document.getElementById('screen-home').classList.remove('active');
+    document.getElementById('ob-back-btn').style.display = 'none';
+  }
 }
 
 function renderWelcomeQuestion() {
