@@ -1947,6 +1947,7 @@ let welcomeState = {
 };
 
 function startWelcome() {
+  clearModuleBadge();
   // Check if profile already exists
   if (appState.profile.name && appState.profile.email) {
     showHomepage();
@@ -2174,7 +2175,17 @@ function completeWelcome() {
   }, 1500);
 }
 
+function clearModuleBadge() {
+  appState.currentModule = null;
+  const badge = document.querySelector(".module-badge, #module-badge, .current-module-badge");
+  if (badge) {
+    badge.textContent = "";
+    badge.style.display = "none";
+  }
+}
+
 function showHomepage() {
+  clearModuleBadge();
   document.getElementById('screen-home').classList.add('active');
 
   // Update profile badge if profile exists
@@ -2235,8 +2246,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (appState.welcomeCompleted) {
     showHomepage();
+  } else {
+    // WELCOME_INTRO is shown by default, clear module badge
+    clearModuleBadge();
   }
-  // Otherwise, screen-welcome (WELCOME_INTRO) is already shown by default
 });
 
 // ============================================================
