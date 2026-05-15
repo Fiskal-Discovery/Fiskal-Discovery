@@ -364,25 +364,34 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
     padding: 40px 24px 24px;
+    width: 100%;
+  }
+
+  .welcome-hero-title-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
   }
 
   .welcome-hero-logo {
-    height: 52px;
+    height: 48px;
     width: auto;
     opacity: 0.9;
-    margin-bottom: 20px;
+    justify-self: start;
   }
 
   .welcome-hero-title {
     font-family: 'Libre Baskerville', serif;
     font-style: italic;
     font-weight: 700;
-    font-size: clamp(32px, 7vw, 56px);
+    font-size: clamp(28px, 6vw, 52px);
     color: #ffffff;
     line-height: 1.1;
-    margin: 0 0 10px;
+    margin: 0;
+    text-align: center;
   }
 
   .welcome-hero-sub {
@@ -391,6 +400,7 @@
     font-weight: 400;
     margin: 0;
     letter-spacing: 0.5px;
+    text-align: center;
   }
 
   .welcome-bottom {
@@ -1494,10 +1504,13 @@
 <div class="screen" id="screen-welcome" style="display:none;">
 
   <div class="welcome-hero">
-    <a href="https://fiskal.online" target="_blank">
-      <img src="fiskal_logo_recoloured.png" class="welcome-hero-logo" alt="Fiskal">
-    </a>
-    <h1 class="welcome-hero-title">Fiskal Discovery</h1>
+    <div class="welcome-hero-title-row">
+      <a href="https://fiskal.online" target="_blank">
+        <img src="fiskal_logo_recoloured.png" class="welcome-hero-logo" alt="Fiskal">
+      </a>
+      <h1 class="welcome-hero-title">Fiskal Discovery</h1>
+      <div></div>
+    </div>
     <p class="welcome-hero-sub">Refuse to Stand Still</p>
   </div>
 
