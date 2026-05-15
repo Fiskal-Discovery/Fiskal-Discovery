@@ -59,16 +59,28 @@ function buildFundingFinderSummary(answers) {
   const business    = answers.business || 'the business';
   const industry    = answers.industry || '';
   const barrier     = answers.barrier || '';
-  const barrierText = answers.barrierDetails || '';
+  const urgency     = answers.urgency || '';
 
   const blocks = [];
 
-  // Opening - name used once, then "you"
+  // Opening — personalised by sector, urgency and purpose
   const sectorNote = getSectorNote(business, industry);
+  const urgencyNote = urgency === 'Immediately' || urgency === 'Within 1 month'
+    ? ` Given the timescales involved, finding the right structure quickly will be important.`
+    : '';
+
   if (sectorNote) {
-    blocks.push(`Great news — based on what you've told us, there are several funding options worth exploring for ${business}. Because ${sectorNote.replace(business, 'you').replace('appears to operate', 'operate')}, the right structure needs to take account of how work is completed, invoiced and paid.`);
+    const sectorPhrase = sectorNote.replace(business, 'the business');
+    blocks.push(`Based on what you've told us, there are funding options worth exploring for ${business}. ${sectorPhrase} — and for businesses in this space, the right funding structure needs to fit how the business actually operates, not just how much is needed.${urgencyNote}`);
   } else {
-    blocks.push(`Great news — based on what you've told us, there are several funding options worth exploring for ${business}.`);
+    const purposeRaw = answers.fundingPurpose || '';
+    const purposes = Array.isArray(purposeRaw)
+      ? purposeRaw
+      : purposeRaw.split(',').map(s => s.trim()).filter(Boolean);
+    const purposeText = purposes.length > 0
+      ? ` The funding need around ${purposes.join(' and ').toLowerCase()} points towards specific products that could be a good fit.`
+      : '';
+    blocks.push(`Based on what you've told us, there are funding options worth exploring for ${business}.${purposeText}${urgencyNote}`);
   }
 
   // Top 2 product insights

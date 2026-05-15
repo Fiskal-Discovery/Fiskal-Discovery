@@ -42,6 +42,28 @@ const SECTOR_PATTERNS = [
     keywords: ['cleaning', 'facilities', 'security', 'maintenance', 'fm', 'hygiene',
                'janitorial', 'grounds maintenance', 'pest control', 'waste management',
                'property maintenance', 'building services', 'window cleaning']
+  },
+  {
+    sector: 'wholesale',
+    keywords: ['wholesale', 'wholesaler', 'distributor', 'distribution', 'importer',
+               'import', 'exporter', 'export', 'trade supplier', 'merchant']
+  },
+  {
+    sector: 'retail',
+    keywords: ['retail', 'retailer', 'shop', 'store', 'ecommerce', 'e-commerce',
+               'online store', 'marketplace', 'merchant', 'boutique']
+  },
+  {
+    sector: 'clean-energy',
+    keywords: ['clean energy', 'renewable', 'solar', 'wind energy', 'ev charging',
+               'electric vehicle', 'battery storage', 'green energy', 'net zero',
+               'sustainability', 'hydrogen', 'biomass']
+  },
+  {
+    sector: 'professional-services',
+    keywords: ['accountant', 'accountancy', 'solicitor', 'legal', 'law firm',
+               'consultant', 'consultancy', 'architect', 'surveyor', 'marketing agency',
+               'agency', 'pr firm', 'management consulting', 'advisory', 'financial services']
   }
 ];
 
@@ -73,6 +95,21 @@ function getSectorInvoiceFinanceInsight(businessName, industry) {
     case 'healthcare':
       return `As ${name} appears to operate in healthcare, care or a related sector, cashflow timing can be particularly important. If invoices are raised to local authorities, agencies, insurers or commercial clients, Invoice Finance may help release cash sooner while waiting for those payments.`;
 
+    case 'manufacturing':
+      return `As ${name} appears to operate in manufacturing or engineering, cashflow timing can be important when raw material costs and production run ahead of customer payments. Invoice Finance can help smooth that gap.`;
+
+    case 'wholesale':
+      return `As ${name} appears to operate in wholesale or distribution, Trade Finance may be especially relevant — it allows you to pay suppliers upfront (securing better terms or pricing) without tying up working capital, while Invoice Finance can release cash from outstanding invoices.`;
+
+    case 'retail':
+      return `As ${name} appears to operate in retail, stock finance or a revolving credit facility may be worth exploring — both can help fund inventory without locking up working capital. If card payments are taken regularly, a Merchant Cash Advance may also be an option.`;
+
+    case 'clean-energy':
+      return `As ${name} operates in the clean energy or renewable sector, asset finance is often a good fit — it allows equipment, installations or infrastructure to be acquired without large upfront capital outlay while the asset generates returns over time.`;
+
+    case 'professional-services':
+      return `As ${name} operates in professional services, cashflow can be impacted by delayed client payments. Invoice Finance may help release funds tied up in outstanding invoices, while a revolving credit facility can provide a flexible buffer for periods between projects or retainers.`;
+
     default:
       return null;
   }
@@ -84,12 +121,16 @@ function getSectorNote(businessName, industry) {
   const name = businessName || 'the business';
 
   const notes = {
-    construction:   `${name} appears to operate in construction or a related trade`,
-    recruitment:    `${name} appears to operate in recruitment or staffing`,
-    transport:      `${name} appears to operate in transport, haulage or logistics`,
-    healthcare:     `${name} appears to operate in healthcare, care or a related sector`,
-    manufacturing:  `${name} appears to operate in manufacturing or engineering`,
-    facilities:     `${name} appears to operate in facilities management, cleaning or maintenance`
+    construction:          `${name} appears to operate in construction or a related trade`,
+    recruitment:           `${name} appears to operate in recruitment or staffing`,
+    transport:             `${name} appears to operate in transport, haulage or logistics`,
+    healthcare:            `${name} appears to operate in healthcare, care or a related sector`,
+    manufacturing:         `${name} appears to operate in manufacturing or engineering`,
+    facilities:            `${name} appears to operate in facilities management, cleaning or maintenance`,
+    wholesale:             `${name} appears to operate in wholesale or distribution`,
+    retail:                `${name} appears to operate in retail`,
+    'clean-energy':        `${name} operates in clean energy or renewables`,
+    'professional-services': `${name} operates in professional services`
   };
 
   return sector ? notes[sector] : null;

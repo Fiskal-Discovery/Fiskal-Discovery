@@ -2311,6 +2311,7 @@ const productInfo = {
   revolving: { icon: '\u{1F501}', name: 'Revolving Credit Facility' },
   fx: { icon: '\u{1F4B1}', name: 'Foreign Currency / FX' },
   rd: { icon: '\u{1F52C}', name: 'R&D Tax Credits' },
+  mca: { icon: '\u{1F4B3}', name: 'Merchant Cash Advance' },
   existing: { icon: '\u{1F4CA}', name: 'Facility Review' }
 };
 
@@ -2525,28 +2526,35 @@ async function generateResults() {
   const matchedProducts = getMatchedProducts();
   
   // Build personalised summary using logic module
+  const fa = state.flowAnswers || {};
+  const hasCreditFlag = state.creditConcern === 'Yes' || fa.previousIssues === 'Yes';
   const fundingFinderAnswers = {
     name: state.name,
     business: state.business,
     industry: state.industry,
     turnover: state.turnover,
     fundingAmount: state.fundingAmount,
-    fundingPurpose: state.fundingPurpose,
-    cashflowPressure: state.cashflowPressure,
-    currentFunding: state.currentFunding,
-    repaymentPressure: state.repaymentPressure,
-    mainChallenge: state.mainChallenge,
-    growthGoal: state.growthGoal,
+    fundingPurpose: fa.purpose || '',
     urgency: state.urgency,
     creditConcern: state.creditConcern,
-    propertySecurity: state.propertySecurity,
     invoiceCustomers: state.invoiceCustomers,
     paymentTerms: state.paymentTerms,
     cardSales: state.cardSales,
     assetNeed: state.assetNeed,
-    answers: state.answers,
-    barrier: state.barrier,
-    barrierDetails: state.barrierDetails
+    barrier: hasCreditFlag ? 'yes' : '',
+    barrierDetails: hasCreditFlag ? (fa.extraInfo || 'credit concerns mentioned') : (fa.extraInfo || ''),
+    previousIssues: fa.previousIssues || '',
+    // Product signal keys used by insight functions
+    invoice: (state.invoiceCustomers === 'Yes' || state.invoiceCustomers === 'Sometimes') ? 'yes' : (fa.invoice || null),
+    asset:   state.assetNeed === 'Yes' ? 'yes' : (fa.asset || null),
+    mca:     state.cardSales === 'Yes' ? 'yes' : null,
+    loan:     fa.loan     || null,
+    trade:    fa.trade    || null,
+    revolving: fa.revolving || null,
+    property: fa.property  || null,
+    fx:       fa.fx        || null,
+    rd:       fa.rd        || null,
+    matchedProducts: matchedProducts
   };
   
   let summary;
@@ -2590,11 +2598,26 @@ CRITICAL RULES:
 
 function getMatchedProducts() {
   const matched = [];
-  Object.entries(state.answers).forEach(([key, value]) => {
-    if ((value === 'yes' || value === 'maybe') && productInfo[key]) {
+  const fa = state.flowAnswers || {};
+
+  // Products set by applyPurposeToMatchedProducts (purpose question)
+  ['invoice', 'trade', 'asset', 'loan', 'revolving', 'property', 'fx', 'rd'].forEach(key => {
+    if ((fa[key] === 'yes' || fa[key] === 'maybe') && productInfo[key]) {
       matched.push(key);
     }
   });
+
+  // Direct question signals
+  if ((state.invoiceCustomers === 'Yes' || state.invoiceCustomers === 'Sometimes') && !matched.includes('invoice')) {
+    matched.push('invoice');
+  }
+  if (state.assetNeed === 'Yes' && !matched.includes('asset')) {
+    matched.push('asset');
+  }
+  if (state.cardSales === 'Yes' && productInfo['mca'] && !matched.includes('mca')) {
+    matched.push('mca');
+  }
+
   return matched;
 }
 

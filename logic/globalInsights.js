@@ -3,6 +3,10 @@
 
 // Detects whether credit concern language is present in any answer or barrier text.
 function hasCreditConcern(answers) {
+  // Direct flags from funding-finder flow
+  if (answers.creditConcern === 'Yes') return true;
+  if (answers.previousIssues === 'Yes') return true;
+
   const creditKeywords = [
     'bad credit', 'poor credit', 'ccj', 'default', 'defaults', 'missed payment',
     'arrears', 'declined', 'decline', 'previous decline', 'adverse credit',
@@ -10,12 +14,12 @@ function hasCreditConcern(answers) {
     'insolvency', 'administration', 'iva', 'dmp', 'debt management',
     'credit problem', 'credit issue', 'credit history', 'bad history'
   ];
-  const combined = Object.values(answers || {}).join(' ').toLowerCase()
-    + ' ' + (answers.barrierDetails || '').toLowerCase()
-    + ' ' + (answers.loanBarrierDetails || '').toLowerCase()
-    + ' ' + (answers.assetBarrierDetails || '').toLowerCase()
-    + ' ' + (answers.tradeBarrierDetails || '').toLowerCase();
-  return creditKeywords.some(kw => combined.includes(kw));
+  const textFields = [
+    answers.barrierDetails, answers.loanBarrierDetails,
+    answers.assetBarrierDetails, answers.tradeBarrierDetails,
+    answers.extraInfo
+  ].filter(Boolean).join(' ').toLowerCase();
+  return creditKeywords.some(kw => textFields.includes(kw));
 }
 
 function getCreditConcernInsight() {
@@ -49,13 +53,26 @@ function getNotSureAmountInsight() {
   return `As you're not yet sure how much funding may be required, that is completely fine. The first step is to understand what the funding needs to achieve, then work backwards to a sensible range.`;
 }
 
-// Utility: parse a money string like "£50,000", "50000", "50k" into a number.
+// Utility: parse a money string or band like "£50,000", "50k", "£100k–£250k" into a number.
+// For band strings (containing '–'), returns the midpoint.
 function parseMoneyString(value) {
   if (!value) return null;
-  const cleaned = String(value)
-    .replace(/[£$,\s]/g, '')
-    .replace(/k$/i, '000')
-    .replace(/m$/i, '000000');
+  const s = String(value);
+
+  // Handle range/band strings by taking midpoint
+  const rangeSep = s.match(/[–\-]/);
+  if (rangeSep && s.includes('–') || (s.includes('-') && s.replace(/[^-]/g,'').length === 1 && !s.startsWith('-'))) {
+    const parts = s.split(/[–\-]/).map(p => parseMoneyString(p.trim())).filter(Boolean);
+    if (parts.length === 2) return Math.round((parts[0] + parts[1]) / 2);
+    if (parts.length === 1) return parts[0];
+  }
+
+  // Handle "+" suffix (e.g. "£500k+") — treat as lower bound
+  const cleaned = s
+    .replace(/[£$,\s+]/g, '')
+    .replace(/k/gi, '000')
+    .replace(/m/gi, '000000')
+    .replace(/under|less\s*than|<|>/gi, '');
   const n = parseFloat(cleaned);
   return isNaN(n) ? null : n;
 }
