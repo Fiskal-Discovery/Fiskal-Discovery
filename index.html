@@ -67,7 +67,7 @@
   }
 
   .ob-chat {
-    width: 100%; max-width: 560px;
+    width: 100%; max-width: 780px;
     padding: 32px 20px 0;
     display: flex; flex-direction: column; gap: 24px;
     flex: 1;
@@ -80,7 +80,7 @@
   }
 
   .ob-bubble {
-    max-width: 520px; width: 90%;
+    max-width: 780px; width: 90%;
     font-size: 20px; line-height: 1.5;
     color: #ffffff;
     text-align: center;
@@ -120,7 +120,7 @@
     background: transparent;
     padding: 12px 20px; z-index: 10000;
     display: flex; gap: 10px; align-items: center;
-    width: 100%; max-width: 560px;
+    width: 100%; max-width: 780px;
   }
   .ob-input {
     flex: 1; border: 1.5px solid rgba(79, 70, 229, 0.3);
@@ -147,7 +147,7 @@
     background: transparent;
     padding: 14px 20px; z-index: 10000;
     display: flex; flex-direction: column; gap: 10px;
-    width: 100%; max-width: 560px;
+    width: 100%; max-width: 780px;
   }
 
   @media(max-width:600px){
@@ -387,8 +387,8 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 20px 24px 24px;
-    max-width: 600px;
+    padding: 20px 40px 24px;
+    max-width: 900px;
     width: 100%;
     margin: 0 auto;
     overflow-y: auto;
@@ -474,8 +474,8 @@
 
   /* ---- MODULE CARDS ---- */
   .module-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
     width: 100%;
   }
@@ -1409,9 +1409,13 @@
     .question-text { font-size: 24px; }
   }
 
-  @media (min-width: 600px) {
-    .screen-content { padding: 32px 40px; }
+  @media (min-width: 768px) {
+    .screen-content { padding: 24px 48px 28px; }
     .home-title { font-size: 60px; }
+  }
+  @media (min-width: 1024px) {
+    .screen-content { padding: 28px 60px 32px; }
+    .home-title { font-size: 68px; }
   }
 
   #screen-results .screen-content {
@@ -1480,7 +1484,7 @@
     </div>
     <div class="ob-brand-tagline">Find out what's possible for your business.</div>
   </div>
-  <div id="welcome-question-container" class="welcome-question-container" style="position:relative;z-index:10000;width:100%;max-width:520px;margin:0 auto;padding:32px 24px 40px;flex:1;overflow-y:auto;"></div>
+  <div id="welcome-question-container" class="welcome-question-container" style="position:relative;z-index:10000;width:100%;max-width:780px;margin:0 auto;padding:32px 40px 40px;flex:1;overflow-y:auto;"></div>
   <div class="ob-chat" id="ob-chat" style="position:relative;z-index:1;"></div>
   <div class="ob-input-area" id="ob-input-area" style="display:none;z-index:10001;">
     <input class="ob-input" id="ob-input" type="text" placeholder="Type your answer..." autocomplete="off">
@@ -2058,7 +2062,7 @@ function renderWelcomeQuestion() {
 
   if (q.type === 'choice') {
     const grid = document.createElement('div');
-    const isTwoCol = q.options.length >= 5;
+    const isTwoCol = q.options.length >= 4;
     grid.style.cssText = `display:grid;grid-template-columns:${isTwoCol ? '1fr 1fr' : '1fr'};gap:10px;`;
     q.options.forEach(opt => {
       const btn = document.createElement('button');
