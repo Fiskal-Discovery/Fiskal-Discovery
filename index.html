@@ -2352,9 +2352,10 @@ function clearModuleBadge() {
 
 function showHomepage() {
   clearModuleBadge();
-  document.getElementById('screen-landing').classList.remove('active');
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('onboarding-overlay').classList.add('hidden');
   document.getElementById('screen-home').classList.add('active');
+  window.scrollTo(0, 0);
 
   // Update profile badge if profile exists
   if (appState.profile.name) {
