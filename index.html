@@ -60,39 +60,7 @@
   #onboarding-overlay.hidden { opacity: 0; pointer-events: none; }
 
   /* Fixed header */
-  .ob-fixed-header {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 28px;
-    border-bottom: 1px solid rgba(99, 102, 241, 0.15);
-    background: rgba(4, 4, 14, 0.7);
-    backdrop-filter: blur(12px);
-    position: relative;
-    z-index: 2;
-  }
-  .ob-header-logo-link { display: flex; align-items: center; flex-shrink: 0; }
-  .ob-header-logo { height: 38px; width: auto; opacity: 0.9; }
-  .ob-header-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-  }
-  .ob-header-title {
-    font-family: 'Libre Baskerville', serif;
-    font-style: italic;
-    font-weight: 700;
-    font-size: clamp(16px, 3vw, 22px);
-    color: #ffffff;
-    line-height: 1.1;
-  }
-  .ob-header-sub {
-    font-size: clamp(10px, 2vw, 13px);
-    color: #b8a9ff;
-    font-weight: 400;
-    letter-spacing: 0.3px;
-  }
+  /* ob-fixed-header base styles are in shared-styles.css */
 
   /* Main content area — fills remaining height, centres content */
   .ob-main {
@@ -1391,9 +1359,6 @@
     /* Screen content tighter padding on mobile */
     .screen-content { padding: 6px 16px 16px !important; }
 
-    /* Onboarding header smaller on mobile */
-    .ob-fixed-header { padding: 10px 16px; }
-    .ob-header-logo { height: 28px; }
     .ob-main { padding: 16px 16px 80px; }
 
     /* Answer buttons — comfortable tap targets */
@@ -1467,11 +1432,15 @@
 
 <!-- ====== HOME SCREEN ====== -->
 <div class="screen" id="screen-home">
-  <div class="app-header">
-    <div class="logo-area">
-      <a href="https://fiskal.online" target="_blank"><img class="site-logo" src="fiskal_logo_recoloured.png" alt="Fiskal Funding Solutions"></a>
+  <header class="ob-fixed-header">
+    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
+      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
+    </a>
+    <div class="ob-header-brand">
+      <span class="ob-header-title">Fiskal Discovery</span>
+      <span class="ob-header-sub">Refuse to Stand Still</span>
     </div>
-  </div>
+  </header>
   <div class="screen-content">
     <div class="home-hero">
       <div class="home-eyebrow" id="home-eyebrow">Welcome to</div>
