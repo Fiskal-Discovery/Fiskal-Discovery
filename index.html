@@ -2086,7 +2086,7 @@ function renderWelcomeQuestion() {
     continueBtn.onmouseout = () => { continueBtn.style.transform = ''; continueBtn.style.boxShadow = '0 4px 20px rgba(79,70,229,0.35)'; };
 
     const errMsg = document.createElement('div');
-    errMsg.style.cssText = 'color:#f87171;font-size:13px;font-family:"DM Sans",sans-serif;display:none;margin-top:4px;';
+    errMsg.style.cssText = 'color:#f87171;font-size:13px;font-family:"DM Sans",sans-serif;visibility:hidden;margin-top:4px;min-height:1.2em;';
     errMsg.textContent = 'Please fill in the required fields.';
 
     continueBtn.onclick = () => {
@@ -2097,8 +2097,8 @@ function renderWelcomeQuestion() {
         else { inp.style.borderColor = 'rgba(99,102,241,0.3)'; welcomeState.answers[inp.dataset.saveAs] = val; }
         if (val) welcomeState.answers[inp.dataset.saveAs] = val;
       });
-      if (!valid) { errMsg.style.display = 'block'; return; }
-      errMsg.style.display = 'none';
+      if (!valid) { errMsg.style.visibility = 'visible'; return; }
+      errMsg.style.visibility = 'hidden';
       welcomeState.currentQuestion++;
       renderWelcomeQuestion();
     };
