@@ -82,7 +82,7 @@
     letter-spacing: 0.5px;
   }
 
-  .progress-bar-wrap { padding: 0 24px 8px; }
+  
   .progress-track {
     height: 3px;
     background: rgba(79,70,229,0.12);
@@ -95,12 +95,7 @@
     border-radius: 3px;
     transition: width 0.5s ease;
   }
-  .progress-label {
-    font-size: 11px;
-    color: var(--light-text);
-    margin-top: 6px;
-    text-align: right;
-  }
+  
 
   .screen-content {
     flex: 1;
@@ -114,7 +109,7 @@
     margin: 0 auto;
   }
 
-  .question-icon { font-size: 40px; margin-bottom: 12px; }
+  
 
   .question-product {
     font-size: 11px;
@@ -494,29 +489,16 @@
     margin-bottom: 10px;
   }
 
-  .loading-sub { font-size: 14px; color: var(--light-text); font-weight: 300; }
+  
 
-  .loading-dots {
-    display: inline-flex;
-    gap: 6px;
-    margin-top: 24px;
-  }
+  
 
-  .loading-dots span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--indigo);
-    animation: dot-bounce 1.4s ease-in-out infinite;
-  }
+  
 
-  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  
+  
 
-  @keyframes dot-bounce {
-    0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-    40% { transform: scale(1); opacity: 1; }
-  }
+  
 
   /* Results */
   .results-header { 
@@ -528,17 +510,7 @@
     margin-right: auto;
   }
 
-  .results-check {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 16px;
-    font-size: 26px;
-  }
+  
 
   .results-title {
     font-family: 'DM Sans', sans-serif;
@@ -569,23 +541,14 @@
     margin-bottom: 12px;
   }
 
-  .ai-summary-text {
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--dark);
-    font-weight: 300;
-  }
+  
 
   .screen-footer {
     padding: 12px 24px 24px;
     text-align: center;
   }
 
-  .footer-legal {
-    font-size: 11px;
-    color: var(--light-text);
-    line-height: 1.6;
-  }
+  
 
   .divider {
     height: 1px;
@@ -625,24 +588,11 @@
   }
   .loading-screen.active { display: flex; }
 
-  .loading-content {
-    text-align: center;
-    max-width: 400px;
-  }
+  
 
-  .loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 3px solid rgba(79, 70, 229, 0.2);
-    border-top-color: var(--indigo);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 24px;
-  }
+  
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+  
 
   .loading-message {
     font-family: 'DM Sans', sans-serif;
@@ -725,6 +675,7 @@
   }
   @media (max-width: 600px) {
     .screen-content { padding: 16px 16px 20px !important; }
+    .loading-screen { padding: 24px 16px !important; }
     .answer-btn { padding: 16px 18px; min-height: 48px; }
     .answer-options { gap: 10px; }
     .screen-footer { padding: 10px 16px 16px; }
@@ -732,8 +683,13 @@
     .question-text { font-size: 20px !important; }
     .form-input { font-size: 16px !important; }
   }
-  @media (max-width: 380px) {
+  @media (max-width: 480px) {
+    .screen-content { padding: 12px 12px 16px !important; }
     .question-text { font-size: 18px !important; }
+    .btn-primary, .btn-secondary { padding: 14px 20px; font-size: 14px; }
+  }
+  @media (max-width: 380px) {
+    .question-text { font-size: 16px !important; }
     .brand-title { font-size: 32px !important; }
   }
 </style>
@@ -3049,7 +3005,17 @@ function selectBarrier(value, btn) {
 // FACILITY REVIEW SUMMARY ENGINE
 // ============================================================
 function generateResults() {
-  const summary = buildFacilityReviewSummary();
+  let summary;
+  try {
+    summary = buildFacilityReviewSummary();
+  } catch (error) {
+    console.warn('Facility review summary builder failed, using fallback', error);
+    summary = {
+      pageHeading: 'Your Facility Review is ready',
+      summaryHeading: "Here's what we found",
+      summaryHtml: '<p>Thank you for completing your facility review. A member of the Fiskal team will be in touch shortly to discuss your options.</p>'
+    };
+  }
   displayResults(summary);
   sendNotification(summary);
 }
@@ -4367,6 +4333,7 @@ function submitFXReview() {
   }
   @media (max-width: 600px) {
     .screen-content { padding: 16px 16px 20px !important; }
+    .loading-screen { padding: 24px 16px !important; }
     .answer-btn { padding: 16px 18px; min-height: 48px; }
     .answer-options { gap: 10px; }
     .screen-footer { padding: 10px 16px 16px; }
@@ -4374,8 +4341,13 @@ function submitFXReview() {
     .question-text { font-size: 20px !important; }
     .form-input { font-size: 16px !important; }
   }
-  @media (max-width: 380px) {
+  @media (max-width: 480px) {
+    .screen-content { padding: 12px 12px 16px !important; }
     .question-text { font-size: 18px !important; }
+    .btn-primary, .btn-secondary { padding: 14px 20px; font-size: 14px; }
+  }
+  @media (max-width: 380px) {
+    .question-text { font-size: 16px !important; }
     .brand-title { font-size: 32px !important; }
   }
 </style>
