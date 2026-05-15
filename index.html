@@ -2572,7 +2572,7 @@ async function sendContactStartNotification() {
     if (DEV_MODE || !SEND_EMAILS) {
       console.log("Email sending disabled during development", templateParams);
     } else {
-      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
       console.log('Contact-start notification sent successfully');
     }
   } catch (error) {
@@ -2903,7 +2903,7 @@ async function sendNotification(summary, matchedProducts) {
     if (DEV_MODE || !SEND_EMAILS) {
       console.log("Email sending disabled during development", templateParams);
     } else {
-      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
     }
   } catch (error) {
     console.error('Email notification failed:', error);
@@ -2925,7 +2925,7 @@ async function sendClientSummaryEmail(summary) {
     if (DEV_MODE || !SEND_EMAILS) {
       console.log("Email sending disabled during development", clientTemplateParams);
     } else {
-      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', clientTemplateParams);
+      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', clientTemplateParams);
       console.log('Client summary email sent successfully');
     }
     return true;

@@ -534,7 +534,7 @@ async function sendNotification(summary) {
     barriers: 'N/A',
     summary: summary
   };
-  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  try { // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 // ---- Load profile from onboarding ----

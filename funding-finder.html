@@ -2637,7 +2637,7 @@ async function sendInitialInfoNotification() {
 
   try {
     if (!(DEV_MODE || !SEND_EMAILS)) {
-      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
       sessionStorage.setItem(key, "true");
     }
   } catch (error) {
@@ -2660,7 +2660,7 @@ async function sendNotification(summary, matchedProducts) {
 
   try {
     if (!(DEV_MODE || !SEND_EMAILS)) {
-      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
     }
   } catch (error) {
     console.error('Email notification failed:', error);
