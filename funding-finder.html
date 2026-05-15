@@ -2160,14 +2160,15 @@ function goBack() {
 
 function submitFlow() {
   // Map flowAnswers to existing state structure for compatibility
-  state.name = state.flowAnswers.name || '';
-  state.business = state.flowAnswers.companyName || '';
-  state.email = state.flowAnswers.email || '';
-  state.phone = state.flowAnswers.phone || '';
-  state.companyNumber = state.flowAnswers.companyNumber || '';
-  state.fundingAmount = state.flowAnswers.fundingAmount || '';
-  state.industry = state.flowAnswers.industry || '';
-  state.turnover = state.flowAnswers.turnover || '';
+  // Fall back to profile-loaded values (industry/turnover/fundingAmount come from onboarding)
+  state.name = state.flowAnswers.name || state.name || '';
+  state.business = state.flowAnswers.companyName || state.business || '';
+  state.email = state.flowAnswers.email || state.email || '';
+  state.phone = state.flowAnswers.phone || state.phone || '';
+  state.companyNumber = state.flowAnswers.companyNumber || state.companyNumber || '';
+  state.fundingAmount = state.flowAnswers.fundingAmount || state.fundingAmount || '';
+  state.industry = state.flowAnswers.industry || state.industry || '';
+  state.turnover = state.flowAnswers.turnover || state.turnover || '';
   const rawPurpose = state.flowAnswers.purpose || '';
   state.fundingPurpose = Array.isArray(rawPurpose) ? rawPurpose.join(', ') : rawPurpose;
   state.urgency = state.flowAnswers.urgency || '';
@@ -2827,6 +2828,9 @@ async function loadNicolePhoto() {
       if (p.email) state.email = p.email;
       if (p.phone) state.phone = p.phone;
       if (p.companyNumber) state.companyNumber = p.companyNumber;
+      if (p.industry) state.industry = p.industry;
+      if (p.annualTurnover) state.turnover = p.annualTurnover;
+      if (p.fundingAmount) state.fundingAmount = p.fundingAmount;
     }
     document.addEventListener("DOMContentLoaded", function() {
       var map = {
