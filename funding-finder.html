@@ -43,15 +43,12 @@
   }
 
   /* Welcome/onboarding screens keep the dark navy background */
-  #screen-home,
-  #screen-welcome {
+  #screen-home {
     background: linear-gradient(135deg, var(--bg-deep) 0%, #08081c 50%, var(--bg-deep) 100%);
     color: var(--white);
   }
   #screen-home .question-text,
-  #screen-home .question-sub,
-  #screen-welcome .question-text,
-  #screen-welcome .question-sub {
+  #screen-home .question-sub {
     color: var(--white);
   }
 
@@ -369,12 +366,6 @@
     color: var(--indigo-deep);
     line-height: 1.5;
     max-width: 500px;
-  }
-
-  /* ---- WELCOME SCREEN ---- */
-  /* ---- WELCOME HERO LAYOUT ---- */
-  #screen-welcome {
-    justify-content: flex-start !important;
   }
 
   .welcome-hero {
@@ -1518,16 +1509,6 @@
   </div>
 </div>
 
-<!-- ====== WELCOME SCREEN ====== -->
-<div class="screen" id="screen-welcome" style="display:none;">
-
-  <div class="welcome-hero">
-    <div class="welcome-hero-title-row">
-      <a href="https://fiskal.online" target="_blank">
-        <img src="fiskal_logo_recoloured.png" class="welcome-hero-logo" alt="Fiskal">
-      </a>
-      <h1 class="welcome-hero-title">Fiskal Discovery</h1>
-      <div></div>
     </div>
     <p class="welcome-hero-sub">Refuse to Stand Still</p>
   </div>
@@ -1655,6 +1636,16 @@
 
 <!-- ====== LOADING SCREEN ====== -->
 <div class="screen" id="screen-loading">
+  <header class="ob-fixed-header">
+    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
+      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
+    </a>
+    <div class="ob-header-brand">
+      <span class="ob-header-title">Fiskal Discovery</span>
+      <span class="ob-header-sub">Funding Finder</span>
+    </div>
+    <div class="ob-header-spacer"></div>
+  </header>
   <div class="screen-content">
     <div class="loading-screen">
       <div class="loading-orb"></div>
@@ -1669,6 +1660,16 @@
 
 <!-- ====== LOADING SCREEN ====== -->
 <div class="screen loading-screen" id="screen-submission-loading">
+  <header class="ob-fixed-header">
+    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
+      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
+    </a>
+    <div class="ob-header-brand">
+      <span class="ob-header-title">Fiskal Discovery</span>
+      <span class="ob-header-sub">Funding Finder</span>
+    </div>
+    <div class="ob-header-spacer"></div>
+  </header>
   <div class="loading-content">
     <div class="loading-spinner"></div>
     <div class="loading-message" id="loading-message">Analysing your business</div>
@@ -1738,7 +1739,7 @@
 // ============================================================
 // DEVELOPMENT MODE
 // ============================================================
-const DEV_MODE = true;
+const DEV_MODE = false;
 const SEND_EMAILS = false;
 
 // ============================================================
