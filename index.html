@@ -1,3255 +1,384 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="favicon-main.svg">
 <title>Fiskal Discovery</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="shared-styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Libre+Baskerville:ital,wght@1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --indigo: #7c3aed;
-    --indigo-deep: #5b21b6;
-    --indigo-light: #a78bfa;
-    --indigo-pale: #ede9fe;
-    --gold: #a78bfa;
-    --gold-light: #c4b5fd;
-    --cream: #FAF8F5;
-    --dark: #0d0b1f;
-    --mid: #4a3d72;
-    --light-text: #9b85cc;
+    --purple-dark: #1a0020;
+    --purple-mid: #3d0050;
+    --purple-light: #7a2a8a;
+    --purple-btn1: #2e0040;
+    --purple-btn2: #6a1878;
     --white: #ffffff;
-    --success: #10b981;
-    --bg-deep: #030210;
-    --bg-card: #0c0920;
-    --bg-card-light: #130e2e;
-    --accent-blue: #4c1d95;
-    --accent-purple: #6d28d9;
-    --btn-gradient: linear-gradient(135deg, #5b21b6 0%, #7c3aed 55%, #4c1d95 100%);
-    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
-    --shadow-card: 0 8px 30px rgba(124, 58, 237, 0.22);
-    --shadow-glow: 0 0 50px rgba(124, 58, 237, 0.3);
+    --text-dark: #1a1a1a;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: #030210;
-    color: var(--white);
+    background: #fff;
     min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ====== ONBOARDING OVERLAY ====== */
-  #onboarding-overlay {
-    position: fixed; inset: 0; z-index: 9999;
-    background: #030210;
-    display: flex; flex-direction: column;
-    transition: opacity 0.5s ease;
-  }
-  #onboarding-overlay::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 22% 30%, rgba(120, 20, 210, 0.65) 0%, transparent 42%),
-      radial-gradient(ellipse at 72% 68%, rgba(80, 10, 160, 0.50) 0%, transparent 40%),
-      radial-gradient(ellipse at 55% 10%, rgba(90, 15, 180, 0.35) 0%, transparent 35%),
-      radial-gradient(ellipse at 10% 80%, rgba(60, 5, 120, 0.40) 0%, transparent 35%),
-      radial-gradient(ellipse at 88% 20%, rgba(70, 10, 140, 0.30) 0%, transparent 30%);
-    pointer-events: none;
-  }
-  #onboarding-overlay.hidden { opacity: 0; pointer-events: none; }
-
-  /* Fixed header */
-  /* ob-fixed-header base styles are in shared-styles.css */
-
-  /* Main content area — fills remaining height, centres content */
-  .ob-main {
-    flex: 1;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 16px 24px 60px;
-    overflow-y: auto;
-    position: relative;
-    z-index: 1;
+    padding: 20px;
   }
 
-  #welcome-question-container {
+  .card {
     width: 100%;
-    max-width: 680px;
-  }
-
-  .ob-chat {
-    width: 100%; max-width: 780px;
-    padding: 32px 20px 0;
-    display: flex; flex-direction: column; gap: 24px;
-    flex: 0 0 auto;
-    justify-content: flex-start;
-    align-items: center;
-    padding-top: 42px;
-    margin: 0 auto;
+    max-width: 700px;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(126,9,165,0.13);
     position: relative;
-    z-index: 1;
   }
 
-  .ob-bubble {
-    max-width: 780px; width: 90%;
-    font-size: 20px; line-height: 1.5;
-    color: #ffffff;
-    text-align: center;
-    margin: 0 auto;
-    min-height: 1.7em;
-    font-family: 'DM Sans', sans-serif;
-    font-style: italic;
-  }
-  .ob-bubble.fiskal {
-    color: #ffffff;
-    font-size: 20px;
-  }
-  .ob-bubble.user {
-    color: #c4adf0;
-    font-weight: 600;
-    font-style: normal;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-  }
-  .ob-cursor {
-    display: inline-block;
-    width: 2px; height: 1.1em;
-    background: var(--indigo);
-    margin-left: 2px;
-    vertical-align: middle;
-    animation: blink 0.8s step-end infinite;
-  }
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-
-
-  /* Input area */
-  .ob-input-area {
-    position: fixed; bottom: 112px; left: 50%; transform: translateX(-50%);
-    background: transparent;
-    padding: 12px 20px; z-index: 10000;
-    display: flex; gap: 10px; align-items: center;
-    width: 100%; max-width: 780px;
-  }
-  .ob-input {
-    flex: 1; border: 1.5px solid rgba(167, 139, 250, 0.3);
-    border-radius: 999px; padding: 11px 20px;
-    font-size: 16px; font-family: 'DM Sans', sans-serif;
-    background: rgba(255,255,255,0.06); color: var(--white);
-    outline: none; transition: border-color 0.2s;
-  }
-  .ob-input::placeholder { color: rgba(255,255,255,0.35); }
-  .ob-input:focus { border-color: var(--indigo); background: rgba(255,255,255,0.09); }
-  .ob-send {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: var(--btn-gradient); border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 18px; transition: all 0.2s;
-    flex-shrink: 0; box-shadow: 0 2px 12px rgba(124, 58, 237, 0.45);
-  }
-  .ob-send:hover { transform: scale(1.05); box-shadow: 0 4px 18px rgba(124, 58, 237, 0.6); }
-  .ob-send:disabled { background: #333; cursor: not-allowed; box-shadow: none; }
-
-  /* Choice buttons */
-  .ob-choices {
-    position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%);
-    background: transparent;
-    padding: 14px 20px; z-index: 10000;
-    display: flex; flex-direction: column; gap: 10px;
-    width: 100%; max-width: 780px;
-  }
-
-  @media(max-width:600px){
-    .ob-choices{
-      position:static!important;
-      transform:none!important;
-      left:auto!important;
-      bottom:auto!important;
-      margin-top:8px!important;
-      z-index:9999!important;
-    }
-  }
-  .ob-choice-btn {
-    padding: 13px 20px; border-radius: 999px;
-    border: 1.5px solid rgba(167, 139, 250, 0.4); color: var(--indigo-light);
-    background: rgba(124, 58, 237, 0.1); font-size: 14px; font-weight: 500;
-    cursor: pointer; text-align: left; transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif; backdrop-filter: blur(4px);
-  }
-  .ob-choice-btn:hover { background: var(--btn-gradient); color: white; border-color: transparent; box-shadow: 0 4px 16px rgba(124,58,237,0.45); }
-
-  .ob-home-bottom {
-    position: fixed;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    z-index: 10001;
+  .top {
     display: flex;
-    justify-content: center;
-    gap: 12px;
-  }
-
-  /* Reset link */
-  .ob-reset { font-size: 12px; color: var(--light-text); cursor: pointer; text-decoration: underline; }
-
-  /* ====== PROFILE BADGE (shown on home when onboarding done) ====== */
-  .profile-badge {
-    display: flex; align-items: center; gap: 10px;
-    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-light) 100%);
-    border: 1px solid rgba(79, 70, 229, 0.2);
-    border-radius: 12px;
-    padding: 10px 14px; margin: 0 24px 8px;
-    box-shadow: var(--shadow-soft);
-  }
-  .profile-badge-avatar {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--indigo) 0%, var(--accent-purple) 100%);
-    color: white;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; font-weight: 600; flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-  }
-  .profile-badge-info { flex: 1; }
-  .profile-badge-name { font-size: 14px; font-weight: 600; color: var(--white); }
-  .profile-badge-company { font-size: 12px; color: var(--light-text); }
-  .profile-badge-reset { font-size: 11px; color: var(--light-text); cursor: pointer; text-decoration: underline; }
-
-  /* ====== BACKGROUND ====== */
-  .bg-orb {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(80px);
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.15;
-  }
-  .bg-orb-1 { width: 700px; height: 700px; background: #5b21b6; top: -250px; left: -150px; opacity: 0.30; }
-  .bg-orb-2 { width: 500px; height: 500px; background: #3b0764; bottom: -100px; right: -100px; opacity: 0.28; }
-
-  /* ---- SCREENS ---- */
-  .screen {
-    display: none;
-    min-height: 100vh;
+    min-height: 280px;
     position: relative;
-    z-index: 1;
-    animation: fadeUp 0.5s ease forwards;
   }
-  .screen.active {
+
+  .top-left {
+    width: 52%;
+    background:
+      radial-gradient(ellipse 55% 40% at 80% 15%, rgba(100,180,255,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 35% at 20% 75%, rgba(80,160,255,0.14) 0%, transparent 65%),
+      radial-gradient(ellipse 30% 25% at 65% 60%, rgba(120,200,255,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 35% 28% at 55% 85%, rgba(224,90,0,0.12) 0%, transparent 65%),
+      radial-gradient(ellipse 25% 20% at 15% 30%, rgba(255,140,0,0.09) 0%, transparent 60%),
+      var(--purple-dark);
+    position: relative;
+    padding: 32px 28px 40px 32px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    clip-path: ellipse(100% 92% at 0% 50%);
+    z-index: 2;
   }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ---- HEADER ---- */
-.logo-area {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .site-logo {
-    width: 90px;
-    max-width: 28vw;
-    height: auto;
-    display: block;
-  }
-
-  .module-badge {
-    background: var(--indigo);
-    color: white;
-    font-size: 11px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
-
-  /* ---- PROGRESS ---- */
-  .progress-bar-wrap {
-    padding: 0 24px 8px;
-  }
-  .progress-track {
-    height: 3px;
-    background: rgba(75,0,130,0.12);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--indigo), var(--gold));
-    border-radius: 3px;
-    transition: width 0.5s ease;
-  }
-  .progress-label {
-    font-size: 11px;
-    color: var(--light-text);
-    margin-top: 6px;
-    text-align: right;
-  }
-
-  /* ---- MAIN CONTENT ---- */
-  .screen-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 8px 40px 24px;
-    max-width: 900px;
-    width: 100%;
-    margin: 0 auto;
-  }
-
-  #screen-landing {
-    justify-content: flex-start;
-    position: relative;
-  }
-  #screen-landing::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background:
-      radial-gradient(ellipse at 22% 32%, rgba(140, 10, 200, 0.72) 0%, transparent 42%),
-      radial-gradient(ellipse at 70% 65%, rgba(110, 5,  170, 0.58) 0%, transparent 40%),
-      radial-gradient(ellipse at 50% 6%,  rgba(120, 8,  185, 0.42) 0%, transparent 35%),
-      radial-gradient(ellipse at 8%  85%, rgba(90,  3,  145, 0.50) 0%, transparent 35%),
-      radial-gradient(ellipse at 90% 20%, rgba(100, 6,  160, 0.38) 0%, transparent 30%);
-  }
-  #screen-landing > * { position: relative; z-index: 1; }
-
-  .welcome-hero {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 24px 24px;
-    width: 100%;
-  }
-
-  .welcome-hero-title {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
-    font-style: italic;
-    font-weight: normal;
-    font-size: clamp(36px, 8vw, 72px);
-    color: #ffffff;
-    line-height: 1.05;
-    margin: 0 0 18px;
-    text-align: center;
-    text-shadow: 0 2px 40px rgba(140, 10, 200, 0.4);
-  }
-
-  .welcome-hero-rule {
-    width: clamp(120px, 30vw, 260px);
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(196, 173, 240, 0.5), transparent);
-    margin: 0 auto 18px;
-  }
-
-  .welcome-hero-sub {
-    font-size: clamp(12px, 2.2vw, 17px);
-    color: #c4adf0;
-    font-weight: 700;
-    margin: 0;
-    letter-spacing: clamp(4px, 1.5vw, 10px);
-    text-transform: uppercase;
-    text-align: center;
-  }
-
-  .welcome-bottom {
-    padding: 20px 24px 24px;
-    max-width: 680px;
-    width: 100%;
-    margin: 0 auto;
-  }
-
-  .welcome-bottom-actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 20px;
-  }
-
-  .welcome-box {
-    background: white;
-    border-left: 3px solid var(--gold);
-    border-radius: 0 12px 12px 0;
-    padding: 16px 20px;
-    margin-bottom: 0;
-  }
-
-  @media(max-width:600px){
-    .screen-content{
-      padding:16px 16px 24px;
-    }
-  }
-
-  /* ---- HOME SCREEN ---- */
-  .home-hero {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 8px 0 16px;
-  }
-
-  @media(max-width:600px){
-    .home-hero{
-      padding:24px 0 16px;
-    }
-  }
-
-  .home-eyebrow {
-    font-size: 16px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 500;
-    margin-bottom: 20px;
-  }
-
-  @media(max-width:600px){
-    .home-eyebrow{
-      font-size:12px;
-      letter-spacing:1.5px;
-      margin-bottom:12px;
-    }
-  }
-
-  .home-title {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
-    font-size: 52px;
-    font-weight: 300;
+  .brand-title {
+    font-family: 'Monotype Corsiva', 'Pinyon Script', cursive;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 2.5rem;
+    margin-left: -6px;
     color: var(--white);
     line-height: 1.1;
-    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
   }
 
-  .home-title em {
+  .tagline {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #e05a00;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .divider {
+    width: 92%;
+    height: 3px;
+    background: linear-gradient(90deg, #e05a00 0%, rgba(224,90,0,0.08) 100%);
+    clip-path: polygon(0 0, 100% 25%, 100% 75%, 0 100%);
+    margin-bottom: 18px;
+    border-radius: 2px 0 0 2px;
+  }
+
+  .strapline {
+    font-family: 'DM Sans', sans-serif;
     font-style: italic;
-    color: var(--indigo-light);
-  }
-  .home-title span { line-height: 1.1; display: block; }
-
-  @media(max-width:600px){
-    .home-title{
-      font-size:32px;
-    }
-    .home-tagline{
-      font-size:16px;
-      margin-bottom:24px;
-    }
-  }
-
-  .home-tagline {
-    font-size: 20px;
-    color: var(--mid);
-    font-weight: 300;
-    margin-bottom: 48px;
-    line-height: 1.6;
-  }
-
-  .home-tagline strong {
-    color: var(--indigo);
     font-weight: 500;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.55;
   }
 
-  /* ---- MODULE CARDS ---- */
-  .module-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+  .top-right {
+    flex: 1;
+    padding: 10px 24px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    gap: 0;
+  }
+
+  .summaries-btn {
+    align-self: center;
+    border: 6px solid #e05a00;
+    color: var(--text-dark);
+    background: transparent;
+    padding: 7px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+  }
+  .summaries-btn:hover, .summaries-btn.open {
+    background: transparent;
+    color: var(--text-dark);
+  }
+  .summaries-btn .chevron {
+    margin-left: 6px;
+    font-size: 0.7rem;
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+  .summaries-btn.open .chevron {
+    transform: rotate(180deg);
+  }
+
+  .menu-wrapper {
+    position: relative;
+    align-self: center;
+    width: 90%;
+  }
+
+  .summaries-btn-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .dropdown {
+    display: none;
+    position: absolute;
+    top: 68px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    background: #fff;
+    border: 2px solid #e05a00;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(60,0,80,0.15);
+    z-index: 100;
+    overflow: hidden;
+  }
+  .dropdown.open {
+    display: flex;
+    flex-direction: column;
+  }
+  .dropdown a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+    border-bottom: 1px solid rgba(61,0,80,0.08);
+  }
+  .dropdown a:last-child { border-bottom: none; }
+  .dropdown a:hover {
+    background: var(--purple-dark);
+    color: #fff;
+  }
+  .dropdown a .icon { font-size: 1rem; width: 20px; text-align: center; }
+  .dropdown .reset-item { color: #c0392b; }
+  .dropdown .reset-item:hover { background: #c0392b; color: #fff; }
+
+  .greeting-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+    text-align: center;
     width: 100%;
   }
 
-  @media(max-width:600px){
-    .module-grid{
-      gap:8px;
-    }
+  .greeting {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    line-height: 1.3;
   }
 
-  .module-card {
-    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-light) 100%);
-    border: 1px solid rgba(79, 70, 229, 0.2);
-    border-radius: 16px;
-    padding: 20px;
+  .cta-text {
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    line-height: 1.4;
+  }
+
+  .bar {
+    height: 6px;
+    background: linear-gradient(90deg, #e05a00 0%, #ff8c00 100%);
+    position: relative;
+    z-index: 3;
+  }
+
+  .bottom {
+    padding: 28px 28px 28px 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 16px;
+    position: relative;
+    background: #fff;
+  }
+
+  .module-btn {
+    padding: 18px 14px;
+    border-radius: 50px;
+    border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--white);
+    text-align: center;
+    background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple-light) 100%);
+    box-shadow: 0 4px 15px rgba(126,9,165,0.25);
+    transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+    line-height: 1.3;
+  }
+  .module-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(126,9,165,0.35);
+    filter: brightness(1.08);
+  }
+  .module-btn:active {
+    transform: translateY(0);
+  }
+
+  .btn-loan {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .btn-shariah {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .bottom-row {
+    grid-column: 1 / -1;
     display: flex;
     align-items: center;
     gap: 16px;
-    text-align: left;
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--shadow-card);
   }
 
-  .module-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--indigo) 0%, var(--accent-purple) 50%, var(--accent-blue) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-  }
-
-  .module-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--indigo) 0%, var(--accent-purple) 50%, var(--accent-blue) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .module-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-glow);
-    border-color: rgba(79, 70, 229, 0.4);
-  }
-  .module-card:hover::before { opacity: 0.9; }
-  .module-card:hover::after { opacity: 1; }
-  .module-card:hover .module-card-title { color: white; }
-  .module-card:hover .module-card-desc { color: rgba(255,255,255,0.75); }
-  .module-card:hover .module-card-icon { background: rgba(255,255,255,0.2); }
-  .module-card:hover .module-arrow { color: white; }
-
-  .module-card-icon {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, var(--indigo) 0%, var(--accent-purple) 100%);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-    transition: background 0.25s ease;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-  }
-
-  .module-card-body {
+  .btn-cashflow {
     flex: 1;
-    position: relative;
-    z-index: 1;
   }
 
-  .module-card-title {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--white);
-    margin-bottom: 3px;
-    transition: color 0.25s ease;
-  }
-
-  .module-card-desc {
-    font-size: 13px;
-    color: var(--light-text);
-    font-weight: 300;
-    line-height: 1.4;
-    transition: color 0.25s ease;
-  }
-
-  .module-arrow {
-    color: var(--indigo-light);
-    font-size: 18px;
-    position: relative;
-    z-index: 1;
-    transition: color 0.25s ease;
-  }
-
-  @media (max-width: 600px) {
-    body {
-      height: auto !important;
-      min-height: 100svh !important;
-      overflow-y: auto !important;
-    }
-
-    .hero,
-    .homepage-hero,
-    .app-home,
-    .main-content,
-    .home-container,
-    .module-section {
-      height: auto !important;
-      min-height: auto !important;
-      overflow: visible !important;
-      position: static !important;
-      transform: none !important;
-    }
-
-    .module-grid {
-      position: static !important;
-      transform: none !important;
-      display: flex !important;
-      flex-direction: column !important;
-      gap: 16px !important;
-      width: 100% !important;
-      margin-top: 24px !important;
-    }
-
-    .module-card {
-      position: static !important;
-      transform: none !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      height: auto !important;
-      min-height: unset !important;
-      margin: 0 !important;
-    }
-
-    .module-card-title {
-      font-size: 1.1rem !important;
-      line-height: 1.3 !important;
-    }
-
-    .module-card-desc {
-      font-size: 0.9rem !important;
-      line-height: 1.5 !important;
-    }
-  }
-
-  /* ---- WELCOME SCREEN ---- */
-  .welcome-box p {
-    font-size: 13px;
-    line-height: 1.65;
-    color: var(--mid);
-    font-weight: 300;
-  }
-
-  .welcome-box p + p { margin-top: 8px; }
-
-  .welcome-box strong {
-    color: var(--indigo);
-    font-weight: 500;
-  }
-
-  /* ---- QUESTION SCREEN ---- */
-  .question-icon {
-    font-size: 40px;
-    margin-bottom: 12px;
-  }
-
-  .question-product {
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 10px;
-    font-weight: 500;
-  }
-
-  .question-text {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 24px;
-    font-weight: 500;
-
-/* ---- QUESTION SCREEN ---- */
-.question-icon {
-  font-size: 40px;
-  margin-bottom: 12px;
-}
-
-.question-product {
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 10px;
-  font-weight: 500;
-}
-    color: var(--dark);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: left;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .answer-btn:hover {
-    border-color: var(--indigo);
-    background: var(--indigo-pale);
-    transform: translateX(4px);
-  }
-
-  .answer-btn.selected {
-    border-color: var(--indigo);
-    background: var(--indigo);
-    color: white;
-  }
-
-  .answer-emoji { font-size: 18px; }
-
-  /* ---- FOLLOW-UP ---- */
-  .followup-box {
-    background: white;
-    border: 1.5px solid rgba(75,0,130,0.12);
-    border-radius: 12px;
-    padding: 16px;
-    margin-top: 8px;
-    animation: fadeUp 0.3s ease;
-  }
-
-  .followup-label {
-    font-size: 12px;
-    color: var(--light-text);
-    margin-bottom: 10px;
-    font-weight: 300;
-  }
-
-  .followup-options {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .followup-btn {
-    background: var(--indigo-pale);
-    border: 1.5px solid rgba(75,0,130,0.15);
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 14px;
-    color: var(--indigo);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: left;
-    font-family: 'DM Sans', sans-serif;
-  }
-
-  .followup-btn:hover, .followup-btn.selected {
-    background: var(--indigo);
-    color: white;
-    border-color: var(--indigo);
-  }
-
-  /* ---- DETAILS FORM ---- */
-  .form-title {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 32px;
-    font-weight: 300;
-    color: var(--indigo-deep);
-    line-height: 1.3;
-    margin-bottom: 8px;
-  }
-
-  .form-sub {
-    font-size: 13px;
-    color: var(--light-text);
-    margin-bottom: 28px;
-    font-weight: 300;
-  }
-
-  .form-group {
-    margin-bottom: 16px;
-  }
-
-  .form-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--mid);
-    margin-bottom: 6px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
-  .form-input {
-    width: 100%;
-    background: white;
-    border: 1.5px solid rgba(75,0,130,0.15);
-    border-radius: 10px;
-    padding: 14px 16px;
-    font-size: 16px;
-    color: var(--dark);
-    font-family: 'DM Sans', sans-serif;
-    transition: border-color 0.2s ease;
-    outline: none;
-  }
-
-  .form-input:focus {
-    border-color: var(--indigo);
-    box-shadow: 0 0 0 3px rgba(75,0,130,0.08);
-  }
-
-  /* ---- BARRIERS ---- */
-  .barriers-followup {
-    margin-top: 12px;
-  }
-
-  .form-textarea {
-    width: 100%;
-    background: white;
-    border: 1.5px solid rgba(75,0,130,0.15);
-    border-radius: 10px;
-    padding: 14px 16px;
-    font-size: 16px;
-    color: var(--dark);
-    font-family: 'DM Sans', sans-serif;
-    resize: none;
-    height: 100px;
-    outline: none;
-    transition: border-color 0.2s ease;
-  }
-
-  .form-textarea:focus {
-    border-color: var(--indigo);
-    box-shadow: 0 0 0 3px rgba(75,0,130,0.08);
-  }
-
-  .barriers-note {
-    background: linear-gradient(135deg, rgba(75,0,130,0.05), rgba(201,168,76,0.05));
-    border-radius: 10px;
-    padding: 14px;
-    margin-top: 16px;
-    font-size: 13px;
-    color: var(--mid);
-    line-height: 1.6;
-    font-style: italic;
-  }
-
-  /* ---- BUTTONS ---- */
-  .btn-primary {
-    background: var(--btn-gradient);
-    color: white;
-    border: none;
-    border-radius: 999px;
-    padding: 16px 32px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.25s ease;
-    letter-spacing: 0.4px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.35);
-  }
-
-  .btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0);
-    transition: background 0.2s ease;
-    border-radius: 999px;
-  }
-
-  .btn-primary:hover { box-shadow: 0 6px 28px rgba(79, 70, 229, 0.5); transform: translateY(-1px); }
-  .btn-primary:hover::after { background: rgba(255,255,255,0.08); }
-  .btn-primary:active { transform: scale(0.98); }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--indigo-light);
-    border: 1.5px solid rgba(99, 102, 241, 0.4);
-    border-radius: 999px;
-    padding: 14px 32px;
-    font-size: 14px;
-    font-weight: 400;
-    cursor: pointer;
-    width: 100%;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s ease;
-    margin-top: 10px;
-  }
-
-  .btn-secondary:hover {
-    background: rgba(79, 70, 229, 0.1);
-    border-color: var(--indigo-light);
-  }
-
-  .btn-skip {
-    background: none;
-    border: none;
-    color: var(--light-text);
-    font-size: 13px;
-    cursor: pointer;
-    padding: 12px;
-    font-family: 'DM Sans', sans-serif;
-    text-align: center;
-    width: 100%;
-    margin-top: 4px;
-  }
-
-  /* ---- LOADING ---- */
-  .loading-screen {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* ---- DISCOVERY THINKING SCREEN ---- */
-  #discovery-thinking-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #ffffff 0%, #f8efff 45%, #eaf8ff 100%);
-    text-align: center;
-  }
-  #discovery-thinking-screen.active {
-    display: flex;
-  }
-  #discovery-thinking-screen .thinking-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 28px;
-    padding: 32px;
-  }
-  #discovery-thinking-screen .thinking-spinner {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: 4px solid rgba(79,70,229,0.18);
-    border-top-color: #4f46e5;
-    animation: spinThinking 1s linear infinite;
-  }
-  #discovery-thinking-screen .thinking-phrase {
-    font-size: clamp(1.2rem, 4vw, 2rem);
-    font-weight: 700;
-    text-align: center;
-    color: #333;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 500ms ease, transform 500ms ease;
-  }
-  #discovery-thinking-screen .thinking-phrase.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  #discovery-thinking-screen .thinking-phrase.shimmer {
-    background: linear-gradient(
-      90deg,
-      rgba(79,70,229,0.65) 0%,
-      #4f46e5 35%,
-      #FFE600 50%,
-      #4f46e5 65%,
-      rgba(79,70,229,0.65) 100%
-    );
-    background-size: 260% auto;
-    background-position: 260% center;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: thinkingShimmer 3.8s ease-in-out forwards;
-  }
-  @keyframes thinkingShimmer {
-    0%   { background-position: 260% center; }
-    100% { background-position: -260% center; }
-  }
-  @keyframes spinThinking {
-    to { transform: rotate(360deg); }
-  }
-
-  .loading-orb {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--indigo), var(--gold));
-    margin: 0 auto 32px;
-    animation: pulse 2s ease-in-out infinite;
-    position: relative;
-  }
-
-  .loading-orb::after {
-    content: '';
-    position: absolute;
-    inset: -8px;
-    border-radius: 50%;
-    border: 2px solid var(--indigo);
-    opacity: 0.3;
-    animation: pulse-ring 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.08); opacity: 0.85; }
-  }
-
-  @keyframes pulse-ring {
-    0%, 100% { transform: scale(1); opacity: 0.3; }
-    50% { transform: scale(1.15); opacity: 0; }
-  }
-
-  .loading-title {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 26px;
-    color: var(--indigo-deep);
-    margin-bottom: 10px;
-    font-weight: 300;
-  }
-
-  .loading-sub {
-    font-size: 14px;
-    color: var(--light-text);
-    font-weight: 300;
-  }
-
-  .loading-dots {
-    display: inline-flex;
-    gap: 6px;
-    margin-top: 24px;
-  }
-
-  .loading-dots span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--indigo);
-    animation: dot-bounce 1.4s ease-in-out infinite;
-  }
-
-  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes dot-bounce {
-    0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-    40% { transform: scale(1); opacity: 1; }
-  }
-
-  /* ---- RESULTS ---- */
-  .results-header {
-    text-align: center;
-    padding: 20px 0 24px;
-  }
-
-  .results-check {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 16px;
-    font-size: 26px;
-  }
-
-  .results-title {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 32px;
-    color: var(--indigo-deep);
-    font-weight: 300;
-    margin-bottom: 8px;
-  }
-
-  .results-name {
-    font-size: 14px;
-    color: var(--light-text);
-  }
-
-  .ai-summary {
-    background: white;
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 16px;
-    border: 1.5px solid rgba(75,0,130,0.1);
-  }
-
-  .ai-summary-label {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 500;
-    margin-bottom: 12px;
-  }
-
-  /* ---- THINKING SCREEN ---- */
-  .thinking-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    text-align: center;
-    padding: 20px;
-  }
-
-  .thinking-logo {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
-    font-style: italic;
-    font-weight: normal;
-    font-size: 1.8rem;
-    color: var(--purple);
-    margin-bottom: 16px;
-    text-shadow: 0 0 30px rgba(79,70,229,.5);
-  }
-
-  .thinking-title {
-    font-size: 1.2rem;
-    color: var(--gold);
-    margin-bottom: 32px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
-
-  .thinking-phrase {
-    font-size: 1rem;
-    color: white;
-    margin-bottom: 40px;
-    font-weight: 300;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 450ms ease-in-out, transform 450ms ease-in-out;
-  }
-
-  @keyframes phraseSweep {
-    0%   { background-position: 200% center; }
-    100% { background-position: -200% center; }
-  }
-
-  .thinking-phrase.visible {
-    opacity: 1;
-    transform: translateY(0);
-    background: linear-gradient(90deg, #ffffff 0%, #ffffff 25%, #FFE600 50%, #ffffff 75%, #ffffff 100%);
-    background-size: 300% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: phraseSweep 2s ease-in-out forwards;
-  }
-
-  .thinking-loader {
-    display: flex;
-    gap: 12px;
-    margin-top: 20px;
-  }
-
-  .thinking-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-
-  .thinking-dot:nth-child(2) {
-    animation-delay: 0.3s;
-    background: var(--gold);
-  }
-
-  .thinking-dot:nth-child(3) {
-    animation-delay: 0.6s;
-    background: var(--purple);
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(0.8); opacity: 0.5; }
-    50% { transform: scale(1.2); opacity: 1; }
-  }
-
-  .ai-summary-text {
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--dark);
-    font-weight: 300;
-  }
-
-  .matched-products {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-
-  .matched-product {
-    background: var(--indigo-pale);
-    border-radius: 10px;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .matched-product-icon { font-size: 18px; }
-
-  .matched-product-name {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--indigo);
-  }
-
-  /* ---- PRICING PROMPT ---- */
-  .pricing-prompt {
-    background: white;
-    border: 1.5px solid rgba(201,168,76,0.3);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-
-  .pricing-prompt-title {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 22px;
-    color: var(--indigo-deep);
-    margin-bottom: 8px;
-  }
-
-  .pricing-prompt-text {
-    font-size: 13px;
-    color: var(--light-text);
-    margin-bottom: 16px;
-    line-height: 1.6;
-  }
-
-  /* ---- FOOTER ---- */
-  .screen-footer {
-    padding: 12px 24px 24px;
-    text-align: center;
-  }
-
-  .footer-legal {
-    font-size: 11px;
-    color: var(--light-text);
-    line-height: 1.6;
-  }
-
-  /* ---- DIVIDER ---- */
-  .divider {
-    height: 1px;
-    background: rgba(75,0,130,0.08);
-    margin: 20px 0;
-  }
-
-  /* ---- ERROR ---- */
-  .error-msg {
-    font-size: 12px;
-    color: #e53e3e;
-    margin-top: 8px;
-    display: none;
-  }
-
-  /* ---- CONFIRMATION ---- */
-  .confirm-screen {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px 24px;
-  }
-
-  .confirm-icon {
-    font-size: 60px;
-    margin-bottom: 24px;
-    animation: bounce 0.6s ease;
-  }
-
-  @keyframes bounce {
-    0% { transform: scale(0); }
-    60% { transform: scale(1.15); }
-    100% { transform: scale(1); }
-  }
-
-  .confirm-title {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 36px;
-    color: var(--indigo-deep);
-    font-weight: 300;
-    margin-bottom: 12px;
-  }
-
-  .confirm-text {
-    font-size: 15px;
-    color: var(--mid);
-    line-height: 1.7;
-    margin-bottom: 32px;
-    font-weight: 300;
-  }
-
-  .back-btn {
-    background: none;
-    border: none;
-    color: var(--light-text);
-    font-size: 13px;
-    cursor: pointer;
-    padding: 10px 12px;
-    font-family: 'DM Sans', sans-serif;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: color 0.2s ease;
-    min-width: 110px;
-    justify-content: center;
-    text-align: center;
-  }
-  .back-btn:hover { color: var(--indigo); }
-  .nav-row {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 8px;
-    flex-wrap: wrap;
-  }
-
-  /* ---- SHARED NAV BUTTONS ---- */
-  .discovery-bottom-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
-    margin: 34px auto 34px;
-    padding-bottom: 24px;
-    flex-wrap: wrap;
-  }
-  .discovery-nav-btn {
-    min-width: 160px;
-    min-height: 44px;
-    padding: 11px 22px;
-    border-radius: 999px;
-    border: 1px solid rgba(79, 70, 229, 0.25);
-    background: #ffffff;
-    color: #4f46e5;
-    font-family: "Open Sans", sans-serif;
-    font-size: 0.95rem;
-    font-weight: 800;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    box-sizing: border-box;
-  }
-  .discovery-nav-btn:hover {
-    background: rgba(79, 70, 229, 0.08);
-  }
-  .discovery-nav-btn.primary {
-    background: #FFE600;
-    color: #08000F;
-    border-color: #FFE600;
-  }
-  .discovery-nav-btn.primary:hover {
-    filter: brightness(0.98);
-  }
-  @media (max-width: 760px) {
-    .discovery-bottom-nav {
-      width: min(92vw, 360px);
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 30px;
-      margin-bottom: 40px;
-      padding-bottom: 30px;
-    }
-    .discovery-nav-btn {
+  @media (max-width: 500px) {
+    .top { flex-direction: column; min-height: auto; }
+    .top-left {
       width: 100%;
+      clip-path: ellipse(110% 85% at 50% 0%);
+      padding-bottom: 50px;
     }
-  }
-
-  /* ---- RESPONSIVE ---- */
-  @media (max-width: 400px) {
-    .home-title { font-size: 42px; }
-    .question-text { font-size: 24px; }
-  }
-
-  @media (min-width: 768px) {
-    .screen-content { padding: 24px 48px 28px; }
-    .home-title { font-size: 60px; }
-  }
-  @media (min-width: 1024px) {
-    .screen-content { padding: 28px 60px 32px; }
-    .home-title { font-size: 68px; }
-  }
-
-  #screen-results .screen-content {
-    max-width: 100%;
-    padding: 20px 40px 24px;
-  }
-
-  /* ====== MOBILE FIXES ====== */
-  @media (max-width: 600px) {
-    /* Screen content tighter padding on mobile */
-    .screen-content { padding: 6px 16px 16px !important; }
-
-    .ob-main { padding: 12px 16px 60px; }
-
-    /* Answer buttons — comfortable tap targets */
-    .answer-btn { padding: 16px 16px; min-height: 48px; }
-    .answer-options { gap: 10px; }
-
-    /* Nav/footer row */
-    .screen-footer { padding: 10px 16px 16px; }
-    .nav-row { gap: 8px; }
-    .back-btn { min-height: 44px; padding: 10px 12px; }
-
-    /* Home module grid — single column on small screens */
-    .module-grid { grid-template-columns: 1fr !important; }
-
-    /* ob-home-bottom buttons */
-    .ob-home-bottom button { min-height: 44px; min-width: 90px; }
-
-    /* Logo smaller */
-    .logo-corner .site-logo { width: 50px; }
-
-    /* Question text */
-    .question-text { font-size: 20px; }
-    .question-sub { font-size: 13px; }
-  }
-
-  /* Very small phones */
-  @media (max-width: 380px) {
-    .home-title { font-size: 36px !important; }
-    .question-text { font-size: 18px; }
-    .module-card-title { font-size: 14px; }
-    .module-card-desc { font-size: 12px; }
-  }
-
-  /* ---- DISCOVERIES HISTORY ---- */
-  .discoveries-section {
-    width: 100%;
-    margin-top: 36px;
-  }
-  .discoveries-heading {
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 500;
-    margin-bottom: 14px;
-  }
-  .discovery-card {
-    background: var(--bg-card);
-    border: 1px solid rgba(79, 70, 229, 0.2);
-    border-radius: 14px;
-    padding: 16px 18px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-  }
-  .discovery-card:hover {
-    border-color: rgba(124, 58, 237, 0.5);
-    background: var(--bg-card-light);
-    transform: translateX(3px);
-  }
-  .discovery-card-icon {
-    font-size: 22px;
-    flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    background: rgba(79, 70, 229, 0.15);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .discovery-card-info { flex: 1; min-width: 0; }
-  .discovery-card-module {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--white);
-    margin-bottom: 2px;
-  }
-  .discovery-card-meta {
-    font-size: 11px;
-    color: var(--light-text);
-  }
-  .discovery-card-arrow {
-    font-size: 18px;
-    color: var(--light-text);
-    flex-shrink: 0;
-  }
-
-  /* Modal */
-  .disc-modal-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(3, 2, 16, 0.85);
-    backdrop-filter: blur(6px);
-    z-index: 9000;
-    align-items: flex-start;
-    justify-content: center;
-    overflow-y: auto;
-    padding: 24px 16px 40px;
-  }
-  .disc-modal-backdrop.open { display: flex; }
-  .disc-modal {
-    background: #0c0920;
-    border: 1px solid rgba(124, 58, 237, 0.3);
-    border-radius: 20px;
-    width: 100%;
-    max-width: 640px;
-    padding: 28px 28px 32px;
-    position: relative;
-    margin: auto;
-  }
-  .disc-modal-close {
-    position: absolute;
-    top: 16px; right: 18px;
-    background: none; border: none;
-    font-size: 22px; color: var(--light-text);
-    cursor: pointer; line-height: 1;
-  }
-  .disc-modal-close:hover { color: var(--white); }
-  .disc-modal-label {
-    font-size: 11px; letter-spacing: 3px;
-    text-transform: uppercase; color: var(--gold);
-    font-weight: 500; margin-bottom: 6px;
-  }
-  .disc-modal-title {
-    font-size: 20px; font-weight: 500;
-    color: var(--white); margin-bottom: 4px;
-  }
-  .disc-modal-meta {
-    font-size: 12px; color: var(--light-text); margin-bottom: 20px;
-  }
-  .disc-modal-body {
-    font-size: 14px; line-height: 1.75;
-    color: rgba(255,255,255,0.8); font-weight: 300;
-  }
-  .disc-modal-body p { margin-bottom: 12px; }
-  .disc-modal-body p:last-child { margin-bottom: 0; }
-  .disc-email-btn {
-    background: linear-gradient(135deg, var(--indigo-deep), var(--indigo));
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 20px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: opacity 0.2s;
-    width: 100%;
-  }
-  .disc-email-btn:hover { opacity: 0.88; }
-  .disc-email-btn:disabled { opacity: 0.5; cursor: default; }
-  .disc-email-status {
-    font-size: 13px;
-    margin-top: 10px;
-    text-align: center;
-    min-height: 1.2em;
-    color: var(--light-text);
-  }
-  @media (max-width: 600px) {
-    .disc-modal { padding: 24px 18px 28px; }
+    .top-right { padding: 16px 20px; }
+    .greeting { font-size: 1.2rem; }
+    .cta-text { font-size: 1.1rem; }
+    .brand-title { font-size: 1.8rem; }
+    .bottom { grid-template-columns: 1fr; }
+    .btn-loan, .btn-shariah { grid-column: 1; grid-row: auto; }
   }
 </style>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>emailjs.init("g710KFSryN241SQWm");</script>
 </head>
 <body>
+<div class="card">
 
-<!-- ====== ONBOARDING OVERLAY ====== -->
-<div id="onboarding-overlay" class="hidden">
-
-  <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Refuse to Stand Still</span>
-    </div>
-    <div class="ob-header-spacer"></div>
-  </header>
-
-  <main class="ob-main">
-    <div id="welcome-question-container"></div>
-    <div id="ob-chat"></div>
-    <div id="ob-input-area" style="display:none;">
-      <input class="ob-input" id="ob-input" type="text" placeholder="Type your answer..." autocomplete="off">
-      <button class="ob-send" id="ob-send" onclick="obSubmitInput()">➤</button>
-    </div>
-    <div id="ob-choices" style="display:none;"></div>
-  </main>
-
-  <div class="ob-home-bottom">
-    <button class="back-btn" id="ob-back-btn" onclick="obGoBack()" style="display:none;">&lt; Back</button>
-    <button class="back-btn" id="ob-home-btn" onclick="obGoHome()" style="display:none;">Home</button>
-  </div>
-
-</div>
-
-<div class="bg-orb bg-orb-1"></div>
-<div class="bg-orb bg-orb-2"></div>
-
-<!-- ====== HOME SCREEN ====== -->
-<div class="screen" id="screen-home">
-  <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Refuse to Stand Still</span>
-    </div>
-    <div class="ob-header-spacer"></div>
-  </header>
-  <div class="screen-content">
-    <div class="home-hero">
-      <div class="home-eyebrow" id="home-eyebrow">Welcome to</div>
-      <h1 class="home-title"><span style="font-family:'Monotype Corsiva','Apple Chancery','Palatino Linotype',cursive;font-style:italic;font-weight:normal;font-size:44px;color:#4f46e5;">Fiskal Discovery</span></h1>
-      <p class="home-tagline"><strong>Refuse to Stand Still</strong><br><span style="color:var(--gold);text-transform:uppercase;letter-spacing:3px;font-size:16px;font-weight:500;">Find out what's possible for your business.</span></p>
-    </div>
-    <div id="home-profile-badge" style="display:none;" class="profile-badge">
-      <div class="profile-badge-avatar" id="home-avatar">?</div>
-      <div class="profile-badge-info">
-        <div class="profile-badge-name" id="home-profile-name"></div>
-        <div class="profile-badge-company" id="home-profile-company"></div>
+  <div class="top">
+    <div class="top-left">
+      <div>
+        <div class="brand-title">Fiskal Discovery</div>
+        <div class="tagline">Refuse to Stand Still</div>
+        <div class="divider"></div>
       </div>
-      <span class="profile-badge-reset" onclick="resetOnboarding()">Not you?</span>
+      <div class="strapline">
+        Every great business is on a journey —<br>
+        Find out what's possible<br>
+        when finances<br>
+        don't hold you back
+      </div>
     </div>
-    <div class="module-grid">
-      <div class="module-card" onclick="window.location.href='funding-finder.html'">
-        <div class="module-card-icon">🔍</div>
-        <div class="module-card-body">
-          <div class="module-card-title">Funding Finder</div>
-          <div class="module-card-desc">Find out what funding your business could access</div>
+
+    <div class="top-right">
+      <div class="menu-wrapper">
+        <div class="summaries-btn-wrap">
+          <button class="summaries-btn" onclick="toggleMenu()">☰ Menu <span class="chevron">▼</span></button>
         </div>
-        <div class="module-arrow">›</div>
       </div>
-      <div class="module-card" onclick="window.location.href='facility-review.html'">
-        <div class="module-card-icon">📊</div>
-        <div class="module-card-body">
-          <div class="module-card-title">Facility Review</div>
-          <div class="module-card-desc">Find out if you're on the best deal</div>
-        </div>
-        <div class="module-arrow">›</div>
+      <div class="dropdown" id="mainMenu">
+        <a href="#"><span class="icon">📄</span> My Discovery Summaries</a>
+        <a href="#"><span class="icon">🏆</span> Cashflow Invaders Leaderboard</a>
+        <a href="https://fiskal.online" target="_blank"><span class="icon">🌐</span> Back to Fiskal Website</a>
+        <a href="mailto:nicole@fiskal.co.uk"><span class="icon">💬</span> Contact Nicole Directly</a>
+        <a href="#" class="reset-item" onclick="return false;"><span class="icon">🔄</span> Reset Discovery</a>
       </div>
-      <div class="module-card" onclick="window.location.href='loan-application.html'">
-        <div class="module-card-icon">💰</div>
-        <div class="module-card-body">
-          <div class="module-card-title">Loan Enquiry</div>
-          <div class="module-card-desc">Get an indicative loan assessment in minutes</div>
-        </div>
-        <div class="module-arrow">›</div>
+      <div class="greeting-block">
+        <div class="greeting">Hi (name),</div>
+        <div class="cta-text">Choose an option below to find out what's possible for (business name)</div>
       </div>
-      <div class="module-card" onclick="window.location.href='shariah-funding.html'">
-        <div class="module-card-icon">🕌</div>
-        <div class="module-card-body">
-          <div class="module-card-title">Shariah-Compliant Funding</div>
-          <div class="module-card-desc">Explore funding options designed around Shariah-compliant principles</div>
-        </div>
-        <div class="module-arrow">›</div>
-      </div>
-      <div class="module-card" onclick="window.location.href='cashflow-invaders.html'">
-        <div class="module-card-icon">🎮</div>
-        <div class="module-card-body">
-          <div class="module-card-title">Cashflow Invaders</div>
-          <div class="module-card-desc">Play the Fiskal arcade game and free your cashflow</div>
-        </div>
-        <div class="module-arrow">›</div>
-      </div>
-
     </div>
-  </div>
-  <div id="discoveries-section" class="screen-content discoveries-section" style="display:none;">
-    <div class="discoveries-heading">Your Previous Discoveries</div>
-    <div id="discoveries-list"></div>
-  </div>
-  <div class="screen-footer">
-    <p class="footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539.<br><a href="https://fiskal.online" target="_blank" style="color:inherit;">fiskal.online</a> | All information is treated in confidence.</p>
-  </div>
-</div>
-
-<!-- Discovery viewer modal -->
-<div class="disc-modal-backdrop" id="disc-modal-backdrop" onclick="closeDiscoveryModal(event)">
-  <div class="disc-modal" id="disc-modal">
-    <button class="disc-modal-close" onclick="closeDiscoveryModal()">&times;</button>
-    <div class="disc-modal-label" id="disc-modal-label"></div>
-    <div class="disc-modal-title" id="disc-modal-title"></div>
-    <div class="disc-modal-meta" id="disc-modal-meta"></div>
-    <div class="disc-modal-body" id="disc-modal-body"></div>
-    <div id="disc-modal-email-row" style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(124,58,237,0.2);">
-      <button id="disc-email-btn" class="disc-email-btn" onclick="emailDiscovery()">📧 Email this to me</button>
-      <div id="disc-email-status" class="disc-email-status"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ====== WELCOME SCREEN ====== -->
-<!-- ====== WELCOME INTRO SCREEN ====== -->
-<div class="screen active" id="screen-landing">
-  <div class="welcome-hero">
-    <h1 class="welcome-hero-title">Fiskal Discovery</h1>
-    <div class="welcome-hero-rule"></div>
-    <p class="welcome-hero-sub">Refuse to Stand Still</p>
   </div>
 
-  <div class="welcome-bottom">
-    <div class="welcome-box">
-      <p>There are no algorithms, no automated decisions, and no generic results. Every response you submit comes directly to <strong>Nicole</strong> — and she'll be in touch personally to talk through what's possible for your business.</p>
-      <p>So please don't answer based on what you think you can or can't get. Answer based on what would <strong>genuinely help your business grow</strong>.</p>
-      <p>Fiskal Discovery is about exploring every opportunity available to you — even the ones you might have already written off. <strong>You might be surprised what's possible.</strong></p>
-    </div>
-    <div class="welcome-bottom-actions">
-      <button class="btn-primary" onclick="startWelcome()">Start My Discovery</button>
-      <a href="cashflow-invaders.html" class="btn-secondary">🎮 Play Cashflow Invaders</a>
-    </div>
-  </div>
-</div>
+  <div class="bar"></div>
 
-<!-- ====== DETAILS SCREEN ====== -->
-<div class="screen" id="screen-details">
-  <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Refuse to Stand Still</span>
-    </div>
-    <div class="ob-header-spacer"></div>
-  </header>
-    <div class="progress-label">Your details</div>
-  </div>
-  <div class="screen-content">
-    <div class="question-product">Let's get started</div>
-    <h2 class="form-title">A few quick details</h2>
-    <p class="form-sub">This is how Nicole will reach you. Takes 30 seconds.</p>
-
-    <div class="form-group">
-      <label class="form-label">Your name *</label>
-      <input type="text" class="form-input" id="field-name" placeholder="e.g. Sarah Johnson">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Business name *</label>
-      <input type="text" class="form-input" id="field-business" placeholder="e.g. Johnson Supplies Ltd">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Email address *</label>
-      <input type="email" class="form-input" id="field-email" placeholder="sarah@yourcompany.co.uk">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Phone number *</label>
-      <input type="tel" class="form-input" id="field-phone" placeholder="07xxx xxxxxx">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Company number <span style="font-weight:300;color:var(--light-text)">(optional)</span></label>
-      <input type="text" class="form-input" id="field-company-number" placeholder="e.g. 12345678">
-    </div>
-    <div class="form-group" style="margin-top:16px;">
-      <label class="checkbox-label" style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.9rem;color:var(--light-text);">
-        <input type="checkbox" id="marketing-consent" style="margin-top:3px;flex-shrink:0;">
-        <span>Yes, I'd like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news.</span>
-      </label>
-    </div>
-    <p style="font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;">You'll receive a copy of your Fiskal Discovery summary by email, and Nicole will be in touch within the next couple of hours where possible. If you complete this outside normal working hours, she'll come back to you as soon as she can.</p>
-    <p class="error-msg" id="details-error">Please fill in all required fields.</p>
-    <button class="btn-primary" onclick="submitDetails()" style="margin-top:8px">Continue →</button>
-  </div>
-</div>
-
-<!-- ====== QUESTION SCREEN ====== -->
-<div class="screen" id="screen-question">
-  <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Refuse to Stand Still</span>
-    </div>
-    <div class="ob-header-spacer"></div>
-  </header>
-    <div class="progress-label" id="question-progress-label">Question 1 of 9</div>
-  </div>
-  <div class="screen-content">
-    <div class="question-icon" id="q-icon">💰</div>
-    <div class="question-product" id="q-product">Invoice Finance</div>
-    <h2 class="question-text" id="q-text">Question goes here</h2>
-    <div class="answer-options" id="q-options"></div>
-    <div id="q-followup"></div>
-    <button class="btn-primary" id="q-next-btn" onclick="nextQuestion()" style="display:none;margin-top:16px">Next →</button>
-    <div style="display:flex;gap:8px;justify-content:center;">
-        <button class="back-btn" onclick="goBackQuestion()" style="justify-content:center;flex:1;">&lt; Back</button>
-      </div>
-  </div>
-</div>
-
-<!-- ====== BARRIERS SCREEN ====== -->
-<div class="screen" id="screen-barriers">
-  <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Refuse to Stand Still</span>
-    </div>
-    <div class="ob-header-spacer"></div>
-  </header>
-    <div class="progress-label">Final question</div>
-  </div>
-  <div class="screen-content">
-    <div class="question-icon">🤝</div>
-    <div class="question-product">One last thing</div>
-    <h2 class="question-text">Do you have any concerns that might make accessing finance difficult?</h2>
-    <p style="font-size:13px;color:var(--light-text);margin-bottom:20px;font-weight:300;">For example: previous credit issues, HMRC arrears, a short trading history, or a past rejection.</p>
-    <div class="answer-options">
-      <button class="answer-btn" onclick="selectBarrier('yes')">
-        <span class="answer-emoji">✋</span> Yes, I have some concerns
-      </button>
-      <button class="answer-btn" onclick="selectBarrier('no')">
-        <span class="answer-emoji">✅</span> No, nothing I'm aware of
+  <div class="bottom">
+    <button class="module-btn">Funding Finder</button>
+    <button class="module-btn">Facility Review</button>
+    <button class="module-btn btn-loan">Loan Enquiry</button>
+    <button class="module-btn btn-shariah">Shariah Compliant Funding</button>
+    <div class="bottom-row">
+      <button class="module-btn btn-cashflow">
+        <svg width="22" height="18" viewBox="0 0 22 18" fill="#4dff6e" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:8px;">
+          <rect x="1" y="15" width="3" height="3"/>
+          <rect x="8" y="15" width="3" height="3"/>
+          <rect x="11" y="15" width="3" height="3"/>
+          <rect x="18" y="15" width="3" height="3"/>
+          <rect x="4" y="12" width="14" height="3"/>
+          <rect x="2" y="9" width="18" height="3"/>
+          <rect x="0" y="9" width="2" height="2"/>
+          <rect x="20" y="9" width="2" height="2"/>
+          <rect x="4" y="6" width="14" height="3"/>
+          <rect x="5" y="7" width="3" height="2" fill="#1a0020"/>
+          <rect x="14" y="7" width="3" height="2" fill="#1a0020"/>
+          <rect x="7" y="3" width="8" height="3"/>
+          <rect x="5" y="1" width="2" height="3"/>
+          <rect x="15" y="1" width="2" height="3"/>
+          <rect x="3" y="0" width="2" height="2"/>
+          <rect x="17" y="0" width="2" height="2"/>
+        </svg>
+        Cashflow Invaders
       </button>
     </div>
-    <div id="barrier-followup" style="display:none" class="barriers-followup">
-      <div class="form-group">
-        <label class="form-label">Brief details</label>
-        <textarea class="form-textarea" id="barrier-details" placeholder="No judgement here — just context to help us help you..."></textarea>
-      </div>
-      <div class="barriers-note">
-        "Many business owners believe funding is out of reach — bad credit, HMRC arrears, a short trading history, or a previous rejection. At Fiskal we pride ourselves on finding solutions even in the most challenging circumstances."
-      </div>
-    </div>
-    <button class="btn-primary" id="barriers-next" onclick="submitBarriers()" style="display:none;margin-top:20px">Submit My Discovery</button>
-    <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;">
-      <button class="back-btn" onclick="goBackBarriers()" style="flex:1;justify-content:center;">&lt; Back</button>
-      <button class="back-btn" onclick="goHome()" style="flex:1;justify-content:center;">Home</button>
-    </div>
   </div>
+
 </div>
-
-<!-- ====== LOADING SCREEN ====== -->
-<div class="screen" id="screen-loading">
-  <div class="screen-content">
-    <div class="loading-screen">
-      <div class="loading-orb"></div>
-      <h2 class="loading-title">Analysing your answers</h2>
-      <p class="loading-sub">Finding the best possibilities for your business</p>
-      <div class="loading-dots">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ====== DISCOVERY THINKING SCREEN ====== -->
-<div class="screen" id="screen-thinking">
-  <div class="thinking-container">
-    <div class="thinking-logo">Fiskal Discovery</div>
-    <div class="thinking-title">Preparing your Fiskal Discovery Summary</div>
-    <div class="thinking-phrase" id="thinking-phrase">Assessing your requirements</div>
-    <div class="thinking-loader">
-      <div class="thinking-dot"></div>
-      <div class="thinking-dot"></div>
-      <div class="thinking-dot"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ====== RESULTS SCREEN ====== -->
-<div class="screen" id="screen-results">
-  <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Refuse to Stand Still</span>
-    </div>
-    <div class="ob-header-spacer"></div>
-  </header>
-      <div id="next-step" style="margin-top:16px;display:none">
-        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--light-text);margin-bottom:10px;font-weight:500;">Next step</div>
-        <p id="next-step-text" style="color:var(--dark);line-height:1.6"></p>
-      </div>
-      <div id="confidence-note" style="margin-top:16px;padding:12px;background:rgba(79,70,229,0.05);border-left:3px solid var(--indigo);border-radius:4px;font-size:13px;color:var(--mid);line-height:1.5;display:none"></div>
-    </div>
-
-    <div id="matched-products-section">
-      <p style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--light-text);margin-bottom:10px;font-weight:500;">Funding options to explore</p>
-      <div class="matched-products" id="matched-products-list"></div>
-    </div>
-
-    <section class="nicole-contact-card" aria-label="Nicole Bertolissi contact card">
-      <div class="nicole-photo-side">
-        <div class="nicole-photo-wrap">
-          <img id="nicole-photo" class="nicole-photo" src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" />
-          <div class="nicole-photo-fallback">NB</div>
-        </div>
-      </div>
-
-      <div class="nicole-message-wrap">
-        <p class="nicole-message" id="nicole-message">
-          Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website or our LinkedIn page to learn more about who we are and how we can help.
-        </p>
-      </div>
-
-      <div class="nicole-details">
-        <h3>Nicole Bertolissi</h3>
-        <p class="nicole-title">Direct Sales Executive, Fiskal</p>
-        <p class="nicole-phone">07946 074 268</p>
-        <p class="nicole-email">nicole@fiskal.co.uk</p>
-      </div>
-
-      <div class="nicole-card-actions">
-        <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Fiskal Website</a>
-        <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="fiskal-linkedin-btn">Fiskal LinkedIn</a>
-        <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
-      </div>
-    </section>
-
-  </div>
-  <div style="text-align:center;padding:0 24px 8px;">
-    <button class="back-btn" onclick="goHome()" style="margin:0 auto;justify-content:center;">Home</button>
-  </div>
-  <div class="screen-footer">
-    <p class="footer-legal">Indicative results only. Not a lending decision or offer.<br>Fiskal Ltd, Reg. No. 14445539 | nicole@fiskal.co.uk | 07946 074 268</p>
-  </div>
-</div>
-
-<!-- ====== CONFIRMATION SCREEN ====== -->
-<div class="screen" id="screen-confirm">
-  <div class="screen-content">
-    <div class="confirm-screen">
-      <div class="confirm-icon">✅</div>
-      <h2 class="confirm-title">You're all set,<br><span id="confirm-name">there</span>!</h2>
-      <p class="confirm-text">A summary of your Fiskal Discovery has been sent to your email. Nicole will be in touch personally within a few hours.<br><br>Can't wait?</p>
-      <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
-      <button class="btn-secondary" onclick="window.location.href='index.html'">Home</button>
-    </div>
-  </div>
-  <div class="screen-footer">
-    <p class="footer-legal">Fiskal Ltd | nicole@fiskal.co.uk | fiskal.online</p>
-  </div>
-</div>
-
 <script>
-// ============================================================
-// DEVELOPMENT MODE
-// ============================================================
-const DEV_MODE = false;
-const SEND_EMAILS = false;
-
-// ============================================================
-// APP STATE
-// ============================================================
-let appState = {
-  profile: {
-    userType: null,
-    name: null,
-    email: null,
-    phone: null,
-    companyName: null,
-    hasCompanyNumber: null,
-    companyNumber: null,
-    industry: null,
-    annualTurnover: null,
-    fundingAmount: null
-  },
-  fundingFinder: {},
-  facilityReview: {},
-  loanApp: {},
-  currentModule: null
-};
-
-// ============================================================
-// APP STATE MANAGEMENT
-// ============================================================
-function loadAppState() {
-  try {
-    const saved = localStorage.getItem('fiskal_appState');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      Object.assign(appState, parsed);
-    }
-  } catch (e) {
-    console.warn('Failed to load appState:', e);
+  function toggleMenu() {
+    const menu = document.getElementById('mainMenu');
+    const btn = document.querySelector('.summaries-btn');
+    menu.classList.toggle('open');
+    btn.classList.toggle('open');
   }
-}
-
-function saveAppState() {
-  try {
-    localStorage.setItem('fiskal_appState', JSON.stringify(appState));
-    // Also sync profile to fiskal_profile so shariah-funding and cashflow-invaders can read it
-    if (appState.profile) {
-      localStorage.setItem('fiskal_profile', JSON.stringify(appState.profile));
-    }
-  } catch (e) {
-    console.warn('Failed to save appState:', e);
-  }
-}
-
-// Load app state on page load
-loadAppState();
-
-// ============================================================
-// WELCOME SECTION
-// ============================================================
-const welcomeFlow = [
-  {
-    id: "userType",
-    type: "choice",
-    question: "Is this for you or a client?",
-    options: [
-      { label: "For me / my business", value: "For me / my business" },
-      { label: "For a client", value: "For a client" },
-      { label: "I just want to try Cashflow Invaders", value: "I just want to try Cashflow Invaders" }
-    ],
-    saveAs: "userType"
-  },
-  {
-    id: "personal",
-    type: "form",
-    question: "Let's start with your details",
-    fields: [
-      { label: "Your name", saveAs: "name", inputType: "text", placeholder: "e.g. Sarah Johnson", required: true },
-      { label: "Email address", saveAs: "email", inputType: "email", placeholder: "e.g. sarah@business.com", required: true },
-      { label: "Phone number", saveAs: "phone", inputType: "tel", placeholder: "e.g. 07700 900000", required: true }
-    ]
-  },
-  {
-    id: "business",
-    type: "form",
-    question: "Tell us about your business",
-    fields: [
-      { label: "Business name", saveAs: "companyName", inputType: "text", placeholder: "e.g. Johnson & Co Ltd", required: true },
-      { label: "Company number (optional)", saveAs: "companyNumber", inputType: "text", placeholder: "e.g. 12345678", required: false }
-    ]
-  },
-  {
-    id: "industry",
-    type: "choice",
-    question: "What industry are you in?",
-    options: [
-      { label: "🏗️ Construction", value: "Construction" },
-      { label: "👥 Recruitment", value: "Recruitment" },
-      { label: "🏭 Manufacturing", value: "Manufacturing" },
-      { label: "📦 Wholesale", value: "Wholesale" },
-      { label: "🛍️ Retail", value: "Retail" },
-      { label: "🚛 Transport", value: "Transport" },
-      { label: "💼 Professional Services", value: "Professional Services" },
-      { label: "🏥 Healthcare", value: "Healthcare" },
-      { label: "⚡ Clean Energy", value: "Clean Energy" },
-      { label: "✨ Other", value: "Other" }
-    ],
-    saveAs: "industry"
-  },
-  {
-    id: "annualTurnover",
-    type: "choice",
-    question: "What is your annual turnover?",
-    options: [
-      { label: "Under £100k", value: "Under £100k" },
-      { label: "£100k – £250k", value: "£100k–£250k" },
-      { label: "£250k – £500k", value: "£250k–£500k" },
-      { label: "£500k – £1m", value: "£500k–£1m" },
-      { label: "£1m – £2m", value: "£1m–£2m" },
-      { label: "£2m+", value: "£2m+" }
-    ],
-    saveAs: "annualTurnover"
-  },
-  {
-    id: "fundingAmount",
-    type: "choice",
-    question: "How much funding would make a real difference right now?",
-    options: [
-      { label: "Under £10k", value: "Under £10k" },
-      { label: "£10k – £25k", value: "£10k–£25k" },
-      { label: "£25k – £50k", value: "£25k–£50k" },
-      { label: "£50k – £100k", value: "£50k–£100k" },
-      { label: "£100k – £250k", value: "£100k–£250k" },
-      { label: "£250k – £500k", value: "£250k–£500k" },
-      { label: "£500k+", value: "£500k+" },
-      { label: "Not sure yet", value: "I'm not sure yet" }
-    ],
-    saveAs: "fundingAmount"
-  }
-];
-
-let welcomeState = {
-  currentQuestion: 0,
-  answers: {}
-};
-
-function startWelcome() {
-  clearModuleBadge();
-  // Check if profile already exists
-  if (appState.profile.name && appState.profile.email) {
-    showHomepage();
-    return;
-  }
-
-  welcomeState = {
-    currentQuestion: 0,
-    answers: {}
-  };
-
-  document.getElementById('onboarding-overlay').classList.remove('hidden');
-  document.getElementById('screen-landing').classList.remove('active');
-  document.getElementById('screen-home').classList.remove('active');
-  // Show back button on onboarding overlay
-  document.getElementById('ob-back-btn').style.display = 'block';
-  renderWelcomeQuestion();
-}
-
-function devSkip() {
-  const fake = { name:'Test User', email:'test@test.com', phone:'07700000000', companyName:'Test Co', welcomeCompleted:true, userType:'myself', industry:'Technology', annualTurnover:'£100k–£250k', fundingAmount:'£25k–£50k' };
-  const state = JSON.parse(localStorage.getItem('fiskal_appState') || '{}');
-  state.profile = { ...(state.profile || {}), ...fake };
-  localStorage.setItem('fiskal_appState', JSON.stringify(state));
-  localStorage.setItem('fiskal_profile', JSON.stringify(fake));
-  document.getElementById('onboarding-overlay').classList.add('hidden');
-  document.getElementById('screen-landing').classList.remove('active');
-  document.getElementById('screen-home').classList.add('active');
-}
-
-function obGoBack() {
-  // Safe fallback: if welcomeState is invalid, go to WELCOME_INTRO
-  if (!welcomeState || typeof welcomeState.currentQuestion === 'undefined') {
-    document.getElementById('onboarding-overlay').classList.add('hidden');
-    document.getElementById('screen-landing').classList.add('active');
-    document.getElementById('screen-home').classList.remove('active');
-    document.getElementById('ob-back-btn').style.display = 'none';
-    return;
-  }
-
-  // If on first onboarding question (index 0), go back to WELCOME_INTRO
-  if (welcomeState.currentQuestion === 0) {
-    document.getElementById('onboarding-overlay').classList.add('hidden');
-    document.getElementById('screen-landing').classList.add('active');
-    document.getElementById('screen-home').classList.remove('active');
-    document.getElementById('ob-back-btn').style.display = 'none';
-  } else if (welcomeState.currentQuestion > 0) {
-    // Otherwise, go to previous onboarding question
-    welcomeState.currentQuestion--;
-    renderWelcomeQuestion();
-  } else {
-    // Fallback for negative or invalid index: go to WELCOME_INTRO
-    document.getElementById('onboarding-overlay').classList.add('hidden');
-    document.getElementById('screen-landing').classList.add('active');
-    document.getElementById('screen-home').classList.remove('active');
-    document.getElementById('ob-back-btn').style.display = 'none';
-  }
-}
-
-function renderWelcomeQuestion() {
-  const q = welcomeFlow[welcomeState.currentQuestion];
-  if (!q) { completeWelcome(); return; }
-
-  // Always hide the old fixed-position elements
-  document.getElementById('ob-input-area').style.display = 'none';
-  document.getElementById('ob-choices').style.display = 'none';
-  document.getElementById('ob-chat').innerHTML = '';
-
-  const container = document.getElementById('welcome-question-container');
-  container.innerHTML = '';
-
-  // Progress dots
-  const total = welcomeFlow.length;
-  const current = welcomeState.currentQuestion;
-  const dotsWrap = document.createElement('div');
-  dotsWrap.style.cssText = 'display:flex;gap:6px;justify-content:center;margin-bottom:14px;';
-  for (let i = 0; i < total; i++) {
-    const dot = document.createElement('div');
-    dot.style.cssText = `width:6px;height:6px;border-radius:50%;background:${i === current ? '#6366f1' : 'rgba(255,255,255,0.2)'};transition:background 0.3s;`;
-    dotsWrap.appendChild(dot);
-  }
-  container.appendChild(dotsWrap);
-
-  // Question heading
-  const heading = document.createElement('div');
-  heading.style.cssText = 'color:#ffffff;font-size:20px;font-weight:600;margin-bottom:16px;text-align:center;font-family:"DM Sans",sans-serif;line-height:1.3;';
-  heading.textContent = q.question;
-  container.appendChild(heading);
-
-  if (q.type === 'choice') {
-    const grid = document.createElement('div');
-    const isTwoCol = q.options.length >= 4;
-    grid.style.cssText = `display:grid;grid-template-columns:${isTwoCol ? '1fr 1fr' : '1fr'};gap:10px;`;
-    q.options.forEach(opt => {
-      const btn = document.createElement('button');
-      btn.style.cssText = 'background:rgba(255,255,255,0.06);border:1.5px solid rgba(99,102,241,0.3);color:#e0e0ff;padding:14px 16px;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;font-family:"DM Sans",sans-serif;text-align:center;transition:all 0.2s;line-height:1.3;';
-      btn.textContent = opt.label;
-      btn.onmouseover = () => { btn.style.background = 'rgba(79,70,229,0.2)'; btn.style.borderColor = '#6366f1'; btn.style.color = '#fff'; };
-      btn.onmouseout = () => { if (!btn.classList.contains('ob-selected')) { btn.style.background = 'rgba(255,255,255,0.06)'; btn.style.borderColor = 'rgba(99,102,241,0.3)'; btn.style.color = '#e0e0ff'; } };
-      btn.onclick = () => {
-        if (q.id === 'userType' && opt.value === 'I just want to try Cashflow Invaders') {
-          window.location.href = 'cashflow-invaders.html'; return;
-        }
-        // Visual selection flash
-        btn.style.background = 'rgba(79,70,229,0.35)';
-        btn.style.borderColor = '#6366f1';
-        btn.classList.add('ob-selected');
-        setTimeout(() => {
-          welcomeState.answers[q.saveAs] = opt.value;
-          if (q.id === 'userType') { appState.profile = appState.profile || {}; appState.profile.userType = opt.value; saveAppState(); }
-          welcomeState.currentQuestion++;
-          renderWelcomeQuestion();
-        }, 200);
-      };
-      grid.appendChild(btn);
-    });
-    container.appendChild(grid);
-
-  } else if (q.type === 'form') {
-    const form = document.createElement('div');
-    form.style.cssText = 'display:flex;flex-direction:column;gap:10px;';
-    const inputs = [];
-    q.fields.forEach(field => {
-      const wrap = document.createElement('div');
-      wrap.style.cssText = 'display:flex;flex-direction:column;gap:6px;';
-      const label = document.createElement('label');
-      label.style.cssText = 'color:rgba(255,255,255,0.6);font-size:12px;font-weight:500;font-family:"DM Sans",sans-serif;letter-spacing:0.5px;text-transform:uppercase;';
-      label.textContent = field.label;
-      const inp = document.createElement('input');
-      inp.type = field.inputType || 'text';
-      inp.placeholder = field.placeholder || '';
-      inp.value = welcomeState.answers[field.saveAs] || '';
-      inp.style.cssText = 'width:100%;padding:10px 14px;border:1.5px solid rgba(99,102,241,0.3);border-radius:10px;font-size:15px;background:rgba(255,255,255,0.07);color:#fff;font-family:"DM Sans",sans-serif;outline:none;transition:border-color 0.2s;';
-      inp.addEventListener('focus', () => inp.style.borderColor = '#6366f1');
-      inp.addEventListener('blur', () => inp.style.borderColor = 'rgba(99,102,241,0.3)');
-      inp.dataset.saveAs = field.saveAs;
-      inp.dataset.required = field.required ? 'true' : 'false';
-      wrap.appendChild(label);
-      wrap.appendChild(inp);
-      form.appendChild(wrap);
-      inputs.push(inp);
-    });
-
-    const continueBtn = document.createElement('button');
-    continueBtn.style.cssText = 'margin-top:6px;background:linear-gradient(135deg,#4338ca 0%,#6d28d9 60%,#2563eb 100%);color:#fff;border:none;border-radius:999px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;font-family:"DM Sans",sans-serif;box-shadow:0 4px 20px rgba(79,70,229,0.35);transition:all 0.2s;';
-    continueBtn.textContent = 'Continue →';
-    continueBtn.onmouseover = () => { continueBtn.style.transform = 'translateY(-1px)'; continueBtn.style.boxShadow = '0 6px 28px rgba(79,70,229,0.5)'; };
-    continueBtn.onmouseout = () => { continueBtn.style.transform = ''; continueBtn.style.boxShadow = '0 4px 20px rgba(79,70,229,0.35)'; };
-
-    const errMsg = document.createElement('div');
-    errMsg.style.cssText = 'color:#f87171;font-size:13px;font-family:"DM Sans",sans-serif;visibility:hidden;margin-top:4px;min-height:1.2em;';
-    errMsg.textContent = 'Please fill in the required fields.';
-
-    continueBtn.onclick = () => {
-      let valid = true;
-      inputs.forEach(inp => {
-        const val = inp.value.trim();
-        if (inp.dataset.required === 'true' && !val) { valid = false; inp.style.borderColor = '#f87171'; }
-        else { inp.style.borderColor = 'rgba(99,102,241,0.3)'; welcomeState.answers[inp.dataset.saveAs] = val; }
-        if (val) welcomeState.answers[inp.dataset.saveAs] = val;
-      });
-      if (!valid) { errMsg.style.visibility = 'visible'; return; }
-      errMsg.style.visibility = 'hidden';
-      welcomeState.currentQuestion++;
-      renderWelcomeQuestion();
-    };
-
-    // Enter on last field submits
-    if (inputs.length) {
-      inputs[inputs.length - 1].addEventListener('keypress', (e) => { if (e.key === 'Enter') continueBtn.click(); });
-    }
-
-    form.appendChild(errMsg);
-    form.appendChild(continueBtn);
-    container.appendChild(form);
-  }
-}
-
-function renderMultiInputQuestion(q) {
-  // Legacy stub — flow now uses 'form' type
-  welcomeState.currentQuestion++;
-  renderWelcomeQuestion();
-}
-
-function handleWelcomeAnswer(key, value) {
-  welcomeState.answers[key] = value;
-
-  // Handle special case for userType
-  if (key === 'userType') {
-    if (value === 'I just want to try Cashflow Invaders') {
-      window.location.href = 'cashflow-invaders.html';
-      return;
-    }
-  }
-
-  welcomeState.currentQuestion++;
-  renderWelcomeQuestion();
-}
-
-function answerWelcomeUserType(value) {
-  // Handle Cashflow Invaders option
-  if (value === 'I just want to try Cashflow Invaders') {
-    window.location.href = 'cashflow-invaders.html';
-    return;
-  }
-
-  // Use module-level appState and welcomeState, not window.*
-  appState.profile = appState.profile || {};
-  appState.profile.userType = value;
-  saveAppState();
-
-  welcomeState.currentQuestion++;
-
-  if (typeof renderWelcomeQuestion === "function") {
-    renderWelcomeQuestion();
-  } else {
-    console.error("renderWelcomeQuestion is not defined");
-  }
-}
-
-window.answerWelcomeUserType = answerWelcomeUserType;
-
-function completeWelcome() {
-  // Save all answers to appState.profile
-  appState.profile = {
-    ...appState.profile,
-    ...welcomeState.answers
-  };
-  appState.profile.welcomeCompleted = true;
-  appState.welcomeCompleted = true;
-  saveAppState();
-
-  // Show completion message in the same container used for questions
-  const container = document.getElementById('welcome-question-container');
-  if (container) {
-    container.innerHTML = '';
-    const msg = document.createElement('div');
-    msg.style.cssText = 'color: white; font-size: 24px; font-weight: 600; text-align: center; font-family: DM Sans, sans-serif;';
-    msg.textContent = `Thanks ${appState.profile.name}, let's get started.`;
-    container.appendChild(msg);
-  }
-
-  // Show homepage after a delay
-  setTimeout(() => {
-    document.getElementById('onboarding-overlay').classList.add('hidden');
-    showHomepage();
-  }, 1500);
-}
-
-function clearModuleBadge() {
-  appState.currentModule = null;
-  const badge = document.querySelector(".module-badge, #module-badge, .current-module-badge");
-  if (badge) {
-    badge.textContent = "";
-    badge.style.display = "none";
-  }
-}
-
-function showHomepage() {
-  clearModuleBadge();
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('onboarding-overlay').classList.add('hidden');
-  document.getElementById('screen-home').classList.add('active');
-  window.scrollTo(0, 0);
-
-  // Update profile badge if profile exists
-  if (appState.profile.name) {
-    document.getElementById('home-profile-badge').style.display = 'flex';
-    document.getElementById('home-profile-name').textContent = appState.profile.name;
-    document.getElementById('home-profile-company').textContent = appState.profile.companyName || '';
-    document.getElementById('home-avatar').textContent = appState.profile.name.charAt(0).toUpperCase();
-  }
-
-  renderDiscoveries();
-}
-
-// ============================================================
-// DISCOVERIES HISTORY
-// ============================================================
-const DISC_KEY = 'fiskal_discoveries';
-
-function renderDiscoveries() {
-  let discoveries = [];
-  try { discoveries = JSON.parse(localStorage.getItem(DISC_KEY) || '[]'); } catch(e) {}
-
-  const section = document.getElementById('discoveries-section');
-  const list = document.getElementById('discoveries-list');
-  if (!section || !list) return;
-
-  if (!discoveries.length) {
-    section.style.display = 'none';
-    return;
-  }
-
-  section.style.display = 'block';
-  list.innerHTML = discoveries.map((d, i) => {
-    const date = new Date(d.date);
-    const dateStr = isNaN(date) ? '' : date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-    const meta = [d.business, dateStr].filter(Boolean).join(' · ');
-    return `<div class="discovery-card" onclick="openDiscoveryModal(${i})">
-      <div class="discovery-card-icon">${d.icon || '📋'}</div>
-      <div class="discovery-card-info">
-        <div class="discovery-card-module">${escapeHtml(d.module)}</div>
-        <div class="discovery-card-meta">${escapeHtml(meta)}</div>
-      </div>
-      <div class="discovery-card-arrow">›</div>
-    </div>`;
-  }).join('');
-}
-
-let _currentDiscoveryIndex = -1;
-
-function openDiscoveryModal(index) {
-  let discoveries = [];
-  try { discoveries = JSON.parse(localStorage.getItem(DISC_KEY) || '[]'); } catch(e) {}
-  const d = discoveries[index];
-  if (!d) return;
-
-  _currentDiscoveryIndex = index;
-
-  const date = new Date(d.date);
-  const dateStr = isNaN(date) ? '' : date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-
-  document.getElementById('disc-modal-label').textContent = d.module;
-  document.getElementById('disc-modal-title').textContent = d.business ? `Here's what we found for ${d.business}` : "Here's what we found";
-  document.getElementById('disc-modal-meta').textContent = dateStr;
-  document.getElementById('disc-modal-body').innerHTML = d.summaryHtml || '<p>No summary available.</p>';
-
-  // Reset email row
-  const emailBtn = document.getElementById('disc-email-btn');
-  const emailStatus = document.getElementById('disc-email-status');
-  const email = appState.profile && appState.profile.email;
-  if (emailBtn) {
-    emailBtn.disabled = false;
-    emailBtn.textContent = '📧 Email this to me';
-  }
-  if (emailStatus) emailStatus.textContent = email ? `Will send to ${email}` : '';
-
-  document.getElementById('disc-modal-backdrop').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function emailDiscovery() {
-  let discoveries = [];
-  try { discoveries = JSON.parse(localStorage.getItem(DISC_KEY) || '[]'); } catch(e) {}
-  const d = discoveries[_currentDiscoveryIndex];
-  if (!d) return;
-
-  const email = appState.profile && appState.profile.email;
-  const btn = document.getElementById('disc-email-btn');
-  const status = document.getElementById('disc-email-status');
-
-  if (!email) {
-    if (status) status.textContent = "We don't have your email address on file — please complete the onboarding first.";
-    return;
-  }
-
-  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
-
-  const templateParams = {
-    to_email: email,
-    to_name: (appState.profile && appState.profile.name) || 'there',
-    first_name: ((appState.profile && appState.profile.name) || '').split(' ')[0] || 'there',
-    module: d.module,
-    module_icon: d.icon || '',
-    business: d.business || '',
-    discovery_date: new Date(d.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
-    summary_html: d.summaryHtml || '',
-    summary_plain: (d.summaryHtml || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
-  };
-
-  if (typeof emailjs !== 'undefined') {
-    emailjs.send('service_vvqkwzn', 'template_discovery_resend', templateParams)
-      .then(() => {
-        if (btn) { btn.textContent = '✅ Sent!'; }
-        if (status) status.textContent = `Discovery emailed to ${email}`;
-      })
-      .catch(() => {
-        if (btn) { btn.disabled = false; btn.textContent = '📧 Email this to me'; }
-        if (status) status.textContent = 'Something went wrong — please try again.';
-      });
-  } else {
-    if (btn) { btn.disabled = false; btn.textContent = '📧 Email this to me'; }
-    if (status) status.textContent = 'Email service not available right now.';
-  }
-}
-
-function closeDiscoveryModal(e) {
-  if (e && e.target !== document.getElementById('disc-modal-backdrop')) return;
-  document.getElementById('disc-modal-backdrop').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function escapeHtml(str) {
-  if (!str) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.getElementById('disc-modal-backdrop').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-});
-
-function resetOnboarding() {
-  localStorage.removeItem('fiskal_appState');
-  appState.profile = {
-    userType: null,
-    name: null,
-    email: null,
-    phone: null,
-    companyName: null,
-    hasCompanyNumber: null,
-    companyNumber: null,
-    industry: null,
-    annualTurnover: null,
-    fundingAmount: null
-  };
-  document.getElementById('home-profile-badge').style.display = 'none';
-  startWelcome();
-}
-
-// ============================================================
-// INITIALIZATION
-// ============================================================
-document.addEventListener('DOMContentLoaded', function () {
-  loadAppState();
-
-  // DEV: Clear localStorage to test fresh welcome flow
-  if (DEV_MODE) {
-    localStorage.removeItem('fiskal_appState');
-    appState = {
-      profile: {
-        userType: null,
-        name: null,
-        email: null,
-        phone: null,
-        companyName: null,
-        hasCompanyNumber: null,
-        companyNumber: null,
-        industry: null,
-        annualTurnover: null,
-        fundingAmount: null
-      },
-      fundingFinder: {},
-      facilityReview: {},
-      loanApp: {},
-      currentModule: null
-    };
-  }
-
-  if (appState.welcomeCompleted) {
-    showHomepage();
-  } else {
-    // WELCOME_INTRO is shown by default, clear module badge
-    clearModuleBadge();
-  }
-});
-
-// ============================================================
-// STATE
-// ============================================================
-const state = {
-  module: 'funding-finder',
-  name: '',
-  business: '',
-  email: '',
-  phone: '',
-  companyNumber: '',
-  answers: {},
-  currentQuestion: 0,
-  barrier: '',
-  barrierDetails: ''
-};
-
-// ============================================================
-// QUESTIONS — FUNDING FINDER
-// ============================================================
-const fundingFinderQuestions = [
-  {
-    id: 'invoice',
-    icon: '📋',
-    product: 'Invoice Finance',
-    text: 'Do you send invoices to other businesses and wait 30, 60, even 90 days to get paid?',
-    subtext: 'Imagine what your business could achieve with that money in your account within 24 hours.',
-    options: [
-      { emoji: '✅', label: 'Yes — and I\'d like the money sooner', value: 'yes' },
-      { emoji: '🤔', label: 'Yes — but I\'m happy to wait', value: 'maybe' },
-      { emoji: '❌', label: 'No — not applicable', value: 'no' }
-    ],
-    followup: {
-      trigger: ['yes'],
-      label: 'If so, which would suit you better?',
-      options: [
-        { label: 'A full facility — cash on all invoices automatically', value: 'full' },
-        { label: 'Selective — fund individual invoices as needed', value: 'selective' },
-        { label: 'Not sure yet', value: 'unsure' }
-      ],
-      key: 'invoice_type'
-    }
-  },
-  {
-    id: 'trade',
-    icon: '🚛',
-    product: 'Trade Finance',
-    text: 'If you could pay your suppliers upfront, could you negotiate better prices or bigger discounts?',
-    subtext: 'The businesses that pay suppliers upfront often get the best prices — and the biggest orders.',
-    options: [
-      { emoji: '✅', label: 'Yes — this would really help', value: 'yes' },
-      { emoji: '🤔', label: 'Maybe — worth a conversation', value: 'maybe' },
-      { emoji: '❌', label: 'No — not relevant for us', value: 'no' }
-    ]
-  },
-  {
-    id: 'asset',
-    icon: '🔧',
-    product: 'Asset Finance',
-    text: 'Is there equipment, machinery, or vehicles your business needs?',
-    subtext: 'Get the vehicles and equipment your business needs today — spread the cost, keep your cash.',
-    options: [
-      { emoji: '✅', label: 'Yes — absolutely', value: 'yes' },
-      { emoji: '🤔', label: 'Maybe — we\'re considering it', value: 'maybe' },
-      { emoji: '❌', label: 'No — we\'re well equipped', value: 'no' }
-    ]
-  },
-  {
-    id: 'loan',
-    icon: '🏦',
-    product: 'Business Loan',
-    text: 'Do you need a lump sum to fund growth, cover a gap, or invest in your business?',
-    subtext: 'Sometimes one injection of capital is all it takes to change everything.',
-    options: [
-      { emoji: '✅', label: 'Yes — I need capital', value: 'yes' },
-      { emoji: '🤔', label: 'Maybe — worth knowing what\'s available', value: 'maybe' },
-      { emoji: '❌', label: 'No — not at the moment', value: 'no' }
-    ]
-  },
-  {
-    id: 'property',
-    icon: '🏢',
-    product: 'Commercial Property',
-    text: 'Are you looking to purchase, develop, or refinance commercial property?',
-    subtext: 'Owning your premises could be one of the smartest moves your business ever makes.',
-    options: [
-      { emoji: '✅', label: 'Yes — actively looking', value: 'yes' },
-      { emoji: '🤔', label: 'Maybe — considering it', value: 'maybe' },
-      { emoji: '❌', label: 'No — not right now', value: 'no' }
-    ]
-  },
-  {
-    id: 'revolving',
-    icon: '📈',
-    product: 'Revolving Credit',
-    text: 'Would a flexible funding line help your business — money available when you need it, repaid when you don\'t?',
-    subtext: 'Imagine never having to turn down an opportunity because the timing was wrong.',
-    options: [
-      { emoji: '✅', label: 'Yes — that flexibility would be valuable', value: 'yes' },
-      { emoji: '🤔', label: 'Maybe — tell me more', value: 'maybe' },
-      { emoji: '❌', label: 'No — not what we need', value: 'no' }
-    ]
-  },
-  {
-    id: 'fx',
-    icon: '💱',
-    product: 'Foreign Currency',
-    text: 'Does your business send or receive money in foreign currencies?',
-    subtext: 'Most businesses have no idea how much their bank quietly takes on every transaction.',
-    options: [
-      { emoji: '✅', label: 'Yes — we deal in foreign currency', value: 'yes' },
-      { emoji: '🤔', label: 'Sometimes — worth reviewing', value: 'maybe' },
-      { emoji: '❌', label: 'No — we\'re UK-only', value: 'no' }
-    ]
-  },
-  {
-    id: 'rd',
-    icon: '🔬',
-    product: 'R&D Tax Credits',
-    text: 'Does your business develop new products, processes, or technology?',
-    subtext: 'You could already be owed money back — and not even know it.',
-    options: [
-      { emoji: '✅', label: 'Yes — we invest in innovation', value: 'yes' },
-      { emoji: '🤔', label: 'Not sure — possibly', value: 'maybe' },
-      { emoji: '❌', label: 'No — not applicable', value: 'no' }
-    ]
-  },
-
-];
-
-const moduleLabels = {
-  'funding-finder': 'Funding Finder',
-  'facility-review': 'Facility Review',
-  'loan-application': 'Loan Enquiry',
-  'fx-review': 'FX Review'
-};
-
-const productInfo = {
-  invoice: { icon: '📋', name: 'Invoice Finance' },
-  trade: { icon: '🚛', name: 'Trade Finance' },
-  asset: { icon: '🔧', name: 'Asset Finance' },
-  loan: { icon: '🏦', name: 'Business Loan' },
-  property: { icon: '🏢', name: 'Commercial Property Finance' },
-  revolving: { icon: '📈', name: 'Revolving Credit Facility' },
-  fx: { icon: '💱', name: 'Foreign Currency / FX' },
-  rd: { icon: '🔬', name: 'R&D Tax Credits' },
-  existing: { icon: '🔄', name: 'Facility Review' }
-};
-
-// ============================================================
-// NAVIGATION
-// ============================================================
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const el = document.getElementById('screen-' + id);
-  if (el) {
-    el.classList.add('active');
-    window.scrollTo(0, 0);
-  }
-}
-
-function showFundingFinderThinkingScreen(callback) {
-  const userName = state.name || appState.profile.name || (JSON.parse(localStorage.getItem('fiskal_appState') || '{}').profile || {}).name || '';
-  const phrases = [
-    'Every great business is on a journey.',
-    'Mapping your funding options...',
-    `Thanks for waiting, ${userName} — your discovery is ready.`
-  ];
-
-  let screen = document.getElementById('funding-finder-thinking-screen');
-  if (!screen) {
-    screen = document.createElement('div');
-    screen.id = 'funding-finder-thinking-screen';
-    screen.innerHTML = '<div class="thinking-inner"><div class="thinking-spinner"></div><div id="funding-finder-thinking-phrase" class="thinking-phrase"></div></div>';
-    document.body.appendChild(screen);
-  }
-
-  const phraseEl = document.getElementById('funding-finder-thinking-phrase');
-  screen.style.display = 'flex';
-  screen.classList.add('active');
-
-  let index = 0;
-
-  function showPhrase() {
-    if (index >= phrases.length) {
-      // Fade out the entire loading screen
-      screen.style.opacity = '0';
-      screen.style.transition = 'opacity 400ms ease';
-      setTimeout(function() {
-        screen.classList.remove('active');
-        screen.style.display = 'none';
-        screen.style.opacity = '1';
-        screen.style.transition = '';
-        if (callback) callback();
-      }, 400);
-      return;
-    }
-
-    // Fade out current phrase (opacity 1 → 0, 300ms)
-    phraseEl.style.transition = 'opacity 300ms ease, transform 300ms ease';
-    phraseEl.style.opacity = '0';
-    phraseEl.style.transform = 'translateY(10px)';
-    
-    setTimeout(function() {
-      // Update text
-      phraseEl.textContent = phrases[index];
-      
-      // Fade in next phrase (opacity 0 → 1, 400ms, translateY 10px → 0)
-      phraseEl.style.transition = 'opacity 400ms ease, transform 400ms ease';
-      phraseEl.style.opacity = '1';
-      phraseEl.style.transform = 'translateY(0)';
-      
-      // Determine display duration: 2s for normal phrases, 3s for final phrase
-      const isFinalPhrase = index === phrases.length - 1;
-      const displayDuration = isFinalPhrase ? 3000 : 2000;
-      
-      index++;
-      
-      setTimeout(showPhrase, displayDuration);
-    }, 300);
-  }
-
-  showPhrase();
-}
-
-function goHome() {
-  Object.assign(state, {
-    module: 'funding-finder', name: '', business: '', email: '', phone: '',
-    companyNumber: '', answers: {}, currentQuestion: 0, barrier: '', barrierDetails: ''
-  });
-  showScreen('home');
-}
-
-function startModule(module) {
-  state.module = module;
-  state.currentQuestion = 0;
-  document.getElementById('welcome-badge').textContent = moduleLabels[module];
-  document.getElementById('details-badge').textContent = moduleLabels[module];
-  document.getElementById('question-badge').textContent = moduleLabels[module];
-  showScreen('welcome');
-}
-
-function startQuestions() {
-  showScreen('details');
-}
-
-function submitDetails() {
-  const name = document.getElementById('field-name').value.trim();
-  const business = document.getElementById('field-business').value.trim();
-  const email = document.getElementById('field-email').value.trim();
-  const phone = document.getElementById('field-phone').value.trim();
-
-  if (!name || !business || !email || !phone) {
-    document.getElementById('details-error').style.display = 'block';
-    return;
-  }
-  document.getElementById('details-error').style.display = 'none';
-
-  state.name = name;
-  state.business = business;
-  state.email = email;
-  state.phone = phone;
-  state.companyNumber = document.getElementById('field-company-number').value.trim();
-  state.marketingConsent = document.getElementById('marketing-consent').checked;
-  state.marketingConsentText = state.marketingConsent ? "Yes, I'd like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news." : "";
-  state.marketingConsentTimestamp = state.marketingConsent ? new Date().toISOString() : "";
-  state.marketingConsentSource = "Fiskal Discovery contact details screen";
-
-  // Persist contact details for cross-journey use (e.g. Shariah-Compliant Funding)
-  try {
-    const existing = JSON.parse(localStorage.getItem('fiskal_profile') || '{}');
-    existing.name = name;
-    existing.companyName = business;
-    existing.businessName = business; // kept for backwards compat
-    existing.email = email;
-    existing.phone = phone;
-    existing.companyNumber = state.companyNumber;
-    existing.marketingConsent = state.marketingConsent;
-    existing.marketingConsentText = state.marketingConsentText;
-    existing.marketingConsentTimestamp = state.marketingConsentTimestamp;
-    existing.marketingConsentSource = state.marketingConsentSource;
-    localStorage.setItem('fiskal_profile', JSON.stringify(existing));
-  } catch (e) {
-    console.warn('Failed to save profile:', e);
-  }
-
-  // Send contact-start notification once per session
-  const contactCaptureKey = 'contactCaptureSent';
-  if (!sessionStorage.getItem(contactCaptureKey)) {
-    sendContactStartNotification().then(() => {
-      sessionStorage.setItem(contactCaptureKey, 'true');
-    }).catch(e => {
-      console.warn('Contact-start notification failed:', e);
-    });
-  }
-
-  state.currentQuestion = 0;
-  renderQuestion();
-  showScreen('question');
-}
-
-async function sendContactStartNotification() {
-  const templateParams = {
-    name: state.name,
-    business_name: state.business,
-    email: state.email,
-    phone: state.phone,
-    company_number: state.companyNumber || 'Not provided',
-    marketing_consent: state.marketingConsent ? 'Yes' : 'No',
-    consent_timestamp: state.marketingConsentTimestamp || 'N/A',
-    consent_text: state.marketingConsentText || 'N/A',
-    consent_source: state.marketingConsentSource || 'N/A',
-    module: 'Fiskal Discovery - Contact Started',
-    matched_products: 'Contact details captured',
-    barriers: 'N/A',
-    summary: `New Fiskal Discovery Contact Started\n\nName: ${state.name}\nBusiness: ${state.business}\nEmail: ${state.email}\nPhone: ${state.phone}\nCompany Number: ${state.companyNumber || 'Not provided'}\nMarketing Consent: ${state.marketingConsent ? 'Yes' : 'No'}\n${state.marketingConsent ? `Consent Text: ${state.marketingConsentText}\nConsent Timestamp: ${state.marketingConsentTimestamp}\n` : ''}Timestamp: ${new Date().toISOString()}`
-  };
-
-  try {
-    if (DEV_MODE || !SEND_EMAILS) {
-      console.log("Email sending disabled during development", templateParams);
-    } else {
-      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-      console.log('Contact-start notification sent successfully');
-    }
-  } catch (error) {
-    console.error('Contact-start notification failed:', error);
-    throw error;
-  }
-}
-
-// ============================================================
-// QUESTIONS
-// ============================================================
-function renderQuestion() {
-  const questions = getQuestions();
-  const q = questions[state.currentQuestion];
-  if (!q) return;
-
-  const total = questions.length;
-  const current = state.currentQuestion + 1;
-  const pct = Math.round((current / (total + 2)) * 100);
-
-  document.getElementById('question-progress').style.width = pct + '%';
-  document.getElementById('question-progress-label').textContent = `Question ${current} of ${total}`;
-  document.getElementById('q-icon').textContent = q.icon;
-  document.getElementById('q-product').textContent = q.product;
-  const qTextEl = document.getElementById('q-text');
-  qTextEl.innerHTML = q.text + (q.subtext ? '<br><span style="font-size:16px;font-style:italic;font-weight:300;color:var(--mid);display:block;margin-top:10px;">' + q.subtext + '</span>' : '');
-  document.getElementById('q-followup').innerHTML = '';
-  document.getElementById('q-next-btn').style.display = 'none';
-
-  const optionsEl = document.getElementById('q-options');
-  optionsEl.innerHTML = '';
-  q.options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'answer-btn';
-    btn.innerHTML = `<span class="answer-emoji">${opt.emoji}</span> ${opt.label}`;
-    btn.onclick = () => selectAnswer(q, opt.value, btn);
-    optionsEl.appendChild(btn);
-  });
-}
-
-function selectAnswer(q, value, btn) {
-  document.querySelectorAll('#q-options .answer-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  state.answers[q.id] = value;
-
-  const followupEl = document.getElementById('q-followup');
-  followupEl.innerHTML = '';
-
-  if (q.followup && q.followup.trigger.includes(value)) {
-    const box = document.createElement('div');
-    box.className = 'followup-box';
-    box.innerHTML = `<div class="followup-label">${q.followup.label}</div><div class="followup-options" id="followup-opts"></div>`;
-    followupEl.appendChild(box);
-
-    const optsEl = box.querySelector('#followup-opts');
-    q.followup.options.forEach(opt => {
-      const fb = document.createElement('button');
-      fb.className = 'followup-btn';
-      fb.textContent = opt.label;
-      fb.onclick = () => {
-        box.querySelectorAll('.followup-btn').forEach(b => b.classList.remove('selected'));
-        fb.classList.add('selected');
-        state.answers[q.followup.key] = opt.value;
-        document.getElementById('q-next-btn').style.display = 'block';
-      };
-      optsEl.appendChild(fb);
-    });
-  } else {
-    document.getElementById('q-next-btn').style.display = 'block';
-  }
-}
-
-function nextQuestion() {
-  const questions = getQuestions();
-  state.currentQuestion++;
-  if (state.currentQuestion >= questions.length) {
-    showScreen('barriers');
-  } else {
-    renderQuestion();
-  }
-}
-
-function skipQuestion() {
-  const questions = getQuestions();
-  state.currentQuestion++;
-  if (state.currentQuestion >= questions.length) {
-    showScreen('barriers');
-  } else {
-    renderQuestion();
-  }
-}
-
-function goBackQuestion() {
-  if (state.currentQuestion === 0) {
-    showScreen('details');
-  } else {
-    state.currentQuestion--;
-    renderQuestion();
-  }
-}
-
-function goBackBarriers() {
-  state.currentQuestion = getQuestions().length - 1;
-  renderQuestion();
-  showScreen('question');
-}
-
-function getQuestions() {
-  return fundingFinderQuestions;
-}
-
-// ============================================================
-// BARRIERS
-// ============================================================
-function selectBarrier(value) {
-  state.barrier = value;
-  document.querySelectorAll('#screen-barriers .answer-btn').forEach(b => b.classList.remove('selected'));
-  event.currentTarget.classList.add('selected');
-
-  if (value === 'yes') {
-    document.getElementById('barrier-followup').style.display = 'block';
-  } else {
-    document.getElementById('barrier-followup').style.display = 'none';
-  }
-  document.getElementById('barriers-next').style.display = 'block';
-}
-
-function submitBarriers() {
-  state.barrierDetails = document.getElementById('barrier-details').value.trim();
-  showDiscoveryThinkingScreen(() => {
-    generateResults();
-  });
-}
-
-// ============================================================
-// AI RESULTS GENERATION
-// ============================================================
-function generateResults() {
-  const matchedProducts = getMatchedProducts();
-  
-  // Build personalised summary using logic module
-  const fundingFinderAnswers = {
-    name: state.name,
-    business: state.business,
-    industry: state.industry,
-    turnover: state.turnover,
-    fundingAmount: state.fundingAmount,
-    fundingPurpose: state.fundingPurpose,
-    cashflowPressure: state.cashflowPressure,
-    currentFunding: state.currentFunding,
-    repaymentPressure: state.repaymentPressure,
-    mainChallenge: state.mainChallenge,
-    growthGoal: state.growthGoal,
-    urgency: state.urgency,
-    creditConcern: state.creditConcern,
-    propertySecurity: state.propertySecurity,
-    invoiceCustomers: state.invoiceCustomers,
-    cardSales: state.cardSales,
-    assetNeed: state.assetNeed,
-    answers: state.answers,
-    barrier: state.barrier,
-    barrierDetails: state.barrierDetails,
-    matchedProducts: getMatchedProducts(),
-    paymentTerms: state.paymentTerms
-  };
-  
-  let summary;
-  try {
-    summary = buildDiscoverySummary('funding-finder', fundingFinderAnswers);
-  } catch (error) {
-    console.warn('Funding Finder summary builder failed, using fallback', error);
-    summary = {
-      pageHeading: 'Your Fiskal Discovery is ready',
-      summaryHeading: 'Here\'s what we discovered',
-      summaryHtml: '<p>Great news — based on what you\'ve shared, there are funding options worth exploring for ' + (state.business || 'your business') + '. The most suitable route will depend on what the funding needs to achieve, how quickly it is needed, and which providers are the best fit.</p>'
-    };
-  }
-  
-  displayResults(summary, matchedProducts);
-}
-
-function buildAIPrompt(answersText, matchedProducts) {
-  const productNames = matchedProducts.map(p => productInfo[p]?.name).filter(Boolean).join(', ');
-
-  return `You are writing a warm, personal funding summary for a business owner who has just completed Fiskal Discovery — a free commercial finance tool run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
-
-Business owner: ${state.name}
-Business: ${state.business}
-Their answers: ${answersText}
-Matched funding products: ${productNames}
-Barriers mentioned: ${state.barrier === 'yes' ? state.barrierDetails || 'Some concerns mentioned' : 'None'}
-
-Write a warm, plain English summary (3-4 sentences) for ${state.name} explaining which funding options could work for their business and why. 
-
-CRITICAL RULES:
-- Do NOT mention any lender names whatsoever
-- Do NOT give specific rates or numbers
-- Write warmly and personally — this is from a human broker, not an algorithm
-- Focus on possibilities and what the funding could do for their business
-- If barriers were mentioned, acknowledge briefly that these are not necessarily obstacles
-- End with something like "Nicole will be in touch within a few hours to talk through what's possible"
-- Keep it under 100 words
-- Do not use bullet points — flowing sentences only`;
-}
-
-function getMatchedProducts() {
-  const matched = [];
-  Object.entries(state.answers).forEach(([key, value]) => {
-    if ((value === 'yes' || value === 'maybe') && productInfo[key]) {
-      matched.push(key);
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.menu-wrapper') && !e.target.closest('.dropdown')) {
+      document.getElementById('mainMenu').classList.remove('open');
+      document.querySelector('.summaries-btn').classList.remove('open');
     }
   });
-  return matched;
-}
-
-function buildAnswersSummary() {
-  const parts = [];
-  fundingFinderQuestions.forEach(q => {
-    const ans = state.answers[q.id];
-    if (ans) parts.push(`${q.product}: ${ans}`);
-  });
-  if (state.barrier) parts.push(`Barriers: ${state.barrier}`);
-  return parts.join('; ');
-}
-
-function getFallbackSummary(matchedProducts) {
-  const names = matchedProducts.map(p => productInfo[p]?.name).filter(Boolean);
-  if (names.length === 0) {
-    return `Thank you for completing your Fiskal Discovery, ${state.name}. Nicole will review your answers personally and be in touch within a few hours to explore what's possible for ${state.business}.`;
-  }
-  const list = names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
-  return `Based on your Discovery, ${list} ${names.length > 1 ? 'look' : 'looks'} like ${names.length > 1 ? 'strong options' : 'a strong option'} for ${state.business}. There are some real possibilities worth exploring here. Nicole will be in touch within a few hours to talk through what's possible in more detail.`;
-}
-
-function displayResults(summary, matchedProducts) {
-  // Set main heading
-  document.getElementById('results-name').textContent = state.business ? `Here's what we found for ${state.business}` : "Here's what we found";
-
-  // Set summary card heading and content
-  const summaryHeadingEl = document.querySelector('.ai-summary-label');
-  if (summaryHeadingEl) {
-    summaryHeadingEl.textContent = summary.summaryHeading || "Here's what we discovered";
-  }
-
-  const summaryTextEl = document.getElementById('ai-summary-text');
-  if (summaryTextEl) {
-    summaryTextEl.innerHTML = summary.summaryHtml || summary.summaryText || '';
-  }
-
-  showScreen('screen-results');
-
-  // Render Nicole message and load photo
-  if (typeof renderNicoleMessage === 'function') {
-    renderNicoleMessage();
-  }
-  if (typeof loadNicolePhoto === 'function') {
-    loadNicolePhoto();
-  }
-
-  // Send client summary email
-  const summaryContent = summary.summaryHtml || summary.summaryText || '';
-  sendClientSummaryEmail(summaryContent).then(success => {
-    if (success) {
-      // Add confirmation message
-      const confirmText = document.createElement('p');
-      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
-      confirmText.textContent = `A copy of your Discovery summary has been emailed to ${appState.profile.email || state.email}.`;
-      const nicoleCard = document.querySelector('.nicole-contact-card');
-      if (nicoleCard) {
-        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
-      }
-    } else {
-      // Add fallback message
-      const confirmText = document.createElement('p');
-      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
-      confirmText.textContent = `We couldn't automatically send your summary email, but Nicole has received your details and will still be in touch.`;
-      const nicoleCard = document.querySelector('.nicole-contact-card');
-      if (nicoleCard) {
-        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
-      }
-    }
-  });
-
-  const list = document.getElementById('matched-products-list');
-  list.innerHTML = '';
-  if (matchedProducts.length > 0) {
-    matchedProducts.forEach(p => {
-      const info = productInfo[p];
-      if (info) {
-        const div = document.createElement('div');
-        div.className = 'matched-product';
-        div.innerHTML = `<span class="matched-product-icon">${info.icon}</span><span class="matched-product-name">${info.name}</span>`;
-        list.appendChild(div);
-      }
-    });
-    document.getElementById('matched-products-section').style.display = 'block';
-  } else {
-    document.getElementById('matched-products-section').style.display = 'none';
-  }
-
-  showScreen('results');
-  renderNicoleMessage();
-  loadNicolePhoto();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  sendNotification(summary, matchedProducts).catch(function(e) {
-    console.warn('Notification failed, results already showing:', e);
-  });
-}
-
-// ============================================================
-// NOTIFICATION (placeholder — replace with backend endpoint)
-// ============================================================
-async function sendNotification(summary, matchedProducts) {
-  const templateParams = {
-    name: state.name,
-    business_name: state.business,
-    email: state.email,
-    phone: state.phone,
-    company_number: state.companyNumber || 'Not provided',
-    marketing_consent: state.marketingConsent ? 'Yes' : 'No',
-    consent_timestamp: state.marketingConsentTimestamp || 'N/A',
-    consent_text: state.marketingConsentText || 'N/A',
-    module: moduleLabels[state.module] || state.module,
-    matched_products: matchedProducts.map(p => productInfo[p]?.name).filter(Boolean).join(', ') || 'None matched',
-    barriers: state.barrier === 'yes' ? (state.barrierDetails || 'Yes - no details provided') : 'None mentioned',
-    summary: summary
-  };
-
-  try {
-    if (DEV_MODE || !SEND_EMAILS) {
-      console.log("Email sending disabled during development", templateParams);
-    } else {
-      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-    }
-  } catch (error) {
-    console.error('Email notification failed:', error);
-  }
-}
-
-async function sendClientSummaryEmail(summary) {
-  const firstName = state.name.split(' ')[0];
-  const clientTemplateParams = {
-    to_email: state.email,
-    subject: `Your Fiskal Discovery Summary — ${state.business}`,
-    from_name: 'Fiskal Funding Solutions',
-    name: firstName,
-    business_name: state.business,
-    summary: summary
-  };
-  
-  try {
-    if (DEV_MODE || !SEND_EMAILS) {
-      console.log("Email sending disabled during development", clientTemplateParams);
-    } else {
-      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', clientTemplateParams);
-      console.log('Client summary email sent successfully');
-    }
-    return true;
-  } catch (error) {
-    console.error('Client summary email failed:', error);
-    return false;
-  }
-}
-
-
-
-// ============================================================
-// ONBOARDING — Conversational flow
-// ============================================================
-const OB_KEY = 'fiskal_profile';
 </script>
-<script src="logic/globalInsights.js"></script>
-<script src="logic/sectorInsights.js"></script>
-<script src="logic/fundingFinderInsights.js"></script>
-<script src="logic/productLinks.js"></script>
-<script src="logic/summaryBuilder.js"></script>
-<script src="shared-components.js"></script>
 </body>
 </html>
