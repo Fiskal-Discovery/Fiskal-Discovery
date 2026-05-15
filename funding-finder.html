@@ -353,6 +353,60 @@
   }
 
   /* ---- WELCOME SCREEN ---- */
+  /* ---- WELCOME HERO LAYOUT ---- */
+  #screen-welcome {
+    justify-content: flex-start !important;
+  }
+
+  .welcome-hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px 24px;
+  }
+
+  .welcome-hero-logo {
+    height: 52px;
+    width: auto;
+    opacity: 0.9;
+    margin-bottom: 20px;
+  }
+
+  .welcome-hero-title {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(32px, 7vw, 56px);
+    color: #ffffff;
+    line-height: 1.1;
+    margin: 0 0 10px;
+  }
+
+  .welcome-hero-sub {
+    font-size: clamp(14px, 3vw, 20px);
+    color: #b8a9ff;
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+
+  .welcome-bottom {
+    padding: 20px 24px 24px;
+    max-width: 680px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .welcome-bottom-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
   .welcome-body {
     flex: 1;
     display: flex;
@@ -382,8 +436,8 @@
     background: white;
     border-left: 3px solid var(--gold);
     border-radius: 0 12px 12px 0;
-    padding: 20px;
-    margin-bottom: 28px;
+    padding: 16px 20px;
+    margin-bottom: 0;
   }
 
   .welcome-box p {
@@ -1438,33 +1492,27 @@
 
 <!-- ====== WELCOME SCREEN ====== -->
 <div class="screen" id="screen-welcome" style="display:none;">
-  <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
+
+  <div class="welcome-hero">
+    <a href="https://fiskal.online" target="_blank">
+      <img src="fiskal_logo_recoloured.png" class="welcome-hero-logo" alt="Fiskal">
     </a>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Funding Finder</span>
-    </div>
-  </header>
-<div class="brand-sub">Refuse to Stand Still</div>
-    <span class="brand-label">Funding Finder</span>
+    <h1 class="welcome-hero-title">Fiskal Discovery</h1>
+    <p class="welcome-hero-sub">Refuse to Stand Still</p>
   </div>
-  <div class="screen-content">
-    <div class="welcome-body">
-      <div class="welcome-label">Before you begin</div>
-      <h2 class="welcome-title">This isn't a comparison website.</h2>
-      <div class="welcome-box">
-        <p>There are no algorithms, no automated decisions, and no generic results. Every response you submit comes directly to <strong>Nicole</strong> — and she'll be in touch personally to talk through what's possible for your business.</p>
-        <p>So please don't answer based on what you think you can or can't get. Answer based on what would <strong>genuinely help your business grow</strong>.</p>
-        <p>Fiskal Discovery is about exploring every opportunity available to you — even the ones you might have already written off. <strong>You might be surprised what's possible.</strong></p>
-      </div>
+
+  <div class="welcome-bottom">
+    <div class="welcome-box">
+      <p>There are no algorithms, no automated decisions, and no generic results. Every response you submit comes directly to <strong>Nicole</strong> — and she'll be in touch personally to talk through what's possible for your business.</p>
+      <p>So please don't answer based on what you think you can or can't get. Answer based on what would <strong>genuinely help your business grow</strong>.</p>
+      <p>Fiskal Discovery is about exploring every opportunity available to you — even the ones you might have already written off. <strong>You might be surprised what's possible.</strong></p>
+    </div>
+    <div class="welcome-bottom-actions">
       <button class="btn-primary" onclick="startQuestions()">Start My Discovery</button>
+      <a href="cashflow-invaders.html" class="btn-secondary">🎮 Play Cashflow Invaders</a>
     </div>
   </div>
-  <div class="nav-row" style="padding: 16px 24px;">
-    <button class="back-btn" onclick="window.location.href='index.html'">&lt; Back</button>
-  </div>
+
 </div>
 
 <!-- ====== DETAILS SCREEN ====== -->
