@@ -248,7 +248,7 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    padding: 24px 24px 16px;
+    padding: 10px 24px 6px;
     flex-shrink: 0;
   }
 
@@ -308,31 +308,31 @@
     font-family: 'Libre Baskerville', serif;
     font-style: italic;
     font-weight: 700;
-    font-size: clamp(28px, 8vw, 42px);
+    font-size: clamp(22px, 5vw, 32px);
     color: #ffffff;
     line-height: 1.1;
   }
 
   .discovery-brand-sub {
-    font-size: clamp(13px, 4vw, 17px);
+    font-size: clamp(11px, 3vw, 14px);
     color: #b8a9ff;
-    margin-top: 4px;
+    margin-top: 2px;
   }
 
   .ob-brand-tagline {
     text-align: center;
-    font-size: 13px;
+    font-size: 11px;
     color: #b8a9ff;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    margin-top: 12px;
+    margin-top: 4px;
     font-weight: 500;
     white-space: nowrap;
   }
 
   @media(max-width:600px){
     .ob-brand-wrap{
-      padding:12px 20px 0!important;
+      padding:6px 16px 0!important;
     }
     .ob-brand-tagline{
       white-space:normal!important;
@@ -391,8 +391,8 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 20px 40px 24px;
+    justify-content: flex-start;
+    padding: 8px 40px 24px;
     max-width: 900px;
     width: 100%;
     margin: 0 auto;
@@ -412,7 +412,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 40px 0 20px;
+    padding: 8px 0 16px;
   }
 
   @media(max-width:600px){
@@ -1429,13 +1429,13 @@
   /* ====== MOBILE FIXES ====== */
   @media (max-width: 600px) {
     /* Screen content tighter padding on mobile */
-    .screen-content { padding: 16px 16px 20px !important; }
+    .screen-content { padding: 6px 16px 16px !important; }
 
     /* welcome-question-container padding */
-    #welcome-question-container { padding: 20px 16px 28px !important; }
+    #welcome-question-container { padding: 10px 16px 16px !important; }
 
     /* Brand header smaller on mobile */
-    .ob-brand-wrap { padding: 16px 16px 10px !important; }
+    .ob-brand-wrap { padding: 6px 16px 4px !important; }
     .ob-brand-tagline { display: none; }
 
     /* Answer buttons — comfortable tap targets */
@@ -1488,7 +1488,7 @@
     </div>
     <div class="ob-brand-tagline">Find out what's possible for your business.</div>
   </div>
-  <div id="welcome-question-container" class="welcome-question-container" style="position:relative;z-index:10000;width:100%;max-width:780px;margin:0 auto;padding:32px 40px 40px;flex:1;overflow-y:auto;"></div>
+  <div id="welcome-question-container" class="welcome-question-container" style="position:relative;z-index:10000;width:100%;max-width:780px;margin:0 auto;padding:16px 40px 20px;flex:1;"></div>
   <div class="ob-chat" id="ob-chat" style="position:relative;z-index:1;"></div>
   <div class="ob-input-area" id="ob-input-area" style="display:none;z-index:10001;">
     <input class="ob-input" id="ob-input" type="text" placeholder="Type your answer..." autocomplete="off">
@@ -2050,7 +2050,7 @@ function renderWelcomeQuestion() {
   const total = welcomeFlow.length;
   const current = welcomeState.currentQuestion;
   const dotsWrap = document.createElement('div');
-  dotsWrap.style.cssText = 'display:flex;gap:6px;justify-content:center;margin-bottom:28px;';
+  dotsWrap.style.cssText = 'display:flex;gap:6px;justify-content:center;margin-bottom:14px;';
   for (let i = 0; i < total; i++) {
     const dot = document.createElement('div');
     dot.style.cssText = `width:6px;height:6px;border-radius:50%;background:${i === current ? '#6366f1' : 'rgba(255,255,255,0.2)'};transition:background 0.3s;`;
@@ -2060,7 +2060,7 @@ function renderWelcomeQuestion() {
 
   // Question heading
   const heading = document.createElement('div');
-  heading.style.cssText = 'color:#ffffff;font-size:22px;font-weight:600;margin-bottom:24px;text-align:center;font-family:"DM Sans",sans-serif;line-height:1.3;';
+  heading.style.cssText = 'color:#ffffff;font-size:20px;font-weight:600;margin-bottom:16px;text-align:center;font-family:"DM Sans",sans-serif;line-height:1.3;';
   heading.textContent = q.question;
   container.appendChild(heading);
 
