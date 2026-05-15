@@ -35,10 +35,23 @@
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: linear-gradient(135deg, var(--bg-deep) 0%, #08081c 50%, var(--bg-deep) 100%);
-    color: var(--white);
+    background: var(--cream);
+    color: var(--dark);
     min-height: 100vh;
     overflow-x: hidden;
+  }
+
+  /* Welcome/onboarding screens keep the dark navy background */
+  #screen-home,
+  #screen-welcome {
+    background: linear-gradient(135deg, var(--bg-deep) 0%, #08081c 50%, var(--bg-deep) 100%);
+    color: var(--white);
+  }
+  #screen-home .question-text,
+  #screen-home .question-sub,
+  #screen-welcome .question-text,
+  #screen-welcome .question-sub {
+    color: var(--white);
   }
 
   /* ---- BACKGROUND ---- */
@@ -124,7 +137,7 @@
     justify-content: center;
     padding: 20px 24px 24px;
     
-    max-width: 600px;
+    max-width: 960px;
     width: 100%;
     margin: 0 auto;
   }
@@ -349,7 +362,7 @@
   }
 
   .typing-text {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
+    font-family: 'DM Sans', sans-serif;
     font-size: 28px;
     font-weight: 300;
     color: var(--indigo-deep);
@@ -439,7 +452,7 @@
   }
 
   .welcome-title {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
+    font-family: 'DM Sans', sans-serif;
     font-size: 38px;
     font-weight: 300;
     color: var(--indigo-deep);
@@ -575,7 +588,7 @@
 
   /* ---- DETAILS FORM ---- */
   .form-title {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
+    font-family: 'DM Sans', sans-serif;
     font-size: 32px;
     font-weight: 300;
     color: var(--indigo-deep);
@@ -766,7 +779,7 @@
   }
 
   .loading-title {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
+    font-family: 'DM Sans', sans-serif;
     font-size: 26px;
     color: var(--indigo-deep);
     margin-bottom: 10px;
@@ -820,7 +833,7 @@
   }
 
   .results-title {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
+    font-family: 'DM Sans', sans-serif;
     font-size: 32px;
     color: var(--indigo-deep);
     font-weight: 300;
@@ -1089,7 +1102,7 @@
   }
 
   .pricing-prompt-title {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
+    font-family: 'DM Sans', sans-serif;
     font-size: 22px;
     color: var(--indigo-deep);
     margin-bottom: 8px;
@@ -1226,7 +1239,7 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     text-align: center;
-    color: #ffffff;
+    color: var(--dark);
     opacity: 0;
     transform: translateY(8px);
     transition: opacity 500ms ease, transform 500ms ease;
@@ -1240,11 +1253,11 @@
   .loading-message.thinking-phrase.shimmer {
     background: linear-gradient(
       90deg,
-      rgba(255,255,255,0.45) 0%,
-      #ffffff 35%,
+      rgba(79,70,229,0.65) 0%,
+      #4f46e5 35%,
       #FFE600 50%,
-      #ffffff 65%,
-      rgba(255,255,255,0.45) 100%
+      #4f46e5 65%,
+      rgba(79,70,229,0.65) 100%
     );
     background-size: 220% auto;
     background-position: 220% center;
@@ -1252,7 +1265,7 @@
     background-clip: text;
     color: transparent;
     animation: thinkingShimmer 1.8s ease-in-out forwards;
-    text-shadow: 0 0 18px rgba(79, 70, 229, 0.35);
+    text-shadow: none;
   }
 
   @keyframes thinkingShimmer {
@@ -1329,7 +1342,7 @@
   }
 
   .confirm-title {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
+    font-family: 'DM Sans', sans-serif;
     font-size: 36px;
     color: var(--indigo-deep);
     font-weight: 300;
