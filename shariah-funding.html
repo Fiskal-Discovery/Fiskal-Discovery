@@ -1309,6 +1309,17 @@ function showShariahThinkingScreen(callback) {
   showPhrase();
 }
 
+function saveDiscovery(module, icon, summaryHtml, business) {
+  try {
+    const key = 'fiskal_discoveries';
+    let discoveries = [];
+    try { discoveries = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+    discoveries.unshift({ module, icon, summaryHtml: summaryHtml || '', business: business || '', date: new Date().toISOString() });
+    if (discoveries.length > 20) discoveries = discoveries.slice(0, 20);
+    localStorage.setItem(key, JSON.stringify(discoveries));
+  } catch(e) {}
+}
+
 function submitDiscovery() {
   showShariahThinkingScreen(function() {
     displayResults();
@@ -1368,6 +1379,8 @@ function displayResults() {
 
   // Inject summary content
   document.getElementById('summary-text').innerHTML = summary.summaryHtml;
+
+  saveDiscovery('Shariah-Compliant Funding', '🕌', summary.summaryHtml, savedBusiness);
 
   showScreen('screen-results');
   window.scrollTo({ top: 0, behavior: 'smooth' });

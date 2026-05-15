@@ -1425,6 +1425,140 @@
     .module-card-title { font-size: 14px; }
     .module-card-desc { font-size: 12px; }
   }
+
+  /* ---- DISCOVERIES HISTORY ---- */
+  .discoveries-section {
+    width: 100%;
+    margin-top: 36px;
+  }
+  .discoveries-heading {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .discovery-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .discovery-card:hover {
+    border-color: rgba(124, 58, 237, 0.5);
+    background: var(--bg-card-light);
+    transform: translateX(3px);
+  }
+  .discovery-card-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: rgba(79, 70, 229, 0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .discovery-card-info { flex: 1; min-width: 0; }
+  .discovery-card-module {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+  .discovery-card-meta {
+    font-size: 11px;
+    color: var(--light-text);
+  }
+  .discovery-card-arrow {
+    font-size: 18px;
+    color: var(--light-text);
+    flex-shrink: 0;
+  }
+
+  /* Modal */
+  .disc-modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 2, 16, 0.85);
+    backdrop-filter: blur(6px);
+    z-index: 9000;
+    align-items: flex-start;
+    justify-content: center;
+    overflow-y: auto;
+    padding: 24px 16px 40px;
+  }
+  .disc-modal-backdrop.open { display: flex; }
+  .disc-modal {
+    background: #0c0920;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 640px;
+    padding: 28px 28px 32px;
+    position: relative;
+    margin: auto;
+  }
+  .disc-modal-close {
+    position: absolute;
+    top: 16px; right: 18px;
+    background: none; border: none;
+    font-size: 22px; color: var(--light-text);
+    cursor: pointer; line-height: 1;
+  }
+  .disc-modal-close:hover { color: var(--white); }
+  .disc-modal-label {
+    font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gold);
+    font-weight: 500; margin-bottom: 6px;
+  }
+  .disc-modal-title {
+    font-size: 20px; font-weight: 500;
+    color: var(--white); margin-bottom: 4px;
+  }
+  .disc-modal-meta {
+    font-size: 12px; color: var(--light-text); margin-bottom: 20px;
+  }
+  .disc-modal-body {
+    font-size: 14px; line-height: 1.75;
+    color: rgba(255,255,255,0.8); font-weight: 300;
+  }
+  .disc-modal-body p { margin-bottom: 12px; }
+  .disc-modal-body p:last-child { margin-bottom: 0; }
+  .disc-email-btn {
+    background: linear-gradient(135deg, var(--indigo-deep), var(--indigo));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: opacity 0.2s;
+    width: 100%;
+  }
+  .disc-email-btn:hover { opacity: 0.88; }
+  .disc-email-btn:disabled { opacity: 0.5; cursor: default; }
+  .disc-email-status {
+    font-size: 13px;
+    margin-top: 10px;
+    text-align: center;
+    min-height: 1.2em;
+    color: var(--light-text);
+  }
+  @media (max-width: 600px) {
+    .disc-modal { padding: 24px 18px 28px; }
+  }
 </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
@@ -1535,8 +1669,27 @@
 
     </div>
   </div>
+  <div id="discoveries-section" class="screen-content discoveries-section" style="display:none;">
+    <div class="discoveries-heading">Your Previous Discoveries</div>
+    <div id="discoveries-list"></div>
+  </div>
   <div class="screen-footer">
     <p class="footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539.<br><a href="https://fiskal.online" target="_blank" style="color:inherit;">fiskal.online</a> | All information is treated in confidence.</p>
+  </div>
+</div>
+
+<!-- Discovery viewer modal -->
+<div class="disc-modal-backdrop" id="disc-modal-backdrop" onclick="closeDiscoveryModal(event)">
+  <div class="disc-modal" id="disc-modal">
+    <button class="disc-modal-close" onclick="closeDiscoveryModal()">&times;</button>
+    <div class="disc-modal-label" id="disc-modal-label"></div>
+    <div class="disc-modal-title" id="disc-modal-title"></div>
+    <div class="disc-modal-meta" id="disc-modal-meta"></div>
+    <div class="disc-modal-body" id="disc-modal-body"></div>
+    <div id="disc-modal-email-row" style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(124,58,237,0.2);">
+      <button id="disc-email-btn" class="disc-email-btn" onclick="emailDiscovery()">📧 Email this to me</button>
+      <div id="disc-email-status" class="disc-email-status"></div>
+    </div>
   </div>
 </div>
 
@@ -2210,7 +2363,137 @@ function showHomepage() {
     document.getElementById('home-profile-company').textContent = appState.profile.companyName || '';
     document.getElementById('home-avatar').textContent = appState.profile.name.charAt(0).toUpperCase();
   }
+
+  renderDiscoveries();
 }
+
+// ============================================================
+// DISCOVERIES HISTORY
+// ============================================================
+const DISC_KEY = 'fiskal_discoveries';
+
+function renderDiscoveries() {
+  let discoveries = [];
+  try { discoveries = JSON.parse(localStorage.getItem(DISC_KEY) || '[]'); } catch(e) {}
+
+  const section = document.getElementById('discoveries-section');
+  const list = document.getElementById('discoveries-list');
+  if (!section || !list) return;
+
+  if (!discoveries.length) {
+    section.style.display = 'none';
+    return;
+  }
+
+  section.style.display = 'block';
+  list.innerHTML = discoveries.map((d, i) => {
+    const date = new Date(d.date);
+    const dateStr = isNaN(date) ? '' : date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    const meta = [d.business, dateStr].filter(Boolean).join(' · ');
+    return `<div class="discovery-card" onclick="openDiscoveryModal(${i})">
+      <div class="discovery-card-icon">${d.icon || '📋'}</div>
+      <div class="discovery-card-info">
+        <div class="discovery-card-module">${escapeHtml(d.module)}</div>
+        <div class="discovery-card-meta">${escapeHtml(meta)}</div>
+      </div>
+      <div class="discovery-card-arrow">›</div>
+    </div>`;
+  }).join('');
+}
+
+let _currentDiscoveryIndex = -1;
+
+function openDiscoveryModal(index) {
+  let discoveries = [];
+  try { discoveries = JSON.parse(localStorage.getItem(DISC_KEY) || '[]'); } catch(e) {}
+  const d = discoveries[index];
+  if (!d) return;
+
+  _currentDiscoveryIndex = index;
+
+  const date = new Date(d.date);
+  const dateStr = isNaN(date) ? '' : date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+  document.getElementById('disc-modal-label').textContent = d.module;
+  document.getElementById('disc-modal-title').textContent = d.business ? `Here's what we found for ${d.business}` : "Here's what we found";
+  document.getElementById('disc-modal-meta').textContent = dateStr;
+  document.getElementById('disc-modal-body').innerHTML = d.summaryHtml || '<p>No summary available.</p>';
+
+  // Reset email row
+  const emailBtn = document.getElementById('disc-email-btn');
+  const emailStatus = document.getElementById('disc-email-status');
+  const email = appState.profile && appState.profile.email;
+  if (emailBtn) {
+    emailBtn.disabled = false;
+    emailBtn.textContent = '📧 Email this to me';
+  }
+  if (emailStatus) emailStatus.textContent = email ? `Will send to ${email}` : '';
+
+  document.getElementById('disc-modal-backdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function emailDiscovery() {
+  let discoveries = [];
+  try { discoveries = JSON.parse(localStorage.getItem(DISC_KEY) || '[]'); } catch(e) {}
+  const d = discoveries[_currentDiscoveryIndex];
+  if (!d) return;
+
+  const email = appState.profile && appState.profile.email;
+  const btn = document.getElementById('disc-email-btn');
+  const status = document.getElementById('disc-email-status');
+
+  if (!email) {
+    if (status) status.textContent = "We don't have your email address on file — please complete the onboarding first.";
+    return;
+  }
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+  const plainText = d.summaryHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+
+  const templateParams = {
+    to_email: email,
+    to_name: (appState.profile && appState.profile.name) || 'there',
+    module: d.module,
+    business: d.business || '',
+    discovery_date: new Date(d.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
+    summary: plainText
+  };
+
+  if (typeof emailjs !== 'undefined') {
+    emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams)
+      .then(() => {
+        if (btn) { btn.textContent = '✅ Sent!'; }
+        if (status) status.textContent = `Discovery emailed to ${email}`;
+      })
+      .catch(() => {
+        if (btn) { btn.disabled = false; btn.textContent = '📧 Email this to me'; }
+        if (status) status.textContent = 'Something went wrong — please try again.';
+      });
+  } else {
+    if (btn) { btn.disabled = false; btn.textContent = '📧 Email this to me'; }
+    if (status) status.textContent = 'Email service not available right now.';
+  }
+}
+
+function closeDiscoveryModal(e) {
+  if (e && e.target !== document.getElementById('disc-modal-backdrop')) return;
+  document.getElementById('disc-modal-backdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.getElementById('disc-modal-backdrop').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
 
 function resetOnboarding() {
   localStorage.removeItem('fiskal_appState');

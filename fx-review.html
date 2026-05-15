@@ -601,10 +601,23 @@ CRITICAL RULES: No specific provider names. Warm and personal. If they use their
   }
 }
 
+function saveDiscovery(module, icon, summaryHtml, business) {
+  try {
+    const key = 'fiskal_discoveries';
+    let discoveries = [];
+    try { discoveries = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+    discoveries.unshift({ module, icon, summaryHtml: summaryHtml || '', business: business || '', date: new Date().toISOString() });
+    if (discoveries.length > 20) discoveries = discoveries.slice(0, 20);
+    localStorage.setItem(key, JSON.stringify(discoveries));
+  } catch(e) {}
+}
+
 function displayResults(summary) {
   document.getElementById('results-name').textContent = `Here's what we found for you, ${state.name}`;
-  document.getElementById('ai-summary-text').textContent = summary;
+  const summaryHtml = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
+  document.getElementById('ai-summary-text').innerHTML = summaryHtml;
   document.getElementById('nicole-message').textContent = `I've received your FX Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+  saveDiscovery('FX Review', '💱', summaryHtml, state.business);
   showScreen('screen-results');
 }
 

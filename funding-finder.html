@@ -2611,20 +2611,33 @@ function getFallbackSummary(matchedProducts) {
   return `Based on your Discovery, ${list} ${names.length > 1 ? 'look' : 'looks'} like ${names.length > 1 ? 'strong options' : 'a strong option'} for ${state.business}. There are some real possibilities worth exploring here. Nicole will be in touch within a few hours to talk through what's possible in more detail.`;
 }
 
+function saveDiscovery(module, icon, summaryHtml, business) {
+  try {
+    const key = 'fiskal_discoveries';
+    let discoveries = [];
+    try { discoveries = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+    discoveries.unshift({ module, icon, summaryHtml: summaryHtml || '', business: business || '', date: new Date().toISOString() });
+    if (discoveries.length > 20) discoveries = discoveries.slice(0, 20);
+    localStorage.setItem(key, JSON.stringify(discoveries));
+  } catch(e) {}
+}
+
 function displayResults(summary, matchedProducts) {
   // Set main heading
   document.getElementById('results-name').textContent = state.business ? `Here's what we found for ${state.business}` : "Here's what we found";
-  
+
   // Set summary card heading and content
   const summaryHeadingEl = document.querySelector('.ai-summary-label');
   if (summaryHeadingEl) {
     summaryHeadingEl.textContent = summary.summaryHeading || "Here's what we discovered";
   }
-  
+
   const summaryTextEl = document.getElementById('ai-summary-text');
   if (summaryTextEl) {
     summaryTextEl.innerHTML = summary.summaryHtml || summary.summaryText || '';
   }
+
+  saveDiscovery('Funding Finder', '🔍', summary.summaryHtml || summary.summaryText || '', state.business);
 
   const list = document.getElementById('matched-products-list');
   list.innerHTML = '';

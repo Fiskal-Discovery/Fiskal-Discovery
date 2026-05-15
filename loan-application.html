@@ -1581,20 +1581,33 @@ function renderNicoleMessage() {
   messageEl.textContent = nicoleMessages[Math.floor(Math.random() * nicoleMessages.length)];
 }
 
+function saveDiscovery(module, icon, summaryHtml, business) {
+  try {
+    const key = 'fiskal_discoveries';
+    let discoveries = [];
+    try { discoveries = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+    discoveries.unshift({ module, icon, summaryHtml: summaryHtml || '', business: business || '', date: new Date().toISOString() });
+    if (discoveries.length > 20) discoveries = discoveries.slice(0, 20);
+    localStorage.setItem(key, JSON.stringify(discoveries));
+  } catch(e) {}
+}
+
 function displayResults(summary) {
   // Set main heading
   document.getElementById('results-name').textContent = state.business ? `Here's what we found for ${state.business}` : "Here's what we found";
-  
+
   // Set summary card heading and content
   const summaryHeadingEl = document.querySelector('.ai-summary-label');
   if (summaryHeadingEl) {
     summaryHeadingEl.textContent = summary.summaryHeading || "Here's what we discovered";
   }
-  
+
   const summaryTextEl = document.getElementById('ai-summary-text');
   if (summaryTextEl) {
     summaryTextEl.innerHTML = summary.summaryHtml || summary.summaryText || '';
   }
+
+  saveDiscovery('Loan Enquiry', '💰', summary.summaryHtml || summary.summaryText || '', state.business);
   
   showScreen('screen-results');
 

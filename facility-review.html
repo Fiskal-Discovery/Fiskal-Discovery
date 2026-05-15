@@ -3004,6 +3004,17 @@ function selectBarrier(value, btn) {
 // ============================================================
 // FACILITY REVIEW SUMMARY ENGINE
 // ============================================================
+function saveDiscovery(module, icon, summaryHtml, business) {
+  try {
+    const key = 'fiskal_discoveries';
+    let discoveries = [];
+    try { discoveries = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+    discoveries.unshift({ module, icon, summaryHtml: summaryHtml || '', business: business || '', date: new Date().toISOString() });
+    if (discoveries.length > 20) discoveries = discoveries.slice(0, 20);
+    localStorage.setItem(key, JSON.stringify(discoveries));
+  } catch(e) {}
+}
+
 function generateResults() {
   let summary;
   try {
@@ -3640,8 +3651,11 @@ function displayResults(summary) {
   const screenContentEl = document.querySelector('#screen-loading .screen-content');
   
   if (resultsNameEl) resultsNameEl.textContent = resultSubtitle;
-  if (summaryTextEl) summaryTextEl.innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
+  const summaryHtmlForStorage = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
+  if (summaryTextEl) summaryTextEl.innerHTML = summaryHtmlForStorage;
   if (nicoleMessageEl) nicoleMessageEl.textContent = `I've received your Facility Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${businessText}.`;
+
+  saveDiscovery('Facility Review', '📊', summaryHtmlForStorage, businessName);
   
   // Hide the loading overlay
   const loadingOverlay = document.getElementById('discovery-thinking-screen');
