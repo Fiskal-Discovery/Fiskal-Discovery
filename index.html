@@ -4,16 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fiskal Discovery</title>
-<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Libre+Baskerville:ital,wght@1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --purple-dark: #1a0020;
     --purple-mid: #3d0050;
     --purple-light: #7a2a8a;
-    --purple-btn1: #2e0040;
-    --purple-btn2: #6a1878;
     --white: #ffffff;
     --text-dark: #1a1a1a;
+    --orange: #e05a00;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,65 +30,58 @@
   .card {
     width: 100%;
     max-width: 1100px;
+    min-height: 560px;
     background: #fff;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(224,90,0,0.15);
-    position: relative;
-  }
-
-  .top {
     display: flex;
-    min-height: 360px;
-    position: relative;
+    flex-direction: row;
   }
 
-  .top-left {
-    width: 52%;
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 26%;
+    flex-shrink: 0;
     background:
-      radial-gradient(ellipse 55% 40% at 80% 15%, rgba(100,180,255,0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 35% at 20% 75%, rgba(80,160,255,0.14) 0%, transparent 65%),
-      radial-gradient(ellipse 30% 25% at 65% 60%, rgba(120,200,255,0.10) 0%, transparent 60%),
-      radial-gradient(ellipse 35% 28% at 55% 85%, rgba(224,90,0,0.12) 0%, transparent 65%),
-      radial-gradient(ellipse 25% 20% at 15% 30%, rgba(255,140,0,0.09) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 30% at 60% 10%, rgba(100,180,255,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 70% 25% at 20% 75%, rgba(80,160,255,0.14) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 20% at 80% 55%, rgba(224,90,0,0.12) 0%, transparent 65%),
       var(--purple-dark);
-    position: relative;
-    padding: 32px 28px 40px 32px;
+    padding: 40px 36px 40px 32px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    clip-path: ellipse(100% 92% at 0% 50%);
+    clip-path: ellipse(115% 50% at 0% 50%);
     z-index: 2;
   }
 
   .brand-title {
     font-family: 'Monotype Corsiva', cursive;
-    font-style: normal;
     font-weight: 400;
-    font-size: 2.8rem;
-    margin-left: -4px;
+    font-size: 2.6rem;
     color: var(--white);
-    line-height: 1.1;
+    line-height: 1.15;
     letter-spacing: -0.5px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 
   .tagline {
     font-family: 'DM Sans', sans-serif;
     font-weight: 700;
-    font-size: 0.95rem;
-    color: #e05a00;
-    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    color: var(--orange);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
   }
 
   .divider {
-    width: 92%;
+    width: 88%;
     height: 3px;
-    background: linear-gradient(90deg, #e05a00 0%, rgba(224,90,0,0.08) 100%);
+    background: linear-gradient(90deg, var(--orange) 0%, rgba(224,90,0,0.08) 100%);
     clip-path: polygon(0 0, 100% 25%, 100% 75%, 0 100%);
-    margin-bottom: 18px;
+    margin-bottom: 0;
     border-radius: 2px 0 0 2px;
   }
 
@@ -97,27 +89,36 @@
     font-family: 'DM Sans', sans-serif;
     font-style: italic;
     font-weight: 500;
-    font-size: 1.2rem;
-    color: rgba(255,255,255,0.9);
-    line-height: 1.6;
-    flex: 1;
-    display: flex;
-    align-items: center;
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.65;
   }
 
-  .top-right {
+  /* ── MAIN CONTENT ── */
+  .main {
     flex: 1;
-    padding: 10px 24px 20px 16px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+  }
+
+  .main-top {
+    flex: 1;
+    padding: 24px 32px 20px 28px;
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* Menu */
+  .menu-wrapper {
     position: relative;
-    gap: 0;
+    align-self: flex-end;
+    width: auto;
   }
 
   .summaries-btn {
-    align-self: center;
     border: 1.5px solid rgba(224,90,0,0.5);
     color: #7a2a8a;
     background: transparent;
@@ -129,12 +130,11 @@
     cursor: pointer;
     letter-spacing: 0.02em;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
-    position: relative;
   }
   .summaries-btn:hover, .summaries-btn.open {
     background: rgba(224,90,0,0.06);
-    color: #e05a00;
-    border-color: #e05a00;
+    color: var(--orange);
+    border-color: var(--orange);
   }
   .summaries-btn .chevron {
     margin-left: 6px;
@@ -142,45 +142,27 @@
     display: inline-block;
     transition: transform 0.2s;
   }
-  .summaries-btn.open .chevron {
-    transform: rotate(180deg);
-  }
-
-  .menu-wrapper {
-    position: relative;
-    align-self: center;
-    width: 90%;
-  }
-
-  .summaries-btn-wrap {
-    display: flex;
-    justify-content: center;
-  }
+  .summaries-btn.open .chevron { transform: rotate(180deg); }
 
   .dropdown {
     display: none;
     position: absolute;
-    top: 68px;
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
+    top: calc(100% + 6px);
+    right: 0;
+    width: 260px;
     background: #fff;
-    border: 2px solid #e05a00;
+    border: 1.5px solid var(--orange);
     border-radius: 10px;
     box-shadow: 0 8px 24px rgba(60,0,80,0.15);
     z-index: 100;
     overflow: hidden;
   }
-  .dropdown.open {
-    display: flex;
-    flex-direction: column;
-  }
+  .dropdown.open { display: flex; flex-direction: column; }
   .dropdown a {
-    flex: 1;
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 11px 16px;
+    padding: 12px 16px;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.88rem;
     font-weight: 500;
@@ -190,25 +172,24 @@
     border-bottom: 1px solid rgba(61,0,80,0.08);
   }
   .dropdown a:last-child { border-bottom: none; }
-  .dropdown a:hover {
-    background: var(--purple-dark);
-    color: #fff;
-  }
+  .dropdown a:hover { background: var(--purple-dark); color: #fff; }
   .dropdown a .icon { font-size: 1rem; width: 20px; text-align: center; }
   .dropdown .reset-item { color: #c0392b; }
   .dropdown .reset-item:hover { background: #c0392b; color: #fff; }
 
+  /* Greeting */
   .greeting-block {
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0;
+    align-items: center;
     text-align: center;
     width: 100%;
   }
 
   .greeting {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     font-weight: 500;
     color: var(--text-dark);
     margin-bottom: 10px;
@@ -218,29 +199,27 @@
   .cta-text {
     font-size: 1.05rem;
     font-weight: 400;
-    color: #444;
+    color: #555;
     line-height: 1.5;
+    max-width: 380px;
   }
 
+  /* Orange bar */
   .bar {
     height: 6px;
-    background: linear-gradient(90deg, #e05a00 0%, #ff8c00 100%);
-    position: relative;
-    z-index: 3;
+    background: linear-gradient(90deg, var(--orange) 0%, #ff8c00 100%);
   }
 
+  /* Module buttons */
   .bottom {
-    padding: 28px 32px 32px 32px;
+    padding: 24px 32px 28px 28px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto;
-    gap: 16px;
-    position: relative;
-    background: #fff;
+    gap: 14px;
   }
 
   .module-btn {
-    padding: 18px 14px;
+    padding: 16px 14px;
     border-radius: 50px;
     border: none;
     cursor: pointer;
@@ -259,110 +238,91 @@
     box-shadow: 0 8px 24px rgba(126,9,165,0.35);
     filter: brightness(1.08);
   }
-  .module-btn:active {
-    transform: translateY(0);
-  }
-
-  .btn-loan {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .btn-shariah {
-    grid-column: 2;
-    grid-row: 2;
-  }
+  .module-btn:active { transform: translateY(0); }
 
   .bottom-row {
     grid-column: 1 / -1;
     display: flex;
-    align-items: center;
-    gap: 16px;
   }
 
-  .btn-cashflow {
-    flex: 1;
-  }
+  .btn-cashflow { flex: 1; }
 
-  @media (max-width: 600px) {
-    .top { flex-direction: column; min-height: auto; }
-    .top-left {
+  @media (max-width: 650px) {
+    .card { flex-direction: column; min-height: auto; }
+    .sidebar {
       width: 100%;
-      clip-path: ellipse(110% 85% at 50% 0%);
+      clip-path: ellipse(110% 80% at 50% 0%);
       padding-bottom: 50px;
     }
-    .top-right { padding: 16px 20px; }
-    .greeting { font-size: 1.2rem; }
-    .cta-text { font-size: 1.1rem; }
-    .brand-title { font-size: 1.8rem; }
+    .brand-title { font-size: 2rem; }
+    .strapline { font-size: 0.95rem; }
     .bottom { grid-template-columns: 1fr; }
-    .btn-loan, .btn-shariah { grid-column: 1; grid-row: auto; }
+    .bottom-row { grid-column: 1; }
   }
 </style>
 </head>
 <body>
 <div class="card">
 
-  <div class="top">
-    <div class="top-left">
-      <div>
-        <div class="brand-title">Fiskal Discovery</div>
-        <div class="tagline">Refuse to Stand Still</div>
-        <div class="divider"></div>
-      </div>
-      <div class="strapline">
-        Every great business is on a journey — find out what's possible when finances don't hold you back
-      </div>
+  <div class="sidebar">
+    <div>
+      <div class="brand-title">Fiskal Discovery</div>
+      <div class="tagline">Refuse to Stand Still</div>
+      <div class="divider"></div>
     </div>
+    <div class="strapline">
+      Every great business is on a journey — find out what's possible when finances don't hold you back
+    </div>
+  </div>
 
-    <div class="top-right">
+  <div class="main">
+    <div class="main-top">
       <div class="menu-wrapper">
-        <div class="summaries-btn-wrap">
-          <button class="summaries-btn" onclick="toggleMenu()">☰ Menu <span class="chevron">▼</span></button>
+        <button class="summaries-btn" onclick="toggleMenu()">☰ Menu <span class="chevron">▼</span></button>
+        <div class="dropdown" id="mainMenu">
+          <a href="#"><span class="icon">📄</span> My Discovery Summaries</a>
+          <a href="#"><span class="icon">🏆</span> Cashflow Invaders Leaderboard</a>
+          <a href="https://fiskal.online" target="_blank"><span class="icon">🌐</span> Back to Fiskal Website</a>
+          <a href="mailto:nicole@fiskal.co.uk"><span class="icon">💬</span> Contact Nicole Directly</a>
+          <a href="#" class="reset-item" onclick="return false;"><span class="icon">🔄</span> Reset Discovery</a>
         </div>
-      </div>
-      <div class="dropdown" id="mainMenu">
-        <a href="#"><span class="icon">📄</span> My Discovery Summaries</a>
-        <a href="#"><span class="icon">🏆</span> Cashflow Invaders Leaderboard</a>
-        <a href="https://fiskal.online" target="_blank"><span class="icon">🌐</span> Back to Fiskal Website</a>
-        <a href="mailto:nicole@fiskal.co.uk"><span class="icon">💬</span> Contact Nicole Directly</a>
-        <a href="#" class="reset-item" onclick="return false;"><span class="icon">🔄</span> Reset Discovery</a>
       </div>
       <div class="greeting-block">
         <div class="greeting">Hi (name),</div>
         <div class="cta-text">Choose an option below to find out what's possible for (business name)</div>
       </div>
     </div>
-  </div>
 
-  <div class="bar"></div>
+    <div class="bar"></div>
 
-  <div class="bottom">
-    <button class="module-btn">Funding Finder</button>
-    <button class="module-btn">Facility Review</button>
-    <button class="module-btn btn-loan">Loan Enquiry</button>
-    <button class="module-btn btn-shariah">Shariah Compliant Funding</button>
-    <div class="bottom-row">
-      <button class="module-btn btn-cashflow">
-        <svg width="22" height="18" viewBox="0 0 22 18" fill="#4dff6e" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:8px;">
-          <rect x="1" y="15" width="3" height="3"/>
-          <rect x="8" y="15" width="3" height="3"/>
-          <rect x="11" y="15" width="3" height="3"/>
-          <rect x="18" y="15" width="3" height="3"/>
-          <rect x="4" y="12" width="14" height="3"/>
-          <rect x="2" y="9" width="18" height="3"/>
-          <rect x="0" y="9" width="2" height="2"/>
-          <rect x="20" y="9" width="2" height="2"/>
-          <rect x="4" y="6" width="14" height="3"/>
-          <rect x="5" y="7" width="3" height="2" fill="#1a0020"/>
-          <rect x="14" y="7" width="3" height="2" fill="#1a0020"/>
-          <rect x="7" y="3" width="8" height="3"/>
-          <rect x="5" y="1" width="2" height="3"/>
-          <rect x="15" y="1" width="2" height="3"/>
-          <rect x="3" y="0" width="2" height="2"/>
-          <rect x="17" y="0" width="2" height="2"/>
-        </svg>
-        Cashflow Invaders
-      </button>
+    <div class="bottom">
+      <button class="module-btn">Funding Finder</button>
+      <button class="module-btn">Facility Review</button>
+      <button class="module-btn">Loan Enquiry</button>
+      <button class="module-btn">Shariah Compliant Funding</button>
+      <div class="bottom-row">
+        <button class="module-btn btn-cashflow">
+          <svg width="22" height="18" viewBox="0 0 22 18" fill="#4dff6e" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:8px;">
+            <rect x="1" y="15" width="3" height="3"/>
+            <rect x="8" y="15" width="3" height="3"/>
+            <rect x="11" y="15" width="3" height="3"/>
+            <rect x="18" y="15" width="3" height="3"/>
+            <rect x="4" y="12" width="14" height="3"/>
+            <rect x="2" y="9" width="18" height="3"/>
+            <rect x="0" y="9" width="2" height="2"/>
+            <rect x="20" y="9" width="2" height="2"/>
+            <rect x="4" y="6" width="14" height="3"/>
+            <rect x="5" y="7" width="3" height="2" fill="#1a0020"/>
+            <rect x="14" y="7" width="3" height="2" fill="#1a0020"/>
+            <rect x="7" y="3" width="8" height="3"/>
+            <rect x="5" y="1" width="2" height="3"/>
+            <rect x="15" y="1" width="2" height="3"/>
+            <rect x="3" y="0" width="2" height="2"/>
+            <rect x="17" y="0" width="2" height="2"/>
+          </svg>
+          Cashflow Invaders
+        </button>
+      </div>
     </div>
   </div>
 
@@ -375,7 +335,7 @@
     btn.classList.toggle('open');
   }
   document.addEventListener('click', function(e) {
-    if (!e.target.closest('.menu-wrapper') && !e.target.closest('.dropdown')) {
+    if (!e.target.closest('.menu-wrapper')) {
       document.getElementById('mainMenu').classList.remove('open');
       document.querySelector('.summaries-btn').classList.remove('open');
     }
