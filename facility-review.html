@@ -43,7 +43,7 @@
 
   .screen {
     display: none;
-    min-height: 100vh;
+    height: 100dvh; overflow: hidden;
     position: relative;
     z-index: 1;
     animation: fadeUp 0.5s ease forwards;
@@ -105,7 +105,8 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 24px 24px 32px;
+    padding: 20px 24px 24px;
+    overflow-y: auto;
     max-width: 600px;
     width: 100%;
     margin: 0 auto;
@@ -945,6 +946,10 @@
     <div class="form-group">
       <label class="form-label">Disbursements <span style="font-weight:300;color:var(--light-text)">— admin/CHAPS/other fees</span></label>
       <input type="text" class="form-input" id="if-disbursements" placeholder="e.g. £25 CHAPS, £50 admin or None">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Bad debt protection rate <span style="font-weight:300;color:var(--light-text)">— % charged on turnover (if applicable)</span></label>
+      <input type="text" class="form-input" id="if-bdp" placeholder="e.g. 0.5%">
     </div>
     <button class="btn-primary" onclick="saveIFPathA()">Continue →</button>
     <div class="nav-row">
@@ -2808,6 +2813,7 @@ function saveIFPathA() {
   state.ifDiscount = document.getElementById('if-discount').value;
   state.ifMinimums = document.getElementById('if-minimums').value;
   state.ifDisbursements = document.getElementById('if-disbursements').value;
+  state.ifBdp = document.getElementById('if-bdp').value;
   showScreen('screen-if-priorities');
 }
 
@@ -2889,11 +2895,14 @@ function _fmtK(n) {
 }
 
 function _turnoverMid() {
-  const map = { 'under-100k': 75000, '100k-250k': 175000, '250k-500k': 375000, '500k-1m': 750000, '1m+': 1250000 };
-  const raw = (state.turnover || '').toLowerCase().replace(/[£,\s]/g,'').replace('under','under-').replace('+','');
-  for (const [k,v] of Object.entries(map)) { if ((state.turnover||'').includes(k.replace('-',' ')) || state.turnover === k) return v; }
-  for (const [k,v] of Object.entries(map)) { if ((state.turnover||'').replace(/[^0-9km+]/gi,'').includes(k.replace('under-100k','75'))) return v; }
-  const num = parseFloat((state.turnover||'').replace(/[^0-9.]/g,''));
+  const t = (state.turnover || state.annualTurnover || '').toLowerCase();
+  if (!t) return null;
+  if (t.includes('1m') || t.includes('1,0')) return 1250000;
+  if (t.includes('500')) return 750000;
+  if (t.includes('250')) return 375000;
+  if (t.includes('100')) return 175000;
+  if (t.includes('under') || t.includes('< ') || t.includes('<£')) return 75000;
+  const num = parseFloat(t.replace(/[^0-9.]/g, ''));
   return isNaN(num) ? null : (num < 1000 ? num * 1000 : num);
 }
 
