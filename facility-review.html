@@ -3167,7 +3167,8 @@ function _fmtK(n) {
 function _turnoverMid() {
   const t = (state.turnover || state.annualTurnover || '').toLowerCase();
   if (!t) return null;
-  if (t.includes('1m') || t.includes('1,0')) return 1250000;
+  if (t.includes('2m')) return 2500000;
+  if (t.includes('1m') || t.includes('1,0')) return 1500000;
   if (t.includes('500')) return 750000;
   if (t.includes('250')) return 375000;
   if (t.includes('100')) return 175000;
