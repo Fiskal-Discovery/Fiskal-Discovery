@@ -125,7 +125,7 @@
   .ob-input {
     flex: 1; border: 1.5px solid rgba(79, 70, 229, 0.3);
     border-radius: 999px; padding: 11px 20px;
-    font-size: 15px; font-family: 'DM Sans', sans-serif;
+    font-size: 16px; font-family: 'DM Sans', sans-serif;
     background: rgba(255,255,255,0.06); color: var(--white);
     outline: none; transition: border-color 0.2s;
   }
@@ -304,17 +304,15 @@
     font-family: 'Libre Baskerville', serif;
     font-style: italic;
     font-weight: 700;
-    font-size: 42px;
+    font-size: clamp(28px, 8vw, 42px);
     color: #ffffff;
     line-height: 1.1;
-    white-space: nowrap;
   }
 
   .discovery-brand-sub {
-    font-size: 17px;
+    font-size: clamp(13px, 4vw, 17px);
     color: #b8a9ff;
     margin-top: 4px;
-    white-space: nowrap;
   }
 
   .ob-brand-tagline {
@@ -821,7 +819,7 @@
     border: 1.5px solid rgba(75,0,130,0.15);
     border-radius: 10px;
     padding: 14px 16px;
-    font-size: 15px;
+    font-size: 16px;
     color: var(--dark);
     font-family: 'DM Sans', sans-serif;
     transition: border-color 0.2s ease;
@@ -844,7 +842,7 @@
     border: 1.5px solid rgba(75,0,130,0.15);
     border-radius: 10px;
     padding: 14px 16px;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--dark);
     font-family: 'DM Sans', sans-serif;
     resize: none;
@@ -1418,6 +1416,50 @@
 
   #screen-results .screen-content {
     max-width: 860px;
+  }
+
+  /* ====== MOBILE FIXES ====== */
+  @media (max-width: 600px) {
+    /* Screen content tighter padding on mobile */
+    .screen-content { padding: 16px 16px 20px !important; }
+
+    /* welcome-question-container padding */
+    #welcome-question-container { padding: 20px 16px 28px !important; }
+
+    /* Brand header smaller on mobile */
+    .ob-brand-wrap { padding: 16px 16px 10px !important; }
+    .ob-brand-tagline { display: none; }
+
+    /* Answer buttons — comfortable tap targets */
+    .answer-btn { padding: 16px 16px; min-height: 48px; }
+    .answer-options { gap: 10px; }
+
+    /* Nav/footer row */
+    .screen-footer { padding: 10px 16px 16px; }
+    .nav-row { gap: 8px; }
+    .back-btn { min-height: 44px; padding: 10px 12px; }
+
+    /* Home module grid — single column on small screens */
+    .module-grid { grid-template-columns: 1fr !important; }
+
+    /* ob-home-bottom buttons */
+    .ob-home-bottom button { min-height: 44px; min-width: 90px; }
+
+    /* Logo smaller */
+    .ob-logo-corner .site-logo, .logo-corner .site-logo { width: 50px; }
+
+    /* Question text */
+    .question-text { font-size: 20px; }
+    .question-sub { font-size: 13px; }
+  }
+
+  /* Very small phones */
+  @media (max-width: 380px) {
+    .discovery-brand-title { font-size: 26px; }
+    .home-title { font-size: 36px !important; }
+    .question-text { font-size: 18px; }
+    .module-card-title { font-size: 14px; }
+    .module-card-desc { font-size: 12px; }
   }
 </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
