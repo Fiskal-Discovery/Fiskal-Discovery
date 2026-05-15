@@ -35,7 +35,13 @@
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: linear-gradient(160deg, #030210 0%, #0a061e 50%, #030210 100%);
+    background:
+      radial-gradient(ellipse at 20% 25%, rgba(120, 20, 210, 0.55) 0%, transparent 40%),
+      radial-gradient(ellipse at 75% 70%, rgba(80, 10, 160, 0.45) 0%, transparent 38%),
+      radial-gradient(ellipse at 50% 5%,  rgba(90, 15, 180, 0.30) 0%, transparent 32%),
+      radial-gradient(ellipse at 90% 40%, rgba(70, 10, 140, 0.28) 0%, transparent 30%),
+      radial-gradient(ellipse at 8%  90%, rgba(60, 5,  120, 0.35) 0%, transparent 30%),
+      #030210;
     color: var(--white);
     min-height: 100vh;
     overflow-x: hidden;
@@ -53,8 +59,11 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse at 28% 38%, rgba(110, 30, 200, 0.45) 0%, transparent 55%),
-      radial-gradient(ellipse at 75% 75%, rgba(60, 10, 120, 0.25) 0%, transparent 45%);
+      radial-gradient(ellipse at 22% 30%, rgba(120, 20, 210, 0.65) 0%, transparent 42%),
+      radial-gradient(ellipse at 72% 68%, rgba(80, 10, 160, 0.50) 0%, transparent 40%),
+      radial-gradient(ellipse at 55% 10%, rgba(90, 15, 180, 0.35) 0%, transparent 35%),
+      radial-gradient(ellipse at 10% 80%, rgba(60, 5, 120, 0.40) 0%, transparent 35%),
+      radial-gradient(ellipse at 88% 20%, rgba(70, 10, 140, 0.30) 0%, transparent 30%);
     pointer-events: none;
   }
   #onboarding-overlay.hidden { opacity: 0; pointer-events: none; }
@@ -228,8 +237,8 @@
     z-index: 0;
     opacity: 0.15;
   }
-  .bg-orb-1 { width: 700px; height: 700px; background: #5b21b6; top: -250px; left: -150px; opacity: 0.18; }
-  .bg-orb-2 { width: 450px; height: 450px; background: #3b0764; bottom: -100px; right: -100px; opacity: 0.15; }
+  .bg-orb-1 { width: 700px; height: 700px; background: #5b21b6; top: -250px; left: -150px; opacity: 0.30; }
+  .bg-orb-2 { width: 500px; height: 500px; background: #3b0764; bottom: -100px; right: -100px; opacity: 0.28; }
 
   /* ---- SCREENS ---- */
   .screen {
