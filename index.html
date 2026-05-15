@@ -2450,19 +2450,20 @@ function emailDiscovery() {
 
   if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
-  const plainText = d.summaryHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-
   const templateParams = {
     to_email: email,
     to_name: (appState.profile && appState.profile.name) || 'there',
+    first_name: ((appState.profile && appState.profile.name) || '').split(' ')[0] || 'there',
     module: d.module,
+    module_icon: d.icon || '',
     business: d.business || '',
     discovery_date: new Date(d.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
-    summary: plainText
+    summary_html: d.summaryHtml || '',
+    summary_plain: (d.summaryHtml || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
   };
 
   if (typeof emailjs !== 'undefined') {
-    emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams)
+    emailjs.send('service_vvqkwzn', 'template_discovery_resend', templateParams)
       .then(() => {
         if (btn) { btn.textContent = '✅ Sent!'; }
         if (status) status.textContent = `Discovery emailed to ${email}`;
