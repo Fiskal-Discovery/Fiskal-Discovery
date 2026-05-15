@@ -31,7 +31,7 @@
 }
 .ob-header-spacer { justify-self: end; width: 38px; }
 .ob-header-title {
-  font-family: 'Libre Baskerville', serif;
+  font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
   font-style: italic;
   font-weight: 700;
   font-size: clamp(16px, 3vw, 22px);
