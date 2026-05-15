@@ -1452,6 +1452,7 @@
   <div class="ob-home-bottom">
     <button class="back-btn" id="ob-back-btn" onclick="obGoBack()" style="display:none;">&lt; Back</button>
     <button class="back-btn" id="ob-home-btn" onclick="obGoHome()" style="display:none;">Home</button>
+    <button onclick="devSkip()" style="position:fixed;bottom:16px;right:16px;background:rgba(255,100,0,0.15);border:1px dashed rgba(255,100,0,0.5);color:rgba(255,150,50,0.8);font-size:11px;padding:6px 12px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:99999;">⚡ Skip (dev)</button>
   </div>
 
 </div>
@@ -1964,6 +1965,17 @@ function startWelcome() {
   // Show back button on onboarding overlay
   document.getElementById('ob-back-btn').style.display = 'block';
   renderWelcomeQuestion();
+}
+
+function devSkip() {
+  const fake = { name:'Test User', email:'test@test.com', phone:'07700000000', companyName:'Test Co', welcomeCompleted:true, userType:'myself', industry:'Technology', annualTurnover:'£100k–£250k', fundingAmount:'£25k–£50k' };
+  const state = JSON.parse(localStorage.getItem('fiskal_appState') || '{}');
+  state.profile = { ...(state.profile || {}), ...fake };
+  localStorage.setItem('fiskal_appState', JSON.stringify(state));
+  localStorage.setItem('fiskal_profile', JSON.stringify(fake));
+  document.getElementById('onboarding-overlay').classList.add('hidden');
+  document.getElementById('screen-landing').classList.remove('active');
+  document.getElementById('screen-home').classList.add('active');
 }
 
 function obGoBack() {
