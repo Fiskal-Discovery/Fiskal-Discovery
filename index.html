@@ -1695,6 +1695,9 @@
   </div>
 </div>
 
+<script>
+try{var _fs=JSON.parse(localStorage.getItem('fiskal_appState')||'{}');if(_fs&&(_fs.welcomeCompleted||(_fs.profile&&_fs.profile.welcomeCompleted))){document.head.insertAdjacentHTML('beforeend','<style>#screen-landing{display:none!important}</style>');}}catch(e){}
+</script>
 <!-- ====== WELCOME SCREEN ====== -->
 <!-- ====== WELCOME INTRO SCREEN ====== -->
 <div class="screen active" id="screen-landing">
@@ -2545,7 +2548,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   }
 
-  if (appState.welcomeCompleted) {
+  if (appState.welcomeCompleted || (appState.profile && appState.profile.welcomeCompleted)) {
     showHomepage();
   } else {
     // WELCOME_INTRO is shown by default, clear module badge
