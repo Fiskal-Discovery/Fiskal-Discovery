@@ -38,8 +38,8 @@
     font-family: 'DM Sans', sans-serif;
     background: var(--cream);
     color: var(--dark);
-    min-height: 100vh;
-    overflow-x: hidden;
+    height: 100vh;
+    overflow: hidden;
   }
 
   /* Welcome/onboarding screens keep the dark navy background */
@@ -72,7 +72,7 @@
     z-index: 1;
     animation: fadeUp 0.5s ease forwards;
   }
-  .screen.active { display: flex; flex-direction: column; justify-content: space-between; }
+  .screen.active { display: flex; flex-direction: column; justify-content: space-between; height: 100vh; overflow-y: auto; }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
