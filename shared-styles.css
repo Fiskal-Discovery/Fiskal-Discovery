@@ -3,7 +3,6 @@
 
 /* ---- STANDARD PAGE HEADER ---- */
 .ob-fixed-header {
-  flex-shrink: 0;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -13,9 +12,15 @@
   border-bottom: 1px solid rgba(167, 139, 250, 0.15);
   background: rgba(3, 2, 16, 0.75);
   backdrop-filter: blur(12px);
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 2;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+/* Offset screen content so it starts below the fixed header */
+.screen.active {
+  padding-top: 72px;
 }
 .ob-header-logo-link {
   display: flex;
@@ -49,6 +54,7 @@
   .ob-fixed-header { padding: 0 16px; height: 60px; }
   .ob-header-logo { height: 28px; }
   .ob-header-spacer { width: 28px; }
+  .screen.active { padding-top: 60px; }
 }
 
 /* ---- NICOLE CONTACT CARD ---- */
