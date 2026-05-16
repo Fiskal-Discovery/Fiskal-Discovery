@@ -2202,6 +2202,39 @@ function renderWelcomeQuestion() {
         if (q.id === 'userType' && opt.value === 'I just want to try Cashflow Invaders') {
           window.location.href = 'cashflow-invaders.html'; return;
         }
+        // Other industry — show a text input instead of advancing
+        if (q.id === 'industry' && opt.value === 'Other') {
+          btn.style.background = 'rgba(79,70,229,0.35)';
+          btn.style.borderColor = '#6366f1';
+          btn.classList.add('ob-selected');
+          // Remove any existing other-input
+          const existing = container.querySelector('.ob-other-wrap');
+          if (existing) existing.remove();
+          const wrap = document.createElement('div');
+          wrap.className = 'ob-other-wrap';
+          wrap.style.cssText = 'margin-top:12px;display:flex;gap:8px;';
+          const inp = document.createElement('input');
+          inp.type = 'text';
+          inp.placeholder = 'Type your industry…';
+          inp.style.cssText = 'flex:1;padding:10px 14px;border:1.5px solid #6366f1;border-radius:10px;font-size:15px;background:rgba(255,255,255,0.07);color:#fff;font-family:"DM Sans",sans-serif;outline:none;';
+          const submitBtn = document.createElement('button');
+          submitBtn.textContent = 'Next →';
+          submitBtn.style.cssText = 'padding:10px 18px;background:#6366f1;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:"DM Sans",sans-serif;white-space:nowrap;';
+          const advance = () => {
+            const val = inp.value.trim();
+            if (!val) { inp.style.borderColor = '#ef4444'; inp.focus(); return; }
+            welcomeState.answers[q.saveAs] = val;
+            welcomeState.currentQuestion++;
+            renderWelcomeQuestion();
+          };
+          submitBtn.onclick = advance;
+          inp.addEventListener('keydown', e => { if (e.key === 'Enter') advance(); });
+          wrap.appendChild(inp);
+          wrap.appendChild(submitBtn);
+          container.appendChild(wrap);
+          inp.focus();
+          return;
+        }
         // Visual selection flash
         btn.style.background = 'rgba(79,70,229,0.35)';
         btn.style.borderColor = '#6366f1';
