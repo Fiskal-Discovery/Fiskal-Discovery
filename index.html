@@ -2395,6 +2395,8 @@ function showHomepage() {
   document.getElementById('screen-landing').classList.remove('active');
   document.getElementById('onboarding-overlay').classList.add('hidden');
   document.getElementById('screen-home').classList.add('active');
+  window.scrollTo(0, 0);
+  document.getElementById('screen-home').scrollTop = 0;
 
   // Update profile badge if profile exists
   if (appState.profile.name) {
@@ -2558,6 +2560,7 @@ function resetOnboarding() {
 // INITIALIZATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', function () {
+  window.scrollTo(0, 0);
   loadAppState();
 
   // DEV: Clear localStorage to test fresh welcome flow
