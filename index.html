@@ -38,8 +38,8 @@
     font-family: 'DM Sans', sans-serif;
     background: #030210;
     color: var(--white);
-    min-height: 100vh;
-    overflow-x: hidden;
+    height: 100vh;
+    overflow: hidden;
   }
 
   /* ====== ONBOARDING OVERLAY ====== */
@@ -238,7 +238,6 @@
   /* ---- SCREENS ---- */
   .screen {
     display: none;
-    min-height: 100vh;
     position: relative;
     z-index: 1;
     animation: fadeUp 0.5s ease forwards;
@@ -247,6 +246,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100vh;
+    overflow-y: auto;
   }
 
   @keyframes fadeUp {
