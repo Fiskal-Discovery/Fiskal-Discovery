@@ -245,10 +245,11 @@
   .screen.active {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     height: 100vh;
     overflow-y: auto;
   }
+  .screen.active .loading-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
