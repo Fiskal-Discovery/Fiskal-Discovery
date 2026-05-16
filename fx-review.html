@@ -19,12 +19,12 @@
     --light-text: #6b5c80;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); height: 100vh; overflow: hidden; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); height: 100vh; overflow-y: auto; }
   .bg-orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; opacity: 0.12; }
   .bg-orb-1 { width: 600px; height: 600px; background: var(--indigo); top: -200px; right: -200px; }
   .bg-orb-2 { width: 400px; height: 400px; background: var(--blue); bottom: -100px; left: -100px; }
   .screen { display: none; position: relative; z-index: 1; animation: fadeUp 0.5s ease forwards; }
-  .screen.active { display: flex; flex-direction: column; justify-content: flex-start; height: 100vh; overflow: hidden; }
+  .screen.active { display: flex; flex-direction: column; justify-content: flex-start; height: 100vh; overflow-y: auto; }
   .screen.active .loading-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
   .module-badge { background: var(--indigo); color: white; font-size: 11px; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
