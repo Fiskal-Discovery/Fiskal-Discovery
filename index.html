@@ -1702,7 +1702,7 @@ try{var _fs=JSON.parse(localStorage.getItem('fiskal_appState')||'{}');if(_fs&&(_
 </script>
 <!-- ====== WELCOME SCREEN ====== -->
 <!-- ====== WELCOME INTRO SCREEN ====== -->
-<div class="screen active" id="screen-landing">
+<div class="screen" id="screen-landing">
   <div class="welcome-hero">
     <h1 class="welcome-hero-title">Fiskal Discovery</h1>
     <div class="welcome-hero-rule"></div>
@@ -2586,7 +2586,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (appState.welcomeCompleted || (appState.profile && appState.profile.welcomeCompleted)) {
     showHomepage();
   } else {
-    // WELCOME_INTRO is shown by default, clear module badge
+    document.getElementById('screen-landing').classList.add('active');
     clearModuleBadge();
   }
 });
