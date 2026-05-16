@@ -247,7 +247,7 @@
     flex-direction: column;
     justify-content: flex-start;
     height: 100vh;
-    overflow-y: auto;
+    overflow: hidden;
   }
   .screen.active .loading-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
@@ -281,7 +281,7 @@
 
   /* ---- PROGRESS ---- */
   .progress-bar-wrap {
-    padding: 0 24px 8px;
+    padding: 0 24px 4px;
   }
   .progress-track {
     height: 3px;
@@ -308,7 +308,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 8px 40px 24px;
+    padding: 4px 24px 16px;
+    min-height: 0;
     max-width: 900px;
     width: 100%;
     margin: 0 auto;
@@ -408,7 +409,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 8px 0 16px;
+    padding: 4px 0 8px;
   }
 
   @media(max-width:600px){
@@ -476,7 +477,7 @@
   .module-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 8px;
     width: 100%;
   }
 
@@ -490,7 +491,7 @@
     background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-light) 100%);
     border: 1px solid rgba(79, 70, 229, 0.2);
     border-radius: 16px;
-    padding: 20px;
+    padding: 12px 16px;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
@@ -537,8 +538,8 @@
   .module-card:hover .module-arrow { color: white; }
 
   .module-card-icon {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     background: linear-gradient(135deg, var(--indigo) 0%, var(--accent-purple) 100%);
     border-radius: 12px;
     display: flex;
@@ -1230,7 +1231,7 @@
 
   /* ---- FOOTER ---- */
   .screen-footer {
-    padding: 12px 24px 24px;
+    padding: 8px 24px 12px;
     text-align: center;
   }
 

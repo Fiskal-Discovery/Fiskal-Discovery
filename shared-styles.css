@@ -367,7 +367,7 @@
 }
 
 /* ---- SHARED FORM / LAYOUT UTILITIES ---- */
-.progress-bar-wrap { padding: 0 24px 8px; }
+.progress-bar-wrap { padding: 0 24px 4px; }
 .progress-label { font-size: 11px; color: var(--light-text); margin-top: 6px; text-align: right; }
 .footer-legal { font-size: 11px; color: var(--light-text); line-height: 1.6; }
 .question-icon { font-size: 40px; margin-bottom: 12px; }
