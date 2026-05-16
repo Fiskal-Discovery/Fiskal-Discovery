@@ -13,7 +13,8 @@
   border-bottom: 1px solid rgba(167, 139, 250, 0.15);
   background: rgba(3, 2, 16, 0.75);
   backdrop-filter: blur(12px);
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 2;
 }
 .ob-header-logo-link {
