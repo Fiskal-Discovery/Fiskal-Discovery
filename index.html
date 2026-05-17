@@ -2286,7 +2286,8 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   }
 
-  if (appState.welcomeCompleted) {
+  const params = new URLSearchParams(window.location.search);
+  if (appState.welcomeCompleted || params.get('home') === '1') {
     showHomepage();
   } else {
     // WELCOME_INTRO is shown by default, clear module badge
