@@ -3646,8 +3646,6 @@ function displayResults(summary) {
   const resultsNameEl = document.getElementById('results-name');
   const summaryTextEl = document.getElementById('ai-summary-text');
   const nicoleMessageEl = document.getElementById('nicole-message');
-  const screenContentEl = document.querySelector('#screen-loading .screen-content');
-  
   if (resultsNameEl) resultsNameEl.textContent = resultSubtitle;
   const summaryHtmlForStorage = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
   if (summaryTextEl) summaryTextEl.innerHTML = summaryHtmlForStorage;
@@ -3665,9 +3663,6 @@ function displayResults(summary) {
   // Show the results screen
   showScreen('screen-loading');
   loadNicolePhoto();
-  
-  // Force show results screen
-  forceShowFacilityReviewResults(screenContentEl);
   
   // Update button visibility based on remaining facility types
   updateResultsButtons();
