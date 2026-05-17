@@ -1944,13 +1944,13 @@
 
 <script>
 // ============================================================
-// DEVELOPMENT MODE
+// 1. CONFIG
 // ============================================================
 const DEV_MODE = false;
 const SEND_EMAILS = false;
 
 // ============================================================
-// APP STATE
+// 2. APP STATE
 // ============================================================
 let appState = {
   profile: {
@@ -1971,9 +1971,7 @@ let appState = {
   currentModule: null
 };
 
-// ============================================================
-// APP STATE MANAGEMENT
-// ============================================================
+// ---- state persistence ----
 function loadAppState() {
   try {
     const saved = localStorage.getItem('fiskal_appState');
@@ -2002,7 +2000,7 @@ function saveAppState() {
 loadAppState();
 
 // ============================================================
-// WELCOME SECTION
+// 3. ONBOARDING — DATA
 // ============================================================
 const welcomeFlow = [
   {
@@ -2085,6 +2083,9 @@ const welcomeFlow = [
   }
 ];
 
+// ============================================================
+// 4. ONBOARDING — STATE & FUNCTIONS
+// ============================================================
 let welcomeState = {
   currentQuestion: 0,
   answers: {}
@@ -2341,6 +2342,9 @@ function completeWelcome() {
   }, 1500);
 }
 
+// ============================================================
+// 5. HOMEPAGE & DISCOVERIES
+// ============================================================
 function clearModuleBadge() {
   appState.currentModule = null;
   const badge = document.querySelector(".module-badge, #module-badge, .current-module-badge");
@@ -2367,9 +2371,7 @@ function showHomepage() {
   renderDiscoveries();
 }
 
-// ============================================================
-// DISCOVERIES HISTORY
-// ============================================================
+// ---- discoveries history ----
 const DISC_KEY = 'fiskal_discoveries';
 
 function renderDiscoveries() {
@@ -2515,7 +2517,7 @@ function resetOnboarding() {
 }
 
 // ============================================================
-// INITIALIZATION
+// 6. INITIALISATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', function () {
   loadAppState();
@@ -2552,7 +2554,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ============================================================
-// STATE
+// 7. FUNDING FINDER — DATA
 // ============================================================
 const state = {
   module: 'funding-finder',
@@ -2567,9 +2569,7 @@ const state = {
   barrierDetails: ''
 };
 
-// ============================================================
-// QUESTIONS — FUNDING FINDER
-// ============================================================
+// ---- questions & product data ----
 const fundingFinderQuestions = [
   {
     id: 'invoice',
@@ -2700,7 +2700,7 @@ const productInfo = {
 };
 
 // ============================================================
-// NAVIGATION
+// 8. FUNDING FINDER — NAVIGATION
 // ============================================================
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -2796,6 +2796,9 @@ function startQuestions() {
   showScreen('details');
 }
 
+// ============================================================
+// 9. FUNDING FINDER — CONTACT DETAILS
+// ============================================================
 function submitDetails() {
   const name = document.getElementById('field-name').value.trim();
   const business = document.getElementById('field-business').value.trim();
@@ -2882,7 +2885,7 @@ async function sendContactStartNotification() {
 }
 
 // ============================================================
-// QUESTIONS
+// 10. FUNDING FINDER — QUESTIONS
 // ============================================================
 function renderQuestion() {
   const questions = getQuestions();
@@ -2985,7 +2988,7 @@ function getQuestions() {
 }
 
 // ============================================================
-// BARRIERS
+// 11. FUNDING FINDER — BARRIERS
 // ============================================================
 function selectBarrier(value) {
   state.barrier = value;
@@ -3008,7 +3011,7 @@ function submitBarriers() {
 }
 
 // ============================================================
-// AI RESULTS GENERATION
+// 12. FUNDING FINDER — RESULTS
 // ============================================================
 function generateResults() {
   const matchedProducts = getMatchedProducts();
@@ -3182,9 +3185,7 @@ function displayResults(summary, matchedProducts) {
   });
 }
 
-// ============================================================
-// NOTIFICATION (placeholder — replace with backend endpoint)
-// ============================================================
+// ---- email notifications ----
 async function sendNotification(summary, matchedProducts) {
   const templateParams = {
     name: state.name,
@@ -3239,9 +3240,7 @@ async function sendClientSummaryEmail(summary) {
 
 
 
-// ============================================================
-// ONBOARDING — Conversational flow
-// ============================================================
+// (onboarding conversational flow functions are in section 4 above)
 const OB_KEY = 'fiskal_profile';
 </script>
 <script src="logic/globalInsights.js"></script>
