@@ -73,7 +73,7 @@
     z-index: 1;
     animation: fadeUp 0.5s ease forwards;
   }
-  .screen.active { display: flex; flex-direction: column; justify-content: space-between; }
+  .screen.active { display: flex; flex-direction: column; justify-content: flex-start; height: 100vh; overflow-y: auto; }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
