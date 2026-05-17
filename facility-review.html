@@ -2636,10 +2636,8 @@ const state = {
 // NAVIGATION
 // ============================================================
 function showScreen(id) {
-  console.log('showScreen called:', id);
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById(id);
-  console.log('element found:', el);
   if (el) { el.classList.add('active'); window.scrollTo(0,0); }
 }
 
@@ -3054,7 +3052,6 @@ function generateResults() {
     summary = 'Thank you for completing your facility review. A member of the Fiskal team will be in touch shortly to discuss your options.';
   }
   displayResults(summary);
-  sendNotification(summary);
 }
 
 function submitReview() {
@@ -3079,12 +3076,17 @@ function _fmtK(n) {
 function _turnoverMid() {
   const t = (state.turnover || state.annualTurnover || '').toLowerCase();
   if (!t) return null;
+  if (t.includes('under') || t.includes('< ') || t.includes('<£')) return 75000;
+  // Check range pairs before single values to avoid false matches (e.g. "£500k–£1m" contains both '500' and '1m')
+  if (t.includes('1m') && t.includes('2m')) return 1500000;    // £1m–£2m
+  if (t.includes('500') && t.includes('1m')) return 750000;    // £500k–£1m
+  if (t.includes('250') && t.includes('500')) return 375000;   // £250k–£500k
+  if (t.includes('100') && t.includes('250')) return 175000;   // £100k–£250k
   if (t.includes('2m')) return 2500000;
   if (t.includes('1m') || t.includes('1,0')) return 1500000;
   if (t.includes('500')) return 750000;
   if (t.includes('250')) return 375000;
   if (t.includes('100')) return 175000;
-  if (t.includes('under') || t.includes('< ') || t.includes('<£')) return 75000;
   const num = parseFloat(t.replace(/[^0-9.]/g, ''));
   return isNaN(num) ? null : (num < 1000 ? num * 1000 : num);
 }
@@ -3475,7 +3477,6 @@ function formatProviderName(provider) {
 }
 
 function displayResults(summary) {
-  console.log('displayResults called, summary type:', typeof summary, 'value:', summary ? summary.substring(0, 80) : summary);
   const name = state.name || 'there';
   const firstName = name.split(' ')[0];
   
