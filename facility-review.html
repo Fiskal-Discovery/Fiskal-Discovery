@@ -3049,11 +3049,7 @@ function generateResults() {
     summary = buildFacilityReviewSummary();
   } catch (error) {
     console.warn('Facility review summary builder failed, using fallback', error);
-    summary = {
-      pageHeading: 'Your Facility Review is ready',
-      summaryHeading: "Here's what we found",
-      summaryHtml: '<p>Thank you for completing your facility review. A member of the Fiskal team will be in touch shortly to discuss your options.</p>'
-    };
+    summary = 'Thank you for completing your facility review. A member of the Fiskal team will be in touch shortly to discuss your options.';
   }
   displayResults(summary);
   sendNotification(summary);
