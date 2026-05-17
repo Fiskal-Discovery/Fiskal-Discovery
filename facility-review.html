@@ -1057,7 +1057,7 @@
     <button class="btn-primary" onclick="showScreen('screen-if-barriers')">Continue →</button>
     <button class="btn-secondary" onclick="showScreen('screen-if-barriers')">Skip — no statement to upload</button>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-if-priorities')">&lt; Back</button>
+      <button class="back-btn" onclick="state['if-knowledge'] === 'Has statements' ? showScreen('screen-if-knowledge') : showScreen('screen-if-priorities')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
@@ -1200,7 +1200,8 @@
     </div>
     <div class="ob-header-spacer"></div>
   </header>
-      <div class="screen-content">`n    <div class="progress-label">$2</div>
+  <div class="screen-content">
+    <div class="progress-label">Question 4</div>
     <div class="question-icon">📊</div>
     <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">Tell us about your current loan</h2>
@@ -1261,7 +1262,8 @@
     </div>
     <div class="ob-header-spacer"></div>
   </header>
-      <div class="screen-content">`n    <div class="progress-label">$2</div>
+  <div class="screen-content">
+    <div class="progress-label">Question 4</div>
     <div class="question-icon">💭</div>
     <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">Tell us what you do know</h2>
@@ -1304,7 +1306,8 @@
     </div>
     <div class="ob-header-spacer"></div>
   </header>
-      <div class="screen-content">`n    <div class="progress-label">$2</div>
+  <div class="screen-content">
+    <div class="progress-label">Question 5</div>
     <div class="question-icon">🎯</div>
     <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">What would you like to achieve?</h2>
@@ -1338,7 +1341,8 @@
     </div>
     <div class="ob-header-spacer"></div>
   </header>
-      <div class="screen-content">`n    <div class="progress-label">$2</div>
+  <div class="screen-content">
+    <div class="progress-label">Question 6</div>
     <div class="question-icon">📄</div>
     <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">Do you have any loan documents to upload?</h2>
@@ -1370,7 +1374,8 @@
     </div>
     <div class="ob-header-spacer"></div>
   </header>
-      <div class="screen-content">`n    <div class="progress-label">$2</div>
+  <div class="screen-content">
+    <div class="progress-label">Question 7</div>
     <div class="question-icon">🤝</div>
     <div class="question-product">One last thing</div>
     <h2 class="question-text">Do you have any concerns about refinancing or reviewing your loan?</h2>
@@ -1655,7 +1660,7 @@
       <div class="upload-text"><strong>Tap to upload</strong> your FX transaction report<br>PDF, image, Excel or CSV accepted</div>
       <div id="files-list"></div>
     </div>
-    <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display:none" onchange="handleUpload(this)">
+    <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display:none" onchange="fxHandleUpload(this)">
     <button class="btn-primary" onclick="submitFXReview()">Submit My Discovery</button>
     <button class="btn-secondary" onclick="submitFXReview()">Skip — no report to upload</button>
     <div class="nav-row">
@@ -1926,7 +1931,7 @@
     <section class="nicole-contact-card" aria-label="Nicole Bertolissi contact card">
       <div class="nicole-photo-side">
         <div class="nicole-photo-wrap">
-          <img id="nicole-photo" class="nicole-photo" src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" />
+          <img class="nicole-photo" src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" />
           <div class="nicole-photo-fallback">NB</div>
         </div>
       </div>
@@ -2186,7 +2191,7 @@
     </div>
     <button class="btn-primary" onclick="saveOtherType()">Continue →</button>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='index.html'">Home</button>
     </div>
   </div>
@@ -2304,7 +2309,7 @@
     <section class="nicole-contact-card" aria-label="Nicole Bertolissi contact card">
       <div class="nicole-photo-side">
         <div class="nicole-photo-wrap">
-          <img id="nicole-photo" class="nicole-photo" src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" />
+          <img class="nicole-photo" src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" />
           <div class="nicole-photo-fallback">NB</div>
         </div>
       </div>
@@ -2328,6 +2333,13 @@
         <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
       </div>
     </section>
+
+    <div class="divider"></div>
+  </div>
+  <div class="discovery-bottom-nav">
+    <button class="discovery-nav-btn" onclick="window.location.href='index.html?home=1'">Home</button>
+    <button class="discovery-nav-btn primary" id="trade-continue-btn" onclick="continueToNextReview()" style="display:none">Continue to Next Review</button>
+  </div>
 </div>
 
 <!-- FX Loading -->
@@ -2358,13 +2370,13 @@
     <section class="nicole-contact-card" aria-label="Nicole Bertolissi contact card">
       <div class="nicole-photo-side">
         <div class="nicole-photo-wrap">
-          <img id="nicole-photo" class="nicole-photo" src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" />
+          <img class="nicole-photo" src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" />
           <div class="nicole-photo-fallback">NB</div>
         </div>
       </div>
 
       <div class="nicole-message-wrap">
-        <p class="nicole-message" id="nicole-message">
+        <p class="nicole-message" id="fx-nicole-message">
           Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website or our LinkedIn page to learn more about who we are and how we can help.
         </p>
       </div>
@@ -2387,7 +2399,7 @@
   </div>
   <div class="discovery-bottom-nav">
     <button class="discovery-nav-btn" onclick="window.location.href='index.html?home=1'">Home</button>
-    <button class="discovery-nav-btn primary" id="trade-continue-btn" onclick="continueToNextReview()" style="display:none">Continue to Next Review</button>
+    <button class="discovery-nav-btn primary" id="fx-continue-btn" onclick="continueToNextReview()" style="display:none">Continue to Next Review</button>
   </div>
 </div>
 
@@ -2437,13 +2449,13 @@
     <section class="nicole-contact-card" aria-label="Nicole Bertolissi contact card">
       <div class="nicole-photo-side">
         <div class="nicole-photo-wrap">
-          <img id="nicole-photo" class="nicole-photo" src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" />
+          <img class="nicole-photo" src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" />
           <div class="nicole-photo-fallback">NB</div>
         </div>
       </div>
 
       <div class="nicole-message-wrap">
-        <p class="nicole-message" id="nicole-message">
+        <p class="nicole-message" id="if-nicole-message">
           Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website or our LinkedIn page to learn more about who we are and how we can help.
         </p>
       </div>
@@ -2742,7 +2754,8 @@ function submitOtherReview() {
 function displayOtherResults(summary) {
   document.getElementById('ai-summary-text').textContent = summary;
   const firstName = state.name.split(' ')[0];
-  document.getElementById('nicole-message').textContent = `I've received your Finance Arrangement Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${state.business}.`;
+  const _otherNicoleMsg = document.getElementById('if-nicole-message');
+  if (_otherNicoleMsg) _otherNicoleMsg.textContent = `I've received your Finance Arrangement Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${state.business}.`;
   showScreen('screen-loading');
   sendOtherNotification(summary);
   loadNicolePhoto();
@@ -3376,7 +3389,7 @@ function getFallbackSummary() {
   const isLoan = facilityTypes.includes('Business Loan') || facilityTypes.includes('Loan');
   const isAssetFinance = facilityTypes.includes('Asset Finance');
   const isTradeFinance = facilityTypes.includes('Trade Finance');
-  const notSureOnRates = state.ifKnowledge === 'not sure' || state.loanKnowledge === 'not sure' || state.assetKnowledge === 'not sure' || state.tradeKnowledge === 'not sure';
+  const notSureOnRates = state['if-knowledge'] === 'not sure' || state.loanKnowledge === 'not sure' || state.assetKnowledge === 'not sure' || state.tradeKnowledge === 'not sure';
   const hasConcerns = state.barrier === 'yes';
   
   let summary = '';
@@ -3673,7 +3686,7 @@ function displayResults(summary) {
   
   const resultsNameEl = document.getElementById('results-name');
   const summaryTextEl = document.getElementById('ai-summary-text');
-  const nicoleMessageEl = document.getElementById('nicole-message');
+  const nicoleMessageEl = document.getElementById('if-nicole-message');
   if (resultsNameEl) resultsNameEl.textContent = resultSubtitle;
   const summaryHtmlForStorage = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
   if (summaryTextEl) summaryTextEl.innerHTML = summaryHtmlForStorage;
@@ -3987,8 +4000,21 @@ function submitFXReview() {
   if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
     state.completedFacilityReviews.push(currentFacilityType);
   }
-  
-  showDiscoveryThinkingScreen(function() { generateResults(); });
+
+  showDiscoveryThinkingScreen(function() {
+    const firstName = (state.name || '').split(' ')[0] || 'there';
+    document.getElementById('fx-results-name').textContent = `Here's what we found for you, ${firstName}`;
+    const summary = `Thank you for completing your FX Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current FX arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
+    document.getElementById('fx-ai-summary').innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
+    document.getElementById('fx-nicole-message').textContent = `I've received your FX Review, ${firstName}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+    showScreen('screen-fx-loading');
+    loadNicolePhoto();
+    const fxContinueBtn = document.getElementById('fx-continue-btn');
+    if (fxContinueBtn) {
+      const remaining = state.facilityTypes.filter(t => !state.completedFacilityReviews.includes(t));
+      fxContinueBtn.style.display = remaining.length > 0 ? 'inline-block' : 'none';
+    }
+  });
 }
 
 
@@ -4010,6 +4036,7 @@ function submitFXReview() {
       if (p.marketingConsent !== undefined) state.marketingConsent = p.marketingConsent;
       if (p.marketingConsentText) state.marketingConsentText = p.marketingConsentText;
       if (p.marketingConsentTimestamp) state.marketingConsentTimestamp = p.marketingConsentTimestamp;
+      if (p.annualTurnover) state.turnover = p.annualTurnover;
     }
     // Pre-fill form fields on DOMContentLoaded
     document.addEventListener("DOMContentLoaded", function() {
@@ -4037,19 +4064,6 @@ document.addEventListener('DOMContentLoaded', function () {
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
 
-<!-- ====== DISCOVERY THINKING SCREEN ====== -->
-<div class="screen" id="screen-thinking" style="display:none;position:fixed;inset:0;background:var(--dark);z-index:9999;">
-  <div class="thinking-container">
-    <div class="thinking-logo">Fiskal Discovery</div>
-    <div class="thinking-title">Preparing your Fiskal Discovery Summary</div>
-    <div class="thinking-phrase" id="thinking-phrase">Assessing your requirements</div>
-    <div class="thinking-loader">
-      <div class="thinking-dot"></div>
-      <div class="thinking-dot"></div>
-      <div class="thinking-dot"></div>
-    </div>
-  </div>
-</div>
 
 <style>
   .thinking-container {
@@ -4381,7 +4395,7 @@ function showDiscoveryThinkingScreen(callback) {
     document.body.appendChild(screen);
   }
 
-  if (screen.classList.contains('active')) return;
+  if (screen.classList.contains('active')) { setTimeout(function() { if (callback) callback(); }, 0); return; }
 
   const phraseEl = document.getElementById('discovery-thinking-phrase');
   screen.style.display = 'flex';

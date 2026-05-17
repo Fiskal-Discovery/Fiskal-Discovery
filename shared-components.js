@@ -51,23 +51,27 @@ function renderNicoleMessage() {
 }
 
 function loadNicolePhoto() {
-  const img = document.getElementById("nicole-photo");
-  const fallback = document.querySelector(".nicole-photo-fallback");
+  const imgs = document.querySelectorAll(".nicole-photo");
 
-  if (!img) {
+  if (!imgs.length) {
     console.warn("Nicole photo element not found on this page");
     return;
   }
 
-  img.onload = function () {
-    img.style.display = "block";
-    if (fallback) fallback.style.display = "none";
-  };
+  imgs.forEach(function(img) {
+    const wrap = img.closest(".nicole-photo-wrap");
+    const fallback = wrap ? wrap.querySelector(".nicole-photo-fallback") : null;
 
-  img.onerror = function () {
-    img.style.display = "none";
-    if (fallback) fallback.style.display = "flex";
-  };
+    img.onload = function () {
+      img.style.display = "block";
+      if (fallback) fallback.style.display = "none";
+    };
 
-  img.src = "assets/nicole-bertolissi.jpg";
+    img.onerror = function () {
+      img.style.display = "none";
+      if (fallback) fallback.style.display = "flex";
+    };
+
+    img.src = "assets/nicole-bertolissi.jpg";
+  });
 }
