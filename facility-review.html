@@ -2636,8 +2636,10 @@ const state = {
 // NAVIGATION
 // ============================================================
 function showScreen(id) {
+  console.log('showScreen called:', id);
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById(id);
+  console.log('element found:', el);
   if (el) { el.classList.add('active'); window.scrollTo(0,0); }
 }
 
@@ -3473,6 +3475,7 @@ function formatProviderName(provider) {
 }
 
 function displayResults(summary) {
+  console.log('displayResults called, summary type:', typeof summary, 'value:', summary ? summary.substring(0, 80) : summary);
   const name = state.name || 'there';
   const firstName = name.split(' ')[0];
   
