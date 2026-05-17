@@ -2719,6 +2719,10 @@ function submitOtherReview() {
     alert('Please enter the provider');
     return;
   }
+  const currentFacilityType = state.selectedReviewType || state.facilityType;
+  if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
+    state.completedFacilityReviews.push(currentFacilityType);
+  }
   showDiscoveryThinkingScreen(function() {
     const summary = `Thank you for completing your Finance Arrangement Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what options might be available for ${state.business}.`;
     displayOtherResults(summary);
@@ -3929,6 +3933,10 @@ function selectLoanBarrier(value, btn) {
 
 async function submitLoanReview() {
   state.loanBarrierDetails = document.getElementById('loan-barrier-details').value.trim();
+  const currentFacilityType = state.selectedReviewType || state.facilityType;
+  if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
+    state.completedFacilityReviews.push(currentFacilityType);
+  }
   showDiscoveryThinkingScreen(async () => {
     const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
     displayResults(summary);
