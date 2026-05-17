@@ -3393,7 +3393,7 @@ function forceShowFacilityReviewResults(resultsContainer) {
 
   // Copy results HTML from screen-loading to screen-results
   if (resultsContainer && resultsContainer.innerHTML) {
-    resultsScreen.innerHTML = resultsContainer.innerHTML;
+    resultsScreen.innerHTML = resultsContainer.outerHTML;
   }
 
   // Hide every screen
