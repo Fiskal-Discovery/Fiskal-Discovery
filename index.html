@@ -40,6 +40,7 @@
     color: var(--white);
     min-height: 100vh;
     overflow-x: hidden;
+    overflow-y: hidden;
   }
 
   /* ====== ONBOARDING OVERLAY ====== */
@@ -2520,6 +2521,7 @@ function resetOnboarding() {
 // 6. INITIALISATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', function () {
+  window.scrollTo(0, 0);
   loadAppState();
 
   // DEV: Clear localStorage to test fresh welcome flow
