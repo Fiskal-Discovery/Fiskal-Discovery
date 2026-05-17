@@ -40,6 +40,7 @@
     color: var(--dark);
     min-height: 100vh;
     overflow-x: hidden;
+    overflow-y: hidden;
   }
 
   /* Welcome/onboarding screens keep the dark navy background */
@@ -2779,6 +2780,7 @@ async function sendNotification(summary, matchedProducts) {
 // Photo will be embedded as base64 in production
 // For now using a placeholder
 document.addEventListener('DOMContentLoaded', () => {
+  window.scrollTo(0, 0);
   // Load Nicole's photo
   loadNicolePhoto();
   // Start typing intro
