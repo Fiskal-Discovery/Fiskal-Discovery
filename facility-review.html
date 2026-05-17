@@ -29,6 +29,7 @@
     color: var(--dark);
     min-height: 100vh;
     overflow-x: hidden;
+    overflow-y: hidden;
   }
 
   .bg-orb {
@@ -4036,6 +4037,9 @@ function submitFXReview() {
   } catch(e) {}
 })();
 
+document.addEventListener('DOMContentLoaded', function () {
+  window.scrollTo(0, 0);
+});
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
