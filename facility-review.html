@@ -29,6 +29,7 @@
     color: var(--dark);
     min-height: 100vh;
     overflow-x: hidden;
+    overflow-y: hidden;
   }
 
   .bg-orb {
@@ -50,7 +51,7 @@
     animation: fadeUp 0.5s ease forwards;
     flex-direction: column;
   }
-  .screen.active { display: flex; }
+  .screen.active { display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
@@ -1926,7 +1927,7 @@
       </div>
 
       <div class="nicole-message-wrap">
-        <p class="nicole-message" id="nicole-message">
+        <p class="nicole-message" id="asset-nicole-message">
           Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website or our LinkedIn page to learn more about who we are and how we can help.
         </p>
       </div>
@@ -2303,7 +2304,7 @@
       </div>
 
       <div class="nicole-message-wrap">
-        <p class="nicole-message" id="nicole-message">
+        <p class="nicole-message" id="trade-nicole-message">
           Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website or our LinkedIn page to learn more about who we are and how we can help.
         </p>
       </div>
@@ -2718,6 +2719,10 @@ function submitOtherReview() {
     alert('Please enter the provider');
     return;
   }
+  const currentFacilityType = state.selectedReviewType || state.facilityType;
+  if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
+    state.completedFacilityReviews.push(currentFacilityType);
+  }
   showDiscoveryThinkingScreen(function() {
     const summary = `Thank you for completing your Finance Arrangement Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what options might be available for ${state.business}.`;
     displayOtherResults(summary);
@@ -2745,7 +2750,8 @@ async function sendOtherNotification(summary) {
     barriers: 'N/A',
     summary: summary
   };
-  try { // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+  try { } catch(e) { console.error(e); }
 }
 
 // ============================================================
@@ -2910,7 +2916,8 @@ async function sendAssetNotification(summary) {
     barriers: state.assetBarrier === 'yes' ? state.assetBarrierDetails : 'N/A',
     summary: summary
   };
-  try { // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+  try { } catch(e) { console.error(e); }
 }
 
 async function submitTradeReview() {
@@ -2938,7 +2945,8 @@ async function sendTradeNotification(summary) {
     barriers: state.tradeBarrier === 'yes' ? state.tradeBarrierDetails : 'N/A',
     summary: summary
   };
-  try { // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+  try { } catch(e) { console.error(e); }
 }
 
 function saveIFPathA() {
@@ -3385,7 +3393,7 @@ function forceShowFacilityReviewResults(resultsContainer) {
 
   // Copy results HTML from screen-loading to screen-results
   if (resultsContainer && resultsContainer.innerHTML) {
-    resultsScreen.innerHTML = resultsContainer.innerHTML;
+    resultsScreen.innerHTML = resultsContainer.outerHTML;
   }
 
   // Hide every screen
@@ -3675,29 +3683,6 @@ function displayResults(summary) {
   updateResultsButtons();
   
   sendNotification(summary);
-  
-  // Send client summary email
-  sendClientSummaryEmail(summary).then(success => {
-    if (success) {
-      // Add confirmation message
-      const confirmText = document.createElement('p');
-      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
-      confirmText.textContent = `A copy of your Discovery summary has been emailed to ${state.email}.`;
-      const nicoleCard = document.querySelector('.nicole-contact-card');
-      if (nicoleCard) {
-        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
-      }
-    } else {
-      // Add fallback message
-      const confirmText = document.createElement('p');
-      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
-      confirmText.textContent = `We couldn't automatically send your summary email, but Nicole has received your details and will still be in touch.`;
-      const nicoleCard = document.querySelector('.nicole-contact-card');
-      if (nicoleCard) {
-        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
-      }
-    }
-  });
 }
 
 function updateResultsButtons() {
@@ -3925,11 +3910,14 @@ function selectLoanBarrier(value, btn) {
 
 async function submitLoanReview() {
   state.loanBarrierDetails = document.getElementById('loan-barrier-details').value.trim();
+  const currentFacilityType = state.selectedReviewType || state.facilityType;
+  if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
+    state.completedFacilityReviews.push(currentFacilityType);
+  }
   showDiscoveryThinkingScreen(async () => {
     const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
     displayResults(summary);
     sendLoanNotification(summary);
-    sendClientSummaryEmail(summary);
   });
 }
 
@@ -4036,6 +4024,9 @@ function submitFXReview() {
   } catch(e) {}
 })();
 
+document.addEventListener('DOMContentLoaded', function () {
+  window.scrollTo(0, 0);
+});
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -4201,6 +4192,8 @@ function submitFXReview() {
   #screen-results .screen-content {
     max-width: 100%;
     padding: 20px 40px 24px;
+    flex: none;
+    justify-content: flex-start;
   }
 
   .results-actions {
@@ -4382,6 +4375,8 @@ function showDiscoveryThinkingScreen(callback) {
     screen.innerHTML = '<div class="thinking-inner"><div class="thinking-spinner"></div><div id="discovery-thinking-phrase" class="thinking-phrase"></div></div>';
     document.body.appendChild(screen);
   }
+
+  if (screen.classList.contains('active')) return;
 
   const phraseEl = document.getElementById('discovery-thinking-phrase');
   screen.style.display = 'flex';
