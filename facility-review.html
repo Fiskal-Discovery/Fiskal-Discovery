@@ -51,7 +51,7 @@
     animation: fadeUp 0.5s ease forwards;
     flex-direction: column;
   }
-  .screen.active { display: flex; }
+  .screen.active { display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
