@@ -52,6 +52,11 @@
     flex-direction: column;
   }
   .screen.active { display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
+  /* Results screens must appear immediately — no fade-in that could leave them blank */
+  #screen-loading.active,
+  #screen-asset-loading.active,
+  #screen-trade-loading.active,
+  #screen-fx-loading.active { animation: none; opacity: 1; }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
@@ -2636,8 +2641,11 @@ const state = {
 // NAVIGATION
 // ============================================================
 function showScreen(id) {
+  // Always clear the thinking overlay so it never blocks the target screen
+  var thinking = document.getElementById('discovery-thinking-screen');
+  if (thinking) { thinking.classList.remove('active'); thinking.style.display = 'none'; }
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const el = document.getElementById(id);
+  var el = document.getElementById(id);
   if (el) { el.classList.add('active'); window.scrollTo(0,0); }
 }
 
@@ -3673,14 +3681,7 @@ function displayResults(summary) {
 
   saveDiscovery('Facility Review', '📊', summaryHtmlForStorage, businessName);
   
-  // Hide the loading overlay
-  const loadingOverlay = document.getElementById('discovery-thinking-screen');
-  if (loadingOverlay) {
-    loadingOverlay.classList.remove('active');
-    loadingOverlay.style.display = 'none';
-  }
-  
-  // Show the results screen
+  // Show the results screen (showScreen also clears the thinking overlay)
   showScreen('screen-loading');
   loadNicolePhoto();
   
