@@ -3683,29 +3683,6 @@ function displayResults(summary) {
   updateResultsButtons();
   
   sendNotification(summary);
-  
-  // Send client summary email
-  sendClientSummaryEmail(summary).then(success => {
-    if (success) {
-      // Add confirmation message
-      const confirmText = document.createElement('p');
-      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
-      confirmText.textContent = `A copy of your Discovery summary has been emailed to ${state.email}.`;
-      const nicoleCard = document.querySelector('.nicole-contact-card');
-      if (nicoleCard) {
-        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
-      }
-    } else {
-      // Add fallback message
-      const confirmText = document.createElement('p');
-      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
-      confirmText.textContent = `We couldn't automatically send your summary email, but Nicole has received your details and will still be in touch.`;
-      const nicoleCard = document.querySelector('.nicole-contact-card');
-      if (nicoleCard) {
-        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
-      }
-    }
-  });
 }
 
 function updateResultsButtons() {
@@ -3941,7 +3918,6 @@ async function submitLoanReview() {
     const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
     displayResults(summary);
     sendLoanNotification(summary);
-    sendClientSummaryEmail(summary);
   });
 }
 
@@ -4399,6 +4375,8 @@ function showDiscoveryThinkingScreen(callback) {
     screen.innerHTML = '<div class="thinking-inner"><div class="thinking-spinner"></div><div id="discovery-thinking-phrase" class="thinking-phrase"></div></div>';
     document.body.appendChild(screen);
   }
+
+  if (screen.classList.contains('active')) return;
 
   const phraseEl = document.getElementById('discovery-thinking-phrase');
   screen.style.display = 'flex';
