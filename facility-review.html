@@ -1948,8 +1948,9 @@
 
     <div class="divider"></div>
   </div>
-  <div style="text-align:center;padding:0 24px 8px;">
-    <button class="back-btn" onclick="window.location.href='index.html'" style="margin:0 auto;justify-content:center;">&#8962; Start a new Review</button>
+  <div class="discovery-bottom-nav">
+    <button class="discovery-nav-btn" onclick="window.location.href='index.html?home=1'">Home</button>
+    <button class="discovery-nav-btn primary" id="asset-continue-btn" onclick="continueToNextReview()" style="display:none">Continue to Next Review</button>
   </div>
 </div>
 
@@ -2379,8 +2380,9 @@
 
     <div class="divider"></div>
   </div>
-  <div style="text-align:center;padding:0 24px 8px;">
-    <button class="back-btn" onclick="window.location.href='index.html'" style="margin:0 auto;justify-content:center;">&#8962; Start a new Review</button>
+  <div class="discovery-bottom-nav">
+    <button class="discovery-nav-btn" onclick="window.location.href='index.html?home=1'">Home</button>
+    <button class="discovery-nav-btn primary" id="trade-continue-btn" onclick="continueToNextReview()" style="display:none">Continue to Next Review</button>
   </div>
 </div>
 
@@ -2893,6 +2895,10 @@ function selectAssetBarrier(value, btn) {
 
 async function submitAssetReview() {
   state.assetBarrierDetails = document.getElementById('asset-barrier-details').value.trim();
+  const currentFacilityType = state.selectedReviewType || state.facilityType;
+  if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
+    state.completedFacilityReviews.push(currentFacilityType);
+  }
   showDiscoveryThinkingScreen(async () => {
     const summary = `Thank you for completing your Asset Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current asset finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
     document.getElementById('asset-results-name').textContent = `Here's what we found for you, ${state.name}`;
@@ -2900,6 +2906,11 @@ async function submitAssetReview() {
     document.getElementById('asset-nicole-message').textContent = `I've received your Asset Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
     showScreen('screen-asset-loading');
     loadNicolePhoto();
+    const assetContinueBtn = document.getElementById('asset-continue-btn');
+    if (assetContinueBtn) {
+      const remaining = state.facilityTypes.filter(t => !state.completedFacilityReviews.includes(t));
+      assetContinueBtn.style.display = remaining.length > 0 ? 'inline-block' : 'none';
+    }
     sendAssetNotification(summary);
   });
 }
@@ -2922,6 +2933,10 @@ async function sendAssetNotification(summary) {
 
 async function submitTradeReview() {
   state.tradeBarrierDetails = document.getElementById('trade-barrier-details').value.trim();
+  const currentFacilityType = state.selectedReviewType || state.facilityType;
+  if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
+    state.completedFacilityReviews.push(currentFacilityType);
+  }
   showDiscoveryThinkingScreen(async () => {
     const summary = `Thank you for completing your Trade Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current trade finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
     document.getElementById('trade-results-name').textContent = `Here's what we found for you, ${state.name}`;
@@ -2929,6 +2944,11 @@ async function submitTradeReview() {
     document.getElementById('trade-nicole-message').textContent = `I've received your Trade Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
     showScreen('screen-trade-loading');
     loadNicolePhoto();
+    const tradeContinueBtn = document.getElementById('trade-continue-btn');
+    if (tradeContinueBtn) {
+      const remaining = state.facilityTypes.filter(t => !state.completedFacilityReviews.includes(t));
+      tradeContinueBtn.style.display = remaining.length > 0 ? 'inline-block' : 'none';
+    }
     sendTradeNotification(summary);
   });
 }
