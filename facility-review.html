@@ -3399,21 +3399,11 @@ function forceShowFacilityReviewResults(resultsContainer) {
   // Hide every screen
   document.querySelectorAll(".screen").forEach((screen) => {
     screen.classList.remove("active");
-    screen.style.display = "none";
   });
 
   // Show only screen-results
   resultsScreen.classList.add("active");
-  resultsScreen.style.display = "flex";
   resultsScreen.removeAttribute("aria-hidden");
-
-  // Explicitly hide screen-loading
-  const loadingScreen = document.getElementById("screen-loading");
-  if (loadingScreen) {
-    loadingScreen.classList.remove("active");
-    loadingScreen.style.display = "none";
-    loadingScreen.setAttribute("aria-hidden", "true");
-  }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
