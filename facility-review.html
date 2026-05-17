@@ -3922,7 +3922,6 @@ async function submitLoanReview() {
   showDiscoveryThinkingScreen(async () => {
     const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
     displayResults(summary);
-    sendLoanNotification(summary);
   });
 }
 
