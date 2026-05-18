@@ -1566,14 +1566,16 @@
   }
   .ob-bottom-group { display: flex; flex-direction: column; gap: 16px; }
   .ob-actions {
+    flex-direction: column;
+    align-items: center;
     display: flex;
     gap: 12px;
   }
   #screen-landing .btn-primary {
     background: #D94F00;
     box-shadow: 0 4px 20px rgba(217,79,0,0.35);
-    width: auto;
-    flex: 3;
+    width: 75%;
+    flex: none;
     padding: 10px 20px;
     font-size: 13px;
   }
@@ -1585,8 +1587,8 @@
     color: #8E7ED8;
     border-color: rgba(142,126,216,0.45);
     margin-top: 0;
-    width: auto;
-    flex: 1;
+    width: 35%;
+    flex: none;
     padding: 8px 12px;
     font-size: 12px;
     text-align: center;
