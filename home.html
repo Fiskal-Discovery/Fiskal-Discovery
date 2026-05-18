@@ -18,8 +18,13 @@
   <div class="summaries-screen-body">
     <div class="summaries-screen-wrap">
       <button class="summaries-back-btn" onclick="showHomeFromSummaries()">‹ Back to home</button>
-      <div class="summaries-screen-heading">My Discovery Summaries</div>
-      <div class="summaries-screen-sub">Tap any result to read your full summary</div>
+      <div class="summaries-screen-actions">
+        <div>
+          <div class="summaries-screen-heading">My Discovery Summaries</div>
+          <div class="summaries-screen-sub" style="margin-bottom:0;">Tap any result to read your full summary</div>
+        </div>
+        <button class="summaries-clear-all" onclick="clearAllSummaries()">Clear all</button>
+      </div>
       <div id="summaries-screen-list"></div>
       <div class="summaries-email-section">
         <div class="summaries-email-label">Email my summaries</div>
@@ -657,6 +662,44 @@
   .summary-detail-content p:last-child { margin-bottom: 0; }
   .summary-detail-close { display: inline-block; margin-top: 20px; font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 700; color: var(--periwinkle); cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
 
+  .summaries-screen-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+
+  .summaries-clear-all {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #BE123C;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  .summaries-clear-all:hover { opacity: 0.7; }
+
+  .summary-card-delete {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(190,18,60,0.08);
+    border: none;
+    color: #BE123C;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .summary-card-delete:hover { background: rgba(190,18,60,0.18); }
+
   /* ============================================================
      DASHED DIVIDER
   ============================================================ */
@@ -1005,7 +1048,7 @@ function renderSummariesScreen() {
             <div class="summary-card-module">${d.module}</div>
             <div class="summary-card-meta">${date}${biz}</div>
           </div>
-          <div class="summary-card-arrow">›</div>
+          <button class="summary-card-delete" onclick="deleteSummary(event,${i})" title="Delete">×</button>
         </div>
       </div>
       <div class="summary-detail" id="summary-detail-${i}">
@@ -1019,6 +1062,22 @@ function renderSummariesScreen() {
         </div>
       </div>`;
   }).join('');
+}
+
+function deleteSummary(e, i) {
+  e.stopPropagation();
+  let discoveries = getDiscoveries();
+  discoveries.splice(i, 1);
+  localStorage.setItem('fiskal_discoveries', JSON.stringify(discoveries));
+  renderSummariesScreen();
+  updateSummariesHomeCard();
+}
+
+function clearAllSummaries() {
+  if (!confirm('Remove all saved summaries?')) return;
+  localStorage.removeItem('fiskal_discoveries');
+  renderSummariesScreen();
+  updateSummariesHomeCard();
 }
 
 function toggleSummaryDetail(i) {
