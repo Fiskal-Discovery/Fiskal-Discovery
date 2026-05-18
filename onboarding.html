@@ -200,6 +200,32 @@
     gap: 12px;
   }
 
+  /* Brand divider */
+  .ob-brand-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 4px 0;
+  }
+  .ob-brand-line {
+    flex: 1;
+    height: 1px;
+    background: #8E7ED8;
+    opacity: 0.4;
+  }
+  .ob-brand-name {
+    font-family: Raleway, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8E7ED8;
+    white-space: nowrap;
+  }
+
   /* Reset link */
   .ob-reset { font-size: 12px; color: var(--light-text); cursor: pointer; text-decoration: underline; }
 
@@ -1808,6 +1834,11 @@
   <div class="ob-home-bottom">
     <button class="back-btn" id="ob-back-btn" onclick="obGoBack()" style="display:none;">&lt; Back</button>
     <button class="back-btn" id="ob-home-btn" onclick="obGoHome()" style="display:none;">Home</button>
+    <div class="ob-brand-divider">
+      <span class="ob-brand-line"></span>
+      <span class="ob-brand-name">Fiskal Discovery</span>
+      <span class="ob-brand-line"></span>
+    </div>
     <button onclick="devSkip()" style="position:fixed;bottom:16px;right:16px;background:rgba(255,100,0,0.15);border:1px dashed rgba(255,100,0,0.5);color:rgba(255,150,50,0.8);font-size:11px;padding:6px 12px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:99999;">⚡ Skip (dev)</button>
   </div>
 
