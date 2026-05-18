@@ -741,6 +741,115 @@
     .question-text { font-size: 16px !important; }
     .brand-title { font-size: 32px !important; }
   }
+
+  /* ============================================================
+     REDESIGN — DARK QUESTION FLOW
+  ============================================================ */
+
+  /* Dark background for question screens */
+  .screen:not(#screen-welcome) {
+    background: #000000;
+    position: relative;
+  }
+
+  /* Purple orb overlay */
+  .screen:not(#screen-welcome)::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 22% 30%, rgba(78,0,99,0.65) 0%, transparent 42%),
+      radial-gradient(ellipse at 72% 68%, rgba(78,0,99,0.50) 0%, transparent 40%),
+      radial-gradient(ellipse at 55% 10%, rgba(78,0,99,0.35) 0%, transparent 35%),
+      radial-gradient(ellipse at 10% 80%, rgba(78,0,99,0.40) 0%, transparent 35%),
+      radial-gradient(ellipse at 88% 20%, rgba(78,0,99,0.30) 0%, transparent 30%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Lift content above orb */
+  .screen:not(#screen-welcome) .ob-fixed-header,
+  .screen:not(#screen-welcome) .progress-bar-wrap,
+  .screen:not(#screen-welcome) .screen-content,
+  .screen:not(#screen-welcome) .nav-row { position: relative; z-index: 1; }
+
+  /* Progress bar — orange */
+  .progress-fill { background: #D94F00 !important; }
+  .progress-track { background: rgba(255,255,255,0.12) !important; }
+  .progress-label { color: rgba(255,255,255,0.45) !important; }
+
+  /* Question heading — white Raleway bold */
+  .screen:not(#screen-welcome) .question-text {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    font-size: clamp(16px, 2.8vw, 22px) !important;
+    line-height: 1.25 !important;
+    margin-bottom: 6px !important;
+  }
+
+  /* Question subtitle */
+  .screen:not(#screen-welcome) .question-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.5;
+  }
+
+  /* Answer buttons — dark theme */
+  .screen:not(#screen-welcome) .answer-btn {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1.5px solid rgba(255,255,255,0.15) !important;
+    color: #ffffff !important;
+    border-top: 2px solid #D94F00 !important;
+  }
+  .screen:not(#screen-welcome) .answer-btn:hover {
+    background: rgba(255,255,255,0.10) !important;
+    border-color: rgba(255,255,255,0.25) !important;
+  }
+  .screen:not(#screen-welcome) .answer-btn.selected {
+    border-color: #8E7ED8 !important;
+    border-width: 2px !important;
+    box-shadow: 0 0 0 3px rgba(142,126,216,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
+    background: rgba(142,126,216,0.22) !important;
+    color: #ffffff !important;
+  }
+
+  /* Back button */
+  .screen:not(#screen-welcome) .back-btn {
+    background: transparent !important;
+    color: rgba(255,255,255,0.5) !important;
+    border: none !important;
+  }
+
+  /* Primary button — orange */
+  .screen:not(#screen-welcome) .btn-primary {
+    background: #D94F00 !important;
+    background-image: none !important;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.4) !important;
+  }
+
+  /* Form labels and inputs — dark theme */
+  .screen:not(#screen-welcome) .form-label { color: rgba(255,255,255,0.7) !important; }
+  .screen:not(#screen-welcome) .form-input {
+    background: rgba(255,255,255,0.07) !important;
+    border-color: rgba(255,255,255,0.15) !important;
+    color: #ffffff !important;
+  }
+  .screen:not(#screen-welcome) .form-input::placeholder { color: rgba(255,255,255,0.35) !important; }
+
+  /* Hide question emoji icon */
+  .question-icon { display: none !important; }
+
+  /* Question eyebrow — periwinkle */
+  .question-product {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    color: #8E7ED8 !important;
+    letter-spacing: 2px !important;
+  }
 </style>
 </head>
 <body>
@@ -4481,6 +4590,14 @@ document.addEventListener('DOMContentLoaded', function () {
   @media (max-width: 380px) {
     .question-text { font-size: 16px !important; }
     .brand-title { font-size: 32px !important; }
+  }
+  @media (max-width: 600px) {
+    .ob-tagline-refuse { font-size: 20px; letter-spacing: 2px; }
+    .ob-tagline-rest { font-size: 7px; letter-spacing: 2px; }
+  }
+  @media (max-width: 380px) {
+    .ob-tagline-refuse { font-size: 16px; letter-spacing: 1px; }
+    .ob-tagline-rest { display: none; }
   }
 </style>
 
