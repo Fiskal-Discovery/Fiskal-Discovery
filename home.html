@@ -27,7 +27,7 @@
       </div>
       <div id="summaries-screen-list"></div>
       <div class="summaries-email-section">
-        <div class="summaries-email-label">Email my summaries</div>
+        <div class="summaries-email-label">Email selected summaries</div>
         <div class="summaries-email-row">
           <input type="email" id="summaries-email-input" class="summaries-email-input" placeholder="your@email.com">
           <button class="summaries-email-btn" id="summaries-email-btn" onclick="emailSummaries()">Send</button>
@@ -700,6 +700,15 @@
   }
   .summary-card-delete:hover { background: rgba(190,18,60,0.18); }
 
+  .summary-card-checkbox {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: var(--navy);
+    margin-right: 2px;
+  }
+
   /* ============================================================
      DASHED DIVIDER
   ============================================================ */
@@ -1043,6 +1052,7 @@ function renderSummariesScreen() {
       <div class="summary-card" onclick="toggleSummaryDetail(${i})">
         <div class="summary-card-bar" style="background:${colour}"></div>
         <div class="summary-card-inner">
+          <input type="checkbox" class="summary-card-checkbox" id="chk-${i}" onclick="event.stopPropagation()">
           <div class="summary-card-dot" style="background:${colour}"></div>
           <div class="summary-card-body">
             <div class="summary-card-module">${d.module}</div>
@@ -1112,12 +1122,16 @@ async function emailSummaries() {
     return;
   }
 
-  const discoveries = getDiscoveries();
-  if (!discoveries.length) {
-    feedback.textContent = 'No summaries to send yet.';
+  const allDiscoveries = getDiscoveries();
+  const checked = [...document.querySelectorAll('.summary-card-checkbox:checked')].map(cb => parseInt(cb.id.replace('chk-', '')));
+
+  if (!checked.length) {
+    feedback.textContent = 'Tick the summaries you want to send first.';
     feedback.className   = 'summaries-email-feedback error';
     return;
   }
+
+  const discoveries = checked.map(i => allDiscoveries[i]).filter(Boolean);
 
   const summaryText = discoveries.map(d =>
     `${d.module} · ${formatDate(d.date)}${d.business ? ' · ' + d.business : ''}\n${'─'.repeat(40)}\n${(d.summaryHtml || '').replace(/<[^>]+>/g, '').trim()}`
