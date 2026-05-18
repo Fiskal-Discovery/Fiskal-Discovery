@@ -2239,9 +2239,15 @@ const fundingFinderFlow = [
   {
     id: "previousIssues",
     type: "single-choice",
-    question: "Have you had difficulty getting funding before?",
+    question: "Have you previously applied for funding or spoken with lenders about your needs?",
     options: ["Yes", "No"],
-    saveAs: "previousIssues"
+    saveAs: "previousIssues",
+    followUp: {
+      triggerValue: "Yes",
+      saveAs: "previousLenders",
+      label: "Who did you speak with or apply to?",
+      placeholder: "e.g. your bank, a broker, an online lender..."
+    }
   },
   {
     id: "extraInfo",
@@ -2316,8 +2322,36 @@ function renderFlowQuestion() {
       btn.className = 'answer-btn';
       btn.textContent = opt;
       btn.onclick = () => {
-        saveAnswer(q.saveAs, opt);
-        goNext();
+        optionsEl.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        const followupEl = document.getElementById('q-followup');
+        const nextBtn = document.getElementById('q-next-btn');
+        if (q.followUp && opt === q.followUp.triggerValue) {
+          followupEl.innerHTML = '';
+          const lbl = document.createElement('label');
+          lbl.className = 'form-label';
+          lbl.textContent = q.followUp.label;
+          lbl.style.marginTop = '16px';
+          lbl.style.display = 'block';
+          const inp = document.createElement('input');
+          inp.type = 'text';
+          inp.className = 'form-input';
+          inp.placeholder = q.followUp.placeholder || '';
+          followupEl.appendChild(lbl);
+          followupEl.appendChild(inp);
+          nextBtn.style.display = 'block';
+          nextBtn.textContent = 'Continue →';
+          nextBtn.onclick = () => {
+            saveAnswer(q.saveAs, opt);
+            saveAnswer(q.followUp.saveAs, inp.value.trim());
+            goNext();
+          };
+        } else {
+          followupEl.innerHTML = '';
+          nextBtn.style.display = 'none';
+          saveAnswer(q.saveAs, opt);
+          goNext();
+        }
       };
       optionsEl.appendChild(btn);
     });
