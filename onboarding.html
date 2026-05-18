@@ -196,8 +196,9 @@
     right: 0;
     z-index: 10001;
     display: flex;
-    justify-content: center;
-    gap: 12px;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
   }
 
   /* Brand divider */
@@ -1351,6 +1352,7 @@
     min-width: 110px;
     justify-content: center;
     text-align: center;
+    align-self: center;
   }
   .back-btn:hover { color: var(--indigo); }
   .nav-row {
@@ -1829,10 +1831,10 @@
       <button class="ob-send" id="ob-send" onclick="obSubmitInput()">➤</button>
     </div>
     <div id="ob-choices" style="display:none;"></div>
+    <button class="back-btn" id="ob-back-btn" onclick="obGoBack()" style="display:none;margin-top:16px;">&lt; Back</button>
   </main>
 
   <div class="ob-home-bottom">
-    <button class="back-btn" id="ob-back-btn" onclick="obGoBack()" style="display:none;">&lt; Back</button>
     <button class="back-btn" id="ob-home-btn" onclick="obGoHome()" style="display:none;">Home</button>
     <div class="ob-brand-divider">
       <span class="ob-brand-line"></span>
