@@ -19,14 +19,57 @@
     <div class="summaries-screen-wrap">
       <button class="summaries-back-btn" onclick="showHomeFromSummaries()">‹ Back to home</button>
       <div class="summaries-greeting" id="summaries-greeting"></div>
-      <div class="summaries-screen-actions">
-        <div>
-          <div class="summaries-screen-heading">My Discovery Summaries</div>
-          <div class="summaries-screen-sub" style="margin-bottom:0;">Tap any result to read your full summary</div>
+
+      <div class="summaries-screen-layout">
+
+        <!-- LEFT: Game preview -->
+        <div class="summaries-game-col">
+          <div class="game-preview-card" id="game-preview-card">
+            <div class="game-preview-bar"></div>
+            <div class="game-preview-body">
+              <div class="game-preview-alien">
+                <svg viewBox="0 0 44 32" width="44" height="32" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;">
+                  <rect x="8"  y="0"  width="4" height="4" fill="#FACC15"/>
+                  <rect x="32" y="0"  width="4" height="4" fill="#FACC15"/>
+                  <rect x="12" y="4"  width="4" height="4" fill="#FACC15"/>
+                  <rect x="28" y="4"  width="4" height="4" fill="#FACC15"/>
+                  <rect x="8"  y="8"  width="28" height="4" fill="#FACC15"/>
+                  <rect x="4"  y="12" width="8"  height="4" fill="#FACC15"/>
+                  <rect x="16" y="12" width="12" height="4" fill="#FACC15"/>
+                  <rect x="32" y="12" width="8"  height="4" fill="#FACC15"/>
+                  <rect x="0"  y="16" width="44" height="4" fill="#FACC15"/>
+                  <rect x="0"  y="20" width="4"  height="4" fill="#FACC15"/>
+                  <rect x="8"  y="20" width="28" height="4" fill="#FACC15"/>
+                  <rect x="40" y="20" width="4"  height="4" fill="#FACC15"/>
+                  <rect x="0"  y="24" width="4"  height="4" fill="#FACC15"/>
+                  <rect x="8"  y="24" width="4"  height="4" fill="#FACC15"/>
+                  <rect x="32" y="24" width="4"  height="4" fill="#FACC15"/>
+                  <rect x="40" y="24" width="4"  height="4" fill="#FACC15"/>
+                  <rect x="12" y="28" width="8"  height="4" fill="#FACC15"/>
+                  <rect x="24" y="28" width="8"  height="4" fill="#FACC15"/>
+                </svg>
+              </div>
+              <div class="game-preview-title">Cashflow Invaders</div>
+              <div id="game-preview-content"></div>
+              <a class="game-preview-btn" href="cashflow-invaders.html">Play now</a>
+            </div>
+          </div>
         </div>
-        <button class="summaries-clear-all" onclick="clearAllSummaries()">Clear all</button>
-      </div>
-      <div id="summaries-screen-list"></div>
+
+        <!-- RIGHT: Summaries + email -->
+        <div class="summaries-main-col">
+          <div class="summaries-screen-actions">
+            <div>
+              <div class="summaries-screen-heading">My Discovery Summaries</div>
+              <div class="summaries-screen-sub" style="margin-bottom:0;">Tap any result to read your full summary</div>
+            </div>
+            <button class="summaries-clear-all" onclick="clearAllSummaries()">Clear all</button>
+          </div>
+          <div id="summaries-screen-list"></div>
+        </div>
+
+      </div><!-- /summaries-screen-layout -->
+
       <div class="summaries-email-section">
         <div class="summaries-email-label">Email selected summaries</div>
         <div class="summaries-email-row">
@@ -534,7 +577,89 @@
     min-height: 100vh;
     padding: 32px 24px 60px;
   }
-  .summaries-screen-wrap { max-width: 680px; margin: 0 auto; }
+  .summaries-screen-wrap { max-width: 980px; margin: 0 auto; }
+
+  .summaries-screen-layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .summaries-game-col {
+    width: 240px;
+    flex-shrink: 0;
+  }
+
+  .summaries-main-col { flex: 1; min-width: 0; }
+
+  /* Game preview card */
+  .game-preview-card {
+    background: #1a1a2e;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    border: 1px solid rgba(250,204,21,0.15);
+    text-align: center;
+  }
+
+  .game-preview-bar { height: 4px; background: #FACC15; }
+
+  .game-preview-body { padding: 20px 16px; }
+
+  .game-preview-alien { margin-bottom: 14px; }
+
+  .game-preview-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #FACC15;
+    margin-bottom: 12px;
+  }
+
+  .game-preview-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: #FACC15;
+    line-height: 1;
+    margin-bottom: 4px;
+    text-shadow: 0 0 20px rgba(250,204,21,0.4);
+  }
+
+  .game-preview-score-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .game-preview-msg {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .game-preview-btn {
+    display: inline-block;
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 8px 18px;
+    background: #FACC15;
+    color: #1a1a2e;
+    border-radius: 7px;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 640px) {
+    .summaries-screen-layout { flex-direction: column; }
+    .summaries-game-col { width: 100%; }
+  }
 
   .summaries-back-btn {
     display: inline-flex;
@@ -1049,6 +1174,27 @@ function showHomeFromSummaries() {
 function renderSummariesScreen() {
   const list        = document.getElementById('summaries-screen-list');
   const discoveries = getDiscoveries();
+
+  // Game preview
+  const gameContent = document.getElementById('game-preview-content');
+  if (gameContent) {
+    let profile = {};
+    try { profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}'); } catch(e) {}
+    const playerName = (profile.name || (appState.profile && appState.profile.name) || '').toLowerCase();
+    let leaderboard = [];
+    try { leaderboard = JSON.parse(localStorage.getItem('fiskal_ci_clean_fixed') || '[]'); } catch(e) {}
+    const personal = leaderboard.filter(e => e.name && e.name.toLowerCase() === playerName);
+    const best = personal.length ? Math.max(...personal.map(e => Number(e.score) || 0)) : null;
+    if (best !== null) {
+      gameContent.innerHTML = `
+        <div class="game-preview-score">£${best.toLocaleString()}</div>
+        <div class="game-preview-score-label">Your best release</div>
+        <div class="game-preview-msg">Nice work. Think you can free more?</div>`;
+    } else {
+      gameContent.innerHTML = `
+        <div class="game-preview-msg">You haven't yet released your finances — jump in and see what you can free.</div>`;
+    }
+  }
 
   // Personalised greeting
   const greetingEl = document.getElementById('summaries-greeting');
