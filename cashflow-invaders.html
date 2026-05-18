@@ -130,7 +130,7 @@ function stopFaviconAnimation() {
 <div class="fiskal-header">
   <div class="fiskal-header-inner"><div class="fiskal-title">Fiskal Discovery</div><div class="fiskal-sub">Refuse to Stand Still</div></div>
   <button id="champions-btn" class="header-btn">🏆 CHAMPIONS</button>
-  <button id="home-btn" class="header-btn" onclick="window.location.href='home.html?home=1'">⌂ HOME</button>
+  <button id="home-btn" class="header-btn" onclick="goHome()">⌂ HOME</button>
   <button id="pause-btn">⏸ PAUSE</button>
   <button id="quit-btn">✕ QUIT</button>
 </div>
@@ -451,6 +451,15 @@ function showUpgradeAnnouncement(){showMsg('BUSINESS UPGRADED','#FFE600',"You've
 function stopGame(){if(rafId)cancelAnimationFrame(rafId);rafId=null;paused=false;screenShake=0;ctx.setTransform(1,0,0,1,0,0);document.getElementById('pause-overlay').classList.remove('active');G=null}
 function initGame(){stopGame();showScreen('game-screen');showQuitBtn(true);startFaviconAnimation();const hud=document.getElementById('hud');canvas.width=Math.min(window.innerWidth,720);canvas.height=Math.max(300,window.innerHeight-document.querySelector('.fiskal-header').offsetHeight-hud.offsetHeight-2);const bizName='ANONYMOUS';G={player:{x:canvas.width/2,y:canvas.height-40,w:44,h:30,speed:6},bullets:[],bossBlasts:[],enemies:[],powerups:[],particles:[],wordEnemies:[],wordBits:[],defeatedBossWords:[],wordTimer:0,score:0,lives:3,wave:1,doubleBullet:0,tripleBullet:0,shield:0,slowmo:0,rapidFire:0,speedBoost:0,supportShip:0,advancedMode:false,keys:{},lastShot:0,shotDelay:290,state:'playing',spawnTimer:0,spawnRate:120,waveKills:0,waveTarget:6,playerInv:0,biz:bizName,frame:0,boss:null,bossShootTimer:0,stateTimer:0,puCooldown:0,dead:false};spawnWave(4);updateHUD();rafId=requestAnimationFrame(gameLoop)}
 function quitGame(){stopGame();stopFaviconAnimation();showScreen('start-screen')}
+function goHome(){
+  stopFaviconAnimation();
+  try {
+    const state = JSON.parse(localStorage.getItem('fiskal_appState') || '{}');
+    window.location.href = state.welcomeCompleted ? 'home.html?home=1' : 'onboarding.html';
+  } catch(e) {
+    window.location.href = 'onboarding.html';
+  }
+}
 function togglePause(){if(!G||G.dead)return;paused=!paused;document.getElementById('pause-overlay').classList.toggle('active',paused);document.getElementById('pause-btn').textContent=paused?'▶ RESUME':'⏸ PAUSE';if(!paused)rafId=requestAnimationFrame(gameLoop)}
 function spawnWave(n){for(let i=0;i<n;i++)setTimeout(()=>{if(G&&!G.dead&&G.state==='playing')spawnAlien()},i*700)}
 function spawnAlien(){if(!G)return;const t=ALIEN_TYPES[Math.floor(Math.random()*ALIEN_TYPES.length)],w=t.pixels[0].length*t.scale,h=t.pixels.length*t.scale,dir=Math.random()>.5?1:-1,advancedMultiplier=G.wave>10?1+((G.wave-10)*0.08):1,spd=(.7+G.wave*.12)*(G.slowmo>0?.35:1)*advancedMultiplier;G.enemies.push({x:Math.max(w/2+10,Math.min(canvas.width-w/2-10,40+Math.random()*(canvas.width-100))),y:-h,type:t,w,h,vx:dir*(.7+Math.random()*.6+G.wave*.08)*advancedMultiplier,vy:spd,frame:0})}
@@ -692,7 +701,7 @@ document.getElementById('pause-btn').addEventListener('click',togglePause);docum
       btn.disabled = false;
       btn.textContent = 'Submit to Leaderboard';
     });
-});document.getElementById('btn-home').addEventListener('click',()=>{stopFaviconAnimation();window.location.href='home.html?home=1'});document.getElementById('champions-btn').addEventListener('click',async()=>{stopGame();showLeaderboardScreen();});document.getElementById('btn-play-again-lb').addEventListener('click',()=>{stopGame();showScreen('start-screen')});document.getElementById('btn-home-lb').addEventListener('click',()=>{stopFaviconAnimation();window.location.href='home.html?home=1'});document.getElementById('home-btn').addEventListener('click',quitGame);document.addEventListener('keydown',e=>{if(!G||G.dead)return;G.keys[e.key]=true;if(e.key===' ')e.preventDefault();if(e.key==='p'||e.key==='P')togglePause()});document.addEventListener('keyup',e=>{if(!G||G.dead)return;G.keys[e.key]=false});canvas.addEventListener('mousemove',e=>{if(!G||!G.player||paused)return;const r=canvas.getBoundingClientRect();G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,e.clientX-r.left))});canvas.addEventListener('click',shoot);let lastTX=0;canvas.addEventListener('touchstart',e=>{lastTX=e.touches[0].clientX;shoot()},{passive:true});canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!G||!G.player||paused)return;const dx=e.touches[0].clientX-lastTX;G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x+dx*.75));lastTX=e.touches[0].clientX},{passive:false});
+});document.getElementById('btn-home').addEventListener('click',goHome);document.getElementById('champions-btn').addEventListener('click',async()=>{stopGame();showLeaderboardScreen();});document.getElementById('btn-play-again-lb').addEventListener('click',()=>{stopGame();showScreen('start-screen')});document.getElementById('btn-home-lb').addEventListener('click',goHome);document.getElementById('home-btn').addEventListener('click',quitGame);document.addEventListener('keydown',e=>{if(!G||G.dead)return;G.keys[e.key]=true;if(e.key===' ')e.preventDefault();if(e.key==='p'||e.key==='P')togglePause()});document.addEventListener('keyup',e=>{if(!G||G.dead)return;G.keys[e.key]=false});canvas.addEventListener('mousemove',e=>{if(!G||!G.player||paused)return;const r=canvas.getBoundingClientRect();G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,e.clientX-r.left))});canvas.addEventListener('click',shoot);let lastTX=0;canvas.addEventListener('touchstart',e=>{lastTX=e.touches[0].clientX;shoot()},{passive:true});canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!G||!G.player||paused)return;const dx=e.touches[0].clientX-lastTX;G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x+dx*.75));lastTX=e.touches[0].clientX},{passive:false});
 </script>
 </body>
 </html>
