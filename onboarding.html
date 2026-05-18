@@ -2498,10 +2498,10 @@ function renderWelcomeQuestion() {
     errMsg.textContent = 'Please fill in the required fields.';
 
     const continueBtn = document.createElement('button');
-    continueBtn.style.cssText = 'margin-top:4px;background:#4e0063;color:#fff;border:none;border-radius:999px;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:Raleway,sans-serif;box-shadow:0 4px 20px rgba(78,0,99,0.3);transition:all 0.2s;width:100%;';
+    continueBtn.style.cssText = 'margin-top:4px;background:#D94F00;color:#fff;border:none;border-radius:999px;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:Raleway,sans-serif;box-shadow:0 4px 20px rgba(217,79,0,0.3);transition:all 0.2s;width:100%;';
     continueBtn.textContent = 'Continue →';
-    continueBtn.onmouseover = () => { continueBtn.style.transform = 'translateY(-1px)'; continueBtn.style.boxShadow = '0 6px 28px rgba(78,0,99,0.45)'; };
-    continueBtn.onmouseout = () => { continueBtn.style.transform = ''; continueBtn.style.boxShadow = '0 4px 20px rgba(78,0,99,0.3)'; };
+    continueBtn.onmouseover = () => { continueBtn.style.transform = 'translateY(-1px)'; continueBtn.style.boxShadow = '0 6px 28px rgba(217,79,0,0.5)'; };
+    continueBtn.onmouseout = () => { continueBtn.style.transform = ''; continueBtn.style.boxShadow = '0 4px 20px rgba(217,79,0,0.3)'; };
     continueBtn.onclick = () => {
       let valid = true;
       inputs.forEach(inp => {
