@@ -2270,7 +2270,7 @@ const welcomeFlow = [
       { label: "💼 Professional Services", value: "Professional Services" },
       { label: "🏥 Healthcare", value: "Healthcare" },
       { label: "⚡ Clean Energy", value: "Clean Energy" },
-      { label: "✨ Other", value: "Other" }
+      { label: "✨ Other", value: "Other", freeText: true }
     ],
     saveAs: "industry"
   },
@@ -2459,11 +2459,47 @@ function renderWelcomeQuestion() {
     const isTwoCol = q.options.length >= 4;
     const grid = document.createElement('div');
     grid.className = isTwoCol ? 'ob-q-grid' : 'ob-q-cards';
+
+    let freeTextWrap = null;
+
     q.options.forEach(opt => {
       const btn = document.createElement('button');
       btn.className = isTwoCol ? 'ob-q-pill' : 'ob-q-card';
       btn.textContent = opt.label;
-      btn.onclick = () => { btn.classList.add('ob-selected'); setTimeout(() => advanceChoice(opt), 180); };
+      btn.onclick = () => {
+        grid.querySelectorAll('.ob-q-pill, .ob-q-card').forEach(b => b.classList.remove('ob-selected'));
+        btn.classList.add('ob-selected');
+        if (opt.freeText) {
+          if (!freeTextWrap) {
+            freeTextWrap = document.createElement('div');
+            freeTextWrap.style.cssText = 'margin-top:12px;display:flex;flex-direction:column;gap:8px;';
+            const inp = document.createElement('input');
+            inp.type = 'text';
+            inp.placeholder = 'Please describe your industry…';
+            inp.style.cssText = 'width:100%;padding:12px 16px;border:1px solid rgba(42,4,64,0.15);border-radius:10px;font-size:15px;background:#ffffff;color:#1a0533;font-family:"DM Sans",sans-serif;outline:none;transition:border-color 0.2s,box-shadow 0.2s;box-sizing:border-box;';
+            inp.addEventListener('focus', () => { inp.style.borderColor = '#D94F00'; inp.style.boxShadow = '0 0 0 3px rgba(217,79,0,0.1)'; });
+            inp.addEventListener('blur', () => { inp.style.borderColor = 'rgba(42,4,64,0.15)'; inp.style.boxShadow = 'none'; });
+            const confirmBtn = document.createElement('button');
+            confirmBtn.textContent = 'Continue →';
+            confirmBtn.style.cssText = 'background:#D94F00;color:#fff;border:none;border-radius:999px;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:Raleway,sans-serif;box-shadow:0 4px 20px rgba(217,79,0,0.3);transition:all 0.2s;width:100%;';
+            confirmBtn.onclick = () => {
+              const val = inp.value.trim();
+              if (!val) { inp.style.borderColor = '#D94F00'; inp.focus(); return; }
+              advanceChoice({ ...opt, value: val });
+            };
+            inp.addEventListener('keypress', e => { if (e.key === 'Enter') confirmBtn.click(); });
+            freeTextWrap.appendChild(inp);
+            freeTextWrap.appendChild(confirmBtn);
+            wrap.appendChild(freeTextWrap);
+            setTimeout(() => inp.focus(), 50);
+          } else {
+            freeTextWrap.style.display = 'flex';
+          }
+        } else {
+          if (freeTextWrap) freeTextWrap.style.display = 'none';
+          setTimeout(() => advanceChoice(opt), 180);
+        }
+      };
       grid.appendChild(btn);
     });
     wrap.appendChild(grid);
