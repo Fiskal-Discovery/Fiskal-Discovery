@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Colour Picker</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; background: #111; color: white; }
+    h2 { margin-bottom: 24px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+    .swatch { border-radius: 12px; padding: 24px 16px; text-align: center; cursor: pointer; }
+    .swatch .hex { font-size: 13px; opacity: 0.8; margin-top: 6px; }
+    .swatch .name { font-weight: bold; font-size: 15px; }
+  </style>
+</head>
+<body>
+  <h2>Dark Purple Options — click any to copy the hex code</h2>
+  <div class="grid">
+    <div class="swatch" style="background:#1a0533" onclick="copy('#1a0533')"><div class="name">Deep Violet</div><div class="hex">#1a0533</div></div>
+    <div class="swatch" style="background:#2d0a4e" onclick="copy('#2d0a4e')"><div class="name">Dark Plum</div><div class="hex">#2d0a4e</div></div>
+    <div class="swatch" style="background:#3b0764" onclick="copy('#3b0764')"><div class="name">Royal Purple</div><div class="hex">#3b0764</div></div>
+    <div class="swatch" style="background:#4a044e" onclick="copy('#4a044e')"><div class="name">Midnight Purple</div><div class="hex">#4a044e</div></div>
+    <div class="swatch" style="background:#1e1b4b" onclick="copy('#1e1b4b')"><div class="name">Dark Indigo</div><div class="hex">#1e1b4b</div></div>
+    <div class="swatch" style="background:#2e1065" onclick="copy('#2e1065')"><div class="name">Deep Grape</div><div class="hex">#2e1065</div></div>
+    <div class="swatch" style="background:#150426" onclick="copy('#150426')"><div class="name">Obsidian Purple</div><div class="hex">#150426</div></div>
+    <div class="swatch" style="background:#3d1a78" onclick="copy('#3d1a78')"><div class="name">Vivid Violet</div><div class="hex">#3d1a78</div></div>
+    <div class="swatch" style="background:#4c1d95" onclick="copy('#4c1d95')"><div class="name">Electric Plum</div><div class="hex">#4c1d95</div></div>
+    <div class="swatch" style="background:#5b21b6" onclick="copy('#5b21b6')"><div class="name">Bold Purple</div><div class="hex">#5b21b6</div></div>
+    <div class="swatch" style="background:#6d28d9" onclick="copy('#6d28d9')"><div class="name">Medium Violet</div><div class="hex">#6d28d9</div></div>
+    <div class="swatch" style="background:#030210" onclick="copy('#030210')"><div class="name">Current App</div><div class="hex">#030210</div></div>
+  </div>
+
+  <div id="toast" style="display:none;position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:white;color:black;padding:12px 24px;border-radius:8px;font-weight:bold;">Copied!</div>
+
+  <script>
+    function copy(hex) {
+      navigator.clipboard.writeText(hex);
+      const t = document.getElementById('toast');
+      t.textContent = hex + ' copied!';
+      t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 1500);
+    }
+  </script>
+</body>
+</html>
