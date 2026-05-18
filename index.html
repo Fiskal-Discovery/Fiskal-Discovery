@@ -2,8 +2,18 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=home.html">
-  <script>window.location.replace('home.html' + window.location.search + window.location.hash);</script>
+  <script>
+    try {
+      var s = JSON.parse(localStorage.getItem('fiskal_appState') || '{}');
+      if (s.welcomeCompleted) {
+        window.location.replace('home.html');
+      } else {
+        window.location.replace('onboarding.html');
+      }
+    } catch(e) {
+      window.location.replace('onboarding.html');
+    }
+  </script>
 </head>
 <body></body>
 </html>
