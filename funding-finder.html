@@ -2201,8 +2201,13 @@ const fundingFinderFlow = [
   {
     id: "invoiceCustomers",
     type: "single-choice",
-    question: "Do you raise invoices for other businesses (B2B)?",
-    options: ["Yes", "Sometimes", "No"],
+    question: "Who do you typically invoice?",
+    subtitle: "There are funding options available for both — most people don't realise that.",
+    options: [
+      "Other businesses (B2B)",
+      "Consumers / members of the public (B2C)",
+      "Both"
+    ],
     saveAs: "invoiceCustomers"
   },
   {
@@ -2212,8 +2217,8 @@ const fundingFinderFlow = [
     options: ["30 days", "60 days", "90 days", "90+ days"],
     saveAs: "paymentTerms",
     condition: (answers) =>
-      answers.invoiceCustomers === "Yes" ||
-      answers.invoiceCustomers === "Sometimes"
+      answers.invoiceCustomers === "Other businesses (B2B)" ||
+      answers.invoiceCustomers === "Both"
   },
   {
     id: "cardPayments",
