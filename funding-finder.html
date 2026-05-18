@@ -2532,117 +2532,14 @@ function submitFlow() {
 }
 
 // ============================================================
-// LEGACY QUESTIONS — FUNDING FINDER (preserved for reference)
+// QUESTIONS
 // ============================================================
-const fundingFinderQuestions = [
-  {
-    id: 'invoice',
-    icon: '\u{1F4B0}',
-    product: 'Invoice Finance',
-    text: 'Do you send invoices to other businesses and wait 30, 60, even 90 days to get paid?',
-    subtext: 'Imagine what your business could achieve with that money in your account within 24 hours.',
-    options: [
-      { emoji: '&#9989;', label: 'Yes — and I\'d like the money sooner', value: 'yes' },
-      { emoji: '&#128172;', label: 'Yes — but I\'m happy to wait', value: 'maybe' },
-      { emoji: '&#10060;', label: 'No — not applicable', value: 'no' }
-    ],
-    followup: {
-      trigger: ['yes'],
-      label: 'If so, which would suit you better?',
-      options: [
-        { label: 'A full facility — cash on all invoices automatically', value: 'full' },
-        { label: 'Selective — fund individual invoices as needed', value: 'selective' },
-        { label: 'Not sure yet', value: 'unsure' }
-      ],
-      key: 'invoice_type'
-    }
-  },
-  {
-    id: 'trade',
-    icon: '\u{1F6F3}\uFE0F',
-    product: 'Trade Finance',
-    text: 'If you could pay your suppliers upfront, could you negotiate better prices or bigger discounts?',
-    subtext: 'The businesses that pay suppliers upfront often get the best prices — and the biggest orders.',
-    options: [
-      { emoji: '&#9989;', label: 'Yes — this would really help', value: 'yes' },
-      { emoji: '&#128172;', label: 'Maybe — worth a conversation', value: 'maybe' },
-      { emoji: '&#10060;', label: 'No — not relevant for us', value: 'no' }
-    ]
-  },
-  {
-    id: 'asset',
-    icon: '\u{1F69A}',
-    product: 'Asset Finance',
-    text: 'Is there equipment, machinery, or vehicles your business needs?',
-    subtext: 'Get the vehicles and equipment your business needs today — spread the cost, keep your cash.',
-    options: [
-      { emoji: '&#9989;', label: 'Yes — absolutely', value: 'yes' },
-      { emoji: '&#128172;', label: 'Maybe — we\'re considering it', value: 'maybe' },
-      { emoji: '&#10060;', label: 'No — we\'re well equipped', value: 'no' }
-    ]
-  },
-  {
-    id: 'loan',
-    icon: '\u{1F4B7}',
-    product: 'Business Loan',
-    text: 'Do you need a lump sum to fund growth, cover a gap, or invest in your business?',
-    subtext: 'Sometimes one injection of capital is all it takes to change everything.',
-    options: [
-      { emoji: '&#9989;', label: 'Yes — I need capital', value: 'yes' },
-      { emoji: '&#128172;', label: 'Maybe — worth knowing what\'s available', value: 'maybe' },
-      { emoji: '&#10060;', label: 'No — not at the moment', value: 'no' }
-    ]
-  },
-  {
-    id: 'property',
-    icon: '\u{1F3E2}',
-    product: 'Commercial Property',
-    text: 'Are you looking to purchase, develop, or refinance commercial property?',
-    subtext: 'Owning your premises could be one of the smartest moves your business ever makes.',
-    options: [
-      { emoji: '&#9989;', label: 'Yes — actively looking', value: 'yes' },
-      { emoji: '&#128172;', label: 'Maybe — considering it', value: 'maybe' },
-      { emoji: '&#10060;', label: 'No — not right now', value: 'no' }
-    ]
-  },
-  {
-    id: 'revolving',
-    icon: '\u{1F501}',
-    product: 'Revolving Credit',
-    text: 'Would a flexible funding line help your business — money available when you need it, repaid when you don\'t?',
-    subtext: 'Imagine never having to turn down an opportunity because the timing was wrong.',
-    options: [
-      { emoji: '&#9989;', label: 'Yes — that flexibility would be valuable', value: 'yes' },
-      { emoji: '&#128172;', label: 'Maybe — tell me more', value: 'maybe' },
-      { emoji: '&#10060;', label: 'No — not what we need', value: 'no' }
-    ]
-  },
-  {
-    id: 'fx',
-    icon: '\u{1F4B1}',
-    product: 'Foreign Currency',
-    text: 'Does your business send or receive money in foreign currencies?',
-    subtext: 'Most businesses have no idea how much their bank quietly takes on every transaction.',
-    options: [
-      { emoji: '&#9989;', label: 'Yes — we deal in foreign currency', value: 'yes' },
-      { emoji: '&#128172;', label: 'Sometimes — worth reviewing', value: 'maybe' },
-      { emoji: '&#10060;', label: 'No — we\'re UK-only', value: 'no' }
-    ]
-  },
-  {
-    id: 'rd',
-    icon: '\u{1F52C}',
-    product: 'R&D Tax Credits',
-    text: 'Does your business develop new products, processes, or technology?',
-    subtext: 'You could already be owed money back — and not even know it.',
-    options: [
-      { emoji: '&#9989;', label: 'Yes — we invest in innovation', value: 'yes' },
-      { emoji: '&#128172;', label: 'Not sure — possibly', value: 'maybe' },
-      { emoji: '&#10060;', label: 'No — not applicable', value: 'no' }
-    ]
-  },
 
-];
+function goBackQuestion() {
+  goBack();
+}
+
+
 
 const moduleLabels = {
   'funding-finder': 'Funding Finder',
@@ -2718,121 +2615,7 @@ function startQuestionFlow() {
   showScreen('question');
 }
 
-function submitDetails() {
-  const name = document.getElementById('field-name').value.trim();
-  const business = document.getElementById('field-business').value.trim();
-  const email = document.getElementById('field-email').value.trim();
-  const phone = document.getElementById('field-phone').value.trim();
 
-  if (!name || !business || !email || !phone) {
-    document.getElementById('details-error').style.display = 'block';
-    return;
-  }
-  document.getElementById('details-error').style.display = 'none';
-
-  state.name = name;
-  state.business = business;
-  state.email = email;
-  state.phone = phone;
-  state.companyNumber = document.getElementById('field-company-number').value.trim();
-
-  sendInitialInfoNotification();
-
-  state.currentQuestion = 0;
-  renderQuestion();
-  showScreen('question');
-}
-
-// ============================================================
-// QUESTIONS
-// ============================================================
-function renderQuestion() {
-  const questions = getQuestions();
-  const q = questions[state.currentQuestion];
-  if (!q) return;
-
-  const total = questions.length;
-  const current = state.currentQuestion + 1;
-  const pct = Math.round((current / (total + 2)) * 100);
-
-  document.getElementById('question-progress').style.width = pct + '%';
-  document.getElementById('question-progress-label').textContent = `Question ${current} of ${total}`;
-  document.getElementById('q-icon').textContent = q.icon;
-  document.getElementById('q-product').textContent = q.product;
-  const qTextEl = document.getElementById('q-text');
-  qTextEl.innerHTML = q.text + (q.subtext ? '<br><span style="font-size:16px;font-style:italic;font-weight:300;color:var(--mid);display:block;margin-top:10px;">' + q.subtext + '</span>' : '');
-  document.getElementById('q-followup').innerHTML = '';
-  document.getElementById('q-next-btn').style.display = 'none';
-
-  const optionsEl = document.getElementById('q-options');
-  optionsEl.innerHTML = '';
-  q.options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'answer-btn';
-    btn.innerHTML = `<span class="answer-emoji">${opt.emoji}</span> ${opt.label}`;
-    btn.onclick = () => selectAnswer(q, opt.value, btn);
-    optionsEl.appendChild(btn);
-  });
-}
-
-function selectAnswer(q, value, btn) {
-  document.querySelectorAll('#q-options .answer-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  state.answers[q.id] = value;
-
-  const followupEl = document.getElementById('q-followup');
-  followupEl.innerHTML = '';
-
-  if (q.followup && q.followup.trigger.includes(value)) {
-    const box = document.createElement('div');
-    box.className = 'followup-box';
-    box.innerHTML = `<div class="followup-label">${q.followup.label}</div><div class="followup-options" id="followup-opts"></div>`;
-    followupEl.appendChild(box);
-
-    const optsEl = box.querySelector('#followup-opts');
-    q.followup.options.forEach(opt => {
-      const fb = document.createElement('button');
-      fb.className = 'followup-btn';
-      fb.textContent = opt.label;
-      fb.onclick = () => {
-        box.querySelectorAll('.followup-btn').forEach(b => b.classList.remove('selected'));
-        fb.classList.add('selected');
-        state.answers[q.followup.key] = opt.value;
-        document.getElementById('q-next-btn').style.display = 'block';
-      };
-      optsEl.appendChild(fb);
-    });
-  } else {
-    // Auto-advance for single-choice questions without followup
-    setTimeout(() => {
-      nextQuestion();
-    }, 250);
-  }
-}
-
-function nextQuestion() {
-  const questions = getQuestions();
-  state.currentQuestion++;
-  if (state.currentQuestion >= questions.length) {
-    showScreen('barriers');
-  } else {
-    renderQuestion();
-  }
-}
-
-function skipQuestion() {
-  const questions = getQuestions();
-  state.currentQuestion++;
-  if (state.currentQuestion >= questions.length) {
-    showScreen('barriers');
-  } else {
-    renderQuestion();
-  }
-}
-
-function goBackQuestion() {
-  goBack();
-}
 
 function goBackBarriers() {
   const visibleQuestions = getVisibleQuestions();
@@ -2841,9 +2624,6 @@ function goBackBarriers() {
   showScreen('question');
 }
 
-function getQuestions() {
-  return fundingFinderQuestions;
-}
 
 // ============================================================
 // BARRIERS
@@ -2970,15 +2750,6 @@ function getMatchedProducts() {
   return matched;
 }
 
-function buildAnswersSummary() {
-  const parts = [];
-  fundingFinderQuestions.forEach(q => {
-    const ans = state.answers[q.id];
-    if (ans) parts.push(`${q.product}: ${ans}`);
-  });
-  if (state.barrier) parts.push(`Barriers: ${state.barrier}`);
-  return parts.join('; ');
-}
 
 function getFallbackSummary(matchedProducts) {
   const names = matchedProducts.map(p => productInfo[p]?.name).filter(Boolean);
