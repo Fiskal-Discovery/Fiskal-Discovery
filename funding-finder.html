@@ -2518,8 +2518,11 @@ function submitFlow() {
   state.assetNeed = state.flowAnswers.assetFinance || '';
   state.creditConcern = state.flowAnswers.creditConcern || '';
 
-  // Show barriers screen
-  showScreen('barriers');
+  state.barrier = 'no';
+  state.barrierDetails = '';
+  showDiscoveryThinkingScreen(() => {
+    generateResults();
+  });
 }
 
 // ============================================================
