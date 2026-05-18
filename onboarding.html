@@ -2349,6 +2349,11 @@ function renderWelcomeQuestion() {
   // Progress dots
   const total = welcomeFlow.length;
   const current = welcomeState.currentQuestion;
+  const eyebrow = document.createElement('div');
+  eyebrow.textContent = 'Getting Started';
+  eyebrow.style.cssText = 'font-family:"Raleway",sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E7ED8;margin-bottom:10px;text-align:center;';
+  wrap.appendChild(eyebrow);
+
   const dotsRow = document.createElement('div');
   dotsRow.className = 'ob-q-progress-row';
   for (let i = 0; i < total; i++) {
