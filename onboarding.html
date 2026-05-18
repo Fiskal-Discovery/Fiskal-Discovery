@@ -47,7 +47,7 @@
   /* ====== ONBOARDING OVERLAY ====== */
   #onboarding-overlay {
     position: fixed; inset: 0; z-index: 9999;
-    background: #030210;
+    background: #000000;
     display: flex; flex-direction: column;
     transition: opacity 0.5s ease;
   }
@@ -56,11 +56,11 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse at 22% 30%, rgba(120, 20, 210, 0.65) 0%, transparent 42%),
-      radial-gradient(ellipse at 72% 68%, rgba(80, 10, 160, 0.50) 0%, transparent 40%),
-      radial-gradient(ellipse at 55% 10%, rgba(90, 15, 180, 0.35) 0%, transparent 35%),
-      radial-gradient(ellipse at 10% 80%, rgba(60, 5, 120, 0.40) 0%, transparent 35%),
-      radial-gradient(ellipse at 88% 20%, rgba(70, 10, 140, 0.30) 0%, transparent 30%);
+      radial-gradient(ellipse at 22% 30%, rgba(78, 0, 99, 0.65) 0%, transparent 42%),
+      radial-gradient(ellipse at 72% 68%, rgba(78, 0, 99, 0.50) 0%, transparent 40%),
+      radial-gradient(ellipse at 55% 10%, rgba(78, 0, 99, 0.35) 0%, transparent 35%),
+      radial-gradient(ellipse at 10% 80%, rgba(78, 0, 99, 0.40) 0%, transparent 35%),
+      radial-gradient(ellipse at 88% 20%, rgba(78, 0, 99, 0.30) 0%, transparent 30%);
     pointer-events: none;
   }
   #onboarding-overlay.hidden { opacity: 0; pointer-events: none; }
