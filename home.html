@@ -5,7 +5,7 @@
 <link rel="icon" href="favicon-main.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fiskal Discovery</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Libre+Baskerville:ital,wght@1,700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Libre+Baskerville:ital,wght@1,700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
   :root {
     --navy:       #2a0440;
@@ -65,12 +65,25 @@
   }
 
   .nav-tagline {
-    font-family: 'Dancing Script', cursive;
-    font-size: 20px;
-    color: var(--orange);
-    letter-spacing: 0.5px;
-    text-transform: none;
     margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1;
+    gap: 1px;
+  }
+  .tagline-refuse {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--orange);
+    letter-spacing: 4px;
+  }
+  .tagline-rest {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    font-weight: 400;
   }
 
   /* ============================================================
@@ -481,7 +494,10 @@
   <nav class="navbar">
     <img src="fiskal_logo_recoloured.png" class="nav-logo" alt="Fiskal">
     <span class="nav-brand">Fiskal Discovery</span>
-    <span class="nav-tagline">Refuse to Stand Still</span>
+    <span class="nav-tagline">
+      <span class="tagline-refuse">REFUSE</span>
+      <span class="tagline-rest">to stand still</span>
+    </span>
   </nav>
 
   <!-- HERO -->
