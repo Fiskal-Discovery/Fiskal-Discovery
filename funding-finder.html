@@ -2386,13 +2386,16 @@ function renderFlowQuestion() {
           selected.add(opt);
           btn.classList.add('selected');
         }
-        nextBtn.style.display = selected.size > 0 ? 'block' : 'none';
+        nextBtn.style.opacity = selected.size > 0 ? '1' : '0.35';
+        nextBtn.style.pointerEvents = selected.size > 0 ? 'auto' : 'none';
       };
       grid.appendChild(btn);
     });
     optionsEl.appendChild(grid);
     const nextBtn = document.getElementById('q-next-btn');
-    nextBtn.style.display = 'none';
+    nextBtn.style.display = 'block';
+    nextBtn.style.opacity = '0.35';
+    nextBtn.style.pointerEvents = 'none';
     nextBtn.textContent = 'Continue →';
     nextBtn.onclick = () => {
       const values = Array.from(selected);
