@@ -1660,6 +1660,30 @@
     .ob-tagline-refuse { font-size: 16px; letter-spacing: 1px; }
     .ob-tagline-rest { display: none; }
   }
+
+  /* Shooting stars — full page overlay */
+  #ob-stars-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .ob-shooting-star {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.55) 35%, rgba(255,255,255,0.9) 100%);
+    border-radius: 1px;
+    pointer-events: none;
+    opacity: 0;
+    animation: ob-shoot-star linear forwards;
+  }
+  @keyframes ob-shoot-star {
+    0%   { opacity: 0;   transform: rotate(var(--sa)) translateX(0); }
+    12%  { opacity: 1; }
+    80%  { opacity: 0.5; }
+    100% { opacity: 0;   transform: rotate(var(--sa)) translateX(var(--sd)); }
+  }
 </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
@@ -1713,6 +1737,8 @@
       <span class="ob-tagline-rest">to stand still</span>
     </span>
   </nav>
+
+  <div id="ob-stars-layer"></div>
 
   <!-- HERO -->
   <div class="ob-hero-wrap">
@@ -2439,8 +2465,27 @@ function resetOnboarding() {
 // ============================================================
 // INITIALIZATION
 // ============================================================
+
+function spawnObShootingStar() {
+  const layer = document.getElementById('ob-stars-layer');
+  if (!layer) return;
+  const el = document.createElement('div');
+  el.className = 'ob-shooting-star';
+  const x      = (Math.random() * 80 + 5).toFixed(1);
+  const y      = (Math.random() * 70 + 5).toFixed(1);
+  const angle  = (Math.random() * 22 + 18).toFixed(0);
+  const length = (Math.random() * 55 + 75).toFixed(0);
+  const dist   = (Math.random() * 100 + 230).toFixed(0);
+  const dur    = (Math.random() * 250 + 520).toFixed(0);
+  el.style.cssText = `left:${x}%;top:${y}%;width:${length}px;--sa:${angle}deg;--sd:${dist}px;animation-duration:${dur}ms`;
+  layer.appendChild(el);
+  setTimeout(() => el.remove(), +dur + 200);
+  setTimeout(spawnObShootingStar, Math.random() * 11000 + 9000);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   loadAppState();
+  setTimeout(spawnObShootingStar, Math.random() * 4000 + 2000);
 
   // DEV: Clear localStorage to test fresh welcome flow
   if (DEV_MODE) {
