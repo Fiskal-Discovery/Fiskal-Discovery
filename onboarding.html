@@ -2404,10 +2404,6 @@ function renderWelcomeQuestion() {
       const card = document.createElement('button');
       card.className = 'ob-q-card';
 
-      const iconEl = document.createElement('div');
-      iconEl.className = 'ob-q-card-icon';
-      iconEl.textContent = opt.icon || '';
-
       const body = document.createElement('div');
       body.className = 'ob-q-card-body';
 
@@ -2427,7 +2423,6 @@ function renderWelcomeQuestion() {
       arrow.className = 'ob-q-card-arrow';
       arrow.textContent = '›';
 
-      card.appendChild(iconEl);
       card.appendChild(body);
       card.appendChild(arrow);
       card.onclick = () => { card.classList.add('ob-selected'); setTimeout(() => advanceChoice(opt), 180); };
