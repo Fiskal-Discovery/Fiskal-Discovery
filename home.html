@@ -108,9 +108,26 @@
     border: 1px solid rgba(142, 126, 216, 0.2);
     pointer-events: none;
   }
-  .hero-ring-1 { width: 400px; height: 400px; top: -120px; right: -80px; }
-  .hero-ring-2 { width: 260px; height: 260px; top: -60px; right: 60px; border-color: rgba(217, 79, 0, 0.15); }
-  .hero-ring-3 { width: 180px; height: 180px; bottom: 60px; left: -40px; border-color: rgba(142, 126, 216, 0.15); }
+  .hero-ring-1 {
+    width: 400px; height: 400px; top: -120px; right: -80px;
+    border-color: rgba(142, 126, 216, 0.3);
+    box-shadow: 0 0 40px 8px rgba(142, 126, 216, 0.12), inset 0 0 40px 8px rgba(142, 126, 216, 0.06);
+  }
+  .hero-ring-2 {
+    width: 260px; height: 260px; top: -60px; right: 60px;
+    border-color: rgba(217, 79, 0, 0.35);
+    box-shadow: 0 0 50px 12px rgba(217, 79, 0, 0.15), inset 0 0 30px 6px rgba(217, 79, 0, 0.08);
+  }
+  .hero-ring-3 {
+    width: 180px; height: 180px; bottom: 60px; left: -40px;
+    border-color: rgba(142, 126, 216, 0.25);
+    box-shadow: 0 0 35px 8px rgba(142, 126, 216, 0.1), inset 0 0 20px 4px rgba(142, 126, 216, 0.05);
+  }
+  .hero-ring-4 {
+    width: 320px; height: 320px; bottom: -100px; left: 10%;
+    border-color: rgba(217, 79, 0, 0.2);
+    box-shadow: 0 0 60px 16px rgba(217, 79, 0, 0.1), inset 0 0 40px 8px rgba(217, 79, 0, 0.05);
+  }
 
   .hero-content {
     position: relative;
@@ -408,6 +425,7 @@
     <div class="hero-ring hero-ring-1"></div>
     <div class="hero-ring hero-ring-2"></div>
     <div class="hero-ring hero-ring-3"></div>
+    <div class="hero-ring hero-ring-4"></div>
     <div class="star" style="width:2px;height:2px;left:12%;top:20%;animation-duration:7s;animation-delay:0s;"></div>
     <div class="star" style="width:1px;height:1px;left:28%;top:60%;animation-duration:9s;animation-delay:1.5s;"></div>
     <div class="star" style="width:2px;height:2px;left:45%;top:35%;animation-duration:6s;animation-delay:3s;"></div>
