@@ -18,6 +18,7 @@
   <div class="summaries-screen-body">
     <div class="summaries-screen-wrap">
       <button class="summaries-back-btn" onclick="showHomeFromSummaries()">‹ Back to home</button>
+      <div class="summaries-greeting" id="summaries-greeting"></div>
       <div class="summaries-screen-actions">
         <div>
           <div class="summaries-screen-heading">My Discovery Summaries</div>
@@ -662,6 +663,19 @@
   .summary-detail-content p:last-child { margin-bottom: 0; }
   .summary-detail-close { display: inline-block; margin-top: 20px; font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 700; color: var(--periwinkle); cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
 
+  .summaries-greeting {
+    font-size: 14px;
+    color: var(--mid-text);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    padding: 16px 18px;
+    background: #fff;
+    border-radius: 12px;
+    border-left: 3px solid var(--orange);
+    box-shadow: 0 2px 8px rgba(42,4,64,0.06);
+  }
+  .summaries-greeting strong { color: var(--dark-text); font-weight: 600; }
+
   .summaries-screen-actions {
     display: flex;
     align-items: center;
@@ -1040,6 +1054,23 @@ function showHomeFromSummaries() {
 function renderSummariesScreen() {
   const list        = document.getElementById('summaries-screen-list');
   const discoveries = getDiscoveries();
+
+  // Personalised greeting
+  const greetingEl = document.getElementById('summaries-greeting');
+  if (greetingEl) {
+    let profile = {};
+    try { profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}'); } catch(e) {}
+    const name = profile.name || (appState.profile && appState.profile.name) || '';
+    const biz  = profile.companyName || (appState.profile && appState.profile.companyName)
+              || (discoveries.length && discoveries[0].business) || '';
+    const hi   = name ? `Hi <strong>${name.split(' ')[0]}</strong>` : 'Hi there';
+    const bizPart = biz ? ` for <strong>${biz}</strong>` : '';
+    if (discoveries.length) {
+      greetingEl.innerHTML = `${hi} — here you can view your discovery summaries${bizPart}, or email them straight to yourself using the form below.`;
+    } else {
+      greetingEl.innerHTML = `${hi} — once you've completed a journey${bizPart}, your discovery summaries will appear here. Head back and choose where to start.`;
+    }
+  }
   if (!discoveries.length) {
     list.innerHTML = `<div class="summaries-empty">You haven't completed any journeys yet.<br>Head back to the home screen and choose a journey to get started.</div>`;
     return;
