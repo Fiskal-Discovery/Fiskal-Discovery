@@ -66,6 +66,15 @@ body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block
 }
 </style>
 <style>
+  .player-type-question {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+  }
   .player-type-row {
     display: flex;
     gap: 12px;
@@ -116,6 +125,43 @@ body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block
     .player-type-row { max-width: 100%; }
     .player-type-sub { white-space: normal; }
   }
+
+  /* Leaderboard legend + badges */
+  .lb-legend {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+  }
+  .lb-legend-sep { color: rgba(255,255,255,0.3); }
+  .lb-legend-item { font-weight: 700; letter-spacing: 0.02em; }
+  .lb-legend-lender { color: #FFD700; }
+  .lb-legend-client { color: #00FF88; }
+  .lb-badge {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    border-radius: 3px;
+    padding: 1px 5px;
+    vertical-align: middle;
+    margin-left: 4px;
+    letter-spacing: 0.03em;
+  }
+  .lb-badge-lender {
+    background: rgba(255,215,0,0.12);
+    color: #FFD700;
+    border: 1px solid rgba(255,215,0,0.35);
+  }
+  .lb-badge-client {
+    background: rgba(0,255,136,0.1);
+    color: #00FF88;
+    border: 1px solid rgba(0,255,136,0.3);
+  }
+  .lb-row-lender td { background: rgba(255,215,0,0.04); }
+  .lb-row-client td { background: rgba(0,255,136,0.03); }
 </style>
 
 <!-- ================= FAVICON ================= -->
@@ -190,10 +236,11 @@ function stopFaviconAnimation() {
   <div class="game-title">CASHFLOW<br>INVADERS</div>
   <div class="game-tagline">FREE YOUR FINANCES</div>
   <div class="alien-preview" id="alien-preview"></div>
+  <div class="player-type-question">Are you a business owner or a lender?</div>
   <div class="player-type-row">
     <button class="player-type-btn" id="btn-type-player" onclick="setPlayerType('player')">
       <span class="player-type-icon">🚀</span>
-      <span class="player-type-label">I'M A BUSINESS</span>
+      <span class="player-type-label">BUSINESS OWNER</span>
       <span class="player-type-sub">Free my own finances</span>
     </button>
     <button class="player-type-btn" id="btn-type-lender" onclick="setPlayerType('lender')">
@@ -203,7 +250,7 @@ function stopFaviconAnimation() {
     </button>
   </div>
   <div class="start-form">
-    <button class="btn-start" id="btn-start">▶ START GAME</button>
+    <button class="btn-start" id="btn-start" style="display:none">▶ START GAME</button>
   </div>
 </div>
 <div class="screen" id="game-screen">
@@ -232,6 +279,11 @@ function stopFaviconAnimation() {
 </div>
 <div class="screen" id="leaderboard-screen">
   <div class="leaderboard-title">🏆 CASHFLOW CHAMPIONS</div>
+  <div class="lb-legend">
+    <span class="lb-legend-item lb-legend-lender">🏦 LENDER</span>
+    <span class="lb-legend-sep">·</span>
+    <span class="lb-legend-item lb-legend-client">🚀 BUSINESS OWNER</span>
+  </div>
   <table class="score-table"><thead><tr><th class="rank-col">#</th><th>NAME</th><th>COMPANY</th><th>CASH</th><th>WAVE</th></tr></thead><tbody id="leaderboard-body"></tbody></table>
   <div class="gameover-buttons">
     <button class="btn-play-again" id="btn-play-again-lb">▶ PLAY AGAIN</button>
@@ -248,7 +300,7 @@ function setPlayerType(type) {
   playerIsLender = (type === 'lender');
   document.getElementById('btn-type-player').classList.toggle('active', !playerIsLender);
   document.getElementById('btn-type-lender').classList.toggle('active', playerIsLender);
-  // Also pre-tick the checkbox on game-over screen
+  document.getElementById('btn-start').style.display = 'inline-block';
   const cb = document.getElementById('is-lender');
   if (cb) cb.checked = playerIsLender;
 }
@@ -416,33 +468,14 @@ function saveToLocalStorage(entry){
 function renderLB() {
   const tb = document.getElementById("leaderboard-body");
 
-  function renderRows(rows) {
-    tb.innerHTML = "";
-
-    if (!rows || !rows.length) {
-      tb.innerHTML =
-        '<tr><td colspan="5" style="text-align:center;color:rgba(255,255,255,0.3);padding:14px;font-size:0.38rem">NO SCORES YET — BE FIRST!</td></tr>';
-      return;
-    }
-
-    tb.innerHTML = rows.map((e, i) =>
-      '<tr>' +
-        '<td class="rank-col">' + (i + 1) + '</td>' +
-        '<td>' + e.name + (e.isLender ? ' <span style="font-size:0.38rem;background:rgba(255,230,0,0.15);color:#FFE600;border:1px solid rgba(255,230,0,0.4);border-radius:3px;padding:1px 4px;vertical-align:middle;letter-spacing:0.5px;">LENDER</span>' : '') + '</td>' +
-        '<td>' + e.company + '</td>' +
-        '<td>£' + e.score + '</td>' +
-        '<td>' + e.wave + '</td>' +
-      '</tr>'
-    ).join("");
-  }
-
   function normaliseEntry(entry) {
     return {
       name: String(entry.name || entry.business || "ANONYMOUS").toUpperCase().slice(0, 22),
       company: String(entry.company || entry.businessName || "N/A").toUpperCase().slice(0, 32),
       score: Number(entry.score) || 0,
       wave: Number(entry.wave) || 1,
-      timestamp: Number(entry.timestamp) || 0
+      timestamp: Number(entry.timestamp) || 0,
+      isLender: entry.isLender ? true : false
     };
   }
 
@@ -455,14 +488,12 @@ function renderLB() {
 
   function dedupeAndSort(rawEntries) {
     const bestByPlayer = {};
-
     rawEntries
       .filter(Boolean)
       .map(normaliseEntry)
       .forEach(entry => {
         const key = makeKey(entry);
         const existing = bestByPlayer[key];
-
         if (
           !existing ||
           entry.score > existing.score ||
@@ -471,40 +502,44 @@ function renderLB() {
           bestByPlayer[key] = entry;
         }
       });
-
     return Object.values(bestByPlayer)
       .sort((a, b) => b.score - a.score)
       .slice(0, 10);
   }
 
-  if (!db) {
-    const localRows = dedupeAndSort(getLocalLB());
-    console.log("FINAL LOCAL ROWS BEING RENDERED:", JSON.stringify(localRows));
-    renderRows(localRows);
-    return Promise.resolve(localRows);
+  function renderRows(rows) {
+    if (!rows || !rows.length) {
+      tb.innerHTML =
+        '<tr><td colspan="5" style="text-align:center;color:rgba(255,255,255,0.3);padding:14px;font-size:0.38rem">NO SCORES YET — BE FIRST!</td></tr>';
+      return;
+    }
+    tb.innerHTML = rows.map((e, i) => {
+      const rowClass = e.isLender ? ' class="lb-row-lender"' : ' class="lb-row-client"';
+      const badge = e.isLender
+        ? ' <span class="lb-badge lb-badge-lender">🏦 LENDER</span>'
+        : ' <span class="lb-badge lb-badge-client">🚀 BIZ OWNER</span>';
+      return '<tr' + rowClass + '>' +
+        '<td class="rank-col">' + (i + 1) + '</td>' +
+        '<td>' + e.name + badge + '</td>' +
+        '<td>' + e.company + '</td>' +
+        '<td>£' + e.score.toLocaleString() + '</td>' +
+        '<td>' + e.wave + '</td>' +
+      '</tr>';
+    }).join("");
   }
 
-  console.log("READING FROM:", "scores");
+  if (!db) {
+    renderRows(dedupeAndSort(getLocalLB()));
+    return Promise.resolve();
+  }
 
   return db.ref("scores").once("value")
     .then(snapshot => {
-      const snapshotVal = snapshot.val() || {};
-      console.log("FULL SNAPSHOT VAL:", snapshotVal);
-
-      const rawEntries = Object.values(snapshotVal);
-      console.log("RAW ENTRIES:", rawEntries);
-
-      const finalRows = dedupeAndSort(rawEntries);
-      console.log("FINAL FIREBASE ROWS BEING RENDERED:", JSON.stringify(finalRows));
-
-      renderRows(finalRows);
-      return finalRows;
+      renderRows(dedupeAndSort(Object.values(snapshot.val() || {})));
     })
     .catch(err => {
       console.warn("Firebase renderLB failed, using localStorage fallback", err);
-      const localRows = dedupeAndSort(getLocalLB());
-      renderRows(localRows);
-      return localRows;
+      renderRows(dedupeAndSort(getLocalLB()));
     });
 }
 function getAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx}
