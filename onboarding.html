@@ -5,7 +5,7 @@
 <link rel="icon" href="favicon-main.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fiskal Discovery</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Libre+Baskerville:ital,wght@1,700&family=Bebas+Neue&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Libre+Baskerville:ital,wght@1,700&family=Bebas+Neue&family=Press+Start+2P&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
@@ -1742,6 +1742,130 @@
     background: rgba(217,79,0,0.1) !important;
     border-color: #ff7a2e !important;
   }
+
+  /* ---- CASHFLOW CHAMPIONS WIDGET ---- */
+  .ob-champions-wrap {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    background: rgba(78,0,99,0.25);
+    border: 1px solid rgba(142,126,216,0.3);
+    border-radius: 14px;
+    padding: 14px 18px 10px;
+    backdrop-filter: blur(6px);
+  }
+  .ob-champions-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .ob-champions-icon { font-size: 16px; }
+  .ob-champions-title {
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 10px;
+    color: #FFE600;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255,230,0,0.5);
+    flex: 1;
+  }
+  .ob-champions-sub {
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.5px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .ob-champions-challenge {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    font-family: 'DM Sans', sans-serif;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .ob-champions-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .ob-champions-loading {
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+    padding: 8px 0;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .ob-champion-row {
+    display: grid;
+    grid-template-columns: 20px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid transparent;
+  }
+  .ob-champion-row:nth-child(1) {
+    background: rgba(255,230,0,0.08);
+    border-color: rgba(255,230,0,0.2);
+  }
+  .ob-champion-row:nth-child(2) {
+    background: rgba(192,192,192,0.06);
+    border-color: rgba(192,192,192,0.15);
+  }
+  .ob-champion-row:nth-child(3) {
+    background: rgba(205,127,50,0.06);
+    border-color: rgba(205,127,50,0.15);
+  }
+  .ob-champion-rank {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    text-align: center;
+  }
+  .ob-champion-row:nth-child(1) .ob-champion-rank { color: #FFE600; }
+  .ob-champion-row:nth-child(2) .ob-champion-rank { color: #C0C0C0; }
+  .ob-champion-row:nth-child(3) .ob-champion-rank { color: #CD7F32; }
+  .ob-champion-info { min-width: 0; }
+  .ob-champion-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ob-champion-company {
+    font-size: 10px;
+    color: rgba(255,255,255,0.45);
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ob-champion-score {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: #00FF88;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .ob-champions-cta {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    color: #ff7a2e;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    padding: 4px 0 2px;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+  .ob-champions-cta:hover { color: #ffffff; }
+
   .ob-dashed-divider {
     display: flex;
     align-items: center;
@@ -1830,6 +1954,24 @@
 </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
+<!-- Firebase SDK for leaderboard -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+(function(){
+  try {
+    const cfg = {
+      apiKey: "AIzaSyCKyh0x4fei6TT1zDdo6Qn6FtqrRbHLu0k",
+      authDomain: "cashflow-invaders.firebaseapp.com",
+      databaseURL: "https://cashflow-invaders-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "cashflow-invaders",
+      storageBucket: "cashflow-invaders.firebasestorage.app"
+    };
+    if (window.firebase && !firebase.apps.length) firebase.initializeApp(cfg);
+    window._ciDb = firebase.apps.length ? firebase.database() : null;
+  } catch(e) { window._ciDb = null; }
+})();
+</script>
 </head>
 <body>
 
@@ -1896,6 +2038,19 @@
         <p class="ob-intro-stars">Aim for the stars and let Fiskal help you get there.</p>
 
       </div>
+      <!-- CASHFLOW CHAMPIONS mini leaderboard -->
+      <div class="ob-champions-wrap">
+        <div class="ob-champions-header">
+          <span class="ob-champions-icon">🏆</span>
+          <span class="ob-champions-title">CASHFLOW CHAMPIONS</span>
+        </div>
+        <p class="ob-champions-challenge">Can you free more funding than the lenders who are paid to do the job?</p>
+        <div class="ob-champions-rows" id="ob-champions-rows">
+          <div class="ob-champions-loading">Loading scores...</div>
+        </div>
+        <a href="cashflow-invaders.html" class="ob-champions-cta">Think you can beat them? Play now →</a>
+      </div>
+
       <div class="ob-bottom-group">
         <div class="ob-actions">
           <button class="btn-primary" onclick="startWelcome()">Start My Discovery</button>
@@ -2720,8 +2875,62 @@ function startOverlayStars() {
   setTimeout(spawnOverlayStar, Math.random() * 3000 + 1000);
 }
 
+// ---- CASHFLOW CHAMPIONS LEADERBOARD ----
+function loadChampions() {
+  const container = document.getElementById('ob-champions-rows');
+  if (!container) return;
+
+  function normalise(e) {
+    return {
+      name: String(e.name || e.business || 'ANONYMOUS').toUpperCase().slice(0, 20),
+      company: String(e.company || e.businessName || '').toUpperCase().slice(0, 28),
+      score: Number(e.score) || 0
+    };
+  }
+  function dedupeSort(raw) {
+    const best = {};
+    raw.filter(Boolean).map(normalise).forEach(e => {
+      const k = (e.name + '_' + e.company).toLowerCase().replace(/[^a-z0-9]+/g,'_');
+      if (!best[k] || e.score > best[k].score) best[k] = e;
+    });
+    return Object.values(best).sort((a,b) => b.score - a.score).slice(0,3);
+  }
+  function renderRows(rows) {
+    if (!rows.length) {
+      container.innerHTML = '<div class="ob-champions-loading">No scores yet — be the first!</div>';
+      return;
+    }
+    const medals = ['🥇','🥈','🥉'];
+    container.innerHTML = rows.map((r, i) =>
+      '<div class="ob-champion-row">' +
+        '<span class="ob-champion-rank">' + medals[i] + '</span>' +
+        '<div class="ob-champion-info">' +
+          '<div class="ob-champion-name">' + r.name + '</div>' +
+          (r.company ? '<div class="ob-champion-company">' + r.company + '</div>' : '') +
+        '</div>' +
+        '<span class="ob-champion-score">£' + r.score.toLocaleString() + '</span>' +
+      '</div>'
+    ).join('');
+  }
+
+  if (window._ciDb) {
+    window._ciDb.ref('scores').once('value')
+      .then(snap => {
+        const entries = Object.values(snap.val() || {});
+        renderRows(dedupeSort(entries));
+      })
+      .catch(() => renderRows([]));
+  } else {
+    try {
+      const local = JSON.parse(localStorage.getItem('fiskal_ci_clean_fixed') || '[]');
+      renderRows(dedupeSort(local));
+    } catch(e) { renderRows([]); }
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   loadAppState();
+  loadChampions();
   setTimeout(spawnObShootingStar, Math.random() * 4000 + 2000);
 
   // DEV: Clear localStorage to test fresh welcome flow
