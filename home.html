@@ -6,6 +6,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fiskal Discovery</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Libre+Baskerville:ital,wght@1,700&family=Bebas+Neue&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- SCREEN: MY DISCOVERY SUMMARIES -->
+<div class="screen" id="screen-summaries">
+  <nav class="navbar">
+    <span class="nav-brand">Fiskal Discovery</span>
+    <span class="nav-tagline">
+      <span class="tagline-refuse">REFUSE</span>
+      <span class="tagline-rest">to stand still</span>
+    </span>
+  </nav>
+  <div class="summaries-screen-body">
+    <div class="summaries-screen-wrap">
+      <button class="summaries-back-btn" onclick="showHomeFromSummaries()">‹ Back to home</button>
+      <div class="summaries-screen-heading">My Discovery Summaries</div>
+      <div class="summaries-screen-sub">Tap any result to read your full summary</div>
+      <div id="summaries-screen-list"></div>
+      <div class="summaries-email-section">
+        <div class="summaries-email-label">Email my summaries</div>
+        <div class="summaries-email-row">
+          <input type="email" id="summaries-email-input" class="summaries-email-input" placeholder="your@email.com">
+          <button class="summaries-email-btn" id="summaries-email-btn" onclick="emailSummaries()">Send</button>
+        </div>
+        <div class="summaries-email-feedback" id="summaries-email-feedback"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
 <style>
@@ -445,239 +472,190 @@
   .module-card.card-game .module-arrow      { color: var(--periwinkle); }
 
   /* ============================================================
-     MODULES LAYOUT (with optional summaries sidebar)
+     SUMMARIES HOME CARD
   ============================================================ */
-  .modules-layout {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-  }
-
-  .journey-col { flex: 1; min-width: 0; }
-
-  /* ============================================================
-     SUMMARIES PANEL
-  ============================================================ */
-  .summaries-panel {
-    width: 260px;
-    flex-shrink: 0;
-  }
-
-  .summaries-card {
+  .summaries-home-card {
     background: var(--card-bg);
     border-radius: 14px;
     overflow: hidden;
     box-shadow: 0 2px 12px rgba(42,4,64,0.08);
     border: 1px solid rgba(42,4,64,0.06);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
   }
-
-  .summaries-card-bar {
-    height: 4px;
+  .summaries-home-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(42,4,64,0.14);
+  }
+  .summaries-home-bar {
+    width: 4px;
     background: var(--navy);
-    width: 100%;
+    flex-shrink: 0;
+  }
+  .summaries-home-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    flex: 1;
+  }
+  .summaries-home-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .summaries-home-body { flex: 1; }
+  .summaries-home-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 3px;
+  }
+  .summaries-home-desc {
+    font-size: 12px;
+    color: var(--mid-text);
+  }
+  .summaries-home-arrow { color: var(--periwinkle); font-size: 20px; }
+
+  /* ============================================================
+     SCREEN — MY DISCOVERY SUMMARIES
+  ============================================================ */
+  .summaries-screen-body {
+    background: linear-gradient(180deg, var(--body-start) 0%, var(--body-end) 100%);
+    min-height: 100vh;
+    padding: 32px 24px 60px;
+  }
+  .summaries-screen-wrap { max-width: 680px; margin: 0 auto; }
+
+  .summaries-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--mid-text);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-bottom: 24px;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  .summaries-back-btn:hover { color: var(--dark-text); }
+
+  .summaries-screen-heading {
+    font-family: 'Raleway', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 6px;
+    border-left: 3px solid var(--orange);
+    padding-left: 12px;
+  }
+  .summaries-screen-sub {
+    font-size: 13px;
+    color: var(--mid-text);
+    margin-bottom: 28px;
+    padding-left: 15px;
   }
 
-  .summaries-card-header {
-    padding: 14px 16px 10px;
-    border-bottom: 1px solid rgba(42,4,64,0.06);
+  .summary-card {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(42,4,64,0.08);
+    border: 1px solid rgba(42,4,64,0.06);
+    margin-bottom: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .summary-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(42,4,64,0.13); }
+  .summary-card-bar { height: 4px; width: 100%; }
+  .summary-card-inner { padding: 16px 20px; display: flex; align-items: center; gap: 14px; }
+  .summary-card-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .summary-card-body { flex: 1; }
+  .summary-card-module {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 3px;
+  }
+  .summary-card-meta { font-size: 12px; color: var(--mid-text); }
+  .summary-card-arrow { color: var(--periwinkle); font-size: 20px; }
+
+  .summaries-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--mid-text);
+    font-size: 14px;
+    line-height: 1.7;
   }
 
-  .summaries-card-title {
+  /* Email section on summaries screen */
+  .summaries-email-section {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 24px;
+    box-shadow: 0 2px 12px rgba(42,4,64,0.08);
+    border: 1px solid rgba(42,4,64,0.06);
+  }
+  .summaries-email-label {
     font-family: 'Raleway', sans-serif;
     font-size: 13px;
     font-weight: 700;
     color: var(--dark-text);
-    letter-spacing: 0.3px;
+    margin-bottom: 12px;
   }
-
-  .summaries-card-subtitle {
-    font-size: 11px;
-    color: var(--mid-text);
-    margin-top: 2px;
-  }
-
-  .summaries-list { padding: 8px 0; }
-
-  .summary-entry {
-    padding: 10px 16px;
-    cursor: pointer;
-    border-bottom: 1px solid rgba(42,4,64,0.04);
-    transition: background 0.15s;
-  }
-
-  .summary-entry:last-child { border-bottom: none; }
-  .summary-entry:hover { background: rgba(142,126,216,0.06); }
-
-  .summary-entry-module {
-    font-family: 'Raleway', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--dark-text);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .summary-entry-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .summary-entry-meta {
-    font-size: 11px;
-    color: var(--mid-text);
-    margin-top: 2px;
-  }
-
-  .summary-entry-view {
-    font-size: 10px;
-    color: var(--periwinkle);
-    margin-top: 3px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-
-  /* ============================================================
-     SUMMARIES EMAIL SECTION
-  ============================================================ */
-  .summaries-email-section {
-    padding: 12px 16px 16px;
-    border-top: 1px solid rgba(42,4,64,0.07);
-  }
-
-  .summaries-email-label {
-    font-family: 'Raleway', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--mid-text);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-
-  .summaries-email-row {
-    display: flex;
-    gap: 6px;
-  }
-
+  .summaries-email-row { display: flex; gap: 8px; }
   .summaries-email-input {
     flex: 1;
-    font-size: 12px;
+    font-size: 13px;
     font-family: 'DM Sans', sans-serif;
-    padding: 7px 10px;
+    padding: 10px 12px;
     border: 1px solid rgba(42,4,64,0.15);
-    border-radius: 7px;
+    border-radius: 8px;
     outline: none;
     color: var(--dark-text);
     background: #faf8fd;
     min-width: 0;
   }
-
-  .summaries-email-input:focus {
-    border-color: var(--periwinkle);
-  }
-
+  .summaries-email-input:focus { border-color: var(--periwinkle); }
   .summaries-email-btn {
     font-family: 'Raleway', sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 700;
-    padding: 7px 12px;
+    padding: 10px 20px;
     background: var(--navy);
     color: #fff;
     border: none;
-    border-radius: 7px;
+    border-radius: 8px;
     cursor: pointer;
     white-space: nowrap;
-    flex-shrink: 0;
   }
-
-  .summaries-email-btn:disabled {
-    opacity: 0.5;
-    cursor: default;
-  }
-
-  .summaries-email-feedback {
-    font-size: 11px;
-    margin-top: 6px;
-    min-height: 14px;
-    color: var(--mid-text);
-  }
-
+  .summaries-email-btn:disabled { opacity: 0.5; cursor: default; }
+  .summaries-email-feedback { font-size: 12px; margin-top: 8px; color: var(--mid-text); min-height: 16px; }
   .summaries-email-feedback.success { color: #0F766E; }
   .summaries-email-feedback.error   { color: #BE123C; }
 
-  /* ============================================================
-     SUMMARY MODAL
-  ============================================================ */
-  .summary-modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(7,5,26,0.85);
-    z-index: 1000;
-    padding: 24px 16px;
-    overflow-y: auto;
-  }
-
-  .summary-modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
-
-  .summary-modal {
-    background: #fff;
-    border-radius: 16px;
-    max-width: 640px;
-    width: 100%;
-    overflow: hidden;
-    margin: auto;
-  }
-
-  .summary-modal-bar { height: 5px; width: 100%; }
-
-  .summary-modal-body { padding: 28px 28px 24px; }
-
-  .summary-modal-module {
-    font-family: 'Raleway', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--mid-text);
-    margin-bottom: 6px;
-  }
-
-  .summary-modal-heading {
-    font-family: 'Raleway', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--dark-text);
-    margin-bottom: 4px;
-  }
-
-  .summary-modal-meta {
-    font-size: 12px;
-    color: var(--mid-text);
-    margin-bottom: 20px;
-  }
-
-  .summary-modal-content { font-size: 14px; color: var(--dark-text); line-height: 1.7; }
-  .summary-modal-content p { margin-bottom: 14px; }
-  .summary-modal-content p:last-child { margin-bottom: 0; }
-
-  .summary-modal-close {
-    margin-top: 24px;
-    display: inline-block;
-    padding: 10px 24px;
-    background: var(--navy);
-    color: #fff;
-    border-radius: 8px;
-    font-family: 'Raleway', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-  }
+  /* Detail view within summaries screen */
+  .summary-detail { display: none; }
+  .summary-detail.open { display: block; }
+  .summary-detail-bar { height: 5px; width: 100%; border-radius: 14px 14px 0 0; }
+  .summary-detail-body { background: #fff; border-radius: 0 0 14px 14px; padding: 24px; margin-bottom: 14px; border: 1px solid rgba(42,4,64,0.06); border-top: none; box-shadow: 0 4px 16px rgba(42,4,64,0.1); }
+  .summary-detail-module { font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--mid-text); margin-bottom: 4px; }
+  .summary-detail-heading { font-family: 'Raleway', sans-serif; font-size: 18px; font-weight: 700; color: var(--dark-text); margin-bottom: 4px; }
+  .summary-detail-meta { font-size: 12px; color: var(--mid-text); margin-bottom: 18px; }
+  .summary-detail-content { font-size: 14px; color: var(--dark-text); line-height: 1.75; }
+  .summary-detail-content p { margin-bottom: 14px; }
+  .summary-detail-content p:last-child { margin-bottom: 0; }
+  .summary-detail-close { display: inline-block; margin-top: 20px; font-family: 'Raleway', sans-serif; font-size: 12px; font-weight: 700; color: var(--periwinkle); cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
 
   /* ============================================================
      DASHED DIVIDER
@@ -821,33 +799,22 @@
   <!-- PAGE BODY -->
   <div class="page-body">
     <div class="modules-wrap">
+      <!-- MY DISCOVERY SUMMARIES CARD -->
+      <div class="summaries-home-card" onclick="showSummariesScreen()">
+        <div class="summaries-home-bar"></div>
+        <div class="summaries-home-inner">
+          <div class="summaries-home-icon">📋</div>
+          <div class="summaries-home-body">
+            <div class="summaries-home-title">My Discovery Summaries</div>
+            <div class="summaries-home-desc" id="summaries-home-desc">View your completed discovery results</div>
+          </div>
+          <div class="summaries-home-arrow">›</div>
+        </div>
+      </div>
+
       <div class="modules-label">Choose your journey</div>
 
-      <div class="modules-layout">
-
-        <!-- SUMMARIES PANEL — shown when user has completed journeys -->
-        <div class="summaries-panel" id="summaries-panel">
-          <div class="summaries-card">
-            <div class="summaries-card-bar"></div>
-            <div class="summaries-card-header">
-              <div class="summaries-card-title">My Discovery Summaries</div>
-              <div class="summaries-card-subtitle">Tap any to view your results</div>
-            </div>
-            <div class="summaries-list" id="summaries-list"></div>
-            <div class="summaries-email-section">
-              <div class="summaries-email-label">Email my summaries</div>
-              <div class="summaries-email-row">
-                <input type="email" id="summaries-email-input" class="summaries-email-input" placeholder="your@email.com">
-                <button class="summaries-email-btn" id="summaries-email-btn" onclick="emailSummaries()">Send</button>
-              </div>
-              <div class="summaries-email-feedback" id="summaries-email-feedback"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- JOURNEY CARDS -->
-        <div class="journey-col">
-        <div class="module-grid">
+      <div class="module-grid">
 
         <!-- Funding Finder — primary orange bar -->
         <div class="module-card" onclick="window.location.href='funding-finder.html'">
@@ -938,25 +905,8 @@
         </div>
 
       </div><!-- /module-grid -->
-        </div><!-- /journey-col -->
-
-      </div><!-- /modules-layout -->
 
       <div class="dashed-divider">Fiskal Discovery</div>
-    </div>
-  </div>
-
-  <!-- SUMMARY MODAL -->
-  <div class="summary-modal-overlay" id="summary-modal-overlay" onclick="closeSummaryModal(event)">
-    <div class="summary-modal" id="summary-modal">
-      <div class="summary-modal-bar" id="summary-modal-bar"></div>
-      <div class="summary-modal-body">
-        <div class="summary-modal-module" id="summary-modal-module"></div>
-        <div class="summary-modal-heading">Your Discovery Summary</div>
-        <div class="summary-modal-meta" id="summary-modal-meta"></div>
-        <div class="summary-modal-content" id="summary-modal-content"></div>
-        <button class="summary-modal-close" onclick="document.getElementById('summary-modal-overlay').classList.remove('open')">Close</button>
-      </div>
     </div>
   </div>
 
@@ -1007,6 +957,82 @@ function formatDate(iso) {
   } catch(e) { return ''; }
 }
 
+function getDiscoveries() {
+  try { return JSON.parse(localStorage.getItem('fiskal_discoveries') || '[]'); } catch(e) { return []; }
+}
+
+function updateSummariesHomeCard() {
+  const desc        = document.getElementById('summaries-home-desc');
+  const discoveries = getDiscoveries();
+  if (!desc) return;
+  if (!discoveries.length) {
+    desc.textContent = "You haven't completed any journeys yet — choose one below";
+  } else {
+    desc.textContent = discoveries.length === 1
+      ? `1 summary saved — ${discoveries[0].module}`
+      : `${discoveries.length} summaries saved`;
+  }
+}
+
+function showSummariesScreen() {
+  document.getElementById('screen-home').classList.remove('active');
+  document.getElementById('screen-summaries').classList.add('active');
+  renderSummariesScreen();
+  prefillEmail();
+}
+
+function showHomeFromSummaries() {
+  document.getElementById('screen-summaries').classList.remove('active');
+  document.getElementById('screen-home').classList.add('active');
+}
+
+function renderSummariesScreen() {
+  const list        = document.getElementById('summaries-screen-list');
+  const discoveries = getDiscoveries();
+  if (!discoveries.length) {
+    list.innerHTML = `<div class="summaries-empty">You haven't completed any journeys yet.<br>Head back to the home screen and choose a journey to get started.</div>`;
+    return;
+  }
+  list.innerHTML = discoveries.map((d, i) => {
+    const colour = MODULE_COLOURS[d.module] || 'var(--periwinkle)';
+    const date   = formatDate(d.date);
+    const biz    = d.business ? ` · ${d.business}` : '';
+    return `
+      <div class="summary-card" onclick="toggleSummaryDetail(${i})">
+        <div class="summary-card-bar" style="background:${colour}"></div>
+        <div class="summary-card-inner">
+          <div class="summary-card-dot" style="background:${colour}"></div>
+          <div class="summary-card-body">
+            <div class="summary-card-module">${d.module}</div>
+            <div class="summary-card-meta">${date}${biz}</div>
+          </div>
+          <div class="summary-card-arrow">›</div>
+        </div>
+      </div>
+      <div class="summary-detail" id="summary-detail-${i}">
+        <div class="summary-detail-bar" style="background:${colour}"></div>
+        <div class="summary-detail-body">
+          <div class="summary-detail-module">${d.module}</div>
+          <div class="summary-detail-heading">Your Discovery Summary</div>
+          <div class="summary-detail-meta">${date}${biz}</div>
+          <div class="summary-detail-content">${d.summaryHtml || d.summaryText || ''}</div>
+          <div class="summary-detail-close" onclick="toggleSummaryDetail(${i})">▲ Close summary</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function toggleSummaryDetail(i) {
+  const detail = document.getElementById(`summary-detail-${i}`);
+  if (!detail) return;
+  const isOpen = detail.classList.contains('open');
+  document.querySelectorAll('.summary-detail').forEach(el => el.classList.remove('open'));
+  if (!isOpen) {
+    detail.classList.add('open');
+    detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
 function prefillEmail() {
   const input = document.getElementById('summaries-email-input');
   if (!input) return;
@@ -1028,9 +1054,7 @@ async function emailSummaries() {
     return;
   }
 
-  let discoveries = [];
-  try { discoveries = JSON.parse(localStorage.getItem('fiskal_discoveries') || '[]'); } catch(e) {}
-
+  const discoveries = getDiscoveries();
   if (!discoveries.length) {
     feedback.textContent = 'No summaries to send yet.';
     feedback.className   = 'summaries-email-feedback error';
@@ -1042,23 +1066,22 @@ async function emailSummaries() {
   ).join('\n\n');
 
   const templateParams = {
-    to_email:  email,
-    name:      appState.profile && appState.profile.name ? appState.profile.name : 'Fiskal User',
-    summary:   summaryText,
-    module:    'Discovery Summaries',
-    count:     discoveries.length
+    to_email: email,
+    name:     appState.profile && appState.profile.name ? appState.profile.name : 'Fiskal User',
+    summary:  summaryText,
+    module:   'Discovery Summaries',
+    count:    discoveries.length
   };
 
-  btn.disabled        = true;
+  btn.disabled         = true;
   feedback.textContent = 'Sending…';
-  feedback.className  = 'summaries-email-feedback';
+  feedback.className   = 'summaries-email-feedback';
 
   if (!EMAILS_ENABLED) {
-    // EMAILS DISABLED — remove this block when ready to test
     setTimeout(() => {
-      btn.disabled        = false;
+      btn.disabled         = false;
       feedback.textContent = '(Email sending is disabled during testing)';
-      feedback.className  = 'summaries-email-feedback';
+      feedback.className   = 'summaries-email-feedback';
     }, 800);
     return;
   }
@@ -1075,54 +1098,6 @@ async function emailSummaries() {
   btn.disabled = false;
 }
 
-function loadSummaries() {
-  const panel  = document.getElementById('summaries-panel');
-  const list   = document.getElementById('summaries-list');
-  const bar    = panel.querySelector('.summaries-card-bar');
-  panel.classList.add('visible');
-
-  let discoveries = [];
-  try { discoveries = JSON.parse(localStorage.getItem('fiskal_discoveries') || '[]'); } catch(e) {}
-
-  if (!discoveries.length) {
-    list.innerHTML = `<div style="padding:16px;font-size:12px;color:var(--mid-text);line-height:1.5;">You haven't completed any journeys yet.<br>Choose one below to get started.</div>`;
-    return;
-  }
-
-  list.innerHTML = discoveries.map((d, i) => {
-    const colour = MODULE_COLOURS[d.module] || 'var(--periwinkle)';
-    const date   = formatDate(d.date);
-    const biz    = d.business ? ` · ${d.business}` : '';
-    return `<div class="summary-entry" onclick="openSummaryModal(${i})">
-      <div class="summary-entry-module">
-        <span class="summary-entry-dot" style="background:${colour}"></span>
-        ${d.module}
-      </div>
-      <div class="summary-entry-meta">${date}${biz}</div>
-      <div class="summary-entry-view">View summary ›</div>
-    </div>`;
-  }).join('');
-}
-
-function openSummaryModal(index) {
-  let discoveries = [];
-  try { discoveries = JSON.parse(localStorage.getItem('fiskal_discoveries') || '[]'); } catch(e) {}
-  const d = discoveries[index];
-  if (!d) return;
-  const colour = MODULE_COLOURS[d.module] || 'var(--periwinkle)';
-  document.getElementById('summary-modal-bar').style.background = colour;
-  document.getElementById('summary-modal-module').textContent   = d.module;
-  document.getElementById('summary-modal-meta').textContent     = formatDate(d.date) + (d.business ? ` · ${d.business}` : '');
-  document.getElementById('summary-modal-content').innerHTML    = d.summaryHtml || d.summaryText || '';
-  document.getElementById('summary-modal-overlay').classList.add('open');
-}
-
-function closeSummaryModal(e) {
-  if (e.target === document.getElementById('summary-modal-overlay')) {
-    document.getElementById('summary-modal-overlay').classList.remove('open');
-  }
-}
-
 function showHomepage() {
   document.getElementById('screen-home').classList.add('active');
   if (appState.profile && appState.profile.name) {
@@ -1131,7 +1106,7 @@ function showHomepage() {
     document.getElementById('home-profile-company').textContent = appState.profile.companyName || '';
     document.getElementById('home-avatar').textContent = appState.profile.name.charAt(0).toUpperCase();
   }
-  loadSummaries();
+  updateSummariesHomeCard();
 }
 
 function resetOnboarding() {
@@ -1159,7 +1134,6 @@ function spawnShootingStar() {
 document.addEventListener('DOMContentLoaded', function () {
   loadAppState();
   showHomepage();
-  prefillEmail();
   setTimeout(spawnShootingStar, Math.random() * 5000 + 4000);
 });
 </script>
