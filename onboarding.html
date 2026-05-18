@@ -1487,39 +1487,33 @@
   }
   .ob-q-cards { display: flex; flex-direction: column; gap: 12px; width: 100%; }
   .ob-q-card {
-    background: rgba(255,255,255,0.05);
-    border: 1.5px solid rgba(217,79,0,0.5);
-    border-radius: 16px;
-    padding: 18px 22px;
+    background: #ffffff;
+    border: 1px solid rgba(42, 4, 64, 0.06);
+    border-top: 4px solid #D94F00;
+    border-radius: 14px;
+    padding: 18px 20px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 16px;
     text-align: left;
     width: 100%;
     font-family: 'DM Sans', sans-serif;
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(42, 4, 64, 0.08);
+    box-sizing: border-box;
   }
-  .ob-q-card:hover { border-color: #ff7a2e; transform: translateX(4px); }
+  .ob-q-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(42, 4, 64, 0.14); }
   .ob-q-card:active { transform: scale(0.99); }
-  .ob-q-card.ob-selected { border-color: #ff7a2e; background: rgba(217,79,0,0.12); }
-  .ob-q-card-icon {
-    font-size: 26px; flex-shrink: 0; line-height: 1;
-    width: 48px; height: 48px;
-    display: flex; align-items: center; justify-content: center;
-    background: rgba(99,102,241,0.12);
-    border-radius: 12px;
-  }
+  .ob-q-card.ob-selected { border-top-color: #ff7a2e; box-shadow: 0 8px 28px rgba(217,79,0,0.18); }
   .ob-q-card-body { flex: 1; }
-  .ob-q-card-label { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 3px; line-height: 1.2; }
-  .ob-q-card-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.4; }
+  .ob-q-card-label { font-size: 15px; font-weight: 700; color: #1a0533; margin-bottom: 3px; line-height: 1.2; font-family: 'Raleway', sans-serif; }
+  .ob-q-card-desc { font-size: 13px; color: #5a4570; line-height: 1.4; }
   .ob-q-card-arrow {
-    color: rgba(255,255,255,0.25); font-size: 20px; flex-shrink: 0;
+    color: #8E7ED8; font-size: 20px; flex-shrink: 0;
     transition: color 0.2s, transform 0.2s;
   }
-  .ob-q-card:hover .ob-q-card-arrow { color: rgba(255,255,255,0.7); transform: translateX(3px); }
+  .ob-q-card:hover .ob-q-card-arrow { color: #D94F00; transform: translateX(3px); }
   .ob-q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
   .ob-q-pill {
     background: rgba(255,255,255,0.05);
