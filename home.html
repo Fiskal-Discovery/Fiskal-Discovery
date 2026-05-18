@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fiskal Discovery</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Libre+Baskerville:ital,wght@1,700&family=Bebas+Neue&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init("g710KFSryN241SQWm");</script>
 <style>
   :root {
     --navy:       #4e0063;
@@ -539,6 +541,75 @@
   }
 
   /* ============================================================
+     SUMMARIES EMAIL SECTION
+  ============================================================ */
+  .summaries-email-section {
+    padding: 12px 16px 16px;
+    border-top: 1px solid rgba(42,4,64,0.07);
+  }
+
+  .summaries-email-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--mid-text);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .summaries-email-row {
+    display: flex;
+    gap: 6px;
+  }
+
+  .summaries-email-input {
+    flex: 1;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    padding: 7px 10px;
+    border: 1px solid rgba(42,4,64,0.15);
+    border-radius: 7px;
+    outline: none;
+    color: var(--dark-text);
+    background: #faf8fd;
+    min-width: 0;
+  }
+
+  .summaries-email-input:focus {
+    border-color: var(--periwinkle);
+  }
+
+  .summaries-email-btn {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 7px 12px;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .summaries-email-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .summaries-email-feedback {
+    font-size: 11px;
+    margin-top: 6px;
+    min-height: 14px;
+    color: var(--mid-text);
+  }
+
+  .summaries-email-feedback.success { color: #0F766E; }
+  .summaries-email-feedback.error   { color: #BE123C; }
+
+  /* ============================================================
      SUMMARY MODAL
   ============================================================ */
   .summary-modal-overlay {
@@ -763,6 +834,14 @@
               <div class="summaries-card-subtitle">Tap any to view your results</div>
             </div>
             <div class="summaries-list" id="summaries-list"></div>
+            <div class="summaries-email-section">
+              <div class="summaries-email-label">Email my summaries</div>
+              <div class="summaries-email-row">
+                <input type="email" id="summaries-email-input" class="summaries-email-input" placeholder="your@email.com">
+                <button class="summaries-email-btn" id="summaries-email-btn" onclick="emailSummaries()">Send</button>
+              </div>
+              <div class="summaries-email-feedback" id="summaries-email-feedback"></div>
+            </div>
           </div>
         </div>
 
@@ -913,6 +992,8 @@ function saveAppState() {
   } catch (e) { console.warn('Failed to save appState:', e); }
 }
 
+const EMAILS_ENABLED = false; // set to true when ready to test
+
 const MODULE_COLOURS = {
   'Funding Finder':             '#0369A1',
   'Facility Review':            '#7C3AED',
@@ -924,6 +1005,74 @@ function formatDate(iso) {
   try {
     return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   } catch(e) { return ''; }
+}
+
+function prefillEmail() {
+  const input = document.getElementById('summaries-email-input');
+  if (!input) return;
+  try {
+    const profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}');
+    if (profile.email) input.value = profile.email;
+  } catch(e) {}
+}
+
+async function emailSummaries() {
+  const input    = document.getElementById('summaries-email-input');
+  const feedback = document.getElementById('summaries-email-feedback');
+  const btn      = document.getElementById('summaries-email-btn');
+  const email    = (input.value || '').trim();
+
+  if (!email || !email.includes('@')) {
+    feedback.textContent = 'Please enter a valid email address.';
+    feedback.className   = 'summaries-email-feedback error';
+    return;
+  }
+
+  let discoveries = [];
+  try { discoveries = JSON.parse(localStorage.getItem('fiskal_discoveries') || '[]'); } catch(e) {}
+
+  if (!discoveries.length) {
+    feedback.textContent = 'No summaries to send yet.';
+    feedback.className   = 'summaries-email-feedback error';
+    return;
+  }
+
+  const summaryText = discoveries.map(d =>
+    `${d.module} · ${formatDate(d.date)}${d.business ? ' · ' + d.business : ''}\n${'─'.repeat(40)}\n${(d.summaryHtml || '').replace(/<[^>]+>/g, '').trim()}`
+  ).join('\n\n');
+
+  const templateParams = {
+    to_email:  email,
+    name:      appState.profile && appState.profile.name ? appState.profile.name : 'Fiskal User',
+    summary:   summaryText,
+    module:    'Discovery Summaries',
+    count:     discoveries.length
+  };
+
+  btn.disabled        = true;
+  feedback.textContent = 'Sending…';
+  feedback.className  = 'summaries-email-feedback';
+
+  if (!EMAILS_ENABLED) {
+    // EMAILS DISABLED — remove this block when ready to test
+    setTimeout(() => {
+      btn.disabled        = false;
+      feedback.textContent = '(Email sending is disabled during testing)';
+      feedback.className  = 'summaries-email-feedback';
+    }, 800);
+    return;
+  }
+
+  try {
+    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    feedback.textContent = 'Sent! Check your inbox.';
+    feedback.className   = 'summaries-email-feedback success';
+  } catch(err) {
+    console.warn('Email failed:', err);
+    feedback.textContent = 'Something went wrong — please try again.';
+    feedback.className   = 'summaries-email-feedback error';
+  }
+  btn.disabled = false;
 }
 
 function loadSummaries() {
@@ -1010,6 +1159,7 @@ function spawnShootingStar() {
 document.addEventListener('DOMContentLoaded', function () {
   loadAppState();
   showHomepage();
+  prefillEmail();
   setTimeout(spawnShootingStar, Math.random() * 5000 + 4000);
 });
 </script>
