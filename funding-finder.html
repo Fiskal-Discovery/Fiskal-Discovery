@@ -1514,6 +1514,16 @@
   /* Hide question emoji icon */
   .question-icon { display: none !important; }
 
+  /* Question subtitle */
+  .question-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    margin-top: -16px;
+    margin-bottom: 24px;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.5;
+  }
+
   /* Question eyebrow — periwinkle Raleway */
   .question-product {
     font-family: 'Raleway', sans-serif !important;
@@ -1816,6 +1826,7 @@
     <div class="question-icon" id="q-icon">&#128176;</div>
     <div class="question-product" id="q-product">Invoice Finance</div>
     <h2 class="question-text" id="q-text">Question goes here</h2>
+    <p class="question-sub" id="q-sub" style="display:none;"></p>
     <div class="answer-options" id="q-options"></div>
     <div id="q-followup"></div>
     <button class="btn-primary" id="q-next-btn" onclick="nextQuestion()" style="display:none;margin-top:16px">Next ></button>
@@ -2175,7 +2186,8 @@ const fundingFinderFlow = [
   {
     id: "purpose",
     type: "multi-choice",
-    question: "What do you need funding for? Select all that apply.",
+    question: "If money wasn't the obstacle, what would you do?",
+    subtitle: "Select all that apply — we'll help you figure out the rest.",
     options: [
       "Cashflow",
       "Working capital",
@@ -2310,6 +2322,9 @@ function renderFlowQuestion() {
   document.getElementById('q-icon').textContent = '💬';
   document.getElementById('q-product').textContent = 'Discovery';
   document.getElementById('q-text').textContent = q.question;
+  const subEl = document.getElementById('q-sub');
+  if (q.subtitle) { subEl.textContent = q.subtitle; subEl.style.display = 'block'; }
+  else { subEl.textContent = ''; subEl.style.display = 'none'; }
   document.getElementById('q-followup').innerHTML = '';
   document.getElementById('q-next-btn').style.display = 'none';
 
