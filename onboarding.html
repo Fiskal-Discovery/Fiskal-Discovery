@@ -1743,50 +1743,67 @@
     border-color: #ff7a2e !important;
   }
 
-  /* ---- TOP LENDER BADGE ---- */
+  /* ---- LENDER LEADERBOARD NEXT TO GAME BUTTON ---- */
   .ob-game-row {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     gap: 10px;
     justify-content: center;
     flex-wrap: wrap;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
   }
-  .ob-top-lender {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    background: rgba(255,230,0,0.08);
-    border: 1px solid rgba(255,230,0,0.25);
+  .ob-game-row .btn-secondary {
+    flex: 0 0 auto;
+    align-self: flex-start;
+  }
+  .ob-lender-lb {
+    flex: 1;
+    min-width: 160px;
+    background: rgba(255,230,0,0.06);
+    border: 1px solid rgba(255,230,0,0.28);
     border-radius: 10px;
-    padding: 6px 12px;
-    flex-shrink: 0;
-  }
-  .ob-top-lender-crown { font-size: 16px; }
-  .ob-top-lender-info {
+    padding: 10px 12px;
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 7px;
   }
-  .ob-top-lender-label {
-    font-size: 8px;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    color: #FFE600;
-    letter-spacing: 0.5px;
-    text-shadow: 0 0 8px rgba(255,230,0,0.4);
-  }
-  .ob-top-lender-name {
-    font-size: 12px;
-    font-weight: 700;
-    color: #ffffff;
-    font-family: 'DM Sans', sans-serif;
-    white-space: nowrap;
-  }
-  .ob-top-lender-score {
+  .ob-lender-lb-title {
     font-size: 10px;
-    color: #00FF88;
+    font-weight: 700;
+    color: #FFE600;
     font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.2px;
+  }
+  .ob-lender-lb-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .ob-lender-entry {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .ob-lender-medal { font-size: 12px; flex-shrink: 0; }
+  .ob-lender-name {
+    flex: 1;
+    font-size: 12px;
     font-weight: 600;
+    color: rgba(255,255,255,0.9);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+  .ob-lender-score {
+    font-size: 11px;
+    font-weight: 700;
+    color: #00FF88;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .ob-dashed-divider {
@@ -1989,13 +2006,9 @@
               <rect x="24" y="28" width="8"  height="4" fill="#FACC15"/>
             </svg>
           </a>
-          <div class="ob-top-lender" id="ob-top-lender" style="display:none">
-            <span class="ob-top-lender-crown">🏆</span>
-            <div class="ob-top-lender-info">
-              <span class="ob-top-lender-label">TOP LENDER</span>
-              <span class="ob-top-lender-name" id="ob-top-lender-name"></span>
-              <span class="ob-top-lender-score" id="ob-top-lender-score"></span>
-            </div>
+          <div class="ob-lender-lb" id="ob-lender-lb" style="display:none">
+            <div class="ob-lender-lb-title">🏆 Top Lenders Releasing Finances</div>
+            <div class="ob-lender-lb-rows" id="ob-lender-lb-rows"></div>
           </div>
           </div>
         </div>
@@ -2795,38 +2808,40 @@ function startOverlayStars() {
   setTimeout(spawnOverlayStar, Math.random() * 3000 + 1000);
 }
 
-// ---- TOP LENDER BADGE ----
+// ---- TOP 3 LENDER LEADERBOARD ----
 function loadChampions() {
-  function normalise(e) {
-    return {
-      name: String(e.name || e.business || 'ANONYMOUS').toUpperCase().slice(0, 20),
-      score: Number(e.score) || 0
-    };
-  }
-  function topEntry(raw) {
-    const best = {};
-    raw.filter(Boolean).map(normalise).forEach(e => {
-      const k = e.name.toLowerCase().replace(/[^a-z0-9]+/g,'_');
-      if (!best[k] || e.score > best[k].score) best[k] = e;
-    });
-    const sorted = Object.values(best).sort((a,b) => b.score - a.score);
-    return sorted[0] || null;
-  }
-  function showBadge(top) {
-    if (!top || top.score === 0) return;
-    const wrap = document.getElementById('ob-top-lender');
-    document.getElementById('ob-top-lender-name').textContent = top.name;
-    document.getElementById('ob-top-lender-score').textContent = '£' + top.score.toLocaleString() + ' released';
+  const wrap = document.getElementById('ob-lender-lb');
+  const rows = document.getElementById('ob-lender-lb-rows');
+  if (!wrap || !rows) return;
+
+  function render(entries) {
+    const medals = ['🥇','🥈','🥉'];
+    const lenders = entries
+      .filter(Boolean)
+      .filter(e => e.isLender)
+      .map(e => ({ name: String(e.name || 'ANONYMOUS').toUpperCase(), score: Number(e.score) || 0 }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3);
+
+    if (!lenders.length) return;
+
+    rows.innerHTML = lenders.map((e, i) =>
+      '<div class="ob-lender-entry">' +
+        '<span class="ob-lender-medal">' + medals[i] + '</span>' +
+        '<span class="ob-lender-name">' + e.name + '</span>' +
+        '<span class="ob-lender-score">£' + e.score.toLocaleString() + '</span>' +
+      '</div>'
+    ).join('');
     wrap.style.display = 'flex';
   }
 
   if (window._ciDb) {
     window._ciDb.ref('scores').once('value')
-      .then(snap => showBadge(topEntry(Object.values(snap.val() || {}))))
+      .then(snap => render(Object.values(snap.val() || {})))
       .catch(() => {});
   } else {
     try {
-      showBadge(topEntry(JSON.parse(localStorage.getItem('fiskal_ci_clean_fixed') || '[]')));
+      render(JSON.parse(localStorage.getItem('fiskal_ci_clean_fixed') || '[]'));
     } catch(e) {}
   }
 }
