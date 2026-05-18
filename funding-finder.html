@@ -1532,6 +1532,24 @@
     margin-bottom: 24px !important;
   }
 
+  /* Multi-choice 2-column grid */
+  .multi-choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+  }
+
+  /* Compact answer button for multi-choice grid */
+  .answer-btn-compact {
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+    min-height: 0 !important;
+    line-height: 1.3 !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+
   /* Answer buttons → white cards, orange top border */
   #screen-question .answer-btn,
   #screen-barriers .answer-btn {
@@ -2305,9 +2323,11 @@ function renderFlowQuestion() {
     });
   } else if (q.type === 'multi-choice') {
     const selected = new Set();
+    const grid = document.createElement('div');
+    grid.className = 'multi-choice-grid';
     q.options.forEach(opt => {
       const btn = document.createElement('button');
-      btn.className = 'answer-btn';
+      btn.className = 'answer-btn answer-btn-compact';
       btn.textContent = opt;
       btn.onclick = () => {
         if (selected.has(opt)) {
@@ -2319,8 +2339,9 @@ function renderFlowQuestion() {
         }
         nextBtn.style.display = selected.size > 0 ? 'block' : 'none';
       };
-      optionsEl.appendChild(btn);
+      grid.appendChild(btn);
     });
+    optionsEl.appendChild(grid);
     const nextBtn = document.getElementById('q-next-btn');
     nextBtn.style.display = 'none';
     nextBtn.textContent = 'Continue →';
