@@ -1662,12 +1662,32 @@
   }
 
   /* ============================================================
-     REDESIGN — RESULTS SCREEN (light, updated colours)
+     REDESIGN — RESULTS SCREEN
   ============================================================ */
   #screen-results,
   #screen-confirm {
-    background: linear-gradient(180deg, #f4ebfa 0%, #F7F8FA 100%);
+    background: #000000;
+    position: relative;
   }
+
+  #screen-results::before,
+  #screen-confirm::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(78,0,99,0.6) 0%, transparent 45%),
+      radial-gradient(ellipse at 80% 70%, rgba(78,0,99,0.45) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 90%, rgba(217,79,0,0.15) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #screen-results .screen-content,
+  #screen-results .ob-fixed-header,
+  #screen-results .screen-footer,
+  #screen-confirm .screen-content,
+  #screen-confirm .ob-fixed-header { position: relative; z-index: 1; }
 
   #screen-results .results-check {
     background: linear-gradient(135deg, #D94F00, #ff7a2e) !important;
@@ -1675,15 +1695,31 @@
   #screen-results .results-title {
     font-family: 'Raleway', sans-serif !important;
     font-weight: 700 !important;
-    color: #4e0063 !important;
+    color: #ffffff !important;
   }
   #screen-results .results-name { color: #8E7ED8 !important; }
-  #screen-results .ai-summary-label { color: #8E7ED8 !important; }
-  #screen-results .ai-summary-text { color: #1a0533 !important; }
+
+  #screen-results .ai-summary-label {
+    color: #8E7ED8 !important;
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+  }
+  #screen-results .ai-summary-text {
+    color: rgba(255,255,255,0.85) !important;
+  }
+  #screen-results .ai-summary {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    border-left: 3px solid #8E7ED8 !important;
+    border-radius: 12px !important;
+  }
 
   #screen-results .matched-product {
-    background: #ffffff !important;
-    border: 1px solid rgba(42,4,64,0.06) !important;
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
     border-left: 3px solid #D94F00 !important;
     border-radius: 10px !important;
     padding: 14px 16px !important;
@@ -1691,23 +1727,41 @@
   #screen-results .matched-product-name {
     font-family: 'Raleway', sans-serif !important;
     font-weight: 700 !important;
-    color: #4e0063 !important;
+    color: #ffffff !important;
+  }
+  #screen-results .matched-product-desc { color: rgba(255,255,255,0.6) !important; }
+
+  #screen-results p[style*="letter-spacing"] { color: rgba(255,255,255,0.4) !important; }
+  #screen-results p[style*="color:var(--mid)"] { color: rgba(255,255,255,0.5) !important; }
+
+  #screen-results .dashed-divider {
+    border-color: rgba(255,255,255,0.12) !important;
+    color: rgba(255,255,255,0.3) !important;
+  }
+  #screen-results .footer-legal { color: rgba(255,255,255,0.35) !important; }
+  #screen-results .footer-legal a { color: rgba(255,255,255,0.5) !important; }
+
+  #screen-results .back-btn {
+    color: rgba(255,255,255,0.5) !important;
+    background: transparent !important;
+    border: none !important;
   }
 
   /* Confirmation screen */
   #screen-confirm .confirm-title {
     font-family: 'Raleway', sans-serif !important;
     font-weight: 700 !important;
-    color: #4e0063 !important;
+    color: #ffffff !important;
   }
-  #screen-confirm .confirm-text { color: #5a4570 !important; }
+  #screen-confirm .confirm-text { color: rgba(255,255,255,0.7) !important; }
   #screen-confirm .btn-primary {
     background: #D94F00 !important;
-    box-shadow: 0 4px 20px rgba(217,79,0,0.35) !important;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.4) !important;
   }
   #screen-confirm .btn-secondary {
     color: #8E7ED8 !important;
     border-color: rgba(142,126,216,0.45) !important;
+    background: transparent !important;
   }
 </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
