@@ -1543,20 +1543,19 @@
     flex: 1;
   }
   .ob-body-inner {
-    max-width: 680px;
+    max-width: 960px;
     margin: 0 auto;
   }
-  .ob-info-box {
-    background: #0F766E;
-    border-left: 3px solid rgba(255,255,255,0.3);
-    border-radius: 0 12px 12px 0;
-    padding: 20px 24px;
-    margin-bottom: 24px;
-    font-size: 14px;
-    line-height: 1.75;
-    color: rgba(255,255,255,0.85);
+  .ob-intro-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
-  .ob-info-box strong { color: #ffffff; }
+  .ob-intro-text strong { color: #ffffff; }
   .ob-actions {
     display: flex;
     gap: 12px;
@@ -1679,11 +1678,11 @@
   <!-- BODY -->
   <div class="ob-body">
     <div class="ob-body-inner">
-      <div class="ob-info-box">
+      <div class="ob-intro-text">
         <p>Welcome to a different kind of finance experience. No automated decisions, no generic results — just real, personal guidance.</p>
-        <p style="margin-top:12px;">Everything you share comes straight to <strong>Nicole</strong>, who'll reach out personally to talk through what's possible for your business.</p>
-        <p style="margin-top:12px;">So answer honestly, based on what would genuinely help you grow. Don't second-guess what might or might not be available — that's Nicole's job.</p>
-        <p style="margin-top:12px;"><strong>You might be surprised what's possible.</strong></p>
+        <p>Everything you share comes straight to <strong>Nicole</strong>, who'll reach out personally to talk through what's possible for your business.</p>
+        <p>So answer honestly, based on what would genuinely help you grow. Don't second-guess what might or might not be available — that's Nicole's job.</p>
+        <p><strong>You might be surprised what's possible.</strong></p>
       </div>
       <div class="ob-actions">
         <button class="btn-primary" onclick="startWelcome()">Start My Discovery</button>
