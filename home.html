@@ -124,6 +124,24 @@
     100% { transform: translateY(-60px); opacity: 0; }
   }
 
+  /* Shooting stars */
+  .shooting-star {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.55) 35%, rgba(255,255,255,0.9) 100%);
+    border-radius: 1px;
+    pointer-events: none;
+    opacity: 0;
+    animation: shoot-star linear forwards;
+  }
+
+  @keyframes shoot-star {
+    0%   { opacity: 0;   transform: rotate(var(--sa)) translateX(0); }
+    12%  { opacity: 1; }
+    80%  { opacity: 0.5; }
+    100% { opacity: 0;   transform: rotate(var(--sa)) translateX(var(--sd)); }
+  }
+
   /* Geometric rings */
   .hero-ring {
     position: absolute;
@@ -606,9 +624,27 @@ function resetOnboarding() {
   window.location.href = 'onboarding.html';
 }
 
+function spawnShootingStar() {
+  const layer = document.querySelector('.stars-layer');
+  if (!layer) return;
+  const el = document.createElement('div');
+  el.className = 'shooting-star';
+  const x      = (Math.random() * 75 + 5).toFixed(1);
+  const y      = (Math.random() * 50 + 5).toFixed(1);
+  const angle  = (Math.random() * 22 + 18).toFixed(0);
+  const length = (Math.random() * 55 + 75).toFixed(0);
+  const dist   = (Math.random() * 100 + 230).toFixed(0);
+  const dur    = (Math.random() * 250 + 520).toFixed(0);
+  el.style.cssText = `left:${x}%;top:${y}%;width:${length}px;--sa:${angle}deg;--sd:${dist}px;animation-duration:${dur}ms`;
+  layer.appendChild(el);
+  setTimeout(() => el.remove(), +dur + 200);
+  setTimeout(spawnShootingStar, Math.random() * 11000 + 9000);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   loadAppState();
   showHomepage();
+  setTimeout(spawnShootingStar, Math.random() * 5000 + 4000);
 });
 </script>
 <script src="shared-components.js"></script>
