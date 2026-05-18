@@ -19,6 +19,11 @@
     --dark-text:  #1a0533;
     --mid-text:   #5a4570;
     --light-text: #8E7ED8;
+    --c-funding:  #0369A1;
+    --c-facility: #7C3AED;
+    --c-loan:     #BE123C;
+    --c-shariah:  #0F766E;
+    --c-game:     #FACC15;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -400,15 +405,16 @@
   }
 
   /* Card colour variants */
-  .bar-orange   { background: var(--orange); }
-  .bar-periwinkle { background: var(--periwinkle); }
-  .bar-shariah  { background: var(--shariah); }
-  .bar-game     { background: var(--navy); }
+  .bar-funding  { background: var(--c-funding); }
+  .bar-facility { background: var(--c-facility); }
+  .bar-loan     { background: var(--c-loan); }
+  .bar-shariah  { background: var(--c-shariah); }
+  .bar-game     { background: var(--c-game); }
 
   /* Cashflow Invaders — full width, dark */
   .module-card.card-game {
     grid-column: 1 / -1;
-    background: var(--navy);
+    background: #1a1a2e;
     border-color: transparent;
     flex-direction: row;
     padding: 0;
@@ -577,7 +583,7 @@
 
         <!-- Funding Finder — primary orange bar -->
         <div class="module-card" onclick="window.location.href='funding-finder.html'">
-          <div class="card-bar bar-orange"></div>
+          <div class="card-bar bar-funding"></div>
           <div class="card-inner">
             <div class="module-card-body">
               <div class="module-card-title">Funding Finder</div>
@@ -589,7 +595,7 @@
 
         <!-- Facility Review — periwinkle bar -->
         <div class="module-card" onclick="window.location.href='facility-review.html'">
-          <div class="card-bar bar-periwinkle"></div>
+          <div class="card-bar bar-facility"></div>
           <div class="card-inner">
             <div class="module-card-body">
               <div class="module-card-title">Facility Review</div>
@@ -601,7 +607,7 @@
 
         <!-- Loan Enquiry — periwinkle bar -->
         <div class="module-card" onclick="window.location.href='loan-application.html'">
-          <div class="card-bar bar-periwinkle"></div>
+          <div class="card-bar bar-loan"></div>
           <div class="card-inner">
             <div class="module-card-body">
               <div class="module-card-title">Loan Enquiry</div>
