@@ -124,6 +124,14 @@
     100% { transform: translateY(-60px); opacity: 0; }
   }
 
+  /* Background stars — static, always visible, no animation */
+  .star-bg {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.55);
+    pointer-events: none;
+  }
+
   /* Mars — static, always visible, rapidly scintillates through warm colours */
   .mars {
     position: absolute;
@@ -498,6 +506,26 @@
   <!-- Stars layer — outside .hero so not clipped by ::after, clipped to diagonal shape -->
   <div class="stars-layer">
     <div class="mars"></div>
+    <!-- Background speckle stars — static, always visible -->
+    <div class="star-bg" style="width:1px;height:1px;left:8%;top:12%;"></div>
+    <div class="star-bg" style="width:1px;height:1px;left:20%;top:8%;opacity:0.4;"></div>
+    <div class="star-bg" style="width:2px;height:2px;left:33%;top:18%;opacity:0.35;"></div>
+    <div class="star-bg" style="width:1px;height:1px;left:47%;top:6%;opacity:0.5;"></div>
+    <div class="star-bg" style="width:1px;height:1px;left:58%;top:20%;opacity:0.3;"></div>
+    <div class="star-bg" style="width:2px;height:2px;left:72%;top:10%;opacity:0.45;"></div>
+    <div class="star-bg" style="width:1px;height:1px;left:85%;top:16%;opacity:0.35;"></div>
+    <div class="star-bg" style="width:1px;height:1px;left:12%;top:35%;opacity:0.3;"></div>
+    <div class="star-bg" style="width:2px;height:2px;left:27%;top:42%;opacity:0.4;"></div>
+    <div class="star-bg" style="width:1px;height:1px;left:41%;top:55%;opacity:0.3;"></div>
+    <div class="star-bg" style="width:1px;height:1px;left:65%;top:48%;opacity:0.35;"></div>
+    <div class="star-bg" style="width:2px;height:2px;left:78%;top:38%;opacity:0.4;"></div>
+    <div class="star-bg" style="width:1px;height:1px;left:91%;top:28%;opacity:0.3;"></div>
+    <div class="star-bg" style="width:1px;height:1px;left:52%;top:33%;opacity:0.25;"></div>
+    <div class="star-bg" style="width:1px;height:1px;left:6%;top:60%;opacity:0.3;"></div>
+    <div class="star-bg" style="width:2px;height:2px;left:38%;top:68%;opacity:0.35;"></div>
+    <div class="star-bg" style="width:1px;height:1px;left:70%;top:62%;opacity:0.3;"></div>
+    <div class="star-bg" style="width:1px;height:1px;left:88%;top:55%;opacity:0.25;"></div>
+    <!-- floating stars -->
     <div class="star" style="width:3px;height:3px;left:4%;bottom:8%;--fd:4.2s;--fd-delay:0s;"></div>
     <div class="star" style="width:2px;height:2px;left:10%;bottom:18%;--fd:5.1s;--fd-delay:0.8s;"></div>
     <div class="star" style="width:2px;height:2px;left:3%;bottom:30%;--fd:3.8s;--fd-delay:1.5s;"></div>
