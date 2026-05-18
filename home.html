@@ -113,19 +113,32 @@
     border-radius: 50%;
     background: #ffffff;
     pointer-events: none;
-    animation: float-star linear infinite;
     opacity: 0;
+    animation: float-star var(--fd, 4s) var(--fd-delay, 0s) linear infinite;
   }
-  .star-amber  { background: #ffb84d; box-shadow: 0 0 3px 1px rgba(255,184,77,0.5); }
-  .star-orange { background: #ff7a38; box-shadow: 0 0 3px 1px rgba(255,122,56,0.5); }
-  .star-red    { background: #ff5c5c; box-shadow: 0 0 3px 1px rgba(255,92,92,0.4); }
-  .star-gold   { background: #ffe066; box-shadow: 0 0 3px 1px rgba(255,224,102,0.45); }
+
+  .star-twinkle {
+    animation: float-star var(--fd, 4s) var(--fd-delay, 0s) linear infinite,
+               scintillate var(--sd, 0.4s) linear infinite;
+  }
 
   @keyframes float-star {
     0%   { transform: translateY(0px);   opacity: 0; }
     10%  { opacity: 1; }
-    90%  { opacity: 0.7; }
+    90%  { opacity: 0.8; }
     100% { transform: translateY(-60px); opacity: 0; }
+  }
+
+  @keyframes scintillate {
+    0%   { background: #ffffff; }
+    14%  { background: #ff6a2a; }
+    28%  { background: #ffe040; }
+    42%  { background: #ffffff; }
+    55%  { background: #ff3355; }
+    68%  { background: #a0d0ff; }
+    80%  { background: #ffb830; }
+    92%  { background: #ffffff; }
+    100% { background: #ff6a2a; }
   }
 
   /* Shooting stars */
@@ -479,22 +492,22 @@
   </div>
   <!-- Stars layer — outside .hero so not clipped by ::after, clipped to diagonal shape -->
   <div class="stars-layer">
-    <div class="star star-amber"  style="width:3px;height:3px;left:4%;bottom:8%;animation-duration:4.2s;animation-delay:0s;"></div>
-    <div class="star"             style="width:2px;height:2px;left:10%;bottom:18%;animation-duration:5.1s;animation-delay:0.8s;"></div>
-    <div class="star star-red"    style="width:2px;height:2px;left:3%;bottom:30%;animation-duration:3.8s;animation-delay:1.5s;"></div>
-    <div class="star"             style="width:3px;height:3px;left:18%;bottom:5%;animation-duration:4.7s;animation-delay:0.3s;"></div>
-    <div class="star star-orange" style="width:2px;height:2px;left:25%;bottom:15%;animation-duration:5.5s;animation-delay:2.1s;"></div>
-    <div class="star"             style="width:2px;height:2px;left:7%;bottom:45%;animation-duration:4.0s;animation-delay:3.0s;"></div>
-    <div class="star star-gold"   style="width:3px;height:3px;left:35%;bottom:10%;animation-duration:4.9s;animation-delay:1.2s;"></div>
-    <div class="star"             style="width:2px;height:2px;left:15%;bottom:55%;animation-duration:5.3s;animation-delay:0.6s;"></div>
-    <div class="star star-amber"  style="width:2px;height:2px;left:50%;bottom:20%;animation-duration:3.9s;animation-delay:2.8s;"></div>
-    <div class="star"             style="width:3px;height:3px;left:60%;bottom:30%;animation-duration:4.4s;animation-delay:1.8s;"></div>
-    <div class="star star-orange" style="width:2px;height:2px;left:70%;bottom:15%;animation-duration:5.0s;animation-delay:0.4s;"></div>
-    <div class="star"             style="width:2px;height:2px;left:80%;bottom:25%;animation-duration:4.6s;animation-delay:3.5s;"></div>
-    <div class="star star-red"    style="width:3px;height:3px;left:45%;bottom:50%;animation-duration:3.7s;animation-delay:1.0s;"></div>
-    <div class="star"             style="width:2px;height:2px;left:88%;bottom:40%;animation-duration:5.2s;animation-delay:2.4s;"></div>
-    <div class="star star-gold"   style="width:2px;height:2px;left:30%;bottom:65%;animation-duration:4.1s;animation-delay:0.9s;"></div>
-    <div class="star"             style="width:3px;height:3px;left:55%;bottom:70%;animation-duration:4.8s;animation-delay:3.2s;"></div>
+    <div class="star star-twinkle" style="width:3px;height:3px;left:4%;bottom:8%;--fd:4.2s;--fd-delay:0s;--sd:0.37s;"></div>
+    <div class="star"             style="width:2px;height:2px;left:10%;bottom:18%;--fd:5.1s;--fd-delay:0.8s;"></div>
+    <div class="star"             style="width:2px;height:2px;left:3%;bottom:30%;--fd:3.8s;--fd-delay:1.5s;"></div>
+    <div class="star star-twinkle" style="width:3px;height:3px;left:18%;bottom:5%;--fd:4.7s;--fd-delay:0.3s;--sd:0.52s;"></div>
+    <div class="star"             style="width:2px;height:2px;left:25%;bottom:15%;--fd:5.5s;--fd-delay:2.1s;"></div>
+    <div class="star"             style="width:2px;height:2px;left:7%;bottom:45%;--fd:4.0s;--fd-delay:3.0s;"></div>
+    <div class="star star-twinkle" style="width:3px;height:3px;left:35%;bottom:10%;--fd:4.9s;--fd-delay:1.2s;--sd:0.44s;"></div>
+    <div class="star"             style="width:2px;height:2px;left:15%;bottom:55%;--fd:5.3s;--fd-delay:0.6s;"></div>
+    <div class="star"             style="width:2px;height:2px;left:50%;bottom:20%;--fd:3.9s;--fd-delay:2.8s;"></div>
+    <div class="star star-twinkle" style="width:3px;height:3px;left:60%;bottom:30%;--fd:4.4s;--fd-delay:1.8s;--sd:0.31s;"></div>
+    <div class="star"             style="width:2px;height:2px;left:70%;bottom:15%;--fd:5.0s;--fd-delay:0.4s;"></div>
+    <div class="star"             style="width:2px;height:2px;left:80%;bottom:25%;--fd:4.6s;--fd-delay:3.5s;"></div>
+    <div class="star star-twinkle" style="width:3px;height:3px;left:45%;bottom:50%;--fd:3.7s;--fd-delay:1.0s;--sd:0.48s;"></div>
+    <div class="star"             style="width:2px;height:2px;left:88%;bottom:40%;--fd:5.2s;--fd-delay:2.4s;"></div>
+    <div class="star"             style="width:2px;height:2px;left:30%;bottom:65%;--fd:4.1s;--fd-delay:0.9s;"></div>
+    <div class="star star-twinkle" style="width:3px;height:3px;left:55%;bottom:70%;--fd:4.8s;--fd-delay:3.2s;--sd:0.41s;"></div>
   </div>
   </div><!-- /hero-wrap -->
 
