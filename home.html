@@ -663,7 +663,7 @@
     letter-spacing: 0.5px;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 660px) {
     .summaries-screen-layout { flex-direction: column; }
     .summaries-game-col { width: 100%; }
   }
@@ -904,8 +904,19 @@
     .module-grid { grid-template-columns: 1fr; }
     .module-card.card-game { grid-column: 1; }
     .navbar { padding: 12px 20px; }
-    .nav-tagline { display: none; }
+    .nav-tagline { margin-left: auto; }
+    .tagline-refuse { font-size: 20px; letter-spacing: 2px; }
+    .tagline-rest { font-size: 7px; letter-spacing: 2px; }
     .page-body { padding: 28px 16px 48px; }
+    .dashed-divider { font-size: 18px; gap: 10px; }
+  }
+
+  @media (max-width: 380px) {
+    .hero-title { font-size: 28px !important; }
+    .hero-tagline { font-size: 13px !important; }
+    .tagline-refuse { font-size: 16px; letter-spacing: 1px; }
+    .tagline-rest { display: none; }
+    .dashed-divider { font-size: 16px; }
   }
 </style>
 </head>
