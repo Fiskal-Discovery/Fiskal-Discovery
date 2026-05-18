@@ -1959,7 +1959,7 @@
     <div class="divider"></div>
   </div>
   <div class="discovery-bottom-nav">
-    <button class="discovery-nav-btn" onclick="window.location.href='index.html?home=1'">Home</button>
+    <button class="discovery-nav-btn" onclick="showScreen('screen-review-selection')">Home</button>
     <button class="discovery-nav-btn primary" id="asset-continue-btn" onclick="continueToNextReview()" style="display:none">Continue to Next Review</button>
   </div>
 </div>
@@ -2337,7 +2337,7 @@
     <div class="divider"></div>
   </div>
   <div class="discovery-bottom-nav">
-    <button class="discovery-nav-btn" onclick="window.location.href='index.html?home=1'">Home</button>
+    <button class="discovery-nav-btn" onclick="showScreen('screen-review-selection')">Home</button>
     <button class="discovery-nav-btn primary" id="trade-continue-btn" onclick="continueToNextReview()" style="display:none">Continue to Next Review</button>
   </div>
 </div>
@@ -2398,7 +2398,7 @@
     <div class="divider"></div>
   </div>
   <div class="discovery-bottom-nav">
-    <button class="discovery-nav-btn" onclick="window.location.href='index.html?home=1'">Home</button>
+    <button class="discovery-nav-btn" onclick="showScreen('screen-review-selection')">Home</button>
     <button class="discovery-nav-btn primary" id="fx-continue-btn" onclick="continueToNextReview()" style="display:none">Continue to Next Review</button>
   </div>
 </div>
@@ -3727,7 +3727,7 @@ function updateResultsButtons() {
   
   // Add click handlers
   homeBtn.onclick = () => {
-    window.location.href = 'index.html';
+    showScreen('screen-review-selection');
   };
 }
 
