@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="favicon-main.svg">
 <title>Fiskal Discovery</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
@@ -1421,6 +1421,233 @@
   @media (max-width: 380px) {
     .question-text { font-size: 16px !important; }
     .brand-title { font-size: 32px !important; }
+  }
+
+  /* ============================================================
+     REDESIGN — DARK QUESTION FLOW
+  ============================================================ */
+
+  /* Dark background for question/intro/barriers screens */
+  #screen-details,
+  #screen-question,
+  #screen-barriers,
+  #screen-loading,
+  #screen-submission-loading {
+    background: #000000;
+    position: relative;
+  }
+
+  /* Purple orb overlay */
+  #screen-details::before,
+  #screen-question::before,
+  #screen-barriers::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 22% 30%, rgba(78,0,99,0.65) 0%, transparent 42%),
+      radial-gradient(ellipse at 72% 68%, rgba(78,0,99,0.50) 0%, transparent 40%),
+      radial-gradient(ellipse at 55% 10%, rgba(78,0,99,0.35) 0%, transparent 35%),
+      radial-gradient(ellipse at 10% 80%, rgba(78,0,99,0.40) 0%, transparent 35%),
+      radial-gradient(ellipse at 88% 20%, rgba(78,0,99,0.30) 0%, transparent 30%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Lift content above orb */
+  #screen-details .ob-fixed-header,
+  #screen-question .ob-fixed-header,
+  #screen-barriers .ob-fixed-header,
+  #screen-details .progress-bar-wrap,
+  #screen-question .progress-bar-wrap,
+  #screen-barriers .progress-bar-wrap,
+  #screen-details .screen-content,
+  #screen-question .screen-content,
+  #screen-barriers .screen-content,
+  #screen-details .nav-row,
+  #screen-question .nav-row,
+  #screen-barriers .nav-row { position: relative; z-index: 1; }
+
+  /* Progress bar — orange */
+  .progress-fill { background: #D94F00 !important; }
+  .progress-track { background: rgba(255,255,255,0.12) !important; }
+  .progress-label { color: rgba(255,255,255,0.45) !important; }
+
+  /* Typing intro */
+  .typing-text {
+    color: #ffffff !important;
+    font-size: clamp(17px, 3vw, 24px) !important;
+    line-height: 1.55 !important;
+  }
+
+  /* Hide question emoji icon */
+  .question-icon { display: none !important; }
+
+  /* Question eyebrow — periwinkle Raleway */
+  .question-product {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    color: #8E7ED8 !important;
+    letter-spacing: 2px !important;
+  }
+
+  /* Question heading — white Raleway bold */
+  .question-text {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    font-size: clamp(16px, 2.8vw, 22px) !important;
+    line-height: 1.25 !important;
+    margin-bottom: 24px !important;
+  }
+
+  /* Answer buttons → white cards, orange top border */
+  #screen-question .answer-btn,
+  #screen-barriers .answer-btn {
+    background: #ffffff !important;
+    border: 1px solid rgba(42,4,64,0.06) !important;
+    border-top: 4px solid #D94F00 !important;
+    border-radius: 14px !important;
+    color: #1a0533 !important;
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    box-shadow: 0 2px 12px rgba(42,4,64,0.08) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  }
+  #screen-question .answer-btn:hover,
+  #screen-barriers .answer-btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 28px rgba(42,4,64,0.14) !important;
+    border-top-color: #ff7a2e !important;
+    background: #ffffff !important;
+  }
+  #screen-question .answer-btn.selected,
+  #screen-barriers .answer-btn.selected {
+    border-top-color: #ff7a2e !important;
+    box-shadow: 0 8px 28px rgba(217,79,0,0.18) !important;
+    background: #ffffff !important;
+    color: #1a0533 !important;
+  }
+  .answer-emoji { font-size: 16px; }
+
+  /* Primary buttons — orange on dark screens */
+  #screen-details .btn-primary,
+  #screen-question .btn-primary,
+  #screen-barriers .btn-primary {
+    background: #D94F00 !important;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.35) !important;
+  }
+  #screen-details .btn-primary:hover,
+  #screen-question .btn-primary:hover,
+  #screen-barriers .btn-primary:hover {
+    background: #ff7a2e !important;
+    box-shadow: 0 6px 28px rgba(217,79,0,0.5) !important;
+  }
+
+  /* Back buttons — periwinkle on dark screens */
+  #screen-details .back-btn,
+  #screen-question .back-btn,
+  #screen-barriers .back-btn {
+    color: #8E7ED8 !important;
+  }
+  #screen-details .back-btn:hover,
+  #screen-question .back-btn:hover,
+  #screen-barriers .back-btn:hover {
+    color: #ffffff !important;
+  }
+
+  /* Form labels — white on dark */
+  #screen-barriers .form-label { color: #ffffff !important; }
+
+  /* Barriers note — subtle on dark */
+  .barriers-note {
+    background: rgba(255,255,255,0.05) !important;
+    border-left: 3px solid #8E7ED8;
+    border-radius: 0 10px 10px 0 !important;
+    color: rgba(255,255,255,0.65) !important;
+  }
+
+  /* Barriers supporting text */
+  #screen-barriers p[style] { color: rgba(255,255,255,0.55) !important; }
+
+  /* Followup box */
+  .followup-box {
+    background: rgba(255,255,255,0.06) !important;
+    border-color: rgba(255,255,255,0.12) !important;
+  }
+  .followup-label { color: rgba(255,255,255,0.5) !important; }
+  .followup-btn {
+    background: rgba(255,255,255,0.08) !important;
+    border-color: rgba(255,255,255,0.15) !important;
+    color: rgba(255,255,255,0.85) !important;
+  }
+  .followup-btn:hover, .followup-btn.selected {
+    background: #D94F00 !important;
+    border-color: #D94F00 !important;
+    color: #ffffff !important;
+  }
+
+  /* Loading screens — dark */
+  #screen-loading .loading-title,
+  #screen-submission-loading .loading-message { color: #ffffff !important; }
+  #screen-loading .loading-sub { color: rgba(255,255,255,0.55) !important; }
+  #screen-loading .loading-orb {
+    background: linear-gradient(135deg, #D94F00, #ff7a2e) !important;
+  }
+  #screen-loading .loading-dots span { background: #D94F00 !important; }
+  #screen-submission-loading .loading-spinner {
+    border-color: rgba(217,79,0,0.2) !important;
+    border-top-color: #D94F00 !important;
+  }
+
+  /* ============================================================
+     REDESIGN — RESULTS SCREEN (light, updated colours)
+  ============================================================ */
+  #screen-results,
+  #screen-confirm {
+    background: linear-gradient(180deg, #f4ebfa 0%, #F7F8FA 100%);
+  }
+
+  #screen-results .results-check {
+    background: linear-gradient(135deg, #D94F00, #ff7a2e) !important;
+  }
+  #screen-results .results-title {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    color: #4e0063 !important;
+  }
+  #screen-results .results-name { color: #8E7ED8 !important; }
+  #screen-results .ai-summary-label { color: #8E7ED8 !important; }
+  #screen-results .ai-summary-text { color: #1a0533 !important; }
+
+  #screen-results .matched-product {
+    background: #ffffff !important;
+    border: 1px solid rgba(42,4,64,0.06) !important;
+    border-left: 3px solid #D94F00 !important;
+    border-radius: 10px !important;
+    padding: 14px 16px !important;
+  }
+  #screen-results .matched-product-name {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    color: #4e0063 !important;
+  }
+
+  /* Confirmation screen */
+  #screen-confirm .confirm-title {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    color: #4e0063 !important;
+  }
+  #screen-confirm .confirm-text { color: #5a4570 !important; }
+  #screen-confirm .btn-primary {
+    background: #D94F00 !important;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.35) !important;
+  }
+  #screen-confirm .btn-secondary {
+    color: #8E7ED8 !important;
+    border-color: rgba(142,126,216,0.45) !important;
   }
 </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
