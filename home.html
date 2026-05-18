@@ -936,64 +936,77 @@
     .dashed-divider { font-size: 16px; }
   }
 
-  /* ---- LENDER LEADERBOARD ---- */
-  .lender-lb-wrap {
-    margin: 16px 0 4px;
-    background: rgba(255,230,0,0.05);
-    border: 1px solid rgba(255,230,0,0.2);
-    border-radius: 12px;
-    overflow: hidden;
+  /* ---- GAME + LENDER ROW ---- */
+  .game-lender-row {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
   }
-  .lender-lb-header {
+  .game-lender-row .card-game {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+  .mini-lender-lb {
+    flex: 1;
+    background: rgba(255,230,0,0.05);
+    border: 1px solid rgba(255,230,0,0.25);
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
+  .mini-lender-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #FFE600;
+    letter-spacing: 0.3px;
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mini-lender-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+  }
+  .mini-lender-entry {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 14px 8px;
-    border-bottom: 1px solid rgba(255,230,0,0.12);
-  }
-  .lender-lb-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: #FFE600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    gap: 7px;
     font-family: 'DM Sans', sans-serif;
   }
-  .lender-lb-table {
-    width: 100%;
-    border-collapse: collapse;
+  .mini-lender-medal { font-size: 13px; flex-shrink: 0; }
+  .mini-lender-name {
+    flex: 1;
     font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+  .mini-lender-score {
+    font-size: 11px;
+    font-weight: 700;
+    color: #00FF88;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .mini-lender-empty {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    font-style: italic;
     font-family: 'DM Sans', sans-serif;
   }
-  .lender-lb-table th {
-    padding: 6px 12px;
-    text-align: left;
-    color: rgba(255,255,255,0.4);
-    font-weight: 500;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .lender-lb-table td {
-    padding: 7px 12px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    color: rgba(255,255,255,0.85);
-  }
-  .lender-lb-table td:first-child {
-    color: #FFE600;
-    font-weight: 700;
-    width: 24px;
-  }
-  .lender-lb-table td:last-child {
-    color: #00FF88;
-    font-weight: 600;
-    text-align: right;
-  }
-  .lender-lb-empty {
-    text-align: center;
-    color: rgba(255,255,255,0.3) !important;
-    padding: 12px !important;
-    font-style: italic;
+  @media (max-width: 600px) {
+    .game-lender-row { flex-direction: column; }
+    .game-lender-row .card-game { width: 100%; }
   }
 </style>
 </head>
@@ -1145,7 +1158,9 @@
           </div>
         </div>
 
-        <!-- Cashflow Invaders — full width, dark -->
+        <!-- Cashflow Invaders + Top Lenders row -->
+        <div class="game-lender-row">
+
         <div class="module-card card-game" onclick="window.location.href='cashflow-invaders.html'">
           <div class="card-bar bar-game"></div>
           <div class="card-inner">
@@ -1185,28 +1200,17 @@
           </div>
         </div>
 
-      </div><!-- /module-grid -->
-
-      <!-- BEST LENDERS TABLE -->
-      <div class="lender-lb-wrap" id="lender-lb-wrap" style="display:none">
-        <div class="lender-lb-header">
-          <span>🏆</span>
-          <span class="lender-lb-title">Best Lenders — Cashflow Invaders</span>
+        <!-- Mini top lenders list -->
+        <div class="mini-lender-lb" id="mini-lender-lb" style="display:none">
+          <div class="mini-lender-title">🏆 Top Lenders Releasing Finances</div>
+          <div class="mini-lender-rows" id="mini-lender-rows">
+            <div class="mini-lender-empty">Loading...</div>
+          </div>
         </div>
-        <table class="lender-lb-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Company</th>
-              <th>Released</th>
-            </tr>
-          </thead>
-          <tbody id="lender-lb-body">
-            <tr><td colspan="4" class="lender-lb-empty">Loading...</td></tr>
-          </tbody>
-        </table>
-      </div>
+
+        </div><!-- /game-lender-row -->
+
+      </div><!-- /module-grid -->
 
       <div class="dashed-divider">Fiskal Discovery</div>
     </div>
@@ -1493,38 +1497,29 @@ function spawnShootingStar() {
 }
 
 function loadLenderLeaderboard() {
-  const wrap = document.getElementById('lender-lb-wrap');
-  const tbody = document.getElementById('lender-lb-body');
-  if (!wrap || !tbody) return;
+  const wrap = document.getElementById('mini-lender-lb');
+  const rows = document.getElementById('mini-lender-rows');
+  if (!wrap || !rows) return;
 
-  function normalise(e) {
-    return {
-      name: String(e.name || 'ANONYMOUS'),
-      company: String(e.company || ''),
-      score: Number(e.score) || 0,
-      isLender: !!e.isLender
-    };
-  }
   function render(entries) {
+    const medals = ['🥇','🥈','🥉','4.','5.'];
     const lenders = entries
       .filter(Boolean)
-      .map(normalise)
       .filter(e => e.isLender)
+      .map(e => ({ name: String(e.name || 'ANONYMOUS'), score: Number(e.score) || 0 }))
       .sort((a, b) => b.score - a.score)
       .slice(0, 5);
 
-    if (!lenders.length) return; // hide if no lenders yet
+    if (!lenders.length) return;
 
-    const medals = ['🥇','🥈','🥉','4','5'];
-    tbody.innerHTML = lenders.map((e, i) =>
-      '<tr>' +
-        '<td>' + medals[i] + '</td>' +
-        '<td>' + e.name + '</td>' +
-        '<td style="color:rgba(255,255,255,0.5)">' + (e.company !== 'N/A' ? e.company : '') + '</td>' +
-        '<td>£' + e.score.toLocaleString() + '</td>' +
-      '</tr>'
+    rows.innerHTML = lenders.map((e, i) =>
+      '<div class="mini-lender-entry">' +
+        '<span class="mini-lender-medal">' + medals[i] + '</span>' +
+        '<span class="mini-lender-name">' + e.name + '</span>' +
+        '<span class="mini-lender-score">£' + e.score.toLocaleString() + '</span>' +
+      '</div>'
     ).join('');
-    wrap.style.display = 'block';
+    wrap.style.display = 'flex';
   }
 
   if (window._ciDb) {
