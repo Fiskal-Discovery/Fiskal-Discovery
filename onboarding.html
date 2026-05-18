@@ -1790,6 +1790,15 @@
     .ob-tagline-rest { display: none; }
   }
 
+  /* Shooting stars — question overlay */
+  #ob-overlay-stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+
   /* Shooting stars — full page overlay */
   #ob-stars-layer {
     position: absolute;
@@ -1825,6 +1834,7 @@
 <!-- ====== ONBOARDING OVERLAY ====== -->
 <div id="onboarding-overlay" class="hidden">
 
+  <div id="ob-overlay-stars"></div>
 
   <main class="ob-main">
     <div id="welcome-question-container"></div>
@@ -2322,8 +2332,8 @@ function startWelcome() {
 
   document.getElementById('onboarding-overlay').classList.remove('hidden');
   document.getElementById('screen-landing').classList.remove('active');
-  // Show back button on onboarding overlay
   document.getElementById('ob-back-btn').style.display = 'block';
+  startOverlayStars();
   renderWelcomeQuestion();
 }
 
@@ -2681,6 +2691,31 @@ function spawnObShootingStar() {
   layer.appendChild(el);
   setTimeout(() => el.remove(), +dur + 200);
   setTimeout(spawnObShootingStar, Math.random() * 11000 + 9000);
+}
+
+let _overlayStarsActive = false;
+function spawnOverlayStar() {
+  const overlay = document.getElementById('onboarding-overlay');
+  if (!overlay || overlay.classList.contains('hidden')) { _overlayStarsActive = false; return; }
+  const layer = document.getElementById('ob-overlay-stars');
+  if (!layer) return;
+  const el = document.createElement('div');
+  el.className = 'ob-shooting-star';
+  const x      = (Math.random() * 80 + 5).toFixed(1);
+  const y      = (Math.random() * 70 + 5).toFixed(1);
+  const angle  = (Math.random() * 22 + 18).toFixed(0);
+  const length = (Math.random() * 55 + 75).toFixed(0);
+  const dist   = (Math.random() * 100 + 230).toFixed(0);
+  const dur    = (Math.random() * 400 + 900).toFixed(0);
+  el.style.cssText = `left:${x}%;top:${y}%;width:${length}px;--sa:${angle}deg;--sd:${dist}px;animation-duration:${dur}ms`;
+  layer.appendChild(el);
+  setTimeout(() => el.remove(), +dur + 200);
+  setTimeout(spawnOverlayStar, Math.random() * 11000 + 9000);
+}
+function startOverlayStars() {
+  if (_overlayStarsActive) return;
+  _overlayStarsActive = true;
+  setTimeout(spawnOverlayStar, Math.random() * 3000 + 1000);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
