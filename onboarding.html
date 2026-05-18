@@ -1597,10 +1597,16 @@
   }
   .ob-game-btn {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    line-height: 1.2;
+    gap: 8px;
+    border-color: #D94F00 !important;
+    color: #ff7a2e !important;
+  }
+  .ob-game-btn:hover {
+    background: rgba(217,79,0,0.1) !important;
+    border-color: #ff7a2e !important;
   }
   .ob-dashed-divider {
     display: flex;
@@ -1731,7 +1737,7 @@
         <div class="ob-actions">
           <button class="btn-primary" onclick="startWelcome()">Start My Discovery</button>
           <a href="cashflow-invaders.html" class="btn-secondary ob-game-btn">
-            <svg viewBox="0 0 44 32" width="22" height="16" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;display:block;margin:0 auto 4px;">
+            <svg viewBox="0 0 44 32" width="22" height="16" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;flex-shrink:0;">
               <rect x="8"  y="0"  width="4" height="4" fill="#FACC15"/>
               <rect x="32" y="0"  width="4" height="4" fill="#FACC15"/>
               <rect x="12" y="4"  width="4" height="4" fill="#FACC15"/>
