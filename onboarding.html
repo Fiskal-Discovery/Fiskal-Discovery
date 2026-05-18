@@ -1743,6 +1743,47 @@
     border-color: #ff7a2e !important;
   }
 
+  /* ---- GAME BLOCK: ORANGE BUTTON + #1 LENDER ---- */
+  .ob-game-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  .ob-game-cta {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #D94F00 0%, #ff7a2e 100%);
+    color: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    padding: 15px 24px;
+    border-radius: 999px;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.4);
+    letter-spacing: 0.2px;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .ob-game-cta:hover {
+    box-shadow: 0 6px 28px rgba(217,79,0,0.6);
+    transform: translateY(-1px);
+  }
+  .ob-top-lender-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .ob-tls-label { color: rgba(255,255,255,0.5); }
+  .ob-tls-name  { color: #ffffff; font-weight: 700; }
+  .ob-tls-score { color: #00FF88; font-weight: 700; }
+
   /* ---- LENDER LEADERBOARD NEXT TO GAME BUTTON ---- */
   .ob-game-row {
     display: flex;
@@ -1987,41 +2028,15 @@
       <div class="ob-bottom-group">
         <div class="ob-actions">
           <button class="btn-primary" onclick="startWelcome()">Start My Discovery</button>
-          <div class="ob-game-row">
-          <a href="cashflow-invaders.html" class="btn-secondary ob-game-btn">
-            <span style="font-size:20px;line-height:1;">🎮</span>
-            Free Your Finances
-            <svg viewBox="0 0 44 32" width="22" height="16" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;flex-shrink:0;">
-              <rect x="8"  y="0"  width="4" height="4" fill="#FACC15"/>
-              <rect x="32" y="0"  width="4" height="4" fill="#FACC15"/>
-              <rect x="12" y="4"  width="4" height="4" fill="#FACC15"/>
-              <rect x="28" y="4"  width="4" height="4" fill="#FACC15"/>
-              <rect x="8"  y="8"  width="28" height="4" fill="#FACC15"/>
-              <rect x="4"  y="12" width="8"  height="4" fill="#FACC15"/>
-              <rect x="16" y="12" width="12" height="4" fill="#FACC15"/>
-              <rect x="32" y="12" width="8"  height="4" fill="#FACC15"/>
-              <rect x="0"  y="16" width="44" height="4" fill="#FACC15"/>
-              <rect x="0"  y="20" width="4"  height="4" fill="#FACC15"/>
-              <rect x="8"  y="20" width="28" height="4" fill="#FACC15"/>
-              <rect x="40" y="20" width="4"  height="4" fill="#FACC15"/>
-              <rect x="0"  y="24" width="4"  height="4" fill="#FACC15"/>
-              <rect x="8"  y="24" width="4"  height="4" fill="#FACC15"/>
-              <rect x="32" y="24" width="4"  height="4" fill="#FACC15"/>
-              <rect x="40" y="24" width="4"  height="4" fill="#FACC15"/>
-              <rect x="12" y="28" width="8"  height="4" fill="#FACC15"/>
-              <rect x="24" y="28" width="8"  height="4" fill="#FACC15"/>
-            </svg>
-          </a>
-          <div class="ob-scores-wrap" id="ob-scores-wrap">
-            <div class="ob-lender-lb" id="ob-lender-lb" style="display:none">
-              <div class="ob-lender-lb-title">🏦 Top Lenders</div>
-              <div class="ob-lender-lb-rows" id="ob-lender-lb-rows"></div>
+          <div class="ob-game-block">
+            <a href="cashflow-invaders.html" class="ob-game-cta">
+              🎮 Free Your Finances — Play Cashflow Invaders Now
+            </a>
+            <div class="ob-top-lender-strip" id="ob-top-lender-strip" style="display:none">
+              <span class="ob-tls-label">🥇 Top Lender:</span>
+              <span class="ob-tls-name" id="ob-tls-name"></span>
+              <span class="ob-tls-score" id="ob-tls-score"></span>
             </div>
-            <div class="ob-lender-lb" id="ob-client-lb" style="display:none">
-              <div class="ob-lender-lb-title">🚀 Top Clients</div>
-              <div class="ob-lender-lb-rows" id="ob-client-lb-rows"></div>
-            </div>
-          </div>
           </div>
         </div>
       </div>
@@ -2847,6 +2862,18 @@ function loadChampions() {
   function render(entries) {
     renderList(entries, true,  'ob-lender-lb', 'ob-lender-lb-rows');
     renderList(entries, false, 'ob-client-lb', 'ob-client-lb-rows');
+    // #1 lender strip
+    const topLender = entries
+      .filter(Boolean)
+      .filter(e => e.isLender)
+      .map(e => ({ name: String(e.name || 'ANONYMOUS').toUpperCase(), score: Number(e.score) || 0 }))
+      .sort((a, b) => b.score - a.score)[0];
+    if (topLender && topLender.score > 0) {
+      const strip = document.getElementById('ob-top-lender-strip');
+      document.getElementById('ob-tls-name').textContent = topLender.name;
+      document.getElementById('ob-tls-score').textContent = '£' + topLender.score.toLocaleString() + ' released';
+      if (strip) strip.style.display = 'flex';
+    }
   }
 
   if (window._ciDb) {
