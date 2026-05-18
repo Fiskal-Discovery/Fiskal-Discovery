@@ -1682,8 +1682,8 @@
   }
   @keyframes ob-shoot-star {
     0%   { opacity: 0;   transform: rotate(var(--sa)) translateX(0); }
-    12%  { opacity: 1; }
-    80%  { opacity: 0.5; }
+    8%   { opacity: 1; }
+    50%  { opacity: 0.9; }
     100% { opacity: 0;   transform: rotate(var(--sa)) translateX(var(--sd)); }
   }
 </style>
@@ -2478,7 +2478,7 @@ function spawnObShootingStar() {
   const angle  = (Math.random() * 22 + 18).toFixed(0);
   const length = (Math.random() * 55 + 75).toFixed(0);
   const dist   = (Math.random() * 100 + 230).toFixed(0);
-  const dur    = (Math.random() * 250 + 520).toFixed(0);
+  const dur    = (Math.random() * 400 + 900).toFixed(0);
   el.style.cssText = `left:${x}%;top:${y}%;width:${length}px;--sa:${angle}deg;--sd:${dist}px;animation-duration:${dur}ms`;
   layer.appendChild(el);
   setTimeout(() => el.remove(), +dur + 200);
