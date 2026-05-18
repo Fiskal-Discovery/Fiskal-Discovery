@@ -1443,15 +1443,17 @@
      LANDING SCREEN — matches home.html visual style
   ============================================================ */
   #screen-landing {
+    height: 100vh;
+    overflow: hidden;
     justify-content: flex-start;
-    background: #F7F8FA;
+    background: #07051a;
   }
   #screen-landing::before { display: none; }
 
   .ob-nav {
     background: #4e0063;
     width: 100%;
-    padding: 14px 32px;
+    padding: 12px 32px;
     display: flex;
     align-items: center;
     gap: 14px;
@@ -1475,7 +1477,7 @@
   }
   .ob-tagline-refuse {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
+    font-size: 26px;
     color: #ff7a2e;
     letter-spacing: 4px;
   }
@@ -1490,7 +1492,7 @@
   .ob-hero-wrap { position: relative; flex-shrink: 0; }
   .ob-hero {
     background: #07051a;
-    padding: 56px 32px 100px;
+    padding: 24px 32px 56px;
     position: relative;
     overflow: hidden;
     text-align: center;
@@ -1499,7 +1501,7 @@
     content: '';
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    height: 90px;
+    height: 56px;
     background: #4e0063;
     clip-path: polygon(0 100%, 100% 0, 100% 100%);
     pointer-events: none;
@@ -1508,69 +1510,69 @@
   .ob-hero-content { position: relative; z-index: 1; }
   .ob-hero-eyebrow {
     font-family: 'Raleway', sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     letter-spacing: 4px;
     text-transform: uppercase;
     color: rgba(255,255,255,0.5);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   .ob-hero-title {
     font-family: 'Monotype Corsiva', 'Corsiva', cursive;
-    font-size: clamp(36px, 7vw, 64px);
+    font-size: clamp(30px, 5vw, 48px);
     color: #ffffff;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     line-height: 1.1;
   }
   .ob-hero-tagline {
     font-family: 'Raleway', sans-serif;
-    font-size: clamp(14px, 2.5vw, 18px);
+    font-size: clamp(13px, 2vw, 16px);
     color: rgba(255,255,255,0.6);
     letter-spacing: 0.5px;
   }
 
-  .ob-strip {
-    background: #4e0063;
-    font-size: 13px;
-    text-align: center;
-    padding: 12px 24px;
-    letter-spacing: 0.3px;
-    flex-shrink: 0;
-  }
-
   .ob-body {
     background: #07051a;
-    padding: 40px 24px 60px;
+    padding: 24px 32px 0;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
   .ob-body-inner {
     max-width: 960px;
+    width: 100%;
     margin: 0 auto;
-  }
-  .ob-intro-text {
-    font-size: 16px;
-    line-height: 1.9;
-    color: rgba(255,255,255,0.75);
-    margin-bottom: 32px;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    justify-content: space-between;
+    padding-bottom: 20px;
+  }
+  .ob-intro-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.75);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   .ob-intro-text strong { color: #ffffff; }
+  .ob-bottom-group { display: flex; flex-direction: column; gap: 16px; }
   .ob-actions {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
   }
   .ob-dashed-divider {
-    margin: 40px auto 0;
     display: flex;
     align-items: center;
     gap: 16px;
     color: #8E7ED8;
     font-family: 'Monotype Corsiva', 'Corsiva', cursive;
-    font-size: 24px;
+    font-size: 22px;
     letter-spacing: 1.5px;
     opacity: 0.85;
+    width: 100%;
   }
   .ob-dashed-divider::before,
   .ob-dashed-divider::after {
@@ -1582,7 +1584,7 @@
 
   .ob-footer {
     background: #4e0063;
-    padding: 20px 32px;
+    padding: 12px 32px;
     text-align: center;
     flex-shrink: 0;
   }
@@ -1598,11 +1600,13 @@
   }
 
   @media (max-width: 600px) {
+    #screen-landing { height: auto; overflow: visible; }
     .ob-nav { padding: 12px 20px; }
     .ob-tagline-refuse { font-size: 20px; letter-spacing: 2px; }
     .ob-tagline-rest { font-size: 7px; letter-spacing: 2px; }
-    .ob-hero { padding: 40px 20px 80px; }
-    .ob-body { padding: 28px 16px 40px; }
+    .ob-hero { padding: 24px 20px 56px; }
+    .ob-body { padding: 20px 20px 0; overflow: visible; }
+    .ob-body-inner { padding-bottom: 24px; }
     .ob-dashed-divider { font-size: 18px; }
     .ob-actions { flex-direction: column; }
   }
@@ -1684,11 +1688,13 @@
         <p>So answer honestly, based on what would genuinely help you grow. Don't second-guess what might or might not be available — that's Nicole's job.</p>
         <p><strong>You might be surprised what's possible.</strong></p>
       </div>
-      <div class="ob-actions">
-        <button class="btn-primary" onclick="startWelcome()">Start My Discovery</button>
-        <a href="cashflow-invaders.html" class="btn-secondary">🎮 Play Cashflow Invaders</a>
+      <div class="ob-bottom-group">
+        <div class="ob-actions">
+          <button class="btn-primary" onclick="startWelcome()">Start My Discovery</button>
+          <a href="cashflow-invaders.html" class="btn-secondary">🎮 Play Cashflow Invaders</a>
+        </div>
+        <div class="ob-dashed-divider">Fiskal Discovery</div>
       </div>
-      <div class="ob-dashed-divider">Fiskal Discovery</div>
     </div>
   </div>
 
