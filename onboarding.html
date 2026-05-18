@@ -2748,7 +2748,17 @@ function generateResults() {
     barrier: state.barrier,
     barrierDetails: state.barrierDetails,
     matchedProducts: getMatchedProducts(),
-    paymentTerms: state.paymentTerms
+    paymentTerms: state.paymentTerms,
+    // Product signal keys required by insight functions
+    invoice: (state.invoiceCustomers === 'Yes' || state.invoiceCustomers === 'Sometimes') ? 'yes' : null,
+    asset:   state.assetNeed === 'Yes' ? 'yes' : null,
+    mca:     state.cardSales === 'Yes' ? 'yes' : null,
+    loan:    state.answers && state.answers.loan     ? state.answers.loan     : null,
+    trade:   state.answers && state.answers.trade    ? state.answers.trade    : null,
+    revolving: state.answers && state.answers.revolving ? state.answers.revolving : null,
+    property: state.answers && state.answers.property  ? state.answers.property  : null,
+    fx:      state.answers && state.answers.fx       ? state.answers.fx       : null,
+    rd:      state.answers && state.answers.rd       ? state.answers.rd       : null,
   };
   
   let summary;
@@ -2959,7 +2969,6 @@ const OB_KEY = 'fiskal_profile';
 <script src="logic/globalInsights.js"></script>
 <script src="logic/sectorInsights.js"></script>
 <script src="logic/fundingFinderInsights.js"></script>
-<script src="logic/productLinks.js"></script>
 <script src="logic/summaryBuilder.js"></script>
 <script src="shared-components.js"></script>
 </body>

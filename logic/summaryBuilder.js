@@ -136,7 +136,7 @@ function buildLoanApplicationSummary(answers) {
   if (para2) blocks.push(para2.trim());
 
   // Paragraph 3 — security + funding amount sense-check + existing facilities
-  const securityInsight = getLoanSecurityInsight(security, [], business);
+  const securityInsight = getLoanSecurityInsight(security, answers.properties || [], business);
   const amountInsight = getFundingAmountInsight(amount, turnover, hasSecurityOrAsset);
   const facilitiesNote = getExistingFacilitiesNote(existingFacilities, business);
 
