@@ -1758,6 +1758,12 @@
     flex: 0 0 auto;
     align-self: flex-start;
   }
+  .ob-scores-wrap {
+    flex: 1;
+    display: flex;
+    gap: 8px;
+    min-width: 0;
+  }
   .ob-lender-lb {
     flex: 1;
     min-width: 160px;
@@ -2006,9 +2012,15 @@
               <rect x="24" y="28" width="8"  height="4" fill="#FACC15"/>
             </svg>
           </a>
-          <div class="ob-lender-lb" id="ob-lender-lb" style="display:none">
-            <div class="ob-lender-lb-title">🏆 Top Lenders Releasing Finances</div>
-            <div class="ob-lender-lb-rows" id="ob-lender-lb-rows"></div>
+          <div class="ob-scores-wrap" id="ob-scores-wrap">
+            <div class="ob-lender-lb" id="ob-lender-lb" style="display:none">
+              <div class="ob-lender-lb-title">🏦 Top Lenders</div>
+              <div class="ob-lender-lb-rows" id="ob-lender-lb-rows"></div>
+            </div>
+            <div class="ob-lender-lb" id="ob-client-lb" style="display:none">
+              <div class="ob-lender-lb-title">🚀 Top Clients</div>
+              <div class="ob-lender-lb-rows" id="ob-client-lb-rows"></div>
+            </div>
           </div>
           </div>
         </div>
@@ -2808,24 +2820,21 @@ function startOverlayStars() {
   setTimeout(spawnOverlayStar, Math.random() * 3000 + 1000);
 }
 
-// ---- TOP 3 LENDER LEADERBOARD ----
+// ---- TOP 3 LENDER + CLIENT LEADERBOARDS ----
 function loadChampions() {
-  const wrap = document.getElementById('ob-lender-lb');
-  const rows = document.getElementById('ob-lender-lb-rows');
-  if (!wrap || !rows) return;
-
-  function render(entries) {
+  function renderList(entries, isLender, wrapId, rowsId) {
+    const wrap = document.getElementById(wrapId);
+    const rows = document.getElementById(rowsId);
+    if (!wrap || !rows) return;
     const medals = ['🥇','🥈','🥉'];
-    const lenders = entries
+    const top = entries
       .filter(Boolean)
-      .filter(e => e.isLender)
+      .filter(e => isLender ? e.isLender : !e.isLender)
       .map(e => ({ name: String(e.name || 'ANONYMOUS').toUpperCase(), score: Number(e.score) || 0 }))
       .sort((a, b) => b.score - a.score)
       .slice(0, 3);
-
-    if (!lenders.length) return;
-
-    rows.innerHTML = lenders.map((e, i) =>
+    if (!top.length) return;
+    rows.innerHTML = top.map((e, i) =>
       '<div class="ob-lender-entry">' +
         '<span class="ob-lender-medal">' + medals[i] + '</span>' +
         '<span class="ob-lender-name">' + e.name + '</span>' +
@@ -2833,6 +2842,11 @@ function loadChampions() {
       '</div>'
     ).join('');
     wrap.style.display = 'flex';
+  }
+
+  function render(entries) {
+    renderList(entries, true,  'ob-lender-lb', 'ob-lender-lb-rows');
+    renderList(entries, false, 'ob-client-lb', 'ob-client-lb-rows');
   }
 
   if (window._ciDb) {

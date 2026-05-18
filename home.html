@@ -947,6 +947,12 @@
     flex: 0 0 auto;
     width: 50%;
   }
+  .mini-scores-wrap {
+    flex: 1;
+    display: flex;
+    gap: 8px;
+    min-width: 0;
+  }
   .mini-lender-lb {
     flex: 1;
     background: rgba(255,230,0,0.05);
@@ -1201,10 +1207,14 @@
         </div>
 
         <!-- Mini top lenders list -->
-        <div class="mini-lender-lb" id="mini-lender-lb" style="display:none">
-          <div class="mini-lender-title">🏆 Top Lenders Releasing Finances</div>
-          <div class="mini-lender-rows" id="mini-lender-rows">
-            <div class="mini-lender-empty">Loading...</div>
+        <div class="mini-scores-wrap">
+          <div class="mini-lender-lb" id="mini-lender-lb" style="display:none">
+            <div class="mini-lender-title">🏦 Top Lenders</div>
+            <div class="mini-lender-rows" id="mini-lender-rows"></div>
+          </div>
+          <div class="mini-lender-lb" id="mini-client-lb" style="display:none">
+            <div class="mini-lender-title">🚀 Top Clients</div>
+            <div class="mini-lender-rows" id="mini-client-rows"></div>
           </div>
         </div>
 
@@ -1497,22 +1507,19 @@ function spawnShootingStar() {
 }
 
 function loadLenderLeaderboard() {
-  const wrap = document.getElementById('mini-lender-lb');
-  const rows = document.getElementById('mini-lender-rows');
-  if (!wrap || !rows) return;
-
-  function render(entries) {
-    const medals = ['🥇','🥈','🥉','4.','5.'];
-    const lenders = entries
+  function renderList(entries, isLender, wrapId, rowsId) {
+    const wrap = document.getElementById(wrapId);
+    const rows = document.getElementById(rowsId);
+    if (!wrap || !rows) return;
+    const medals = ['🥇','🥈','🥉'];
+    const top = entries
       .filter(Boolean)
-      .filter(e => e.isLender)
+      .filter(e => isLender ? e.isLender : !e.isLender)
       .map(e => ({ name: String(e.name || 'ANONYMOUS'), score: Number(e.score) || 0 }))
       .sort((a, b) => b.score - a.score)
-      .slice(0, 5);
-
-    if (!lenders.length) return;
-
-    rows.innerHTML = lenders.map((e, i) =>
+      .slice(0, 3);
+    if (!top.length) return;
+    rows.innerHTML = top.map((e, i) =>
       '<div class="mini-lender-entry">' +
         '<span class="mini-lender-medal">' + medals[i] + '</span>' +
         '<span class="mini-lender-name">' + e.name + '</span>' +
@@ -1520,6 +1527,11 @@ function loadLenderLeaderboard() {
       '</div>'
     ).join('');
     wrap.style.display = 'flex';
+  }
+
+  function render(entries) {
+    renderList(entries, true,  'mini-lender-lb', 'mini-lender-rows');
+    renderList(entries, false, 'mini-client-lb', 'mini-client-rows');
   }
 
   if (window._ciDb) {
