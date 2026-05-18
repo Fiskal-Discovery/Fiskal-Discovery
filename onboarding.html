@@ -1439,6 +1439,105 @@
     .module-card-desc { font-size: 12px; }
   }
 
+  /* ---- QUESTION PAGE REDESIGN ---- */
+  .ob-q-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ob-q-progress-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 32px;
+    width: 100%;
+  }
+  .ob-q-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    transition: all 0.35s ease;
+    flex-shrink: 0;
+  }
+  .ob-q-dot.active { width: 22px; border-radius: 4px; background: #6366f1; }
+  .ob-q-dot.done { background: rgba(99,102,241,0.5); }
+  .ob-q-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(26px, 5vw, 38px);
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .ob-q-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    text-align: center;
+    margin-bottom: 28px;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.5;
+  }
+  .ob-q-cards { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+  .ob-q-card {
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(99,102,241,0.28);
+    border-radius: 16px;
+    padding: 18px 22px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    text-align: left;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+  .ob-q-card:hover { border-color: rgba(99,102,241,0.6); transform: translateX(4px); }
+  .ob-q-card:active { transform: scale(0.99); }
+  .ob-q-card.ob-selected { border-color: #6366f1; background: rgba(79,70,229,0.18); }
+  .ob-q-card-icon {
+    font-size: 26px; flex-shrink: 0; line-height: 1;
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(99,102,241,0.12);
+    border-radius: 12px;
+  }
+  .ob-q-card-body { flex: 1; }
+  .ob-q-card-label { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 3px; line-height: 1.2; }
+  .ob-q-card-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.4; }
+  .ob-q-card-arrow {
+    color: rgba(255,255,255,0.25); font-size: 20px; flex-shrink: 0;
+    transition: color 0.2s, transform 0.2s;
+  }
+  .ob-q-card:hover .ob-q-card-arrow { color: rgba(255,255,255,0.7); transform: translateX(3px); }
+  .ob-q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+  .ob-q-pill {
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(99,102,241,0.28);
+    border-radius: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    font-size: 14px; font-weight: 500;
+    color: #c4b5fd;
+    font-family: 'DM Sans', sans-serif;
+    text-align: center; line-height: 1.3;
+    transition: all 0.2s ease;
+  }
+  .ob-q-pill:hover { background: rgba(79,70,229,0.2); border-color: #6366f1; color: #fff; }
+  .ob-q-pill.ob-selected { background: rgba(79,70,229,0.35); border-color: #6366f1; color: #fff; }
+  @media (max-width: 480px) {
+    .ob-q-grid { grid-template-columns: 1fr; }
+    .ob-q-card { padding: 14px 16px; gap: 14px; }
+    .ob-q-card-icon { width: 40px; height: 40px; font-size: 22px; }
+    .ob-q-heading { font-size: 24px; }
+  }
+
   /* ============================================================
      LANDING SCREEN — matches home.html visual style
   ============================================================ */
@@ -2103,12 +2202,13 @@ loadAppState();
 const welcomeFlow = [
   {
     id: "userType",
-    type: "choice",
-    question: "Is this for you or a client?",
+    type: "cards",
+    question: "Who is this Discovery for?",
+    subtitle: "Let us know so we can personalise your experience",
     options: [
-      { label: "For me / my business", value: "For me / my business" },
-      { label: "For a client", value: "For a client" },
-      { label: "I just want to try Cashflow Invaders", value: "I just want to try Cashflow Invaders" }
+      { label: "For me / my business", desc: "I'm exploring funding & finance options for my own business", icon: "🏢", value: "For me / my business" },
+      { label: "For a client", desc: "I'm a broker or adviser researching options on behalf of a client", icon: "🤝", value: "For a client" },
+      { label: "Just exploring", desc: "Take me straight to Cashflow Invaders", icon: "🎮", value: "I just want to try Cashflow Invaders" }
     ],
     saveAs: "userType"
   },
@@ -2247,7 +2347,6 @@ function renderWelcomeQuestion() {
   const q = welcomeFlow[welcomeState.currentQuestion];
   if (!q) { completeWelcome(); return; }
 
-  // Always hide the old fixed-position elements
   document.getElementById('ob-input-area').style.display = 'none';
   document.getElementById('ob-choices').style.display = 'none';
   document.getElementById('ob-chat').innerHTML = '';
@@ -2255,94 +2354,135 @@ function renderWelcomeQuestion() {
   const container = document.getElementById('welcome-question-container');
   container.innerHTML = '';
 
+  const wrap = document.createElement('div');
+  wrap.className = 'ob-q-wrap';
+
   // Progress dots
   const total = welcomeFlow.length;
   const current = welcomeState.currentQuestion;
-  const dotsWrap = document.createElement('div');
-  dotsWrap.style.cssText = 'display:flex;gap:6px;justify-content:center;margin-bottom:14px;';
+  const dotsRow = document.createElement('div');
+  dotsRow.className = 'ob-q-progress-row';
   for (let i = 0; i < total; i++) {
     const dot = document.createElement('div');
-    dot.style.cssText = `width:6px;height:6px;border-radius:50%;background:${i === current ? '#6366f1' : 'rgba(255,255,255,0.2)'};transition:background 0.3s;`;
-    dotsWrap.appendChild(dot);
+    dot.className = 'ob-q-dot' + (i === current ? ' active' : i < current ? ' done' : '');
+    dotsRow.appendChild(dot);
   }
-  container.appendChild(dotsWrap);
+  wrap.appendChild(dotsRow);
 
   // Question heading
   const heading = document.createElement('div');
-  heading.style.cssText = 'color:#ffffff;font-size:20px;font-weight:600;margin-bottom:16px;text-align:center;font-family:"DM Sans",sans-serif;line-height:1.3;';
+  heading.className = 'ob-q-heading';
   heading.textContent = q.question;
-  container.appendChild(heading);
+  wrap.appendChild(heading);
 
-  if (q.type === 'choice') {
-    const grid = document.createElement('div');
+  if (q.subtitle) {
+    const sub = document.createElement('div');
+    sub.className = 'ob-q-sub';
+    sub.textContent = q.subtitle;
+    wrap.appendChild(sub);
+  }
+
+  function advanceChoice(opt) {
+    if (opt.value === 'I just want to try Cashflow Invaders') {
+      window.location.href = 'cashflow-invaders.html'; return;
+    }
+    welcomeState.answers[q.saveAs] = opt.value;
+    if (q.id === 'userType') { appState.profile = appState.profile || {}; appState.profile.userType = opt.value; saveAppState(); }
+    welcomeState.currentQuestion++;
+    renderWelcomeQuestion();
+  }
+
+  if (q.type === 'cards') {
+    const cards = document.createElement('div');
+    cards.className = 'ob-q-cards';
+    q.options.forEach(opt => {
+      const card = document.createElement('button');
+      card.className = 'ob-q-card';
+
+      const iconEl = document.createElement('div');
+      iconEl.className = 'ob-q-card-icon';
+      iconEl.textContent = opt.icon || '';
+
+      const body = document.createElement('div');
+      body.className = 'ob-q-card-body';
+
+      const lbl = document.createElement('div');
+      lbl.className = 'ob-q-card-label';
+      lbl.textContent = opt.label;
+      body.appendChild(lbl);
+
+      if (opt.desc) {
+        const desc = document.createElement('div');
+        desc.className = 'ob-q-card-desc';
+        desc.textContent = opt.desc;
+        body.appendChild(desc);
+      }
+
+      const arrow = document.createElement('div');
+      arrow.className = 'ob-q-card-arrow';
+      arrow.textContent = '›';
+
+      card.appendChild(iconEl);
+      card.appendChild(body);
+      card.appendChild(arrow);
+      card.onclick = () => { card.classList.add('ob-selected'); setTimeout(() => advanceChoice(opt), 180); };
+      cards.appendChild(card);
+    });
+    wrap.appendChild(cards);
+
+  } else if (q.type === 'choice') {
     const isTwoCol = q.options.length >= 4;
-    grid.style.cssText = `display:grid;grid-template-columns:${isTwoCol ? '1fr 1fr' : '1fr'};gap:10px;`;
+    const grid = document.createElement('div');
+    grid.className = isTwoCol ? 'ob-q-grid' : 'ob-q-cards';
     q.options.forEach(opt => {
       const btn = document.createElement('button');
-      btn.style.cssText = 'background:rgba(255,255,255,0.06);border:1.5px solid rgba(99,102,241,0.3);color:#e0e0ff;padding:14px 16px;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;font-family:"DM Sans",sans-serif;text-align:center;transition:all 0.2s;line-height:1.3;';
+      btn.className = isTwoCol ? 'ob-q-pill' : 'ob-q-card';
       btn.textContent = opt.label;
-      btn.onmouseover = () => { btn.style.background = 'rgba(79,70,229,0.2)'; btn.style.borderColor = '#6366f1'; btn.style.color = '#fff'; };
-      btn.onmouseout = () => { if (!btn.classList.contains('ob-selected')) { btn.style.background = 'rgba(255,255,255,0.06)'; btn.style.borderColor = 'rgba(99,102,241,0.3)'; btn.style.color = '#e0e0ff'; } };
-      btn.onclick = () => {
-        if (q.id === 'userType' && opt.value === 'I just want to try Cashflow Invaders') {
-          window.location.href = 'cashflow-invaders.html'; return;
-        }
-        // Visual selection flash
-        btn.style.background = 'rgba(79,70,229,0.35)';
-        btn.style.borderColor = '#6366f1';
-        btn.classList.add('ob-selected');
-        setTimeout(() => {
-          welcomeState.answers[q.saveAs] = opt.value;
-          if (q.id === 'userType') { appState.profile = appState.profile || {}; appState.profile.userType = opt.value; saveAppState(); }
-          welcomeState.currentQuestion++;
-          renderWelcomeQuestion();
-        }, 200);
-      };
+      btn.onclick = () => { btn.classList.add('ob-selected'); setTimeout(() => advanceChoice(opt), 180); };
       grid.appendChild(btn);
     });
-    container.appendChild(grid);
+    wrap.appendChild(grid);
 
   } else if (q.type === 'form') {
     const form = document.createElement('div');
-    form.style.cssText = 'display:flex;flex-direction:column;gap:10px;';
+    form.style.cssText = 'display:flex;flex-direction:column;gap:12px;width:100%;';
     const inputs = [];
     q.fields.forEach(field => {
-      const wrap = document.createElement('div');
-      wrap.style.cssText = 'display:flex;flex-direction:column;gap:6px;';
-      const label = document.createElement('label');
-      label.style.cssText = 'color:rgba(255,255,255,0.6);font-size:12px;font-weight:500;font-family:"DM Sans",sans-serif;letter-spacing:0.5px;text-transform:uppercase;';
-      label.textContent = field.label;
+      const fieldWrap = document.createElement('div');
+      fieldWrap.style.cssText = 'display:flex;flex-direction:column;gap:6px;';
+      const lbl = document.createElement('label');
+      lbl.style.cssText = 'color:rgba(255,255,255,0.55);font-size:12px;font-weight:500;font-family:"DM Sans",sans-serif;letter-spacing:0.5px;text-transform:uppercase;';
+      lbl.textContent = field.label;
       const inp = document.createElement('input');
       inp.type = field.inputType || 'text';
       inp.placeholder = field.placeholder || '';
       inp.value = welcomeState.answers[field.saveAs] || '';
-      inp.style.cssText = 'width:100%;padding:10px 14px;border:1.5px solid rgba(99,102,241,0.3);border-radius:10px;font-size:15px;background:rgba(255,255,255,0.07);color:#fff;font-family:"DM Sans",sans-serif;outline:none;transition:border-color 0.2s;';
+      inp.style.cssText = 'width:100%;padding:12px 16px;border:1.5px solid rgba(99,102,241,0.3);border-radius:12px;font-size:15px;background:rgba(255,255,255,0.07);color:#fff;font-family:"DM Sans",sans-serif;outline:none;transition:border-color 0.2s;box-sizing:border-box;';
       inp.addEventListener('focus', () => inp.style.borderColor = '#6366f1');
       inp.addEventListener('blur', () => inp.style.borderColor = 'rgba(99,102,241,0.3)');
       inp.dataset.saveAs = field.saveAs;
       inp.dataset.required = field.required ? 'true' : 'false';
-      wrap.appendChild(label);
-      wrap.appendChild(inp);
-      form.appendChild(wrap);
+      fieldWrap.appendChild(lbl);
+      fieldWrap.appendChild(inp);
+      form.appendChild(fieldWrap);
       inputs.push(inp);
     });
 
+    const errMsg = document.createElement('div');
+    errMsg.style.cssText = 'color:#f87171;font-size:13px;font-family:"DM Sans",sans-serif;visibility:hidden;min-height:1.2em;';
+    errMsg.textContent = 'Please fill in the required fields.';
+
     const continueBtn = document.createElement('button');
-    continueBtn.style.cssText = 'margin-top:6px;background:linear-gradient(135deg,#4338ca 0%,#6d28d9 60%,#2563eb 100%);color:#fff;border:none;border-radius:999px;padding:12px 32px;font-size:15px;font-weight:600;cursor:pointer;font-family:"DM Sans",sans-serif;box-shadow:0 4px 20px rgba(79,70,229,0.35);transition:all 0.2s;';
+    continueBtn.style.cssText = 'margin-top:4px;background:linear-gradient(135deg,#4338ca 0%,#6d28d9 60%,#2563eb 100%);color:#fff;border:none;border-radius:999px;padding:14px 32px;font-size:15px;font-weight:600;cursor:pointer;font-family:"DM Sans",sans-serif;box-shadow:0 4px 20px rgba(79,70,229,0.35);transition:all 0.2s;width:100%;';
     continueBtn.textContent = 'Continue →';
     continueBtn.onmouseover = () => { continueBtn.style.transform = 'translateY(-1px)'; continueBtn.style.boxShadow = '0 6px 28px rgba(79,70,229,0.5)'; };
     continueBtn.onmouseout = () => { continueBtn.style.transform = ''; continueBtn.style.boxShadow = '0 4px 20px rgba(79,70,229,0.35)'; };
-
-    const errMsg = document.createElement('div');
-    errMsg.style.cssText = 'color:#f87171;font-size:13px;font-family:"DM Sans",sans-serif;visibility:hidden;margin-top:4px;min-height:1.2em;';
-    errMsg.textContent = 'Please fill in the required fields.';
-
     continueBtn.onclick = () => {
       let valid = true;
       inputs.forEach(inp => {
         const val = inp.value.trim();
         if (inp.dataset.required === 'true' && !val) { valid = false; inp.style.borderColor = '#f87171'; }
-        else { inp.style.borderColor = 'rgba(99,102,241,0.3)'; welcomeState.answers[inp.dataset.saveAs] = val; }
+        else { inp.style.borderColor = 'rgba(99,102,241,0.3)'; }
         if (val) welcomeState.answers[inp.dataset.saveAs] = val;
       });
       if (!valid) { errMsg.style.visibility = 'visible'; return; }
@@ -2350,16 +2490,16 @@ function renderWelcomeQuestion() {
       welcomeState.currentQuestion++;
       renderWelcomeQuestion();
     };
-
-    // Enter on last field submits
     if (inputs.length) {
-      inputs[inputs.length - 1].addEventListener('keypress', (e) => { if (e.key === 'Enter') continueBtn.click(); });
+      inputs[inputs.length - 1].addEventListener('keypress', e => { if (e.key === 'Enter') continueBtn.click(); });
     }
 
     form.appendChild(errMsg);
     form.appendChild(continueBtn);
-    container.appendChild(form);
+    wrap.appendChild(form);
   }
+
+  container.appendChild(wrap);
 }
 
 function renderMultiInputQuestion(q) {
