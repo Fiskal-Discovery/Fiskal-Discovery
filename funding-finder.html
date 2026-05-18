@@ -1556,8 +1556,9 @@
   #screen-question .answer-btn.selected,
   #screen-barriers .answer-btn.selected {
     border-top-color: #ff7a2e !important;
-    box-shadow: 0 8px 28px rgba(217,79,0,0.18) !important;
-    background: #ffffff !important;
+    border-color: rgba(217,79,0,0.25) !important;
+    box-shadow: 0 8px 28px rgba(217,79,0,0.2) !important;
+    background: #fff7f3 !important;
     color: #1a0533 !important;
   }
   .answer-emoji { font-size: 16px; }
@@ -2311,14 +2312,10 @@ function renderFlowQuestion() {
       btn.onclick = () => {
         if (selected.has(opt)) {
           selected.delete(opt);
-          btn.style.background = '';
-          btn.style.borderColor = '';
-          btn.style.color = '';
+          btn.classList.remove('selected');
         } else {
           selected.add(opt);
-          btn.style.background = 'linear-gradient(135deg, #4f46e5 0%, #818cf8 100%)';
-          btn.style.borderColor = '#4f46e5';
-          btn.style.color = 'white';
+          btn.classList.add('selected');
         }
         nextBtn.style.display = selected.size > 0 ? 'block' : 'none';
       };
