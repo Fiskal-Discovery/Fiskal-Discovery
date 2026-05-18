@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="favicon-main.svg">
 <title>Fiskal Discovery</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
@@ -1423,6 +1423,37 @@
     .brand-title { font-size: 32px !important; }
   }
 
+  /* ---- HEADER TAGLINE ---- */
+  .ob-header-tagline {
+    justify-self: end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1;
+    gap: 1px;
+  }
+  .ob-tagline-refuse {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: #ff7a2e;
+    letter-spacing: 4px;
+  }
+  .ob-tagline-rest {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
+  }
+  @media (max-width: 600px) {
+    .ob-tagline-refuse { font-size: 20px; letter-spacing: 2px; }
+    .ob-tagline-rest { font-size: 7px; letter-spacing: 2px; }
+  }
+  @media (max-width: 380px) {
+    .ob-tagline-refuse { font-size: 16px; letter-spacing: 1px; }
+    .ob-tagline-rest { display: none; }
+  }
+
   /* ============================================================
      REDESIGN — DARK QUESTION FLOW
   ============================================================ */
@@ -1661,14 +1692,15 @@
 <!-- ====== HOME SCREEN ====== -->
 <div class="screen" id="screen-home">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Funding Finder</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -1716,14 +1748,15 @@
 <!-- ====== DETAILS SCREEN ====== -->
 <div class="screen active" id="screen-details">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Funding Finder</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
 
@@ -1745,14 +1778,15 @@
 <!-- ====== QUESTION SCREEN ====== -->
 <div class="screen" id="screen-question">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Funding Finder</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
 
@@ -1776,14 +1810,15 @@
 <!-- ====== BARRIERS SCREEN ====== -->
 <div class="screen" id="screen-barriers">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Funding Finder</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
 
@@ -1823,14 +1858,15 @@
 <!-- ====== LOADING SCREEN ====== -->
 <div class="screen" id="screen-loading">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Funding Finder</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="loading-screen">
@@ -1847,14 +1883,15 @@
 <!-- ====== LOADING SCREEN ====== -->
 <div class="screen loading-screen" id="screen-submission-loading">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Funding Finder</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="loading-content">
     <div class="loading-spinner"></div>
@@ -1865,14 +1902,15 @@
 <!-- ====== RESULTS SCREEN ====== -->
 <div class="screen" id="screen-results">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Funding Finder</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
 
