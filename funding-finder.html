@@ -2196,7 +2196,12 @@ const fundingFinderFlow = [
       "Refinance existing finance",
       "Other"
     ],
-    saveAs: "purpose"
+    saveAs: "purpose",
+    followUp: {
+      triggerValue: "Other",
+      saveAs: "purposeOther",
+      placeholder: "Tell us a bit more about what you have in mind..."
+    }
   },
   {
     id: "invoiceCustomers",
@@ -2383,6 +2388,21 @@ function renderFlowQuestion() {
         }
         nextBtn.style.opacity = selected.size > 0 ? '1' : '0.35';
         nextBtn.style.pointerEvents = selected.size > 0 ? 'auto' : 'none';
+        if (q.followUp && opt === q.followUp.triggerValue) {
+          const followupEl = document.getElementById('q-followup');
+          if (selected.has(opt)) {
+            followupEl.innerHTML = '';
+            const inp = document.createElement('input');
+            inp.type = 'text';
+            inp.className = 'form-input';
+            inp.placeholder = q.followUp.placeholder || '';
+            inp.id = 'multi-followup-input';
+            inp.style.marginTop = '10px';
+            followupEl.appendChild(inp);
+          } else {
+            document.getElementById('q-followup').innerHTML = '';
+          }
+        }
       };
       grid.appendChild(btn);
     });
@@ -2395,6 +2415,10 @@ function renderFlowQuestion() {
     nextBtn.onclick = () => {
       const values = Array.from(selected);
       saveAnswer(q.saveAs, values);
+      if (q.followUp && selected.has(q.followUp.triggerValue)) {
+        const inp = document.getElementById('multi-followup-input');
+        if (inp) saveAnswer(q.followUp.saveAs, inp.value.trim());
+      }
       applyPurposeToMatchedProducts(values);
       goNext();
     };
