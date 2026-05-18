@@ -155,6 +155,10 @@ function stopFaviconAnimation() {
     <input type="text" id="leaderboard-name" placeholder="YOUR NAME" maxlength="22">
     <label>ENTER YOUR BUSINESS / COMPANY (OPTIONAL)</label>
     <input type="text" id="leaderboard-company" placeholder="BUSINESS / COMPANY" maxlength="22">
+    <label class="lender-check-label" style="display:flex;align-items:center;gap:10px;cursor:pointer;white-space:normal;text-align:left;font-size:.48rem;color:rgba(255,255,255,0.65);margin-top:4px;">
+      <input type="checkbox" id="is-lender" style="width:16px;height:16px;accent-color:#FFE600;cursor:pointer;flex-shrink:0;">
+      I AM A LENDER — RELEASING FINANCES FOR MY CLIENTS
+    </label>
     <button class="btn-submit" id="btn-submit-score">🏆 SUBMIT TO LEADERBOARD</button>
   </div>
   <div class="gameover-buttons">
@@ -215,13 +219,14 @@ function getStoredUserDetails() {
   };
 }
 
-async function saveLB(name, company, score, wave){
+async function saveLB(name, company, score, wave, isLender){
   const entry={
     name: (name || 'ANONYMOUS').toUpperCase().slice(0,22),
     company: (company || 'N/A').toUpperCase().slice(0,22),
     score: Number(score) || 0,
     wave: Number(wave) || 1,
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    isLender: isLender ? true : false
   };
   console.log('Saving to leaderboard:', entry);
   console.log("Leaderboard entry being saved:", entry);
@@ -349,7 +354,7 @@ function renderLB() {
     tb.innerHTML = rows.map((e, i) =>
       '<tr>' +
         '<td class="rank-col">' + (i + 1) + '</td>' +
-        '<td>' + e.name + '</td>' +
+        '<td>' + e.name + (e.isLender ? ' <span style="font-size:0.38rem;background:rgba(255,230,0,0.15);color:#FFE600;border:1px solid rgba(255,230,0,0.4);border-radius:3px;padding:1px 4px;vertical-align:middle;letter-spacing:0.5px;">LENDER</span>' : '') + '</td>' +
         '<td>' + e.company + '</td>' +
         '<td>£' + e.score + '</td>' +
         '<td>' + e.wave + '</td>' +
@@ -694,7 +699,8 @@ document.getElementById('pause-btn').addEventListener('click',togglePause);docum
     setTimeout(() => reject(new Error('Timeout')), 4000)
   );
   
-  Promise.race([saveLB(nameInput, companyInput, finalScore, finalWave), timeoutPromise])
+  const isLender = document.getElementById('is-lender').checked;
+  Promise.race([saveLB(nameInput, companyInput, finalScore, finalWave, isLender), timeoutPromise])
     .then(() => showLeaderboardScreen())
     .catch(() => showLeaderboardScreen())
     .finally(() => {
