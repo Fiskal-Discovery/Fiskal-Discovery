@@ -91,6 +91,23 @@
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+(function(){
+  try {
+    const cfg = {
+      apiKey: "AIzaSyCKyh0x4fei6TT1zDdo6Qn6FtqrRbHLu0k",
+      authDomain: "cashflow-invaders.firebaseapp.com",
+      databaseURL: "https://cashflow-invaders-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "cashflow-invaders",
+      storageBucket: "cashflow-invaders.firebasestorage.app"
+    };
+    if (window.firebase && !firebase.apps.length) firebase.initializeApp(cfg);
+    window._ciDb = firebase.apps.length ? firebase.database() : null;
+  } catch(e) { window._ciDb = null; }
+})();
+</script>
 <style>
   :root {
     --navy:       #4e0063;
@@ -918,6 +935,66 @@
     .tagline-rest { display: none; }
     .dashed-divider { font-size: 16px; }
   }
+
+  /* ---- LENDER LEADERBOARD ---- */
+  .lender-lb-wrap {
+    margin: 16px 0 4px;
+    background: rgba(255,230,0,0.05);
+    border: 1px solid rgba(255,230,0,0.2);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .lender-lb-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px 8px;
+    border-bottom: 1px solid rgba(255,230,0,0.12);
+  }
+  .lender-lb-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #FFE600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .lender-lb-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .lender-lb-table th {
+    padding: 6px 12px;
+    text-align: left;
+    color: rgba(255,255,255,0.4);
+    font-weight: 500;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .lender-lb-table td {
+    padding: 7px 12px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.85);
+  }
+  .lender-lb-table td:first-child {
+    color: #FFE600;
+    font-weight: 700;
+    width: 24px;
+  }
+  .lender-lb-table td:last-child {
+    color: #00FF88;
+    font-weight: 600;
+    text-align: right;
+  }
+  .lender-lb-empty {
+    text-align: center;
+    color: rgba(255,255,255,0.3) !important;
+    padding: 12px !important;
+    font-style: italic;
+  }
 </style>
 </head>
 <body>
@@ -1109,6 +1186,27 @@
         </div>
 
       </div><!-- /module-grid -->
+
+      <!-- BEST LENDERS TABLE -->
+      <div class="lender-lb-wrap" id="lender-lb-wrap" style="display:none">
+        <div class="lender-lb-header">
+          <span>🏆</span>
+          <span class="lender-lb-title">Best Lenders — Cashflow Invaders</span>
+        </div>
+        <table class="lender-lb-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Company</th>
+              <th>Released</th>
+            </tr>
+          </thead>
+          <tbody id="lender-lb-body">
+            <tr><td colspan="4" class="lender-lb-empty">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
 
       <div class="dashed-divider">Fiskal Discovery</div>
     </div>
@@ -1394,9 +1492,56 @@ function spawnShootingStar() {
   setTimeout(spawnShootingStar, Math.random() * 11000 + 9000);
 }
 
+function loadLenderLeaderboard() {
+  const wrap = document.getElementById('lender-lb-wrap');
+  const tbody = document.getElementById('lender-lb-body');
+  if (!wrap || !tbody) return;
+
+  function normalise(e) {
+    return {
+      name: String(e.name || 'ANONYMOUS'),
+      company: String(e.company || ''),
+      score: Number(e.score) || 0,
+      isLender: !!e.isLender
+    };
+  }
+  function render(entries) {
+    const lenders = entries
+      .filter(Boolean)
+      .map(normalise)
+      .filter(e => e.isLender)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5);
+
+    if (!lenders.length) return; // hide if no lenders yet
+
+    const medals = ['🥇','🥈','🥉','4','5'];
+    tbody.innerHTML = lenders.map((e, i) =>
+      '<tr>' +
+        '<td>' + medals[i] + '</td>' +
+        '<td>' + e.name + '</td>' +
+        '<td style="color:rgba(255,255,255,0.5)">' + (e.company !== 'N/A' ? e.company : '') + '</td>' +
+        '<td>£' + e.score.toLocaleString() + '</td>' +
+      '</tr>'
+    ).join('');
+    wrap.style.display = 'block';
+  }
+
+  if (window._ciDb) {
+    window._ciDb.ref('scores').once('value')
+      .then(snap => render(Object.values(snap.val() || {})))
+      .catch(() => {});
+  } else {
+    try {
+      render(JSON.parse(localStorage.getItem('fiskal_ci_clean_fixed') || '[]'));
+    } catch(e) {}
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   loadAppState();
   showHomepage();
+  loadLenderLeaderboard();
   setTimeout(spawnShootingStar, Math.random() * 5000 + 4000);
 });
 </script>
