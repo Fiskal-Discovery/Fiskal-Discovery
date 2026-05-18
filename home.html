@@ -443,6 +443,172 @@
   .module-card.card-game .module-arrow      { color: var(--periwinkle); }
 
   /* ============================================================
+     MODULES LAYOUT (with optional summaries sidebar)
+  ============================================================ */
+  .modules-layout {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .journey-col { flex: 1; min-width: 0; }
+
+  /* ============================================================
+     SUMMARIES PANEL
+  ============================================================ */
+  .summaries-panel {
+    width: 260px;
+    flex-shrink: 0;
+  }
+
+  .summaries-card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(42,4,64,0.08);
+    border: 1px solid rgba(42,4,64,0.06);
+  }
+
+  .summaries-card-bar {
+    height: 4px;
+    background: var(--navy);
+    width: 100%;
+  }
+
+  .summaries-card-header {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid rgba(42,4,64,0.06);
+  }
+
+  .summaries-card-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark-text);
+    letter-spacing: 0.3px;
+  }
+
+  .summaries-card-subtitle {
+    font-size: 11px;
+    color: var(--mid-text);
+    margin-top: 2px;
+  }
+
+  .summaries-list { padding: 8px 0; }
+
+  .summary-entry {
+    padding: 10px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(42,4,64,0.04);
+    transition: background 0.15s;
+  }
+
+  .summary-entry:last-child { border-bottom: none; }
+  .summary-entry:hover { background: rgba(142,126,216,0.06); }
+
+  .summary-entry-module {
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dark-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .summary-entry-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .summary-entry-meta {
+    font-size: 11px;
+    color: var(--mid-text);
+    margin-top: 2px;
+  }
+
+  .summary-entry-view {
+    font-size: 10px;
+    color: var(--periwinkle);
+    margin-top: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* ============================================================
+     SUMMARY MODAL
+  ============================================================ */
+  .summary-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(7,5,26,0.85);
+    z-index: 1000;
+    padding: 24px 16px;
+    overflow-y: auto;
+  }
+
+  .summary-modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+
+  .summary-modal {
+    background: #fff;
+    border-radius: 16px;
+    max-width: 640px;
+    width: 100%;
+    overflow: hidden;
+    margin: auto;
+  }
+
+  .summary-modal-bar { height: 5px; width: 100%; }
+
+  .summary-modal-body { padding: 28px 28px 24px; }
+
+  .summary-modal-module {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mid-text);
+    margin-bottom: 6px;
+  }
+
+  .summary-modal-heading {
+    font-family: 'Raleway', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 4px;
+  }
+
+  .summary-modal-meta {
+    font-size: 12px;
+    color: var(--mid-text);
+    margin-bottom: 20px;
+  }
+
+  .summary-modal-content { font-size: 14px; color: var(--dark-text); line-height: 1.7; }
+  .summary-modal-content p { margin-bottom: 14px; }
+  .summary-modal-content p:last-child { margin-bottom: 0; }
+
+  .summary-modal-close {
+    margin-top: 24px;
+    display: inline-block;
+    padding: 10px 24px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 8px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+  }
+
+  /* ============================================================
      DASHED DIVIDER
   ============================================================ */
   .dashed-divider {
@@ -586,7 +752,23 @@
     <div class="modules-wrap">
       <div class="modules-label">Choose your journey</div>
 
-      <div class="module-grid">
+      <div class="modules-layout">
+
+        <!-- SUMMARIES PANEL — shown when user has completed journeys -->
+        <div class="summaries-panel" id="summaries-panel">
+          <div class="summaries-card">
+            <div class="summaries-card-bar"></div>
+            <div class="summaries-card-header">
+              <div class="summaries-card-title">My Discovery Summaries</div>
+              <div class="summaries-card-subtitle">Tap any to view your results</div>
+            </div>
+            <div class="summaries-list" id="summaries-list"></div>
+          </div>
+        </div>
+
+        <!-- JOURNEY CARDS -->
+        <div class="journey-col">
+        <div class="module-grid">
 
         <!-- Funding Finder — primary orange bar -->
         <div class="module-card" onclick="window.location.href='funding-finder.html'">
@@ -676,9 +858,26 @@
           </div>
         </div>
 
-      </div>
+      </div><!-- /module-grid -->
+        </div><!-- /journey-col -->
+
+      </div><!-- /modules-layout -->
 
       <div class="dashed-divider">Fiskal Discovery</div>
+    </div>
+  </div>
+
+  <!-- SUMMARY MODAL -->
+  <div class="summary-modal-overlay" id="summary-modal-overlay" onclick="closeSummaryModal(event)">
+    <div class="summary-modal" id="summary-modal">
+      <div class="summary-modal-bar" id="summary-modal-bar"></div>
+      <div class="summary-modal-body">
+        <div class="summary-modal-module" id="summary-modal-module"></div>
+        <div class="summary-modal-heading">Your Discovery Summary</div>
+        <div class="summary-modal-meta" id="summary-modal-meta"></div>
+        <div class="summary-modal-content" id="summary-modal-content"></div>
+        <button class="summary-modal-close" onclick="document.getElementById('summary-modal-overlay').classList.remove('open')">Close</button>
+      </div>
     </div>
   </div>
 
@@ -714,6 +913,67 @@ function saveAppState() {
   } catch (e) { console.warn('Failed to save appState:', e); }
 }
 
+const MODULE_COLOURS = {
+  'Funding Finder':             '#0369A1',
+  'Facility Review':            '#7C3AED',
+  'Loan Enquiry':               '#BE123C',
+  'Shariah-Compliant Funding':  '#0F766E',
+};
+
+function formatDate(iso) {
+  try {
+    return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  } catch(e) { return ''; }
+}
+
+function loadSummaries() {
+  const panel  = document.getElementById('summaries-panel');
+  const list   = document.getElementById('summaries-list');
+  const bar    = panel.querySelector('.summaries-card-bar');
+  panel.classList.add('visible');
+
+  let discoveries = [];
+  try { discoveries = JSON.parse(localStorage.getItem('fiskal_discoveries') || '[]'); } catch(e) {}
+
+  if (!discoveries.length) {
+    list.innerHTML = `<div style="padding:16px;font-size:12px;color:var(--mid-text);line-height:1.5;">You haven't completed any journeys yet.<br>Choose one below to get started.</div>`;
+    return;
+  }
+
+  list.innerHTML = discoveries.map((d, i) => {
+    const colour = MODULE_COLOURS[d.module] || 'var(--periwinkle)';
+    const date   = formatDate(d.date);
+    const biz    = d.business ? ` · ${d.business}` : '';
+    return `<div class="summary-entry" onclick="openSummaryModal(${i})">
+      <div class="summary-entry-module">
+        <span class="summary-entry-dot" style="background:${colour}"></span>
+        ${d.module}
+      </div>
+      <div class="summary-entry-meta">${date}${biz}</div>
+      <div class="summary-entry-view">View summary ›</div>
+    </div>`;
+  }).join('');
+}
+
+function openSummaryModal(index) {
+  let discoveries = [];
+  try { discoveries = JSON.parse(localStorage.getItem('fiskal_discoveries') || '[]'); } catch(e) {}
+  const d = discoveries[index];
+  if (!d) return;
+  const colour = MODULE_COLOURS[d.module] || 'var(--periwinkle)';
+  document.getElementById('summary-modal-bar').style.background = colour;
+  document.getElementById('summary-modal-module').textContent   = d.module;
+  document.getElementById('summary-modal-meta').textContent     = formatDate(d.date) + (d.business ? ` · ${d.business}` : '');
+  document.getElementById('summary-modal-content').innerHTML    = d.summaryHtml || d.summaryText || '';
+  document.getElementById('summary-modal-overlay').classList.add('open');
+}
+
+function closeSummaryModal(e) {
+  if (e.target === document.getElementById('summary-modal-overlay')) {
+    document.getElementById('summary-modal-overlay').classList.remove('open');
+  }
+}
+
 function showHomepage() {
   document.getElementById('screen-home').classList.add('active');
   if (appState.profile && appState.profile.name) {
@@ -722,6 +982,7 @@ function showHomepage() {
     document.getElementById('home-profile-company').textContent = appState.profile.companyName || '';
     document.getElementById('home-avatar').textContent = appState.profile.name.charAt(0).toUpperCase();
   }
+  loadSummaries();
 }
 
 function resetOnboarding() {
