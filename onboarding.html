@@ -1743,128 +1743,51 @@
     border-color: #ff7a2e !important;
   }
 
-  /* ---- CASHFLOW CHAMPIONS WIDGET ---- */
-  .ob-champions-wrap {
-    width: 100%;
-    max-width: 520px;
-    margin: 0 auto;
-    background: rgba(78,0,99,0.25);
-    border: 1px solid rgba(142,126,216,0.3);
-    border-radius: 14px;
-    padding: 14px 18px 10px;
-    backdrop-filter: blur(6px);
-  }
-  .ob-champions-header {
+  /* ---- TOP LENDER BADGE ---- */
+  .ob-game-row {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  .ob-champions-icon { font-size: 16px; }
-  .ob-champions-title {
-    font-family: 'Press Start 2P', 'Courier New', monospace;
-    font-size: 10px;
-    color: #FFE600;
-    letter-spacing: 1px;
-    text-shadow: 0 0 10px rgba(255,230,0,0.5);
-    flex: 1;
-  }
-  .ob-champions-sub {
-    font-size: 10px;
-    color: rgba(255,255,255,0.35);
-    letter-spacing: 0.5px;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .ob-champions-challenge {
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
-    font-family: 'DM Sans', sans-serif;
-    font-style: italic;
-    text-align: center;
-    margin-bottom: 10px;
-    line-height: 1.5;
-  }
-  .ob-champions-rows {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 10px;
-  }
-  .ob-champions-loading {
-    font-size: 10px;
-    color: rgba(255,255,255,0.3);
-    text-align: center;
-    padding: 8px 0;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .ob-champion-row {
-    display: grid;
-    grid-template-columns: 20px 1fr auto;
     align-items: center;
     gap: 10px;
-    padding: 7px 10px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid transparent;
+    justify-content: center;
+    flex-wrap: wrap;
   }
-  .ob-champion-row:nth-child(1) {
+  .ob-top-lender {
+    display: flex;
+    align-items: center;
+    gap: 7px;
     background: rgba(255,230,0,0.08);
-    border-color: rgba(255,230,0,0.2);
+    border: 1px solid rgba(255,230,0,0.25);
+    border-radius: 10px;
+    padding: 6px 12px;
+    flex-shrink: 0;
   }
-  .ob-champion-row:nth-child(2) {
-    background: rgba(192,192,192,0.06);
-    border-color: rgba(192,192,192,0.15);
+  .ob-top-lender-crown { font-size: 16px; }
+  .ob-top-lender-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
   }
-  .ob-champion-row:nth-child(3) {
-    background: rgba(205,127,50,0.06);
-    border-color: rgba(205,127,50,0.15);
+  .ob-top-lender-label {
+    font-size: 8px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    color: #FFE600;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 8px rgba(255,230,0,0.4);
   }
-  .ob-champion-rank {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-    text-align: center;
-  }
-  .ob-champion-row:nth-child(1) .ob-champion-rank { color: #FFE600; }
-  .ob-champion-row:nth-child(2) .ob-champion-rank { color: #C0C0C0; }
-  .ob-champion-row:nth-child(3) .ob-champion-rank { color: #CD7F32; }
-  .ob-champion-info { min-width: 0; }
-  .ob-champion-name {
+  .ob-top-lender-name {
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     color: #ffffff;
     font-family: 'DM Sans', sans-serif;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
-  .ob-champion-company {
+  .ob-top-lender-score {
     font-size: 10px;
-    color: rgba(255,255,255,0.45);
-    font-family: 'DM Sans', sans-serif;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .ob-champion-score {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
     color: #00FF88;
-    text-align: right;
-    white-space: nowrap;
-  }
-  .ob-champions-cta {
-    display: block;
-    text-align: center;
-    font-size: 11px;
-    color: #ff7a2e;
-    text-decoration: none;
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
-    padding: 4px 0 2px;
-    letter-spacing: 0.3px;
-    transition: color 0.2s;
+    white-space: nowrap;
   }
-  .ob-champions-cta:hover { color: #ffffff; }
 
   .ob-dashed-divider {
     display: flex;
@@ -2038,22 +1961,10 @@
         <p class="ob-intro-stars">Aim for the stars and let Fiskal help you get there.</p>
 
       </div>
-      <!-- CASHFLOW CHAMPIONS mini leaderboard -->
-      <div class="ob-champions-wrap">
-        <div class="ob-champions-header">
-          <span class="ob-champions-icon">🏆</span>
-          <span class="ob-champions-title">CASHFLOW CHAMPIONS</span>
-        </div>
-        <p class="ob-champions-challenge">Can you free more funding than the lenders who are paid to do the job?</p>
-        <div class="ob-champions-rows" id="ob-champions-rows">
-          <div class="ob-champions-loading">Loading scores...</div>
-        </div>
-        <a href="cashflow-invaders.html" class="ob-champions-cta">Think you can beat them? Play now →</a>
-      </div>
-
       <div class="ob-bottom-group">
         <div class="ob-actions">
           <button class="btn-primary" onclick="startWelcome()">Start My Discovery</button>
+          <div class="ob-game-row">
           <a href="cashflow-invaders.html" class="btn-secondary ob-game-btn">
             <span style="font-size:20px;line-height:1;">🎮</span>
             Free Your Finances
@@ -2078,6 +1989,15 @@
               <rect x="24" y="28" width="8"  height="4" fill="#FACC15"/>
             </svg>
           </a>
+          <div class="ob-top-lender" id="ob-top-lender" style="display:none">
+            <span class="ob-top-lender-crown">🏆</span>
+            <div class="ob-top-lender-info">
+              <span class="ob-top-lender-label">TOP LENDER</span>
+              <span class="ob-top-lender-name" id="ob-top-lender-name"></span>
+              <span class="ob-top-lender-score" id="ob-top-lender-score"></span>
+            </div>
+          </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2875,56 +2795,39 @@ function startOverlayStars() {
   setTimeout(spawnOverlayStar, Math.random() * 3000 + 1000);
 }
 
-// ---- CASHFLOW CHAMPIONS LEADERBOARD ----
+// ---- TOP LENDER BADGE ----
 function loadChampions() {
-  const container = document.getElementById('ob-champions-rows');
-  if (!container) return;
-
   function normalise(e) {
     return {
       name: String(e.name || e.business || 'ANONYMOUS').toUpperCase().slice(0, 20),
-      company: String(e.company || e.businessName || '').toUpperCase().slice(0, 28),
       score: Number(e.score) || 0
     };
   }
-  function dedupeSort(raw) {
+  function topEntry(raw) {
     const best = {};
     raw.filter(Boolean).map(normalise).forEach(e => {
-      const k = (e.name + '_' + e.company).toLowerCase().replace(/[^a-z0-9]+/g,'_');
+      const k = e.name.toLowerCase().replace(/[^a-z0-9]+/g,'_');
       if (!best[k] || e.score > best[k].score) best[k] = e;
     });
-    return Object.values(best).sort((a,b) => b.score - a.score).slice(0,3);
+    const sorted = Object.values(best).sort((a,b) => b.score - a.score);
+    return sorted[0] || null;
   }
-  function renderRows(rows) {
-    if (!rows.length) {
-      container.innerHTML = '<div class="ob-champions-loading">No scores yet — be the first!</div>';
-      return;
-    }
-    const medals = ['🥇','🥈','🥉'];
-    container.innerHTML = rows.map((r, i) =>
-      '<div class="ob-champion-row">' +
-        '<span class="ob-champion-rank">' + medals[i] + '</span>' +
-        '<div class="ob-champion-info">' +
-          '<div class="ob-champion-name">' + r.name + '</div>' +
-          (r.company ? '<div class="ob-champion-company">' + r.company + '</div>' : '') +
-        '</div>' +
-        '<span class="ob-champion-score">£' + r.score.toLocaleString() + '</span>' +
-      '</div>'
-    ).join('');
+  function showBadge(top) {
+    if (!top || top.score === 0) return;
+    const wrap = document.getElementById('ob-top-lender');
+    document.getElementById('ob-top-lender-name').textContent = top.name;
+    document.getElementById('ob-top-lender-score').textContent = '£' + top.score.toLocaleString() + ' released';
+    wrap.style.display = 'flex';
   }
 
   if (window._ciDb) {
     window._ciDb.ref('scores').once('value')
-      .then(snap => {
-        const entries = Object.values(snap.val() || {});
-        renderRows(dedupeSort(entries));
-      })
-      .catch(() => renderRows([]));
+      .then(snap => showBadge(topEntry(Object.values(snap.val() || {}))))
+      .catch(() => {});
   } else {
     try {
-      const local = JSON.parse(localStorage.getItem('fiskal_ci_clean_fixed') || '[]');
-      renderRows(dedupeSort(local));
-    } catch(e) { renderRows([]); }
+      showBadge(topEntry(JSON.parse(localStorage.getItem('fiskal_ci_clean_fixed') || '[]')));
+    } catch(e) {}
   }
 }
 
