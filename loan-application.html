@@ -1724,7 +1724,7 @@ async function sendNotification(summary) {
     barriers: state.barrier === 'yes' ? state.barrierDetails || 'Yes' : 'None',
     summary: summary
   };
-  try { // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  // EMAILS DISABLED: await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
 }
 
 async function sendClientSummaryEmail(summary) {
