@@ -2246,7 +2246,13 @@ const fundingFinderFlow = [
     question: "Do you have any concerns about being approved for funding?",
     subtitle: "CCJs, past insolvencies, missed payments, HMRC debt — they don't automatically mean no. You might be surprised what's still possible.",
     options: ["Yes", "No", "Prefer not to say"],
-    saveAs: "creditConcern"
+    saveAs: "creditConcern",
+    followUp: {
+      triggerValue: "Yes",
+      saveAs: "creditConcernDetails",
+      label: "Tell us a bit more if you're comfortable doing so:",
+      placeholder: "e.g. CCJ, missed payments, HMRC debt..."
+    }
   },
   {
     id: "previousIssues",
