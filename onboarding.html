@@ -34,12 +34,14 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html { overflow: hidden; height: 100%; }
+
   body {
     font-family: 'DM Sans', sans-serif;
     background: #030210;
     color: var(--white);
-    min-height: 100vh;
-    overflow-x: hidden;
+    height: 100%;
+    overflow: hidden;
   }
 
   /* ====== ONBOARDING OVERLAY ====== */
@@ -247,6 +249,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-y: auto;
+    height: 100%;
   }
 
   @keyframes fadeUp {
