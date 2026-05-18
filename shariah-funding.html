@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="favicon-main.svg">
 <title>Fiskal Discovery — Shariah-Compliant Funding</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --indigo: #4f46e5;
@@ -19,6 +19,29 @@
     --light-text: #6b5c80;
     --white: #ffffff;
     --btn-gradient: linear-gradient(135deg, #4338ca 0%, #6d28d9 60%, #2563eb 100%);
+  }
+
+  /* REFUSE header tagline */
+  .ob-header-tagline {
+    justify-self: end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1;
+    gap: 1px;
+  }
+  .ob-tagline-refuse {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: #ff7a2e;
+    letter-spacing: 4px;
+  }
+  .ob-tagline-rest {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -881,6 +904,161 @@
     .question-text { font-size: 16px !important; }
     .brand-title { font-size: 32px !important; }
   }
+
+  /* ---- DARK QUESTION SCREENS ---- */
+  #screen-q1,
+  #screen-q2,
+  #screen-q3 {
+    background: #000000;
+    color: #ffffff;
+    position: relative;
+  }
+
+  #screen-q1::before,
+  #screen-q2::before,
+  #screen-q3::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(78,0,99,0.55) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 70%, rgba(78,0,99,0.40) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #screen-q1 .screen-content,
+  #screen-q2 .screen-content,
+  #screen-q3 .screen-content,
+  #screen-q1 .progress-bar-wrap,
+  #screen-q2 .progress-bar-wrap,
+  #screen-q3 .progress-bar-wrap {
+    position: relative;
+    z-index: 1;
+  }
+
+  #screen-q1 .question-text,
+  #screen-q2 .question-text,
+  #screen-q3 .question-text {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: clamp(16px, 2.8vw, 22px);
+  }
+
+  #screen-q1 .question-sub,
+  #screen-q2 .question-sub,
+  #screen-q3 .question-sub {
+    color: rgba(255,255,255,0.7);
+  }
+
+  #screen-q1 .question-product,
+  #screen-q2 .question-product,
+  #screen-q3 .question-product {
+    color: rgba(255,255,255,0.55);
+  }
+
+  #screen-q1 .answer-btn,
+  #screen-q2 .answer-btn,
+  #screen-q3 .answer-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid transparent;
+    border-top-color: #D94F00;
+    color: #ffffff;
+  }
+
+  #screen-q1 .answer-btn:hover,
+  #screen-q2 .answer-btn:hover,
+  #screen-q3 .answer-btn:hover {
+    background: rgba(255,255,255,0.11);
+    border-top-color: #D94F00;
+    transform: translateX(4px);
+  }
+
+  #screen-q1 .answer-btn.selected,
+  #screen-q2 .answer-btn.selected,
+  #screen-q3 .answer-btn.selected {
+    border-color: #8E7ED8;
+    border-top-color: #8E7ED8;
+    background: rgba(142,126,216,0.22);
+    color: #ffffff;
+  }
+
+  #screen-q1 .btn-primary,
+  #screen-q2 .btn-primary,
+  #screen-q3 .btn-primary {
+    background: #D94F00;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.35);
+  }
+
+  #screen-q1 .btn-primary:hover,
+  #screen-q2 .btn-primary:hover,
+  #screen-q3 .btn-primary:hover {
+    box-shadow: 0 6px 28px rgba(217,79,0,0.5);
+  }
+
+  #screen-q1 .progress-track,
+  #screen-q2 .progress-track,
+  #screen-q3 .progress-track {
+    background: rgba(255,255,255,0.1);
+  }
+
+  #screen-q1 .progress-fill,
+  #screen-q2 .progress-fill,
+  #screen-q3 .progress-fill {
+    background: #D94F00;
+  }
+
+  #screen-q1 .progress-label,
+  #screen-q2 .progress-label,
+  #screen-q3 .progress-label {
+    color: rgba(255,255,255,0.55);
+  }
+
+  #screen-q1 .back-btn,
+  #screen-q2 .back-btn,
+  #screen-q3 .back-btn {
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+  }
+
+  #screen-q1 .back-btn:hover,
+  #screen-q2 .back-btn:hover,
+  #screen-q3 .back-btn:hover {
+    color: rgba(255,255,255,0.85);
+  }
+
+  #screen-q1 .form-label,
+  #screen-q2 .form-label,
+  #screen-q3 .form-label {
+    color: rgba(255,255,255,0.65);
+  }
+
+  #screen-q1 .form-input,
+  #screen-q2 .form-input,
+  #screen-q3 .form-input {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.15);
+    color: #ffffff;
+  }
+
+  #screen-q1 .form-input:focus,
+  #screen-q2 .form-input:focus,
+  #screen-q3 .form-input:focus {
+    border-color: #D94F00;
+  }
+
+  #screen-q1 .form-input::placeholder,
+  #screen-q2 .form-input::placeholder,
+  #screen-q3 .form-input::placeholder {
+    color: rgba(255,255,255,0.35);
+  }
+
+  #screen-q1 .currency-input-wrapper::before,
+  #screen-q2 .currency-input-wrapper::before,
+  #screen-q3 .currency-input-wrapper::before {
+    color: rgba(255,255,255,0.5);
+  }
 </style>
 <script src="logic/globalInsights.js"></script>
 <script src="logic/shariahInsights.js"></script>
@@ -897,14 +1075,15 @@
 <!-- ====== HOME SCREEN ====== -->
 <div class="screen active" id="screen-home">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Shariah-Compliant Funding</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 <div class="screen-content">
     <div class="question-icon">🕌</div>
@@ -936,14 +1115,15 @@
 <!-- ====== QUESTION 1: Purpose ====== -->
 <div class="screen" id="screen-q1">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Shariah-Compliant Funding</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track">
@@ -996,14 +1176,15 @@
 <!-- ====== QUESTION 2: Amount ====== -->
 <div class="screen" id="screen-q2">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Shariah-Compliant Funding</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track">
@@ -1037,14 +1218,15 @@
 <!-- ====== QUESTION 3: Timeline ====== -->
 <div class="screen" id="screen-q3">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Shariah-Compliant Funding</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track">
@@ -1081,14 +1263,15 @@
 <!-- ====== LOADING SCREEN ====== -->
 <div class="loading-screen" id="screen-loading">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Shariah-Compliant Funding</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="results-header">

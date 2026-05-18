@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="favicon-main.svg">
 <title>Fiskal Discovery — FX Review</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --indigo: #7E09A5;
@@ -18,6 +18,29 @@
     --mid: #5a4a6a;
     --light-text: #6b5c80;
   }
+  /* REFUSE header tagline */
+  .ob-header-tagline {
+    justify-self: end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1;
+    gap: 1px;
+  }
+  .ob-tagline-refuse {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: #ff7a2e;
+    letter-spacing: 4px;
+  }
+  .ob-tagline-rest {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
   .bg-orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; opacity: 0.12; }
@@ -111,6 +134,237 @@
     .question-text { font-size: 16px; }
     .welcome-title { font-size: 22px; }
   }
+
+  /* Dark question screens */
+  #screen-details,
+  #screen-provider,
+  #screen-transaction-type,
+  #screen-currencies,
+  #screen-awareness,
+  #screen-online-selling,
+  #screen-goals,
+  #screen-upload,
+  #screen-loading {
+    background: #000000;
+  }
+  #screen-details::before,
+  #screen-provider::before,
+  #screen-transaction-type::before,
+  #screen-currencies::before,
+  #screen-awareness::before,
+  #screen-online-selling::before,
+  #screen-goals::before,
+  #screen-upload::before,
+  #screen-loading::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(78,0,99,0.55) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(78,0,99,0.35) 0%, transparent 55%);
+  }
+  #screen-details .screen-content,
+  #screen-provider .screen-content,
+  #screen-transaction-type .screen-content,
+  #screen-currencies .screen-content,
+  #screen-awareness .screen-content,
+  #screen-online-selling .screen-content,
+  #screen-goals .screen-content,
+  #screen-upload .screen-content,
+  #screen-loading .screen-content {
+    position: relative;
+    z-index: 1;
+  }
+  #screen-details .question-text,
+  #screen-provider .question-text,
+  #screen-transaction-type .question-text,
+  #screen-currencies .question-text,
+  #screen-awareness .question-text,
+  #screen-online-selling .question-text,
+  #screen-goals .question-text,
+  #screen-upload .question-text,
+  #screen-loading .question-text {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: clamp(16px, 2.8vw, 22px);
+  }
+  #screen-details .question-sub,
+  #screen-provider .question-sub,
+  #screen-transaction-type .question-sub,
+  #screen-currencies .question-sub,
+  #screen-awareness .question-sub,
+  #screen-online-selling .question-sub,
+  #screen-goals .question-sub,
+  #screen-upload .question-sub {
+    color: rgba(255,255,255,0.65);
+  }
+  #screen-details .question-product,
+  #screen-provider .question-product,
+  #screen-transaction-type .question-product,
+  #screen-currencies .question-product,
+  #screen-awareness .question-product,
+  #screen-online-selling .question-product,
+  #screen-goals .question-product,
+  #screen-upload .question-product {
+    color: #ff7a2e;
+  }
+  #screen-details .answer-btn,
+  #screen-provider .answer-btn,
+  #screen-transaction-type .answer-btn,
+  #screen-currencies .answer-btn,
+  #screen-awareness .answer-btn,
+  #screen-online-selling .answer-btn,
+  #screen-goals .answer-btn,
+  #screen-upload .answer-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid transparent;
+    border-top-color: #D94F00;
+    color: #ffffff;
+  }
+  #screen-details .answer-btn:hover,
+  #screen-provider .answer-btn:hover,
+  #screen-transaction-type .answer-btn:hover,
+  #screen-currencies .answer-btn:hover,
+  #screen-awareness .answer-btn:hover,
+  #screen-online-selling .answer-btn:hover,
+  #screen-goals .answer-btn:hover,
+  #screen-upload .answer-btn:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: #D94F00;
+    transform: translateX(4px);
+  }
+  #screen-details .answer-btn.selected,
+  #screen-provider .answer-btn.selected,
+  #screen-transaction-type .answer-btn.selected,
+  #screen-currencies .answer-btn.selected,
+  #screen-awareness .answer-btn.selected,
+  #screen-online-selling .answer-btn.selected,
+  #screen-goals .answer-btn.selected,
+  #screen-upload .answer-btn.selected {
+    border-color: #8E7ED8;
+    background: rgba(142,126,216,0.22);
+    color: #ffffff;
+  }
+  #screen-details .checkbox-btn,
+  #screen-online-selling .checkbox-btn,
+  #screen-goals .checkbox-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid transparent;
+    border-top-color: #D94F00;
+    color: #ffffff;
+  }
+  #screen-details .checkbox-btn.selected,
+  #screen-online-selling .checkbox-btn.selected,
+  #screen-goals .checkbox-btn.selected {
+    border-color: #8E7ED8;
+    background: rgba(142,126,216,0.22);
+    color: #ffffff;
+  }
+  #screen-details .checkbox-btn.selected .checkbox-tick,
+  #screen-online-selling .checkbox-btn.selected .checkbox-tick,
+  #screen-goals .checkbox-btn.selected .checkbox-tick {
+    background: #8E7ED8;
+    border-color: #8E7ED8;
+  }
+  #screen-details .form-label,
+  #screen-upload .form-label {
+    color: rgba(255,255,255,0.65);
+  }
+  #screen-details .form-input,
+  #screen-upload .form-input {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.15);
+    color: #ffffff;
+  }
+  #screen-details .form-input:focus,
+  #screen-upload .form-input:focus {
+    border-color: #8E7ED8;
+    box-shadow: 0 0 0 3px rgba(142,126,216,0.2);
+  }
+  #screen-details .btn-primary,
+  #screen-provider .btn-primary,
+  #screen-transaction-type .btn-primary,
+  #screen-currencies .btn-primary,
+  #screen-awareness .btn-primary,
+  #screen-online-selling .btn-primary,
+  #screen-goals .btn-primary,
+  #screen-upload .btn-primary {
+    background: #D94F00;
+  }
+  #screen-details .progress-fill,
+  #screen-provider .progress-fill,
+  #screen-transaction-type .progress-fill,
+  #screen-currencies .progress-fill,
+  #screen-awareness .progress-fill,
+  #screen-online-selling .progress-fill,
+  #screen-goals .progress-fill,
+  #screen-upload .progress-fill {
+    background: #D94F00;
+  }
+  #screen-details .back-btn,
+  #screen-provider .back-btn,
+  #screen-transaction-type .back-btn,
+  #screen-currencies .back-btn,
+  #screen-awareness .back-btn,
+  #screen-online-selling .back-btn,
+  #screen-goals .back-btn,
+  #screen-upload .back-btn {
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+  }
+  #screen-details .back-btn:hover,
+  #screen-provider .back-btn:hover,
+  #screen-transaction-type .back-btn:hover,
+  #screen-currencies .back-btn:hover,
+  #screen-awareness .back-btn:hover,
+  #screen-online-selling .back-btn:hover,
+  #screen-goals .back-btn:hover,
+  #screen-upload .back-btn:hover {
+    color: rgba(255,255,255,0.85);
+  }
+  #screen-details .progress-track,
+  #screen-provider .progress-track,
+  #screen-transaction-type .progress-track,
+  #screen-currencies .progress-track,
+  #screen-awareness .progress-track,
+  #screen-online-selling .progress-track,
+  #screen-goals .progress-track,
+  #screen-upload .progress-track {
+    background: rgba(255,255,255,0.1);
+  }
+  #screen-details .progress-label,
+  #screen-provider .progress-label,
+  #screen-transaction-type .progress-label,
+  #screen-currencies .progress-label,
+  #screen-awareness .progress-label,
+  #screen-online-selling .progress-label,
+  #screen-goals .progress-label,
+  #screen-upload .progress-label {
+    color: rgba(255,255,255,0.5);
+  }
+  #screen-upload .upload-area {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.2);
+  }
+  #screen-upload .upload-area:hover,
+  #screen-upload .upload-area.has-files {
+    border-color: #D94F00;
+    background: rgba(255,255,255,0.1);
+  }
+  #screen-upload .upload-text {
+    color: rgba(255,255,255,0.65);
+  }
+  #screen-upload .info-box {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.65);
+  }
+  #screen-loading .loading-title,
+  #screen-loading .loading-sub {
+    color: #ffffff;
+  }
 </style>
 </head>
 <body>
@@ -120,14 +374,15 @@
 <!-- WELCOME -->
 <div class="screen active" id="screen-welcome">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">FX Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="welcome-body">
@@ -149,14 +404,15 @@
 <!-- DETAILS -->
 <div class="screen" id="screen-details">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">FX Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:5%"></div></div>
@@ -193,14 +449,15 @@
 <!-- Q1: Provider -->
 <div class="screen" id="screen-provider">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">FX Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:15%"></div></div>
@@ -226,14 +483,15 @@
 <!-- Q2: Transaction Type -->
 <div class="screen" id="screen-transaction-type">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">FX Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:28%"></div></div>
@@ -259,14 +517,15 @@
 <!-- Q3: Currencies -->
 <div class="screen" id="screen-currencies">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">FX Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:42%"></div></div>
@@ -298,14 +557,15 @@
 <!-- Q4: Awareness -->
 <div class="screen" id="screen-awareness">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">FX Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:57%"></div></div>
@@ -331,14 +591,15 @@
 <!-- Q5: Online Selling -->
 <div class="screen" id="screen-online-selling">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">FX Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:72%"></div></div>
@@ -370,14 +631,15 @@
 <!-- Q6: Goals -->
 <div class="screen" id="screen-goals">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">FX Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:85%"></div></div>
@@ -408,14 +670,15 @@
 <!-- Upload -->
 <div class="screen" id="screen-upload">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">FX Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:95%"></div></div>
@@ -445,14 +708,15 @@
 <!-- Loading -->
 <div class="screen" id="screen-loading">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">FX Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="loading-screen">
@@ -467,14 +731,15 @@
 <!-- Results -->
 <div class="screen" id="screen-results">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">FX Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="results-header">

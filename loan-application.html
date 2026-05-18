@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="favicon-main.svg">
 <title>Fiskal Discovery — Loan Enquiry</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --indigo: #4f46e5;
@@ -18,6 +18,28 @@
     --mid: #5a4a6a;
     --light-text: #6b5c80;
     --btn-gradient: linear-gradient(135deg, #4338ca 0%, #6d28d9 60%, #2563eb 100%);
+  }
+  /* REFUSE header tagline */
+  .ob-header-tagline {
+    justify-self: end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1;
+    gap: 1px;
+  }
+  .ob-tagline-refuse {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: #ff7a2e;
+    letter-spacing: 4px;
+  }
+  .ob-tagline-rest {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
@@ -495,14 +517,15 @@
 <!-- WELCOME -->
 <div class="screen active" id="screen-welcome">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="welcome-body">
@@ -523,14 +546,15 @@
 <!-- DETAILS -->
 <div class="screen" id="screen-details">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:5%"></div></div>
@@ -592,14 +616,15 @@
 <!-- Q1: Purpose -->
 <div class="screen" id="screen-purpose">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:15%"></div></div>
@@ -628,14 +653,15 @@
 <!-- Q2: Amount -->
 <div class="screen" id="screen-amount">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:25%"></div></div>
@@ -663,14 +689,15 @@
 <!-- Q3: Term -->
 <div class="screen" id="screen-term">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:37%"></div></div>
@@ -698,14 +725,15 @@
 <!-- Q4: Security -->
 <div class="screen" id="screen-security">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:50%"></div></div>
@@ -731,14 +759,15 @@
 <!-- Property Security Details -->
 <div class="screen" id="screen-property-security">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:55%"></div></div>
@@ -802,14 +831,15 @@
 <!-- Other Security Details -->
 <div class="screen" id="screen-other-security">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:55%"></div></div>
@@ -838,14 +868,15 @@
 <!-- Q5: Credit History -->
 <div class="screen" id="screen-credit">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:62%"></div></div>
@@ -871,14 +902,15 @@
 <!-- Q6: Urgency -->
 <div class="screen" id="screen-urgency">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:72%"></div></div>
@@ -904,14 +936,15 @@
 <!-- Q7: Existing Finance -->
 <div class="screen" id="screen-existing-finance">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:82%"></div></div>
@@ -935,14 +968,15 @@
 <!-- Existing Finance Details -->
 <div class="screen" id="screen-existing-details">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:84%"></div></div>
@@ -966,14 +1000,15 @@
 <!-- Q8: Document Upload -->
 <div class="screen" id="screen-upload">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:90%"></div></div>
@@ -1008,14 +1043,15 @@
 <!-- Barriers -->
 <div class="screen" id="screen-barriers">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:95%"></div></div>
@@ -1048,14 +1084,15 @@
 <!-- Loading -->
 <div class="screen" id="screen-loading">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="loading-screen">
@@ -1070,14 +1107,15 @@
 <!-- LOADING SCREEN -->
 <div class="screen loading-screen" id="screen-submission-loading">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="loading-content">
     <div class="loading-spinner"></div>
@@ -1088,14 +1126,15 @@
 <!-- Results -->
 <div class="screen" id="screen-results">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Loan Enquiry</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="results-header">
@@ -2035,6 +2074,275 @@ async function sendClientSummaryEmail(summary) {
   @media (max-width: 380px) {
     .question-text { font-size: 16px !important; }
     .brand-title { font-size: 32px !important; }
+  }
+
+  /* ============================================================
+     REDESIGN — DARK QUESTION FLOW
+  ============================================================ */
+
+  /* Dark background for question screens */
+  #screen-details,
+  #screen-purpose,
+  #screen-amount,
+  #screen-term,
+  #screen-security,
+  #screen-property-security,
+  #screen-other-security,
+  #screen-credit,
+  #screen-urgency,
+  #screen-existing-finance,
+  #screen-existing-details,
+  #screen-upload,
+  #screen-barriers,
+  #screen-loading {
+    background: #000000;
+    position: relative;
+  }
+
+  #screen-details::before,
+  #screen-purpose::before,
+  #screen-amount::before,
+  #screen-term::before,
+  #screen-security::before,
+  #screen-property-security::before,
+  #screen-other-security::before,
+  #screen-credit::before,
+  #screen-urgency::before,
+  #screen-existing-finance::before,
+  #screen-existing-details::before,
+  #screen-upload::before,
+  #screen-barriers::before,
+  #screen-loading::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 22% 30%, rgba(78,0,99,0.65) 0%, transparent 42%),
+      radial-gradient(ellipse at 72% 68%, rgba(78,0,99,0.50) 0%, transparent 40%),
+      radial-gradient(ellipse at 55% 10%, rgba(78,0,99,0.35) 0%, transparent 35%),
+      radial-gradient(ellipse at 10% 80%, rgba(78,0,99,0.40) 0%, transparent 35%),
+      radial-gradient(ellipse at 88% 20%, rgba(78,0,99,0.30) 0%, transparent 30%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #screen-details .ob-fixed-header,
+  #screen-purpose .ob-fixed-header,
+  #screen-amount .ob-fixed-header,
+  #screen-term .ob-fixed-header,
+  #screen-security .ob-fixed-header,
+  #screen-property-security .ob-fixed-header,
+  #screen-other-security .ob-fixed-header,
+  #screen-credit .ob-fixed-header,
+  #screen-urgency .ob-fixed-header,
+  #screen-existing-finance .ob-fixed-header,
+  #screen-existing-details .ob-fixed-header,
+  #screen-upload .ob-fixed-header,
+  #screen-barriers .ob-fixed-header,
+  #screen-loading .ob-fixed-header,
+  #screen-details .screen-content,
+  #screen-purpose .screen-content,
+  #screen-amount .screen-content,
+  #screen-term .screen-content,
+  #screen-security .screen-content,
+  #screen-property-security .screen-content,
+  #screen-other-security .screen-content,
+  #screen-credit .screen-content,
+  #screen-urgency .screen-content,
+  #screen-existing-finance .screen-content,
+  #screen-existing-details .screen-content,
+  #screen-upload .screen-content,
+  #screen-barriers .screen-content,
+  #screen-loading .screen-content,
+  #screen-details .nav-row,
+  #screen-purpose .nav-row,
+  #screen-amount .nav-row,
+  #screen-term .nav-row,
+  #screen-security .nav-row,
+  #screen-property-security .nav-row,
+  #screen-other-security .nav-row,
+  #screen-credit .nav-row,
+  #screen-urgency .nav-row,
+  #screen-existing-finance .nav-row,
+  #screen-existing-details .nav-row,
+  #screen-upload .nav-row,
+  #screen-barriers .nav-row { position: relative; z-index: 1; }
+
+  .progress-fill { background: #D94F00 !important; }
+  .progress-track { background: rgba(255,255,255,0.12) !important; }
+  .progress-label { color: rgba(255,255,255,0.45) !important; }
+
+  #screen-details .question-text,
+  #screen-purpose .question-text,
+  #screen-amount .question-text,
+  #screen-term .question-text,
+  #screen-security .question-text,
+  #screen-property-security .question-text,
+  #screen-other-security .question-text,
+  #screen-credit .question-text,
+  #screen-urgency .question-text,
+  #screen-existing-finance .question-text,
+  #screen-existing-details .question-text,
+  #screen-upload .question-text,
+  #screen-barriers .question-text {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    font-size: clamp(16px, 2.8vw, 22px) !important;
+    line-height: 1.25 !important;
+    margin-bottom: 6px !important;
+  }
+
+  .question-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.5;
+  }
+
+  #screen-details .answer-btn,
+  #screen-purpose .answer-btn,
+  #screen-amount .answer-btn,
+  #screen-term .answer-btn,
+  #screen-security .answer-btn,
+  #screen-property-security .answer-btn,
+  #screen-other-security .answer-btn,
+  #screen-credit .answer-btn,
+  #screen-urgency .answer-btn,
+  #screen-existing-finance .answer-btn,
+  #screen-existing-details .answer-btn,
+  #screen-upload .answer-btn,
+  #screen-barriers .answer-btn {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1.5px solid rgba(255,255,255,0.15) !important;
+    color: #ffffff !important;
+    border-top: 2px solid #D94F00 !important;
+  }
+  #screen-details .answer-btn:hover,
+  #screen-purpose .answer-btn:hover,
+  #screen-amount .answer-btn:hover,
+  #screen-term .answer-btn:hover,
+  #screen-security .answer-btn:hover,
+  #screen-property-security .answer-btn:hover,
+  #screen-other-security .answer-btn:hover,
+  #screen-credit .answer-btn:hover,
+  #screen-urgency .answer-btn:hover,
+  #screen-existing-finance .answer-btn:hover,
+  #screen-existing-details .answer-btn:hover,
+  #screen-upload .answer-btn:hover,
+  #screen-barriers .answer-btn:hover {
+    background: rgba(255,255,255,0.10) !important;
+  }
+  #screen-details .answer-btn.selected,
+  #screen-purpose .answer-btn.selected,
+  #screen-amount .answer-btn.selected,
+  #screen-term .answer-btn.selected,
+  #screen-security .answer-btn.selected,
+  #screen-property-security .answer-btn.selected,
+  #screen-other-security .answer-btn.selected,
+  #screen-credit .answer-btn.selected,
+  #screen-urgency .answer-btn.selected,
+  #screen-existing-finance .answer-btn.selected,
+  #screen-existing-details .answer-btn.selected,
+  #screen-upload .answer-btn.selected,
+  #screen-barriers .answer-btn.selected {
+    border-color: #8E7ED8 !important;
+    border-width: 2px !important;
+    box-shadow: 0 0 0 3px rgba(142,126,216,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
+    background: rgba(142,126,216,0.22) !important;
+    color: #ffffff !important;
+  }
+
+  #screen-details .back-btn,
+  #screen-purpose .back-btn,
+  #screen-amount .back-btn,
+  #screen-term .back-btn,
+  #screen-security .back-btn,
+  #screen-property-security .back-btn,
+  #screen-other-security .back-btn,
+  #screen-credit .back-btn,
+  #screen-urgency .back-btn,
+  #screen-existing-finance .back-btn,
+  #screen-existing-details .back-btn,
+  #screen-upload .back-btn,
+  #screen-barriers .back-btn {
+    background: transparent !important;
+    color: rgba(255,255,255,0.5) !important;
+    border: none !important;
+  }
+
+  #screen-details .btn-primary,
+  #screen-purpose .btn-primary,
+  #screen-amount .btn-primary,
+  #screen-term .btn-primary,
+  #screen-security .btn-primary,
+  #screen-property-security .btn-primary,
+  #screen-other-security .btn-primary,
+  #screen-credit .btn-primary,
+  #screen-urgency .btn-primary,
+  #screen-existing-finance .btn-primary,
+  #screen-existing-details .btn-primary,
+  #screen-upload .btn-primary,
+  #screen-barriers .btn-primary {
+    background: #D94F00 !important;
+    background-image: none !important;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.4) !important;
+  }
+
+  #screen-details .form-label,
+  #screen-purpose .form-label,
+  #screen-amount .form-label,
+  #screen-term .form-label,
+  #screen-security .form-label,
+  #screen-property-security .form-label,
+  #screen-other-security .form-label,
+  #screen-credit .form-label,
+  #screen-urgency .form-label,
+  #screen-existing-finance .form-label,
+  #screen-existing-details .form-label,
+  #screen-upload .form-label,
+  #screen-barriers .form-label { color: rgba(255,255,255,0.7) !important; }
+
+  #screen-details .form-input,
+  #screen-purpose .form-input,
+  #screen-amount .form-input,
+  #screen-term .form-input,
+  #screen-security .form-input,
+  #screen-property-security .form-input,
+  #screen-other-security .form-input,
+  #screen-credit .form-input,
+  #screen-urgency .form-input,
+  #screen-existing-finance .form-input,
+  #screen-existing-details .form-input,
+  #screen-upload .form-input,
+  #screen-barriers .form-input {
+    background: rgba(255,255,255,0.07) !important;
+    border-color: rgba(255,255,255,0.15) !important;
+    color: #ffffff !important;
+  }
+  #screen-details .form-input::placeholder,
+  #screen-purpose .form-input::placeholder,
+  #screen-amount .form-input::placeholder,
+  #screen-term .form-input::placeholder,
+  #screen-security .form-input::placeholder,
+  #screen-property-security .form-input::placeholder,
+  #screen-other-security .form-input::placeholder,
+  #screen-credit .form-input::placeholder,
+  #screen-urgency .form-input::placeholder,
+  #screen-existing-finance .form-input::placeholder,
+  #screen-existing-details .form-input::placeholder,
+  #screen-upload .form-input::placeholder,
+  #screen-barriers .form-input::placeholder { color: rgba(255,255,255,0.35) !important; }
+
+  .question-icon { display: none !important; }
+
+  .question-product {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    color: #8E7ED8 !important;
+    letter-spacing: 2px !important;
   }
 </style>
 

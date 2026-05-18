@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="favicon-main.svg">
 <title>Fiskal Discovery — Facility Review</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
@@ -19,6 +19,29 @@
     --mid: #5a4a6a;
     --light-text: #6b5c80;
     --white: #ffffff;
+  }
+
+  /* REFUSE header tagline */
+  .ob-header-tagline {
+    justify-self: end;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1;
+    gap: 1px;
+  }
+  .ob-tagline-refuse {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: #ff7a2e;
+    letter-spacing: 4px;
+  }
+  .ob-tagline-rest {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -728,14 +751,15 @@
 <!-- ====== WELCOME ====== -->
 <div class="screen active" id="screen-welcome">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="welcome-body">
@@ -757,14 +781,15 @@
 <!-- ====== FACILITY TYPE ====== -->
 <div class="screen" id="screen-facility-type">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-icon">🏦</div>
@@ -790,14 +815,15 @@
 <!-- ====== REVIEW SELECTION ====== -->
 <div class="screen" id="screen-review-selection">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-icon">🏦</div>
@@ -818,14 +844,15 @@
 <!-- IF Q1: Lender -->
 <div class="screen" id="screen-if-lender">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-icon">📋</div>
@@ -845,14 +872,15 @@
 <!-- IF Q2: Facility Type -->
 <div class="screen" id="screen-if-type">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">Invoice Finance Review</div>
@@ -875,14 +903,15 @@
 <!-- IF Q3: Payment Terms -->
 <div class="screen" id="screen-if-payment-terms">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">Invoice Finance Review</div>
@@ -904,14 +933,15 @@
 <!-- IF Q4: Knowledge Check -->
 <div class="screen" id="screen-if-knowledge">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">Invoice Finance Review</div>
@@ -931,14 +961,15 @@
 <!-- IF Path A: Know Details -->
 <div class="screen" id="screen-if-path-a">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">Invoice Finance Review</div>
@@ -984,14 +1015,15 @@
 <!-- IF Path B: Don't Know Details -->
 <div class="screen" id="screen-if-path-b">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">Invoice Finance Review</div>
@@ -1017,14 +1049,15 @@
 <!-- IF Priorities -->
 <div class="screen" id="screen-if-priorities">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">Invoice Finance Review</div>
@@ -1053,14 +1086,15 @@
 <!-- IF Upload -->
 <div class="screen" id="screen-if-upload">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">Invoice Finance Review</div>
@@ -1086,14 +1120,15 @@
 <!-- IF Barriers -->
 <div class="screen" id="screen-if-barriers">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">One last thing</div>
@@ -1124,14 +1159,15 @@
 <!-- LOAN Q1: Lender -->
 <div class="screen" id="screen-loan-lender">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="progress-label">Question 1</div>
@@ -1152,14 +1188,15 @@
 <!-- LOAN Q2: Loan Type -->
 <div class="screen" id="screen-loan-type">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="progress-label">Question 2</div>
@@ -1183,14 +1220,15 @@
 <!-- LOAN Q3: Knowledge Check -->
 <div class="screen" id="screen-loan-knowledge">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="progress-label">Question 3</div>
@@ -1211,14 +1249,15 @@
 <!-- LOAN Path A: Know Details -->
 <div class="screen" id="screen-loan-path-a">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="progress-label">Question 4</div>
@@ -1273,14 +1312,15 @@
 <!-- LOAN Path B: Don't Know Details -->
 <div class="screen" id="screen-loan-path-b">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="progress-label">Question 4</div>
@@ -1317,14 +1357,15 @@
 <!-- LOAN Priorities -->
 <div class="screen" id="screen-loan-priorities">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="progress-label">Question 5</div>
@@ -1352,14 +1393,15 @@
 <!-- LOAN Upload -->
 <div class="screen" id="screen-loan-upload">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="progress-label">Question 6</div>
@@ -1385,14 +1427,15 @@
 <!-- LOAN Barriers -->
 <div class="screen" id="screen-loan-barriers">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="progress-label">Question 7</div>
@@ -1424,14 +1467,15 @@
 <!-- ====== FX REVIEW SCREENS ====== -->
 <div class="screen" id="screen-fx-provider">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">FX Review</div>
@@ -1452,14 +1496,15 @@
 <!-- Q2: Transaction Type -->
 <div class="screen" id="screen-fx-transaction-type">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">FX Review</div>
@@ -1480,14 +1525,15 @@
 <!-- Q3: Currencies -->
 <div class="screen" id="screen-fx-currencies">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">FX Review</div>
@@ -1514,14 +1560,15 @@
 <!-- Q4: Awareness -->
 <div class="screen" id="screen-fx-awareness">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">FX Review</div>
@@ -1542,14 +1589,15 @@
 <!-- FX Cost Details -->
 <div class="screen" id="screen-fx-costs">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">FX Review</div>
@@ -1594,14 +1642,15 @@
 <!-- Q5: Online Selling -->
 <div class="screen" id="screen-fx-online-selling">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">FX Review</div>
@@ -1628,14 +1677,15 @@
 <!-- Q6: Goals -->
 <div class="screen" id="screen-fx-goals">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">FX Review</div>
@@ -1661,14 +1711,15 @@
 <!-- Upload -->
 <div class="screen" id="screen-fx-upload">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="screen-content">
     <div class="question-product">FX Review</div>
@@ -1693,14 +1744,15 @@
 <!-- Asset Finance Q1: Provider -->
 <div class="screen" id="screen-asset-provider">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -1721,14 +1773,15 @@
 <!-- Asset Finance Q2: Asset Type -->
 <div class="screen" id="screen-asset-type">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -1750,14 +1803,15 @@
 <!-- Asset Finance Q3: Agreement Remaining -->
 <div class="screen" id="screen-asset-remaining">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -1778,14 +1832,15 @@
 <!-- Asset Finance Q4: Outstanding Amount -->
 <div class="screen" id="screen-asset-outstanding">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -1806,14 +1861,15 @@
 <!-- Asset Finance Q5: Monthly Repayments -->
 <div class="screen" id="screen-asset-repayments">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -1834,14 +1890,15 @@
 <!-- Asset Finance Q6: Asset Value Change -->
 <div class="screen" id="screen-asset-value-change">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -1863,14 +1920,15 @@
 <!-- Asset Finance Q7: Upgrade Plans -->
 <div class="screen" id="screen-asset-upgrade">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -1892,14 +1950,15 @@
 <!-- Asset Finance Q8: Barriers -->
 <div class="screen" id="screen-asset-barriers">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -1926,14 +1985,15 @@
 <!-- Asset Finance Loading -->
 <div class="screen" id="screen-asset-loading">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -1991,14 +2051,15 @@
 <!-- Trade Finance Q1: Provider -->
 <div class="screen" id="screen-trade-provider">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2019,14 +2080,15 @@
 <!-- Trade Finance Q2: Facility Duration -->
 <div class="screen" id="screen-trade-duration">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2047,14 +2109,15 @@
 <!-- Trade Finance Q3: Facility Limit -->
 <div class="screen" id="screen-trade-limit">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2076,14 +2139,15 @@
 <!-- Trade Finance Q4: Rates and Fees -->
 <div class="screen" id="screen-trade-rates">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2105,14 +2169,15 @@
 <!-- Trade Finance Q5: Reaching Limit -->
 <div class="screen" id="screen-trade-reaching">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2133,14 +2198,15 @@
 <!-- Trade Finance Q6: Business Growth -->
 <div class="screen" id="screen-trade-growth">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2161,14 +2227,15 @@
 <!-- Trade Finance Q7: Barriers -->
 <div class="screen" id="screen-trade-barriers">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2195,14 +2262,15 @@
 <!-- Other Funding Review Q1: Type -->
 <div class="screen" id="screen-other-type">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2223,14 +2291,15 @@
 <!-- Other Funding Review Q2: Amount -->
 <div class="screen" id="screen-other-amount">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2251,14 +2320,15 @@
 <!-- Other Funding Review Q3: Cost -->
 <div class="screen" id="screen-other-cost">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2279,14 +2349,15 @@
 <!-- Other Funding Review Q4: Provider -->
 <div class="screen" id="screen-other-provider">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2307,14 +2378,15 @@
 <!-- Trade Finance Loading -->
 <div class="screen" id="screen-trade-loading">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2371,14 +2443,15 @@
 <!-- FX Loading -->
 <div class="screen" id="screen-fx-loading">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
@@ -2435,14 +2508,15 @@
 <!-- SUBMISSION LOADING SCREEN -->
 <div class="screen loading-screen" id="screen-submission-loading">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
   <div class="loading-content">
     <div class="loading-spinner"></div>
@@ -2453,14 +2527,15 @@
 <!-- Invoice Finance Loading -->
 <div class="screen" id="screen-loading">
   <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
+    <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
       <span class="ob-header-sub">Facility Review</span>
     </div>
-    <div class="ob-header-spacer"></div>
+    <div class="ob-header-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest">to stand still</span>
+    </div>
   </header>
 
   <div class="screen-content">
