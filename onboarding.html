@@ -2597,7 +2597,11 @@ function renderWelcomeQuestion() {
         if (opt.freeText) {
           if (!freeTextWrap) {
             freeTextWrap = document.createElement('div');
-            freeTextWrap.style.cssText = 'margin-top:12px;display:flex;flex-direction:column;gap:8px;';
+            freeTextWrap.style.cssText = 'display:flex;flex-direction:column;gap:10px;width:100%;';
+            const backBtn = document.createElement('button');
+            backBtn.textContent = '‹ Back';
+            backBtn.style.cssText = 'background:none;border:none;color:#8E7ED8;font-size:13px;cursor:pointer;font-family:"DM Sans",sans-serif;padding:0;text-align:left;margin-bottom:4px;';
+            backBtn.onclick = () => { freeTextWrap.style.display = 'none'; grid.style.display = ''; };
             const inp = document.createElement('input');
             inp.type = 'text';
             inp.placeholder = 'Please describe your industry…';
@@ -2613,13 +2617,14 @@ function renderWelcomeQuestion() {
               advanceChoice({ ...opt, value: val });
             };
             inp.addEventListener('keypress', e => { if (e.key === 'Enter') confirmBtn.click(); });
+            freeTextWrap.appendChild(backBtn);
             freeTextWrap.appendChild(inp);
             freeTextWrap.appendChild(confirmBtn);
             wrap.appendChild(freeTextWrap);
-            setTimeout(() => inp.focus(), 50);
-          } else {
-            freeTextWrap.style.display = 'flex';
           }
+          grid.style.display = 'none';
+          freeTextWrap.style.display = 'flex';
+          setTimeout(() => freeTextWrap.querySelector('input').focus(), 50);
         } else {
           if (freeTextWrap) freeTextWrap.style.display = 'none';
           setTimeout(() => advanceChoice(opt), 180);
