@@ -903,13 +903,13 @@
     <div class="question-icon">📅</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">How long would you like to repay over?</h2>
-    <div class="answer-options" id="term-opts">
+    <div class="answer-options" id="term-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectState('term', 'Up to 12 months', this, 'term-opts', 'screen-security')">Up to 12 months</button>
       <button class="answer-btn" onclick="selectState('term', '1 — 2 years', this, 'term-opts', 'screen-security')">1 — 2 years</button>
       <button class="answer-btn" onclick="selectState('term', '2 — 3 years', this, 'term-opts', 'screen-security')">2 — 3 years</button>
       <button class="answer-btn" onclick="selectState('term', '3 — 5 years', this, 'term-opts', 'screen-security')">3 — 5 years</button>
       <button class="answer-btn" onclick="selectState('term', '5 years+', this, 'term-opts', 'screen-security')">5 years+</button>
-      <button class="answer-btn" onclick="selectState('term', 'Not sure', this, 'term-opts', 'screen-security')">🤔 Not sure</button>
+      <button class="answer-btn" onclick="selectState('term', 'Not sure', this, 'term-opts', 'screen-security')">Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-amount')">&lt; Back</button>
