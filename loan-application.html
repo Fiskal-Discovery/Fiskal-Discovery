@@ -864,13 +864,14 @@
     <div class="question-icon">💷</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">How much are you looking to borrow?</h2>
-    <div class="answer-options" id="amount-opts">
+    <div class="answer-options" id="amount-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectState('amount', 'Up to £25,000', this, 'amount-opts', 'screen-term')">Up to £25,000</button>
       <button class="answer-btn" onclick="selectState('amount', '£25,000 — £50,000', this, 'amount-opts', 'screen-term')">£25,000 — £50,000</button>
       <button class="answer-btn" onclick="selectState('amount', '£50,000 — £100,000', this, 'amount-opts', 'screen-term')">£50,000 — £100,000</button>
       <button class="answer-btn" onclick="selectState('amount', '£100,000 — £250,000', this, 'amount-opts', 'screen-term')">£100,000 — £250,000</button>
       <button class="answer-btn" onclick="selectState('amount', '£250,000 — £500,000', this, 'amount-opts', 'screen-term')">£250,000 — £500,000</button>
       <button class="answer-btn" onclick="selectState('amount', '£500,000+', this, 'amount-opts', 'screen-term')">£500,000+</button>
+      <button class="answer-btn" onclick="selectState('amount', 'Not sure', this, 'amount-opts', 'screen-term')">🤔 Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-purpose')">&lt; Back</button>
