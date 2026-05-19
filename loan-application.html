@@ -756,7 +756,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -774,97 +773,75 @@
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">← Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    <div class="dashed-divider">Fiskal Discovery</div>
     </div>
-    <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
 
 <!-- DETAILS -->
 <div class="screen" id="screen-details">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer">  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    <div class="ob-header-spacer">
     </div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
       <span class="ob-tagline-rest">to stand still</span>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
   </header>
   <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:5%">  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    <div class="progress-track"><div class="progress-fill" style="width:5%">
     </div>
-    <div class="progress-label">Your details  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    <div class="progress-label">Your details</div>
     </div>
   <div class="screen-content">
-    <div class="question-product">Your details  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
+    <div class="question-product">Your details</div>
     <h2 class="question-text">Confirm these details are correct</h2>
     <p class="question-sub">We've pulled these through from your previous answers.</p>
     <div class="ai-summary" id="details-summary">
-      <div class="ai-summary-label">Saved details  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-      <div class="ai-summary-text" id="confirm-details-list">Loading your saved details...  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+      <div class="ai-summary-label">Saved details</div>
+      <div class="ai-summary-text" id="confirm-details-list">Loading your saved details...</div>
     </div>
     <div id="details-edit-form" style="display:none">
       <div class="form-group">
         <label class="form-label">Your name *</label>
         <input type="text" class="form-input" id="field-name" placeholder="e.g. Sarah Johnson">
-        <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
       <div class="form-group">
         <label class="form-label">Business name *</label>
         <input type="text" class="form-input" id="field-business" placeholder="e.g. Johnson Supplies Ltd">
-        <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
       <div class="form-group">
         <label class="form-label">Email address *</label>
         <input type="email" class="form-input" id="field-email" placeholder="sarah@yourcompany.co.uk">
-        <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
       <div class="form-group">
         <label class="form-label">Phone number *</label>
         <input type="tel" class="form-input" id="field-phone" placeholder="07xxx xxxxxx">
-        <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
       <div class="form-group">
         <label class="form-label">Company number <span style="font-weight:300;color:var(--light-text)">(optional)</span></label>
         <input type="text" class="form-input" id="field-company-number" placeholder="e.g. 12345678">
-        <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
       <div class="form-group">
         <label class="form-label">Annual turnover *</label>
         <input type="text" class="form-input" id="field-turnover" placeholder="e.g. £250,000">
-        <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
       <div class="form-group">
         <label class="form-label">Expected turnover</label>
         <input type="text" class="form-input" id="field-turnover-next" placeholder="e.g. £400,000">
-        <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
       <div class="form-group">
         <label class="form-label">Are any directors home or property owners?</label>
         <input type="text" class="form-input" id="field-property-owners" placeholder="e.g. Yes, No, Not sure">
-        <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <p class="error-msg" id="details-error">Please fill in all required fields.</p>
     <button class="btn-primary" id="details-confirm-btn" onclick="confirmDetails()">Yes, this is correct ></button>
     <button class="btn-secondary" id="details-edit-btn" onclick="editDetails()">Edit</button>
     <button class="btn-primary" id="details-save-btn" onclick="submitDetails()" style="display:none">Save and continue ></button>
-    <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
   <div class="screen-footer">
     <div class="nav-row">
@@ -882,7 +859,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -926,7 +902,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -966,7 +941,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1005,7 +979,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1042,7 +1015,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1117,7 +1089,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1157,7 +1128,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1194,7 +1164,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1231,7 +1200,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1266,7 +1234,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1301,7 +1268,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1335,6 +1301,7 @@
     <div class="nav-row">
       <button class="back-btn" onclick="goBackFromUpload()">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="dashed-divider">Fiskal Discovery</div>
   </div>
@@ -1347,7 +1314,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1370,7 +1336,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1389,7 +1354,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>

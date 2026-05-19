@@ -946,7 +946,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -964,55 +963,39 @@
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">← Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    <div class="dashed-divider">Fiskal Discovery</div>
     </div>
-    <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
 
 <!-- ====== FACILITY TYPE ====== -->
 <div class="screen" id="screen-facility-type">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer">  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    <div class="ob-header-spacer">
     </div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
       <span class="ob-tagline-rest">to stand still</span>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
   </header>
   <div class="screen-content">
-        <div class="question-product">Your current facility  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
+        <div class="question-product">Your current facility</div>
     <h2 class="question-text">What type of finance do you currently have in place?</h2>
     <p class="question-sub">Select all that apply.</p>
     <div class="checkbox-options" id="facility-type-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'invoice')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick">  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div> Invoice Finance</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'loan')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick">  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div> Business Loan / MCA</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'fx')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick">  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div> Foreign Currency / FX</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'asset')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick">  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div> Asset Finance</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'trade')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick">  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div> Trade Finance</button>
-      <button class="checkbox-btn" id="facility-other-btn" onclick="toggleFacilityOther(this)" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick">  <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div> Other</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'invoice')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Invoice Finance</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'loan')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Business Loan / MCA</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'fx')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Foreign Currency / FX</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'asset')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Asset Finance</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'trade')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Trade Finance</button>
+      <button class="checkbox-btn" id="facility-other-btn" onclick="toggleFacilityOther(this)" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Other</button>
     </div>
     <div id="facility-other-wrap" style="display:none;margin-top:4px">
       <input type="text" id="facility-other-input" class="form-input" placeholder="Please describe your finance type…" oninput="state.facilityOther=this.value" style="width:100%">
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <button class="btn-primary" onclick="goToReviewSelection()">Continue →</button>
-    <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
   <div class="screen-footer">
     <div class="nav-row">
@@ -1030,7 +1013,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1048,6 +1030,7 @@
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="dashed-divider">Fiskal Discovery</div>
   </div>
@@ -1061,7 +1044,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1096,7 +1078,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1135,7 +1116,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1173,7 +1153,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1209,7 +1188,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1273,7 +1251,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1315,7 +1292,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1360,7 +1336,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1402,7 +1377,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1449,7 +1423,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1484,7 +1457,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1522,7 +1494,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1557,7 +1528,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1626,7 +1596,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1677,7 +1646,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1719,7 +1687,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1759,7 +1726,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1805,7 +1771,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1842,7 +1807,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1879,7 +1843,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1922,7 +1885,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1959,7 +1921,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2020,7 +1981,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2063,7 +2023,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2105,7 +2064,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2146,7 +2104,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2182,7 +2139,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2219,7 +2175,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2255,7 +2210,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2291,7 +2245,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2327,7 +2280,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2364,7 +2316,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2401,7 +2352,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2443,7 +2393,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2507,7 +2456,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2543,7 +2491,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2579,7 +2526,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2616,7 +2562,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2653,7 +2598,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2689,7 +2633,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2725,7 +2668,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2767,7 +2709,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2800,7 +2741,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2833,7 +2773,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2866,7 +2805,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2899,7 +2837,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2962,7 +2899,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -3025,7 +2961,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -3044,7 +2979,6 @@
     <div class="ob-header-spacer"></div>
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
     </div>
     <div class="ob-header-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
