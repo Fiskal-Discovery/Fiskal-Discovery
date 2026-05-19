@@ -1064,13 +1064,13 @@
   <div class="screen-content">
     <div class="question-product">Invoice Finance Review</div>
     <h2 class="question-text">What type of invoice finance do you have?</h2>
-    <div class="answer-options">
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Full ledger — all invoices go through the facility', 'screen-if-payment-terms')">📚 Full ledger — all my invoices go through the facility</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Selective — I choose which invoices to fund', 'screen-if-payment-terms')">🎯 Selective — I choose which invoices to fund</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Spot funding — individual invoices as needed', 'screen-if-payment-terms')">⚡ Spot funding — I fund individual invoices as and when needed</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Construction — stage payments or applications for payment', 'screen-if-payment-terms')">🏗️ Construction — stage payments or applications for payment</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Recruitment — includes payroll funding or back office support', 'screen-if-payment-terms')">👥 Recruitment — includes payroll funding or back office support</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Not sure', 'screen-if-payment-terms')">🤔 Not sure</button>
+    <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Full ledger — all invoices go through the facility', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">📚 Full ledger</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Selective — I choose which invoices to fund', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">🎯 Selective</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Spot funding — individual invoices as needed', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">⚡ Spot funding</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Construction — stage payments or applications for payment', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">🏗️ Construction</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Recruitment — includes payroll funding or back office support', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">👥 Recruitment</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Not sure', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">🤔 Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-if-lender')">&lt; Back</button>
