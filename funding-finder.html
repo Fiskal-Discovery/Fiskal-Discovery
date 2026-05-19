@@ -2355,6 +2355,38 @@ const fundingFinderFlow = [
     saveAs: "assetFinance"
   },
   {
+    id: "tradeFinance",
+    type: "single-choice",
+    question: "Do you have suppliers you need to pay before your customers pay you?",
+    subtitle: "If cash is tied up waiting on orders or import cycles, there's funding built specifically to bridge that gap — and it can open doors to better supplier terms too.",
+    options: ["Yes", "No", "Sometimes"],
+    saveAs: "tradeFinance"
+  },
+  {
+    id: "fxExposure",
+    type: "single-choice",
+    question: "Does your business deal in foreign currencies or trade internationally?",
+    subtitle: "Exchange rate swings can silently eat into your margins. The right FX solution can protect your pricing and make overseas trade far more predictable.",
+    options: ["Yes", "No", "Not yet but we're exploring it"],
+    saveAs: "fxExposure"
+  },
+  {
+    id: "rdActivity",
+    type: "single-choice",
+    question: "Does your business invest in research, development or innovation?",
+    subtitle: "If you're developing new products, processes or technology — even internally — you could be sitting on a significant tax credit you don't know about.",
+    options: ["Yes", "No", "Not sure"],
+    saveAs: "rdActivity"
+  },
+  {
+    id: "propertyPlans",
+    type: "single-choice",
+    question: "Are you looking to buy, develop or refinance commercial property?",
+    subtitle: "Whether it's your own premises or an investment — commercial property finance works very differently to a standard business loan and can be structured around your plans.",
+    options: ["Yes", "No", "Maybe in the next 12 months"],
+    saveAs: "propertyPlans"
+  },
+  {
     id: "creditConcern",
     type: "single-choice",
     question: "Do you have any concerns about being approved for funding?",
@@ -2867,8 +2899,20 @@ function getMatchedProducts() {
   if (state.assetNeed === 'Yes' && !matched.includes('asset')) {
     matched.push('asset');
   }
-  if ((state.cardSales === 'Yes' || state.cardSales === 'Sometimes / potentially') && productInfo['mca'] && !matched.includes('mca')) {
+  if ((state.cardSales === 'Yes' || state.cardSales === 'Sometimes / potentially') && !matched.includes('mca')) {
     matched.push('mca');
+  }
+  if ((fa.tradeFinance === 'Yes' || fa.tradeFinance === 'Sometimes') && !matched.includes('trade')) {
+    matched.push('trade');
+  }
+  if ((fa.fxExposure === 'Yes' || fa.fxExposure === 'Not yet but we\'re exploring it') && !matched.includes('fx')) {
+    matched.push('fx');
+  }
+  if ((fa.rdActivity === 'Yes' || fa.rdActivity === 'Not sure') && !matched.includes('rd')) {
+    matched.push('rd');
+  }
+  if ((fa.propertyPlans === 'Yes' || fa.propertyPlans === 'Maybe in the next 12 months') && !matched.includes('property')) {
+    matched.push('property');
   }
 
   // Always surface at least a business loan as a baseline option
