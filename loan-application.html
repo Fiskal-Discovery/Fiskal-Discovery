@@ -545,7 +545,7 @@
   #screen-urgency::before,
   #screen-existing-finance::before,
   #screen-existing-details::before,
-  #screen-upload::before,
+  #screen-upload::before {
     content: '';
     position: fixed;
     inset: 0;
@@ -2486,7 +2486,11 @@ async function sendClientSummaryEmail(summary) {
   #screen-urgency .btn-primary,
   #screen-existing-finance .btn-primary,
   #screen-existing-details .btn-primary,
-  #screen-upload .btn-primary,
+  #screen-upload .btn-primary {
+    background: #D94F00 !important;
+    background-image: none !important;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.4) !important;
+  }
 
   #screen-details .form-label,
   #screen-purpose .form-label,
@@ -2499,7 +2503,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-urgency .form-label,
   #screen-existing-finance .form-label,
   #screen-existing-details .form-label,
-  #screen-upload .form-label,
+  #screen-upload .form-label { color: rgba(255,255,255,0.7) !important; }
 
   #screen-details .form-input,
   #screen-purpose .form-input,
@@ -2512,7 +2516,11 @@ async function sendClientSummaryEmail(summary) {
   #screen-urgency .form-input,
   #screen-existing-finance .form-input,
   #screen-existing-details .form-input,
-  #screen-upload .form-input,
+  #screen-upload .form-input {
+    background: rgba(255,255,255,0.07) !important;
+    border-color: rgba(255,255,255,0.15) !important;
+    color: #ffffff !important;
+  }
   #screen-details .form-input::placeholder,
   #screen-purpose .form-input::placeholder,
   #screen-amount .form-input::placeholder,
@@ -2524,7 +2532,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-urgency .form-input::placeholder,
   #screen-existing-finance .form-input::placeholder,
   #screen-existing-details .form-input::placeholder,
-  #screen-upload .form-input::placeholder,
+  #screen-upload .form-input::placeholder { color: rgba(255,255,255,0.35) !important; }
 
   .question-icon { display: none !important; }
 
