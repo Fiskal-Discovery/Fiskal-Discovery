@@ -1805,7 +1805,7 @@
     </div>
     <div class="module-grid">
       <div class="module-card" onclick="window.location.href='funding-finder.html'">
-        <div class="module-card-icon">&#128269;</div>
+        <div class="module-card-icon"></div>
         <div class="module-card-body">
           <div class="module-card-title">Funding Finder</div>
           <div class="module-card-desc">Find out what funding your business could access</div>
@@ -1813,7 +1813,7 @@
         <div class="module-arrow">></div>
       </div>
       <div class="module-card" onclick="window.location.href='facility-review.html'">
-        <div class="module-card-icon">&#128200;</div>
+        <div class="module-card-icon"></div>
         <div class="module-card-body">
           <div class="module-card-title">Facility Review</div>
           <div class="module-card-desc">Find out if you're on the best deal</div>
@@ -1821,7 +1821,7 @@
         <div class="module-arrow">></div>
       </div>
       <div class="module-card" onclick="window.location.href='loan-application.html'">
-        <div class="module-card-icon">&#128176;</div>
+        <div class="module-card-icon"></div>
         <div class="module-card-body">
           <div class="module-card-title">Loan Enquiry</div>
           <div class="module-card-desc">Get an indicative loan assessment in minutes</div>
@@ -1886,7 +1886,7 @@
     <div class="progress-label" id="question-progress-label">Question 1 of 9</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon" id="q-icon">&#128176;</div>
+    <div class="question-icon" id="q-icon"></div>
     <div class="question-product" id="q-product">Invoice Finance</div>
     <h2 class="question-text" id="q-text">Question goes here</h2>
     <p class="question-sub" id="q-sub" style="display:none;"></p>
@@ -1920,16 +1920,15 @@
     <div class="progress-label">Final question</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">&#129309;</div>
-    <div class="question-product">One last thing</div>
+        <div class="question-product">One last thing</div>
     <h2 class="question-text">Do you have any concerns that might make accessing finance difficult?</h2>
     <p style="font-size:13px;color:var(--light-text);margin-bottom:20px;font-weight:300;">For example: previous credit issues, HMRC arrears, a short trading history, or a past rejection.</p>
     <div class="answer-options">
       <button class="answer-btn" onclick="selectBarrier('yes')">
-        <span class="answer-emoji">&#9995;</span> Yes, I have some concerns
+        Yes, I have some concerns
       </button>
       <button class="answer-btn" onclick="selectBarrier('no')">
-        <span class="answer-emoji">&#9989;</span> No, nothing I'm aware of
+        No, nothing I'm aware of
       </button>
     </div>
     <div id="barrier-followup" style="display:none" class="barriers-followup">
@@ -2010,7 +2009,7 @@
 
   <div class="screen-content">
     <div class="results-header">
-      <div class="results-check">&#10024;</div>
+      <div class="results-check"></div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="results-name">Here's what we found</p>
     </div>
@@ -2030,7 +2029,7 @@
 
   </div>
   <div class="screen-footer">
-    <button class="back-btn" onclick="window.location.href='home.html?home=1'" style="margin:0 auto;">⌂ Home</button>
+    <button class="back-btn" onclick="window.location.href='home.html?home=1'" style="margin:0 auto;">Home</button>
     <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
@@ -2039,10 +2038,10 @@
 <div class="screen" id="screen-confirm">
   <div class="screen-content">
     <div class="confirm-screen">
-      <div class="confirm-icon">&#9989;</div>
+      <div class="confirm-icon"></div>
       <h2 class="confirm-title">You're all set,<br><span id="confirm-name">there</span>!</h2>
       <p class="confirm-text">A summary of your Fiskal Discovery has been sent to your email. Nicole will be in touch personally within a few hours.<br><br>Can't wait?</p>
-      <a href="tel:07946074268" class="btn-primary" style="text-decoration:none;display:block;text-align:center">&#128222; Call Nicole — 07946 074 268</a>
+      <a href="tel:07946074268" class="btn-primary" style="text-decoration:none;display:block;text-align:center">Call Nicole — 07946 074 268</a>
       <button class="btn-secondary" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
   </div>
@@ -2384,7 +2383,7 @@ function renderFlowQuestion() {
 
   document.getElementById('question-progress').style.width = pct + '%';
   document.getElementById('question-progress-label').textContent = `Question ${current} of ${total}`;
-  document.getElementById('q-icon').textContent = '💬';
+  document.getElementById('q-icon').textContent = '';
   document.getElementById('q-product').textContent = 'Discovery';
   document.getElementById('q-text').textContent = q.question;
   const subEl = document.getElementById('q-sub');
@@ -2843,7 +2842,7 @@ function displayResults(summary, matchedProducts) {
     summaryTextEl.innerHTML = summary.summaryHtml || summary.summaryText || '';
   }
 
-  saveDiscovery('Funding Finder', '🔍', summary.summaryHtml || summary.summaryText || '', state.business);
+  saveDiscovery('Funding Finder', '', summary.summaryHtml || summary.summaryText || '', state.business);
 
   const list = document.getElementById('matched-products-list');
   list.innerHTML = '';

@@ -975,17 +975,16 @@
     </div>
   </header>
   <div class="screen-content">
-    <div class="question-icon">🏦</div>
-    <div class="question-product">Your current facility</div>
+        <div class="question-product">Your current facility</div>
     <h2 class="question-text">What type of finance do you currently have in place?</h2>
     <p class="question-sub">Select all that apply.</p>
     <div class="checkbox-options" id="facility-type-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'invoice')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📋 Invoice Finance</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'loan')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💰 Business Loan / MCA</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'fx')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💱 Foreign Currency / FX</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'asset')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🔧 Asset Finance</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'trade')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🚛 Trade Finance</button>
-      <button class="checkbox-btn" id="facility-other-btn" onclick="toggleFacilityOther(this)" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📁 Other</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'invoice')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Invoice Finance</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'loan')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Business Loan / MCA</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'fx')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Foreign Currency / FX</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'asset')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Asset Finance</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'trade')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Trade Finance</button>
+      <button class="checkbox-btn" id="facility-other-btn" onclick="toggleFacilityOther(this)" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Other</button>
     </div>
     <div id="facility-other-wrap" style="display:none;margin-top:4px">
       <input type="text" id="facility-other-input" class="form-input" placeholder="Please describe your finance type…" oninput="state.facilityOther=this.value" style="width:100%">
@@ -1012,8 +1011,7 @@
     </div>
   </header>
   <div class="screen-content">
-    <div class="question-icon">🏦</div>
-    <div class="question-product">Your current facility</div>
+        <div class="question-product">Your current facility</div>
     <h2 class="question-text">Which would you like to review?</h2>
     <p class="question-sub">Select one to start your review.</p>
     <div class="answer-options" id="review-selection-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -1045,8 +1043,7 @@
     <div class="progress-label">Question 1 of 8</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">📋</div>
-    <div class="question-product">Invoice Finance Review</div>
+        <div class="question-product">Invoice Finance Review</div>
     <h2 class="question-text">Who is your current invoice finance provider?</h2>
     <div class="form-group">
       <input type="text" class="form-input" id="if-lender" placeholder="e.g. Bibby Financial Services">
@@ -1080,12 +1077,12 @@
     <div class="question-product">Invoice Finance Review</div>
     <h2 class="question-text">What type of invoice finance do you have?</h2>
     <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Full ledger — all invoices go through the facility', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">📚 Full ledger</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Selective — I choose which invoices to fund', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">🎯 Selective</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Spot funding — individual invoices as needed', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">⚡ Spot funding</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Construction — stage payments or applications for payment', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">🏗️ Construction</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Recruitment — includes payroll funding or back office support', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">👥 Recruitment</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Not sure', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">🤔 Not sure</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Full ledger — all invoices go through the facility', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Full ledger</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Selective — I choose which invoices to fund', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Selective</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Spot funding — individual invoices as needed', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Spot funding</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Construction — stage payments or applications for payment', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Construction</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Recruitment — includes payroll funding or back office support', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Recruitment</button>
+      <button class="answer-btn" onclick="saveAndGo('if-type', 'Not sure', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-if-lender')">&lt; Back</button>
@@ -1149,9 +1146,9 @@
     <div class="question-product">Invoice Finance Review</div>
     <h2 class="question-text">How much do you know about your current facility?</h2>
     <div class="answer-options">
-      <button class="answer-btn" onclick="saveAndGo('if-knowledge', 'Knows details', 'screen-if-path-a')">✅ I know my rates and details fairly well</button>
-      <button class="answer-btn" onclick="saveAndGo('if-knowledge', 'Does not know details', 'screen-if-path-b')">🤷 I don't really know the details</button>
-      <button class="answer-btn" onclick="saveAndGo('if-knowledge', 'Has statements', 'screen-if-upload')">📄 I have my statements and can upload them</button>
+      <button class="answer-btn" onclick="saveAndGo('if-knowledge', 'Knows details', 'screen-if-path-a')">I know my rates and details fairly well</button>
+      <button class="answer-btn" onclick="saveAndGo('if-knowledge', 'Does not know details', 'screen-if-path-b')">I don't really know the details</button>
+      <button class="answer-btn" onclick="saveAndGo('if-knowledge', 'Has statements', 'screen-if-upload')">I have my statements and can upload them</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-if-payment-terms')">&lt; Back</button>
@@ -1241,8 +1238,8 @@
     <div class="question-product">Invoice Finance Review</div>
     <h2 class="question-text">Do you know roughly how much your facility costs you each month?</h2>
     <div class="answer-options">
-      <button class="answer-btn" onclick="showMonthlyCost()">✅ Yes — I know roughly</button>
-      <button class="answer-btn" onclick="saveAndGo('if-monthly-cost', 'Not known', 'screen-if-priorities')">🤷 No — I have no idea</button>
+      <button class="answer-btn" onclick="showMonthlyCost()">Yes — I know roughly</button>
+      <button class="answer-btn" onclick="saveAndGo('if-monthly-cost', 'Not known', 'screen-if-priorities')">No — I have no idea</button>
     </div>
     <div id="monthly-cost-input" style="display:none;">
       <div class="form-group" style="margin-top:16px;">
@@ -1280,16 +1277,16 @@
     <h2 class="question-text">What matters most to you?</h2>
     <p class="question-sub">Tick all that apply.</p>
     <div class="checkbox-options" id="if-priorities-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Lower fees and charges')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💰 Lower fees and charges</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Higher advance rate')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📈 Higher advance rate</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Better service')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🤝 Better service</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'More flexibility')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🔓 More flexibility</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Less paperwork and admin')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📋 Less paperwork and admin</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'No monthly minimums')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🚫 No monthly minimums</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Shorter contract or less notice')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🔒 Shorter contract / notice</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Fund international debtors')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🌍 International debtors</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'A funder who understands my industry')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🏗️ Industry expertise</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Just want to know if I could do better')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> ❓ Am I on a good deal?</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Lower fees and charges')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Lower fees and charges</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Higher advance rate')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Higher advance rate</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Better service')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Better service</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'More flexibility')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> More flexibility</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Less paperwork and admin')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Less paperwork and admin</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'No monthly minimums')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> No monthly minimums</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Shorter contract or less notice')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Shorter contract / notice</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Fund international debtors')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> International debtors</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'A funder who understands my industry')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Industry expertise</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Just want to know if I could do better')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Am I on a good deal?</button>
     </div>
     <button class="btn-primary" onclick="showScreen('screen-if-upload')">Continue →</button>
     <div class="nav-row">
@@ -1322,7 +1319,7 @@
     <p class="question-sub">This allows us to give you a much more detailed analysis of your current facility.</p>
 
     <div class="upload-area" id="if-upload-area" onclick="document.getElementById('if-file-input').click()">
-      <div class="upload-icon">📎</div>
+      <div class="upload-icon"></div>
       <div class="upload-text"><strong>Tap to upload</strong> your statement<br>PDF, image or Excel accepted</div>
       <div class="upload-files-list" id="if-files-list"></div>
     </div>
@@ -1359,8 +1356,8 @@
     <h2 class="question-text">Do you have any concerns about switching or reviewing your facility?</h2>
     <p class="question-sub">For example: long contract, early termination fees, or concerns about your current lender finding out.</p>
     <div class="answer-options">
-      <button class="answer-btn" onclick="selectBarrier('yes', this)">✋ Yes — I have some concerns</button>
-      <button class="answer-btn" onclick="selectBarrier('no', this)">✅ No — nothing I'm aware of</button>
+      <button class="answer-btn" onclick="selectBarrier('yes', this)">Yes — I have some concerns</button>
+      <button class="answer-btn" onclick="selectBarrier('no', this)">No — nothing I'm aware of</button>
     </div>
     <div id="barrier-detail-section" style="display:none">
       <div class="form-group">
@@ -1398,8 +1395,7 @@
     <div class="progress-label">Question 1 of 7</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">💰</div>
-    <div class="question-product">Business Loan Review</div>
+        <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">Who is your current loan provider?</h2>
     <div class="form-group">
       <input type="text" class="form-input" id="loan-lender" placeholder="e.g. HSBC, Funding Circle">
@@ -1430,15 +1426,14 @@
     <div class="progress-label">Question 2 of 7</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">💰</div>
-    <div class="question-product">Business Loan Review</div>
+        <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">What type of loan do you have?</h2>
     <div class="answer-options">
-      <button class="answer-btn" onclick="saveAndGo('loanType', 'Unsecured business loan', 'screen-loan-knowledge')">🔓 Unsecured business loan</button>
-      <button class="answer-btn" onclick="saveAndGo('loanType', 'Secured business loan', 'screen-loan-knowledge')">🏠 Secured business loan</button>
-      <button class="answer-btn" onclick="saveAndGo('loanType', 'Government backed loan', 'screen-loan-knowledge')">🏛️ Government backed loan (e.g. Start Up Loan, Recovery Loan)</button>
-      <button class="answer-btn" onclick="saveAndGo('loanType', 'Merchant Cash Advance', 'screen-loan-knowledge')">💳 Merchant Cash Advance</button>
-      <button class="answer-btn" onclick="saveAndGo('loanType', 'Not sure', 'screen-loan-knowledge')">🤔 Not sure</button>
+      <button class="answer-btn" onclick="saveAndGo('loanType', 'Unsecured business loan', 'screen-loan-knowledge')">Unsecured business loan</button>
+      <button class="answer-btn" onclick="saveAndGo('loanType', 'Secured business loan', 'screen-loan-knowledge')">Secured business loan</button>
+      <button class="answer-btn" onclick="saveAndGo('loanType', 'Government backed loan', 'screen-loan-knowledge')">Government backed loan (e.g. Start Up Loan, Recovery Loan)</button>
+      <button class="answer-btn" onclick="saveAndGo('loanType', 'Merchant Cash Advance', 'screen-loan-knowledge')">Merchant Cash Advance</button>
+      <button class="answer-btn" onclick="saveAndGo('loanType', 'Not sure', 'screen-loan-knowledge')">Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-loan-lender')">&lt; Back</button>
@@ -1465,12 +1460,11 @@
     <div class="progress-label">Question 3 of 7</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">🤔</div>
-    <div class="question-product">Business Loan Review</div>
+        <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">How much do you know about your current loan?</h2>
     <div class="answer-options">
-      <button class="answer-btn" onclick="saveAndGo('loanKnowledge', 'Knows details', 'screen-loan-path-a')">✅ I know my rates and details fairly well</button>
-      <button class="answer-btn" onclick="saveAndGo('loanKnowledge', 'Does not know details', 'screen-loan-path-b')">🤷 I don't really know the details</button>
+      <button class="answer-btn" onclick="saveAndGo('loanKnowledge', 'Knows details', 'screen-loan-path-a')">I know my rates and details fairly well</button>
+      <button class="answer-btn" onclick="saveAndGo('loanKnowledge', 'Does not know details', 'screen-loan-path-b')">I don't really know the details</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-loan-type')">&lt; Back</button>
@@ -1497,8 +1491,7 @@
     <div class="progress-label">Question 4 of 7</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">📊</div>
-    <div class="question-product">Business Loan Review</div>
+        <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">Tell us about your current loan</h2>
     <p class="question-sub">Fill in what you know — leave blank anything you're not sure about.</p>
     <div class="form-group">
@@ -1516,9 +1509,9 @@
     <div class="form-group">
       <label class="form-label">Fixed or variable?</label>
       <div class="answer-options" id="loan-rate-type-options">
-        <button class="answer-btn" onclick="selectOption('loanRateType', 'Fixed', this, 'loan-rate-type-options', null)">🔒 Fixed</button>
-        <button class="answer-btn" onclick="selectOption('loanRateType', 'Variable', this, 'loan-rate-type-options', null)">📈 Variable</button>
-        <button class="answer-btn" onclick="selectOption('loanRateType', 'Not sure', this, 'loan-rate-type-options', null)">🤔 Not sure</button>
+        <button class="answer-btn" onclick="selectOption('loanRateType', 'Fixed', this, 'loan-rate-type-options', null)">Fixed</button>
+        <button class="answer-btn" onclick="selectOption('loanRateType', 'Variable', this, 'loan-rate-type-options', null)">Variable</button>
+        <button class="answer-btn" onclick="selectOption('loanRateType', 'Not sure', this, 'loan-rate-type-options', null)">Not sure</button>
       </div>
     </div>
     <div class="form-group">
@@ -1532,9 +1525,9 @@
     <div class="form-group">
       <label class="form-label">Early repayment charges?</label>
       <div class="answer-options" id="loan-erc-options">
-        <button class="answer-btn" onclick="selectOption('loanERC', 'Yes', this, 'loan-erc-options', null)">✋ Yes</button>
-        <button class="answer-btn" onclick="selectOption('loanERC', 'No', this, 'loan-erc-options', null)">✅ No</button>
-        <button class="answer-btn" onclick="selectOption('loanERC', 'Not sure', this, 'loan-erc-options', null)">🤔 Not sure</button>
+        <button class="answer-btn" onclick="selectOption('loanERC', 'Yes', this, 'loan-erc-options', null)">Yes</button>
+        <button class="answer-btn" onclick="selectOption('loanERC', 'No', this, 'loan-erc-options', null)">No</button>
+        <button class="answer-btn" onclick="selectOption('loanERC', 'Not sure', this, 'loan-erc-options', null)">Not sure</button>
       </div>
     </div>
     <button class="btn-primary" onclick="saveLoanPathA()">Continue →</button>
@@ -1563,8 +1556,7 @@
     <div class="progress-label">Question 4 of 7</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">💭</div>
-    <div class="question-product">Business Loan Review</div>
+        <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">Tell us what you do know</h2>
     <p class="question-sub">Don't worry if you can't fill everything in.</p>
     <div class="form-group">
@@ -1578,8 +1570,8 @@
     <div class="form-group">
       <label class="form-label">Approximate monthly cost</label>
       <div class="answer-options" id="loan-monthly-known-options">
-        <button class="answer-btn" onclick="selectOption('loanMonthlyKnown', 'yes', this, 'loan-monthly-known-options', null); document.getElementById('loan-monthly-b-input').style.display='block'">✅ Yes — I know roughly</button>
-        <button class="answer-btn" onclick="selectOption('loanMonthlyKnown', 'no', this, 'loan-monthly-known-options', null); document.getElementById('loan-monthly-b-input').style.display='none'">🤷 No idea</button>
+        <button class="answer-btn" onclick="selectOption('loanMonthlyKnown', 'yes', this, 'loan-monthly-known-options', null); document.getElementById('loan-monthly-b-input').style.display='block'">Yes — I know roughly</button>
+        <button class="answer-btn" onclick="selectOption('loanMonthlyKnown', 'no', this, 'loan-monthly-known-options', null); document.getElementById('loan-monthly-b-input').style.display='none'">No idea</button>
       </div>
       <div id="loan-monthly-b-input" style="display:none;margin-top:10px;">
         <input type="text" class="form-input" id="loan-monthly-b" placeholder="e.g. £800/month">
@@ -1611,18 +1603,17 @@
     <div class="progress-label">Question 5 of 7</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">🎯</div>
-    <div class="question-product">Business Loan Review</div>
+        <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">What would you like to achieve?</h2>
     <p class="question-sub">Tick all that apply.</p>
     <div class="checkbox-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Refinance at a lower rate')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💰 Refinance at a lower rate</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Reduce monthly repayments')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📉 Reduce monthly repayments</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Consolidate multiple loans')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🔄 Consolidate multiple loans</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Replace with different funding')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🚀 Switch to different funding</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Extend the term')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> ⏱️ Extend the term</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Access additional funding')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💳 Access more funding</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Just want to know if on best deal')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> ❓ Am I on the best deal?</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Refinance at a lower rate')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Refinance at a lower rate</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Reduce monthly repayments')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Reduce monthly repayments</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Consolidate multiple loans')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Consolidate multiple loans</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Replace with different funding')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Switch to different funding</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Extend the term')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Extend the term</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Access additional funding')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Access more funding</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Just want to know if on best deal')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Am I on the best deal?</button>
     </div>
     <button class="btn-primary" onclick="showScreen('screen-loan-upload')">Continue →</button>
     <div class="nav-row">
@@ -1650,12 +1641,11 @@
     <div class="progress-label">Question 6 of 7</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">📄</div>
-    <div class="question-product">Business Loan Review</div>
+        <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">Do you have any loan documents to upload?</h2>
     <p class="question-sub">Your loan agreement or recent statements help us give a more detailed analysis.</p>
     <div class="upload-area" id="loan-upload-area" onclick="document.getElementById('loan-file-input').click()">
-      <div class="upload-icon">📎</div>
+      <div class="upload-icon"></div>
       <div class="upload-text"><strong>Tap to upload</strong> your documents<br>PDF, image or Excel accepted</div>
       <div class="upload-files-list" id="loan-files-list"></div>
     </div>
@@ -1687,13 +1677,12 @@
     <div class="progress-label">Final question</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">🤝</div>
-    <div class="question-product">One last thing</div>
+        <div class="question-product">One last thing</div>
     <h2 class="question-text">Do you have any concerns about refinancing or reviewing your loan?</h2>
     <p class="question-sub">For example: early repayment charges, credit concerns, or being tied in.</p>
     <div class="answer-options">
-      <button class="answer-btn" onclick="selectLoanBarrier('yes', this)">✋ Yes — I have some concerns</button>
-      <button class="answer-btn" onclick="selectLoanBarrier('no', this)">✅ No — nothing I'm aware of</button>
+      <button class="answer-btn" onclick="selectLoanBarrier('yes', this)">Yes — I have some concerns</button>
+      <button class="answer-btn" onclick="selectLoanBarrier('no', this)">No — nothing I'm aware of</button>
     </div>
     <div id="loan-barrier-detail" style="display:none">
       <div class="form-group" style="margin-top:12px;">
@@ -1733,10 +1722,10 @@
     <div class="question-product">FX Review</div>
     <h2 class="question-text">Who do you currently use for foreign currency transactions?</h2>
     <div class="answer-options" id="fx-provider-opts">
-      <button class="answer-btn" onclick="fxSelectAndGo('fxProvider', 'My business bank', this, 'fx-provider-opts', 'screen-fx-transaction-type')">🏦 My business bank</button>
-      <button class="answer-btn" onclick="fxSelectAndGo('fxProvider', 'Wise / TransferWise', this, 'fx-provider-opts', 'screen-fx-transaction-type')">💸 Wise / TransferWise</button>
-      <button class="answer-btn" onclick="fxSelectAndGo('fxProvider', 'Another specialist FX provider', this, 'fx-provider-opts', 'screen-fx-transaction-type')">💱 Another specialist FX provider</button>
-      <button class="answer-btn" onclick="fxSelectAndGo('fxProvider', 'Not sure', this, 'fx-provider-opts', 'screen-fx-transaction-type')">🤔 Not sure</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxProvider', 'My business bank', this, 'fx-provider-opts', 'screen-fx-transaction-type')">My business bank</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxProvider', 'Wise / TransferWise', this, 'fx-provider-opts', 'screen-fx-transaction-type')">Wise / TransferWise</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxProvider', 'Another specialist FX provider', this, 'fx-provider-opts', 'screen-fx-transaction-type')">Another specialist FX provider</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxProvider', 'Not sure', this, 'fx-provider-opts', 'screen-fx-transaction-type')">Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
@@ -1766,10 +1755,10 @@
     <div class="question-product">FX Review</div>
     <h2 class="question-text">What type of foreign currency transactions do you make?</h2>
     <div class="answer-options" id="fx-transaction-opts">
-      <button class="answer-btn" onclick="fxSelectAndGo('fxTransactionType', 'Send money abroad to pay suppliers', this, 'fx-transaction-opts', 'screen-fx-currencies')">📤 I send money abroad to pay suppliers</button>
-      <button class="answer-btn" onclick="fxSelectAndGo('fxTransactionType', 'Receive money from overseas customers', this, 'fx-transaction-opts', 'screen-fx-currencies')">📥 I receive money from overseas customers</button>
-      <button class="answer-btn" onclick="fxSelectAndGo('fxTransactionType', 'Both sending and receiving', this, 'fx-transaction-opts', 'screen-fx-currencies')">🔄 Both sending and receiving</button>
-      <button class="answer-btn" onclick="fxSelectAndGo('fxTransactionType', 'Foreign currency for travel or other', this, 'fx-transaction-opts', 'screen-fx-currencies')">✈️ Foreign currency for travel or other purposes</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxTransactionType', 'Send money abroad to pay suppliers', this, 'fx-transaction-opts', 'screen-fx-currencies')">I send money abroad to pay suppliers</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxTransactionType', 'Receive money from overseas customers', this, 'fx-transaction-opts', 'screen-fx-currencies')">I receive money from overseas customers</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxTransactionType', 'Both sending and receiving', this, 'fx-transaction-opts', 'screen-fx-currencies')">Both sending and receiving</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxTransactionType', 'Foreign currency for travel or other', this, 'fx-transaction-opts', 'screen-fx-currencies')">Foreign currency for travel or other purposes</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-fx-provider')">&lt; Back</button>
@@ -1799,10 +1788,10 @@
     <div class="question-product">FX Review</div>
     <h2 class="question-text">Which currencies do you regularly deal in?</h2>
     <div class="answer-options" id="fx-currency-opts">
-      <button class="answer-btn" onclick="fxSelectAndGo('fxCurrencies', 'Euros (EUR)', this, 'fx-currency-opts', 'screen-fx-awareness')">🇪🇺 Euros (EUR)</button>
-      <button class="answer-btn" onclick="fxSelectAndGo('fxCurrencies', 'US Dollars (USD)', this, 'fx-currency-opts', 'screen-fx-awareness')">🇺🇸 US Dollars (USD)</button>
-      <button class="answer-btn" onclick="fxSelectAndGo('fxCurrencies', 'Both EUR and USD', this, 'fx-currency-opts', 'screen-fx-awareness')">🌍 Both EUR and USD</button>
-      <button class="answer-btn" onclick="fxSelectOther(this, 'fx-currency-opts')">🌐 Other</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxCurrencies', 'Euros (EUR)', this, 'fx-currency-opts', 'screen-fx-awareness')">Euros (EUR)</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxCurrencies', 'US Dollars (USD)', this, 'fx-currency-opts', 'screen-fx-awareness')">US Dollars (USD)</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxCurrencies', 'Both EUR and USD', this, 'fx-currency-opts', 'screen-fx-awareness')">Both EUR and USD</button>
+      <button class="answer-btn" onclick="fxSelectOther(this, 'fx-currency-opts')">Other</button>
     </div>
     <div id="fx-other-currency-input" style="display:none;margin-top:12px;">
       <div class="form-group">
@@ -1839,9 +1828,9 @@
     <h2 class="question-text">Are you aware of what your current provider charges on foreign currency transactions?</h2>
     <p class="question-sub">Most businesses are surprised when they find out.</p>
     <div class="answer-options" id="fx-awareness-opts">
-      <button class="answer-btn" onclick="fxSelectAndGo('fxAwareness', 'Yes — I know roughly what I pay', this, 'fx-awareness-opts', 'screen-fx-costs')">✅ Yes — I know roughly what I pay</button>
-      <button class="answer-btn" onclick="fxSelectAndGo('fxAwareness', 'No — I have no idea', this, 'fx-awareness-opts', 'screen-fx-online-selling')">🤷 No — I have no idea</button>
-      <button class="answer-btn" onclick="fxSelectAndGo('fxAwareness', 'Did not know they charged anything extra', this, 'fx-awareness-opts', 'screen-fx-online-selling')">😮 I didn't know they charged anything extra</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxAwareness', 'Yes — I know roughly what I pay', this, 'fx-awareness-opts', 'screen-fx-costs')">Yes — I know roughly what I pay</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxAwareness', 'No — I have no idea', this, 'fx-awareness-opts', 'screen-fx-online-selling')">No — I have no idea</button>
+      <button class="answer-btn" onclick="fxSelectAndGo('fxAwareness', 'Did not know they charged anything extra', this, 'fx-awareness-opts', 'screen-fx-online-selling')">I didn't know they charged anything extra</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-fx-currencies')">&lt; Back</button>
@@ -1968,13 +1957,13 @@
     <h2 class="question-text">What would you like to achieve?</h2>
     <p class="question-sub">Tick all that apply.</p>
     <div class="checkbox-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Pay less on currency conversions')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💰 Pay less on conversions</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Get better exchange rates')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📈 Better exchange rates</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Faster international payments')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> ⚡ Faster international payments</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Reduce platform currency charges')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🛒 Reduce platform FX charges</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Access to more currencies')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🌍 Access more currencies</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'More support and clarity on FX charges')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🤝 More clarity on FX charges</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Just want to know what I am currently paying')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> ❓ What am I paying now?</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Pay less on currency conversions')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Pay less on conversions</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Get better exchange rates')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Better exchange rates</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Faster international payments')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Faster international payments</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Reduce platform currency charges')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Reduce platform FX charges</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Access to more currencies')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Access more currencies</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'More support and clarity on FX charges')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> More clarity on FX charges</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Just want to know what I am currently paying')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> What am I paying now?</button>
     </div>
     <button class="btn-primary" onclick="showScreen('screen-fx-upload')" style="margin-top:8px">Continue →</button>
     <div class="nav-row">
@@ -2005,9 +1994,9 @@
     <div class="question-product">FX Review</div>
     <h2 class="question-text">Do you have a recent FX transaction report?</h2>
     <p class="question-sub">Most providers can generate these on request — they show every conversion, the rate used, and the margin charged.</p>
-    <div class="info-box">💡 If you don't have one, don't worry — Nicole can help you obtain one when she calls.</div>
+    <div class="info-box"> If you don't have one, don't worry — Nicole can help you obtain one when she calls.</div>
     <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
-      <div class="upload-icon">📎</div>
+      <div class="upload-icon"></div>
       <div class="upload-text"><strong>Tap to upload</strong> your FX transaction report<br>PDF, image, Excel or CSV accepted</div>
       <div id="files-list"></div>
     </div>
@@ -2074,10 +2063,10 @@
     <div class="question-product">Asset Finance Review</div>
     <h2 class="question-text">What type of asset is being financed?</h2>
     <div class="answer-options" id="asset-type-opts">
-      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Vehicle', this, 'asset-type-opts', 'screen-asset-remaining')">🚛 Vehicle</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Equipment', this, 'asset-type-opts', 'screen-asset-remaining')">🏭 Equipment</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Machinery', this, 'asset-type-opts', 'screen-asset-remaining')">⚙️ Machinery</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Other', this, 'asset-type-opts', 'screen-asset-remaining')">📦 Other</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Vehicle', this, 'asset-type-opts', 'screen-asset-remaining')">Vehicle</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Equipment', this, 'asset-type-opts', 'screen-asset-remaining')">Equipment</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Machinery', this, 'asset-type-opts', 'screen-asset-remaining')">Machinery</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Other', this, 'asset-type-opts', 'screen-asset-remaining')">Other</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-asset-provider')">&lt; Back</button>
@@ -2203,10 +2192,10 @@
     <div class="question-product">Asset Finance Review</div>
     <h2 class="question-text">Has the value or usage of the asset changed since you took out the agreement?</h2>
     <div class="answer-options" id="asset-value-change-opts">
-      <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'Value increased significantly', this, 'asset-value-change-opts', 'screen-asset-upgrade')">📈 Value increased significantly</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'Value decreased', this, 'asset-value-change-opts', 'screen-asset-upgrade')">📉 Value decreased</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'Usage increased significantly', this, 'asset-value-change-opts', 'screen-asset-upgrade')">📊 Usage increased significantly</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'No significant change', this, 'asset-value-change-opts', 'screen-asset-upgrade')">➡️ No significant change</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'Value increased significantly', this, 'asset-value-change-opts', 'screen-asset-upgrade')">Value increased significantly</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'Value decreased', this, 'asset-value-change-opts', 'screen-asset-upgrade')">Value decreased</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'Usage increased significantly', this, 'asset-value-change-opts', 'screen-asset-upgrade')">Usage increased significantly</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'No significant change', this, 'asset-value-change-opts', 'screen-asset-upgrade')">No significant change</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-asset-repayments')">&lt; Back</button>
@@ -2236,10 +2225,10 @@
     <div class="question-product">Asset Finance Review</div>
     <h2 class="question-text">Are you looking to upgrade, replace or add assets soon?</h2>
     <div class="answer-options" id="asset-upgrade-opts">
-      <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'Yes, planning to upgrade', this, 'asset-upgrade-opts', 'screen-asset-barriers')">🔄 Yes, planning to upgrade</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'Yes, planning to replace', this, 'asset-upgrade-opts', 'screen-asset-barriers')">🔧 Yes, planning to replace</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'Yes, planning to add more assets', this, 'asset-upgrade-opts', 'screen-asset-barriers')">➕ Yes, planning to add more assets</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'No plans at the moment', this, 'asset-upgrade-opts', 'screen-asset-barriers')">❌ No plans at the moment</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'Yes, planning to upgrade', this, 'asset-upgrade-opts', 'screen-asset-barriers')">Yes, planning to upgrade</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'Yes, planning to replace', this, 'asset-upgrade-opts', 'screen-asset-barriers')">Yes, planning to replace</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'Yes, planning to add more assets', this, 'asset-upgrade-opts', 'screen-asset-barriers')">Yes, planning to add more assets</button>
+      <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'No plans at the moment', this, 'asset-upgrade-opts', 'screen-asset-barriers')">No plans at the moment</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-asset-value-change')">&lt; Back</button>
@@ -2269,8 +2258,8 @@
     <div class="question-product">Asset Finance Review</div>
     <h2 class="question-text">Do you have any concerns that might make refinancing difficult?</h2>
     <div class="answer-options" id="asset-barriers-opts">
-      <button class="answer-btn" onclick="selectAssetBarrier('yes', this)">✅ Yes</button>
-      <button class="answer-btn" onclick="selectAssetBarrier('no', this)">❌ No</button>
+      <button class="answer-btn" onclick="selectAssetBarrier('yes', this)">Yes</button>
+      <button class="answer-btn" onclick="selectAssetBarrier('no', this)">No</button>
     </div>
     <div id="asset-barrier-detail" style="display:none;margin-top:16px;">
       <div class="form-group">
@@ -2302,7 +2291,7 @@
 
   <div class="screen-content">
     <div class="results-header">
-      <div class="results-check">&#10024;</div>
+      <div class="results-check"></div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="asset-results-name">Here's what we found for you</p>
     </div>
@@ -2439,7 +2428,7 @@
       <input type="text" class="form-input" id="trade-limit" placeholder="e.g. £100,000">
     </div>
     <button class="btn-primary" onclick="saveTradeLimit()">Continue →</button>
-    <button class="btn-secondary" onclick="setTradeLimitNotSure()">🤔 I'm not sure</button>
+    <button class="btn-secondary" onclick="setTradeLimitNotSure()">I'm not sure</button>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-duration')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -2472,7 +2461,7 @@
       <input type="text" class="form-input" id="trade-rates" placeholder="e.g. 3% per month">
     </div>
     <button class="btn-primary" onclick="saveTradeRates()">Continue →</button>
-    <button class="btn-secondary" onclick="setTradeRatesNotSure()">🤔 I'm not sure</button>
+    <button class="btn-secondary" onclick="setTradeRatesNotSure()">I'm not sure</button>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-limit')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -2501,9 +2490,9 @@
     <div class="question-product">Trade Finance Review</div>
     <h2 class="question-text">Are you regularly reaching your facility limit?</h2>
     <div class="answer-options" id="trade-reaching-opts">
-      <button class="answer-btn" onclick="tradeSelectAndGo('tradeReaching', 'Yes, regularly', this, 'trade-reaching-opts', 'screen-trade-growth')">✅ Yes, regularly</button>
-      <button class="answer-btn" onclick="tradeSelectAndGo('tradeReaching', 'Sometimes', this, 'trade-reaching-opts', 'screen-trade-growth')">🔄 Sometimes</button>
-      <button class="answer-btn" onclick="tradeSelectAndGo('tradeReaching', 'No, rarely or never', this, 'trade-reaching-opts', 'screen-trade-growth')">❌ No, rarely or never</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeReaching', 'Yes, regularly', this, 'trade-reaching-opts', 'screen-trade-growth')">Yes, regularly</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeReaching', 'Sometimes', this, 'trade-reaching-opts', 'screen-trade-growth')">Sometimes</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeReaching', 'No, rarely or never', this, 'trade-reaching-opts', 'screen-trade-growth')">No, rarely or never</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-rates')">&lt; Back</button>
@@ -2533,9 +2522,9 @@
     <div class="question-product">Trade Finance Review</div>
     <h2 class="question-text">Has your business grown or changed since you took out the facility?</h2>
     <div class="answer-options" id="trade-growth-opts">
-      <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'Yes, significant growth', this, 'trade-growth-opts', 'screen-trade-barriers')">📈 Yes, significant growth</button>
-      <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'Some growth', this, 'trade-growth-opts', 'screen-trade-barriers')">📊 Some growth</button>
-      <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'No significant change', this, 'trade-growth-opts', 'screen-trade-barriers')">➡️ No significant change</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'Yes, significant growth', this, 'trade-growth-opts', 'screen-trade-barriers')">Yes, significant growth</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'Some growth', this, 'trade-growth-opts', 'screen-trade-barriers')">Some growth</button>
+      <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'No significant change', this, 'trade-growth-opts', 'screen-trade-barriers')">No significant change</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-reaching')">&lt; Back</button>
@@ -2565,8 +2554,8 @@
     <div class="question-product">Trade Finance Review</div>
     <h2 class="question-text">Do you have any concerns that might make switching difficult?</h2>
     <div class="answer-options" id="trade-barriers-opts">
-      <button class="answer-btn" onclick="selectTradeBarrier('yes', this)">✅ Yes</button>
-      <button class="answer-btn" onclick="selectTradeBarrier('no', this)">❌ No</button>
+      <button class="answer-btn" onclick="selectTradeBarrier('yes', this)">Yes</button>
+      <button class="answer-btn" onclick="selectTradeBarrier('no', this)">No</button>
     </div>
     <div id="trade-barrier-detail" style="display:none;margin-top:16px;">
       <div class="form-group">
@@ -2714,7 +2703,7 @@
 
   <div class="screen-content">
     <div class="results-header">
-      <div class="results-check">&#10024;</div>
+      <div class="results-check"></div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="trade-results-name">Here's what we found for you</p>
     </div>
@@ -2748,7 +2737,7 @@
       <div class="nicole-card-actions">
         <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Fiskal Website</a>
         <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="fiskal-linkedin-btn">Fiskal LinkedIn</a>
-        <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
+        <a href="tel:+447946074268" class="call-now-mobile">Call Nicole now</a>
       </div>
     </section>
 
@@ -2777,7 +2766,7 @@
 
   <div class="screen-content">
     <div class="results-header">
-      <div class="results-check">&#10024;</div>
+      <div class="results-check"></div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="fx-results-name">Here's what we found for you</p>
     </div>
@@ -2811,7 +2800,7 @@
       <div class="nicole-card-actions">
         <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Fiskal Website</a>
         <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="fiskal-linkedin-btn">Fiskal LinkedIn</a>
-        <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
+        <a href="tel:+447946074268" class="call-now-mobile">Call Nicole now</a>
       </div>
     </section>
 
@@ -2859,7 +2848,7 @@
 
   <div class="screen-content">
     <div class="results-header">
-      <div class="results-check">&#10024;</div>
+      <div class="results-check"></div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="results-name">Here's what we found for you</p>
     </div>
@@ -2893,7 +2882,7 @@
       <div class="nicole-card-actions">
         <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Fiskal Website</a>
         <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="fiskal-linkedin-btn">Fiskal LinkedIn</a>
-        <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
+        <a href="tel:+447946074268" class="call-now-mobile">Call Nicole now</a>
       </div>
     </section>
 
@@ -3450,7 +3439,7 @@ function toggleCheckbox(btn, group, value) {
   btn.classList.toggle('selected');
   const tick = btn.querySelector('.checkbox-tick');
   if (btn.classList.contains('selected')) {
-    tick.textContent = '✓';
+    tick.textContent = '';
     if (!state[group]) state[group] = [];
     if (!state[group].includes(value)) state[group].push(value);
   } else {
@@ -3476,7 +3465,7 @@ function handleFileUpload(prefix, input) {
   state[prefix + 'Files'] = files;
   const listEl = document.getElementById(prefix + '-files-list');
   const areaEl = document.getElementById(prefix + '-upload-area');
-  listEl.innerHTML = files.map(f => `<div class="upload-file-item">✅ ${f.name}</div>`).join('');
+  listEl.innerHTML = files.map(f => `<div class="upload-file-item"> ${f.name}</div>`).join('');
   areaEl.classList.add('has-files');
 }
 
@@ -4132,7 +4121,7 @@ function displayResults(summary) {
   if (summaryTextEl) summaryTextEl.innerHTML = summaryHtmlForStorage;
   if (nicoleMessageEl) nicoleMessageEl.textContent = `I've received your Facility Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${businessText}.`;
 
-  saveDiscovery('Facility Review', '📊', summaryHtmlForStorage, businessName);
+  saveDiscovery('Facility Review', '', summaryHtmlForStorage, businessName);
   
   // Show the results screen (showScreen also clears the thinking overlay)
   showScreen('screen-loading');
@@ -4198,12 +4187,12 @@ function showReviewSelection(availableTypes) {
   container.innerHTML = '';
   
   const facilityNames = {
-    'invoice': '📋 Invoice Finance',
-    'loan': '💰 Business Loan',
-    'fx': '💱 Foreign Currency / FX',
-    'asset': '🔧 Asset Finance',
-    'trade': '🚛 Trade Finance',
-    'other': '📁 Other'
+    'invoice': ' Invoice Finance',
+    'loan': ' Business Loan',
+    'fx': ' Foreign Currency / FX',
+    'asset': ' Asset Finance',
+    'trade': ' Trade Finance',
+    'other': ' Other'
   };
   
   availableTypes.forEach(type => {
