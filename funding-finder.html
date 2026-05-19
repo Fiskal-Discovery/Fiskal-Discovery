@@ -1089,71 +1089,6 @@
   }
   .loading-screen.active { display: flex; }
 
-  /* ---- DISCOVERY THINKING SCREEN ---- */
-  #discovery-thinking-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #ffffff 0%, #f8efff 45%, #eaf8ff 100%);
-    text-align: center;
-  }
-  #discovery-thinking-screen.active {
-    display: flex;
-  }
-  #discovery-thinking-screen .thinking-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 28px;
-    padding: 32px;
-  }
-  #discovery-thinking-screen .thinking-spinner {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: 4px solid rgba(79,70,229,0.18);
-    border-top-color: #4f46e5;
-    animation: spinThinking 1s linear infinite;
-  }
-  #discovery-thinking-screen .thinking-phrase {
-    font-size: clamp(1.2rem, 4vw, 2rem);
-    font-weight: 700;
-    text-align: center;
-    color: #333;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 500ms ease, transform 500ms ease;
-  }
-  #discovery-thinking-screen .thinking-phrase.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  #discovery-thinking-screen .thinking-phrase.shimmer {
-    background: linear-gradient(
-      90deg,
-      rgba(79,70,229,0.65) 0%,
-      #4f46e5 35%,
-      #FFE600 50%,
-      #4f46e5 65%,
-      rgba(79,70,229,0.65) 100%
-    );
-    background-size: 260% auto;
-    background-position: 260% center;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: thinkingShimmer 3.8s ease-in-out forwards;
-  }
-  @keyframes thinkingShimmer {
-    0%   { background-position: 260% center; }
-    100% { background-position: -260% center; }
-  }
-  @keyframes spinThinking {
-    to { transform: rotate(360deg); }
-  }
 
   
 
@@ -1170,49 +1105,6 @@
     display: inline-block;
     padding: 8px 16px;
     overflow: hidden;
-  }
-
-  .loading-message.thinking-phrase {
-    font-size: clamp(1.1rem, 3vw, 2rem);
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-align: center;
-    color: var(--dark);
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 500ms ease, transform 500ms ease;
-  }
-
-  .loading-message.thinking-phrase.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .loading-message.thinking-phrase.shimmer {
-    background: linear-gradient(
-      90deg,
-      rgba(79,70,229,0.65) 0%,
-      #4f46e5 35%,
-      #FFE600 50%,
-      #4f46e5 65%,
-      rgba(79,70,229,0.65) 100%
-    );
-    background-size: 220% auto;
-    background-position: 220% center;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: thinkingShimmer 1.8s ease-in-out forwards;
-    text-shadow: none;
-  }
-
-  @keyframes thinkingShimmer {
-    0% {
-      background-position: 220% center;
-    }
-    100% {
-      background-position: -220% center;
-    }
   }
 
   .loading-message::before {
@@ -1593,22 +1485,7 @@
 </div>
 
 <!-- ====== LOADING SCREEN ====== -->
-<div class="screen loading-screen" id="screen-submission-loading">
-  <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Funding Finder</span>
-    </div>
-    <div class="ob-header-spacer"></div>
-  </header>
-  <div class="loading-content">
-    <div class="loading-spinner"></div>
-    <div class="loading-message" id="loading-message">Analysing your business</div>
-  </div>
-</div>
+<div id="screen-submission-loading" style="display:none"></div>
 
 <!-- ====== RESULTS SCREEN ====== -->
 <div class="screen" id="screen-results">
@@ -1745,70 +1622,6 @@ function getRandomMessage() {
   return loadingMessages[newIndex];
 }
 
-function showDiscoveryThinkingScreen(callback) {
-
-  const userName = state.name || appState.profile.name || (JSON.parse(localStorage.getItem('fiskal_appState') || '{}').profile || {}).name || '';
-  const phrases = [
-    'Every great business is on a journey.',
-    'Mapping your funding options...',
-    `Thanks for waiting, ${userName} — your discovery is ready.`
-  ];
-
-  let screen = document.getElementById('discovery-thinking-screen');
-  if (!screen) {
-    screen = document.createElement('div');
-    screen.id = 'discovery-thinking-screen';
-    screen.innerHTML = '<div class="thinking-inner"><div class="thinking-spinner"></div><div id="discovery-thinking-phrase" class="thinking-phrase"></div></div>';
-    document.body.appendChild(screen);
-  }
-
-  const phraseEl = document.getElementById('discovery-thinking-phrase');
-  screen.style.display = 'flex';
-  screen.classList.add('active');
-
-  let index = 0;
-
-  function showPhrase() {
-    if (index >= phrases.length) {
-      // Fade out the entire loading screen
-      screen.style.opacity = '0';
-      screen.style.transition = 'opacity 400ms ease';
-      setTimeout(function() {
-        screen.classList.remove('active');
-        screen.style.display = 'none';
-        screen.style.opacity = '1';
-        screen.style.transition = '';
-        if (callback) callback();
-      }, 400);
-      return;
-    }
-
-    // Fade out current phrase (opacity 1 → 0, 300ms)
-    phraseEl.style.transition = 'opacity 300ms ease, transform 300ms ease';
-    phraseEl.style.opacity = '0';
-    phraseEl.style.transform = 'translateY(10px)';
-    
-    setTimeout(function() {
-      // Update text
-      phraseEl.textContent = phrases[index];
-      
-      // Fade in next phrase (opacity 0 → 1, 400ms, translateY 10px → 0)
-      phraseEl.style.transition = 'opacity 400ms ease, transform 400ms ease';
-      phraseEl.style.opacity = '1';
-      phraseEl.style.transform = 'translateY(0)';
-      
-      // Determine display duration: 2s for normal phrases, 3s for final phrase
-      const isFinalPhrase = index === phrases.length - 1;
-      const displayDuration = isFinalPhrase ? 3000 : 2000;
-      
-      index++;
-      
-      setTimeout(showPhrase, displayDuration);
-    }, 300);
-  }
-
-  showPhrase();
-}
 
 // ============================================================
 // LOAD APP STATE
@@ -2468,17 +2281,9 @@ function selectBarrier(value) {
 
 function submitBarriers() {
   state.barrierDetails = document.getElementById('barrier-details').value.trim();
-  showDiscoveryThinkingScreen(() => {
-    generateResults();
-  });
-}
 
-// ============================================================
-// AI RESULTS GENERATION
-// ============================================================
-async function generateResults() {
   const matchedProducts = getMatchedProducts();
-  
+
   // Build personalised summary using logic module
   const fa = state.flowAnswers || {};
   const hasCreditFlag = state.creditConcern === 'Yes' || fa.previousIssues === 'Yes';
@@ -2511,7 +2316,7 @@ async function generateResults() {
     rd:       fa.rd        || null,
     matchedProducts: matchedProducts
   };
-  
+
   let summary;
   try {
     summary = buildDiscoverySummary('funding-finder', fundingFinderAnswers);
@@ -2523,7 +2328,63 @@ async function generateResults() {
       summaryHtml: '<p>Great news — based on what you\'ve shared, there are funding options worth exploring for ' + (state.business || 'your business') + '. The most suitable route will depend on what the funding needs to achieve, how quickly it is needed, and which providers are the best fit.</p>'
     };
   }
-  
+
+  const result = { summary, matchedProducts };
+  const firstName = (state.name || '').split(' ')[0];
+  showFiskalLoadingScreen(firstName, () => { displayResults(result.summary, result.matchedProducts); });
+}
+
+// ============================================================
+// AI RESULTS GENERATION
+// ============================================================
+async function generateResults() {
+  const matchedProducts = getMatchedProducts();
+
+  // Build personalised summary using logic module
+  const fa = state.flowAnswers || {};
+  const hasCreditFlag = state.creditConcern === 'Yes' || fa.previousIssues === 'Yes';
+  const fundingFinderAnswers = {
+    name: state.name,
+    business: state.business,
+    industry: state.industry,
+    turnover: state.turnover,
+    annualTurnover: state.turnover,
+    fundingAmount: state.fundingAmount,
+    fundingPurpose: fa.purpose || '',
+    urgency: state.urgency,
+    creditConcern: state.creditConcern,
+    invoiceCustomers: state.invoiceCustomers,
+    paymentTerms: state.paymentTerms,
+    cardSales: state.cardSales,
+    assetNeed: state.assetNeed,
+    barrier: hasCreditFlag ? 'yes' : '',
+    barrierDetails: hasCreditFlag ? (fa.extraInfo || 'credit concerns mentioned') : (fa.extraInfo || ''),
+    previousIssues: fa.previousIssues || '',
+    // Product signal keys used by insight functions
+    invoice: (state.invoiceCustomers === 'Yes' || state.invoiceCustomers === 'Sometimes') ? 'yes' : (fa.invoice || null),
+    asset:   state.assetNeed === 'Yes' ? 'yes' : (fa.asset || null),
+    mca:     state.cardSales === 'Yes' ? 'yes' : null,
+    loan:     fa.loan     || null,
+    trade:    fa.trade    || null,
+    revolving: fa.revolving || null,
+    property: fa.property  || null,
+    fx:       fa.fx        || null,
+    rd:       fa.rd        || null,
+    matchedProducts: matchedProducts
+  };
+
+  let summary;
+  try {
+    summary = buildDiscoverySummary('funding-finder', fundingFinderAnswers);
+  } catch (error) {
+    console.warn('Funding Finder summary builder failed, using fallback', error);
+    summary = {
+      pageHeading: 'Your Fiskal Discovery is ready',
+      summaryHeading: 'Here\'s what we discovered',
+      summaryHtml: '<p>Great news — based on what you\'ve shared, there are funding options worth exploring for ' + (state.business || 'your business') + '. The most suitable route will depend on what the funding needs to achieve, how quickly it is needed, and which providers are the best fit.</p>'
+    };
+  }
+
   displayResults(summary, matchedProducts);
 }
 
@@ -2860,5 +2721,6 @@ if (fromOnboarding) {
 <script src="logic/productLinks.js"></script>
 <script src="logic/summaryBuilder.js"></script>
 <script src="shared-components.js"></script>
+<script src="logic/fiskalLoading.js"></script>
 </body>
 </html>
