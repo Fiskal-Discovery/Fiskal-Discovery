@@ -2061,6 +2061,10 @@
     <div class="ai-summary">
       <div class="ai-summary-label" id="ai-summary-label">Here's what we discovered</div>
       <p class="ai-summary-text" id="ai-summary-text">Analysing your responses...</p>
+      <div style="text-align:center;margin-top:14px;">
+        <button id="email-summary-btn" onclick="emailSummaryToUser()" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:12px;cursor:pointer;text-decoration:underline;padding:0;">Email this summary to me</button>
+        <p id="email-summary-feedback" style="font-size:12px;text-align:center;margin-top:6px;display:none;"></p>
+      </div>
     </div>
 
     <div id="matched-products-section">
@@ -2070,11 +2074,6 @@
     </div>
 
     <div id="nicole-contact-card-container"></div>
-
-    <div id="email-summary-section" style="margin-top:24px;margin-bottom:8px;">
-      <button id="email-summary-btn" class="btn-primary" onclick="emailSummaryToUser()" style="width:100%">Email me this summary</button>
-      <p id="email-summary-feedback" style="font-size:13px;text-align:center;margin-top:10px;display:none;"></p>
-    </div>
 
   </div>
   <div class="screen-footer">
