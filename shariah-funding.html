@@ -6,6 +6,7 @@
 <link rel="icon" href="favicon-main.svg">
 <title>Fiskal Discovery — Shariah-Compliant Funding</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
     --indigo: #8E7ED8;
@@ -1088,6 +1089,7 @@
   }
 
   /* ---- DARK QUESTION SCREENS ---- */
+  #screen-home,
   #screen-q1, #screen-q2, #screen-q3, #screen-q4,
   #screen-q5, #screen-q6, #screen-q7, #screen-q8, #screen-q9 {
     background: #000000;
@@ -1095,6 +1097,7 @@
     position: relative;
   }
 
+  #screen-home::before,
   #screen-q1::before, #screen-q2::before, #screen-q3::before, #screen-q4::before,
   #screen-q5::before, #screen-q6::before, #screen-q7::before, #screen-q8::before, #screen-q9::before {
     content: '';
@@ -1126,9 +1129,9 @@
     z-index: 1;
   }
 
-  #screen-q1 .question-text, #screen-q2 .question-text, #screen-q3 .question-text
+  #screen-q1 .question-text, #screen-q2 .question-text, #screen-q3 .question-text,
   #screen-q4 .question-text, #screen-q5 .question-text, #screen-q6 .question-text,
-  #screen-q7 .question-text, #screen-q8 .question-text, #screen-q9 .question-text, {
+  #screen-q7 .question-text, #screen-q8 .question-text, #screen-q9 .question-text {
     font-family: 'Raleway', sans-serif !important;
     font-weight: 700 !important;
     color: #ffffff !important;
@@ -1137,24 +1140,24 @@
     margin-bottom: 6px !important;
   }
 
-  #screen-q1 .question-sub, #screen-q2 .question-sub, #screen-q3 .question-sub
+  #screen-q1 .question-sub, #screen-q2 .question-sub, #screen-q3 .question-sub,
   #screen-q4 .question-sub, #screen-q5 .question-sub, #screen-q6 .question-sub,
-  #screen-q7 .question-sub, #screen-q8 .question-sub, #screen-q9 .question-sub, {
+  #screen-q7 .question-sub, #screen-q8 .question-sub, #screen-q9 .question-sub {
     color: rgba(255,255,255,0.45) !important;
   }
 
-  #screen-q1 .question-product, #screen-q2 .question-product, #screen-q3 .question-product
+  #screen-q1 .question-product, #screen-q2 .question-product, #screen-q3 .question-product,
   #screen-q4 .question-product, #screen-q5 .question-product, #screen-q6 .question-product,
-  #screen-q7 .question-product, #screen-q8 .question-product, #screen-q9 .question-product, {
+  #screen-q7 .question-product, #screen-q8 .question-product, #screen-q9 .question-product {
     font-family: 'Raleway', sans-serif !important;
     font-weight: 700 !important;
     color: #8E7ED8 !important;
     letter-spacing: 2px !important;
   }
 
-  #screen-q1 .answer-btn, #screen-q2 .answer-btn, #screen-q3 .answer-btn
+  #screen-q1 .answer-btn, #screen-q2 .answer-btn, #screen-q3 .answer-btn,
   #screen-q4 .answer-btn, #screen-q5 .answer-btn, #screen-q6 .answer-btn,
-  #screen-q7 .answer-btn, #screen-q8 .answer-btn, #screen-q9 .answer-btn, {
+  #screen-q7 .answer-btn, #screen-q8 .answer-btn, #screen-q9 .answer-btn {
     background: #ffffff !important;
     border: 1px solid rgba(42,4,64,0.06) !important;
     border-top: 4px solid #0F766E !important;
@@ -1167,18 +1170,18 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease !important;
   }
 
-  #screen-q1 .answer-btn:hover, #screen-q2 .answer-btn:hover, #screen-q3 .answer-btn:hover
+  #screen-q1 .answer-btn:hover, #screen-q2 .answer-btn:hover, #screen-q3 .answer-btn:hover,
   #screen-q4 .answer-btn:hover, #screen-q5 .answer-btn:hover, #screen-q6 .answer-btn:hover,
-  #screen-q7 .answer-btn:hover, #screen-q8 .answer-btn:hover, #screen-q9 .answer-btn:hover, {
+  #screen-q7 .answer-btn:hover, #screen-q8 .answer-btn:hover, #screen-q9 .answer-btn:hover {
     transform: translateY(-3px) !important;
     box-shadow: 0 8px 28px rgba(42,4,64,0.14) !important;
     border-top-color: #14B8A6 !important;
     background: #ffffff !important;
   }
 
-  #screen-q1 .answer-btn.selected, #screen-q2 .answer-btn.selected, #screen-q3 .answer-btn.selected
+  #screen-q1 .answer-btn.selected, #screen-q2 .answer-btn.selected, #screen-q3 .answer-btn.selected,
   #screen-q4 .answer-btn.selected, #screen-q5 .answer-btn.selected, #screen-q6 .answer-btn.selected,
-  #screen-q7 .answer-btn.selected, #screen-q8 .answer-btn.selected, #screen-q9 .answer-btn.selected, {
+  #screen-q7 .answer-btn.selected, #screen-q8 .answer-btn.selected, #screen-q9 .answer-btn.selected {
     border-color: #8E7ED8 !important;
     border-width: 2px !important;
     box-shadow: 0 0 0 3px rgba(142,126,216,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
@@ -1188,67 +1191,67 @@
 
   #screen-q1 .btn-primary,
   #screen-q2 .btn-primary,
-  #screen-q3 .btn-primary
+  #screen-q3 .btn-primary,
   #screen-q4 .btn-primary, #screen-q5 .btn-primary, #screen-q6 .btn-primary,
-  #screen-q7 .btn-primary, #screen-q8 .btn-primary, #screen-q9 .btn-primary, {
+  #screen-q7 .btn-primary, #screen-q8 .btn-primary, #screen-q9 .btn-primary {
     background: #D94F00;
     box-shadow: 0 4px 20px rgba(217,79,0,0.35);
   }
 
   #screen-q1 .btn-primary:hover,
   #screen-q2 .btn-primary:hover,
-  #screen-q3 .btn-primary:hover
+  #screen-q3 .btn-primary:hover,
   #screen-q4 .btn-primary:hover, #screen-q5 .btn-primary:hover, #screen-q6 .btn-primary:hover,
-  #screen-q7 .btn-primary:hover, #screen-q8 .btn-primary:hover, #screen-q9 .btn-primary:hover, {
+  #screen-q7 .btn-primary:hover, #screen-q8 .btn-primary:hover, #screen-q9 .btn-primary:hover {
     box-shadow: 0 6px 28px rgba(217,79,0,0.5);
   }
 
   #screen-q1 .progress-track,
   #screen-q2 .progress-track,
-  #screen-q3 .progress-track
+  #screen-q3 .progress-track,
   #screen-q4 .progress-track, #screen-q5 .progress-track, #screen-q6 .progress-track,
-  #screen-q7 .progress-track, #screen-q8 .progress-track, #screen-q9 .progress-track, {
+  #screen-q7 .progress-track, #screen-q8 .progress-track, #screen-q9 .progress-track {
     background: rgba(255,255,255,0.1);
   }
 
   #screen-q1 .progress-fill,
   #screen-q2 .progress-fill,
-  #screen-q3 .progress-fill
+  #screen-q3 .progress-fill,
   #screen-q4 .progress-fill, #screen-q5 .progress-fill, #screen-q6 .progress-fill,
-  #screen-q7 .progress-fill, #screen-q8 .progress-fill, #screen-q9 .progress-fill, {
+  #screen-q7 .progress-fill, #screen-q8 .progress-fill, #screen-q9 .progress-fill {
     background: #D94F00;
   }
 
   #screen-q1 .progress-label,
   #screen-q2 .progress-label,
-  #screen-q3 .progress-label
+  #screen-q3 .progress-label,
   #screen-q4 .progress-label, #screen-q5 .progress-label, #screen-q6 .progress-label,
-  #screen-q7 .progress-label, #screen-q8 .progress-label, #screen-q9 .progress-label, {
+  #screen-q7 .progress-label, #screen-q8 .progress-label, #screen-q9 .progress-label {
     color: rgba(255,255,255,0.55);
   }
 
   #screen-q1 .back-btn,
   #screen-q2 .back-btn,
-  #screen-q3 .back-btn
+  #screen-q3 .back-btn,
   #screen-q4 .back-btn, #screen-q5 .back-btn, #screen-q6 .back-btn,
-  #screen-q7 .back-btn, #screen-q8 .back-btn, #screen-q9 .back-btn, {
+  #screen-q7 .back-btn, #screen-q8 .back-btn, #screen-q9 .back-btn {
     background: transparent;
     color: #8E7ED8 !important;
   }
 
   #screen-q1 .back-btn:hover,
   #screen-q2 .back-btn:hover,
-  #screen-q3 .back-btn:hover
+  #screen-q3 .back-btn:hover,
   #screen-q4 .back-btn:hover, #screen-q5 .back-btn:hover, #screen-q6 .back-btn:hover,
-  #screen-q7 .back-btn:hover, #screen-q8 .back-btn:hover, #screen-q9 .back-btn:hover, {
+  #screen-q7 .back-btn:hover, #screen-q8 .back-btn:hover, #screen-q9 .back-btn:hover {
     color: #ffffff !important;
   }
 
   #screen-q1 .dashed-divider,
   #screen-q2 .dashed-divider,
-  #screen-q3 .dashed-divider
+  #screen-q3 .dashed-divider,
   #screen-q4 .dashed-divider, #screen-q5 .dashed-divider, #screen-q6 .dashed-divider,
-  #screen-q7 .dashed-divider, #screen-q8 .dashed-divider, #screen-q9 .dashed-divider, {
+  #screen-q7 .dashed-divider, #screen-q8 .dashed-divider, #screen-q9 .dashed-divider {
     color: #8E7ED8 !important;
   }
   #screen-q1 .dashed-divider::before,
@@ -1256,26 +1259,30 @@
   #screen-q2 .dashed-divider::before,
   #screen-q2 .dashed-divider::after,
   #screen-q3 .dashed-divider::before,
-  #screen-q3 .dashed-divider::after
-  #screen-q4 .dashed-divider::after, #screen-q5 .dashed-divider::after, #screen-q6 .dashed-divider::after,
-  #screen-q7 .dashed-divider::after, #screen-q8 .dashed-divider::after, #screen-q9 .dashed-divider::after, {
+  #screen-q3 .dashed-divider::after,
+  #screen-q4 .dashed-divider::before, #screen-q4 .dashed-divider::after,
+  #screen-q5 .dashed-divider::before, #screen-q5 .dashed-divider::after,
+  #screen-q6 .dashed-divider::before, #screen-q6 .dashed-divider::after,
+  #screen-q7 .dashed-divider::before, #screen-q7 .dashed-divider::after,
+  #screen-q8 .dashed-divider::before, #screen-q8 .dashed-divider::after,
+  #screen-q9 .dashed-divider::before, #screen-q9 .dashed-divider::after {
     background: #8E7ED8 !important;
     opacity: 0.4 !important;
   }
 
   #screen-q1 .form-label,
   #screen-q2 .form-label,
-  #screen-q3 .form-label
+  #screen-q3 .form-label,
   #screen-q4 .form-label, #screen-q5 .form-label, #screen-q6 .form-label,
-  #screen-q7 .form-label, #screen-q8 .form-label, #screen-q9 .form-label, {
+  #screen-q7 .form-label, #screen-q8 .form-label, #screen-q9 .form-label {
     color: rgba(255,255,255,0.65);
   }
 
   #screen-q1 .form-input,
   #screen-q2 .form-input,
-  #screen-q3 .form-input
+  #screen-q3 .form-input,
   #screen-q4 .form-input, #screen-q5 .form-input, #screen-q6 .form-input,
-  #screen-q7 .form-input, #screen-q8 .form-input, #screen-q9 .form-input, {
+  #screen-q7 .form-input, #screen-q8 .form-input, #screen-q9 .form-input {
     background: rgba(255,255,255,0.07);
     border-color: rgba(255,255,255,0.15);
     color: #ffffff;
@@ -1285,7 +1292,7 @@
   #screen-q2 .form-input:focus,
   #screen-q3 .form-input:focus
   #screen-q4 .form-input:focus, #screen-q5 .form-input:focus, #screen-q6 .form-input:focus,
-  #screen-q7 .form-input:focus, #screen-q8 .form-input:focus, #screen-q9 .form-input:focus, {
+  #screen-q7 .form-input:focus, #screen-q8 .form-input:focus, #screen-q9 .form-input:focus {
     border-color: #D94F00;
   }
 
@@ -1293,7 +1300,7 @@
   #screen-q2 .form-input::placeholder,
   #screen-q3 .form-input::placeholder
   #screen-q4 .form-input::placeholder, #screen-q5 .form-input::placeholder, #screen-q6 .form-input::placeholder,
-  #screen-q7 .form-input::placeholder, #screen-q8 .form-input::placeholder, #screen-q9 .form-input::placeholder, {
+  #screen-q7 .form-input::placeholder, #screen-q8 .form-input::placeholder, #screen-q9 .form-input::placeholder {
     color: rgba(255,255,255,0.35);
   }
 
@@ -1301,7 +1308,7 @@
   #screen-q2 .currency-input-wrapper::before,
   #screen-q3 .currency-input-wrapper::before
   #screen-q4 .currency-input-wrapper::before, #screen-q5 .currency-input-wrapper::before, #screen-q6 .currency-input-wrapper::before,
-  #screen-q7 .currency-input-wrapper::before, #screen-q8 .currency-input-wrapper::before, #screen-q9 .currency-input-wrapper::before, {
+  #screen-q7 .currency-input-wrapper::before, #screen-q8 .currency-input-wrapper::before, #screen-q9 .currency-input-wrapper::before {
     color: rgba(255,255,255,0.5);
   }
   @media (max-width: 600px) {
@@ -1322,7 +1329,6 @@
 <script src="logic/summaryBuilder.js"></script>
 <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
 <script>if (typeof emailjs !== "undefined") { emailjs.init("g710KFSryN241SQWm"); } else { console.warn("EmailJS not loaded — init skipped"); }</script>
-  <link rel="stylesheet" href="shared-styles.css">
 </head>
 <body>
 
@@ -2542,10 +2548,10 @@ const fundingLinks = {
     if (current) current.removeEventListener('scroll', current._sbHandler);
     current = active;
     active._sbHandler = () => updateScrollbar(active);
-    active.addEventListener('scroll', active._sbHandler, { passive: true });
+    active.addEventListener('scroll', active._sbHandler { passive: true });
     updateScrollbar(active);
   }
-  new MutationObserver(attachToActive).observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+  new MutationObserver(attachToActive).observe(document.body { attributes: true, subtree: true, attributeFilter: ['class'] });
   document.addEventListener('DOMContentLoaded', attachToActive);
 })();
 </script>
