@@ -131,7 +131,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 20px 24px 120px;
+    padding: 20px 24px 24px;
 
     max-width: 960px;
     width: 100%;
@@ -573,22 +573,13 @@
   
 
   .screen-footer {
-    padding: 12px 24px 20px;
-    text-align: center;
-  }
-
-  .global-page-footer {
-    position: fixed;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    z-index: 50;
     display: flex;
     flex-direction: column;
     align-items: center;
-    pointer-events: none;
+    gap: 8px;
+    padding: 16px 0 24px;
+    text-align: center;
   }
-  .global-page-footer > * { pointer-events: auto; }
 
   .dashed-divider {
     margin: 0 auto;
@@ -740,7 +731,7 @@
   @media (max-width: 600px) {
     .bg-orb { display: none; }
     .dashed-divider { font-size: 16px; gap: 8px; padding: 4px 24px; }
-    .screen-content { padding: 16px 16px 120px !important; }
+    .screen-content { padding: 16px 16px 20px !important; }
     .loading-screen { padding: 24px 16px !important; }
     .answer-btn { padding: 16px 18px; min-height: 48px; }
     .answer-options { gap: 10px; }
@@ -4812,7 +4803,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
   @media (max-width: 600px) {
-    .screen-content { padding: 16px 16px 120px !important; }
+    .screen-content { padding: 16px 16px 20px !important; }
     .loading-screen { padding: 24px 16px !important; }
     .answer-btn { padding: 16px 18px; min-height: 48px; }
     .answer-options { gap: 10px; }
@@ -4900,9 +4891,6 @@ function showDiscoveryThinkingScreen(callback) {
 </script>
 <script src="shared-components.js"></script>
 
-<div class="global-page-footer">
-  <div class="dashed-divider">Fiskal Discovery</div>
-</div>
 
 </body>
 </html>
