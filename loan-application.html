@@ -818,20 +818,18 @@
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">What do you need the loan for?</h2>
     <div class="answer-options" id="purpose-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="answer-btn" onclick="selectState('purpose', 'Working capital — day to day cash flow', this, 'purpose-opts', 'screen-amount')">💼 Working capital</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Growth — expanding the business', this, 'purpose-opts', 'screen-amount')">📈 Growth</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Equipment or assets', this, 'purpose-opts', 'screen-amount')">🔧 Equipment or assets</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Property', this, 'purpose-opts', 'screen-amount')">🏢 Property</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Refinancing existing debt', this, 'purpose-opts', 'screen-amount')">🔄 Refinancing</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Tax or HMRC bill', this, 'purpose-opts', 'screen-amount')">🏛️ Tax / HMRC bill</button>
-      <button class="answer-btn" onclick="document.getElementById('purpose-opts').style.display='none';document.getElementById('purpose-other-box').style.display='block';document.getElementById('purpose-other-input').focus();">📁 Other</button>
+      <button class="answer-btn" data-purpose="Working capital — day to day cash flow" onclick="togglePurpose(this)">💼 Working capital</button>
+      <button class="answer-btn" data-purpose="Growth — expanding the business" onclick="togglePurpose(this)">📈 Growth</button>
+      <button class="answer-btn" data-purpose="Equipment or assets" onclick="togglePurpose(this)">🔧 Equipment or assets</button>
+      <button class="answer-btn" data-purpose="Property" onclick="togglePurpose(this)">🏢 Property</button>
+      <button class="answer-btn" data-purpose="Refinancing existing debt" onclick="togglePurpose(this)">🔄 Refinancing</button>
+      <button class="answer-btn" data-purpose="Tax or HMRC bill" onclick="togglePurpose(this)">🏛️ Tax / HMRC bill</button>
+      <button class="answer-btn" id="purpose-other-btn" onclick="togglePurposeOther(this)">📁 Other</button>
     </div>
-    <div id="purpose-other-box" style="display:none">
-      <label class="form-label">What do you need the loan for?</label>
+    <div id="purpose-other-box" style="display:none;margin-top:10px">
       <input type="text" class="form-input" id="purpose-other-input" placeholder="Describe your purpose…">
-      <button class="btn-primary" style="margin-top:10px;width:100%" onclick="var v=document.getElementById('purpose-other-input').value.trim();if(v){state.purpose=v;showScreen('screen-amount');}else{document.getElementById('purpose-other-input').focus();}">Continue ›</button>
-      <button class="back-btn" style="margin:10px auto 0;display:flex" onclick="document.getElementById('purpose-other-box').style.display='none';document.getElementById('purpose-opts').style.display='grid';">‹ Back to options</button>
     </div>
+    <button class="btn-primary" id="purpose-continue-btn" style="display:none;margin-top:14px;width:100%" onclick="confirmPurpose()">Continue ›</button>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-details')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -1485,7 +1483,7 @@ const state = {
   companyNumber: appState.profile.companyNumber || '',
   turnover: appState.profile.annualTurnover || '',
   turnoverNext: '', propertyOwners: '', propertyOwnership: '',
-  purpose: '', amount: appState.profile.fundingAmount || '', term: '',
+  purpose: '', purposeList: [], amount: appState.profile.fundingAmount || '', term: '',
   security: '', propType: '', propCharges: '', mortgageHolder: '', propValue: '', propMortgage: '', propOwner: '', propAddress: '',
   properties: [],
   assetType: '', assetValue: '',
@@ -1499,6 +1497,63 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById(id);
   if (el) { el.classList.add('active'); window.scrollTo(0,0); }
+  if (id === 'screen-purpose') restorePurposeScreen();
+}
+
+function restorePurposeScreen() {
+  const list = state.purposeList || [];
+  document.querySelectorAll('#purpose-opts .answer-btn').forEach(btn => {
+    if (btn.id === 'purpose-other-btn') return;
+    btn.classList.toggle('selected', list.includes(btn.dataset.purpose));
+  });
+  updatePurposeContinue();
+}
+
+function togglePurpose(btn) {
+  if (!state.purposeList) state.purposeList = [];
+  const value = btn.dataset.purpose;
+  const idx = state.purposeList.indexOf(value);
+  if (idx === -1) {
+    state.purposeList.push(value);
+    btn.classList.add('selected');
+  } else {
+    state.purposeList.splice(idx, 1);
+    btn.classList.remove('selected');
+  }
+  updatePurposeContinue();
+}
+
+function togglePurposeOther(btn) {
+  const box = document.getElementById('purpose-other-box');
+  const input = document.getElementById('purpose-other-input');
+  if (btn.classList.contains('selected')) {
+    btn.classList.remove('selected');
+    box.style.display = 'none';
+    input.value = '';
+  } else {
+    btn.classList.add('selected');
+    box.style.display = 'block';
+    input.focus();
+  }
+  updatePurposeContinue();
+  input.oninput = updatePurposeContinue;
+}
+
+function updatePurposeContinue() {
+  const otherSelected = document.getElementById('purpose-other-btn').classList.contains('selected');
+  const otherVal = document.getElementById('purpose-other-input').value.trim();
+  const listLen = (state.purposeList || []).length;
+  const canContinue = listLen > 0 || (otherSelected && otherVal.length > 0);
+  document.getElementById('purpose-continue-btn').style.display = canContinue ? 'block' : 'none';
+}
+
+function confirmPurpose() {
+  const list = [...(state.purposeList || [])];
+  const otherSelected = document.getElementById('purpose-other-btn').classList.contains('selected');
+  const otherVal = document.getElementById('purpose-other-input').value.trim();
+  if (otherSelected && otherVal) list.push(otherVal);
+  state.purpose = list.join(', ');
+  showScreen('screen-amount');
 }
 
 function selectState(key, value, btn, optionsId, nextScreen) {
