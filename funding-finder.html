@@ -1732,6 +1732,17 @@
     align-items: center !important;
     justify-content: center !important;
   }
+  .special-message-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-left: 3px solid #8E7ED8;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+  }
   .funding-options-label {
     font-size: 12px;
     letter-spacing: 2px;
@@ -2070,6 +2081,8 @@
         <p id="email-summary-feedback" style="font-size:12px;text-align:center;margin-top:6px;display:none;"></p>
       </div>
     </div>
+
+    <div id="special-messages-section"></div>
 
     <div id="matched-products-section">
       <p class="funding-options-label">Funding options to explore</p>
@@ -2705,6 +2718,7 @@ const productInfo = {
   fx: { icon: '\u{1F4B1}', name: 'Foreign Currency / FX' },
   rd: { icon: '\u{1F52C}', name: 'R&D Tax Credits' },
   mca: { icon: '\u{1F4B3}', name: 'Merchant Cash Advance' },
+  debtRecovery: { icon: '\u{1F4CB}', name: 'Debt Recovery' },
   existing: { icon: '\u{1F4CA}', name: 'Facility Review' }
 };
 
@@ -2912,6 +2926,17 @@ function getMatchedProducts() {
     matched.push('rd');
   }
 
+  // Q11: Bad Debt — add debt recovery card
+  if (fa.badDebt === 'Yes' && !matched.includes('debtRecovery')) {
+    matched.push('debtRecovery');
+  }
+
+  // Q12: Acquisition / MBO — trigger invoice and asset finance
+  if (fa.acquisition === 'Yes' || fa.acquisition === 'Not right now but it\'s on my radar') {
+    if (!matched.includes('invoice')) matched.push('invoice');
+    if (!matched.includes('asset')) matched.push('asset');
+  }
+
   // Always surface at least a business loan as a baseline option
   if (!matched.includes('loan')) {
     matched.push('loan');
@@ -2968,6 +2993,22 @@ function displayResults(summary, matchedProducts) {
   }
 
   saveDiscovery('Funding Finder', '', summary.summaryHtml || summary.summaryText || '', state.business);
+
+  // Render special messages
+  const fa = state.flowAnswers || {};
+  const specialSection = document.getElementById('special-messages-section');
+  if (specialSection) {
+    specialSection.innerHTML = '';
+    if (fa.creditConcern === 'Yes') {
+      specialSection.innerHTML += `<div class="special-message-card">Having credit concerns doesn't close doors — it just means finding the right lender. Fiskal regularly works with businesses with CCJs, HMRC debt, previous declines and past insolvencies. There are specialist lenders who look at the full picture, not just a credit score.</div>`;
+    }
+    if (fa.badDebt === 'Yes') {
+      specialSection.innerHTML += `<div class="special-message-card">You may have cash sitting in old invoices you've written off. Fiskal works with a specialist debt collection service that only charges if they collect — so there's absolutely nothing to lose.</div>`;
+    }
+    if (fa.acquisition === 'Yes' || fa.acquisition === 'Not right now but it\'s on my radar') {
+      specialSection.innerHTML += `<div class="special-message-card">Acquiring a business is more achievable than most people think. An unencumbered sales ledger can be funded via invoice finance to generate purchase cash, and assets within the target business can often be refinanced to contribute toward the sale price.</div>`;
+    }
+  }
 
   const list = document.getElementById('matched-products-list');
   list.innerHTML = '';
@@ -3081,6 +3122,12 @@ async function sendInitialInfoNotification() {
 }
 
 async function sendNotification(summary, matchedProducts) {
+  const fa = state.flowAnswers || {};
+  const flags = [];
+  if (fa.creditConcern === 'Yes') flags.push('⚠️ Credit concerns — ' + (fa.creditConcernDetails || 'no details provided'));
+  if (fa.badDebt === 'Yes') flags.push('⚠️ Has old unpaid invoices — potential debt recovery opportunity');
+  if (fa.acquisition === 'Yes' || fa.acquisition === 'Not right now but it\'s on my radar') flags.push('⚠️ Considering acquisition or MBO');
+
   const templateParams = {
     name: state.name,
     business_name: state.business,
@@ -3089,7 +3136,7 @@ async function sendNotification(summary, matchedProducts) {
     company_number: state.companyNumber || 'Not provided',
     module: moduleLabels[state.module] || state.module,
     matched_products: matchedProducts.map(p => productInfo[p]?.name).filter(Boolean).join(', ') || 'None matched',
-    barriers: state.barrier === 'yes' ? (state.barrierDetails || 'Yes - no details provided') : 'None mentioned',
+    barriers: flags.length ? flags.join('\n') : 'None flagged',
     summary: summary
   };
 
