@@ -879,7 +879,7 @@
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">What type of funding are you looking for?</h2>
     <p class="question-sub" style="color:#D94F00">Select all that apply — the right type of funding could change everything.</p>
-    <div class="answer-options" id="q1-opts">
+    <div class="answer-options" id="q1-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="toggleLoanType('unsecured', this)">Unsecured business loan</button>
       <button class="answer-btn" onclick="toggleLoanType('secured', this)">Secured business loan</button>
       <button class="answer-btn" onclick="toggleLoanType('bridging', this)">Bridging finance</button>
@@ -910,7 +910,7 @@
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">What do you need the funding for?</h2>
     <p class="question-sub" style="color:#D94F00">Select all that apply — every goal is worth pursuing.</p>
-    <div class="answer-options" id="q2-opts">
+    <div class="answer-options" id="q2-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="togglePurpose('Business growth', this)">Business growth</button>
       <button class="answer-btn" onclick="togglePurpose('Working capital / cashflow', this)">Working capital / cashflow</button>
       <button class="answer-btn" onclick="togglePurpose('Equipment or vehicles', this)">Equipment or vehicles</button>
@@ -920,7 +920,7 @@
       <button class="answer-btn" onclick="togglePurpose('New premises', this)">New premises</button>
       <button class="answer-btn" onclick="togglePurpose('Marketing / advertising', this)">Marketing / advertising</button>
       <button class="answer-btn" onclick="togglePurpose('Management buyout / acquisition', this)">Management buyout / acquisition</button>
-      <div id="q2-other-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="togglePurposeOther()">
+      <div id="q2-other-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;grid-column:1/-1" onclick="togglePurposeOther()">
         <span id="q2-other-label">Other</span>
         <input type="text" id="purpose-other-input" placeholder="Tell us a little more about what you need the funding for" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ2Continue()" onclick="event.stopPropagation()">
       </div>
