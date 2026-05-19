@@ -1793,8 +1793,8 @@
   }
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #4e0063; border-radius: 3px; }
-  * { scrollbar-width: thin; scrollbar-color: #4e0063 transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--sb-thumb, #4e0063); border-radius: 3px; }
+  * { scrollbar-width: thin; scrollbar-color: var(--sb-thumb, #4e0063) transparent; }
 </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
@@ -3105,5 +3105,22 @@ if (fromOnboarding) {
 <script src="logic/productLinks.js"></script>
 <script src="logic/summaryBuilder.js"></script>
 <script src="shared-components.js"></script>
+<script>
+(function() {
+  const from = [0x4e, 0x00, 0x63];
+  const to   = [0xD9, 0x4F, 0x00];
+  function updateScrollbar() {
+    const el = document.scrollingElement || document.documentElement;
+    const pct = el.scrollHeight <= el.clientHeight ? 0
+      : el.scrollTop / (el.scrollHeight - el.clientHeight);
+    const r = Math.round(from[0] + (to[0] - from[0]) * pct);
+    const g = Math.round(from[1] + (to[1] - from[1]) * pct);
+    const b = Math.round(from[2] + (to[2] - from[2]) * pct);
+    document.documentElement.style.setProperty('--sb-thumb', `rgb(${r},${g},${b})`);
+  }
+  window.addEventListener('scroll', updateScrollbar, { passive: true });
+  updateScrollbar();
+})();
+</script>
 </body>
 </html>
