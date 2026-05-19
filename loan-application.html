@@ -1080,21 +1080,7 @@
 </div>
 
 <!-- LOADING SCREEN -->
-<div class="screen loading-screen" id="screen-submission-loading">
-  <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
-    </div>
-    <div class="ob-header-spacer"></div>
-  </header>
-  <div class="loading-content">
-    <div class="loading-spinner"></div>
-    <div class="loading-message" id="loading-message">Analysing your business</div>
-  </div>
+<div class="screen loading-screen" id="screen-submission-loading" style="display:none">
 </div>
 
 <!-- Results -->
@@ -1214,85 +1200,6 @@ function saveAppState() {
 
 // Load app state on page load
 loadAppState();
-
-// ============================================================
-// LOADING SCREEN MESSAGES
-// ============================================================
-const loadingMessages = [
-  'Analysing your business',
-  'Reviewing your details',
-  'Exploring your options',
-  'Calculating your position',
-  'Checking the market',
-  'Matching you to lenders',
-  'Assessing your profile',
-  'Preparing your results',
-  'Running the numbers',
-  'Scanning the landscape',
-  'Identifying opportunities',
-  'Comparing facilities',
-  'Evaluating your situation',
-  'Researching your sector',
-  'Building your summary',
-  'Gathering insights',
-  'Checking lender criteria',
-  'Mapping your options',
-  'Reviewing the market',
-  'Crunching the data',
-  'Consulting our panel',
-  'Looking for the best fit',
-  'Assessing eligibility',
-  'Pinpointing solutions',
-  'Reviewing your answers',
-  'Preparing your discovery',
-  'Exploring all avenues',
-  'Checking availability',
-  'Shortlisting options',
-  'Almost there'
-];
-
-let lastMessageIndex = -1;
-
-function getRandomMessage() {
-  let newIndex;
-  do {
-    newIndex = Math.floor(Math.random() * loadingMessages.length);
-  } while (newIndex === lastMessageIndex);
-  lastMessageIndex = newIndex;
-  return loadingMessages[newIndex];
-}
-
-function showLoadingScreen(callback) {
-  const loadingScreen = document.getElementById('screen-submission-loading');
-  const messageEl = document.getElementById('loading-message');
-  let messageCount = 0;
-  const totalDuration = 3000;
-  const messageInterval = 1000;
-
-  loadingScreen.classList.add('active');
-  messageEl.textContent = getRandomMessage();
-  messageEl.classList.remove('fade-out');
-  messageEl.classList.add('fade-in');
-
-  const interval = setInterval(() => {
-    messageCount++;
-    if (messageCount >= 3) {
-      clearInterval(interval);
-      loadingScreen.classList.remove('active');
-      if (callback) callback();
-      return;
-    }
-
-    messageEl.classList.remove('fade-in');
-    messageEl.classList.add('fade-out');
-
-    setTimeout(() => {
-      messageEl.textContent = getRandomMessage();
-      messageEl.classList.remove('fade-out');
-      messageEl.classList.add('fade-in');
-    }, 300);
-  }, messageInterval);
-}
 
 // ============================================================
 // STATE
@@ -1674,7 +1581,6 @@ function selectBarrier(value, btn) {
 function submitApplication() {
   state.barrierDetails = document.getElementById('barrier-details').value.trim();
 
-  // Collect existing facilities before showing loading screen
   const facilities = [];
   for (let i = 1; i <= facilityCount; i++) {
     const type = document.getElementById('facility-type-' + i)?.value;
@@ -1684,41 +1590,31 @@ function submitApplication() {
   }
   state.existingFacilities = facilities;
 
-  showDiscoveryThinkingScreen(() => {
-    // Build personalised summary using logic module
-    const loanAnswers = {
-      name: state.name,
-      business: state.business,
-      purpose: state.purpose,
-      amount: state.amount,
-      term: state.term,
-      security: state.security,
-      properties: state.properties,
-      credit: state.credit,
-      urgency: state.urgency,
-      existingFinance: state.existingFinance,
-      existingFacilities: state.existingFacilities,
-      barrier: state.barrier,
-      barrierDetails: state.barrierDetails,
-      turnover: state.turnover,
-      annualTurnover: state.turnover,
-      turnoverNext: state.turnoverNext,
-      projectedTurnover: state.turnoverNext,
-      propertyOwners: state.propertyOwners
+  // Pre-compute summary (synchronous) so it's ready when loading screen finishes
+  const loanAnswers = {
+    name: state.name, business: state.business, purpose: state.purpose,
+    amount: state.amount, term: state.term, security: state.security,
+    properties: state.properties, credit: state.credit, urgency: state.urgency,
+    existingFinance: state.existingFinance, existingFacilities: state.existingFacilities,
+    barrier: state.barrier, barrierDetails: state.barrierDetails,
+    turnover: state.turnover, annualTurnover: state.turnover,
+    turnoverNext: state.turnoverNext, projectedTurnover: state.turnoverNext,
+    propertyOwners: state.propertyOwners
+  };
+  let summary;
+  try {
+    summary = buildDiscoverySummary('loan-application', loanAnswers);
+  } catch (error) {
+    console.warn('Loan summary builder failed, using fallback', error);
+    summary = {
+      pageHeading: 'Your Fiskal Discovery is ready',
+      summaryHeading: "Here's what we discovered",
+      summaryHtml: "<p>Great news — based on what you've shared, there are funding options worth exploring. The next step is to look at the full picture and find the most suitable route for the business.</p>"
     };
-    
-    let summary;
-    try {
-      summary = buildDiscoverySummary('loan-application', loanAnswers);
-    } catch (error) {
-      console.warn('Loan summary builder failed, using fallback', error);
-      summary = {
-        pageHeading: 'Your Fiskal Discovery is ready',
-        summaryHeading: 'Here\'s what we discovered',
-        summaryHtml: '<p>Great news — based on what you\'ve shared, there are funding options worth exploring. The next step is to look at the full picture and find the most suitable route for the business.</p>'
-      };
-    }
-    
+  }
+
+  const firstName = (state.name || '').split(' ')[0];
+  showFiskalLoadingScreen(firstName, () => {
     displayResults(summary);
     sendNotification(summary.summaryText || summary.summaryHtml);
   });
@@ -1774,13 +1670,6 @@ function displayResults(summary) {
 
   // Indicative lending range
   renderIndicativeLending();
-
-  // Hide thinking/loading screen — kept visible during API call, must be cleared here
-  const loadingEl = document.getElementById('screen-submission-loading');
-  if (loadingEl) {
-    loadingEl.classList.remove('active');
-    loadingEl.style.display = 'none';
-  }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -1960,152 +1849,16 @@ async function sendClientSummaryEmail(summary) {
 <script src="logic/globalInsights.js"></script>
 <script src="logic/loanApplicationInsights.js"></script>
 <script src="logic/summaryBuilder.js"></script>
+<script src="logic/fiskalLoading.js"></script>
 
 <script>emailjs.init("g710KFSryN241SQWm");</script>
-<!-- DISCOVERY THINKING SCREEN -->
-<div class="screen" id="screen-thinking" style="display:none;position:fixed;inset:0;background:#08000F;z-index:9999;">
-  <div class="thinking-container">
-    <div class="thinking-logo">Fiskal Discovery</div>
-    <div class="thinking-title">Preparing your Fiskal Discovery Summary</div>
-    <div class="thinking-phrase" id="thinking-phrase">Assessing your requirements</div>
-    <div class="thinking-loader">
-      <div class="thinking-dot"></div>
-      <div class="thinking-dot"></div>
-      <div class="thinking-dot"></div>
-    </div>
-  </div>
-</div>
 
 <style>
-  .thinking-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    text-align: center;
-    padding: 20px;
-  }
-  .thinking-logo {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
-    font-style: italic;
-    font-weight: normal;
-    font-size: 1.8rem;
-    color: #4f46e5;
-    margin-bottom: 16px;
-    text-shadow: 0 0 30px rgba(79,70,229,.5);
-  }
-  .thinking-title {
-    font-size: 1.2rem;
-    color: #FFE600;
-    margin-bottom: 32px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
-  .thinking-phrase {
-    font-size: 1rem;
-    color: white;
-    margin-bottom: 40px;
-    font-weight: 300;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 500ms ease-in-out, transform 500ms ease-in-out;
-  }
-  .thinking-phrase.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .thinking-loader {
-    display: flex;
-    gap: 12px;
-    margin-top: 20px;
-  }
-  .thinking-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #00FF88;
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  .thinking-dot:nth-child(2) {
-    animation-delay: 0.3s;
-    background: #FFE600;
-  }
-  .thinking-dot:nth-child(3) {
-    animation-delay: 0.6s;
-    background: #4f46e5;
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(0.8); opacity: 0.5; }
-    50% { transform: scale(1.2); opacity: 1; }
-  }
-
-  /* ---- DISCOVERY THINKING SCREEN ---- */
+  /* ---- SHARED NAV BUTTONS (kept) ---- */
+  /* ---- DISCOVERY THINKING SCREEN (removed — replaced by fiskalLoading.js) ---- */
   #discovery-thinking-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
     display: none;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #ffffff 0%, #f8efff 45%, #eaf8ff 100%);
-    text-align: center;
   }
-  #discovery-thinking-screen.active {
-    display: flex;
-  }
-  #discovery-thinking-screen .thinking-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 28px;
-    padding: 32px;
-  }
-  #discovery-thinking-screen .thinking-spinner {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: 4px solid rgba(79,70,229,0.18);
-    border-top-color: #4f46e5;
-    animation: spinThinking 1s linear infinite;
-  }
-  #discovery-thinking-screen .thinking-phrase {
-    font-size: clamp(1.2rem, 4vw, 2rem);
-    font-weight: 700;
-    text-align: center;
-    color: #333;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 500ms ease, transform 500ms ease;
-  }
-  #discovery-thinking-screen .thinking-phrase.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  #discovery-thinking-screen .thinking-phrase.shimmer {
-    background: linear-gradient(
-      90deg,
-      rgba(79,70,229,0.65) 0%,
-      #4f46e5 35%,
-      #FFE600 50%,
-      #4f46e5 65%,
-      rgba(79,70,229,0.65) 100%
-    );
-    background-size: 260% auto;
-    background-position: 260% center;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: thinkingShimmer 3.8s ease-in-out forwards;
-  }
-  @keyframes thinkingShimmer {
-    0%   { background-position: 260% center; }
-    100% { background-position: -260% center; }
-  }
-  @keyframes spinThinking {
-    to { transform: rotate(360deg); }
-  }
-
   /* ---- SHARED NAV BUTTONS ---- */
   .discovery-bottom-nav {
     display: flex;
@@ -2177,72 +1930,6 @@ async function sendClientSummaryEmail(summary) {
   }
 </style>
 
-<script>
-function showDiscoveryThinkingScreen(callback) {
-
-  const userName = state.name || appState.profile.name || (JSON.parse(localStorage.getItem('fiskal_appState') || '{}').profile || {}).name || '';
-  const phrases = [
-    'Every great business is on a journey.',
-    'Mapping your funding options...',
-    `Thanks for waiting, ${userName} — your discovery is ready.`
-  ];
-
-  let screen = document.getElementById('discovery-thinking-screen');
-  if (!screen) {
-    screen = document.createElement('div');
-    screen.id = 'discovery-thinking-screen';
-    screen.innerHTML = '<div class="thinking-inner"><div class="thinking-spinner"></div><div id="discovery-thinking-phrase" class="thinking-phrase"></div></div>';
-    document.body.appendChild(screen);
-  }
-
-  const phraseEl = document.getElementById('discovery-thinking-phrase');
-  screen.style.display = 'flex';
-  screen.classList.add('active');
-
-  let index = 0;
-
-  function showPhrase() {
-    if (index >= phrases.length) {
-      // Fade out the entire loading screen
-      screen.style.opacity = '0';
-      screen.style.transition = 'opacity 400ms ease';
-      setTimeout(function() {
-        screen.classList.remove('active');
-        screen.style.display = 'none';
-        screen.style.opacity = '1';
-        screen.style.transition = '';
-        if (callback) callback();
-      }, 400);
-      return;
-    }
-
-    // Fade out current phrase (opacity 1 → 0, 300ms)
-    phraseEl.style.transition = 'opacity 300ms ease, transform 300ms ease';
-    phraseEl.style.opacity = '0';
-    phraseEl.style.transform = 'translateY(10px)';
-    
-    setTimeout(function() {
-      // Update text
-      phraseEl.textContent = phrases[index];
-      
-      // Fade in next phrase (opacity 0 → 1, 400ms, translateY 10px → 0)
-      phraseEl.style.transition = 'opacity 400ms ease, transform 400ms ease';
-      phraseEl.style.opacity = '1';
-      phraseEl.style.transform = 'translateY(0)';
-      
-      // Determine display duration: 2s for normal phrases, 3s for final phrase
-      const isFinalPhrase = index === phrases.length - 1;
-      const displayDuration = isFinalPhrase ? 3000 : 2000;
-      
-      index++;
-      
-      setTimeout(showPhrase, displayDuration);
-    }, 300);
-  }
-
-  showPhrase();
-}
-</script>
 
 </body>
 </html>
