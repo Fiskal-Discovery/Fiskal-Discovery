@@ -823,13 +823,13 @@
     <div class="question-icon">🎯</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">What do you need the loan for?</h2>
-    <div class="answer-options">
-      <button class="answer-btn" onclick="selectState('purpose', 'Working capital — day to day cash flow', this, 'purpose-opts', 'screen-amount')">💼 Working capital — day to day cash flow</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Growth — expanding the business', this, 'purpose-opts', 'screen-amount')">📈 Growth — expanding the business</button>
+    <div class="answer-options" id="purpose-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="answer-btn" onclick="selectState('purpose', 'Working capital — day to day cash flow', this, 'purpose-opts', 'screen-amount')">💼 Working capital</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Growth — expanding the business', this, 'purpose-opts', 'screen-amount')">📈 Growth</button>
       <button class="answer-btn" onclick="selectState('purpose', 'Equipment or assets', this, 'purpose-opts', 'screen-amount')">🔧 Equipment or assets</button>
       <button class="answer-btn" onclick="selectState('purpose', 'Property', this, 'purpose-opts', 'screen-amount')">🏢 Property</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Refinancing existing debt', this, 'purpose-opts', 'screen-amount')">🔄 Refinancing existing debt</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Tax or HMRC bill', this, 'purpose-opts', 'screen-amount')">🏛️ Tax or HMRC bill</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Refinancing existing debt', this, 'purpose-opts', 'screen-amount')">🔄 Refinancing</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Tax or HMRC bill', this, 'purpose-opts', 'screen-amount')">🏛️ Tax / HMRC bill</button>
       <button class="answer-btn" onclick="selectState('purpose', 'Other', this, 'purpose-opts', 'screen-amount')">📁 Other</button>
     </div>
     <div class="nav-row">
