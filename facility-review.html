@@ -956,8 +956,11 @@
       <button class="btn-primary" id="facility-start-btn" onclick="showScreen('screen-facility-type')" style="display:none">Start My Discovery ›</button>
     </div>
   </div>
-  <div class="nav-row" style="padding: 16px 24px;">
-    <button class="back-btn" onclick="window.location.href='home.html?home=1'">← Home</button>
+  <div class="screen-footer">
+    <div class="nav-row">
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">← Home</button>
+    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -990,10 +993,13 @@
       <input type="text" id="facility-other-input" class="form-input" placeholder="Please describe your finance type…" oninput="state.facilityOther=this.value" style="width:100%">
     </div>
     <button class="btn-primary" onclick="goToReviewSelection()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1016,10 +1022,13 @@
     <p class="question-sub">Select one to start your review.</p>
     <div class="answer-options" id="review-selection-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1049,10 +1058,13 @@
       <input type="text" class="form-input" id="if-lender" placeholder="e.g. Bibby Financial Services">
     </div>
     <button class="btn-primary" onclick="nextIF('if-lender-val', document.getElementById('if-lender').value, 'screen-if-type')">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1084,10 +1096,13 @@
       <button class="answer-btn" onclick="saveAndGo('if-type', 'Recruitment — includes payroll funding or back office support', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Recruitment</button>
       <button class="answer-btn" onclick="saveAndGo('if-type', 'Not sure', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Not sure</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-if-lender')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1118,10 +1133,13 @@
       <button class="answer-btn" onclick="saveAndGo('if-payment-terms', '90+ days', 'screen-if-knowledge')">90+ days</button>
       <button class="answer-btn" onclick="saveAndGo('if-payment-terms', 'It varies', 'screen-if-knowledge')">It varies</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-if-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1150,10 +1168,13 @@
       <button class="answer-btn" onclick="saveAndGo('if-knowledge', 'Does not know details', 'screen-if-path-b')">I don't really know the details</button>
       <button class="answer-btn" onclick="saveAndGo('if-knowledge', 'Has statements', 'screen-if-upload')">I have my statements and can upload them</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-if-payment-terms')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1210,10 +1231,13 @@
       </div>
     </div>
     <button class="btn-primary" onclick="saveIFPathA()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-if-knowledge')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1248,10 +1272,13 @@
       </div>
       <button class="btn-primary" onclick="saveAndGo('if-monthly-cost', document.getElementById('if-monthly-cost').value, 'screen-if-priorities')">Continue →</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-if-knowledge')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1289,10 +1316,13 @@
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Just want to know if I could do better')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Am I on a good deal?</button>
     </div>
     <button class="btn-primary" onclick="showScreen('screen-if-upload')">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" id="if-priorities-back" onclick="goBackFromPriorities()">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1327,10 +1357,13 @@
 
     <button class="btn-primary" onclick="showScreen('screen-if-barriers')">Continue →</button>
     <button class="btn-secondary" onclick="showScreen('screen-if-barriers')">Skip — no statement to upload</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="state['if-knowledge'] === 'Has statements' ? showScreen('screen-if-knowledge') : showScreen('screen-if-priorities')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1367,10 +1400,13 @@
       <div class="info-box">"Many businesses worry about being tied into long contracts or upsetting their current lender. Nicole will talk through all of this with you — there's no obligation and everything is treated in complete confidence."</div>
     </div>
     <button class="btn-primary" id="barriers-submit-btn" onclick="submitReview()" style="display:none;margin-top:16px">Submit My Discovery</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-if-upload')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1401,10 +1437,13 @@
       <input type="text" class="form-input" id="loan-lender" placeholder="e.g. HSBC, Funding Circle">
     </div>
     <button class="btn-primary" onclick="saveFieldAndGo('loanLender', 'loan-lender', 'screen-loan-type')">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1435,10 +1474,13 @@
       <button class="answer-btn" onclick="saveAndGo('loanType', 'Merchant Cash Advance', 'screen-loan-knowledge')">Merchant Cash Advance</button>
       <button class="answer-btn" onclick="saveAndGo('loanType', 'Not sure', 'screen-loan-knowledge')">Not sure</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-loan-lender')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1466,10 +1508,13 @@
       <button class="answer-btn" onclick="saveAndGo('loanKnowledge', 'Knows details', 'screen-loan-path-a')">I know my rates and details fairly well</button>
       <button class="answer-btn" onclick="saveAndGo('loanKnowledge', 'Does not know details', 'screen-loan-path-b')">I don't really know the details</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-loan-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1531,10 +1576,13 @@
       </div>
     </div>
     <button class="btn-primary" onclick="saveLoanPathA()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-loan-knowledge')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1578,10 +1626,13 @@
       </div>
     </div>
     <button class="btn-primary" onclick="saveLoanPathB()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-loan-knowledge')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1616,10 +1667,13 @@
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Just want to know if on best deal')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Am I on the best deal?</button>
     </div>
     <button class="btn-primary" onclick="showScreen('screen-loan-upload')">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="goBackFromLoanPriorities()">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1652,10 +1706,13 @@
     <input type="file" id="loan-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls" style="display:none" onchange="handleFileUpload('loan', this)">
     <button class="btn-primary" onclick="showScreen('screen-loan-barriers')">Continue →</button>
     <button class="btn-secondary" onclick="showScreen('screen-loan-barriers')">Skip — no documents to upload</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-loan-priorities')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1691,10 +1748,13 @@
       </div>
     </div>
     <button class="btn-primary" id="loan-barriers-submit" onclick="submitLoanReview()" style="display:none;margin-top:16px">Submit My Discovery</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-loan-upload')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1727,10 +1787,13 @@
       <button class="answer-btn" onclick="fxSelectAndGo('fxProvider', 'Another specialist FX provider', this, 'fx-provider-opts', 'screen-fx-transaction-type')">Another specialist FX provider</button>
       <button class="answer-btn" onclick="fxSelectAndGo('fxProvider', 'Not sure', this, 'fx-provider-opts', 'screen-fx-transaction-type')">Not sure</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1760,10 +1823,13 @@
       <button class="answer-btn" onclick="fxSelectAndGo('fxTransactionType', 'Both sending and receiving', this, 'fx-transaction-opts', 'screen-fx-currencies')">Both sending and receiving</button>
       <button class="answer-btn" onclick="fxSelectAndGo('fxTransactionType', 'Foreign currency for travel or other', this, 'fx-transaction-opts', 'screen-fx-currencies')">Foreign currency for travel or other purposes</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-fx-provider')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1799,10 +1865,13 @@
       </div>
       <button class="btn-primary" onclick="fxSaveOtherCurrency()">Continue →</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-fx-transaction-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1832,10 +1901,13 @@
       <button class="answer-btn" onclick="fxSelectAndGo('fxAwareness', 'No — I have no idea', this, 'fx-awareness-opts', 'screen-fx-online-selling')">No — I have no idea</button>
       <button class="answer-btn" onclick="fxSelectAndGo('fxAwareness', 'Did not know they charged anything extra', this, 'fx-awareness-opts', 'screen-fx-online-selling')">I didn't know they charged anything extra</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-fx-currencies')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1889,10 +1961,13 @@
     </div>
     
     <button class="btn-primary" onclick="submitFXCosts()" style="margin-top:16px">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-fx-awareness')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1928,10 +2003,13 @@
       <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'No')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> No — I don't sell online</button>
     </div>
     <button class="btn-primary" onclick="showScreen('screen-fx-goals')" style="margin-top:8px">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-fx-awareness')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1966,10 +2044,13 @@
       <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Just want to know what I am currently paying')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> What am I paying now?</button>
     </div>
     <button class="btn-primary" onclick="showScreen('screen-fx-upload')" style="margin-top:8px">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-fx-online-selling')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2003,10 +2084,13 @@
     <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display:none" onchange="fxHandleUpload(this)">
     <button class="btn-primary" onclick="submitFXReview()">Submit My Discovery</button>
     <button class="btn-secondary" onclick="submitFXReview()">Skip — no report to upload</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-fx-goals')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2035,10 +2119,13 @@
       <input type="text" class="form-input" id="asset-provider" placeholder="e.g. Close Brothers, Shire Leasing, Lombard">
     </div>
     <button class="btn-primary" onclick="saveAssetProvider()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2068,10 +2155,13 @@
       <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Machinery', this, 'asset-type-opts', 'screen-asset-remaining')">Machinery</button>
       <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Other', this, 'asset-type-opts', 'screen-asset-remaining')">Other</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-asset-provider')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2100,10 +2190,13 @@
       <input type="text" class="form-input" id="asset-remaining" placeholder="e.g. 18 months, 2 years">
     </div>
     <button class="btn-primary" onclick="saveAssetRemaining()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-asset-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2132,10 +2225,13 @@
       <input type="text" class="form-input" id="asset-outstanding" placeholder="e.g. £25,000">
     </div>
     <button class="btn-primary" onclick="saveAssetOutstanding()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-asset-remaining')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2164,10 +2260,13 @@
       <input type="text" class="form-input" id="asset-repayments" placeholder="e.g. £850 per month">
     </div>
     <button class="btn-primary" onclick="saveAssetRepayments()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-asset-outstanding')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2197,10 +2296,13 @@
       <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'Usage increased significantly', this, 'asset-value-change-opts', 'screen-asset-upgrade')">Usage increased significantly</button>
       <button class="answer-btn" onclick="assetSelectAndGo('assetValueChange', 'No significant change', this, 'asset-value-change-opts', 'screen-asset-upgrade')">No significant change</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-asset-repayments')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2230,10 +2332,13 @@
       <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'Yes, planning to add more assets', this, 'asset-upgrade-opts', 'screen-asset-barriers')">Yes, planning to add more assets</button>
       <button class="answer-btn" onclick="assetSelectAndGo('assetUpgrade', 'No plans at the moment', this, 'asset-upgrade-opts', 'screen-asset-barriers')">No plans at the moment</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-asset-value-change')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2268,10 +2373,13 @@
       </div>
     </div>
     <button class="btn-primary" id="asset-barriers-submit" onclick="submitAssetReview()" style="display:none;margin-top:16px">Submit My Discovery</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-asset-upgrade')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2364,10 +2472,13 @@
       <input type="text" class="form-input" id="trade-provider" placeholder="e.g. Barclays, HSBC, Santander">
     </div>
     <button class="btn-primary" onclick="saveTradeProvider()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2396,10 +2507,13 @@
       <input type="text" class="form-input" id="trade-duration" placeholder="e.g. 2 years, 6 months">
     </div>
     <button class="btn-primary" onclick="saveTradeDuration()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-provider')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2429,10 +2543,13 @@
     </div>
     <button class="btn-primary" onclick="saveTradeLimit()">Continue →</button>
     <button class="btn-secondary" onclick="setTradeLimitNotSure()">I'm not sure</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-duration')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2462,10 +2579,13 @@
     </div>
     <button class="btn-primary" onclick="saveTradeRates()">Continue →</button>
     <button class="btn-secondary" onclick="setTradeRatesNotSure()">I'm not sure</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-limit')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2494,10 +2614,13 @@
       <button class="answer-btn" onclick="tradeSelectAndGo('tradeReaching', 'Sometimes', this, 'trade-reaching-opts', 'screen-trade-growth')">Sometimes</button>
       <button class="answer-btn" onclick="tradeSelectAndGo('tradeReaching', 'No, rarely or never', this, 'trade-reaching-opts', 'screen-trade-growth')">No, rarely or never</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-rates')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2526,10 +2649,13 @@
       <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'Some growth', this, 'trade-growth-opts', 'screen-trade-barriers')">Some growth</button>
       <button class="answer-btn" onclick="tradeSelectAndGo('tradeGrowth', 'No significant change', this, 'trade-growth-opts', 'screen-trade-barriers')">No significant change</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-reaching')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2564,10 +2690,13 @@
       </div>
     </div>
     <button class="btn-primary" id="trade-barriers-submit" onclick="submitTradeReview()" style="display:none;margin-top:16px">Submit My Discovery</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-trade-growth')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2593,10 +2722,13 @@
       <input type="text" class="form-input" id="other-type" placeholder="e.g. overdraft, private loan, supplier finance, director loan">
     </div>
     <button class="btn-primary" onclick="saveOtherType()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2622,10 +2754,13 @@
       <input type="text" class="form-input" id="other-amount" placeholder="e.g. £50,000">
     </div>
     <button class="btn-primary" onclick="saveOtherAmount()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-other-type')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2651,10 +2786,13 @@
       <input type="text" class="form-input" id="other-cost" placeholder="e.g. £500 per month, 12% per year, 3% fee">
     </div>
     <button class="btn-primary" onclick="saveOtherCost()">Continue →</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-other-amount')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -2680,10 +2818,13 @@
       <input type="text" class="form-input" id="other-provider" placeholder="e.g. lender, provider, supplier, investor">
     </div>
     <button class="btn-primary" onclick="submitOtherReview()">Submit My Discovery</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-other-cost')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
