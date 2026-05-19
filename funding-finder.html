@@ -1956,6 +1956,7 @@
     <div class="nav-row">
       <button class="back-btn" onclick="goBackQuestion()">‹ Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" id="q-skip-btn" onclick="skipQuestion()">Skip</button>
     </div>
     <div class="dashed-divider">Fiskal Discovery</div>
   </div>
@@ -2478,11 +2479,15 @@ function renderFlowQuestion() {
 
   const total = visibleQuestions.length;
   const current = state.currentQuestion + 1;
+  const isLast = state.currentQuestion === total - 1;
   const pct = Math.round((current / total) * 100);
 
   document.getElementById('question-progress').style.width = pct + '%';
   document.getElementById('question-progress-label').textContent = `Question ${current} of ${total}`;
   document.getElementById('q-icon').textContent = '';
+
+  const skipBtn = document.getElementById('q-skip-btn');
+  if (skipBtn) skipBtn.style.display = isLast ? 'none' : '';
   document.getElementById('q-product').textContent = 'Funding Finder';
   document.getElementById('q-text').textContent = q.question;
   const subEl = document.getElementById('q-sub');
@@ -2656,6 +2661,10 @@ function renderFlowQuestion() {
 function goNext() {
   state.currentQuestion++;
   renderFlowQuestion();
+}
+
+function skipQuestion() {
+  goNext();
 }
 
 function goBack() {
