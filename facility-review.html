@@ -1012,7 +1012,7 @@
     <div class="question-product">Your current facility</div>
     <h2 class="question-text">Which would you like to review?</h2>
     <p class="question-sub">Select one to start your review.</p>
-    <div class="answer-options" id="review-selection-options">
+    <div class="answer-options" id="review-selection-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-facility-type')">&lt; Back</button>
@@ -4211,6 +4211,7 @@ function showReviewSelection(availableTypes) {
   availableTypes.forEach(type => {
     const btn = document.createElement('button');
     btn.className = 'answer-btn';
+    btn.style.cssText = 'padding:10px 12px;font-size:13px';
     btn.textContent = facilityNames[type] || type;
     btn.onclick = () => selectReviewType(type);
     container.appendChild(btn);
