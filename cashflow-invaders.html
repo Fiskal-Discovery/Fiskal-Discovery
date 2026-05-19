@@ -66,61 +66,6 @@ body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block
 }
 </style>
 <style>
-  .player-type-question {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.55rem;
-    color: rgba(255,255,255,0.7);
-    text-align: center;
-    margin-bottom: 14px;
-    letter-spacing: 0.5px;
-    line-height: 1.6;
-  }
-  .player-type-row {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
-    width: 100%;
-    max-width: 480px;
-    justify-content: center;
-  }
-  .player-type-btn {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 14px 12px;
-    background: rgba(255,255,255,0.04);
-    border: 2px solid rgba(255,230,0,0.25);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'Press Start 2P', monospace;
-  }
-  .player-type-btn:hover {
-    background: rgba(255,230,0,0.08);
-    border-color: rgba(255,230,0,0.5);
-  }
-  .player-type-btn.active {
-    background: rgba(255,230,0,0.12);
-    border-color: #FFE600;
-    box-shadow: 0 0 14px rgba(255,230,0,0.25);
-  }
-  .player-type-icon { font-size: 22px; }
-  .player-type-label {
-    font-size: 0.42rem;
-    color: #FFE600;
-    letter-spacing: 0.5px;
-    text-align: center;
-  }
-  .player-type-sub {
-    font-size: 0.34rem;
-    color: rgba(255,255,255,0.45);
-    text-align: center;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 400;
-    white-space: nowrap;
-  }
   /* REFUSE branding */
   .ci-refuse-tag {
     position: absolute;
@@ -149,8 +94,6 @@ body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block
   }
 
   @media (max-width: 480px) {
-    .player-type-row { max-width: 100%; }
-    .player-type-sub { white-space: normal; }
     .ci-refuse-word { font-size: 20px; }
   }
 
@@ -268,21 +211,8 @@ function stopFaviconAnimation() {
   <div class="game-title">CASHFLOW<br>INVADERS</div>
   <div class="game-tagline">FREE YOUR FINANCES</div>
   <div class="alien-preview" id="alien-preview"></div>
-  <div class="player-type-question">Are you a business owner or a lender?</div>
-  <div class="player-type-row">
-    <button class="player-type-btn" id="btn-type-player" onclick="setPlayerType('player')">
-      <span class="player-type-icon">🚀</span>
-      <span class="player-type-label">BUSINESS OWNER</span>
-      <span class="player-type-sub">Free my own finances</span>
-    </button>
-    <button class="player-type-btn" id="btn-type-lender" onclick="setPlayerType('lender')">
-      <span class="player-type-icon">🏦</span>
-      <span class="player-type-label">I'M A LENDER</span>
-      <span class="player-type-sub">Releasing finances for clients</span>
-    </button>
-  </div>
   <div class="start-form">
-    <button class="btn-start" id="btn-start" style="display:none">▶ START GAME</button>
+    <button class="btn-start" id="btn-start">▶ START GAME</button>
   </div>
 </div>
 <div class="screen" id="game-screen">
@@ -327,15 +257,6 @@ function stopFaviconAnimation() {
 const LB_KEY='fiskal_ci_clean_fixed';
 let finalScore=0,finalWave=1;
 let playerIsLender = false;
-
-function setPlayerType(type) {
-  playerIsLender = (type === 'lender');
-  document.getElementById('btn-type-player').classList.toggle('active', !playerIsLender);
-  document.getElementById('btn-type-lender').classList.toggle('active', playerIsLender);
-  document.getElementById('btn-start').style.display = 'inline-block';
-  const cb = document.getElementById('is-lender');
-  if (cb) cb.checked = playerIsLender;
-}
 const ALIEN_TYPES=[{pixels:['01110111011','11111111111','11011101101','11111111111','01011010110','10000000001'],color:'#FF4488',scale:3},{pixels:['00010001000','00111111100','01101101101','01111111110','00101010100','01000000010'],color:'#44AAFF',scale:3},{pixels:['00001000000','00011100000','01111111100','11011011110','11111111111','00101010100'],color:'#88FF44',scale:3}];
 const BOSS_NAMES=[{name:'BAD SERVICE',color:'#8B4513'},{name:'HIGH INTEREST',color:'#2F4F4F'},{name:'HIDDEN FEES',color:'#483D8B'},{name:'DEFAULTS',color:'#800000'},{name:'DEBT TRAP',color:'#4A4A4A'},{name:'WINDFALL TAX',color:'#556B2F'},{name:'FROZEN FUNDS',color:'#4682B4'},{name:'DISPUTES',color:'#6B4423'},{name:'CLAWBACKS',color:'#5F4B32'},{name:'DEBT SPIRAL',color:'#3D3D3D'}];
 const POWERUPS=[{lines:['INVOICE','FINANCE'],effect:'shield',desc:'SHIELD FOR 10 SECS',color:'#FFFF00'},{lines:['ASSET','FINANCE'],effect:'double',desc:'DOUBLE BULLETS FOR 10 SECS',color:'#FFE600'},{lines:['TRADE','FINANCE'],effect:'life',desc:'EXTRA LIFE!',color:'#CC44FF'},{lines:['BUSINESS','LOAN'],effect:'fast',desc:'RAPID FIRE FOR 10 SECS',color:'#00FF88'},{lines:['REVOLVING','CREDIT'],effect:'bonus',desc:'+£100 CASH RELEASED',color:'#00AAFF'}];
@@ -840,7 +761,7 @@ document.getElementById('pause-btn').addEventListener('click',togglePause);docum
     setTimeout(() => reject(new Error('Timeout')), 4000)
   );
   
-  const isLender = document.getElementById('is-lender').checked || playerIsLender;
+  const isLender = document.getElementById('is-lender').checked;
   Promise.race([saveLB(nameInput, companyInput, finalScore, finalWave, isLender), timeoutPromise])
     .then(() => showLeaderboardScreen())
     .catch(() => showLeaderboardScreen())
