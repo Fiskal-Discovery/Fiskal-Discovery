@@ -1698,14 +1698,16 @@
   .ob-bottom-group { display: flex; flex-direction: column; gap: 16px; }
   .ob-actions {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     display: flex;
     gap: 12px;
+    width: fit-content;
+    margin: 0 auto;
   }
   #screen-landing .btn-primary {
     background: #D94F00;
     box-shadow: 0 4px 20px rgba(217,79,0,0.35);
-    width: 320px;
+    width: 100%;
     flex: none;
     padding: 10px 20px;
     font-size: 14px;
@@ -1753,7 +1755,7 @@
   }
   .ob-game-cta {
     display: block;
-    width: 320px;
+    white-space: nowrap;
     background: linear-gradient(135deg, #D94F00 0%, #ff7a2e 100%);
     color: #ffffff;
     font-family: 'DM Sans', sans-serif;
