@@ -2443,7 +2443,7 @@ function renderFlowQuestion() {
           followupEl.appendChild(lbl);
           followupEl.appendChild(inp);
           nextBtn.style.display = 'block';
-          nextBtn.textContent = 'Continue →';
+          nextBtn.textContent = state.currentQuestion === visibleQuestions.length - 1 ? 'Submit my discovery' : 'Continue →';
           nextBtn.onclick = () => {
             saveAnswer(q.saveAs, opt);
             saveAnswer(q.followUp.saveAs, inp.value.trim());
@@ -2451,9 +2451,16 @@ function renderFlowQuestion() {
           };
         } else {
           followupEl.innerHTML = '';
-          nextBtn.style.display = 'none';
-          saveAnswer(q.saveAs, opt);
-          goNext();
+          const isLast = state.currentQuestion === visibleQuestions.length - 1;
+          if (isLast) {
+            nextBtn.style.display = 'block';
+            nextBtn.textContent = 'Submit my discovery';
+            nextBtn.onclick = () => { saveAnswer(q.saveAs, opt); goNext(); };
+          } else {
+            nextBtn.style.display = 'none';
+            saveAnswer(q.saveAs, opt);
+            goNext();
+          }
         }
       };
       optionsEl.appendChild(btn);
@@ -2499,7 +2506,7 @@ function renderFlowQuestion() {
     nextBtn.style.display = 'block';
     nextBtn.style.opacity = '0.35';
     nextBtn.style.pointerEvents = 'none';
-    nextBtn.textContent = 'Continue →';
+    nextBtn.textContent = state.currentQuestion === visibleQuestions.length - 1 ? 'Submit my discovery' : 'Continue →';
     nextBtn.onclick = () => {
       const values = Array.from(selected);
       saveAnswer(q.saveAs, values);
@@ -2525,6 +2532,7 @@ function renderFlowQuestion() {
 
     const nextBtn = document.getElementById('q-next-btn');
     nextBtn.style.display = 'block';
+    nextBtn.textContent = state.currentQuestion === visibleQuestions.length - 1 ? 'Submit my discovery' : 'Continue →';
     nextBtn.onclick = () => {
       const value = input.value.trim();
       if (value || q.optional) {
