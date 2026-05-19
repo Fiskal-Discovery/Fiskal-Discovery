@@ -1088,17 +1088,15 @@
   }
 
   /* ---- DARK QUESTION SCREENS ---- */
-  #screen-q1,
-  #screen-q2,
-  #screen-q3 {
+  #screen-q1, #screen-q2, #screen-q3, #screen-q4,
+  #screen-q5, #screen-q6, #screen-q7, #screen-q8, #screen-q9 {
     background: #000000;
     color: #ffffff;
     position: relative;
   }
 
-  #screen-q1::before,
-  #screen-q2::before,
-  #screen-q3::before {
+  #screen-q1::before, #screen-q2::before, #screen-q3::before, #screen-q4::before,
+  #screen-q5::before, #screen-q6::before, #screen-q7::before, #screen-q8::before, #screen-q9::before {
     content: '';
     position: fixed;
     inset: 0;
@@ -1113,14 +1111,24 @@
   }
 
   #screen-q1 .screen-content, #screen-q2 .screen-content, #screen-q3 .screen-content,
+  #screen-q4 .screen-content, #screen-q5 .screen-content, #screen-q6 .screen-content,
+  #screen-q7 .screen-content, #screen-q8 .screen-content, #screen-q9 .screen-content,
   #screen-q1 .progress-bar-wrap, #screen-q2 .progress-bar-wrap, #screen-q3 .progress-bar-wrap,
+  #screen-q4 .progress-bar-wrap, #screen-q5 .progress-bar-wrap, #screen-q6 .progress-bar-wrap,
+  #screen-q7 .progress-bar-wrap, #screen-q8 .progress-bar-wrap, #screen-q9 .progress-bar-wrap,
   #screen-q1 .ob-fixed-header, #screen-q2 .ob-fixed-header, #screen-q3 .ob-fixed-header,
-  #screen-q1 .nav-row, #screen-q2 .nav-row, #screen-q3 .nav-row {
+  #screen-q4 .ob-fixed-header, #screen-q5 .ob-fixed-header, #screen-q6 .ob-fixed-header,
+  #screen-q7 .ob-fixed-header, #screen-q8 .ob-fixed-header, #screen-q9 .ob-fixed-header,
+  #screen-q1 .nav-row, #screen-q2 .nav-row, #screen-q3 .nav-row,
+  #screen-q4 .nav-row, #screen-q5 .nav-row, #screen-q6 .nav-row,
+  #screen-q7 .nav-row, #screen-q8 .nav-row, #screen-q9 .nav-row {
     position: relative;
     z-index: 1;
   }
 
-  #screen-q1 .question-text, #screen-q2 .question-text, #screen-q3 .question-text {
+  #screen-q1 .question-text, #screen-q2 .question-text, #screen-q3 .question-text
+  #screen-q4 .question-text, #screen-q5 .question-text, #screen-q6 .question-text,
+  #screen-q7 .question-text, #screen-q8 .question-text, #screen-q9 .question-text, {
     font-family: 'Raleway', sans-serif !important;
     font-weight: 700 !important;
     color: #ffffff !important;
@@ -1129,18 +1137,24 @@
     margin-bottom: 6px !important;
   }
 
-  #screen-q1 .question-sub, #screen-q2 .question-sub, #screen-q3 .question-sub {
+  #screen-q1 .question-sub, #screen-q2 .question-sub, #screen-q3 .question-sub
+  #screen-q4 .question-sub, #screen-q5 .question-sub, #screen-q6 .question-sub,
+  #screen-q7 .question-sub, #screen-q8 .question-sub, #screen-q9 .question-sub, {
     color: rgba(255,255,255,0.45) !important;
   }
 
-  #screen-q1 .question-product, #screen-q2 .question-product, #screen-q3 .question-product {
+  #screen-q1 .question-product, #screen-q2 .question-product, #screen-q3 .question-product
+  #screen-q4 .question-product, #screen-q5 .question-product, #screen-q6 .question-product,
+  #screen-q7 .question-product, #screen-q8 .question-product, #screen-q9 .question-product, {
     font-family: 'Raleway', sans-serif !important;
     font-weight: 700 !important;
     color: #8E7ED8 !important;
     letter-spacing: 2px !important;
   }
 
-  #screen-q1 .answer-btn, #screen-q2 .answer-btn, #screen-q3 .answer-btn {
+  #screen-q1 .answer-btn, #screen-q2 .answer-btn, #screen-q3 .answer-btn
+  #screen-q4 .answer-btn, #screen-q5 .answer-btn, #screen-q6 .answer-btn,
+  #screen-q7 .answer-btn, #screen-q8 .answer-btn, #screen-q9 .answer-btn, {
     background: #ffffff !important;
     border: 1px solid rgba(42,4,64,0.06) !important;
     border-top: 4px solid #0F766E !important;
@@ -1153,14 +1167,18 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease !important;
   }
 
-  #screen-q1 .answer-btn:hover, #screen-q2 .answer-btn:hover, #screen-q3 .answer-btn:hover {
+  #screen-q1 .answer-btn:hover, #screen-q2 .answer-btn:hover, #screen-q3 .answer-btn:hover
+  #screen-q4 .answer-btn:hover, #screen-q5 .answer-btn:hover, #screen-q6 .answer-btn:hover,
+  #screen-q7 .answer-btn:hover, #screen-q8 .answer-btn:hover, #screen-q9 .answer-btn:hover, {
     transform: translateY(-3px) !important;
     box-shadow: 0 8px 28px rgba(42,4,64,0.14) !important;
     border-top-color: #14B8A6 !important;
     background: #ffffff !important;
   }
 
-  #screen-q1 .answer-btn.selected, #screen-q2 .answer-btn.selected, #screen-q3 .answer-btn.selected {
+  #screen-q1 .answer-btn.selected, #screen-q2 .answer-btn.selected, #screen-q3 .answer-btn.selected
+  #screen-q4 .answer-btn.selected, #screen-q5 .answer-btn.selected, #screen-q6 .answer-btn.selected,
+  #screen-q7 .answer-btn.selected, #screen-q8 .answer-btn.selected, #screen-q9 .answer-btn.selected, {
     border-color: #8E7ED8 !important;
     border-width: 2px !important;
     box-shadow: 0 0 0 3px rgba(142,126,216,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
@@ -1170,51 +1188,67 @@
 
   #screen-q1 .btn-primary,
   #screen-q2 .btn-primary,
-  #screen-q3 .btn-primary {
+  #screen-q3 .btn-primary
+  #screen-q4 .btn-primary, #screen-q5 .btn-primary, #screen-q6 .btn-primary,
+  #screen-q7 .btn-primary, #screen-q8 .btn-primary, #screen-q9 .btn-primary, {
     background: #D94F00;
     box-shadow: 0 4px 20px rgba(217,79,0,0.35);
   }
 
   #screen-q1 .btn-primary:hover,
   #screen-q2 .btn-primary:hover,
-  #screen-q3 .btn-primary:hover {
+  #screen-q3 .btn-primary:hover
+  #screen-q4 .btn-primary:hover, #screen-q5 .btn-primary:hover, #screen-q6 .btn-primary:hover,
+  #screen-q7 .btn-primary:hover, #screen-q8 .btn-primary:hover, #screen-q9 .btn-primary:hover, {
     box-shadow: 0 6px 28px rgba(217,79,0,0.5);
   }
 
   #screen-q1 .progress-track,
   #screen-q2 .progress-track,
-  #screen-q3 .progress-track {
+  #screen-q3 .progress-track
+  #screen-q4 .progress-track, #screen-q5 .progress-track, #screen-q6 .progress-track,
+  #screen-q7 .progress-track, #screen-q8 .progress-track, #screen-q9 .progress-track, {
     background: rgba(255,255,255,0.1);
   }
 
   #screen-q1 .progress-fill,
   #screen-q2 .progress-fill,
-  #screen-q3 .progress-fill {
+  #screen-q3 .progress-fill
+  #screen-q4 .progress-fill, #screen-q5 .progress-fill, #screen-q6 .progress-fill,
+  #screen-q7 .progress-fill, #screen-q8 .progress-fill, #screen-q9 .progress-fill, {
     background: #D94F00;
   }
 
   #screen-q1 .progress-label,
   #screen-q2 .progress-label,
-  #screen-q3 .progress-label {
+  #screen-q3 .progress-label
+  #screen-q4 .progress-label, #screen-q5 .progress-label, #screen-q6 .progress-label,
+  #screen-q7 .progress-label, #screen-q8 .progress-label, #screen-q9 .progress-label, {
     color: rgba(255,255,255,0.55);
   }
 
   #screen-q1 .back-btn,
   #screen-q2 .back-btn,
-  #screen-q3 .back-btn {
+  #screen-q3 .back-btn
+  #screen-q4 .back-btn, #screen-q5 .back-btn, #screen-q6 .back-btn,
+  #screen-q7 .back-btn, #screen-q8 .back-btn, #screen-q9 .back-btn, {
     background: transparent;
     color: #8E7ED8 !important;
   }
 
   #screen-q1 .back-btn:hover,
   #screen-q2 .back-btn:hover,
-  #screen-q3 .back-btn:hover {
+  #screen-q3 .back-btn:hover
+  #screen-q4 .back-btn:hover, #screen-q5 .back-btn:hover, #screen-q6 .back-btn:hover,
+  #screen-q7 .back-btn:hover, #screen-q8 .back-btn:hover, #screen-q9 .back-btn:hover, {
     color: #ffffff !important;
   }
 
   #screen-q1 .dashed-divider,
   #screen-q2 .dashed-divider,
-  #screen-q3 .dashed-divider {
+  #screen-q3 .dashed-divider
+  #screen-q4 .dashed-divider, #screen-q5 .dashed-divider, #screen-q6 .dashed-divider,
+  #screen-q7 .dashed-divider, #screen-q8 .dashed-divider, #screen-q9 .dashed-divider, {
     color: #8E7ED8 !important;
   }
   #screen-q1 .dashed-divider::before,
@@ -1222,20 +1256,26 @@
   #screen-q2 .dashed-divider::before,
   #screen-q2 .dashed-divider::after,
   #screen-q3 .dashed-divider::before,
-  #screen-q3 .dashed-divider::after {
+  #screen-q3 .dashed-divider::after
+  #screen-q4 .dashed-divider::after, #screen-q5 .dashed-divider::after, #screen-q6 .dashed-divider::after,
+  #screen-q7 .dashed-divider::after, #screen-q8 .dashed-divider::after, #screen-q9 .dashed-divider::after, {
     background: #8E7ED8 !important;
     opacity: 0.4 !important;
   }
 
   #screen-q1 .form-label,
   #screen-q2 .form-label,
-  #screen-q3 .form-label {
+  #screen-q3 .form-label
+  #screen-q4 .form-label, #screen-q5 .form-label, #screen-q6 .form-label,
+  #screen-q7 .form-label, #screen-q8 .form-label, #screen-q9 .form-label, {
     color: rgba(255,255,255,0.65);
   }
 
   #screen-q1 .form-input,
   #screen-q2 .form-input,
-  #screen-q3 .form-input {
+  #screen-q3 .form-input
+  #screen-q4 .form-input, #screen-q5 .form-input, #screen-q6 .form-input,
+  #screen-q7 .form-input, #screen-q8 .form-input, #screen-q9 .form-input, {
     background: rgba(255,255,255,0.07);
     border-color: rgba(255,255,255,0.15);
     color: #ffffff;
@@ -1243,19 +1283,25 @@
 
   #screen-q1 .form-input:focus,
   #screen-q2 .form-input:focus,
-  #screen-q3 .form-input:focus {
+  #screen-q3 .form-input:focus
+  #screen-q4 .form-input:focus, #screen-q5 .form-input:focus, #screen-q6 .form-input:focus,
+  #screen-q7 .form-input:focus, #screen-q8 .form-input:focus, #screen-q9 .form-input:focus, {
     border-color: #D94F00;
   }
 
   #screen-q1 .form-input::placeholder,
   #screen-q2 .form-input::placeholder,
-  #screen-q3 .form-input::placeholder {
+  #screen-q3 .form-input::placeholder
+  #screen-q4 .form-input::placeholder, #screen-q5 .form-input::placeholder, #screen-q6 .form-input::placeholder,
+  #screen-q7 .form-input::placeholder, #screen-q8 .form-input::placeholder, #screen-q9 .form-input::placeholder, {
     color: rgba(255,255,255,0.35);
   }
 
   #screen-q1 .currency-input-wrapper::before,
   #screen-q2 .currency-input-wrapper::before,
-  #screen-q3 .currency-input-wrapper::before {
+  #screen-q3 .currency-input-wrapper::before
+  #screen-q4 .currency-input-wrapper::before, #screen-q5 .currency-input-wrapper::before, #screen-q6 .currency-input-wrapper::before,
+  #screen-q7 .currency-input-wrapper::before, #screen-q8 .currency-input-wrapper::before, #screen-q9 .currency-input-wrapper::before, {
     color: rgba(255,255,255,0.5);
   }
   @media (max-width: 600px) {
@@ -1308,49 +1354,29 @@
   </div>
 </div>
 
-<!-- ====== QUESTION 1: Purpose ====== -->
+<!-- ====== Q1: What would the right funding help you achieve? ====== -->
 <div class="screen" id="screen-q1">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track">
-      <div class="progress-fill" style="width: 33%"></div>
-    </div>
-  </div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:11%"></div></div></div>
   <div class="screen-content">
     <div class="question-product">Shariah-Compliant Funding</div>
     <h2 class="question-text">What would the right funding help you achieve?</h2>
-    <p class="question-sub">Think about what would genuinely move your business forward — whether that's growth, stability, stock, equipment, property, or simply creating more breathing room.</p>
+    <p class="question-sub">Whatever your goals, there may be a Shariah-compliant way to achieve them that you haven't considered yet.</p>
     <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="answer-btn" onclick="selectPurpose('Purchase equipment or assets', this)">
-        Purchase equipment or assets
-      </button>
-      <button class="answer-btn" onclick="selectPurpose('Support business growth', this)">
-        Support business growth
-      </button>
-      <button class="answer-btn" onclick="selectPurpose('Improve working capital', this)">
-        Improve working capital
-      </button>
-      <button class="answer-btn" onclick="selectPurpose('Fund stock or trade purchases', this)">
-        Fund stock or trade purchases
-      </button>
-      <button class="answer-btn" onclick="selectPurpose('Support property or premises', this)">
-        Support property or premises
-      </button>
-      <button class="answer-btn" onclick="selectPurpose('Refinance existing funding', this)">
-        Refinance existing funding
-      </button>
-      <div id="purpose-other-slot" class="answer-btn" style="grid-column:1/-1;cursor:text;display:flex;align-items:center;gap:8px" onclick="togglePurposeOtherSlot()">
+      <button class="answer-btn" onclick="selectPurpose('Free up cashflow', this)">Free up cashflow</button>
+      <button class="answer-btn" onclick="selectPurpose('Pay suppliers upfront', this)">Pay suppliers upfront</button>
+      <button class="answer-btn" onclick="selectPurpose('Grow my business', this)">Grow my business</button>
+      <button class="answer-btn" onclick="selectPurpose('Invest in property', this)">Invest in property</button>
+      <button class="answer-btn" onclick="selectPurpose('Save money', this)">Save money</button>
+      <button class="answer-btn" onclick="selectPurpose('Acquire new assets', this)">Acquire new assets</button>
+      <button class="answer-btn" onclick="selectPurpose('I\'m not sure yet', this)">I'm not sure yet</button>
+      <div id="purpose-other-slot" class="answer-btn" style="cursor:text;display:flex;align-items:center;gap:8px" onclick="togglePurposeOtherSlot()">
         <span id="purpose-other-label">Something else</span>
-        <input type="text" id="other-purpose" placeholder="Describe your funding purpose…" style="display:none;flex:1;background:transparent;border:none;outline:none;color:inherit;font:inherit;padding:0" oninput="updateQ1Continue()" onclick="event.stopPropagation()">
+        <input type="text" id="other-purpose" placeholder="Tell us a little more about what you're looking to achieve" style="display:none;flex:1;background:transparent;border:none;outline:none;color:inherit;font:inherit;padding:0" oninput="updateQ1Continue()" onclick="event.stopPropagation()">
       </div>
     </div>
     <button class="btn-primary" id="q1-continue" onclick="savePurposes()" style="display:none;margin-top:14px;width:100%">Continue</button>
@@ -1365,43 +1391,32 @@
   </div>
 </div>
 
-<!-- ====== QUESTION 2: Amount ====== -->
+<!-- ====== Q2: How important is full Shariah compliance? ====== -->
 <div class="screen" id="screen-q2">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track">
-      <div class="progress-fill" style="width: 66%"></div>
-    </div>
-  </div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:22%"></div></div></div>
   <div class="screen-content">
     <div class="question-product">Shariah-Compliant Funding</div>
-    <h2 class="question-text">How much funding would help you move forward?</h2>
-    <p class="question-sub">You don't need to know the exact figure yet. A rough idea is enough — and if you're unsure, that's completely fine.</p>
-    <div class="form-group">
-      <label class="form-label">Funding amount (optional)</label>
-      <div class="currency-input-wrapper">
-        <input type="text" inputmode="numeric" class="form-input" id="funding-amount" placeholder="Enter amount">
+    <h2 class="question-text">How important is full Shariah compliance to you?</h2>
+    <p class="question-sub">Your values matter — your answer helps us find options that work for your beliefs as well as your business.</p>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectCompliance('certified', this)">It must be fully certified Shariah-compliant</button>
+      <button class="answer-btn" onclick="selectCompliance('flexible', this)">I prefer compliant options but flexibility is possible</button>
+      <button class="answer-btn" onclick="selectCompliance('avoid-interest', this)">I want to avoid interest but full certification isn't essential</button>
+      <div id="compliance-notsure-slot" class="answer-btn" style="cursor:text;display:flex;align-items:center;gap:8px" onclick="toggleComplianceNotSure()">
+        <span id="compliance-notsure-label">I'm not sure / I'd like to discuss this</span>
+        <input type="text" id="compliance-note" placeholder="Tell us a little more — Nicole will be happy to discuss this with you" style="display:none;flex:1;background:transparent;border:none;outline:none;color:inherit;font:inherit;padding:0" oninput="updateQ2Continue()" onclick="event.stopPropagation()">
       </div>
     </div>
-    <div class="answer-options">
-      <button class="answer-btn" onclick="selectNotSure(this)">
-        I'm not sure yet
-      </button>
-    </div>
-    <button class="btn-primary" onclick="saveAmount()">Continue</button>
+    <button class="btn-primary" id="q2-continue" onclick="saveCompliance()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
-      <button class="back-btn" onclick="goBackToQ1()">‹ Back</button>
+      <button class="back-btn" onclick="showScreen('screen-q1')">‹ Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -1409,45 +1424,216 @@
   </div>
 </div>
 
-<!-- ====== QUESTION 3: Timeline ====== -->
+<!-- ====== Q3: How much funding? ====== -->
 <div class="screen" id="screen-q3">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track">
-      <div class="progress-fill" style="width: 100%"></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:33%"></div></div></div>
+  <div class="screen-content">
+    <div class="question-product">Shariah-Compliant Funding</div>
+    <h2 class="question-text">How much funding would help you move forward?</h2>
+    <p class="question-sub">Don't worry about the exact figure — even a rough idea helps us explore what's possible for you.</p>
+    <div class="form-group">
+      <label class="form-label">Funding amount (optional)</label>
+      <div class="currency-input-wrapper">
+        <input type="text" inputmode="numeric" class="form-input" id="funding-amount" placeholder="Enter amount">
+      </div>
     </div>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectNotSure(this)">I'm not sure yet</button>
+    </div>
+    <button class="btn-primary" onclick="saveAmount()">Continue</button>
   </div>
+  <div class="screen-footer">
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-q2')">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+  </div>
+</div>
+
+<!-- ====== Q4: How soon? ====== -->
+<div class="screen" id="screen-q4">
+  <header class="ob-fixed-header">
+    <div class="ob-header-spacer"></div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+  </header>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:44%"></div></div></div>
   <div class="screen-content">
     <div class="question-product">Shariah-Compliant Funding</div>
     <h2 class="question-text">How soon would the right funding make a difference?</h2>
-    <p class="question-sub">This helps us understand whether you're looking for something immediate, or simply exploring what may be possible.</p>
+    <p class="question-sub">Whether you need funding tomorrow or you're just starting to think about it — it's never too early to find out what's possible.</p>
     <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="answer-btn" onclick="selectTimeline('As soon as possible', this)">
-        As soon as possible
-      </button>
-      <button class="answer-btn" onclick="selectTimeline('Within the next month', this)">
-        Within the next month
-      </button>
-      <button class="answer-btn" onclick="selectTimeline('In the next 1–3 months', this)">
-        In the next 1–3 months
-      </button>
-      <button class="answer-btn" onclick="selectTimeline('I\'m just exploring options', this)">
-        I'm just exploring options
-      </button>
+      <button class="answer-btn" onclick="selectTimeline('As soon as possible', this)">As soon as possible</button>
+      <button class="answer-btn" onclick="selectTimeline('Within the next month', this)">Within the next month</button>
+      <button class="answer-btn" onclick="selectTimeline('In the next 1–3 months', this)">In the next 1–3 months</button>
+      <button class="answer-btn" onclick="selectTimeline('I\'m just exploring options', this)">I'm just exploring options</button>
     </div>
-    <button class="btn-primary" id="shariah-submit-btn" onclick="submitDiscovery()" style="display:none;margin-top:20px">Submit My Discovery</button>
   </div>
   <div class="screen-footer">
-    <button class="back-btn" onclick="goBackToQ2()" style="margin:0 auto;">‹ Back</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-q3')">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+  </div>
+</div>
+
+<!-- ====== Q5: Property / Commodity Murabaha ====== -->
+<div class="screen" id="screen-q5">
+  <header class="ob-fixed-header">
+    <div class="ob-header-spacer"></div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+  </header>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:56%"></div></div></div>
+  <div class="screen-content">
+    <div class="question-product">Shariah-Compliant Funding</div>
+    <h2 class="question-text">If there was a fully Shariah-compliant avenue allowing you to purchase property as a short term investment, would you consider it?</h2>
+    <p class="question-sub">Keep an open mind — the right opportunity might be closer than you think.</p>
+    <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="answer-btn" onclick="selectPropertyInterest('yes', this)">Yes — this interests me</button>
+      <button class="answer-btn" onclick="selectPropertyInterest('already', this)">I already do this</button>
+      <button class="answer-btn" onclick="selectPropertyInterest('open', this)">Not yet but I'm open to it</button>
+      <button class="answer-btn" onclick="selectPropertyInterest('no', this)">No — not for me</button>
+    </div>
+  </div>
+  <div class="screen-footer">
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-q4')">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+  </div>
+</div>
+
+<!-- ====== Q6: FX ====== -->
+<div class="screen" id="screen-q6">
+  <header class="ob-fixed-header">
+    <div class="ob-header-spacer"></div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+  </header>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:67%"></div></div></div>
+  <div class="screen-content">
+    <div class="question-product">Shariah-Compliant Funding</div>
+    <h2 class="question-text">Does your business send or receive money in foreign currencies?</h2>
+    <p class="question-sub">Most businesses have no idea how much they're losing on every international transaction — there could be significant savings waiting.</p>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectFX('yes', this)">Yes</button>
+      <button class="answer-btn" onclick="selectFX('no', this)">No</button>
+      <button class="answer-btn" onclick="selectFX('exploring', this)">Not yet but we're looking to trade internationally</button>
+    </div>
+  </div>
+  <div class="screen-footer">
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-q5')">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+  </div>
+</div>
+
+<!-- ====== Q7: Debt Recovery ====== -->
+<div class="screen" id="screen-q7">
+  <header class="ob-fixed-header">
+    <div class="ob-header-spacer"></div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+  </header>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:78%"></div></div></div>
+  <div class="screen-content">
+    <div class="question-product">Shariah-Compliant Funding</div>
+    <h2 class="question-text">Do you have old unpaid invoices on your books that you've nearly given up on?</h2>
+    <p class="question-sub">You might not have to write them off just yet — there are specialist options that could recover cash you thought was gone.</p>
+    <div class="answer-options">
+      <div id="debt-yes-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="toggleDebtDetails()">
+        <span id="debt-yes-label">Yes</span>
+        <input type="text" id="debt-details" placeholder="Tell us a little more — how old are the debts and roughly how much is owed?" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ7Continue()" onclick="event.stopPropagation()">
+      </div>
+      <button class="answer-btn" onclick="selectDebtRecovery('no', this)">No</button>
+    </div>
+    <button class="btn-primary" id="q7-continue" onclick="saveDebtRecovery()" style="display:none;margin-top:14px;width:100%">Continue</button>
+  </div>
+  <div class="screen-footer">
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-q6')">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+  </div>
+</div>
+
+<!-- ====== Q8: Asset Finance ====== -->
+<div class="screen" id="screen-q8">
+  <header class="ob-fixed-header">
+    <div class="ob-header-spacer"></div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+  </header>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:89%"></div></div></div>
+  <div class="screen-content">
+    <div class="question-product">Shariah-Compliant Funding</div>
+    <h2 class="question-text">Would it help your business to grow and thrive if you could update, replace or acquire new vehicles, machinery or equipment?</h2>
+    <p class="question-sub">The possibilities are endless — and none of it needs to touch your cashflow.</p>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectAsset('yes', this)">Yes</button>
+      <div id="asset-maybe-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="toggleAssetMaybe()">
+        <span id="asset-maybe-label">Maybe — tell me more</span>
+        <input type="text" id="asset-note" placeholder="Tell us what you have in mind" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ8Continue()" onclick="event.stopPropagation()">
+      </div>
+      <button class="answer-btn" onclick="selectAsset('no', this)">No</button>
+    </div>
+    <button class="btn-primary" id="q8-continue" onclick="saveAsset()" style="display:none;margin-top:14px;width:100%">Continue</button>
+  </div>
+  <div class="screen-footer">
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-q7')">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+  </div>
+</div>
+
+<!-- ====== Q9: Business Loan ====== -->
+<div class="screen" id="screen-q9">
+  <header class="ob-fixed-header">
+    <div class="ob-header-spacer"></div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+  </header>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div></div>
+  <div class="screen-content">
+    <div class="question-product">Shariah-Compliant Funding</div>
+    <h2 class="question-text">Would a lump sum of cash make a significant difference to your business right now?</h2>
+    <p class="question-sub">Sometimes one injection of capital is all it takes to change everything.</p>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectLoan('yes', this)">Yes absolutely</button>
+      <div id="loan-maybe-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="toggleLoanMaybe()">
+        <span id="loan-maybe-label">Possibly — tell me more</span>
+        <input type="text" id="loan-note" placeholder="Tell us what you'd use it for" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ9Submit()" onclick="event.stopPropagation()">
+      </div>
+      <button class="answer-btn" onclick="selectLoan('no', this)">Not right now</button>
+    </div>
+    <button class="btn-primary" id="shariah-submit-btn" onclick="submitDiscovery()" style="display:none;margin-top:20px;width:100%">Submit My Discovery</button>
+  </div>
+  <div class="screen-footer">
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-q8')">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    </div>
     <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
@@ -1517,7 +1703,7 @@ const DEV_MODE = false;
 const SEND_EMAILS = false;
 
 // ---- TYPING INTRO ----
-const shariahIntroMessage = "Let's explore Shariah-compliant funding for your business. A few quick questions and we'll show you what's possible.";
+const shariahIntroMessage = "Your faith shouldn't be a barrier to funding your business ambitions. Let's find out what's possible.";
 
 function startShariahIntro() {
   const textEl = document.getElementById('shariah-intro-text');
@@ -1535,9 +1721,22 @@ document.addEventListener('DOMContentLoaded', startShariahIntro);
 const state = {
   purposes: [],
   otherPurpose: '',
+  compliance: '',
+  complianceNote: '',
   amount: '',
   notSure: false,
-  timeline: ''
+  timeline: '',
+  propertyInterest: '',
+  fx: '',
+  debtRecovery: '',
+  debtDetails: '',
+  assetFinance: '',
+  assetNote: '',
+  businessLoan: '',
+  loanNote: '',
+  marketingConsent: false,
+  marketingConsentText: '',
+  marketingConsentTimestamp: ''
 };
 
 // ============================================================
@@ -1546,6 +1745,12 @@ const state = {
 const SHARIAH_SKIP_MAP = {
   'screen-q1': 'screen-q2',
   'screen-q2': 'screen-q3',
+  'screen-q3': 'screen-q4',
+  'screen-q4': 'screen-q5',
+  'screen-q5': 'screen-q6',
+  'screen-q6': 'screen-q7',
+  'screen-q7': 'screen-q8',
+  'screen-q8': 'screen-q9'
 };
 function skipCurrentScreen() {
   const active = document.querySelector('.screen.active');
@@ -1567,14 +1772,6 @@ function goHome() {
   window.location.href = 'home.html?home=1';
 }
 
-function goBackToQ1() {
-  showScreen('screen-q1');
-}
-
-function goBackToQ2() {
-  showScreen('screen-q2');
-}
-
 // ============================================================
 // JOURNEY FLOW
 // ============================================================
@@ -1582,11 +1779,9 @@ function startJourney() {
   showScreen('screen-q1');
 }
 
+// Q1 — Goals (multi-select)
 function selectPurpose(purpose, btn) {
-  // Initialize purposes array if needed
   if (!state.purposes) state.purposes = [];
-  
-  // Toggle selection
   if (state.purposes.includes(purpose)) {
     state.purposes = state.purposes.filter(p => p !== purpose);
     btn.classList.remove('selected');
@@ -1594,10 +1789,8 @@ function selectPurpose(purpose, btn) {
     state.purposes.push(purpose);
     btn.classList.add('selected');
   }
-  
   if (purpose === 'Something else') {
     const active = state.purposes.includes('Something else');
-    const slot = document.getElementById('purpose-other-slot');
     const label = document.getElementById('purpose-other-label');
     const input = document.getElementById('other-purpose');
     if (active) {
@@ -1630,42 +1823,254 @@ function savePurposes() {
   const otherVal = document.getElementById('other-purpose').value.trim();
   if (purposes.includes('Something else')) {
     purposes.splice(purposes.indexOf('Something else'), 1);
-    if (otherVal) purposes.push(otherVal);
+    if (otherVal) {
+      state.otherPurpose = otherVal;
+      purposes.push(otherVal);
+    }
   }
   state.purposeSummary = purposes.join(', ');
   showScreen('screen-q2');
 }
 
+// Q2 — Compliance level
+function selectCompliance(level, btn) {
+  state.compliance = level;
+  document.querySelectorAll('#screen-q2 .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  // Hide the not-sure text input if a definitive option chosen
+  document.getElementById('compliance-note').style.display = 'none';
+  document.getElementById('compliance-notsure-label').style.display = '';
+  document.getElementById('q2-continue').style.display = 'block';
+}
+
+function toggleComplianceNotSure() {
+  state.compliance = 'not-sure';
+  document.querySelectorAll('#screen-q2 .answer-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('compliance-notsure-slot').classList.add('selected');
+  const label = document.getElementById('compliance-notsure-label');
+  const input = document.getElementById('compliance-note');
+  label.style.display = 'none';
+  input.style.display = 'block';
+  input.focus();
+  updateQ2Continue();
+}
+
+function updateQ2Continue() {
+  if (state.compliance === 'not-sure') {
+    const note = document.getElementById('compliance-note').value.trim();
+    document.getElementById('q2-continue').style.display = note.length > 0 ? 'block' : 'none';
+  }
+}
+
+function saveCompliance() {
+  if (state.compliance === 'not-sure') {
+    state.complianceNote = document.getElementById('compliance-note').value.trim();
+  }
+  showScreen('screen-q3');
+}
+
+// Q3 — Amount
 function selectNotSure(btn) {
   state.notSure = true;
   state.amount = 'Not sure yet';
   document.getElementById('funding-amount').value = '';
-  
-  // Update button styles
-  document.querySelectorAll('#screen-q2 .answer-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#screen-q3 .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  
-  setTimeout(() => showScreen('screen-q3'), 300);
+  setTimeout(() => showScreen('screen-q4'), 300);
 }
 
 function saveAmount() {
   if (state.notSure) {
-    setTimeout(() => showScreen('screen-q3'), 300);
+    setTimeout(() => showScreen('screen-q4'), 300);
     return;
   }
-  
   const amount = document.getElementById('funding-amount').value.trim();
-  if (amount) {
-    state.amount = amount;
-  }
-  setTimeout(() => showScreen('screen-q3'), 300);
+  if (amount) state.amount = amount;
+  setTimeout(() => showScreen('screen-q4'), 300);
 }
 
+// Q4 — Timeline (auto-advance)
 function selectTimeline(timeline, btn) {
   state.timeline = timeline;
-  document.querySelectorAll('#screen-q3 .answer-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#screen-q4 .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
+  setTimeout(() => showScreen('screen-q5'), 300);
+}
+
+// Q5 — Property interest (auto-advance)
+function selectPropertyInterest(value, btn) {
+  state.propertyInterest = value;
+  document.querySelectorAll('#screen-q5 .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(() => showScreen('screen-q6'), 300);
+}
+
+// Q6 — FX (auto-advance)
+function selectFX(value, btn) {
+  state.fx = value;
+  document.querySelectorAll('#screen-q6 .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(() => showScreen('screen-q7'), 300);
+}
+
+// Q7 — Debt recovery
+function toggleDebtDetails() {
+  state.debtRecovery = 'yes';
+  document.querySelectorAll('#screen-q7 .answer-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('debt-yes-slot').classList.add('selected');
+  const label = document.getElementById('debt-yes-label');
+  const input = document.getElementById('debt-details');
+  label.style.display = 'none';
+  input.style.display = 'block';
+  input.focus();
+  updateQ7Continue();
+}
+
+function selectDebtRecovery(value, btn) {
+  state.debtRecovery = value;
+  document.querySelectorAll('#screen-q7 .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  // Hide the details input if "No" chosen
+  document.getElementById('debt-details').style.display = 'none';
+  document.getElementById('debt-yes-label').style.display = '';
+  document.getElementById('q7-continue').style.display = 'block';
+}
+
+function updateQ7Continue() {
+  const details = document.getElementById('debt-details').value.trim();
+  document.getElementById('q7-continue').style.display = details.length > 0 ? 'block' : 'none';
+}
+
+function saveDebtRecovery() {
+  if (state.debtRecovery === 'yes') {
+    state.debtDetails = document.getElementById('debt-details').value.trim();
+  }
+  showScreen('screen-q8');
+}
+
+// Q8 — Asset finance
+function toggleAssetMaybe() {
+  state.assetFinance = 'maybe';
+  document.querySelectorAll('#screen-q8 .answer-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('asset-maybe-slot').classList.add('selected');
+  const label = document.getElementById('asset-maybe-label');
+  const input = document.getElementById('asset-note');
+  label.style.display = 'none';
+  input.style.display = 'block';
+  input.focus();
+  updateQ8Continue();
+}
+
+function selectAsset(value, btn) {
+  state.assetFinance = value;
+  document.querySelectorAll('#screen-q8 .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('asset-note').style.display = 'none';
+  document.getElementById('asset-maybe-label').style.display = '';
+  document.getElementById('q8-continue').style.display = 'block';
+}
+
+function updateQ8Continue() {
+  const note = document.getElementById('asset-note').value.trim();
+  document.getElementById('q8-continue').style.display = note.length > 0 ? 'block' : 'none';
+}
+
+function saveAsset() {
+  if (state.assetFinance === 'maybe') {
+    state.assetNote = document.getElementById('asset-note').value.trim();
+  }
+  showScreen('screen-q9');
+}
+
+// Q9 — Business loan
+function toggleLoanMaybe() {
+  state.businessLoan = 'maybe';
+  document.querySelectorAll('#screen-q9 .answer-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('loan-maybe-slot').classList.add('selected');
+  const label = document.getElementById('loan-maybe-label');
+  const input = document.getElementById('loan-note');
+  label.style.display = 'none';
+  input.style.display = 'block';
+  input.focus();
+  updateQ9Submit();
+}
+
+function selectLoan(value, btn) {
+  state.businessLoan = value;
+  document.querySelectorAll('#screen-q9 .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('loan-note').style.display = 'none';
+  document.getElementById('loan-maybe-label').style.display = '';
   document.getElementById('shariah-submit-btn').style.display = 'block';
+}
+
+function updateQ9Submit() {
+  const note = document.getElementById('loan-note').value.trim();
+  document.getElementById('shariah-submit-btn').style.display = note.length > 0 ? 'block' : 'none';
+}
+
+// ============================================================
+// PRODUCT MATCHING
+// ============================================================
+function getShariahMatchedProducts() {
+  const products = [];
+  const purposes = state.purposes || [];
+  const compliance = state.compliance;
+  const amount = state.amount;
+  const amountNum = parseFloat((amount || '').replace(/[^0-9.]/g, '')) || 0;
+
+  // Invoice Finance / Trade Finance — cashflow or supplier payments
+  if (purposes.some(p => /cashflow|supplier/i.test(p))) {
+    if (compliance === 'certified' || compliance === 'flexible' || compliance === 'avoid-interest') {
+      products.push('Shariah-Compliant Invoice Finance');
+    }
+    if (purposes.some(p => /supplier/i.test(p))) {
+      products.push('Shariah-Compliant Trade Finance');
+    }
+  }
+
+  // Property — Commodity Murabaha
+  if (['yes', 'already', 'open'].includes(state.propertyInterest)) {
+    products.push('Commodity Murabaha (Property Finance)');
+  }
+
+  // FX
+  if (state.fx === 'yes' || state.fx === 'exploring') {
+    products.push('Shariah-Compliant FX');
+  }
+
+  // Debt recovery
+  if (state.debtRecovery === 'yes') {
+    products.push('Debt Recovery');
+  }
+
+  // Asset finance — Ijara
+  if (state.assetFinance === 'yes' || state.assetFinance === 'maybe') {
+    products.push('Ijara (Shariah-Compliant Asset Finance)');
+  }
+
+  // Business loan — Murabaha / Musharakah
+  if (state.businessLoan === 'yes' || state.businessLoan === 'maybe') {
+    if (compliance === 'certified') {
+      products.push('Musharakah / Mudarabah Business Finance');
+    } else {
+      products.push('Shariah-Compliant Business Loan');
+    }
+  }
+
+  // Growth / invest in property as a goal
+  if (purposes.some(p => /grow|invest|property/i.test(p))) {
+    if (!products.includes('Commodity Murabaha (Property Finance)')) {
+      products.push('Shariah-Compliant Growth Finance');
+    }
+  }
+
+  // Large amount flag
+  if (amountNum >= 500000) {
+    products.push('High-Value Shariah-Compliant Facility');
+  }
+
+  return [...new Set(products)];
 }
 
 // ============================================================
@@ -1674,7 +2079,7 @@ function selectTimeline(timeline, btn) {
 function showShariahThinkingScreen(callback) {
 
   var profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}');
-  var userName = profile.name || '';
+  var userName = (profile.name || '').trim().split(/\s+/)[0];
   var phrases = [
     'Every great business is on a journey.',
     'Mapping your funding options...',
@@ -1761,36 +2166,46 @@ function displayResults() {
   const purposeText = otherPurpose || purposes.join(' and ');
   const amount = state.amount;
   const timeline = state.timeline;
+  const matchedProducts = getShariahMatchedProducts();
 
-  // Build fallback summary HTML (used if summaryBuilder fails)
+  let profile = {};
+  try { profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}'); } catch(e) {}
+  let savedBusiness = profile.businessName || '';
+
+  // Build fallback summary HTML
   let fallbackParts = [];
-  fallbackParts.push(`Based on what you've told us, your requirement may be suitable for a more specialist funding review.`);
-  let purposeLine = `You're looking for funding to help with ${(purposeText || '').toLowerCase()}`;
+  fallbackParts.push(`Based on what you've shared, your funding requirement appears to be well-suited for a Shariah-compliant specialist review.`);
+  let purposeLine = `You're looking for funding to help with ${(purposeText || 'your business goals').toLowerCase()}`;
   if (amount && amount !== 'Not sure yet') {
     purposeLine += `, with an estimated funding need of \u00a3${Number(amount).toLocaleString('en-GB')}`;
-  } else if (!amount || amount === 'Not sure yet') {
-    purposeLine += `. As you're not yet sure how much funding may be required, the first step would be to understand the purpose and estimate a suitable range`;
+  } else {
+    purposeLine += `. As you're not yet sure of the exact amount, the first step would be to map the purpose and agree a suitable range`;
   }
   fallbackParts.push(purposeLine + '.');
-  fallbackParts.push(`Shariah-compliant funding can be more complex to source than conventional finance, so the next step is to understand what you're trying to achieve and whether there are appropriate providers who may be able to support that requirement.`);
-  fallbackParts.push(`Fiskal can review the details personally and help explore funding routes that may align more closely with Shariah-compliant principles.`);
-  const existingFallbackSummaryHtml = fallbackParts.map(p => `<p>${p}</p>`).join('\n');
-
-  // Build personalised summary using logic module
-  // Attempt to retrieve business name saved from a previous journey
-  let savedBusiness = '';
-  try {
-    const profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}');
-    savedBusiness = profile.businessName || '';
-  } catch (e) {}
+  if (matchedProducts.length > 0) {
+    fallbackParts.push(`Based on your answers, potential options to explore include: <strong>${matchedProducts.join(', ')}</strong>.`);
+  }
+  fallbackParts.push(`Shariah-compliant funding can be more nuanced than conventional finance \u2014 Fiskal will review your Discovery personally and help identify providers and structures that align with both your beliefs and your business ambitions.`);
+  const fallbackSummaryHtml = fallbackParts.map(p => `<p>${p}</p>`).join('\n');
 
   const shariahAnswers = {
-    purposes:     state.purposes,
-    otherPurpose: state.otherPurpose,
-    amount:       state.amount,
-    notSure:      state.notSure,
-    timeline:     state.timeline,
-    business:     savedBusiness
+    purposes:         state.purposes,
+    otherPurpose:     state.otherPurpose,
+    compliance:       state.compliance,
+    complianceNote:   state.complianceNote,
+    amount:           state.amount,
+    notSure:          state.notSure,
+    timeline:         state.timeline,
+    propertyInterest: state.propertyInterest,
+    fx:               state.fx,
+    debtRecovery:     state.debtRecovery,
+    debtDetails:      state.debtDetails,
+    assetFinance:     state.assetFinance,
+    assetNote:        state.assetNote,
+    businessLoan:     state.businessLoan,
+    loanNote:         state.loanNote,
+    matchedProducts:  matchedProducts,
+    business:         savedBusiness
   };
 
   let summary;
@@ -1801,15 +2216,15 @@ function displayResults() {
     summary = {
       pageHeading:    'Your Fiskal Discovery is ready',
       summaryHeading: "Here's what we discovered",
-      summaryHtml:    existingFallbackSummaryHtml
+      summaryHtml:    fallbackSummaryHtml
     };
   }
 
   // Populate initials in the dot
-  const checkEl = document.getElementById('screen-loading') && document.querySelector('#screen-loading .results-check');
+  const checkEl = document.querySelector('#screen-loading .results-check');
   if (checkEl) {
-    const name = (profile && profile.name) || '';
-    const parts = name.trim().split(/\s+/);
+    const name = (profile.name || '').trim();
+    const parts = name.split(/\s+/);
     const initials = parts.length >= 2
       ? parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase()
       : (parts[0] ? parts[0][0].toUpperCase() : '');
@@ -1825,9 +2240,7 @@ function displayResults() {
       : heading;
   }
 
-  // Inject summary content
   document.getElementById('ai-summary-text').innerHTML = summary.summaryHtml;
-
   saveDiscovery('Shariah-Compliant Funding', '', summary.summaryHtml, savedBusiness);
 
   showScreen('screen-loading');
@@ -2003,11 +2416,54 @@ function getStoredContactDetails() {
 
 async function sendNotification() {
   const contact = getStoredContactDetails();
-  const purpose = state.otherPurpose || state.purpose;
-  const amount = state.notSure ? 'Not sure yet' : (state.amount ? '\u00a3' + Number(state.amount).toLocaleString() : 'Not provided');
-  const timeline = state.timeline || 'Not provided';
+  const matchedProducts = getShariahMatchedProducts();
 
-  const summary = `Shariah-Compliant Funding Discovery\n\nPurpose: ${purpose}\nAmount: ${amount}\nTimeline: ${timeline}`;
+  const complianceLabel = {
+    'certified':      'Must be fully certified Shariah-compliant',
+    'flexible':       'Prefers compliant options but flexibility possible',
+    'avoid-interest': 'Wants to avoid interest (full certification not essential)',
+    'not-sure':       'Not sure — wants to discuss'
+  }[state.compliance] || 'Not provided';
+
+  const propertyLabel = {
+    'yes':     'Yes — this interests me',
+    'already': 'Already invests in property',
+    'open':    'Not yet but open to it',
+    'no':      'No — not for me'
+  }[state.propertyInterest] || 'Not provided';
+
+  const fxLabel = {
+    'yes':       'Yes — sends/receives foreign currency',
+    'no':        'No',
+    'exploring': 'Looking to trade internationally'
+  }[state.fx] || 'Not provided';
+
+  const amountRaw = state.notSure ? 'Not sure yet' : (state.amount ? '\u00a3' + Number(state.amount).toLocaleString() : 'Not provided');
+  const isHighValue = !state.notSure && parseFloat((state.amount || '').replace(/[^0-9.]/g, '')) >= 500000;
+
+  const lines = [
+    'SHARIAH-COMPLIANT FUNDING DISCOVERY',
+    '',
+    'CLIENT: ' + contact.name + ' | ' + contact.business,
+    'EMAIL: ' + contact.email + ' | PHONE: ' + contact.phone,
+    '',
+    '--- ANSWERS ---',
+    'Goals (Q1): ' + ((state.purposeSummary || state.purposes.join(', ')) || 'Not provided'),
+    'Compliance level (Q2): ' + complianceLabel + (state.complianceNote ? ' — "' + state.complianceNote + '"' : ''),
+    'Amount (Q3): ' + amountRaw + (isHighValue ? ' ⚑ HIGH VALUE' : ''),
+    'Urgency (Q4): ' + (state.timeline || 'Not provided'),
+    'Property interest (Q5): ' + propertyLabel,
+    'FX (Q6): ' + fxLabel,
+    'Debt recovery (Q7): ' + (state.debtRecovery === 'yes' ? 'Yes — "' + (state.debtDetails || '') + '"' : (state.debtRecovery || 'Not provided')),
+    'Asset finance (Q8): ' + (state.assetFinance === 'maybe' ? 'Maybe — "' + (state.assetNote || '') + '"' : (state.assetFinance || 'Not provided')),
+    'Business loan (Q9): ' + (state.businessLoan === 'maybe' ? 'Maybe — "' + (state.loanNote || '') + '"' : (state.businessLoan || 'Not provided')),
+    '',
+    '--- MATCHED PRODUCTS ---',
+    matchedProducts.length > 0 ? matchedProducts.join('\n') : 'None matched',
+    '',
+    'Marketing consent: ' + (state.marketingConsent ? 'Yes' : 'No'),
+    state.marketingConsentTimestamp ? 'Consent timestamp: ' + state.marketingConsentTimestamp : ''
+  ].filter(function(l) { return l !== undefined; }).join('\n');
 
   const templateParams = {
     name: contact.name,
@@ -2019,9 +2475,9 @@ async function sendNotification() {
     consent_timestamp: state.marketingConsentTimestamp || 'N/A',
     consent_text: state.marketingConsentText || 'N/A',
     module: 'Shariah-Compliant Funding',
-    matched_products: purpose || 'Not provided',
-    barriers: timeline,
-    summary: summary
+    matched_products: matchedProducts.join(', ') || 'None matched',
+    barriers: state.timeline || 'Not provided',
+    summary: lines
   };
 
   try {
