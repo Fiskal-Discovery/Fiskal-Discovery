@@ -1713,12 +1713,24 @@
   #screen-confirm .screen-content,
   #screen-confirm .ob-fixed-header { position: relative; z-index: 1; }
 
+  @property --border-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+  @keyframes spin-border {
+    to { --border-angle: 360deg; }
+  }
   #screen-results .results-check {
     width: 72px !important;
     height: 72px !important;
-    background: linear-gradient(135deg, #D94F00 0%, #ff7a2e 100%) !important;
     border-radius: 50% !important;
-    box-shadow: 0 0 0 4px rgba(217,79,0,0.2), 0 0 24px rgba(217,79,0,0.35) !important;
+    border: 3px solid transparent !important;
+    background:
+      linear-gradient(135deg, #4e0063 0%, #8E7ED8 45%, #D94F00 100%) padding-box,
+      conic-gradient(from var(--border-angle), #D94F00, #ff7a2e, #8E7ED8, #4e0063, #D94F00) border-box !important;
+    animation: spin-border 2.5s linear infinite !important;
+    box-shadow: 0 0 18px rgba(217,79,0,0.4), 0 0 36px rgba(142,126,216,0.25) !important;
     font-family: 'Raleway', sans-serif !important;
     font-size: 22px !important;
     font-weight: 800 !important;
