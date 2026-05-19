@@ -2056,6 +2056,11 @@
 
     <div id="nicole-contact-card-container"></div>
 
+    <div id="email-summary-section" style="margin-top:24px;margin-bottom:8px;">
+      <button id="email-summary-btn" class="btn-primary" onclick="emailSummaryToUser()" style="width:100%">Email me this summary</button>
+      <p id="email-summary-feedback" style="font-size:13px;text-align:center;margin-top:10px;display:none;"></p>
+    </div>
+
   </div>
   <div class="screen-footer">
     <button class="back-btn" onclick="window.location.href='home.html?home=1'" style="margin:0 auto;">Home</button>
@@ -3037,6 +3042,54 @@ async function sendNotification(summary, matchedProducts) {
   }
 }
 
+
+// ============================================================
+// EMAIL SUMMARY TO USER
+// ============================================================
+async function emailSummaryToUser() {
+  const btn = document.getElementById('email-summary-btn');
+  const feedback = document.getElementById('email-summary-feedback');
+
+  if (!state.email) {
+    feedback.textContent = "We don't have your email address on file — please contact Nicole directly.";
+    feedback.style.color = '#ff7a2e';
+    feedback.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  const summaryEl = document.getElementById('ai-summary-text');
+  const summaryText = summaryEl ? summaryEl.innerText : '';
+  const products = Array.from(document.querySelectorAll('#matched-products-list .matched-product-name')).map(el => el.textContent).join(', ');
+
+  const templateParams = {
+    name: state.name,
+    business_name: state.business,
+    email: state.email,
+    module: 'Funding Finder',
+    matched_products: products || 'See summary below',
+    summary: summaryText,
+    barriers: ''
+  };
+
+  try {
+    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    btn.textContent = 'Summary sent!';
+    btn.style.background = 'linear-gradient(135deg, #4e0063, #8E7ED8)';
+    feedback.textContent = `We've sent your summary to ${state.email}`;
+    feedback.style.color = 'rgba(255,255,255,0.7)';
+    feedback.style.display = 'block';
+  } catch(err) {
+    btn.disabled = false;
+    btn.textContent = 'Email me this summary';
+    feedback.textContent = 'Something went wrong — please try again or contact Nicole directly.';
+    feedback.style.color = '#ff7a2e';
+    feedback.style.display = 'block';
+    console.error('Email failed:', err);
+  }
+}
 
 // ============================================================
 // PHOTO (encode Nicole's photo)
