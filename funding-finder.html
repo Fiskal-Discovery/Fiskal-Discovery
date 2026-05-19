@@ -2302,9 +2302,9 @@ const fundingFinderFlow = [
   {
     id: "cardPayments",
     type: "single-choice",
-    question: "Either online or in person — do your customers pay you by card?",
-    subtitle: "If you take card payments, there could be funding options tied directly to your transactions that you don't even know exist.",
-    options: ["Yes", "No"],
+    question: "Do your customers ever pay you by card - either online or in person?",
+    subtitle: "Your card transactions could be your secret weapon for unlocking fast, flexible funding.",
+    options: ["Yes", "No", "Sometimes / potentially"],
     saveAs: "cardPayments"
   },
   {
@@ -2750,7 +2750,7 @@ async function generateResults() {
     // Product signal keys used by insight functions
     invoice: (state.invoiceCustomers === 'Yes' || state.invoiceCustomers === 'Sometimes') ? 'yes' : (fa.invoice || null),
     asset:   state.assetNeed === 'Yes' ? 'yes' : (fa.asset || null),
-    mca:     state.cardSales === 'Yes' ? 'yes' : null,
+    mca:     (state.cardSales === 'Yes' || state.cardSales === 'Sometimes / potentially') ? 'yes' : null,
     loan:     fa.loan     || null,
     trade:    fa.trade    || null,
     revolving: fa.revolving || null,
@@ -2817,7 +2817,7 @@ function getMatchedProducts() {
   if (state.assetNeed === 'Yes' && !matched.includes('asset')) {
     matched.push('asset');
   }
-  if (state.cardSales === 'Yes' && productInfo['mca'] && !matched.includes('mca')) {
+  if ((state.cardSales === 'Yes' || state.cardSales === 'Sometimes / potentially') && productInfo['mca'] && !matched.includes('mca')) {
     matched.push('mca');
   }
 
