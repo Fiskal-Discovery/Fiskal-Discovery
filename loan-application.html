@@ -878,14 +878,15 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">What type of funding are you looking for?</h2>
-    <p class="question-sub" style="color:#D94F00">The right type of funding could change everything — let's find the one that fits you perfectly.</p>
+    <p class="question-sub" style="color:#D94F00">Select all that apply — the right type of funding could change everything.</p>
     <div class="answer-options" id="q1-opts">
-      <button class="answer-btn" onclick="selectLoanType('unsecured', this)">Unsecured business loan</button>
-      <button class="answer-btn" onclick="selectLoanType('secured', this)">Secured business loan</button>
-      <button class="answer-btn" onclick="selectLoanType('bridging', this)">Bridging finance</button>
-      <button class="answer-btn" onclick="selectLoanType('mca', this)">Merchant cash advance</button>
-      <button class="answer-btn" onclick="selectLoanType('not-sure', this)">I'm not sure — help me decide</button>
+      <button class="answer-btn" onclick="toggleLoanType('unsecured', this)">Unsecured business loan</button>
+      <button class="answer-btn" onclick="toggleLoanType('secured', this)">Secured business loan</button>
+      <button class="answer-btn" onclick="toggleLoanType('bridging', this)">Bridging finance</button>
+      <button class="answer-btn" onclick="toggleLoanType('mca', this)">Merchant cash advance</button>
+      <button class="answer-btn" onclick="toggleLoanType('not-sure', this)">I'm not sure — help me decide</button>
     </div>
+    <button class="btn-primary" id="q1-continue" onclick="saveLoanTypes()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
@@ -908,17 +909,17 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">What do you need the funding for?</h2>
-    <p class="question-sub" style="color:#D94F00">Every goal is worth pursuing — the right funding could be the thing that makes it happen.</p>
+    <p class="question-sub" style="color:#D94F00">Select all that apply — every goal is worth pursuing.</p>
     <div class="answer-options" id="q2-opts">
-      <button class="answer-btn" onclick="selectPurpose('Business growth', this)">Business growth</button>
-      <button class="answer-btn" onclick="selectPurpose('Working capital / cashflow', this)">Working capital / cashflow</button>
-      <button class="answer-btn" onclick="selectPurpose('Equipment or vehicles', this)">Equipment or vehicles</button>
-      <button class="answer-btn" onclick="selectPurpose('Property purchase or development', this)">Property purchase or development</button>
-      <button class="answer-btn" onclick="selectPurpose('Refinance existing debt', this)">Refinance existing debt</button>
-      <button class="answer-btn" onclick="selectPurpose('Stock or trade purchases', this)">Stock or trade purchases</button>
-      <button class="answer-btn" onclick="selectPurpose('New premises', this)">New premises</button>
-      <button class="answer-btn" onclick="selectPurpose('Marketing / advertising', this)">Marketing / advertising</button>
-      <button class="answer-btn" onclick="selectPurpose('Management buyout / acquisition', this)">Management buyout / acquisition</button>
+      <button class="answer-btn" onclick="togglePurpose('Business growth', this)">Business growth</button>
+      <button class="answer-btn" onclick="togglePurpose('Working capital / cashflow', this)">Working capital / cashflow</button>
+      <button class="answer-btn" onclick="togglePurpose('Equipment or vehicles', this)">Equipment or vehicles</button>
+      <button class="answer-btn" onclick="togglePurpose('Property purchase or development', this)">Property purchase or development</button>
+      <button class="answer-btn" onclick="togglePurpose('Refinance existing debt', this)">Refinance existing debt</button>
+      <button class="answer-btn" onclick="togglePurpose('Stock or trade purchases', this)">Stock or trade purchases</button>
+      <button class="answer-btn" onclick="togglePurpose('New premises', this)">New premises</button>
+      <button class="answer-btn" onclick="togglePurpose('Marketing / advertising', this)">Marketing / advertising</button>
+      <button class="answer-btn" onclick="togglePurpose('Management buyout / acquisition', this)">Management buyout / acquisition</button>
       <div id="q2-other-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="togglePurposeOther()">
         <span id="q2-other-label">Other</span>
         <input type="text" id="purpose-other-input" placeholder="Tell us a little more about what you need the funding for" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ2Continue()" onclick="event.stopPropagation()">
@@ -1523,8 +1524,8 @@ const state = {
   companyNumber: '', turnover: '', turnoverNext: '', propertyOwners: '',
   marketingConsent: false, marketingConsentText: '', marketingConsentTimestamp: '',
   // Q1-Q12 answers
-  loanType: '',
-  purpose: '', purposeOther: '',
+  loanType: '', loanTypes: [],
+  purpose: '', purposes: [], purposeOther: '',
   amount: '', amountNotSure: false,
   term: '',
   security: '', securityNote: '',
@@ -1694,48 +1695,68 @@ function submitDetails() {
 }
 
 // ============================================================
-// Q1 — Loan type
+// Q1 — Loan type (multi-select)
 // ============================================================
-function selectLoanType(value, btn) {
-  state.loanType = value;
-  document.querySelectorAll('#q1-opts .answer-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  setTimeout(() => showScreen('screen-q2'), 280);
+state.loanTypes = [];
+
+function toggleLoanType(value, btn) {
+  const idx = state.loanTypes.indexOf(value);
+  if (idx === -1) {
+    state.loanTypes.push(value);
+    btn.classList.add('selected');
+  } else {
+    state.loanTypes.splice(idx, 1);
+    btn.classList.remove('selected');
+  }
+  state.loanType = state.loanTypes.join(', ');
+  document.getElementById('q1-continue').style.display = state.loanTypes.length > 0 ? 'block' : 'none';
+}
+
+function saveLoanTypes() {
+  showScreen('screen-q2');
 }
 
 // ============================================================
-// Q2 — Purpose
+// Q2 — Purpose (multi-select)
 // ============================================================
-function selectPurpose(value, btn) {
-  state.purpose = value;
-  document.querySelectorAll('#q2-opts .answer-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  // Close other slot if open
-  document.getElementById('purpose-other-input').style.display = 'none';
-  document.getElementById('q2-other-label').style.display = '';
-  document.getElementById('q2-continue').style.display = 'none';
-  setTimeout(() => showScreen('screen-q3'), 280);
+state.purposes = [];
+
+function togglePurpose(value, btn) {
+  const idx = state.purposes.indexOf(value);
+  if (idx === -1) {
+    state.purposes.push(value);
+    btn.classList.add('selected');
+  } else {
+    state.purposes.splice(idx, 1);
+    btn.classList.remove('selected');
+  }
+  state.purpose = state.purposes.join(', ');
+  updateQ2Continue();
 }
 
 function togglePurposeOther() {
-  state.purpose = 'other';
-  document.querySelectorAll('#q2-opts .answer-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('q2-other-slot').classList.add('selected');
-  document.getElementById('q2-other-label').style.display = 'none';
+  document.getElementById('q2-other-slot').classList.toggle('selected');
+  const isSelected = document.getElementById('q2-other-slot').classList.contains('selected');
+  document.getElementById('q2-other-label').style.display = isSelected ? 'none' : '';
   const input = document.getElementById('purpose-other-input');
-  input.style.display = 'block';
-  input.focus();
+  input.style.display = isSelected ? 'block' : 'none';
+  if (isSelected) input.focus();
   updateQ2Continue();
 }
 
 function updateQ2Continue() {
-  const val = document.getElementById('purpose-other-input').value.trim();
-  document.getElementById('q2-continue').style.display = val.length > 0 ? 'block' : 'none';
+  const otherVal = document.getElementById('purpose-other-input').value.trim();
+  const hasSelection = state.purposes.length > 0 || otherVal.length > 0;
+  document.getElementById('q2-continue').style.display = hasSelection ? 'block' : 'none';
 }
 
 function savePurpose() {
-  state.purposeOther = document.getElementById('purpose-other-input').value.trim();
-  state.purpose = state.purposeOther;
+  const otherVal = document.getElementById('purpose-other-input').value.trim();
+  if (otherVal) {
+    state.purposeOther = otherVal;
+    if (!state.purposes.includes(otherVal)) state.purposes.push(otherVal);
+    state.purpose = state.purposes.join(', ');
+  }
   showScreen('screen-q3');
 }
 
