@@ -2012,7 +2012,8 @@ const welcomeFlow = [
     type: "currency",
     question: "What is your annual turnover?",
     placeholder: "A rough figure is fine, it doesn't have to be exact",
-    saveAs: "annualTurnover"
+    saveAs: "annualTurnover",
+    allowNewStart: true
   },
   {
     id: "projectedTurnover",
@@ -2311,6 +2312,21 @@ function renderWelcomeQuestion() {
 
     currWrap.appendChild(inputRow);
     currWrap.appendChild(continueBtn);
+
+    if (q.allowNewStart) {
+      const newStartBtn = document.createElement('button');
+      newStartBtn.style.cssText = 'background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.18);border-radius:999px;color:#fff;font-size:14px;font-family:"DM Sans",sans-serif;font-weight:600;cursor:pointer;padding:10px 20px;width:100%;transition:all 0.2s;';
+      newStartBtn.textContent = '🌱 New start';
+      newStartBtn.onmouseover = () => newStartBtn.style.background = 'rgba(255,255,255,0.14)';
+      newStartBtn.onmouseout  = () => newStartBtn.style.background = 'rgba(255,255,255,0.08)';
+      newStartBtn.onclick = () => {
+        welcomeState.answers[q.saveAs] = 'New start';
+        welcomeState.currentQuestion++;
+        renderWelcomeQuestion();
+      };
+      currWrap.appendChild(newStartBtn);
+    }
+
     currWrap.appendChild(skipBtn);
     wrap.appendChild(currWrap);
   }

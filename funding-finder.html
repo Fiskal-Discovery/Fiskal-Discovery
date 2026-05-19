@@ -2487,6 +2487,7 @@ async function generateResults() {
     business: state.business,
     industry: state.industry,
     turnover: state.turnover,
+    annualTurnover: state.turnover,
     fundingAmount: state.fundingAmount,
     fundingPurpose: fa.purpose || '',
     urgency: state.urgency,
@@ -2741,7 +2742,7 @@ async function sendNotification(summary, matchedProducts) {
     phone: state.phone,
     company_number: state.companyNumber || 'Not provided',
     module: moduleLabels[state.module] || state.module,
-    matched_products: matchedProducts.map(p => productInfo[p]?.name).filter(Boolean).join(', ') || 'None matched',
+    matched_products: `${(state.turnover === 'New start' || state.annualTurnover === 'New start') ? '⚠️ NEW START | ' : ''}${matchedProducts.map(p => productInfo[p]?.name).filter(Boolean).join(', ') || 'None matched'}`,
     barriers: state.barrier === 'yes' ? (state.barrierDetails || 'Yes - no details provided') : 'None mentioned',
     summary: summary
   };

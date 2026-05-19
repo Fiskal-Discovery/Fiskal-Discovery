@@ -60,8 +60,21 @@ function buildFundingFinderSummary(answers) {
   const industry    = answers.industry || '';
   const barrier     = answers.barrier || '';
   const urgency     = answers.urgency || '';
+  const newStart    = isNewStart(answers);
 
   const blocks = [];
+
+  // New start acknowledgement goes first
+  if (newStart) {
+    const turnoverNext = answers.turnoverNext || answers.projectedTurnover || '';
+    let nsPhrase = getNewStartInsight();
+    if (turnoverNext) {
+      const fmt = parseMoneyString(turnoverNext);
+      const fmtStr = fmt ? '£' + Math.round(fmt).toLocaleString('en-GB') : turnoverNext;
+      nsPhrase += ` With a projected turnover of ${fmtStr}, that's useful context for lenders who specialise in backing businesses at an early stage.`;
+    }
+    blocks.push(nsPhrase);
+  }
 
   // Opening — personalised by sector, urgency and purpose
   const sectorNote = getSectorNote(business, industry);
@@ -114,15 +127,28 @@ function buildLoanApplicationSummary(answers) {
   const security = answers.security || '';
   const credit   = answers.credit || '';
   const turnover = answers.turnover || '';
+  const turnoverNext = answers.turnoverNext || answers.projectedTurnover || '';
   const existingFacilities = answers.existingFacilities || [];
   const barrier  = answers.barrier || '';
   const barrierDetails = answers.barrierDetails || '';
   const hasSecurityOrAsset = security && security !== 'None' && security !== 'Unsecured';
+  const newStart = isNewStart(answers);
 
   const blocks = [];
 
-  // Paragraph 1 — positive opening
-  blocks.push(`Great news — based on what you've shared, there are still funding options worth exploring for ${business}. The key is finding the right structure for what the funding needs to achieve, rather than treating this as a generic loan enquiry.`);
+  // Paragraph 1 — positive opening (new start aware)
+  if (newStart) {
+    blocks.push(`${getNewStartInsight()} Based on what you've shared, there are still funding options worth exploring for ${business} — the key is finding the right lenders and the right structure for where the business is right now.`);
+  } else {
+    blocks.push(`Great news — based on what you've shared, there are still funding options worth exploring for ${business}. The key is finding the right structure for what the funding needs to achieve, rather than treating this as a generic loan enquiry.`);
+  }
+
+  // New start projected turnover reference
+  if (newStart && turnoverNext) {
+    const fmt = parseMoneyString(turnoverNext);
+    const fmtStr = fmt ? '£' + Math.round(fmt).toLocaleString('en-GB') : turnoverNext;
+    blocks.push(`With a projected turnover of ${fmtStr} over the next 12 months, lenders will want to see that the business plan is credible and that the projected income can comfortably service the repayments. Being clear about how that revenue will be generated will make a big difference to how an application is presented.`);
+  }
 
   // Paragraph 2 — purpose insight + credit history + credit concern
   const purposeInsight = getLoanPurposeInsight(purpose, business);
@@ -163,8 +189,14 @@ function buildLoanApplicationSummary(answers) {
 function buildFacilityReviewSummary(answers, reviewType) {
   const name     = answers.name || '';
   const business = answers.business || 'the business';
+  const newStart = isNewStart(answers);
 
   const blocks = [];
+
+  // New start flag at the top of facility review
+  if (newStart) {
+    blocks.push(getNewStartInsight());
+  }
 
   // Opening
   let providerName = '';
@@ -217,8 +249,13 @@ function buildShariahSummary(answers) {
   const amount    = answers.amount || '';
   const notSure   = answers.notSure || amount === 'Not sure yet';
   const business  = answers.business || '';
+  const newStart  = isNewStart(answers);
 
   const blocks = [];
+
+  if (newStart) {
+    blocks.push(getNewStartInsight());
+  }
 
   // Paragraph 1 — opening sentence with purposes mentioned naturally
   blocks.push(getShariahOpeningInsight(business, purposes, otherPurpose));

@@ -1517,7 +1517,7 @@ async function sendNotification() {
     consent_timestamp: state.marketingConsentTimestamp || 'N/A',
     consent_text: state.marketingConsentText || 'N/A',
     module: 'Shariah-Compliant Funding',
-    matched_products: purpose || 'Not provided',
+    matched_products: `${(typeof appState !== 'undefined' && (appState.profile?.annualTurnover === 'New start')) ? '⚠️ NEW START | ' : ''}${purpose || 'Not provided'}`,
     barriers: timeline,
     summary: summary
   };

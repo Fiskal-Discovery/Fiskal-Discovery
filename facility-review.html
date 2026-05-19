@@ -3865,7 +3865,7 @@ async function sendNotification(summary) {
     mca_b2c: state.mcaB2C || state['mca-b2c'] || 'N/A',
     trade_property_charge: state.tradePropertyCharge || state['trade-property-charge'] || 'N/A',
     asset_nearly_paid_off: state.assetNearlyPaidOff || state['asset-nearly-paid-off'] || 'N/A',
-    matched_products: `Type: ${facilityType} | Lender: ${lenderName} | ${rateDetails}`,
+    matched_products: `${(state.turnover === 'New start' || state.annualTurnover === 'New start') ? '⚠️ NEW START | ' : ''}Type: ${facilityType} | Lender: ${lenderName} | ${rateDetails}`,
     barriers: switchingConcernDetails || 'None',
     summary: summary
   };
