@@ -911,6 +911,16 @@
   .btn-primary:active { transform: scale(0.98); }
   .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
+  /* ---- DETAILS SCREEN COMPACT ---- */
+  #screen-details .screen-content { padding: 4px 40px 8px; }
+  #screen-details .question-product { margin-bottom: 2px; }
+  #screen-details .form-title { font-size: 26px; margin-bottom: 4px; }
+  #screen-details .form-sub { margin-bottom: 10px; font-size: 12px; }
+  #screen-details .form-group { margin-bottom: 8px; }
+  #screen-details .form-input { padding: 9px 14px; font-size: 15px; }
+  #screen-details .btn-primary { padding: 12px 32px; margin-top: 4px !important; }
+  #screen-details .checkbox-label { font-size: 12px !important; }
+
   .btn-secondary {
     background: transparent;
     color: var(--indigo-light);
@@ -2048,7 +2058,6 @@
     </div>
     <span class="module-badge" id="details-badge">Funding Finder</span>
   </div>
-  <div class="nav-row" style="padding: 0 24px 4px;"><button class="back-btn" onclick="showScreen('welcome')">&lt; Back</button></div>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:5%"></div></div>
     <div class="progress-label">Your details</div>
@@ -2084,9 +2093,14 @@
         <span>Yes, I'd like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news.</span>
       </label>
     </div>
-    <p style="font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;">You'll receive a copy of your Fiskal Discovery summary by email, and Nicole will be in touch within the next couple of hours where possible. If you complete this outside normal working hours, she'll come back to you as soon as she can.</p>
     <p class="error-msg" id="details-error">Please fill in all required fields.</p>
     <button class="btn-primary" onclick="submitDetails()" style="margin-top:8px">Continue →</button>
+  </div>
+  <div style="text-align:center;padding:12px 24px 4px;">
+    <button class="back-btn" onclick="showScreen('welcome')" style="margin:0 auto;justify-content:center;">‹ Back</button>
+  </div>
+  <div class="ob-footer" style="padding:6px 32px 12px;">
+    <div class="ob-dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
