@@ -528,7 +528,6 @@
   #screen-existing-finance,
   #screen-existing-details,
   #screen-upload,
-  #screen-barriers,
   #screen-loading,
   #screen-submission-loading {
     background: #000000;
@@ -547,7 +546,6 @@
   #screen-existing-finance::before,
   #screen-existing-details::before,
   #screen-upload::before,
-  #screen-barriers::before {
     content: '';
     position: fixed;
     inset: 0;
@@ -567,28 +565,24 @@
   #screen-other-security .ob-fixed-header, #screen-credit .ob-fixed-header,
   #screen-urgency .ob-fixed-header, #screen-existing-finance .ob-fixed-header,
   #screen-existing-details .ob-fixed-header, #screen-upload .ob-fixed-header,
-  #screen-barriers .ob-fixed-header,
   #screen-details .progress-bar-wrap, #screen-purpose .progress-bar-wrap,
   #screen-amount .progress-bar-wrap, #screen-term .progress-bar-wrap,
   #screen-security .progress-bar-wrap, #screen-property-security .progress-bar-wrap,
   #screen-other-security .progress-bar-wrap, #screen-credit .progress-bar-wrap,
   #screen-urgency .progress-bar-wrap, #screen-existing-finance .progress-bar-wrap,
   #screen-existing-details .progress-bar-wrap, #screen-upload .progress-bar-wrap,
-  #screen-barriers .progress-bar-wrap,
   #screen-details .screen-content, #screen-purpose .screen-content,
   #screen-amount .screen-content, #screen-term .screen-content,
   #screen-security .screen-content, #screen-property-security .screen-content,
   #screen-other-security .screen-content, #screen-credit .screen-content,
   #screen-urgency .screen-content, #screen-existing-finance .screen-content,
   #screen-existing-details .screen-content, #screen-upload .screen-content,
-  #screen-barriers .screen-content,
   #screen-details .nav-row, #screen-purpose .nav-row,
   #screen-amount .nav-row, #screen-term .nav-row,
   #screen-security .nav-row, #screen-property-security .nav-row,
   #screen-other-security .nav-row, #screen-credit .nav-row,
   #screen-urgency .nav-row, #screen-existing-finance .nav-row,
   #screen-existing-details .nav-row, #screen-upload .nav-row,
-  #screen-barriers .nav-row { position: relative; z-index: 1; }
 
   .progress-fill { background: #D94F00 !important; }
   .progress-track { background: rgba(255,255,255,0.12) !important; }
@@ -1207,8 +1201,8 @@
     </div>
   </header>
   <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:90%"></div></div>
-    <div class="progress-label">Question 8 of 8</div>
+    <div class="progress-track"><div class="progress-fill" style="width:95%"></div></div>
+    <div class="progress-label">Final step</div>
   </div>
   <div class="screen-content">
     <div class="question-icon">📄</div>
@@ -1227,8 +1221,8 @@
       <div id="loan-files-list"></div>
     </div>
     <input type="file" id="loan-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls" style="display:none" onchange="handleFileUpload(this)">
-    <button class="btn-primary" onclick="showScreen('screen-barriers')">Continue ></button>
-    <button class="btn-secondary" onclick="showScreen('screen-barriers')">Skip — I'll send documents separately</button>
+    <button class="btn-primary" onclick="submitApplication()">Submit My Discovery ›</button>
+    <button class="btn-secondary" onclick="submitApplication()">Skip — I'll send documents separately</button>
     <div class="nav-row">
       <button class="back-btn" onclick="goBackFromUpload()">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -1237,46 +1231,6 @@
 </div>
 
 <!-- Barriers -->
-<div class="screen" id="screen-barriers">
-  <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Enquiry</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
-  </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:95%"></div></div>
-    <div class="progress-label">Final question</div>
-  </div>
-  <div class="screen-content">
-    <div class="question-icon">🤝</div>
-    <div class="question-product">One last thing</div>
-    <h2 class="question-text">Is there anything that might make getting finance difficult?</h2>
-    <p class="question-sub">For example: previous credit issues, HMRC arrears, a short trading history, or a past rejection.</p>
-    <div class="answer-options">
-      <button class="answer-btn" onclick="selectBarrier('yes', this)">✋ Yes — I have some concerns</button>
-      <button class="answer-btn" onclick="selectBarrier('no', this)">✅ No — nothing I'm aware of</button>
-    </div>
-    <div id="barrier-detail-section" style="display:none">
-      <div class="form-group" style="margin-top:12px;">
-        <label class="form-label">Brief details</label>
-        <textarea class="form-textarea" id="barrier-details" placeholder="No judgement here — just context to help us help you..."></textarea>
-      </div>
-      <div class="info-box">"Many business owners believe funding is out of reach — bad credit, HMRC arrears, a short trading history, or a previous rejection. At Fiskal we pride ourselves on finding solutions even in the most challenging circumstances."</div>
-    </div>
-    <button class="btn-primary" id="barriers-submit" onclick="submitApplication()" style="display:none;margin-top:16px">Submit My Discovery</button>
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-upload')">&lt; Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-    </div>
-  </div>
-</div>
-
 <!-- Loading -->
 <div class="screen" id="screen-loading">
   <header class="ob-fixed-header">
@@ -1778,16 +1732,7 @@ function handleFileUpload(input) {
   areaEl.classList.add('has-files');
 }
 
-function selectBarrier(value, btn) {
-  state.barrier = value;
-  document.querySelectorAll('#screen-barriers .answer-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  document.getElementById('barrier-detail-section').style.display = value === 'yes' ? 'block' : 'none';
-  document.getElementById('barriers-submit').style.display = 'block';
-}
-
 function submitApplication() {
-  state.barrierDetails = document.getElementById('barrier-details').value.trim();
 
   // Collect existing facilities before showing loading screen
   const facilities = [];
@@ -1994,7 +1939,7 @@ async function sendNotification(summary) {
     consent_text: state.marketingConsentText || 'N/A',
     module: 'Loan Enquiry',
     matched_products: `Purpose: ${state.purpose} | Amount: ${state.amount} | Term: ${state.term} | Security: ${state.security}${state.properties.length > 0 ? ' (' + state.properties.map(p => `${p.type || 'No type'}, ${p.charges || 'No charges info'}, value: ${p.value || 'N/A'}, mortgage: ${p.mortgage || 'N/A'}${p.address ? ', address: ' + p.address : ''}${p.owner ? ', owner: ' + p.owner : ''}`).join('; ') + ')' : ''} | Credit: ${state.credit} | Urgency: ${state.urgency} | Existing finance: ${state.existingFacilities.join(', ') || 'None'} | Turnover: ${state.turnover} | Director property ownership: ${state.propertyOwners}`,
-    barriers: state.barrier === 'yes' ? state.barrierDetails || 'Yes' : 'None',
+    barriers: 'N/A',
     summary: summary
   };
   // EMAILS DISABLED: await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
@@ -2302,7 +2247,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance,
   #screen-existing-details,
   #screen-upload,
-  #screen-barriers,
   #screen-loading {
     background: #000000;
     position: relative;
@@ -2321,7 +2265,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance::before,
   #screen-existing-details::before,
   #screen-upload::before,
-  #screen-barriers::before,
   #screen-loading::before {
     content: '';
     position: fixed;
@@ -2349,7 +2292,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance .ob-fixed-header,
   #screen-existing-details .ob-fixed-header,
   #screen-upload .ob-fixed-header,
-  #screen-barriers .ob-fixed-header,
   #screen-loading .ob-fixed-header,
   #screen-welcome .screen-content,
   #screen-details .screen-content,
@@ -2364,7 +2306,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance .screen-content,
   #screen-existing-details .screen-content,
   #screen-upload .screen-content,
-  #screen-barriers .screen-content,
   #screen-loading .screen-content,
   #screen-welcome .nav-row,
   #screen-details .nav-row,
@@ -2379,7 +2320,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance .nav-row,
   #screen-existing-details .nav-row,
   #screen-upload .nav-row,
-  #screen-barriers .nav-row { position: relative; z-index: 1; }
 
   /* Welcome screen — typing intro styling */
   .typing-intro {
@@ -2438,14 +2378,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance .question-text,
   #screen-existing-details .question-text,
   #screen-upload .question-text,
-  #screen-barriers .question-text {
-    font-family: 'Raleway', sans-serif !important;
-    font-weight: 700 !important;
-    color: #ffffff !important;
-    font-size: clamp(16px, 2.8vw, 22px) !important;
-    line-height: 1.25 !important;
-    margin-bottom: 6px !important;
-  }
 
   #screen-details .ai-summary {
     background: rgba(255,255,255,0.08) !important;
@@ -2505,12 +2437,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance .answer-btn,
   #screen-existing-details .answer-btn,
   #screen-upload .answer-btn,
-  #screen-barriers .answer-btn {
-    background: rgba(255,255,255,0.06) !important;
-    border: 1.5px solid rgba(255,255,255,0.15) !important;
-    color: #ffffff !important;
-    border-top: 2px solid #D94F00 !important;
-  }
   #screen-details .answer-btn:hover,
   #screen-purpose .answer-btn:hover,
   #screen-amount .answer-btn:hover,
@@ -2523,9 +2449,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance .answer-btn:hover,
   #screen-existing-details .answer-btn:hover,
   #screen-upload .answer-btn:hover,
-  #screen-barriers .answer-btn:hover {
-    background: rgba(255,255,255,0.10) !important;
-  }
   #screen-details .answer-btn.selected,
   #screen-purpose .answer-btn.selected,
   #screen-amount .answer-btn.selected,
@@ -2538,13 +2461,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance .answer-btn.selected,
   #screen-existing-details .answer-btn.selected,
   #screen-upload .answer-btn.selected,
-  #screen-barriers .answer-btn.selected {
-    border-color: #8E7ED8 !important;
-    border-width: 2px !important;
-    box-shadow: 0 0 0 3px rgba(142,126,216,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
-    background: rgba(142,126,216,0.22) !important;
-    color: #ffffff !important;
-  }
 
   #screen-details .back-btn,
   #screen-purpose .back-btn,
@@ -2558,11 +2474,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance .back-btn,
   #screen-existing-details .back-btn,
   #screen-upload .back-btn,
-  #screen-barriers .back-btn {
-    background: transparent !important;
-    color: rgba(255,255,255,0.5) !important;
-    border: none !important;
-  }
 
   #screen-details .btn-primary,
   #screen-purpose .btn-primary,
@@ -2576,11 +2487,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance .btn-primary,
   #screen-existing-details .btn-primary,
   #screen-upload .btn-primary,
-  #screen-barriers .btn-primary {
-    background: #D94F00 !important;
-    background-image: none !important;
-    box-shadow: 0 4px 20px rgba(217,79,0,0.4) !important;
-  }
 
   #screen-details .form-label,
   #screen-purpose .form-label,
@@ -2594,7 +2500,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance .form-label,
   #screen-existing-details .form-label,
   #screen-upload .form-label,
-  #screen-barriers .form-label { color: rgba(255,255,255,0.7) !important; }
 
   #screen-details .form-input,
   #screen-purpose .form-input,
@@ -2608,11 +2513,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance .form-input,
   #screen-existing-details .form-input,
   #screen-upload .form-input,
-  #screen-barriers .form-input {
-    background: rgba(255,255,255,0.07) !important;
-    border-color: rgba(255,255,255,0.15) !important;
-    color: #ffffff !important;
-  }
   #screen-details .form-input::placeholder,
   #screen-purpose .form-input::placeholder,
   #screen-amount .form-input::placeholder,
@@ -2625,7 +2525,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-finance .form-input::placeholder,
   #screen-existing-details .form-input::placeholder,
   #screen-upload .form-input::placeholder,
-  #screen-barriers .form-input::placeholder { color: rgba(255,255,255,0.35) !important; }
 
   .question-icon { display: none !important; }
 
