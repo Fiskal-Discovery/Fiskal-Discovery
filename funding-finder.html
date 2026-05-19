@@ -1564,6 +1564,19 @@
     justify-content: center !important;
   }
 
+  /* Tighten question screen to fit on one viewport */
+  #screen-question .screen-content {
+    justify-content: flex-start;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  #screen-question #q-icon { display: none; }
+  #screen-question .question-product { margin-bottom: 4px; }
+  #screen-question .question-text { font-size: clamp(15px, 2.4vw, 19px); margin-bottom: 4px; }
+  #screen-question .question-sub { margin-bottom: 12px; }
+  #screen-question .answer-options { margin-bottom: 10px; }
+  #screen-question #q-next-btn { margin-top: 10px !important; }
+
   /* Answer buttons → white cards, orange top border */
   #screen-question .answer-btn,
   #screen-barriers .answer-btn {
