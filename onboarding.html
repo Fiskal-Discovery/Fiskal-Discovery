@@ -1771,20 +1771,7 @@
     box-shadow: 0 6px 28px rgba(217,79,0,0.6);
     transform: translateY(-1px);
   }
-  .ob-scores-strip {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .ob-tls-item  { display: flex; align-items: center; gap: 5px; }
-  .ob-tls-label { color: rgba(255,255,255,0.5); }
-  .ob-tls-name  { color: #ffffff; font-weight: 700; }
-  .ob-tls-score { color: #00FF88; font-weight: 700; }
-  .ob-tls-divider { color: rgba(255,255,255,0.25); font-size: 16px; }
+
 
   /* ---- LENDER LEADERBOARD NEXT TO GAME BUTTON ---- */
   .ob-game-row {
@@ -2034,19 +2021,6 @@
             <a href="cashflow-invaders.html" class="ob-game-cta">
               🎮 Free Your Finances — Play Cashflow Invaders Now
             </a>
-            <div class="ob-scores-strip" id="ob-scores-strip" style="display:none">
-              <span class="ob-tls-item" id="ob-tls-lender" style="display:none">
-                <span class="ob-tls-label">🥇 Top Lender:</span>
-                <span class="ob-tls-name" id="ob-tls-name"></span>
-                <span class="ob-tls-score" id="ob-tls-score"></span>
-              </span>
-              <span class="ob-tls-divider" id="ob-tls-divider" style="display:none">·</span>
-              <span class="ob-tls-item" id="ob-tls-client" style="display:none">
-                <span class="ob-tls-label">🥇 Top Client:</span>
-                <span class="ob-tls-name" id="ob-tcs-name"></span>
-                <span class="ob-tls-score" id="ob-tcs-score"></span>
-              </span>
-            </div>
           </div>
         </div>
       </div>
@@ -2872,31 +2846,6 @@ function loadChampions() {
   function render(entries) {
     renderList(entries, true,  'ob-lender-lb', 'ob-lender-lb-rows');
     renderList(entries, false, 'ob-client-lb', 'ob-client-lb-rows');
-    // #1 lender + #1 client strip
-    const best = (isLender) => entries
-      .filter(Boolean)
-      .filter(e => isLender ? e.isLender : !e.isLender)
-      .map(e => ({ name: String(e.name || 'ANONYMOUS').toUpperCase(), score: Number(e.score) || 0 }))
-      .sort((a, b) => b.score - a.score)[0];
-    const topLender = best(true);
-    const topClient = best(false);
-    let anyShown = false;
-    if (topLender && topLender.score > 0) {
-      document.getElementById('ob-tls-name').textContent = topLender.name;
-      document.getElementById('ob-tls-score').textContent = '£' + topLender.score.toLocaleString() + ' released';
-      document.getElementById('ob-tls-lender').style.display = 'flex';
-      anyShown = true;
-    }
-    if (topClient && topClient.score > 0) {
-      document.getElementById('ob-tcs-name').textContent = topClient.name;
-      document.getElementById('ob-tcs-score').textContent = '£' + topClient.score.toLocaleString() + ' released';
-      document.getElementById('ob-tls-client').style.display = 'flex';
-      anyShown = true;
-    }
-    if (topLender && topLender.score > 0 && topClient && topClient.score > 0) {
-      document.getElementById('ob-tls-divider').style.display = 'inline';
-    }
-    if (anyShown) document.getElementById('ob-scores-strip').style.display = 'flex';
   }
 
   if (window._ciDb) {
