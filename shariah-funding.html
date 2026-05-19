@@ -1234,6 +1234,10 @@
     .ob-tagline-refuse { font-size: 16px; letter-spacing: 1px; }
     .ob-tagline-rest { display: none; }
   }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--sb-thumb, #4e0063); border-radius: 3px; }
+  * { scrollbar-width: thin; scrollbar-color: var(--sb-thumb, #4e0063) transparent; }
 </style>
 <script src="logic/globalInsights.js"></script>
 <script src="logic/shariahInsights.js"></script>
@@ -1939,6 +1943,30 @@ const fundingLinks = {
   "Shariah Compliant Funding": "https://www.fiskal.online/funding-products#shariah-compliant"
 };
 
+</script>
+<script>
+(function() {
+  const from = [0x4e, 0x00, 0x63], to = [0xD9, 0x4F, 0x00];
+  let current = null;
+  function updateScrollbar(el) {
+    const pct = el.scrollHeight <= el.clientHeight ? 0 : el.scrollTop / (el.scrollHeight - el.clientHeight);
+    const r = Math.round(from[0] + (to[0] - from[0]) * pct);
+    const g = Math.round(from[1] + (to[1] - from[1]) * pct);
+    const b = Math.round(from[2] + (to[2] - from[2]) * pct);
+    document.documentElement.style.setProperty('--sb-thumb', `rgb(${r},${g},${b})`);
+  }
+  function attachToActive() {
+    const active = document.querySelector('.screen.active');
+    if (!active || active === current) return;
+    if (current) current.removeEventListener('scroll', current._sbHandler);
+    current = active;
+    active._sbHandler = () => updateScrollbar(active);
+    active.addEventListener('scroll', active._sbHandler, { passive: true });
+    updateScrollbar(active);
+  }
+  new MutationObserver(attachToActive).observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+  document.addEventListener('DOMContentLoaded', attachToActive);
+})();
 </script>
 
 </body>
