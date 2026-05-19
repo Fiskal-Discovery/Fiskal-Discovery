@@ -2001,7 +2001,7 @@
         "Many business owners believe funding is out of reach — bad credit, HMRC arrears, a short trading history, or a previous rejection. At Fiskal we pride ourselves on finding solutions even in the most challenging circumstances."
       </div>
     </div>
-    <button class="btn-primary" id="barriers-next" onclick="submitBarriers()" style="display:none;margin-top:20px">Submit my Discovery ></button>
+    <button class="btn-primary" id="barriers-next" onclick="submitBarriers()" style="display:none;margin-top:20px">Submit My Discovery ›</button>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
@@ -2523,7 +2523,7 @@ function renderFlowQuestion() {
           followupEl.appendChild(lbl);
           followupEl.appendChild(inp);
           nextBtn.style.display = 'block';
-          nextBtn.textContent = state.currentQuestion === visibleQuestions.length - 1 ? 'Submit my discovery' : 'Continue →';
+          nextBtn.textContent = state.currentQuestion === visibleQuestions.length - 1 ? 'Submit My Discovery' : 'Continue →';
           nextBtn.onclick = () => {
             saveAnswer(q.saveAs, opt);
             saveAnswer(q.followUp.saveAs, inp.value.trim());
@@ -2534,7 +2534,7 @@ function renderFlowQuestion() {
           const isLast = state.currentQuestion === visibleQuestions.length - 1;
           if (isLast) {
             nextBtn.style.display = 'block';
-            nextBtn.textContent = 'Submit my discovery';
+            nextBtn.textContent = 'Submit My Discovery';
             nextBtn.onclick = () => { saveAnswer(q.saveAs, opt); goNext(); };
           } else {
             nextBtn.style.display = 'none';
@@ -2586,7 +2586,7 @@ function renderFlowQuestion() {
     nextBtn.style.display = 'block';
     nextBtn.style.opacity = '0.35';
     nextBtn.style.pointerEvents = 'none';
-    nextBtn.textContent = state.currentQuestion === visibleQuestions.length - 1 ? 'Submit my discovery' : 'Continue →';
+    nextBtn.textContent = state.currentQuestion === visibleQuestions.length - 1 ? 'Submit My Discovery' : 'Continue →';
     nextBtn.onclick = () => {
       const values = Array.from(selected);
       saveAnswer(q.saveAs, values);
@@ -2612,7 +2612,7 @@ function renderFlowQuestion() {
 
     const nextBtn = document.getElementById('q-next-btn');
     nextBtn.style.display = 'block';
-    nextBtn.textContent = state.currentQuestion === visibleQuestions.length - 1 ? 'Submit my discovery' : 'Continue →';
+    nextBtn.textContent = state.currentQuestion === visibleQuestions.length - 1 ? 'Submit My Discovery' : 'Continue →';
     nextBtn.onclick = () => {
       const value = input.value.trim();
       if (value || q.optional) {
