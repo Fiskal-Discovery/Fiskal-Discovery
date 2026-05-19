@@ -1049,12 +1049,12 @@
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How would you describe your business credit history?</h2>
     <p class="question-sub" style="color:#D94F00">Whatever your history, there's a lender out there who will look at the full picture.</p>
-    <div class="answer-options" id="q6-opts">
+    <div class="answer-options" id="q6-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectCredit('clean', this)">Clean — no issues</button>
       <button class="answer-btn" onclick="selectCredit('mostly-clean', this)">Mostly clean — one or two minor issues</button>
       <button class="answer-btn" onclick="selectCredit('some-issues', this)">Some issues — CCJs, defaults or missed payments</button>
       <button class="answer-btn" onclick="selectCredit('significant-issues', this)">Significant issues — including insolvency or HMRC debt</button>
-      <div id="q6-notsure-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="toggleCreditNote()">
+      <div id="q6-notsure-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;grid-column:1/-1" onclick="toggleCreditNote()">
         <span id="q6-notsure-label">I'm not sure / I'd rather not say</span>
         <input type="text" id="credit-note" placeholder="Tell us a little more if you're comfortable — the more we know the better we can help" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ6Continue()" onclick="event.stopPropagation()">
       </div>
@@ -1083,7 +1083,7 @@
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How long has your business been trading?</h2>
     <p class="question-sub" style="color:#D94F00">Every established business started somewhere — and there are lenders who back ambition at every stage.</p>
-    <div class="answer-options" id="q7-opts">
+    <div class="answer-options" id="q7-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectTradingHistory('under-6-months', this)">Less than 6 months</button>
       <button class="answer-btn" onclick="selectTradingHistory('6-12-months', this)">6–12 months</button>
       <button class="answer-btn" onclick="selectTradingHistory('1-2-years', this)">1–2 years</button>
@@ -1113,14 +1113,14 @@
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">What is your approximate monthly turnover?</h2>
     <p class="question-sub" style="color:#D94F00">Turnover is just a starting point — what you do with the right funding is what really matters.</p>
-    <div class="answer-options" id="q8-opts">
+    <div class="answer-options" id="q8-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectMonthlyTurnover('Under £10,000', this)">Under £10,000</button>
       <button class="answer-btn" onclick="selectMonthlyTurnover('£10,000–£25,000', this)">£10,000–£25,000</button>
       <button class="answer-btn" onclick="selectMonthlyTurnover('£25,000–£50,000', this)">£25,000–£50,000</button>
       <button class="answer-btn" onclick="selectMonthlyTurnover('£50,000–£100,000', this)">£50,000–£100,000</button>
       <button class="answer-btn" onclick="selectMonthlyTurnover('£100,000–£250,000', this)">£100,000–£250,000</button>
       <button class="answer-btn" onclick="selectMonthlyTurnover('£250,000+', this)">£250,000+</button>
-      <button class="answer-btn" onclick="selectMonthlyTurnover('Rather not say', this)">I'd rather not say</button>
+      <button class="answer-btn" style="grid-column:1/-1" onclick="selectMonthlyTurnover('Rather not say', this)">I'd rather not say</button>
     </div>
   </div>
   <div class="screen-footer">
@@ -1145,11 +1145,11 @@
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Do you have any existing loans or finance in place?</h2>
     <p class="question-sub" style="color:#D94F00">Existing finance doesn't close doors — the right structure can open new ones.</p>
-    <div class="answer-options" id="q9-opts">
+    <div class="answer-options" id="q9-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectExistingFinance('none', this)">No existing finance</button>
       <button class="answer-btn" onclick="selectExistingFinance('one', this)">Yes — one facility</button>
       <button class="answer-btn" onclick="selectExistingFinance('multiple', this)">Yes — multiple facilities</button>
-      <div id="q9-refinance-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="toggleRefinanceNote()">
+      <div id="q9-refinance-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;grid-column:1/-1" onclick="toggleRefinanceNote()">
         <span id="q9-refinance-label">Yes and I'm looking to refinance</span>
         <input type="text" id="refinance-note" placeholder="Tell us about your existing finance — lender, approximate balance and monthly payment" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ9Continue()" onclick="event.stopPropagation()">
       </div>
@@ -1178,7 +1178,7 @@
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How quickly do you need the funding?</h2>
     <p class="question-sub" style="color:#D94F00">Whether you need funding tomorrow or you're planning your next big move — the right timing makes all the difference.</p>
-    <div class="answer-options" id="q10-opts">
+    <div class="answer-options" id="q10-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectUrgency('Urgently — within days', this)">Urgently — within days</button>
       <button class="answer-btn" onclick="selectUrgency('Within 2–4 weeks', this)">Within 2–4 weeks</button>
       <button class="answer-btn" onclick="selectUrgency('Within 1–3 months', this)">Within 1–3 months</button>
@@ -1833,7 +1833,8 @@ function selectCredit(value, btn) {
   btn.classList.add('selected');
   document.getElementById('credit-note').style.display = 'none';
   document.getElementById('q6-notsure-label').style.display = '';
-  document.getElementById('q6-continue').style.display = 'block';
+  document.getElementById('q6-continue').style.display = 'none';
+  setTimeout(() => showScreen('screen-q7'), 280);
 }
 
 function toggleCreditNote() {
@@ -1889,7 +1890,8 @@ function selectExistingFinance(value, btn) {
   btn.classList.add('selected');
   document.getElementById('refinance-note').style.display = 'none';
   document.getElementById('q9-refinance-label').style.display = '';
-  document.getElementById('q9-continue').style.display = 'block';
+  document.getElementById('q9-continue').style.display = 'none';
+  setTimeout(() => showScreen('screen-q10'), 280);
 }
 
 function toggleRefinanceNote() {
