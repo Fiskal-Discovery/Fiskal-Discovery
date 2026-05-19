@@ -2393,20 +2393,6 @@ const fundingFinderFlow = [
     saveAs: "rdActivity"
   },
   {
-    id: "creditConcern",
-    type: "single-choice",
-    question: "Do you have any concerns about being approved for funding?",
-    subtitle: "CCJs, HMRC debt, previous declines, missed payments or past insolvencies — none of these automatically mean no.",
-    options: ["Yes", "No"],
-    saveAs: "creditConcern",
-    followUp: {
-      triggerValue: "Yes",
-      saveAs: "creditConcernDetails",
-      label: "Tell us more — we won't judge. The more honest you are, the better we can help you.",
-      placeholder: "e.g. CCJ, missed payments, HMRC debt..."
-    }
-  },
-  {
     id: "badDebt",
     type: "single-choice",
     question: "Do you have old unpaid invoices on your books that you've nearly given up on?",
@@ -2421,6 +2407,20 @@ const fundingFinderFlow = [
     subtitle: "Acquiring a business or buying out partners is more achievable than most people think — the right funding structure can make it happen.",
     options: ["Yes", "No", "Not right now but it's on my radar"],
     saveAs: "acquisition"
+  },
+  {
+    id: "creditConcern",
+    type: "single-choice",
+    question: "Do you have any concerns about being approved for funding?",
+    subtitle: "CCJs, HMRC debt, previous declines, missed payments or past insolvencies — none of these automatically mean no.",
+    options: ["Yes", "No"],
+    saveAs: "creditConcern",
+    followUp: {
+      triggerValue: "Yes",
+      saveAs: "creditConcernDetails",
+      label: "Tell us more — we won't judge. The more honest you are, the better we can help you.",
+      placeholder: "e.g. CCJ, missed payments, HMRC debt..."
+    }
   },
   {
     id: "extraInfo",
