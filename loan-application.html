@@ -755,7 +755,7 @@
     <p class="question-sub">We've pulled these through from your previous answers.</p>
     <div class="ai-summary" id="details-summary">
       <div class="ai-summary-label">Saved details</div>
-      <p class="ai-summary-text" id="confirm-details-list">Loading your saved details...</p>
+      <div class="ai-summary-text" id="confirm-details-list">Loading your saved details...</div>
     </div>
     <div id="details-edit-form" style="display:none">
       <div class="form-group">
@@ -1567,16 +1567,23 @@ function populateDetailsSummary() {
   const summary = document.getElementById('confirm-details-list');
   if (!summary) return;
 
-  summary.innerHTML = `
-    <strong>Name:</strong> ${escapeHtml(getDetailValue(state.name))}<br>
-    <strong>Business name:</strong> ${escapeHtml(getDetailValue(state.business))}<br>
-    <strong>Email:</strong> ${escapeHtml(getDetailValue(state.email))}<br>
-    <strong>Phone:</strong> ${escapeHtml(getDetailValue(state.phone))}<br>
-    <strong>Company number:</strong> ${escapeHtml(getDetailValue(state.companyNumber))}<br>
-    <strong>Last year's turnover:</strong> ${escapeHtml(getDetailValue(state.turnover))}<br>
-    <strong>Expected turnover:</strong> ${escapeHtml(getDetailValue(state.turnoverNext))}<br>
-    <strong>Director property ownership:</strong> ${escapeHtml(getDetailValue(state.propertyOwners))}
-  `;
+  const items = [
+    ['Name', state.name],
+    ['Business', state.business],
+    ['Email', state.email],
+    ['Phone', state.phone],
+    ['Company no.', state.companyNumber],
+    ['Turnover', state.turnover],
+    ['Next year', state.turnoverNext],
+    ['Property owners', state.propertyOwners],
+  ];
+  summary.innerHTML = `<div class="detail-grid">${
+    items.map(([label, val]) => `
+      <div class="detail-item">
+        <span class="detail-label">${label}</span>
+        <span class="detail-value">${escapeHtml(getDetailValue(val))}</span>
+      </div>`).join('')
+  }</div>`;
 }
 
 function populateDetailsForm() {
@@ -2443,6 +2450,31 @@ async function sendClientSummaryEmail(summary) {
   }
   #screen-details .ai-summary-text {
     color: rgba(255,255,255,0.85) !important;
+  }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+  }
+  .detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .detail-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.4);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+  }
+  .detail-value {
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 400;
+    word-break: break-word;
   }
 
   .question-sub {
