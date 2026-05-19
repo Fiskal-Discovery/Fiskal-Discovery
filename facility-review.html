@@ -1242,17 +1242,17 @@
     <div class="question-product">Invoice Finance Review</div>
     <h2 class="question-text">What matters most to you?</h2>
     <p class="question-sub">Tick all that apply.</p>
-    <div class="checkbox-options" id="if-priorities-options">
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Lower fees and charges')"><div class="checkbox-tick"></div> 💰 Lower fees and charges</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Higher advance rate')"><div class="checkbox-tick"></div> 📈 A higher advance rate — more cash upfront</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Better service')"><div class="checkbox-tick"></div> 🤝 Better service and relationship with my funder</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'More flexibility')"><div class="checkbox-tick"></div> 🔓 More flexibility — less restrictive facility</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Less paperwork and admin')"><div class="checkbox-tick"></div> 📋 Less paperwork and admin</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'No monthly minimums')"><div class="checkbox-tick"></div> 🚫 No monthly minimums</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Shorter contract or less notice')"><div class="checkbox-tick"></div> 🔒 A shorter contract or less notice period</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Fund international debtors')"><div class="checkbox-tick"></div> 🌍 Ability to fund international debtors</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'A funder who understands my industry')"><div class="checkbox-tick"></div> 🏗️ A funder who understands my industry</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Just want to know if I could do better')"><div class="checkbox-tick"></div> ❓ Just want to know if I could do better</button>
+    <div class="checkbox-options" id="if-priorities-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Lower fees and charges')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💰 Lower fees and charges</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Higher advance rate')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📈 Higher advance rate</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Better service')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🤝 Better service</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'More flexibility')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🔓 More flexibility</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Less paperwork and admin')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📋 Less paperwork and admin</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'No monthly minimums')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🚫 No monthly minimums</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Shorter contract or less notice')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🔒 Shorter contract / notice</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Fund international debtors')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🌍 International debtors</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'A funder who understands my industry')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🏗️ Industry expertise</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Just want to know if I could do better')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> ❓ Am I on a good deal?</button>
     </div>
     <button class="btn-primary" onclick="showScreen('screen-if-upload')">Continue →</button>
     <div class="nav-row">
@@ -1552,14 +1552,14 @@
     <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">What would you like to achieve?</h2>
     <p class="question-sub">Tick all that apply.</p>
-    <div class="checkbox-options">
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Refinance at a lower rate')"><div class="checkbox-tick"></div> 💰 Refinance at a lower rate</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Reduce monthly repayments')"><div class="checkbox-tick"></div> 📉 Reduce my monthly repayments</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Consolidate multiple loans')"><div class="checkbox-tick"></div> 🔄 Consolidate multiple loans into one</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Replace with different funding')"><div class="checkbox-tick"></div> 🚀 Replace the loan with a different type of funding</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Extend the term')"><div class="checkbox-tick"></div> ⏱️ Extend the term to free up cash flow</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Access additional funding')"><div class="checkbox-tick"></div> 💳 Access additional funding on top</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Just want to know if on best deal')"><div class="checkbox-tick"></div> ❓ Just want to know if I'm on the best deal</button>
+    <div class="checkbox-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Refinance at a lower rate')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💰 Refinance at a lower rate</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Reduce monthly repayments')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📉 Reduce monthly repayments</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Consolidate multiple loans')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🔄 Consolidate multiple loans</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Replace with different funding')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🚀 Switch to different funding</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Extend the term')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> ⏱️ Extend the term</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Access additional funding')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💳 Access more funding</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Just want to know if on best deal')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> ❓ Am I on the best deal?</button>
     </div>
     <button class="btn-primary" onclick="showScreen('screen-loan-upload')">Continue →</button>
     <div class="nav-row">
@@ -1835,15 +1835,15 @@
     <div class="question-product">FX Review</div>
     <h2 class="question-text">Do you sell through any online platforms?</h2>
     <p class="question-sub">Most platforms add hidden currency conversion charges on top of their transaction fees.</p>
-    <div class="checkbox-options">
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Shopify')"><div class="checkbox-tick"></div> Shopify</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Amazon')"><div class="checkbox-tick"></div> Amazon</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'eBay')"><div class="checkbox-tick"></div> eBay</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Etsy')"><div class="checkbox-tick"></div> Etsy</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'WooCommerce')"><div class="checkbox-tick"></div> WooCommerce</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'TikTok Shop')"><div class="checkbox-tick"></div> TikTok Shop</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Other')"><div class="checkbox-tick"></div> Other</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'No')"><div class="checkbox-tick"></div> No — I don't sell online</button>
+    <div class="checkbox-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Shopify')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Shopify</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Amazon')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Amazon</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'eBay')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> eBay</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Etsy')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Etsy</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'WooCommerce')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> WooCommerce</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'TikTok Shop')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> TikTok Shop</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Other')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Other</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'No')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> No — I don't sell online</button>
     </div>
     <button class="btn-primary" onclick="showScreen('screen-fx-goals')" style="margin-top:8px">Continue →</button>
     <div class="nav-row">
@@ -1870,14 +1870,14 @@
     <div class="question-product">FX Review</div>
     <h2 class="question-text">What would you like to achieve?</h2>
     <p class="question-sub">Tick all that apply.</p>
-    <div class="checkbox-options">
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Pay less on currency conversions')"><div class="checkbox-tick"></div> 💰 Pay less on currency conversions</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Get better exchange rates')"><div class="checkbox-tick"></div> 📈 Get better exchange rates</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Faster international payments')"><div class="checkbox-tick"></div> ⚡ Faster international payments</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Reduce platform currency charges')"><div class="checkbox-tick"></div> 🛒 Reduce platform currency charges</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Access to more currencies')"><div class="checkbox-tick"></div> 🌍 Access to more currencies</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'More support and clarity on FX charges')"><div class="checkbox-tick"></div> 🤝 More support and clarity on FX charges and options</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Just want to know what I am currently paying')"><div class="checkbox-tick"></div> ❓ Just want to know what I'm currently paying</button>
+    <div class="checkbox-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Pay less on currency conversions')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💰 Pay less on conversions</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Get better exchange rates')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📈 Better exchange rates</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Faster international payments')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> ⚡ Faster international payments</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Reduce platform currency charges')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🛒 Reduce platform FX charges</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Access to more currencies')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🌍 Access more currencies</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'More support and clarity on FX charges')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🤝 More clarity on FX charges</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Just want to know what I am currently paying')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> ❓ What am I paying now?</button>
     </div>
     <button class="btn-primary" onclick="showScreen('screen-fx-upload')" style="margin-top:8px">Continue →</button>
     <div class="nav-row">
