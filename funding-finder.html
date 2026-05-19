@@ -1714,7 +1714,16 @@
   #screen-confirm .ob-fixed-header { position: relative; z-index: 1; }
 
   #screen-results .results-check {
-    background: linear-gradient(135deg, #D94F00, #ff7a2e) !important;
+    width: 72px !important;
+    height: 72px !important;
+    background: linear-gradient(135deg, #D94F00 0%, #ff7a2e 100%) !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 0 4px rgba(217,79,0,0.2), 0 0 24px rgba(217,79,0,0.35) !important;
+    font-family: 'Raleway', sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    letter-spacing: 1px !important;
   }
   #screen-results .results-title {
     font-family: 'Raleway', sans-serif !important;
@@ -2868,6 +2877,17 @@ function saveDiscovery(module, icon, summaryHtml, business) {
 }
 
 function displayResults(summary, matchedProducts) {
+  // Populate initials in the orange dot
+  const checkEl = document.querySelector('#screen-results .results-check');
+  if (checkEl) {
+    const name = state.name || '';
+    const parts = name.trim().split(/\s+/);
+    const initials = parts.length >= 2
+      ? parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase()
+      : (parts[0] ? parts[0][0].toUpperCase() : '');
+    checkEl.textContent = initials;
+  }
+
   // Set summary label with business name in orange
   const summaryHeadingEl = document.getElementById('ai-summary-label');
   if (summaryHeadingEl) {
