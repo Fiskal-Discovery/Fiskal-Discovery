@@ -370,49 +370,6 @@
     overflow: hidden;
   }
 
-  .loading-message.thinking-phrase {
-    font-size: clamp(1.1rem, 3vw, 2rem);
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-align: center;
-    color: #333;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 500ms ease, transform 500ms ease;
-  }
-
-  .loading-message.thinking-phrase.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .loading-message.thinking-phrase.shimmer {
-    background: linear-gradient(
-      90deg,
-      rgba(255,255,255,0.45) 0%,
-      #ffffff 35%,
-      #FFE600 50%,
-      #ffffff 65%,
-      rgba(255,255,255,0.45) 100%
-    );
-    background-size: 220% auto;
-    background-position: 220% center;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: thinkingShimmer 1.8s ease-in-out forwards;
-    text-shadow: 0 0 18px rgba(79, 70, 229, 0.35);
-  }
-
-  @keyframes thinkingShimmer {
-    0% {
-      background-position: 220% center;
-    }
-    100% {
-      background-position: -220% center;
-    }
-  }
-
   .loading-message::before {
     content: '';
     position: absolute;
@@ -770,72 +727,6 @@
   .intro-cta:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(79,70,229,0.3);
-  }
-
-  /* ---- SHARIAH THINKING SCREEN OVERLAY ---- */
-  #shariah-thinking-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #ffffff 0%, #f8efff 45%, #eaf8ff 100%);
-    text-align: center;
-  }
-  #shariah-thinking-screen.active {
-    display: flex;
-  }
-  #shariah-thinking-screen .thinking-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 28px;
-    padding: 32px;
-  }
-  #shariah-thinking-screen .thinking-spinner {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: 4px solid rgba(79,70,229,0.18);
-    border-top-color: #4f46e5;
-    animation: spinThinking 1s linear infinite;
-  }
-  #shariah-thinking-screen .thinking-phrase {
-    font-size: clamp(1.2rem, 4vw, 2rem);
-    font-weight: 700;
-    text-align: center;
-    color: #333;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 500ms ease, transform 500ms ease;
-  }
-  #shariah-thinking-screen .thinking-phrase.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  #shariah-thinking-screen .thinking-phrase.shimmer {
-    background: linear-gradient(
-      90deg,
-      rgba(79,70,229,0.65) 0%,
-      #4f46e5 35%,
-      #FFE600 50%,
-      #4f46e5 65%,
-      rgba(79,70,229,0.65) 100%
-    );
-    background-size: 260% auto;
-    background-position: 260% center;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: thinkingShimmer 3.8s ease-in-out forwards;
-  }
-  @keyframes thinkingShimmer {
-    0%   { background-position: 260% center; }
-    100% { background-position: -260% center; }
-  }
-  @keyframes spinThinking {
-    to { transform: rotate(360deg); }
   }
 
   #screen-results .screen-content {
@@ -1243,72 +1134,6 @@ function selectTimeline(timeline, btn) {
 // ============================================================
 // SUBMIT & RESULTS
 // ============================================================
-function showShariahThinkingScreen(callback) {
-
-  var profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}');
-  var userName = profile.name || '';
-  var phrases = [
-    'Every great business is on a journey.',
-    'Mapping your funding options...',
-    'Thanks for waiting, ' + userName + ' — your discovery is ready.'
-  ];
-
-  var screen = document.getElementById('shariah-thinking-screen');
-  if (!screen) {
-    screen = document.createElement('div');
-    screen.id = 'shariah-thinking-screen';
-    screen.innerHTML = '<div class="thinking-inner"><div class="thinking-spinner"></div><div id="shariah-thinking-phrase" class="thinking-phrase"></div></div>';
-    document.body.appendChild(screen);
-  }
-
-  var phraseEl = document.getElementById('shariah-thinking-phrase');
-  screen.style.display = 'flex';
-  screen.classList.add('active');
-
-  var index = 0;
-
-  function showPhrase() {
-    if (index >= phrases.length) {
-      // Fade out the entire loading screen
-      screen.style.opacity = '0';
-      screen.style.transition = 'opacity 400ms ease';
-      setTimeout(function() {
-        screen.classList.remove('active');
-        screen.style.display = 'none';
-        screen.style.opacity = '1';
-        screen.style.transition = '';
-        callback();
-      }, 400);
-      return;
-    }
-
-    // Fade out current phrase (opacity 1 → 0, 300ms)
-    phraseEl.style.transition = 'opacity 300ms ease, transform 300ms ease';
-    phraseEl.style.opacity = '0';
-    phraseEl.style.transform = 'translateY(10px)';
-    
-    setTimeout(function() {
-      // Update text
-      phraseEl.textContent = phrases[index];
-      
-      // Fade in next phrase (opacity 0 → 1, 400ms, translateY 10px → 0)
-      phraseEl.style.transition = 'opacity 400ms ease, transform 400ms ease';
-      phraseEl.style.opacity = '1';
-      phraseEl.style.transform = 'translateY(0)';
-      
-      // Determine display duration: 2s for normal phrases, 3s for final phrase
-      var isFinalPhrase = index === phrases.length - 1;
-      var displayDuration = isFinalPhrase ? 3000 : 2000;
-      
-      index++;
-      
-      setTimeout(showPhrase, displayDuration);
-    }, 300);
-  }
-
-  showPhrase();
-}
-
 function saveDiscovery(module, icon, summaryHtml, business) {
   try {
     const key = 'fiskal_discoveries';
@@ -1321,13 +1146,7 @@ function saveDiscovery(module, icon, summaryHtml, business) {
 }
 
 function submitDiscovery() {
-  showShariahThinkingScreen(function() {
-    displayResults();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-}
-
-function displayResults() {
+  // Pre-build the summary before the loading screen starts
   const purposes = state.purposes || [];
   const otherPurpose = state.otherPurpose || '';
   const purposeText = otherPurpose || purposes.join(' and ');
@@ -1365,20 +1184,38 @@ function displayResults() {
     business:     savedBusiness
   };
 
-  let summary;
+  let result;
   try {
-    summary = buildDiscoverySummary('shariah', shariahAnswers);
+    result = buildDiscoverySummary('shariah', shariahAnswers);
   } catch (error) {
     console.warn('Summary builder failed, using fallback Shariah summary', error);
-    summary = {
+    result = {
       pageHeading:    'Your Fiskal Discovery is ready',
       summaryHeading: "Here's what we discovered",
       summaryHtml:    existingFallbackSummaryHtml
     };
   }
 
+  // Get first name for the loading screen
+  var profile = {};
+  try { profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}'); } catch(e) {}
+  var firstName = (profile.name || '').split(' ')[0];
+
+  showFiskalLoadingScreen(firstName, function() {
+    displayResults(result);
+  });
+}
+
+function displayResults(summary) {
   // Inject summary content
   document.getElementById('summary-text').innerHTML = summary.summaryHtml;
+
+  // Attempt to retrieve business name saved from a previous journey
+  let savedBusiness = '';
+  try {
+    const profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}');
+    savedBusiness = profile.businessName || '';
+  } catch (e) {}
 
   saveDiscovery('Shariah-Compliant Funding', '🕌', summary.summaryHtml, savedBusiness);
 
@@ -1569,5 +1406,6 @@ const fundingLinks = {
 
 </script>
 
+<script src="logic/fiskalLoading.js"></script>
 </body>
 </html>
