@@ -1795,10 +1795,10 @@ function selectSecurity(value, btn) {
   state.security = value;
   document.querySelectorAll('#q5-opts .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  // Close not-sure slot
   document.getElementById('security-note').style.display = 'none';
   document.getElementById('q5-notsure-label').style.display = '';
-  document.getElementById('q5-continue').style.display = 'block';
+  document.getElementById('q5-continue').style.display = 'none';
+  setTimeout(() => showScreen('screen-q6'), 280);
 }
 
 function toggleSecurityNote() {
