@@ -1973,7 +1973,16 @@
 
   <div id="ob-overlay-stars"></div>
 
-  <main class="ob-main">
+  <!-- Fixed progress bar - always at top -->
+  <div id="ob-fixed-progress" style="display:none;position:fixed;top:0;left:0;right:0;z-index:10002;padding:14px 24px 0;">
+    <div id="ob-fixed-eyebrow" style="font-family:Raleway,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E7ED8;margin-bottom:8px;text-align:center;"></div>
+    <div style="height:3px;background:rgba(255,255,255,0.12);border-radius:3px;overflow:hidden;margin-bottom:6px;">
+      <div id="ob-fixed-fill" style="height:100%;background:#D94F00;border-radius:3px;transition:width 0.5s ease;width:0%"></div>
+    </div>
+    <div id="ob-fixed-label" style="font-size:11px;color:rgba(255,255,255,0.4);text-align:right;"></div>
+  </div>
+
+  <main class="ob-main" style="padding-top:72px;">
     <div id="welcome-question-container"></div>
     <div id="ob-chat"></div>
     <div id="ob-input-area" style="display:none;">
@@ -2484,6 +2493,7 @@ function obGoBack() {
     document.getElementById('onboarding-overlay').classList.add('hidden');
     document.getElementById('screen-landing').classList.add('active');
     document.getElementById('ob-back-btn').style.display = 'none';
+    const fp = document.getElementById('ob-fixed-progress'); if (fp) fp.style.display = 'none';
   } else if (welcomeState.currentQuestion > 0) {
     // Otherwise, go to previous onboarding question
     welcomeState.currentQuestion--;
@@ -2510,19 +2520,17 @@ function renderWelcomeQuestion() {
   const wrap = document.createElement('div');
   wrap.className = 'ob-q-wrap';
 
-  // Progress bar
+  // Progress bar — update fixed header at top
   const total = welcomeFlow.length;
   const current = welcomeState.currentQuestion;
-  const eyebrow = document.createElement('div');
-  eyebrow.textContent = 'Getting Started';
-  eyebrow.style.cssText = 'font-family:Raleway,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E7ED8;margin-bottom:10px;text-align:center;';
-  wrap.appendChild(eyebrow);
-
   const pct = Math.round(((current + 1) / total) * 100);
-  const barRow = document.createElement('div');
-  barRow.className = 'ob-q-progress-row';
-  barRow.innerHTML = `<div class="ob-q-progress-track"><div class="ob-q-progress-fill" style="width:${pct}%"></div></div><div class="ob-q-progress-label">Question ${current + 1} of ${total}</div>`;
-  wrap.appendChild(barRow);
+  const fixedProgress = document.getElementById('ob-fixed-progress');
+  if (fixedProgress) {
+    fixedProgress.style.display = 'block';
+    document.getElementById('ob-fixed-eyebrow').textContent = 'Getting Started';
+    document.getElementById('ob-fixed-fill').style.width = pct + '%';
+    document.getElementById('ob-fixed-label').textContent = \`Question \${current + 1} of \${total}\`;
+  }
 
   // Question heading
   const heading = document.createElement('div');
