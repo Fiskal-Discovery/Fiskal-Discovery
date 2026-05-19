@@ -2073,33 +2073,40 @@ async function submitApplication() {
   const btn = document.getElementById('loan-submit-btn');
   if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
 
-  const tl = calculateTrafficLight();
-
-  // Show loading screen
+  // Show loading screen first and let browser paint it
   showScreen('screen-loading');
-  const loadingFirstName = state.name.trim().split(/\s+/)[0] || 'there';
-  const loadingNameEl = document.getElementById('loading-first-name');
-  if (loadingNameEl) loadingNameEl.textContent = loadingFirstName;
+  await new Promise(r => setTimeout(r, 50));
 
-  // Build summary
-  const summaryResult = buildDiscoverySummary('loan-application', {
-    name: state.name, business: state.business, email: state.email, phone: state.phone,
-    companyNumber: state.companyNumber, turnover: state.turnover, turnoverNext: state.turnoverNext,
-    propertyOwners: state.propertyOwners, loanType: state.loanType, purpose: state.purpose,
-    amount: state.amount, term: state.term, security: state.security, securityNote: state.securityNote,
-    credit: state.credit, creditNote: state.creditNote, tradingHistory: state.tradingHistory,
-    monthlyTurnover: state.monthlyTurnover, existingFinance: state.existingFinance,
-    existingFinanceNote: state.existingFinanceNote, urgency: state.urgency,
-    additionalNotes: state.additionalNotes, uploadChoice: state.uploadChoice,
-    loanFiles: state.loanFiles, trafficLightScore: tl.score, trafficLightRating: tl.rating
-  });
+  try {
+    const tl = calculateTrafficLight();
 
-  // Simulate processing delay
-  await new Promise(r => setTimeout(r, 3000));
+    // Build summary during loading delay
+    let summaryResult = null;
+    try {
+      summaryResult = buildDiscoverySummary('loan-application', {
+        name: state.name, business: state.business, email: state.email, phone: state.phone,
+        companyNumber: state.companyNumber, turnover: state.turnover, turnoverNext: state.turnoverNext,
+        propertyOwners: state.propertyOwners, loanType: state.loanType, purpose: state.purpose,
+        amount: state.amount, term: state.term, security: state.security, securityNote: state.securityNote,
+        credit: state.credit, creditNote: state.creditNote, tradingHistory: state.tradingHistory,
+        monthlyTurnover: state.monthlyTurnover, existingFinance: state.existingFinance,
+        existingFinanceNote: state.existingFinanceNote, urgency: state.urgency,
+        additionalNotes: state.additionalNotes, uploadChoice: state.uploadChoice,
+        loanFiles: state.loanFiles, trafficLightScore: tl.score, trafficLightRating: tl.rating
+      });
+    } catch(e) { console.warn('Summary build failed:', e); }
 
-  await sendNotification(summaryResult ? summaryResult.summaryText || '' : '');
-  displayResults(summaryResult, tl);
-  showScreen('screen-results');
+    // Minimum loading time
+    await new Promise(r => setTimeout(r, 3000));
+
+    await sendNotification(summaryResult ? summaryResult.summaryText || '' : '');
+    displayResults(summaryResult, tl);
+    showScreen('screen-results');
+  } catch(e) {
+    console.error('Submit failed:', e);
+    if (btn) { btn.disabled = false; btn.textContent = 'Submit My Discovery'; }
+    showScreen('screen-q12');
+  }
 }
 
 // ============================================================
