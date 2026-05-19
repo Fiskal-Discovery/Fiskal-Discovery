@@ -1304,14 +1304,10 @@
         <span class="answer-emoji">✨</span> Something else
       </button>
     </div>
-    <button class="btn-primary" id="q1-continue" onclick="savePurposes()" style="display:none;margin-top:16px">Continue</button>
-    <div id="other-purpose-container" style="display: none;">
-      <div class="form-group">
-        <label class="form-label">Tell us what you're hoping to achieve</label>
-        <input type="text" class="form-input" id="other-purpose" placeholder="Describe your funding purpose...">
-      </div>
-      <button class="btn-primary" onclick="saveOtherPurpose()">Continue</button>
+    <div id="other-purpose-container" style="display:none;margin-top:10px">
+      <input type="text" class="form-input" id="other-purpose" placeholder="Describe your funding purpose…" oninput="updateQ1Continue()">
     </div>
+    <button class="btn-primary" id="q1-continue" onclick="savePurposes()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
   <div class="screen-footer">
     <button class="back-btn" onclick="showScreen('screen-home')" style="margin:0 auto;">‹ Back</button>
@@ -1534,40 +1530,32 @@ function selectPurpose(purpose, btn) {
     btn.classList.add('selected');
   }
   
-  // Handle 'Something else' separately
   if (purpose === 'Something else') {
-    if (state.purposes.includes('Something else')) {
-      document.getElementById('other-purpose-container').style.display = 'block';
-    } else {
-      document.getElementById('other-purpose-container').style.display = 'none';
-    }
+    const show = state.purposes.includes('Something else');
+    document.getElementById('other-purpose-container').style.display = show ? 'block' : 'none';
+    if (show) document.getElementById('other-purpose').focus();
+    else document.getElementById('other-purpose').value = '';
   }
-  
-  // Show/hide Continue button based on selection
-  const continueBtn = document.getElementById('q1-continue');
-  if (state.purposes.length > 0 && !state.purposes.includes('Something else')) {
-    continueBtn.style.display = 'block';
-  } else {
-    continueBtn.style.display = 'none';
-  }
+  updateQ1Continue();
+}
+
+function updateQ1Continue() {
+  const hasOther = state.purposes && state.purposes.includes('Something else');
+  const otherFilled = hasOther && document.getElementById('other-purpose').value.trim().length > 0;
+  const nonOther = (state.purposes || []).filter(p => p !== 'Something else').length;
+  const canContinue = nonOther > 0 || otherFilled;
+  document.getElementById('q1-continue').style.display = canContinue ? 'block' : 'none';
 }
 
 function savePurposes() {
-  if (!state.purposes || state.purposes.length === 0) {
-    alert('Please select at least one purpose');
-    return;
+  const purposes = [...(state.purposes || [])];
+  const otherVal = document.getElementById('other-purpose').value.trim();
+  if (purposes.includes('Something else')) {
+    purposes.splice(purposes.indexOf('Something else'), 1);
+    if (otherVal) purposes.push(otherVal);
   }
+  state.purposeSummary = purposes.join(', ');
   showScreen('screen-q2');
-}
-
-function saveOtherPurpose() {
-  const otherPurpose = document.getElementById('other-purpose').value.trim();
-  if (!otherPurpose) {
-    alert('Please tell us what you\'re hoping to achieve');
-    return;
-  }
-  state.otherPurpose = otherPurpose;
-  setTimeout(() => showScreen('screen-q2'), 300);
 }
 
 function selectNotSure(btn) {
