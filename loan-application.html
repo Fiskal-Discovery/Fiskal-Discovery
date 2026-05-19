@@ -48,7 +48,7 @@
     font-weight: 400;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
+  body { font-family: 'DM Sans', sans-serif; background: #000000; color: var(--dark); min-height: 100vh; overflow-x: hidden; }
   .bg-orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; opacity: 0.12; }
   .bg-orb-1 { width: 600px; height: 600px; background: var(--indigo); top: -200px; right: -200px; }
   .bg-orb-2 { width: 400px; height: 400px; background: var(--blue); bottom: -100px; left: -100px; }
@@ -2551,6 +2551,9 @@ async function sendClientSummaryEmail(summary) {
     color: #ffffff;
     line-height: 1.55;
     max-width: 520px;
+  }
+  #screen-welcome {
+    background: var(--cream);
   }
   #screen-welcome .btn-primary {
     background: #D94F00 !important;
