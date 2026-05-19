@@ -1300,12 +1300,10 @@
       <button class="answer-btn" onclick="selectPurpose('Refinance existing funding', this)">
         <span class="answer-emoji">🔄</span> Refinance existing funding
       </button>
-      <button class="answer-btn" onclick="selectPurpose('Something else', this)" style="grid-column:1/-1">
-        <span class="answer-emoji">✨</span> Something else
-      </button>
-    </div>
-    <div id="other-purpose-container" style="display:none;margin-top:10px">
-      <input type="text" class="form-input" id="other-purpose" placeholder="Describe your funding purpose…" oninput="updateQ1Continue()">
+      <div id="purpose-other-slot" class="answer-btn" style="grid-column:1/-1;cursor:text;display:flex;align-items:center;gap:8px" onclick="togglePurposeOtherSlot()">
+        <span class="answer-emoji">✨</span><span id="purpose-other-label">Something else</span>
+        <input type="text" id="other-purpose" placeholder="Describe your funding purpose…" style="display:none;flex:1;background:transparent;border:none;outline:none;color:inherit;font:inherit;padding:0" oninput="updateQ1Continue()" onclick="event.stopPropagation()">
+      </div>
     </div>
     <button class="btn-primary" id="q1-continue" onclick="savePurposes()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
@@ -1531,12 +1529,25 @@ function selectPurpose(purpose, btn) {
   }
   
   if (purpose === 'Something else') {
-    const show = state.purposes.includes('Something else');
-    document.getElementById('other-purpose-container').style.display = show ? 'block' : 'none';
-    if (show) document.getElementById('other-purpose').focus();
-    else document.getElementById('other-purpose').value = '';
+    const active = state.purposes.includes('Something else');
+    const slot = document.getElementById('purpose-other-slot');
+    const label = document.getElementById('purpose-other-label');
+    const input = document.getElementById('other-purpose');
+    if (active) {
+      label.style.display = 'none';
+      input.style.display = 'block';
+      input.focus();
+    } else {
+      label.style.display = '';
+      input.style.display = 'none';
+      input.value = '';
+    }
   }
   updateQ1Continue();
+}
+
+function togglePurposeOtherSlot() {
+  selectPurpose('Something else', document.getElementById('purpose-other-slot'));
 }
 
 function updateQ1Continue() {
