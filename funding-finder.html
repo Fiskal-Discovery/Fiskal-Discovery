@@ -2292,7 +2292,6 @@ const state = {
 // DYNAMIC QUESTION FLOW — FUNDING FINDER
 // ============================================================
 const fundingFinderFlow = [
-  // Product-discovery questions only - profile data comes from appState.profile
   {
     id: "purpose",
     type: "multi-choice",
@@ -2316,103 +2315,98 @@ const fundingFinderFlow = [
     }
   },
   {
-    id: "invoiceCustomers",
+    id: "invoiceFinance",
     type: "single-choice",
-    question: "Do you invoice businesses, consumers, or both?",
-    subtitle: "Whatever your answer, there's likely a funding solution built for exactly how you work.",
-    options: [
-      "Other businesses (B2B)",
-      "Consumers / members of the public (B2C)",
-      "Both"
-    ],
-    saveAs: "invoiceCustomers"
-  },
-  {
-    id: "paymentTerms",
-    type: "single-choice",
-    question: "How long do your customers typically take to pay?",
-    subtitle: "Imagine having that cash up front — more stock, bigger orders, new opportunities.... What could you do if you didn't have to wait 30, 60, 90 days to get paid?",
-    options: ["30 days", "60 days", "90 days", "90+ days"],
-    saveAs: "paymentTerms",
-    condition: (answers) =>
-      answers.invoiceCustomers === "Other businesses (B2B)" ||
-      answers.invoiceCustomers === "Both"
-  },
-  {
-    id: "cardPayments",
-    type: "single-choice",
-    question: "Do your customers ever pay you by card - either online or in person?",
-    subtitle: "Your card transactions could be your secret weapon for unlocking fast, flexible funding.",
-    options: ["Yes", "No", "Sometimes / potentially"],
-    saveAs: "cardPayments"
-  },
-  {
-    id: "assetFinance",
-    type: "single-choice",
-    question: "Could new equipment, vehicles or machinery take your business to the next level — with nothing to pay upfront?",
-    subtitle: "Vehicles, machinery, racking, refrigeration, fit-outs — the possibilities are endless, and none of it needs to touch your cashflow.",
-    options: ["Yes", "No"],
-    saveAs: "assetFinance"
+    question: "Do you send invoices to other businesses and wait 30, 60, even 90 days to get paid?",
+    subtitle: "Imagine what your business could achieve with that money in your account within 24 hours.",
+    options: ["Yes", "No", "Not yet but potentially in future"],
+    saveAs: "invoiceFinance"
   },
   {
     id: "tradeFinance",
     type: "single-choice",
-    question: "Do you have suppliers you need to pay before your customers pay you?",
-    subtitle: "If cash is tied up waiting on orders or import cycles, there's funding built specifically to bridge that gap — and it can open doors to better supplier terms too.",
-    options: ["Yes", "No", "Sometimes"],
+    question: "Would your business benefit from supplier discounts and having stock paid for upfront?",
+    subtitle: "The businesses that pay suppliers upfront get the best prices — and can take on bigger orders than they ever thought possible.",
+    options: ["Yes", "No", "I don't buy from suppliers"],
     saveAs: "tradeFinance"
+  },
+  {
+    id: "assetFinance",
+    type: "single-choice",
+    question: "Could your business benefit and grow with new equipment, vehicles or machinery — without paying upfront?",
+    subtitle: "Vehicles, machinery, racking, refrigeration, fit-outs — the possibilities are endless, and none of it needs to touch your cashflow.",
+    options: ["Yes", "No", "Maybe — tell me more"],
+    saveAs: "assetFinance"
+  },
+  {
+    id: "loanRevolving",
+    type: "single-choice",
+    question: "Is there something amazing your business could do with a lump sum of cash, or an ongoing flexible credit line?",
+    subtitle: "Sometimes one injection of capital — or a funding line ready when you need it — is all it takes to change everything.",
+    options: ["A lump sum would help", "A flexible credit line would help", "Both", "No"],
+    saveAs: "loanRevolving"
+  },
+  {
+    id: "propertyPlans",
+    type: "single-choice",
+    question: "Are you looking to purchase, develop, or refinance commercial property?",
+    subtitle: "Owning your premises could be one of the smartest moves your business ever makes.",
+    options: ["Yes", "No", "Not right now but maybe in future"],
+    saveAs: "propertyPlans"
+  },
+  {
+    id: "cardPayments",
+    type: "single-choice",
+    question: "Do your customers pay you by card — online or in person?",
+    subtitle: "Your card transactions could be your secret weapon for unlocking fast, flexible funding.",
+    options: ["Yes", "No"],
+    saveAs: "cardPayments"
   },
   {
     id: "fxExposure",
     type: "single-choice",
-    question: "Does your business deal in foreign currencies or trade internationally?",
-    subtitle: "Exchange rate swings can silently eat into your margins. The right FX solution can protect your pricing and make overseas trade far more predictable.",
-    options: ["Yes", "No", "Not yet but we're exploring it"],
+    question: "Does your business send or receive money in foreign currencies?",
+    subtitle: "Most businesses have no idea how much their bank quietly takes on every transaction — there could be significant savings waiting.",
+    options: ["Yes", "No", "Not yet but we're looking to trade internationally"],
     saveAs: "fxExposure"
   },
   {
     id: "rdActivity",
     type: "single-choice",
-    question: "Does your business invest in research, development or innovation?",
-    subtitle: "If you're developing new products, processes or technology — even internally — you could be sitting on a significant tax credit you don't know about.",
+    question: "Does your business develop new products, processes, or technology?",
+    subtitle: "You could already be owed money back — and not even know it.",
     options: ["Yes", "No", "Not sure"],
     saveAs: "rdActivity"
-  },
-  {
-    id: "propertyPlans",
-    type: "single-choice",
-    question: "Are you looking to buy, develop or refinance commercial property?",
-    subtitle: "Whether it's your own premises or an investment — commercial property finance works very differently to a standard business loan and can be structured around your plans.",
-    options: ["Yes", "No", "Maybe in the next 12 months"],
-    saveAs: "propertyPlans"
   },
   {
     id: "creditConcern",
     type: "single-choice",
     question: "Do you have any concerns about being approved for funding?",
-    subtitle: "CCJs, past insolvencies, missed payments, HMRC debt — they don't automatically mean no. You might be surprised what's still possible.",
-    options: ["Yes", "No", "Prefer not to say"],
+    subtitle: "CCJs, HMRC debt, previous declines, missed payments or past insolvencies — none of these automatically mean no.",
+    options: ["Yes", "No"],
     saveAs: "creditConcern",
     followUp: {
       triggerValue: "Yes",
       saveAs: "creditConcernDetails",
-      label: "Tell us a bit more if you're comfortable doing so:",
+      label: "Tell us more — we won't judge. The more honest you are, the better we can help you.",
       placeholder: "e.g. CCJ, missed payments, HMRC debt..."
     }
   },
   {
-    id: "previousIssues",
+    id: "badDebt",
     type: "single-choice",
-    question: "Have you previously applied for funding or spoken with lenders about your needs?",
-    subtitle: "Been turned down, quoted unaffordable rates, or don't know where to start — that's not the end of the story. Lenders and criteria change, and there are more options out there than most people realise.",
+    question: "Do you have old unpaid invoices on your books that you've nearly given up on?",
+    subtitle: "You might not have to write them off just yet — there are specialist options that could recover cash you thought was gone.",
     options: ["Yes", "No"],
-    saveAs: "previousIssues",
-    followUp: {
-      triggerValue: "Yes",
-      saveAs: "previousLenders",
-      label: "Who did you speak with or apply to?",
-      placeholder: "e.g. your bank, a broker, an online lender..."
-    }
+    saveAs: "badDebt"
+  },
+  {
+    id: "acquisition",
+    type: "single-choice",
+    question: "Are you looking to purchase a business or fund a management buyout?",
+    subtitle: "Acquiring a business or buying out partners is more achievable than most people think — the right funding structure can make it happen.",
+    options: ["Yes", "No", "Not right now but it's on my radar"],
+    saveAs: "acquisition"
   },
   {
     id: "extraInfo",
@@ -2673,9 +2667,6 @@ function submitFlow() {
   state.turnover = state.flowAnswers.turnover || state.turnover || '';
   const rawPurpose = state.flowAnswers.purpose || '';
   state.fundingPurpose = Array.isArray(rawPurpose) ? rawPurpose.join(', ') : rawPurpose;
-  state.urgency = state.flowAnswers.urgency || '';
-  state.invoiceCustomers = state.flowAnswers.invoiceCustomers || '';
-  state.paymentTerms = state.flowAnswers.paymentTerms || '';
   state.cardSales = state.flowAnswers.cardPayments || '';
   state.assetNeed = state.flowAnswers.assetFinance || '';
   state.creditConcern = state.flowAnswers.creditConcern || '';
@@ -2893,26 +2884,32 @@ function getMatchedProducts() {
   });
 
   // Direct question signals
-  if ((state.invoiceCustomers === 'Yes' || state.invoiceCustomers === 'Sometimes') && !matched.includes('invoice')) {
+  if ((fa.invoiceFinance === 'Yes' || fa.invoiceFinance === 'Not yet but potentially in future') && !matched.includes('invoice')) {
     matched.push('invoice');
   }
-  if (state.assetNeed === 'Yes' && !matched.includes('asset')) {
-    matched.push('asset');
-  }
-  if ((state.cardSales === 'Yes' || state.cardSales === 'Sometimes / potentially') && !matched.includes('mca')) {
-    matched.push('mca');
-  }
-  if ((fa.tradeFinance === 'Yes' || fa.tradeFinance === 'Sometimes') && !matched.includes('trade')) {
+  if ((fa.tradeFinance === 'Yes') && !matched.includes('trade')) {
     matched.push('trade');
   }
-  if ((fa.fxExposure === 'Yes' || fa.fxExposure === 'Not yet but we\'re exploring it') && !matched.includes('fx')) {
+  if ((fa.assetFinance === 'Yes' || fa.assetFinance === 'Maybe — tell me more') && !matched.includes('asset')) {
+    matched.push('asset');
+  }
+  if ((fa.loanRevolving === 'A lump sum would help' || fa.loanRevolving === 'Both') && !matched.includes('loan')) {
+    matched.push('loan');
+  }
+  if ((fa.loanRevolving === 'A flexible credit line would help' || fa.loanRevolving === 'Both') && !matched.includes('revolving')) {
+    matched.push('revolving');
+  }
+  if ((fa.propertyPlans === 'Yes' || fa.propertyPlans === 'Not right now but maybe in future') && !matched.includes('property')) {
+    matched.push('property');
+  }
+  if ((fa.cardPayments === 'Yes') && !matched.includes('mca')) {
+    matched.push('mca');
+  }
+  if ((fa.fxExposure === 'Yes' || fa.fxExposure === 'Not yet but we\'re looking to trade internationally') && !matched.includes('fx')) {
     matched.push('fx');
   }
   if ((fa.rdActivity === 'Yes' || fa.rdActivity === 'Not sure') && !matched.includes('rd')) {
     matched.push('rd');
-  }
-  if ((fa.propertyPlans === 'Yes' || fa.propertyPlans === 'Maybe in the next 12 months') && !matched.includes('property')) {
-    matched.push('property');
   }
 
   // Always surface at least a business loan as a baseline option
