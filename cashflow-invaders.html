@@ -66,42 +66,21 @@ body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block
 }
 </style>
 <style>
-  /* Leaderboard legend + badges */
-  .lb-legend {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  /* Leaderboard champion banner */
+  .lb-champ-banner {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.6);
     margin-bottom: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
+    text-align: center;
   }
-  .lb-legend-sep { color: rgba(255,255,255,0.3); }
-  .lb-legend-item { font-weight: 700; letter-spacing: 0.02em; }
-  .lb-legend-lender { color: #FFD700; }
-  .lb-legend-client { color: #00FF88; }
-  .lb-badge {
-    display: inline-block;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.58rem;
-    font-weight: 700;
-    border-radius: 3px;
-    padding: 1px 5px;
-    vertical-align: middle;
-    margin-left: 4px;
-    letter-spacing: 0.03em;
-  }
-  .lb-badge-lender {
-    background: rgba(255,215,0,0.12);
+  .lb-champ-banner span {
     color: #FFD700;
-    border: 1px solid rgba(255,215,0,0.35);
+    font-weight: 700;
   }
-  .lb-badge-client {
-    background: rgba(0,255,136,0.1);
-    color: #00FF88;
-    border: 1px solid rgba(0,255,136,0.3);
-  }
-  .lb-row-lender td { background: rgba(255,215,0,0.04); }
-  .lb-row-client td { background: rgba(0,255,136,0.03); }
+  /* Row colour coding — lenders gold, clients green */
+  .lb-row-lender td { color: #FFD700; }
+  .lb-row-client td { color: #00FF88; }
 </style>
 
 <!-- ================= FAVICON ================= -->
@@ -206,10 +185,8 @@ function stopFaviconAnimation() {
 </div>
 <div class="screen" id="leaderboard-screen">
   <div class="leaderboard-title">🏆 CASHFLOW CHAMPIONS</div>
-  <div class="lb-legend">
-    <span class="lb-legend-item lb-legend-lender">🏦 LENDER</span>
-    <span class="lb-legend-sep">·</span>
-    <span class="lb-legend-item lb-legend-client">🚀 BUSINESS OWNER</span>
+  <div class="lb-champ-banner" id="lb-champ-banner" style="display:none">
+    🏦 Lender Champion: <span id="lb-champ-name"></span>
   </div>
   <table class="score-table"><thead><tr><th class="rank-col">#</th><th>NAME</th><th>COMPANY</th><th>CASH</th><th>WAVE</th></tr></thead><tbody id="leaderboard-body"></tbody></table>
   <div class="gameover-buttons">
@@ -431,14 +408,21 @@ function renderLB() {
         '<tr><td colspan="5" style="text-align:center;color:rgba(255,255,255,0.3);padding:14px;font-size:0.38rem">NO SCORES YET — BE FIRST!</td></tr>';
       return;
     }
+    // Champion banner — top lender
+    const topLender = rows.find(e => e.isLender);
+    const banner = document.getElementById('lb-champ-banner');
+    const nameEl = document.getElementById('lb-champ-name');
+    if (topLender && banner && nameEl) {
+      nameEl.textContent = topLender.name;
+      banner.style.display = 'block';
+    } else if (banner) {
+      banner.style.display = 'none';
+    }
     tb.innerHTML = rows.map((e, i) => {
       const rowClass = e.isLender ? ' class="lb-row-lender"' : ' class="lb-row-client"';
-      const badge = e.isLender
-        ? ' <span class="lb-badge lb-badge-lender">🏦 LENDER</span>'
-        : ' <span class="lb-badge lb-badge-client">🚀 BIZ OWNER</span>';
       return '<tr' + rowClass + '>' +
         '<td class="rank-col">' + (i + 1) + '</td>' +
-        '<td>' + e.name + badge + '</td>' +
+        '<td>' + e.name + '</td>' +
         '<td>' + e.company + '</td>' +
         '<td>£' + e.score.toLocaleString() + '</td>' +
         '<td>' + e.wave + '</td>' +
