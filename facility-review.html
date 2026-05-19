@@ -975,13 +975,13 @@
     <div class="question-product">Your current facility</div>
     <h2 class="question-text">What type of finance do you currently have in place?</h2>
     <p class="question-sub">Select all that apply.</p>
-    <div class="checkbox-options" id="facility-type-options">
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'invoice')"><div class="checkbox-tick"></div> 📋 Invoice Finance</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'loan')"><div class="checkbox-tick"></div> 💰 Business Loan (including Merchant Cash Advance)</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'fx')"><div class="checkbox-tick"></div> 💱 Foreign Currency / FX</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'asset')"><div class="checkbox-tick"></div> 🔧 Asset Finance</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'trade')"><div class="checkbox-tick"></div> 🚛 Trade Finance</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'other')"><div class="checkbox-tick"></div> 📁 Other</button>
+    <div class="checkbox-options" id="facility-type-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'invoice')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📋 Invoice Finance</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'loan')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💰 Business Loan / MCA</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'fx')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💱 Foreign Currency / FX</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'asset')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🔧 Asset Finance</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'trade')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🚛 Trade Finance</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'other')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📁 Other</button>
     </div>
     <button class="btn-primary" onclick="goToReviewSelection()">Continue →</button>
     <div class="nav-row">
