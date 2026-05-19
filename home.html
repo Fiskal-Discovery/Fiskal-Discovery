@@ -936,57 +936,32 @@
     .dashed-divider { font-size: 16px; }
   }
 
-  /* ---- HOME GAME SPLIT BUTTON ---- */
-  .home-game-cta {
+  /* ---- GAME CARD LENDER PANEL ---- */
+  .card-game-split {
     grid-column: 1 / -1;
+  }
+  .card-lender-panel {
+    margin-left: auto;
     display: flex;
-    align-items: center;
-    background: linear-gradient(135deg, #D94F00 0%, #ff7a2e 100%);
-    color: #ffffff;
-    text-decoration: none;
-    padding: 12px 22px;
-    border-radius: 999px;
-    box-shadow: 0 4px 20px rgba(217,79,0,0.4);
-    transition: box-shadow 0.2s, transform 0.2s;
-    width: fit-content;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0 24px;
+    border-left: 1px solid rgba(255,255,255,0.1);
+    gap: 4px;
   }
-  .home-game-cta:hover {
-    box-shadow: 0 6px 28px rgba(217,79,0,0.6);
-    transform: translateY(-1px);
+  .card-lender-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.3px;
   }
-  .home-cta-left {
+  .card-lender-name {
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     font-weight: 700;
-    white-space: nowrap;
-    letter-spacing: 0.2px;
-  }
-  .home-cta-divider {
-    width: 1px;
-    align-self: stretch;
-    background: rgba(255,255,255,0.35);
-    margin: 0 16px;
-    flex-shrink: 0;
-  }
-  .home-cta-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-    white-space: nowrap;
-  }
-  .home-cta-right-label {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    opacity: 0.85;
-    letter-spacing: 0.3px;
-  }
-  .home-cta-right-name {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.2px;
+    color: #FACC15;
   }
 
   /* ---- GAME + LENDER ROW ---- */
@@ -1217,45 +1192,27 @@
           </div>
         </div>
 
-        <!-- Cashflow Invaders split button -->
-        <a class="home-game-cta" href="cashflow-invaders.html">
-          <span class="home-cta-left">🎮 Free Your Finances — Play Cashflow Invaders Now</span>
-          <span class="home-cta-divider"></span>
-          <span class="home-cta-right">
-            <span class="home-cta-right-label">🏆 Top Lender — Most Cash Released</span>
-            <span class="home-cta-right-name" id="home-top-lender-name">—</span>
-          </span>
-        </a>
-
-        <div class="game-lender-row" style="display:none">
-        <div class="module-card card-game" onclick="window.location.href='cashflow-invaders.html'">
+        <!-- Cashflow Invaders card + top lender panel -->
+        <div class="module-card card-game card-game-split" onclick="window.location.href='cashflow-invaders.html'">
           <div class="card-bar bar-game"></div>
           <div class="card-inner">
             <svg viewBox="0 0 44 32" width="50" height="37" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;image-rendering:pixelated;">
-              <!-- Row 0: antennae -->
               <rect x="8"  y="0"  width="4" height="4" fill="#FACC15"/>
               <rect x="32" y="0"  width="4" height="4" fill="#FACC15"/>
-              <!-- Row 1 -->
               <rect x="12" y="4"  width="4" height="4" fill="#FACC15"/>
               <rect x="28" y="4"  width="4" height="4" fill="#FACC15"/>
-              <!-- Row 2: head top -->
               <rect x="8"  y="8"  width="28" height="4" fill="#FACC15"/>
-              <!-- Row 3 -->
               <rect x="4"  y="12" width="8"  height="4" fill="#FACC15"/>
               <rect x="16" y="12" width="12" height="4" fill="#FACC15"/>
               <rect x="32" y="12" width="8"  height="4" fill="#FACC15"/>
-              <!-- Row 4: body -->
               <rect x="0"  y="16" width="44" height="4" fill="#FACC15"/>
-              <!-- Row 5 -->
               <rect x="0"  y="20" width="4"  height="4" fill="#FACC15"/>
               <rect x="8"  y="20" width="28" height="4" fill="#FACC15"/>
               <rect x="40" y="20" width="4"  height="4" fill="#FACC15"/>
-              <!-- Row 6 -->
               <rect x="0"  y="24" width="4"  height="4" fill="#FACC15"/>
               <rect x="8"  y="24" width="4"  height="4" fill="#FACC15"/>
               <rect x="32" y="24" width="4"  height="4" fill="#FACC15"/>
               <rect x="40" y="24" width="4"  height="4" fill="#FACC15"/>
-              <!-- Row 7: feet -->
               <rect x="12" y="28" width="8"  height="4" fill="#FACC15"/>
               <rect x="24" y="28" width="8"  height="4" fill="#FACC15"/>
             </svg>
@@ -1265,17 +1222,11 @@
             </div>
             <div class="module-arrow">›</div>
           </div>
-        </div>
-
-        <!-- Mini top lenders list -->
-        <div class="mini-scores-wrap">
-          <div class="mini-lender-lb" id="mini-lender-lb" style="display:none">
-            <div class="mini-lender-title">🏦 Top Lenders</div>
-            <div class="mini-lender-rows" id="mini-lender-rows"></div>
+          <div class="card-lender-panel">
+            <div class="card-lender-label">🏆 Top Lender — Most Cash Released</div>
+            <div class="card-lender-name" id="home-top-lender-name">—</div>
           </div>
         </div>
-
-        </div><!-- /game-lender-row (hidden) -->
 
       </div><!-- /module-grid -->
 
