@@ -584,6 +584,30 @@
   #screen-urgency .nav-row, #screen-existing-finance .nav-row,
   #screen-existing-details .nav-row, #screen-upload .nav-row { position: relative; z-index: 1; }
 
+  #screen-details .dashed-divider, #screen-purpose .dashed-divider,
+  #screen-amount .dashed-divider, #screen-term .dashed-divider,
+  #screen-security .dashed-divider, #screen-property-security .dashed-divider,
+  #screen-other-security .dashed-divider, #screen-credit .dashed-divider,
+  #screen-urgency .dashed-divider, #screen-existing-finance .dashed-divider,
+  #screen-existing-details .dashed-divider, #screen-upload .dashed-divider {
+    color: rgba(255,255,255,0.5) !important;
+  }
+  #screen-details .dashed-divider::before, #screen-details .dashed-divider::after,
+  #screen-purpose .dashed-divider::before, #screen-purpose .dashed-divider::after,
+  #screen-amount .dashed-divider::before, #screen-amount .dashed-divider::after,
+  #screen-term .dashed-divider::before, #screen-term .dashed-divider::after,
+  #screen-security .dashed-divider::before, #screen-security .dashed-divider::after,
+  #screen-property-security .dashed-divider::before, #screen-property-security .dashed-divider::after,
+  #screen-other-security .dashed-divider::before, #screen-other-security .dashed-divider::after,
+  #screen-credit .dashed-divider::before, #screen-credit .dashed-divider::after,
+  #screen-urgency .dashed-divider::before, #screen-urgency .dashed-divider::after,
+  #screen-existing-finance .dashed-divider::before, #screen-existing-finance .dashed-divider::after,
+  #screen-existing-details .dashed-divider::before, #screen-existing-details .dashed-divider::after,
+  #screen-upload .dashed-divider::before, #screen-upload .dashed-divider::after {
+    background: rgba(255,255,255,0.2) !important;
+    opacity: 1 !important;
+  }
+
   .progress-fill { background: #D94F00 !important; }
   .progress-track { background: rgba(255,255,255,0.12) !important; }
   .progress-label { color: rgba(255,255,255,0.45) !important; }
@@ -721,8 +745,11 @@
       <button class="btn-primary" id="loan-start-btn" onclick="showDetailsConfirm()" style="display:none">Start My Discovery ›</button>
     </div>
   </div>
-  <div class="nav-row" style="padding: 16px 24px;">
-    <button class="back-btn" onclick="window.location.href='home.html?home=1'">← Home</button>
+  <div class="screen-footer">
+    <div class="nav-row">
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">← Home</button>
+    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -789,10 +816,13 @@
     <button class="btn-primary" id="details-confirm-btn" onclick="confirmDetails()">Yes, this is correct ></button>
     <button class="btn-secondary" id="details-edit-btn" onclick="editDetails()">Edit</button>
     <button class="btn-primary" id="details-save-btn" onclick="submitDetails()" style="display:none">Save and continue ></button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -829,10 +859,13 @@
       <input type="text" class="form-input" id="purpose-other-input" placeholder="Describe your purpose…">
     </div>
     <button class="btn-primary" id="purpose-continue-btn" style="display:none;margin-top:14px;width:100%" onclick="confirmPurpose()">Continue ›</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-details')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -865,10 +898,13 @@
       <button class="answer-btn" onclick="selectState('amount', '£500,000+', this, 'amount-opts', 'screen-term')">£500,000+</button>
       <button class="answer-btn" onclick="selectState('amount', 'Not sure', this, 'amount-opts', 'screen-term')">Not sure</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-purpose')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -900,10 +936,13 @@
       <button class="answer-btn" onclick="selectState('term', '5 years+', this, 'term-opts', 'screen-security')">5 years+</button>
       <button class="answer-btn" onclick="selectState('term', 'Not sure', this, 'term-opts', 'screen-security')">Not sure</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-amount')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -933,10 +972,13 @@
       <button class="answer-btn" onclick="selectState('security', 'Unsecured', this, 'security-opts', 'screen-credit')">No — looking for unsecured funding</button>
       <button class="answer-btn" onclick="selectState('security', 'Not sure', this, 'security-opts', 'screen-credit')">Not sure</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-term')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1004,10 +1046,13 @@
       <button class="btn-primary" onclick="savePropertySecurity()">Continue ></button>
       <button class="btn-secondary" onclick="addAnotherProperty()">+ Add another property</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-security')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1040,10 +1085,13 @@
       <input type="text" class="form-input" id="asset-value" placeholder="e.g. £75,000">
     </div>
     <button class="btn-primary" onclick="saveOtherSecurity()">Continue ></button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-security')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1073,10 +1121,13 @@
       <button class="answer-btn" onclick="selectState('credit', 'CCJs or defaults', this, 'credit-opts', 'screen-urgency')">CCJs or defaults</button>
       <button class="answer-btn" onclick="selectState('credit', 'Not sure', this, 'credit-opts', 'screen-urgency')">Not sure</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="goBackFromCredit()">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1106,10 +1157,13 @@
       <button class="answer-btn" onclick="selectState('urgency', 'Within the next 3 months', this, 'urgency-opts', 'screen-existing-finance')">Within the next 3 months</button>
       <button class="answer-btn" onclick="selectState('urgency', 'Just exploring options', this, 'urgency-opts', 'screen-existing-finance')">Just exploring options for now</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-credit')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1137,10 +1191,13 @@
       <button class="answer-btn" onclick="selectState('existingFinance', 'No', this, 'existing-opts', 'screen-upload')">No — this would be my first</button>
       <button class="answer-btn" onclick="selectState('existingFinance', 'Yes', this, 'existing-opts', 'screen-existing-details')">Yes — I have existing finance</button>
     </div>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-urgency')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1168,10 +1225,13 @@
     <div id="existing-facilities-list"></div>
     <button class="btn-secondary" onclick="addFacility()" style="margin-top:0">+ Add a facility</button>
     <button class="btn-primary" onclick="showScreen('screen-upload')" style="margin-top:12px">Continue ></button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-existing-finance')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1210,10 +1270,13 @@
     <input type="file" id="loan-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls" style="display:none" onchange="handleFileUpload(this)">
     <button class="btn-primary" onclick="submitApplication()">Submit My Discovery ›</button>
     <button class="btn-secondary" onclick="submitApplication()">Skip — I'll send documents separately</button>
+  </div>
+  <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="goBackFromUpload()">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
