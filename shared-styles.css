@@ -1,6 +1,15 @@
 /* Shared Styles for Fiskal Discovery
    ================================= */
 
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes spin-border {
+  to { --border-angle: 360deg; }
+}
+
 /* ---- STANDARD PAGE HEADER ---- */
 .ob-fixed-header {
   flex-shrink: 0;
@@ -102,9 +111,13 @@
   aspect-ratio: 1 / 1;
   border-radius: 20px;
   overflow: hidden;
-  border: 3px solid #D94F00;
   background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3), 0 0 18px rgba(217, 79, 0, 0.25);
+  border: 3px solid transparent;
+  background:
+    rgba(255,255,255,0.12) padding-box,
+    conic-gradient(from var(--border-angle, 0deg), #D94F00, #ff7a2e, #8E7ED8, #4e0063, #D94F00) border-box;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.3), 0 0 18px rgba(217,79,0,0.25), 0 0 28px rgba(142,126,216,0.2);
+  animation: spin-border 2.5s linear infinite;
   display: flex;
   align-items: center;
   justify-content: center;
