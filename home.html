@@ -1308,6 +1308,7 @@ function updateSummariesHomeCard() {
 function showSummariesScreen() {
   document.getElementById('screen-home').classList.remove('active');
   document.getElementById('screen-summaries').classList.add('active');
+  window.scrollTo(0, 0);
   renderSummariesScreen();
   prefillEmail();
 }
@@ -1315,6 +1316,7 @@ function showSummariesScreen() {
 function showHomeFromSummaries() {
   document.getElementById('screen-summaries').classList.remove('active');
   document.getElementById('screen-home').classList.add('active');
+  window.scrollTo(0, 0);
 }
 
 function renderSummariesScreen() {
