@@ -816,19 +816,19 @@
     <div id="details-edit-form" style="display:none">
       <div class="form-group">
         <label class="form-label">Your name *</label>
-        <input type="text" class="form-input" id="field-name" placeholder="e.g. Sarah Johnson">
+        <input type="text" class="form-input" id="field-name" placeholder="e.g. Sarah Johnson" oninput="clearFieldError(this)">
     </div>
       <div class="form-group">
         <label class="form-label">Business name *</label>
-        <input type="text" class="form-input" id="field-business" placeholder="e.g. Johnson Supplies Ltd">
+        <input type="text" class="form-input" id="field-business" placeholder="e.g. Johnson Supplies Ltd" oninput="clearFieldError(this)">
     </div>
       <div class="form-group">
         <label class="form-label">Email address *</label>
-        <input type="email" class="form-input" id="field-email" placeholder="sarah@yourcompany.co.uk">
+        <input type="email" class="form-input" id="field-email" placeholder="sarah@yourcompany.co.uk" oninput="clearFieldError(this)">
     </div>
       <div class="form-group">
         <label class="form-label">Phone number *</label>
-        <input type="tel" class="form-input" id="field-phone" placeholder="07xxx xxxxxx">
+        <input type="tel" class="form-input" id="field-phone" placeholder="07xxx xxxxxx" oninput="clearFieldError(this)">
     </div>
       <div class="form-group">
         <label class="form-label">Company number <span style="font-weight:300;color:var(--light-text)">(optional)</span></label>
@@ -847,7 +847,7 @@
         <input type="text" class="form-input" id="field-property-owners" placeholder="e.g. Yes, No, Not sure">
     </div>
     </div>
-    <p class="error-msg" id="details-error">Please fill in all required fields.</p>
+    <p class="error-msg" id="details-error" style="display:none">Please fill in all required fields.</p>
     <button class="btn-primary" id="details-confirm-btn" onclick="confirmDetails()">Yes, this is correct ></button>
     <button class="btn-secondary" id="details-edit-btn" onclick="editDetails()">Edit</button>
     <button class="btn-primary" id="details-save-btn" onclick="submitDetails()" style="display:none">Save and continue ></button>
@@ -1621,9 +1621,42 @@ function editDetails() {
   document.getElementById('details-save-btn').style.display = 'block';
 }
 
+const REQUIRED_FIELDS = ['field-name', 'field-business', 'field-email', 'field-phone'];
+
+function highlightMissingFields() {
+  let anyMissing = false;
+  REQUIRED_FIELDS.forEach(id => {
+    const input = document.getElementById(id);
+    const label = input && input.closest('.form-group') && input.closest('.form-group').querySelector('.form-label');
+    if (!input || !input.value.trim()) {
+      anyMissing = true;
+      if (label && !label.querySelector('.field-error-star')) {
+        const star = document.createElement('span');
+        star.className = 'field-error-star';
+        star.textContent = ' ★';
+        star.style.cssText = 'color:#D94F00;font-size:14px;';
+        label.appendChild(star);
+      }
+      if (input) input.style.borderColor = 'rgba(217,79,0,0.6)';
+    }
+  });
+  return anyMissing;
+}
+
+function clearFieldError(input) {
+  if (!input.value.trim()) return;
+  input.style.borderColor = '';
+  const label = input.closest('.form-group') && input.closest('.form-group').querySelector('.form-label');
+  if (label) {
+    const star = label.querySelector('.field-error-star');
+    if (star) star.remove();
+  }
+}
+
 function confirmDetails() {
   if (!state.name || !state.business || !state.email || !state.phone) {
     editDetails();
+    highlightMissingFields();
     document.getElementById('details-error').style.display = 'block';
     return;
   }
@@ -1640,7 +1673,7 @@ function submitDetails() {
   state.turnover = document.getElementById('field-turnover').value.trim();
   state.turnoverNext = document.getElementById('field-turnover-next').value.trim();
   state.propertyOwners = document.getElementById('field-property-owners').value.trim();
-  if (!state.name || !state.business || !state.email || !state.phone) {
+  if (highlightMissingFields()) {
     document.getElementById('details-error').style.display = 'block';
     return;
   }
