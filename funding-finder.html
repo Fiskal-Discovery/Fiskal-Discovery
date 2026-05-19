@@ -1724,6 +1724,22 @@
     font-weight: 800 !important;
     color: #ffffff !important;
     letter-spacing: 1px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .funding-options-label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #D94F00;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .funding-options-sub {
+    font-size: 13px;
+    color: #ffffff;
+    margin-bottom: 12px;
   }
   #screen-results .results-title {
     font-family: 'Raleway', sans-serif !important;
@@ -1765,7 +1781,6 @@
   #screen-results .matched-product-desc { color: rgba(255,255,255,0.6) !important; }
 
   #screen-results p[style*="letter-spacing"] { color: rgba(255,255,255,0.4) !important; }
-  #screen-results #matched-products-section p[style*="letter-spacing"] { color: #D94F00 !important; }
   #screen-results p[style*="color:var(--mid)"] { color: rgba(255,255,255,0.5) !important; }
 
   #screen-results .dashed-divider { color: #8E7ED8 !important; }
@@ -2049,8 +2064,8 @@
     </div>
 
     <div id="matched-products-section">
-      <p style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#D94F00;margin-bottom:10px;font-weight:500;">Funding options to explore</p>
-      <p style="font-size:13px;color:#ffffff;margin-bottom:12px;">Click any option below to learn more on the Fiskal website.</p>
+      <p class="funding-options-label">Funding options to explore</p>
+      <p class="funding-options-sub">Click any option below to learn more on the Fiskal website.</p>
       <div class="matched-products" id="matched-products-list"></div>
     </div>
 
@@ -2186,7 +2201,9 @@ function showDiscoveryThinkingScreen(callback) {
 
   function showPhrase() {
     if (index >= phrases.length) {
-      // Fade out the entire loading screen
+      // Fire callback first so results screen is ready behind the fade
+      if (callback) callback();
+      // Then fade out the thinking overlay
       screen.style.opacity = '0';
       screen.style.transition = 'opacity 400ms ease';
       setTimeout(function() {
@@ -2194,7 +2211,6 @@ function showDiscoveryThinkingScreen(callback) {
         screen.style.display = 'none';
         screen.style.opacity = '1';
         screen.style.transition = '';
-        if (callback) callback();
       }, 400);
       return;
     }
