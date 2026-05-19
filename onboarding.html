@@ -2506,7 +2506,8 @@ function renderWelcomeQuestion() {
   const q = welcomeFlow[welcomeState.currentQuestion];
   if (!q) { completeWelcome(); return; }
 
-  document.getElementById('ob-input-area').style.display = 'none';
+  const obInputArea = document.getElementById('ob-input-area');
+  if (obInputArea) obInputArea.style.display = 'none';
   document.getElementById('ob-choices').style.display = 'none';
   document.getElementById('ob-chat').innerHTML = '';
 
