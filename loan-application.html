@@ -2377,7 +2377,14 @@ async function sendClientSummaryEmail(summary) {
   #screen-urgency .question-text,
   #screen-existing-finance .question-text,
   #screen-existing-details .question-text,
-  #screen-upload .question-text,
+  #screen-upload .question-text {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    font-size: clamp(16px, 2.8vw, 22px) !important;
+    line-height: 1.25 !important;
+    margin-bottom: 6px !important;
+  }
 
   #screen-details .ai-summary {
     background: rgba(255,255,255,0.08) !important;
@@ -2436,7 +2443,12 @@ async function sendClientSummaryEmail(summary) {
   #screen-urgency .answer-btn,
   #screen-existing-finance .answer-btn,
   #screen-existing-details .answer-btn,
-  #screen-upload .answer-btn,
+  #screen-upload .answer-btn {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1.5px solid rgba(255,255,255,0.15) !important;
+    color: #ffffff !important;
+    border-top: 2px solid #D94F00 !important;
+  }
   #screen-details .answer-btn:hover,
   #screen-purpose .answer-btn:hover,
   #screen-amount .answer-btn:hover,
@@ -2448,7 +2460,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-urgency .answer-btn:hover,
   #screen-existing-finance .answer-btn:hover,
   #screen-existing-details .answer-btn:hover,
-  #screen-upload .answer-btn:hover,
+  #screen-upload .answer-btn:hover { background: rgba(255,255,255,0.10) !important; }
   #screen-details .answer-btn.selected,
   #screen-purpose .answer-btn.selected,
   #screen-amount .answer-btn.selected,
@@ -2460,7 +2472,13 @@ async function sendClientSummaryEmail(summary) {
   #screen-urgency .answer-btn.selected,
   #screen-existing-finance .answer-btn.selected,
   #screen-existing-details .answer-btn.selected,
-  #screen-upload .answer-btn.selected,
+  #screen-upload .answer-btn.selected {
+    border-color: #8E7ED8 !important;
+    border-width: 2px !important;
+    box-shadow: 0 0 0 3px rgba(142,126,216,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
+    background: rgba(142,126,216,0.22) !important;
+    color: #ffffff !important;
+  }
 
   #screen-details .back-btn,
   #screen-purpose .back-btn,
