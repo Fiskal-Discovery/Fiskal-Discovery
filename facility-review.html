@@ -9,16 +9,19 @@
 <link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
-    --indigo: #4f46e5;
-    --indigo-deep: #3730a3;
-    --indigo-light: #6366f1;
-    --indigo-pale: #f9f0ff;
-    --blue: #818cf8;
+    --indigo: #8E7ED8;
+    --indigo-deep: #4e0063;
+    --indigo-light: #a99ee8;
+    --indigo-pale: #f0eeff;
+    --blue: #8E7ED8;
     --cream: #FAF8F5;
     --dark: #1a1025;
     --mid: #5a4a6a;
     --light-text: #6b5c80;
     --white: #ffffff;
+    --orange: #D94F00;
+    --orange-light: #ff7a2e;
+    --btn-gradient: linear-gradient(135deg, #D94F00 0%, #ff7a2e 100%);
   }
 
   /* ---- HEADER BRAND ---- */
@@ -470,7 +473,7 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #1a0025, #3730a3, #4f46e5, #000000);
+    background: linear-gradient(135deg, #1a0025, #4e0063, #8E7ED8, #000000);
     background-size: 300% 300%;
     margin: 0 auto 32px;
     animation: pulse 2s ease-in-out infinite, ombre 3s ease infinite;
@@ -4857,8 +4860,8 @@ document.addEventListener('DOMContentLoaded', function () {
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    border: 4px solid rgba(79,70,229,0.18);
-    border-top-color: #4f46e5;
+    border: 4px solid rgba(142,126,216,0.18);
+    border-top-color: #8E7ED8;
     animation: spinThinking 1s linear infinite;
   }
   #discovery-thinking-screen .thinking-phrase {
@@ -4877,11 +4880,11 @@ document.addEventListener('DOMContentLoaded', function () {
   #discovery-thinking-screen .thinking-phrase.shimmer {
     background: linear-gradient(
       90deg,
-      rgba(79,70,229,0.65) 0%,
-      #4f46e5 35%,
-      #FFE600 50%,
-      #4f46e5 65%,
-      rgba(79,70,229,0.65) 100%
+      rgba(142,126,216,0.65) 0%,
+      #8E7ED8 35%,
+      #D94F00 50%,
+      #8E7ED8 65%,
+      rgba(142,126,216,0.65) 100%
     );
     background-size: 260% auto;
     background-position: 260% center;
@@ -4949,8 +4952,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   .facility-result-btn.secondary {
     background: #ffffff;
-    color: #4f46e5;
-    border: 1px solid rgba(79, 70, 229, 0.25);
+    color: #8E7ED8;
+    border: 1px solid rgba(142, 126, 216, 0.25);
   }
   @media (max-width: 760px) {
     .facility-result-actions {
