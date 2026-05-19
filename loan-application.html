@@ -2473,7 +2473,11 @@ async function sendClientSummaryEmail(summary) {
   #screen-urgency .back-btn,
   #screen-existing-finance .back-btn,
   #screen-existing-details .back-btn,
-  #screen-upload .back-btn,
+  #screen-upload .back-btn {
+    background: transparent !important;
+    color: rgba(255,255,255,0.5) !important;
+    border: none !important;
+  }
 
   #screen-details .btn-primary,
   #screen-purpose .btn-primary,
