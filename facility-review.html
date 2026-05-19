@@ -981,7 +981,10 @@
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'fx')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 💱 Foreign Currency / FX</button>
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'asset')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🔧 Asset Finance</button>
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'trade')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 🚛 Trade Finance</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'other')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📁 Other</button>
+      <button class="checkbox-btn" id="facility-other-btn" onclick="toggleFacilityOther(this)" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> 📁 Other</button>
+    </div>
+    <div id="facility-other-wrap" style="display:none;margin-top:4px">
+      <input type="text" id="facility-other-input" class="form-input" placeholder="Please describe your finance type…" oninput="state.facilityOther=this.value" style="width:100%">
     </div>
     <button class="btn-primary" onclick="goToReviewSelection()">Continue →</button>
     <div class="nav-row">
@@ -3319,6 +3322,15 @@ function toggleCheckbox(btn, group, value) {
     tick.textContent = '';
     state[group] = state[group].filter(v => v !== value);
   }
+}
+
+function toggleFacilityOther(btn) {
+  toggleCheckbox(btn, 'facilityTypes', 'other');
+  const wrap = document.getElementById('facility-other-wrap');
+  const input = document.getElementById('facility-other-input');
+  const isSelected = btn.classList.contains('selected');
+  wrap.style.display = isSelected ? 'block' : 'none';
+  if (isSelected) { input.focus(); } else { input.value = ''; state.facilityOther = ''; }
 }
 
 // ============================================================
