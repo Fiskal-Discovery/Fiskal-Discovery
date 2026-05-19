@@ -501,6 +501,195 @@
     .question-text { font-size: 16px !important; }
     .brand-title { font-size: 32px !important; }
   }
+
+  /* ============================================================
+     DARK QUESTION FLOW — matches funding-finder.html
+  ============================================================ */
+
+  #screen-details,
+  #screen-purpose,
+  #screen-amount,
+  #screen-term,
+  #screen-security,
+  #screen-property-security,
+  #screen-other-security,
+  #screen-credit,
+  #screen-urgency,
+  #screen-existing-finance,
+  #screen-existing-details,
+  #screen-upload,
+  #screen-barriers,
+  #screen-loading,
+  #screen-submission-loading {
+    background: #000000;
+    position: relative;
+  }
+
+  #screen-details::before,
+  #screen-purpose::before,
+  #screen-amount::before,
+  #screen-term::before,
+  #screen-security::before,
+  #screen-property-security::before,
+  #screen-other-security::before,
+  #screen-credit::before,
+  #screen-urgency::before,
+  #screen-existing-finance::before,
+  #screen-existing-details::before,
+  #screen-upload::before,
+  #screen-barriers::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 22% 30%, rgba(78,0,99,0.65) 0%, transparent 42%),
+      radial-gradient(ellipse at 72% 68%, rgba(78,0,99,0.50) 0%, transparent 40%),
+      radial-gradient(ellipse at 55% 10%, rgba(78,0,99,0.35) 0%, transparent 35%),
+      radial-gradient(ellipse at 10% 80%, rgba(78,0,99,0.40) 0%, transparent 35%),
+      radial-gradient(ellipse at 88% 20%, rgba(78,0,99,0.30) 0%, transparent 30%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #screen-details .ob-fixed-header, #screen-purpose .ob-fixed-header,
+  #screen-amount .ob-fixed-header, #screen-term .ob-fixed-header,
+  #screen-security .ob-fixed-header, #screen-property-security .ob-fixed-header,
+  #screen-other-security .ob-fixed-header, #screen-credit .ob-fixed-header,
+  #screen-urgency .ob-fixed-header, #screen-existing-finance .ob-fixed-header,
+  #screen-existing-details .ob-fixed-header, #screen-upload .ob-fixed-header,
+  #screen-barriers .ob-fixed-header,
+  #screen-details .progress-bar-wrap, #screen-purpose .progress-bar-wrap,
+  #screen-amount .progress-bar-wrap, #screen-term .progress-bar-wrap,
+  #screen-security .progress-bar-wrap, #screen-property-security .progress-bar-wrap,
+  #screen-other-security .progress-bar-wrap, #screen-credit .progress-bar-wrap,
+  #screen-urgency .progress-bar-wrap, #screen-existing-finance .progress-bar-wrap,
+  #screen-existing-details .progress-bar-wrap, #screen-upload .progress-bar-wrap,
+  #screen-barriers .progress-bar-wrap,
+  #screen-details .screen-content, #screen-purpose .screen-content,
+  #screen-amount .screen-content, #screen-term .screen-content,
+  #screen-security .screen-content, #screen-property-security .screen-content,
+  #screen-other-security .screen-content, #screen-credit .screen-content,
+  #screen-urgency .screen-content, #screen-existing-finance .screen-content,
+  #screen-existing-details .screen-content, #screen-upload .screen-content,
+  #screen-barriers .screen-content,
+  #screen-details .nav-row, #screen-purpose .nav-row,
+  #screen-amount .nav-row, #screen-term .nav-row,
+  #screen-security .nav-row, #screen-property-security .nav-row,
+  #screen-other-security .nav-row, #screen-credit .nav-row,
+  #screen-urgency .nav-row, #screen-existing-finance .nav-row,
+  #screen-existing-details .nav-row, #screen-upload .nav-row,
+  #screen-barriers .nav-row { position: relative; z-index: 1; }
+
+  .progress-fill { background: #D94F00 !important; }
+  .progress-track { background: rgba(255,255,255,0.12) !important; }
+  .progress-label { color: rgba(255,255,255,0.45) !important; }
+
+  .question-product {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    color: #8E7ED8 !important;
+    letter-spacing: 2px !important;
+  }
+
+  .question-text {
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    font-size: clamp(16px, 2.8vw, 22px) !important;
+    line-height: 1.25 !important;
+    margin-bottom: 6px !important;
+  }
+
+  .question-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 24px;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.5;
+  }
+
+  .answer-btn {
+    background: #ffffff !important;
+    border: 1px solid rgba(42,4,64,0.06) !important;
+    border-top: 4px solid #D94F00 !important;
+    border-radius: 14px !important;
+    color: #1a0533 !important;
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    box-shadow: 0 2px 12px rgba(42,4,64,0.08) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  }
+  .answer-btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 28px rgba(42,4,64,0.14) !important;
+    border-top-color: #ff7a2e !important;
+    background: #ffffff !important;
+  }
+  .answer-btn.selected {
+    border-color: #8E7ED8 !important;
+    border-width: 2px !important;
+    box-shadow: 0 0 0 3px rgba(142,126,216,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
+    background: rgba(142,126,216,0.22) !important;
+    color: #ffffff !important;
+  }
+
+  .btn-primary {
+    background: #D94F00 !important;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.35) !important;
+  }
+  .btn-primary:hover {
+    background: #ff7a2e !important;
+    box-shadow: 0 6px 28px rgba(217,79,0,0.5) !important;
+  }
+
+  .back-btn { color: #8E7ED8 !important; }
+  .back-btn:hover { color: #ffffff !important; }
+
+  .form-label { color: #ffffff !important; }
+  .form-input { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.15) !important; color: #ffffff !important; }
+  .form-input:focus { border-color: #8E7ED8 !important; box-shadow: 0 0 0 3px rgba(142,126,216,0.2) !important; }
+  .form-textarea { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.15) !important; color: #ffffff !important; }
+
+  .upload-area { background: rgba(255,255,255,0.04) !important; border-color: rgba(255,255,255,0.15) !important; }
+  .upload-area:hover, .upload-area.has-files { border-color: #8E7ED8 !important; background: rgba(142,126,216,0.08) !important; }
+  .upload-text { color: rgba(255,255,255,0.6) !important; }
+
+  .followup-box { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.12) !important; }
+  .followup-label { color: rgba(255,255,255,0.5) !important; }
+  .followup-btn { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.15) !important; color: rgba(255,255,255,0.85) !important; }
+  .followup-btn:hover, .followup-btn.selected { background: #D94F00 !important; border-color: #D94F00 !important; color: #ffffff !important; }
+
+  #screen-loading .loading-title,
+  #screen-submission-loading .loading-message { color: #ffffff !important; }
+  #screen-loading .loading-sub { color: rgba(255,255,255,0.55) !important; }
+  #screen-loading .loading-orb { background: linear-gradient(135deg, #D94F00, #ff7a2e) !important; box-shadow: 0 0 40px rgba(217,79,0,0.35) !important; }
+  #screen-loading .loading-dots span { background: #D94F00 !important; }
+  #screen-submission-loading .loading-spinner { border-color: rgba(217,79,0,0.2) !important; border-top-color: #D94F00 !important; }
+
+  /* Results screen */
+  #screen-results {
+    background: #000000;
+    position: relative;
+  }
+  #screen-results::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(78,0,99,0.6) 0%, transparent 45%),
+      radial-gradient(ellipse at 80% 70%, rgba(78,0,99,0.45) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 90%, rgba(217,79,0,0.15) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  #screen-results .screen-content,
+  #screen-results .ob-fixed-header,
+  #screen-results .screen-footer { position: relative; z-index: 1; }
+  #screen-results .results-check { background: linear-gradient(135deg, #D94F00, #ff7a2e) !important; }
+  #screen-results .results-title { font-family: 'Raleway', sans-serif !important; font-weight: 700 !important; color: #ffffff !important; }
+  #screen-results .results-name { color: #8E7ED8 !important; }
+  #screen-results .ai-summary-label { color: #8E7ED8 !important; font-family: 'Raleway', sans-serif !important; font-weight: 700 !important; letter-spacing: 2px !important; }
 </style>
   <link rel="stylesheet" href="shared-styles.css">
 </head>
