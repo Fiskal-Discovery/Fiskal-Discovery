@@ -1362,7 +1362,7 @@
     <section class="nicole-contact-card" aria-label="Nicole Bertolissi contact card">
       <div class="nicole-photo-side">
         <div class="nicole-photo-wrap">
-          <img id="nicole-photo" class="nicole-photo" src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" />
+          <img id="nicole-photo" class="nicole-photo" src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" onerror="this.style.display='none';document.querySelector('.nicole-photo-fallback').style.display='flex';" />
           <div class="nicole-photo-fallback">NB</div>
         </div>
       </div>
@@ -2059,9 +2059,9 @@ function calculateTrafficLight() {
     state.trafficLightRating = 'red';
     return {
       score, rating: 'red',
-      emoji: '🔴', label: "Needs Work — But Don't Give Up",
+      emoji: '🟠', label: "Needs Work — But Don't Give Up",
       message: "Your application may face some challenges, but this is far from the end of the story. Nicole has seen tougher cases approved and will review your details to find the best possible route forward.",
-      badgeStyle: 'background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3)'
+      badgeStyle: 'background:rgba(217,79,0,0.15);border:1px solid rgba(217,79,0,0.4)'
     };
   }
 }
