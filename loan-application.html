@@ -830,7 +830,11 @@
       <button class="answer-btn" onclick="selectState('purpose', 'Property', this, 'purpose-opts', 'screen-amount')">🏢 Property</button>
       <button class="answer-btn" onclick="selectState('purpose', 'Refinancing existing debt', this, 'purpose-opts', 'screen-amount')">🔄 Refinancing</button>
       <button class="answer-btn" onclick="selectState('purpose', 'Tax or HMRC bill', this, 'purpose-opts', 'screen-amount')">🏛️ Tax / HMRC bill</button>
-      <button class="answer-btn" onclick="selectState('purpose', 'Other', this, 'purpose-opts', 'screen-amount')">📁 Other</button>
+      <button class="answer-btn" onclick="selectState('purpose', 'Other', this, 'purpose-opts', null); document.getElementById('purpose-other-box').style.display='block'; document.getElementById('purpose-other-input').focus();">📁 Other</button>
+    </div>
+    <div id="purpose-other-box" style="display:none;margin-top:12px">
+      <input type="text" class="form-input" id="purpose-other-input" placeholder="Please describe your purpose…" oninput="state.purpose = this.value.trim() || 'Other'">
+      <button class="btn-primary" style="margin-top:10px;width:100%" onclick="if(document.getElementById('purpose-other-input').value.trim()){state.purpose=document.getElementById('purpose-other-input').value.trim();showScreen('screen-amount');}else{document.getElementById('purpose-other-input').focus();}">Continue ›</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-details')">&lt; Back</button>
