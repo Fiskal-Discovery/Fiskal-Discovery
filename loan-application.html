@@ -1014,13 +1014,13 @@
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Do you have any security to offer?</h2>
     <p class="question-sub" style="color:#D94F00">Security can unlock better rates and bigger amounts — but it's not the only way in.</p>
-    <div class="answer-options" id="q5-opts">
+    <div class="answer-options" id="q5-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectSecurity('property', this)">Yes — property</button>
       <button class="answer-btn" onclick="selectSecurity('assets', this)">Yes — business assets</button>
       <button class="answer-btn" onclick="selectSecurity('both', this)">Yes — both property and assets</button>
       <button class="answer-btn" onclick="selectSecurity('personal-guarantee', this)">Personal guarantee only</button>
       <button class="answer-btn" onclick="selectSecurity('none', this)">No security available</button>
-      <div id="q5-notsure-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="toggleSecurityNote()">
+      <div id="q5-notsure-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;grid-column:1/-1" onclick="toggleSecurityNote()">
         <span id="q5-notsure-label">I'm not sure what I have to offer</span>
         <input type="text" id="security-note" placeholder="Tell us what assets your business has — Nicole can help work out what might be useable" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ5Continue()" onclick="event.stopPropagation()">
       </div>
