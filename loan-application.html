@@ -773,7 +773,7 @@
   <div class="screen-content">
     <div class="typing-intro">
       <div class="typing-text" id="loan-intro-text"></div>
-      <p id="loan-body-text" style="color:rgba(255,255,255,0.72);font-size:15px;line-height:1.65;margin-top:18px;max-width:480px;">Imagine knowing exactly what funding you could access, what it would cost, and what it could do for your business — before committing to anything. No applications, no credit checks, no pressure. Just a conversation starter between you and Nicole, who will guide you through your real options personally.</p>
+      <p id="loan-body-text" style="color:rgba(255,255,255,0.72);font-size:15px;line-height:1.65;margin-top:18px;max-width:640px;">Imagine knowing exactly what funding you could access, what it would cost, and what it could do for your business — before committing to anything. No applications, no credit checks, no pressure. Just a conversation starter between you and Nicole, who will guide you through your real options personally.</p>
       <button class="btn-primary" id="loan-start-btn" onclick="showDetailsConfirm()" style="display:none;margin-top:24px">Start My Discovery ›</button>
     </div>
   </div>
@@ -2554,11 +2554,12 @@ async function sendClientSummaryEmail(summary) {
   }
   .typing-text {
     font-family: 'DM Sans', sans-serif;
-    font-size: clamp(17px, 3vw, 24px);
+    font-size: clamp(14px, 2.5vw, 22px);
     font-weight: 300;
     color: #ffffff;
     line-height: 1.55;
-    max-width: 520px;
+    white-space: nowrap;
+    max-width: 100%;
   }
   #screen-welcome .btn-primary {
     background: #D94F00 !important;
