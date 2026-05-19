@@ -1581,15 +1581,20 @@ function getDetailValue(v) { return v && String(v).trim() ? v : 'Not provided'; 
 function populateDetailsSummary() {
   const summary = document.getElementById('confirm-details-list');
   if (!summary) return;
+  const required = new Set(['Name', 'Business', 'Email', 'Phone']);
   const items = [
     ['Name', state.name], ['Business', state.business],
     ['Email', state.email], ['Phone', state.phone],
     ['Company No.', state.companyNumber], ['Turnover', state.turnover],
     ['Projected Turnover', state.turnoverNext], ['Property Owners', state.propertyOwners],
   ];
-  summary.innerHTML = `<div class="detail-grid">${items.map(([label, val]) =>
-    `<div class="detail-item"><span class="detail-label">${label}</span><span class="detail-value">${escapeHtml(getDetailValue(val))}</span></div>`
-  ).join('')}</div>`;
+  summary.innerHTML = `<div class="detail-grid">${items.map(([label, val]) => {
+    const missing = required.has(label) && !val;
+    const displayVal = missing
+      ? `<span style="color:#D94F00;font-weight:600;">★ Required</span>`
+      : escapeHtml(getDetailValue(val));
+    return `<div class="detail-item"><span class="detail-label">${label}</span><span class="detail-value">${displayVal}</span></div>`;
+  }).join('')}</div>`;
 }
 
 function populateDetailsForm() {
