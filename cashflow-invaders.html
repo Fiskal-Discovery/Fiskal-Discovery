@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Fiskal Discovery: Cashflow Invaders</title>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@1,700&family=Press+Start+2P&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@1,700&family=Press+Start+2P&family=Orbitron:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
@@ -121,9 +121,37 @@ body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block
     font-weight: 400;
     white-space: nowrap;
   }
+  /* REFUSE branding */
+  .ci-refuse-tag {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1px;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .ci-refuse-word {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: #ff7a2e;
+    letter-spacing: 4px;
+    line-height: 1;
+  }
+  .ci-refuse-rest {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
   @media (max-width: 480px) {
     .player-type-row { max-width: 100%; }
     .player-type-sub { white-space: normal; }
+    .ci-refuse-word { font-size: 20px; }
   }
 
   /* Leaderboard legend + badges */
@@ -233,6 +261,10 @@ function stopFaviconAnimation() {
   <button id="quit-btn">✕ QUIT</button>
 </div>
 <div class="screen active" id="start-screen">
+  <div class="ci-refuse-tag">
+    <span class="ci-refuse-word">REFUSE</span>
+    <span class="ci-refuse-rest">to stand still</span>
+  </div>
   <div class="game-title">CASHFLOW<br>INVADERS</div>
   <div class="game-tagline">FREE YOUR FINANCES</div>
   <div class="alien-preview" id="alien-preview"></div>
