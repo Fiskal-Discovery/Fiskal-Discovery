@@ -1281,7 +1281,7 @@
     <div class="question-icon">🎯</div>
     <h2 class="question-text">What would the right funding help you achieve?</h2>
     <p class="question-sub">Think about what would genuinely move your business forward — whether that's growth, stability, stock, equipment, property, or simply creating more breathing room.</p>
-    <div class="answer-options">
+    <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectPurpose('Purchase equipment or assets', this)">
         <span class="answer-emoji">🔧</span> Purchase equipment or assets
       </button>
@@ -1300,7 +1300,7 @@
       <button class="answer-btn" onclick="selectPurpose('Refinance existing funding', this)">
         <span class="answer-emoji">🔄</span> Refinance existing funding
       </button>
-      <button class="answer-btn" onclick="selectPurpose('Something else', this)">
+      <button class="answer-btn" onclick="selectPurpose('Something else', this)" style="grid-column:1/-1">
         <span class="answer-emoji">✨</span> Something else
       </button>
     </div>
@@ -1384,7 +1384,7 @@
     <div class="question-icon">⏰</div>
     <h2 class="question-text">How soon would the right funding make a difference?</h2>
     <p class="question-sub">This helps us understand whether you're looking for something immediate, or simply exploring what may be possible.</p>
-    <div class="answer-options">
+    <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectTimeline('As soon as possible', this)">
         <span class="answer-emoji">⚡</span> As soon as possible
       </button>
