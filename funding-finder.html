@@ -2031,17 +2031,16 @@
     <div class="results-header">
       <div class="results-check"></div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
-      <p class="results-name" id="results-name">Here's what we found</p>
     </div>
 
     <div class="ai-summary">
-      <div class="ai-summary-label">Here's what we discovered</div>
+      <div class="ai-summary-label" id="ai-summary-label">Here's what we discovered</div>
       <p class="ai-summary-text" id="ai-summary-text">Analysing your responses...</p>
     </div>
 
     <div id="matched-products-section">
-      <p style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--light-text);margin-bottom:10px;font-weight:500;">Funding options to explore</p>
-      <p style="font-size:13px;color:var(--mid);margin-bottom:12px;">Click any option below to learn more on the Fiskal website.</p>
+      <p style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#D94F00;margin-bottom:10px;font-weight:500;">Funding options to explore</p>
+      <p style="font-size:13px;color:#ffffff;margin-bottom:12px;">Click any option below to learn more on the Fiskal website.</p>
       <div class="matched-products" id="matched-products-list"></div>
     </div>
 
@@ -2867,13 +2866,13 @@ function saveDiscovery(module, icon, summaryHtml, business) {
 }
 
 function displayResults(summary, matchedProducts) {
-  // Set main heading
-  document.getElementById('results-name').textContent = state.business ? `Here's what we found for ${state.business}` : "Here's what we found";
-
-  // Set summary card heading and content
-  const summaryHeadingEl = document.querySelector('.ai-summary-label');
+  // Set summary label with business name in orange
+  const summaryHeadingEl = document.getElementById('ai-summary-label');
   if (summaryHeadingEl) {
-    summaryHeadingEl.textContent = summary.summaryHeading || "Here's what we discovered";
+    const heading = summary.summaryHeading || "Here's what we discovered";
+    summaryHeadingEl.innerHTML = state.business
+      ? `${heading} for <span style="color:#D94F00">${state.business}</span>`
+      : heading;
   }
 
   const summaryTextEl = document.getElementById('ai-summary-text');
