@@ -524,17 +524,18 @@
   ============================================================ */
 
   #screen-details,
-  #screen-purpose,
-  #screen-amount,
-  #screen-term,
-  #screen-security,
-  #screen-property-security,
-  #screen-other-security,
-  #screen-credit,
-  #screen-urgency,
-  #screen-existing-finance,
-  #screen-existing-details,
-  #screen-upload,
+  #screen-q1,
+  #screen-q2,
+  #screen-q3,
+  #screen-q4,
+  #screen-q5,
+  #screen-q6,
+  #screen-q7,
+  #screen-q8,
+  #screen-q9,
+  #screen-q10,
+  #screen-q11,
+  #screen-q12,
   #screen-loading,
   #screen-submission-loading {
     background: #000000;
@@ -542,17 +543,18 @@
   }
 
   #screen-details::before,
-  #screen-purpose::before,
-  #screen-amount::before,
-  #screen-term::before,
-  #screen-security::before,
-  #screen-property-security::before,
-  #screen-other-security::before,
-  #screen-credit::before,
-  #screen-urgency::before,
-  #screen-existing-finance::before,
-  #screen-existing-details::before,
-  #screen-upload::before {
+  #screen-q1::before,
+  #screen-q2::before,
+  #screen-q3::before,
+  #screen-q4::before,
+  #screen-q5::before,
+  #screen-q6::before,
+  #screen-q7::before,
+  #screen-q8::before,
+  #screen-q9::before,
+  #screen-q10::before,
+  #screen-q11::before,
+  #screen-q12::before {
     content: '';
     position: fixed;
     inset: 0;
@@ -566,51 +568,57 @@
     z-index: 0;
   }
 
-  #screen-details .ob-fixed-header, #screen-purpose .ob-fixed-header,
-  #screen-amount .ob-fixed-header, #screen-term .ob-fixed-header,
-  #screen-security .ob-fixed-header, #screen-property-security .ob-fixed-header,
-  #screen-other-security .ob-fixed-header, #screen-credit .ob-fixed-header,
-  #screen-urgency .ob-fixed-header, #screen-existing-finance .ob-fixed-header,
-  #screen-existing-details .ob-fixed-header, #screen-upload .ob-fixed-header,
-  #screen-details .progress-bar-wrap, #screen-purpose .progress-bar-wrap,
-  #screen-amount .progress-bar-wrap, #screen-term .progress-bar-wrap,
-  #screen-security .progress-bar-wrap, #screen-property-security .progress-bar-wrap,
-  #screen-other-security .progress-bar-wrap, #screen-credit .progress-bar-wrap,
-  #screen-urgency .progress-bar-wrap, #screen-existing-finance .progress-bar-wrap,
-  #screen-existing-details .progress-bar-wrap, #screen-upload .progress-bar-wrap,
-  #screen-details .screen-content, #screen-purpose .screen-content,
-  #screen-amount .screen-content, #screen-term .screen-content,
-  #screen-security .screen-content, #screen-property-security .screen-content,
-  #screen-other-security .screen-content, #screen-credit .screen-content,
-  #screen-urgency .screen-content, #screen-existing-finance .screen-content,
-  #screen-existing-details .screen-content, #screen-upload .screen-content,
-  #screen-details .nav-row, #screen-purpose .nav-row,
-  #screen-amount .nav-row, #screen-term .nav-row,
-  #screen-security .nav-row, #screen-property-security .nav-row,
-  #screen-other-security .nav-row, #screen-credit .nav-row,
-  #screen-urgency .nav-row, #screen-existing-finance .nav-row,
-  #screen-existing-details .nav-row, #screen-upload .nav-row { position: relative; z-index: 1; }
+  #screen-details .ob-fixed-header, #screen-q1 .ob-fixed-header,
+  #screen-q2 .ob-fixed-header, #screen-q3 .ob-fixed-header,
+  #screen-q4 .ob-fixed-header, #screen-q5 .ob-fixed-header,
+  #screen-q6 .ob-fixed-header, #screen-q7 .ob-fixed-header,
+  #screen-q8 .ob-fixed-header, #screen-q9 .ob-fixed-header,
+  #screen-q10 .ob-fixed-header, #screen-q11 .ob-fixed-header,
+  #screen-q12 .ob-fixed-header,
+  #screen-details .progress-bar-wrap, #screen-q1 .progress-bar-wrap,
+  #screen-q2 .progress-bar-wrap, #screen-q3 .progress-bar-wrap,
+  #screen-q4 .progress-bar-wrap, #screen-q5 .progress-bar-wrap,
+  #screen-q6 .progress-bar-wrap, #screen-q7 .progress-bar-wrap,
+  #screen-q8 .progress-bar-wrap, #screen-q9 .progress-bar-wrap,
+  #screen-q10 .progress-bar-wrap, #screen-q11 .progress-bar-wrap,
+  #screen-q12 .progress-bar-wrap,
+  #screen-details .screen-content, #screen-q1 .screen-content,
+  #screen-q2 .screen-content, #screen-q3 .screen-content,
+  #screen-q4 .screen-content, #screen-q5 .screen-content,
+  #screen-q6 .screen-content, #screen-q7 .screen-content,
+  #screen-q8 .screen-content, #screen-q9 .screen-content,
+  #screen-q10 .screen-content, #screen-q11 .screen-content,
+  #screen-q12 .screen-content,
+  #screen-details .nav-row, #screen-q1 .nav-row,
+  #screen-q2 .nav-row, #screen-q3 .nav-row,
+  #screen-q4 .nav-row, #screen-q5 .nav-row,
+  #screen-q6 .nav-row, #screen-q7 .nav-row,
+  #screen-q8 .nav-row, #screen-q9 .nav-row,
+  #screen-q10 .nav-row, #screen-q11 .nav-row,
+  #screen-q12 .nav-row { position: relative; z-index: 1; }
 
-  #screen-details .dashed-divider, #screen-purpose .dashed-divider,
-  #screen-amount .dashed-divider, #screen-term .dashed-divider,
-  #screen-security .dashed-divider, #screen-property-security .dashed-divider,
-  #screen-other-security .dashed-divider, #screen-credit .dashed-divider,
-  #screen-urgency .dashed-divider, #screen-existing-finance .dashed-divider,
-  #screen-existing-details .dashed-divider, #screen-upload .dashed-divider {
+  #screen-details .dashed-divider, #screen-q1 .dashed-divider,
+  #screen-q2 .dashed-divider, #screen-q3 .dashed-divider,
+  #screen-q4 .dashed-divider, #screen-q5 .dashed-divider,
+  #screen-q6 .dashed-divider, #screen-q7 .dashed-divider,
+  #screen-q8 .dashed-divider, #screen-q9 .dashed-divider,
+  #screen-q10 .dashed-divider, #screen-q11 .dashed-divider,
+  #screen-q12 .dashed-divider {
     color: #8E7ED8 !important;
   }
   #screen-details .dashed-divider::before, #screen-details .dashed-divider::after,
-  #screen-purpose .dashed-divider::before, #screen-purpose .dashed-divider::after,
-  #screen-amount .dashed-divider::before, #screen-amount .dashed-divider::after,
-  #screen-term .dashed-divider::before, #screen-term .dashed-divider::after,
-  #screen-security .dashed-divider::before, #screen-security .dashed-divider::after,
-  #screen-property-security .dashed-divider::before, #screen-property-security .dashed-divider::after,
-  #screen-other-security .dashed-divider::before, #screen-other-security .dashed-divider::after,
-  #screen-credit .dashed-divider::before, #screen-credit .dashed-divider::after,
-  #screen-urgency .dashed-divider::before, #screen-urgency .dashed-divider::after,
-  #screen-existing-finance .dashed-divider::before, #screen-existing-finance .dashed-divider::after,
-  #screen-existing-details .dashed-divider::before, #screen-existing-details .dashed-divider::after,
-  #screen-upload .dashed-divider::before, #screen-upload .dashed-divider::after {
+  #screen-q1 .dashed-divider::before, #screen-q1 .dashed-divider::after,
+  #screen-q2 .dashed-divider::before, #screen-q2 .dashed-divider::after,
+  #screen-q3 .dashed-divider::before, #screen-q3 .dashed-divider::after,
+  #screen-q4 .dashed-divider::before, #screen-q4 .dashed-divider::after,
+  #screen-q5 .dashed-divider::before, #screen-q5 .dashed-divider::after,
+  #screen-q6 .dashed-divider::before, #screen-q6 .dashed-divider::after,
+  #screen-q7 .dashed-divider::before, #screen-q7 .dashed-divider::after,
+  #screen-q8 .dashed-divider::before, #screen-q8 .dashed-divider::after,
+  #screen-q9 .dashed-divider::before, #screen-q9 .dashed-divider::after,
+  #screen-q10 .dashed-divider::before, #screen-q10 .dashed-divider::after,
+  #screen-q11 .dashed-divider::before, #screen-q11 .dashed-divider::after,
+  #screen-q12 .dashed-divider::before, #screen-q12 .dashed-divider::after {
     background: #8E7ED8 !important;
     opacity: 0.4 !important;
   }
@@ -765,7 +773,8 @@
   <div class="screen-content">
     <div class="typing-intro">
       <div class="typing-text" id="loan-intro-text"></div>
-      <button class="btn-primary" id="loan-start-btn" onclick="showDetailsConfirm()" style="display:none">Start My Discovery ›</button>
+      <button class="btn-primary" id="loan-start-btn" onclick="showDetailsConfirm()" style="display:none">Start My Enquiry ›</button>
+      <p id="loan-sub-text" style="color:#D94F00;font-size:14px;font-style:italic;margin-top:12px;">No commitment, no credit check — just clarity.</p>
     </div>
   </div>
   <div class="screen-footer">
@@ -797,7 +806,7 @@
     </div>
   <div class="screen-content">
     <h2 class="question-text">Confirm these details are correct</h2>
-    <p class="question-sub">We've pulled these through from your previous answers.</p>
+    <p style="font-size:14px;color:#D94F00;font-style:italic;margin-bottom:20px;line-height:1.5;">We've saved your details to make this as quick as possible — just check everything looks right.</p>
     <div class="ai-summary" id="details-summary">
       <div class="ai-summary-label">Saved details</div>
       <div class="ai-summary-text" id="confirm-details-list">Loading your saved details...</div>
@@ -828,7 +837,7 @@
         <input type="text" class="form-input" id="field-turnover" placeholder="e.g. £250,000">
     </div>
       <div class="form-group">
-        <label class="form-label">Expected turnover</label>
+        <label class="form-label">Projected Turnover</label>
         <input type="text" class="form-input" id="field-turnover-next" placeholder="e.g. £400,000">
     </div>
       <div class="form-group">
@@ -850,42 +859,29 @@
   </div>
 </div>
 
-<!-- Q1: Purpose -->
-<div class="screen" id="screen-purpose">
+<!-- Q1: Loan Type -->
+<div class="screen" id="screen-q1">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:15%"></div></div>
-    <div class="progress-label"></div>
-  </div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:8%"></div></div><div class="progress-label"></div></div>
   <div class="screen-content">
-    <div class="question-product">Loan Enquiry</div>
-    <h2 class="question-text">What do you need the loan for?</h2>
-    <div class="answer-options" id="purpose-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="answer-btn" data-purpose="Working capital — day to day cash flow" onclick="togglePurpose(this)">Working capital</button>
-      <button class="answer-btn" data-purpose="Growth — expanding the business" onclick="togglePurpose(this)">Growth</button>
-      <button class="answer-btn" data-purpose="Equipment or assets" onclick="togglePurpose(this)">Equipment or assets</button>
-      <button class="answer-btn" data-purpose="Property" onclick="togglePurpose(this)">Property</button>
-      <button class="answer-btn" data-purpose="Refinancing existing debt" onclick="togglePurpose(this)">Refinancing</button>
-      <button class="answer-btn" data-purpose="Tax or HMRC bill" onclick="togglePurpose(this)">Tax / HMRC bill</button>
-      <button class="answer-btn" id="purpose-other-btn" onclick="togglePurposeOther(this)">Other</button>
+    <div class="question-product">LOAN ENQUIRY</div>
+    <h2 class="question-text">What type of funding are you looking for?</h2>
+    <p class="question-sub" style="color:#D94F00">The right type of funding could change everything — let's find the one that fits you perfectly.</p>
+    <div class="answer-options" id="q1-opts">
+      <button class="answer-btn" onclick="selectLoanType('unsecured', this)">Unsecured business loan</button>
+      <button class="answer-btn" onclick="selectLoanType('secured', this)">Secured business loan</button>
+      <button class="answer-btn" onclick="selectLoanType('bridging', this)">Bridging finance</button>
+      <button class="answer-btn" onclick="selectLoanType('mca', this)">Merchant cash advance</button>
+      <button class="answer-btn" onclick="selectLoanType('not-sure', this)">I'm not sure — help me decide</button>
     </div>
-    <div id="purpose-other-box" style="display:none;margin-top:10px">
-      <input type="text" class="form-input" id="purpose-other-input" placeholder="Describe your purpose…">
-    </div>
-    <button class="btn-primary" id="purpose-continue-btn" style="display:none;margin-top:14px;width:100%" onclick="confirmPurpose()">Continue ›</button>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-details')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-details')">‹ Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -893,38 +889,72 @@
   </div>
 </div>
 
-<!-- Q2: Amount -->
-<div class="screen" id="screen-amount">
+<!-- Q2: Purpose -->
+<div class="screen" id="screen-q2">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:25%"></div></div>
-    <div class="progress-label"></div>
-  </div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:17%"></div></div><div class="progress-label"></div></div>
   <div class="screen-content">
-    <div class="question-product">Loan Enquiry</div>
+    <div class="question-product">LOAN ENQUIRY</div>
+    <h2 class="question-text">What do you need the funding for?</h2>
+    <p class="question-sub" style="color:#D94F00">Every goal is worth pursuing — the right funding could be the thing that makes it happen.</p>
+    <div class="answer-options" id="q2-opts">
+      <button class="answer-btn" onclick="selectPurpose('Business growth', this)">Business growth</button>
+      <button class="answer-btn" onclick="selectPurpose('Working capital / cashflow', this)">Working capital / cashflow</button>
+      <button class="answer-btn" onclick="selectPurpose('Equipment or vehicles', this)">Equipment or vehicles</button>
+      <button class="answer-btn" onclick="selectPurpose('Property purchase or development', this)">Property purchase or development</button>
+      <button class="answer-btn" onclick="selectPurpose('Refinance existing debt', this)">Refinance existing debt</button>
+      <button class="answer-btn" onclick="selectPurpose('Stock or trade purchases', this)">Stock or trade purchases</button>
+      <button class="answer-btn" onclick="selectPurpose('New premises', this)">New premises</button>
+      <button class="answer-btn" onclick="selectPurpose('Marketing / advertising', this)">Marketing / advertising</button>
+      <button class="answer-btn" onclick="selectPurpose('Management buyout / acquisition', this)">Management buyout / acquisition</button>
+      <div id="q2-other-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="togglePurposeOther()">
+        <span id="q2-other-label">Other</span>
+        <input type="text" id="purpose-other-input" placeholder="Tell us a little more about what you need the funding for" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ2Continue()" onclick="event.stopPropagation()">
+      </div>
+    </div>
+    <button class="btn-primary" id="q2-continue" onclick="savePurpose()" style="display:none;margin-top:14px;width:100%">Continue</button>
+  </div>
+  <div class="screen-footer">
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-q1')">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+  </div>
+</div>
+
+<!-- Q3: Amount -->
+<div class="screen" id="screen-q3">
+  <header class="ob-fixed-header">
+    <div class="ob-header-spacer"></div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+  </header>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:25%"></div></div><div class="progress-label"></div></div>
+  <div class="screen-content">
+    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How much are you looking to borrow?</h2>
-    <div class="answer-options" id="amount-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="answer-btn" onclick="selectState('amount', 'Up to £25,000', this, 'amount-opts', 'screen-term')">Up to £25,000</button>
-      <button class="answer-btn" onclick="selectState('amount', '£25,000 — £50,000', this, 'amount-opts', 'screen-term')">£25,000 — £50,000</button>
-      <button class="answer-btn" onclick="selectState('amount', '£50,000 — £100,000', this, 'amount-opts', 'screen-term')">£50,000 — £100,000</button>
-      <button class="answer-btn" onclick="selectState('amount', '£100,000 — £250,000', this, 'amount-opts', 'screen-term')">£100,000 — £250,000</button>
-      <button class="answer-btn" onclick="selectState('amount', '£250,000 — £500,000', this, 'amount-opts', 'screen-term')">£250,000 — £500,000</button>
-      <button class="answer-btn" onclick="selectState('amount', '£500,000+', this, 'amount-opts', 'screen-term')">£500,000+</button>
-      <button class="answer-btn" onclick="selectState('amount', 'Not sure', this, 'amount-opts', 'screen-term')">Not sure</button>
+    <p class="question-sub" style="color:#D94F00">Whatever the number, there's likely a way to make it work.</p>
+    <div class="form-group">
+      <label class="form-label">Funding amount</label>
+      <div class="currency-input-wrapper" style="position:relative">
+        <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.5);font-size:16px">£</span>
+        <input type="text" inputmode="numeric" class="form-input" id="loan-amount-input" placeholder="Enter amount" style="padding-left:28px">
+      </div>
     </div>
+    <div class="answer-options">
+      <button class="answer-btn" onclick="selectAmountNotSure(this)">I'm not sure yet</button>
+    </div>
+    <button class="btn-primary" id="q3-continue" onclick="saveAmount()">Continue</button>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-purpose')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-q2')">‹ Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -932,37 +962,30 @@
   </div>
 </div>
 
-<!-- Q3: Term -->
-<div class="screen" id="screen-term">
+<!-- Q4: Term -->
+<div class="screen" id="screen-q4">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:37%"></div></div>
-    <div class="progress-label"></div>
-  </div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:33%"></div></div><div class="progress-label"></div></div>
   <div class="screen-content">
-    <div class="question-product">Loan Enquiry</div>
+    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How long would you like to repay over?</h2>
-    <div class="answer-options" id="term-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="answer-btn" onclick="selectState('term', 'Up to 12 months', this, 'term-opts', 'screen-security')">Up to 12 months</button>
-      <button class="answer-btn" onclick="selectState('term', '1 — 2 years', this, 'term-opts', 'screen-security')">1 — 2 years</button>
-      <button class="answer-btn" onclick="selectState('term', '2 — 3 years', this, 'term-opts', 'screen-security')">2 — 3 years</button>
-      <button class="answer-btn" onclick="selectState('term', '3 — 5 years', this, 'term-opts', 'screen-security')">3 — 5 years</button>
-      <button class="answer-btn" onclick="selectState('term', '5 years+', this, 'term-opts', 'screen-security')">5 years+</button>
-      <button class="answer-btn" onclick="selectState('term', 'Not sure', this, 'term-opts', 'screen-security')">Not sure</button>
+    <p class="question-sub" style="color:#D94F00">The right repayment plan means funding that works for your business, not against it.</p>
+    <div class="answer-options" id="q4-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="answer-btn" onclick="selectTerm('Up to 12 months', this)">Up to 12 months</button>
+      <button class="answer-btn" onclick="selectTerm('1–3 years', this)">1–3 years</button>
+      <button class="answer-btn" onclick="selectTerm('3–5 years', this)">3–5 years</button>
+      <button class="answer-btn" onclick="selectTerm('5–10 years', this)">5–10 years</button>
+      <button class="answer-btn" onclick="selectTerm('10+ years', this)">10+ years</button>
+      <button class="answer-btn" onclick="selectTerm('I'm not sure', this)">I'm not sure</button>
     </div>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-amount')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-q3')">‹ Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -970,109 +993,34 @@
   </div>
 </div>
 
-<!-- Q4: Security -->
-<div class="screen" id="screen-security">
+<!-- Q5: Security -->
+<div class="screen" id="screen-q5">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:50%"></div></div>
-    <div class="progress-label"></div>
-  </div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:42%"></div></div><div class="progress-label"></div></div>
   <div class="screen-content">
-    <div class="question-product">Loan Enquiry</div>
-    <h2 class="question-text">Do you have any security to offer against the loan?</h2>
-    <div class="answer-options" id="security-opts">
-      <button class="answer-btn" onclick="selectState('security', 'Property', this, 'security-opts', 'screen-property-security')">Yes — property</button>
-      <button class="answer-btn" onclick="selectState('security', 'Other assets', this, 'security-opts', 'screen-other-security')">Yes — other assets</button>
-      <button class="answer-btn" onclick="selectState('security', 'Unsecured', this, 'security-opts', 'screen-credit')">No — looking for unsecured funding</button>
-      <button class="answer-btn" onclick="selectState('security', 'Not sure', this, 'security-opts', 'screen-credit')">Not sure</button>
-    </div>
-  </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-term')">&lt; Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
-  </div>
-</div>
-
-<!-- Property Security Details -->
-<div class="screen" id="screen-property-security">
-  <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
-  </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:55%"></div></div>
-    <div class="progress-label">Property details</div>
-  </div>
-  <div class="screen-content">
-    <div class="question-product">Loan Enquiry</div>
-    <h2 class="question-text">Tell us about the property</h2>
-    <div class="form-group">
-      <label class="form-label">Property owner name</label>
-      <input type="text" class="form-input" id="prop-owner" placeholder="e.g. John Smith">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Property address</label>
-      <input type="text" class="form-input" id="prop-address" placeholder="e.g. 123 Main Street, London">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Residential or commercial?</label>
-      <div class="answer-options" id="prop-type-opts">
-        <button class="answer-btn" onclick="selectState('propType', 'Residential', this, 'prop-type-opts', null)">Residential</button>
-        <button class="answer-btn" onclick="selectState('propType', 'Commercial', this, 'prop-type-opts', null)">Commercial</button>
+    <div class="question-product">LOAN ENQUIRY</div>
+    <h2 class="question-text">Do you have any security to offer?</h2>
+    <p class="question-sub" style="color:#D94F00">Security can unlock better rates and bigger amounts — but it's not the only way in.</p>
+    <div class="answer-options" id="q5-opts">
+      <button class="answer-btn" onclick="selectSecurity('property', this)">Yes — property</button>
+      <button class="answer-btn" onclick="selectSecurity('assets', this)">Yes — business assets</button>
+      <button class="answer-btn" onclick="selectSecurity('both', this)">Yes — both property and assets</button>
+      <button class="answer-btn" onclick="selectSecurity('personal-guarantee', this)">Personal guarantee only</button>
+      <button class="answer-btn" onclick="selectSecurity('none', this)">No security available</button>
+      <div id="q5-notsure-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="toggleSecurityNote()">
+        <span id="q5-notsure-label">I'm not sure what I have to offer</span>
+        <input type="text" id="security-note" placeholder="Tell us what assets your business has — Nicole can help work out what might be useable" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ5Continue()" onclick="event.stopPropagation()">
       </div>
     </div>
-    <div class="form-group">
-      <label class="form-label">Who is the mortgage holder?</label>
-      <input type="text" class="form-input" id="mortgage-holder" placeholder="e.g. Barclays, owned outright">
-    </div>
-    <div class="form-group">
-      <label class="form-label">How many charges on the property?</label>
-      <div class="answer-options" id="charges-opts">
-        <button class="answer-btn" onclick="selectState('propCharges', 'No charges — owned outright', this, 'charges-opts', null)">No charges — owned outright</button>
-        <button class="answer-btn" onclick="selectState('propCharges', 'One charge', this, 'charges-opts', null)">1⃣ One charge</button>
-        <button class="answer-btn" onclick="selectState('propCharges', 'Two charges', this, 'charges-opts', null)">2⃣ Two charges</button>
-        <button class="answer-btn" onclick="selectState('propCharges', 'Three or more', this, 'charges-opts', null)">3⃣ Three or more</button>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Approximate property value</label>
-      <input type="text" class="form-input" id="prop-value" placeholder="e.g. £350,000">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Approximate mortgage outstanding</label>
-      <input type="text" class="form-input" id="prop-mortgage" placeholder="e.g. £180,000 or None">
-    </div>
-    <div id="properties-added" style="display:none;margin-bottom:16px;">
-      <p style="font-size:13px;color:var(--mid);margin-bottom:8px;">Properties added:</p>
-      <div id="properties-list"></div>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="btn-primary" onclick="savePropertySecurity()">Continue ></button>
-      <button class="btn-secondary" onclick="addAnotherProperty()">+ Add another property</button>
-    </div>
+    <button class="btn-primary" id="q5-continue" onclick="saveSecurity()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-security')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-q4')">‹ Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -1080,74 +1028,33 @@
   </div>
 </div>
 
-<!-- Other Security Details -->
-<div class="screen" id="screen-other-security">
+<!-- Q6: Credit History -->
+<div class="screen" id="screen-q6">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:55%"></div></div>
-    <div class="progress-label">Asset details</div>
-  </div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:50%"></div></div><div class="progress-label"></div></div>
   <div class="screen-content">
-    <div class="question-product">Loan Enquiry</div>
-    <h2 class="question-text">Tell us about the asset</h2>
-    <div class="form-group">
-      <label class="form-label">What type of asset?</label>
-      <input type="text" class="form-input" id="asset-type" placeholder="e.g. Plant machinery, vehicles">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Approximate value</label>
-      <input type="text" class="form-input" id="asset-value" placeholder="e.g. £75,000">
-    </div>
-    <button class="btn-primary" onclick="saveOtherSecurity()">Continue ></button>
-  </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-security')">&lt; Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
-  </div>
-</div>
-
-<!-- Q5: Credit History -->
-<div class="screen" id="screen-credit">
-  <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
-  </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:62%"></div></div>
-    <div class="progress-label"></div>
-  </div>
-  <div class="screen-content">
-    <div class="question-product">Loan Enquiry</div>
+    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How would you describe your business credit history?</h2>
-    <div class="answer-options" id="credit-opts">
-      <button class="answer-btn" onclick="selectState('credit', 'Clean — no issues', this, 'credit-opts', 'screen-urgency')">Clean — no issues</button>
-      <button class="answer-btn" onclick="selectState('credit', 'Minor issues — some late payments', this, 'credit-opts', 'screen-urgency')">Minor issues — some late payments</button>
-      <button class="answer-btn" onclick="selectState('credit', 'CCJs or defaults', this, 'credit-opts', 'screen-urgency')">CCJs or defaults</button>
-      <button class="answer-btn" onclick="selectState('credit', 'Not sure', this, 'credit-opts', 'screen-urgency')">Not sure</button>
+    <p class="question-sub" style="color:#D94F00">Whatever your history, there's a lender out there who will look at the full picture.</p>
+    <div class="answer-options" id="q6-opts">
+      <button class="answer-btn" onclick="selectCredit('clean', this)">Clean — no issues</button>
+      <button class="answer-btn" onclick="selectCredit('mostly-clean', this)">Mostly clean — one or two minor issues</button>
+      <button class="answer-btn" onclick="selectCredit('some-issues', this)">Some issues — CCJs, defaults or missed payments</button>
+      <button class="answer-btn" onclick="selectCredit('significant-issues', this)">Significant issues — including insolvency or HMRC debt</button>
+      <div id="q6-notsure-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="toggleCreditNote()">
+        <span id="q6-notsure-label">I'm not sure / I'd rather not say</span>
+        <input type="text" id="credit-note" placeholder="Tell us a little more if you're comfortable — the more we know the better we can help" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ6Continue()" onclick="event.stopPropagation()">
+      </div>
     </div>
+    <button class="btn-primary" id="q6-continue" onclick="saveCredit()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
-      <button class="back-btn" onclick="goBackFromCredit()">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-q5')">‹ Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -1155,35 +1062,29 @@
   </div>
 </div>
 
-<!-- Q6: Urgency -->
-<div class="screen" id="screen-urgency">
+<!-- Q7: Trading History -->
+<div class="screen" id="screen-q7">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:72%"></div></div>
-    <div class="progress-label"></div>
-  </div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:58%"></div></div><div class="progress-label"></div></div>
   <div class="screen-content">
-    <div class="question-product">Loan Enquiry</div>
-    <h2 class="question-text">How quickly do you need the funding?</h2>
-    <div class="answer-options" id="urgency-opts">
-      <button class="answer-btn" onclick="selectState('urgency', 'As soon as possible', this, 'urgency-opts', 'screen-existing-finance')">As soon as possible</button>
-      <button class="answer-btn" onclick="selectState('urgency', 'Within the next month', this, 'urgency-opts', 'screen-existing-finance')">Within the next month</button>
-      <button class="answer-btn" onclick="selectState('urgency', 'Within the next 3 months', this, 'urgency-opts', 'screen-existing-finance')">Within the next 3 months</button>
-      <button class="answer-btn" onclick="selectState('urgency', 'Just exploring options', this, 'urgency-opts', 'screen-existing-finance')">Just exploring options for now</button>
+    <div class="question-product">LOAN ENQUIRY</div>
+    <h2 class="question-text">How long has your business been trading?</h2>
+    <p class="question-sub" style="color:#D94F00">Every established business started somewhere — and there are lenders who back ambition at every stage.</p>
+    <div class="answer-options" id="q7-opts">
+      <button class="answer-btn" onclick="selectTradingHistory('under-6-months', this)">Less than 6 months</button>
+      <button class="answer-btn" onclick="selectTradingHistory('6-12-months', this)">6–12 months</button>
+      <button class="answer-btn" onclick="selectTradingHistory('1-2-years', this)">1–2 years</button>
+      <button class="answer-btn" onclick="selectTradingHistory('2-5-years', this)">2–5 years</button>
+      <button class="answer-btn" onclick="selectTradingHistory('5-plus-years', this)">5+ years</button>
     </div>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-credit')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-q6')">‹ Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -1191,33 +1092,64 @@
   </div>
 </div>
 
-<!-- Q7: Existing Finance -->
-<div class="screen" id="screen-existing-finance">
+<!-- Q8: Monthly Turnover (conditional) -->
+<div class="screen" id="screen-q8">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:82%"></div></div>
-    <div class="progress-label"></div>
-  </div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:67%"></div></div><div class="progress-label"></div></div>
   <div class="screen-content">
-    <div class="question-product">Loan Enquiry</div>
+    <div class="question-product">LOAN ENQUIRY</div>
+    <h2 class="question-text">What is your approximate monthly turnover?</h2>
+    <p class="question-sub" style="color:#D94F00">Turnover is just a starting point — what you do with the right funding is what really matters.</p>
+    <div class="answer-options" id="q8-opts">
+      <button class="answer-btn" onclick="selectMonthlyTurnover('Under £10,000', this)">Under £10,000</button>
+      <button class="answer-btn" onclick="selectMonthlyTurnover('£10,000–£25,000', this)">£10,000–£25,000</button>
+      <button class="answer-btn" onclick="selectMonthlyTurnover('£25,000–£50,000', this)">£25,000–£50,000</button>
+      <button class="answer-btn" onclick="selectMonthlyTurnover('£50,000–£100,000', this)">£50,000–£100,000</button>
+      <button class="answer-btn" onclick="selectMonthlyTurnover('£100,000–£250,000', this)">£100,000–£250,000</button>
+      <button class="answer-btn" onclick="selectMonthlyTurnover('£250,000+', this)">£250,000+</button>
+      <button class="answer-btn" onclick="selectMonthlyTurnover('Rather not say', this)">I'd rather not say</button>
+    </div>
+  </div>
+  <div class="screen-footer">
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-q7')">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+  </div>
+</div>
+
+<!-- Q9: Existing Finance -->
+<div class="screen" id="screen-q9">
+  <header class="ob-fixed-header">
+    <div class="ob-header-spacer"></div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+  </header>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:75%"></div></div><div class="progress-label"></div></div>
+  <div class="screen-content">
+    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Do you have any existing loans or finance in place?</h2>
-    <div class="answer-options" id="existing-opts">
-      <button class="answer-btn" onclick="selectState('existingFinance', 'No', this, 'existing-opts', 'screen-upload')">No — this would be my first</button>
-      <button class="answer-btn" onclick="selectState('existingFinance', 'Yes', this, 'existing-opts', 'screen-existing-details')">Yes — I have existing finance</button>
+    <p class="question-sub" style="color:#D94F00">Existing finance doesn't close doors — the right structure can open new ones.</p>
+    <div class="answer-options" id="q9-opts">
+      <button class="answer-btn" onclick="selectExistingFinance('none', this)">No existing finance</button>
+      <button class="answer-btn" onclick="selectExistingFinance('one', this)">Yes — one facility</button>
+      <button class="answer-btn" onclick="selectExistingFinance('multiple', this)">Yes — multiple facilities</button>
+      <div id="q9-refinance-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="toggleRefinanceNote()">
+        <span id="q9-refinance-label">Yes and I'm looking to refinance</span>
+        <input type="text" id="refinance-note" placeholder="Tell us about your existing finance — lender, approximate balance and monthly payment" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ9Continue()" onclick="event.stopPropagation()">
+      </div>
     </div>
+    <button class="btn-primary" id="q9-continue" onclick="saveExistingFinance()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-urgency')">&lt; Back</button>
+      <button class="back-btn" onclick="goBackFromQ9()">‹ Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -1225,33 +1157,28 @@
   </div>
 </div>
 
-<!-- Existing Finance Details -->
-<div class="screen" id="screen-existing-details">
+<!-- Q10: Urgency -->
+<div class="screen" id="screen-q10">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:84%"></div></div>
-    <div class="progress-label">Existing finance</div>
-  </div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:83%"></div></div><div class="progress-label"></div></div>
   <div class="screen-content">
-    <div class="question-product">Loan Enquiry</div>
-    <h2 class="question-text">Tell us about your existing finance</h2>
-    <p class="question-sub">Add as many facilities as you have.</p>
-    <div id="existing-facilities-list"></div>
-    <button class="btn-secondary" onclick="addFacility()" style="margin-top:0">+ Add a facility</button>
-    <button class="btn-primary" onclick="showScreen('screen-upload')" style="margin-top:12px">Continue ></button>
+    <div class="question-product">LOAN ENQUIRY</div>
+    <h2 class="question-text">How quickly do you need the funding?</h2>
+    <p class="question-sub" style="color:#D94F00">Whether you need funding tomorrow or you're planning your next big move — the right timing makes all the difference.</p>
+    <div class="answer-options" id="q10-opts">
+      <button class="answer-btn" onclick="selectUrgency('Urgently — within days', this)">Urgently — within days</button>
+      <button class="answer-btn" onclick="selectUrgency('Within 2–4 weeks', this)">Within 2–4 weeks</button>
+      <button class="answer-btn" onclick="selectUrgency('Within 1–3 months', this)">Within 1–3 months</button>
+      <button class="answer-btn" onclick="selectUrgency('No rush — I'm planning ahead', this)">No rush — I'm planning ahead</button>
+    </div>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-existing-finance')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-q9')">‹ Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -1259,46 +1186,69 @@
   </div>
 </div>
 
-<!-- Q8: Document Upload -->
-<div class="screen" id="screen-upload">
+<!-- Q11: Additional Notes -->
+<div class="screen" id="screen-q11">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:95%"></div></div>
-    <div class="progress-label">Final step</div>
-  </div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:92%"></div></div><div class="progress-label"></div></div>
   <div class="screen-content">
-    <div class="question-product">Loan Enquiry</div>
-    <h2 class="question-text">Upload your financial documents</h2>
-    <p class="question-sub">To give you the most accurate results, please upload as many of the following as you have available.</p>
-    <div class="info-box">
-      Last 2 years filed accounts including profit and loss<br>
-      Up to date management accounts<br>
-      Last 6 months business bank statements<br><br>
-      <em>Don't worry if you don't have all of these — upload what you can and Nicole will advise on anything else needed.</em>
+    <div class="question-product">LOAN ENQUIRY</div>
+    <h2 class="question-text">Is there anything else you'd like us to know?</h2>
+    <p class="question-sub" style="color:#D94F00">Nothing is too big or too small — Nicole reads every word personally.</p>
+    <div class="form-group">
+      <textarea class="form-textarea" id="additional-notes" placeholder="Tell us anything that might help — the more context the better" style="height:120px"></textarea>
     </div>
-    <div class="upload-area" id="loan-upload-area" onclick="document.getElementById('loan-file-input').click()">
-      <div class="upload-icon"></div>
-      <div class="upload-text"><strong>Tap to upload</strong> your documents<br>PDF, image or Excel accepted — multiple files welcome</div>
-      <div id="loan-files-list"></div>
-    </div>
-    <input type="file" id="loan-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls" style="display:none" onchange="handleFileUpload(this)">
-    <button class="btn-primary" onclick="submitApplication()">Submit My Discovery ›</button>
-    <button class="btn-secondary" onclick="submitApplication()">Skip — I'll send documents separately</button>
+    <button class="btn-primary" onclick="saveAdditionalNotes()">Continue</button>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
-      <button class="back-btn" onclick="goBackFromUpload()">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-q10')">‹ Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+  </div>
+</div>
+
+<!-- Q12: Documents -->
+<div class="screen" id="screen-q12">
+  <header class="ob-fixed-header">
+    <div class="ob-header-spacer"></div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+  </header>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div><div class="progress-label"></div></div>
+  <div class="screen-content">
+    <div class="question-product">LOAN ENQUIRY</div>
+    <h2 class="question-text">Would you like to upload any supporting documents?</h2>
+    <p class="question-sub" style="color:#D94F00">The more we have upfront, the faster we can move for you.</p>
+    <div class="answer-options" id="q12-choice-opts">
+      <button class="answer-btn" id="q12-yes-btn" onclick="selectUploadChoice('yes', this)">Yes — I have documents to upload</button>
+      <button class="answer-btn" id="q12-skip-btn" onclick="selectUploadChoice('skip', this)">Skip — I don't have anything to upload right now</button>
+    </div>
+    <div id="q12-upload-area" style="display:none;margin-top:16px">
+      <div class="info-box" style="font-size:13px;line-height:1.7">
+        Last accounts<br>
+        Bank statements (last 3 months)<br>
+        Management accounts<br>
+        Any other relevant documents
+      </div>
+      <div class="upload-area" id="loan-upload-area" onclick="document.getElementById('loan-file-input').click()">
+        <div class="upload-text"><strong>Tap to upload</strong> — PDF, JPG, PNG — max 10MB per file</div>
+        <div id="loan-files-list"></div>
+      </div>
+      <input type="file" id="loan-file-input" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleLoanFileUpload(this)">
+      <button class="btn-secondary" id="q12-done-btn" onclick="revealSubmitBtn()" style="display:none;margin-top:12px;width:100%">I'm done uploading</button>
+    </div>
+    <button class="btn-primary" id="loan-submit-btn" onclick="submitApplication()" style="display:none;margin-top:20px;width:100%">Submit My Enquiry</button>
+  </div>
+  <div class="screen-footer">
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-q11')">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
     <div class="dashed-divider">Fiskal Discovery</div>
   </div>
@@ -1363,6 +1313,13 @@
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="results-name">Here's what we found</p>
     </div>
+    <div id="traffic-light-section" style="margin-bottom:20px;text-align:center;padding:0 8px">
+      <div id="traffic-light-badge" style="display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:16px;margin-bottom:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1)">
+        <span id="traffic-light-emoji" style="font-size:24px"></span>
+        <span id="traffic-light-label" style="font-family:'Raleway',sans-serif;font-weight:700;font-size:16px;color:#ffffff;letter-spacing:0.5px"></span>
+      </div>
+      <p id="traffic-light-message" style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;max-width:500px;margin:0 auto;padding:0 8px;font-style:italic"></p>
+    </div>
     <div class="ai-summary">
       <div class="ai-summary-label" id="ai-summary-label">Here's what we discovered</div>
       <p class="ai-summary-text" id="ai-summary-text">Analysing your application...</p>
@@ -1412,7 +1369,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const textEl = document.getElementById('loan-intro-text');
   const btn = document.getElementById('loan-start-btn');
-  if (textEl) textEl.textContent = "Let's find out what your business could borrow. A few quick questions and we'll show you what's possible.";
+  if (textEl) textEl.textContent = "Every great business moment starts somewhere. Let's find out how close you are to yours.";
   if (btn) btn.style.display = 'inline-flex';
 });
 
@@ -1553,39 +1510,48 @@ function showLoadingScreen(callback) {
 // STATE
 // ============================================================
 const state = {
-  name: appState.profile.name || '',
-  business: appState.profile.companyName || '',
-  email: appState.profile.email || '',
-  phone: appState.profile.phone || '',
-  companyNumber: appState.profile.companyNumber || '',
-  turnover: appState.profile.annualTurnover || '',
-  turnoverNext: '', propertyOwners: '', propertyOwnership: '',
-  purpose: '', purposeList: [], amount: appState.profile.fundingAmount || '', term: '',
-  security: '', propType: '', propCharges: '', mortgageHolder: '', propValue: '', propMortgage: '', propOwner: '', propAddress: '',
-  properties: [],
-  assetType: '', assetValue: '',
-  credit: '', urgency: '', existingFinance: '',
-  existingFacilities: [],
+  // Profile (loaded from onboarding)
+  name: '', business: '', email: '', phone: '',
+  companyNumber: '', turnover: '', turnoverNext: '', propertyOwners: '',
+  marketingConsent: false, marketingConsentText: '', marketingConsentTimestamp: '',
+  // Q1-Q12 answers
+  loanType: '',
+  purpose: '', purposeOther: '',
+  amount: '', amountNotSure: false,
+  term: '',
+  security: '', securityNote: '',
+  credit: '', creditNote: '',
+  tradingHistory: '',
+  monthlyTurnover: '',
+  existingFinance: '', existingFinanceNote: '',
+  urgency: '',
+  additionalNotes: '',
+  uploadChoice: '',
   loanFiles: [],
-  barrier: '', barrierDetails: ''
+  // Computed
+  trafficLightScore: 0, trafficLightRating: ''
 };
 
 const LOAN_SKIP_MAP = {
-  'screen-details':           'screen-purpose',
-  'screen-purpose':           'screen-amount',
-  'screen-amount':            'screen-term',
-  'screen-term':              'screen-security',
-  'screen-security':          'screen-credit',
-  'screen-property-security': 'screen-credit',
-  'screen-other-security':    'screen-credit',
-  'screen-credit':            'screen-urgency',
-  'screen-urgency':           'screen-existing-finance',
-  'screen-existing-finance':  'screen-upload',
-  'screen-existing-details':  'screen-upload',
+  'screen-details': 'screen-q1',
+  'screen-q1': 'screen-q2',
+  'screen-q2': 'screen-q3',
+  'screen-q3': 'screen-q4',
+  'screen-q4': 'screen-q5',
+  'screen-q5': 'screen-q6',
+  'screen-q6': 'screen-q7',
+  'screen-q8': 'screen-q9',
+  'screen-q9': 'screen-q10',
+  'screen-q10': 'screen-q11',
+  'screen-q11': 'screen-q12',
 };
 function skipCurrentScreen() {
   const active = document.querySelector('.screen.active');
   if (!active) return;
+  if (active.id === 'screen-q7') {
+    showScreen(state.turnover ? 'screen-q9' : 'screen-q8');
+    return;
+  }
   const next = LOAN_SKIP_MAP[active.id];
   if (next) showScreen(next);
 }
@@ -1594,131 +1560,48 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById(id);
   if (el) { el.classList.add('active'); window.scrollTo(0,0); }
-  if (id === 'screen-purpose') restorePurposeScreen();
 }
 
-function restorePurposeScreen() {
-  const list = state.purposeList || [];
-  document.querySelectorAll('#purpose-opts .answer-btn').forEach(btn => {
-    if (btn.id === 'purpose-other-btn') return;
-    btn.classList.toggle('selected', list.includes(btn.dataset.purpose));
-  });
-  updatePurposeContinue();
+function goBackFromQ9() {
+  showScreen(state.turnover ? 'screen-q7' : 'screen-q8');
 }
 
-function togglePurpose(btn) {
-  if (!state.purposeList) state.purposeList = [];
-  const value = btn.dataset.purpose;
-  const idx = state.purposeList.indexOf(value);
-  if (idx === -1) {
-    state.purposeList.push(value);
-    btn.classList.add('selected');
-  } else {
-    state.purposeList.splice(idx, 1);
-    btn.classList.remove('selected');
-  }
-  updatePurposeContinue();
-}
-
-function togglePurposeOther(btn) {
-  const box = document.getElementById('purpose-other-box');
-  const input = document.getElementById('purpose-other-input');
-  if (btn.classList.contains('selected')) {
-    btn.classList.remove('selected');
-    box.style.display = 'none';
-    input.value = '';
-  } else {
-    btn.classList.add('selected');
-    box.style.display = 'block';
-    input.focus();
-  }
-  updatePurposeContinue();
-  input.oninput = updatePurposeContinue;
-}
-
-function updatePurposeContinue() {
-  const otherSelected = document.getElementById('purpose-other-btn').classList.contains('selected');
-  const otherVal = document.getElementById('purpose-other-input').value.trim();
-  const listLen = (state.purposeList || []).length;
-  const canContinue = listLen > 0 || (otherSelected && otherVal.length > 0);
-  document.getElementById('purpose-continue-btn').style.display = canContinue ? 'block' : 'none';
-}
-
-function confirmPurpose() {
-  const list = [...(state.purposeList || [])];
-  const otherSelected = document.getElementById('purpose-other-btn').classList.contains('selected');
-  const otherVal = document.getElementById('purpose-other-input').value.trim();
-  if (otherSelected && otherVal) list.push(otherVal);
-  state.purpose = list.join(', ');
-  showScreen('screen-amount');
-}
-
-function selectState(key, value, btn, optionsId, nextScreen) {
-  if (optionsId) document.querySelectorAll('#' + optionsId + ' .answer-btn').forEach(b => b.classList.remove('selected'));
-  if (btn) btn.classList.add('selected');
-  state[key] = value;
-  
-  // Auto-advance for single-choice questions
-  if (nextScreen) {
-    setTimeout(() => {
-      showScreen(nextScreen);
-    }, 250);
-  }
-}
-
+// ============================================================
+// DETAILS SCREEN
+// ============================================================
 function escapeHtml(value) {
-  return String(value || '').replace(/[&<>"']/g, function(char) {
-    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char];
+  return String(value || '').replace(/[&<>"']/g, function(c) {
+    return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
   });
 }
-
-function getDetailValue(value) {
-  return value && String(value).trim() ? value : 'Not provided';
-}
+function getDetailValue(v) { return v && String(v).trim() ? v : 'Not provided'; }
 
 function populateDetailsSummary() {
   const summary = document.getElementById('confirm-details-list');
   if (!summary) return;
-
   const items = [
-    ['Name', state.name],
-    ['Business', state.business],
-    ['Email', state.email],
-    ['Phone', state.phone],
-    ['Company no.', state.companyNumber],
-    ['Turnover', state.turnover],
-    ['Next year', state.turnoverNext],
-    ['Property owners', state.propertyOwners],
+    ['Name', state.name], ['Business', state.business],
+    ['Email', state.email], ['Phone', state.phone],
+    ['Company No.', state.companyNumber], ['Turnover', state.turnover],
+    ['Projected Turnover', state.turnoverNext], ['Property Owners', state.propertyOwners],
   ];
-  summary.innerHTML = `<div class="detail-grid">${
-    items.map(([label, val]) => `
-      <div class="detail-item">
-        <span class="detail-label">${label}</span>
-        <span class="detail-value">${escapeHtml(getDetailValue(val))}</span>
-      </div>`).join('')
-  }</div>`;
+  summary.innerHTML = `<div class="detail-grid">${items.map(([label, val]) =>
+    `<div class="detail-item"><span class="detail-label">${label}</span><span class="detail-value">${escapeHtml(getDetailValue(val))}</span></div>`
+  ).join('')}</div>`;
 }
 
 function populateDetailsForm() {
   const fields = {
-    'field-name': state.name,
-    'field-business': state.business,
-    'field-email': state.email,
-    'field-phone': state.phone,
-    'field-company-number': state.companyNumber,
-    'field-turnover': state.turnover,
-    'field-turnover-next': state.turnoverNext,
-    'field-property-owners': state.propertyOwners
+    'field-name': state.name, 'field-business': state.business,
+    'field-email': state.email, 'field-phone': state.phone,
+    'field-company-number': state.companyNumber, 'field-turnover': state.turnover,
+    'field-turnover-next': state.turnoverNext, 'field-property-owners': state.propertyOwners
   };
-  Object.entries(fields).forEach(function([id, value]) {
-    const el = document.getElementById(id);
-    if (el) el.value = value || '';
-  });
+  Object.entries(fields).forEach(([id, v]) => { const el = document.getElementById(id); if (el) el.value = v || ''; });
 }
 
 function showDetailsConfirm() {
-  populateDetailsSummary();
-  populateDetailsForm();
+  populateDetailsSummary(); populateDetailsForm();
   document.getElementById('details-summary').style.display = 'block';
   document.getElementById('details-edit-form').style.display = 'none';
   document.getElementById('details-confirm-btn').style.display = 'block';
@@ -1737,26 +1620,13 @@ function editDetails() {
 }
 
 function confirmDetails() {
-  if (!state.name || !state.business || !state.email || !state.phone || !state.turnover) {
+  if (!state.name || !state.business || !state.email || !state.phone) {
     editDetails();
     document.getElementById('details-error').style.display = 'block';
     return;
   }
   document.getElementById('details-error').style.display = 'none';
-  showScreen('screen-purpose');
-}
-
-function toggleCheckbox(btn, group, value) {
-  btn.classList.toggle('selected');
-  const tick = btn.querySelector('.checkbox-tick');
-  if (btn.classList.contains('selected')) {
-    tick.textContent = '';
-    if (!state[group]) state[group] = [];
-    if (!state[group].includes(value)) state[group].push(value);
-  } else {
-    tick.textContent = '';
-    state[group] = state[group].filter(v => v !== value);
-  }
+  showScreen('screen-q1');
 }
 
 function submitDetails() {
@@ -1768,392 +1638,526 @@ function submitDetails() {
   state.turnover = document.getElementById('field-turnover').value.trim();
   state.turnoverNext = document.getElementById('field-turnover-next').value.trim();
   state.propertyOwners = document.getElementById('field-property-owners').value.trim();
-  if (!state.name || !state.business || !state.email || !state.phone || !state.turnover) {
+  if (!state.name || !state.business || !state.email || !state.phone) {
     document.getElementById('details-error').style.display = 'block';
     return;
   }
   document.getElementById('details-error').style.display = 'none';
-  
   sendInitialInfoNotification();
-  
-  showScreen('screen-purpose');
+  showScreen('screen-q1');
 }
 
-function savePropertySecurity() {
-  state.propOwner = document.getElementById('prop-owner').value;
-  state.propAddress = document.getElementById('prop-address').value;
-  state.mortgageHolder = document.getElementById('mortgage-holder').value;
-  state.propValue = document.getElementById('prop-value').value;
-  state.propMortgage = document.getElementById('prop-mortgage').value;
-  
-  // Save current property to array
-  const property = {
-    owner: state.propOwner,
-    address: state.propAddress,
-    type: state.propType,
-    charges: state.propCharges,
-    mortgageHolder: state.mortgageHolder,
-    value: state.propValue,
-    mortgage: state.propMortgage
-  };
-  state.properties.push(property);
-  
-  showScreen('screen-credit');
+// ============================================================
+// Q1 — Loan type
+// ============================================================
+function selectLoanType(value, btn) {
+  state.loanType = value;
+  document.querySelectorAll('#q1-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(() => showScreen('screen-q2'), 280);
 }
 
-function addAnotherProperty() {
-  state.propOwner = document.getElementById('prop-owner').value;
-  state.propAddress = document.getElementById('prop-address').value;
-  state.mortgageHolder = document.getElementById('mortgage-holder').value;
-  state.propValue = document.getElementById('prop-value').value;
-  state.propMortgage = document.getElementById('prop-mortgage').value;
-  
-  // Save current property to array
-  const property = {
-    owner: state.propOwner,
-    address: state.propAddress,
-    type: state.propType,
-    charges: state.propCharges,
-    mortgageHolder: state.mortgageHolder,
-    value: state.propValue,
-    mortgage: state.propMortgage
-  };
-  state.properties.push(property);
-  
-  // Clear form
-  document.getElementById('prop-owner').value = '';
-  document.getElementById('prop-address').value = '';
-  document.getElementById('mortgage-holder').value = '';
-  document.getElementById('prop-value').value = '';
-  document.getElementById('prop-mortgage').value = '';
-  state.propType = '';
-  state.propCharges = '';
-  
-  // Clear selections
-  document.querySelectorAll('#prop-type-opts .answer-btn').forEach(b => b.classList.remove('selected'));
-  document.querySelectorAll('#charges-opts .answer-btn').forEach(b => b.classList.remove('selected'));
-  
-  // Show properties added
-  document.getElementById('properties-added').style.display = 'block';
-  document.getElementById('properties-list').innerHTML = state.properties.map((p, i) => 
-    `<div style="background:var(--indigo-pale);padding:8px;border-radius:8px;margin-bottom:4px;font-size:12px;">
-      <strong>Property ${i + 1}:</strong> ${p.address || 'No address'} (${p.type || 'No type'}, Value: ${p.value || 'N/A'})
-    </div>`
-  ).join('');
+// ============================================================
+// Q2 — Purpose
+// ============================================================
+function selectPurpose(value, btn) {
+  state.purpose = value;
+  document.querySelectorAll('#q2-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  // Close other slot if open
+  document.getElementById('purpose-other-input').style.display = 'none';
+  document.getElementById('q2-other-label').style.display = '';
+  document.getElementById('q2-continue').style.display = 'none';
+  setTimeout(() => showScreen('screen-q3'), 280);
 }
 
-function saveOtherSecurity() {
-  state.assetType = document.getElementById('asset-type').value;
-  state.assetValue = document.getElementById('asset-value').value;
-  showScreen('screen-credit');
+function togglePurposeOther() {
+  state.purpose = 'other';
+  document.querySelectorAll('#q2-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('q2-other-slot').classList.add('selected');
+  document.getElementById('q2-other-label').style.display = 'none';
+  const input = document.getElementById('purpose-other-input');
+  input.style.display = 'block';
+  input.focus();
+  updateQ2Continue();
 }
 
-function goBackFromCredit() {
-  if (state.security === 'Property') showScreen('screen-property-security');
-  else if (state.security === 'Other assets') showScreen('screen-other-security');
-  else showScreen('screen-security');
+function updateQ2Continue() {
+  const val = document.getElementById('purpose-other-input').value.trim();
+  document.getElementById('q2-continue').style.display = val.length > 0 ? 'block' : 'none';
 }
 
-function goBackFromUpload() {
-  if (state.existingFinance === 'Yes') showScreen('screen-existing-details');
-  else showScreen('screen-existing-finance');
+function savePurpose() {
+  state.purposeOther = document.getElementById('purpose-other-input').value.trim();
+  state.purpose = state.purposeOther;
+  showScreen('screen-q3');
 }
 
-let facilityCount = 0;
-function addFacility() {
-  facilityCount++;
-  const div = document.createElement('div');
-  div.style.cssText = 'background:white;border:1.5px solid rgba(79,70,229,0.15);border-radius:10px;padding:14px;margin-bottom:12px;';
-  div.innerHTML = `
-    <p style="font-size:12px;font-weight:500;color:var(--mid);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px;">Facility ${facilityCount}</p>
-    <select class="form-input" id="facility-type-${facilityCount}" style="margin-bottom:8px">
-      <option>Loan</option><option>Overdraft</option><option>Invoice Finance</option><option>Asset Finance</option><option>Other</option>
-    </select>
-    <input type="text" class="form-input" id="facility-lender-${facilityCount}" placeholder="Lender name" style="margin-bottom:8px">
-    <input type="text" class="form-input" id="facility-outstanding-${facilityCount}" placeholder="Amount outstanding">
-  `;
-  document.getElementById('existing-facilities-list').appendChild(div);
+// ============================================================
+// Q3 — Amount
+// ============================================================
+function selectAmountNotSure(btn) {
+  state.amountNotSure = true;
+  state.amount = 'Not sure yet';
+  document.querySelectorAll('#screen-q3 .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('loan-amount-input').value = '';
+  setTimeout(() => showScreen('screen-q4'), 280);
 }
 
-function handleFileUpload(input) {
+function saveAmount() {
+  const val = document.getElementById('loan-amount-input').value.trim();
+  if (val) { state.amount = val; state.amountNotSure = false; }
+  showScreen('screen-q4');
+}
+
+// ============================================================
+// Q4 — Term
+// ============================================================
+function selectTerm(value, btn) {
+  state.term = value;
+  document.querySelectorAll('#q4-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(() => showScreen('screen-q5'), 280);
+}
+
+// ============================================================
+// Q5 — Security
+// ============================================================
+function selectSecurity(value, btn) {
+  state.security = value;
+  document.querySelectorAll('#q5-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  // Close not-sure slot
+  document.getElementById('security-note').style.display = 'none';
+  document.getElementById('q5-notsure-label').style.display = '';
+  document.getElementById('q5-continue').style.display = 'block';
+}
+
+function toggleSecurityNote() {
+  state.security = 'not-sure';
+  document.querySelectorAll('#q5-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('q5-notsure-slot').classList.add('selected');
+  document.getElementById('q5-notsure-label').style.display = 'none';
+  const input = document.getElementById('security-note');
+  input.style.display = 'block';
+  input.focus();
+  updateQ5Continue();
+}
+
+function updateQ5Continue() {
+  const val = document.getElementById('security-note').value.trim();
+  document.getElementById('q5-continue').style.display = val.length > 0 ? 'block' : 'none';
+}
+
+function saveSecurity() {
+  if (state.security === 'not-sure') {
+    state.securityNote = document.getElementById('security-note').value.trim();
+  }
+  showScreen('screen-q6');
+}
+
+// ============================================================
+// Q6 — Credit
+// ============================================================
+function selectCredit(value, btn) {
+  state.credit = value;
+  document.querySelectorAll('#q6-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('credit-note').style.display = 'none';
+  document.getElementById('q6-notsure-label').style.display = '';
+  document.getElementById('q6-continue').style.display = 'block';
+}
+
+function toggleCreditNote() {
+  state.credit = 'not-sure';
+  document.querySelectorAll('#q6-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('q6-notsure-slot').classList.add('selected');
+  document.getElementById('q6-notsure-label').style.display = 'none';
+  const input = document.getElementById('credit-note');
+  input.style.display = 'block';
+  input.focus();
+  updateQ6Continue();
+}
+
+function updateQ6Continue() {
+  const val = document.getElementById('credit-note').value.trim();
+  document.getElementById('q6-continue').style.display = val.length > 0 ? 'block' : 'none';
+}
+
+function saveCredit() {
+  if (state.credit === 'not-sure') {
+    state.creditNote = document.getElementById('credit-note').value.trim();
+  }
+  showScreen('screen-q7');
+}
+
+// ============================================================
+// Q7 — Trading history
+// ============================================================
+function selectTradingHistory(value, btn) {
+  state.tradingHistory = value;
+  document.querySelectorAll('#q7-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const next = state.turnover ? 'screen-q9' : 'screen-q8';
+  setTimeout(() => showScreen(next), 280);
+}
+
+// ============================================================
+// Q8 — Monthly turnover (conditional)
+// ============================================================
+function selectMonthlyTurnover(value, btn) {
+  state.monthlyTurnover = value;
+  document.querySelectorAll('#q8-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(() => showScreen('screen-q9'), 280);
+}
+
+// ============================================================
+// Q9 — Existing finance
+// ============================================================
+function selectExistingFinance(value, btn) {
+  state.existingFinance = value;
+  document.querySelectorAll('#q9-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('refinance-note').style.display = 'none';
+  document.getElementById('q9-refinance-label').style.display = '';
+  document.getElementById('q9-continue').style.display = 'block';
+}
+
+function toggleRefinanceNote() {
+  state.existingFinance = 'refinance';
+  document.querySelectorAll('#q9-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('q9-refinance-slot').classList.add('selected');
+  document.getElementById('q9-refinance-label').style.display = 'none';
+  const input = document.getElementById('refinance-note');
+  input.style.display = 'block';
+  input.focus();
+  updateQ9Continue();
+}
+
+function updateQ9Continue() {
+  const val = document.getElementById('refinance-note').value.trim();
+  document.getElementById('q9-continue').style.display = val.length > 0 ? 'block' : 'none';
+}
+
+function saveExistingFinance() {
+  if (state.existingFinance === 'refinance') {
+    state.existingFinanceNote = document.getElementById('refinance-note').value.trim();
+  }
+  showScreen('screen-q10');
+}
+
+// ============================================================
+// Q10 — Urgency
+// ============================================================
+function selectUrgency(value, btn) {
+  state.urgency = value;
+  document.querySelectorAll('#q10-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(() => showScreen('screen-q11'), 280);
+}
+
+// ============================================================
+// Q11 — Additional notes
+// ============================================================
+function saveAdditionalNotes() {
+  state.additionalNotes = document.getElementById('additional-notes').value.trim();
+  showScreen('screen-q12');
+}
+
+// ============================================================
+// Q12 — Documents
+// ============================================================
+function selectUploadChoice(value, btn) {
+  state.uploadChoice = value;
+  document.querySelectorAll('#q12-choice-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  if (value === 'yes') {
+    document.getElementById('q12-upload-area').style.display = 'block';
+  } else {
+    document.getElementById('q12-upload-area').style.display = 'none';
+    document.getElementById('loan-submit-btn').style.display = 'block';
+  }
+}
+
+function handleLoanFileUpload(input) {
   const files = Array.from(input.files);
-  state.loanFiles = files;
+  state.loanFiles = [...state.loanFiles, ...files];
   const listEl = document.getElementById('loan-files-list');
-  const areaEl = document.getElementById('loan-upload-area');
-  listEl.innerHTML = files.map(f => `<div class="upload-file-item">${f.name}</div>`).join('');
-  areaEl.classList.add('has-files');
+  listEl.innerHTML = state.loanFiles.map(f => `<div class="upload-file-item" style="font-size:12px;color:rgba(255,255,255,0.7);padding:4px 0">${f.name}</div>`).join('');
+  document.getElementById('loan-upload-area').classList.add('has-files');
+  if (state.loanFiles.length > 0) {
+    document.getElementById('q12-done-btn').style.display = 'block';
+  }
 }
 
-function submitApplication() {
+function revealSubmitBtn() {
+  document.getElementById('loan-submit-btn').style.display = 'block';
+}
 
-  // Collect existing facilities before showing loading screen
-  const facilities = [];
-  for (let i = 1; i <= facilityCount; i++) {
-    const type = document.getElementById('facility-type-' + i)?.value;
-    const lender = document.getElementById('facility-lender-' + i)?.value;
-    const outstanding = document.getElementById('facility-outstanding-' + i)?.value;
-    if (type || lender || outstanding) facilities.push(`${type} with ${lender} — ${outstanding} outstanding`);
+// ============================================================
+// TRAFFIC LIGHT SCORING
+// ============================================================
+function getMonthlyTurnoverScore() {
+  if (state.monthlyTurnover) {
+    if (state.monthlyTurnover === '£250,000+') return 2;
+    if (state.monthlyTurnover === '£100,000–£250,000') return 1;
+    if (state.monthlyTurnover === '£50,000–£100,000' || state.monthlyTurnover === '£25,000–£50,000') return 0;
+    if (state.monthlyTurnover === '£10,000–£25,000') return 0;
+    if (state.monthlyTurnover === 'Under £10,000') return -1;
+    return 0;
   }
-  state.existingFacilities = facilities;
+  if (state.turnover) {
+    const num = parseFloat(state.turnover.replace(/[^0-9.]/g, '')) || 0;
+    const monthly = num / 12;
+    if (monthly >= 250000) return 2;
+    if (monthly >= 100000) return 1;
+    if (monthly >= 25000) return 0;
+    if (monthly >= 10000) return 0;
+    if (monthly > 0) return -1;
+  }
+  return 0;
+}
 
-  showDiscoveryThinkingScreen(() => {
-    // Build personalised summary using logic module
-    const loanAnswers = {
-      name: state.name,
-      business: state.business,
-      purpose: state.purpose,
-      amount: state.amount,
-      term: state.term,
-      security: state.security,
-      properties: state.properties,
-      credit: state.credit,
-      urgency: state.urgency,
-      existingFinance: state.existingFinance,
-      existingFacilities: state.existingFacilities,
-      barrier: state.barrier,
-      barrierDetails: state.barrierDetails,
-      turnover: state.turnover,
-      propertyOwners: state.propertyOwners
+function calculateTrafficLight() {
+  let score = 0;
+
+  // Security Q5
+  if (state.security === 'both') score += 2;
+  else if (state.security === 'property') score += 2;
+  else if (state.security === 'assets') score += 1;
+  else if (state.security === 'none') score -= 1;
+
+  // Credit Q6
+  if (state.credit === 'clean') score += 2;
+  else if (state.credit === 'mostly-clean') score += 1;
+  else if (state.credit === 'some-issues') score -= 1;
+  else if (state.credit === 'significant-issues') score -= 2;
+
+  // Trading history Q7
+  if (state.tradingHistory === '5-plus-years') score += 2;
+  else if (state.tradingHistory === '2-5-years') score += 1;
+  else if (state.tradingHistory === '1-2-years') score += 0;
+  else if (state.tradingHistory === '6-12-months') score -= 1;
+  else if (state.tradingHistory === 'under-6-months') score -= 2;
+
+  // Turnover Q8
+  score += getMonthlyTurnoverScore();
+
+  // Existing finance Q9
+  if (state.existingFinance === 'none') score += 1;
+  else if (state.existingFinance === 'multiple') score -= 1;
+  else if (state.existingFinance === 'refinance') score -= 1;
+
+  state.trafficLightScore = score;
+
+  if (score >= 5) {
+    state.trafficLightRating = 'green';
+    return {
+      score, rating: 'green',
+      emoji: '🟢', label: 'Strong Position',
+      message: "Based on what you've told us, your application looks promising. There are likely several lenders who would want to help you. Nicole will review your details and come back to you with the best options.",
+      badgeStyle: 'background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3)'
     };
-    
-    let summary;
-    try {
-      summary = buildDiscoverySummary('loan-application', loanAnswers);
-    } catch (error) {
-      console.warn('Loan summary builder failed, using fallback', error);
-      summary = {
-        pageHeading: 'Your Fiskal Discovery is ready',
-        summaryHeading: 'Here\'s what we discovered',
-        summaryHtml: '<p>Great news — based on what you\'ve shared, there are funding options worth exploring. The next step is to look at the full picture and find the most suitable route for the business.</p>'
-      };
-    }
-    
-    displayResults(summary);
-    sendNotification(summary.summaryText || summary.summaryHtml);
+  } else if (score >= 1) {
+    state.trafficLightRating = 'amber';
+    return {
+      score, rating: 'amber',
+      emoji: '🟡', label: 'Good Potential',
+      message: "There are some things to consider but options definitely exist. Nicole has helped businesses in similar positions find the right funding — she'll review your details and work out the best approach for you.",
+      badgeStyle: 'background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3)'
+    };
+  } else {
+    state.trafficLightRating = 'red';
+    return {
+      score, rating: 'red',
+      emoji: '🔴', label: "Needs Work — But Don't Give Up",
+      message: "Your application may face some challenges, but this is far from the end of the story. Nicole has seen tougher cases approved and will review your details to find the best possible route forward.",
+      badgeStyle: 'background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3)'
+    };
+  }
+}
+
+// ============================================================
+// SUBMIT APPLICATION
+// ============================================================
+async function submitApplication() {
+  const btn = document.getElementById('loan-submit-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
+
+  const tl = calculateTrafficLight();
+
+  // Show loading screen
+  showScreen('screen-loading');
+  const loadingFirstName = state.name.trim().split(/\s+/)[0] || 'there';
+  const loadingNameEl = document.getElementById('loading-first-name');
+  if (loadingNameEl) loadingNameEl.textContent = loadingFirstName;
+
+  // Build summary
+  const summaryResult = buildDiscoverySummary('loan-application', {
+    name: state.name, business: state.business, email: state.email, phone: state.phone,
+    companyNumber: state.companyNumber, turnover: state.turnover, turnoverNext: state.turnoverNext,
+    propertyOwners: state.propertyOwners, loanType: state.loanType, purpose: state.purpose,
+    amount: state.amount, term: state.term, security: state.security, securityNote: state.securityNote,
+    credit: state.credit, creditNote: state.creditNote, tradingHistory: state.tradingHistory,
+    monthlyTurnover: state.monthlyTurnover, existingFinance: state.existingFinance,
+    existingFinanceNote: state.existingFinanceNote, urgency: state.urgency,
+    additionalNotes: state.additionalNotes, uploadChoice: state.uploadChoice,
+    loanFiles: state.loanFiles, trafficLightScore: tl.score, trafficLightRating: tl.rating
   });
-}
 
-function getFallback() {
-  return `Thank you for completing your Fiskal Discovery, ${state.name}. Based on what you've shared, there are funding options worth exploring for ${state.business}. Nicole will review your answers personally and be in touch within the next couple of hours.`;
-}
+  // Simulate processing delay
+  await new Promise(r => setTimeout(r, 3000));
 
-function renderNicoleMessage() {
-  const messageEl = document.getElementById("nicole-message");
-  if (!messageEl) return;
-
-  const nicoleMessages = [
-    "Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website or our LinkedIn page to learn more about who we are and how we can help.",
-    "Thank you for sharing your details. I'll take a look through your Discovery and come back to you within the next couple of hours. While you wait, you're welcome to explore the Fiskal website or our LinkedIn page and see how we support businesses like yours.",
-    "Your Discovery has been received. I'll review everything personally and will be in touch within the next couple of hours. In the meantime, feel free to visit the Fiskal website or LinkedIn page to learn more about the support available.",
-    "Thanks for taking the time to complete your Discovery. I'll review your answers and contact you within the next couple of hours. While you're here, you can explore the Fiskal website or our LinkedIn page to learn more about how we can help."
-  ];
-
-  messageEl.textContent = nicoleMessages[Math.floor(Math.random() * nicoleMessages.length)];
-}
-
-function saveDiscovery(module, icon, summaryHtml, business) {
-  try {
-    const key = 'fiskal_discoveries';
-    let discoveries = [];
-    try { discoveries = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
-    discoveries.unshift({ module, icon, summaryHtml: summaryHtml || '', business: business || '', date: new Date().toISOString() });
-    if (discoveries.length > 20) discoveries = discoveries.slice(0, 20);
-    localStorage.setItem(key, JSON.stringify(discoveries));
-  } catch(e) {}
-}
-
-function displayResults(summary) {
-  // Set main heading
-  document.getElementById('results-name').textContent = state.business ? `Here's what we found for ${state.business}` : "Here's what we found";
-
-  // Populate initials in the dot
-  const checkEl = document.querySelector('#screen-results .results-check');
-  if (checkEl) {
-    const name = state.name || '';
-    const parts = name.trim().split(/\s+/);
-    const initials = parts.length >= 2
-      ? parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase()
-      : (parts[0] ? parts[0][0].toUpperCase() : '');
-    checkEl.textContent = initials;
-  }
-
-  // Set summary card heading with business name in orange
-  const summaryHeadingEl = document.getElementById('ai-summary-label');
-  if (summaryHeadingEl) {
-    const heading = summary.summaryHeading || "Here's what we discovered";
-    summaryHeadingEl.innerHTML = state.business
-      ? `${heading} for <span style="color:#D94F00">${state.business}</span>`
-      : heading;
-  }
-
-  const summaryTextEl = document.getElementById('ai-summary-text');
-  if (summaryTextEl) {
-    summaryTextEl.innerHTML = summary.summaryHtml || summary.summaryText || '';
-  }
-
-  saveDiscovery('Loan Enquiry', '', summary.summaryHtml || summary.summaryText || '', state.business);
-  
+  await sendNotification(summaryResult ? summaryResult.summaryText || '' : '');
+  displayResults(summaryResult, tl);
   showScreen('screen-results');
+}
 
-  // Hide thinking/loading screen — kept visible during API call, must be cleared here
-  const loadingEl = document.getElementById('screen-submission-loading');
-  if (loadingEl) {
-    loadingEl.classList.remove('active');
-    loadingEl.style.display = 'none';
+// ============================================================
+// DISPLAY RESULTS
+// ============================================================
+function displayResults(summaryResult, tl) {
+  const firstName = state.name.trim().split(/\s+/)[0] || 'there';
+
+  // Name greeting
+  const nameEl = document.getElementById('results-name');
+  if (nameEl) nameEl.textContent = `Here's what we found for you, ${firstName}`;
+
+  // Traffic light badge
+  const badge = document.getElementById('traffic-light-badge');
+  const emoji = document.getElementById('traffic-light-emoji');
+  const label = document.getElementById('traffic-light-label');
+  const msg   = document.getElementById('traffic-light-message');
+  if (badge && tl) {
+    badge.style.cssText = `display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:16px;margin-bottom:12px;${tl.badgeStyle}`;
+    if (emoji) emoji.textContent = tl.emoji;
+    if (label) label.textContent = tl.label;
+    if (msg)   msg.textContent   = tl.message;
   }
 
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  
-  // Render Nicole message and load photo after showing results
-  renderNicoleMessage();
-  loadNicolePhoto();
-
-  // Send client summary email
-  const summaryContent = summary.summaryHtml || summary.summaryText || '';
-  sendClientSummaryEmail(summaryContent).then(success => {
-    if (success) {
-      // Add confirmation message
-      const confirmText = document.createElement('p');
-      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
-      confirmText.textContent = `A copy of your Discovery summary has been emailed to ${state.email}.`;
-      const nicoleCard = document.querySelector('.nicole-contact-card');
-      if (nicoleCard) {
-        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
-      }
-    } else {
-      // Add fallback message
-      const confirmText = document.createElement('p');
-      confirmText.style.cssText = 'font-size:0.85rem;color:var(--light-text);margin-top:12px;line-height:1.5;text-align:center;';
-      confirmText.textContent = `We couldn't automatically send your summary email, but Nicole has received your details and will still be in touch.`;
-      const nicoleCard = document.querySelector('.nicole-contact-card');
-      if (nicoleCard) {
-        nicoleCard.parentNode.insertBefore(confirmText, nicoleCard.nextSibling);
-      }
+  // Summary
+  const summaryLabel = document.getElementById('ai-summary-label');
+  const summaryText  = document.getElementById('ai-summary-text');
+  if (summaryLabel && summaryResult && summaryResult.summaryHeading) {
+    summaryLabel.textContent = summaryResult.summaryHeading;
+  }
+  if (summaryText && summaryResult) {
+    if (summaryResult.summaryHtml) {
+      summaryText.innerHTML = summaryResult.summaryHtml;
+    } else if (summaryResult.summaryText) {
+      summaryText.textContent = summaryResult.summaryText;
     }
-  });
+  }
 }
 
-async function loadNicolePhoto() {
-  const img = document.getElementById("nicole-photo");
-  const fallback = document.querySelector(".nicole-photo-fallback");
+// ============================================================
+// SEND NOTIFICATION TO NICOLE
+// ============================================================
+async function sendNotification(summaryText) {
+  const docs = state.loanFiles && state.loanFiles.length
+    ? state.loanFiles.map(f => f.name).join(', ')
+    : 'None uploaded';
 
-  if (!img) {
-    console.warn("Nicole photo element not found on this page");
-    return;
-  }
+  const body = `New Loan Enquiry — ${state.business}
 
-  img.onload = function () {
-    img.style.display = "block";
-    if (fallback) fallback.style.display = "none";
-  };
+APPLICANT
+Name: ${state.name}
+Business: ${state.business}
+Email: ${state.email}
+Phone: ${state.phone}
+Company No.: ${state.companyNumber || 'N/A'}
 
-  img.onerror = function () {
-    img.style.display = "none";
-    if (fallback) fallback.style.display = "flex";
-  };
+DETAILS (from profile)
+Turnover: ${state.turnover || 'Not provided'}
+Projected Turnover: ${state.turnoverNext || 'Not provided'}
+Property Owners: ${state.propertyOwners || 'Not provided'}
 
-  img.src = "assets/nicole-bertolissi.jpg";
-}
+LOAN QUESTIONS
+Q1 — Loan Type: ${state.loanType || 'Skipped'}
+Q2 — Purpose: ${state.purpose || 'Skipped'}
+Q3 — Amount: ${state.amount || 'Skipped'}
+Q4 — Term: ${state.term || 'Skipped'}
+Q5 — Security: ${state.security || 'Skipped'}${state.securityNote ? ' — ' + state.securityNote : ''}
+Q6 — Credit: ${state.credit || 'Skipped'}${state.creditNote ? ' — ' + state.creditNote : ''}
+Q7 — Trading History: ${state.tradingHistory || 'Skipped'}
+Q8 — Monthly Turnover: ${state.monthlyTurnover || (state.turnover ? 'Derived from profile' : 'Skipped')}
+Q9 — Existing Finance: ${state.existingFinance || 'Skipped'}${state.existingFinanceNote ? ' — ' + state.existingFinanceNote : ''}
+Q10 — Urgency: ${state.urgency || 'Skipped'}
+Q11 — Additional Notes: ${state.additionalNotes || 'None'}
+Q12 — Documents: ${docs}
 
-async function sendInitialInfoNotification() {
-  const key = "initialNotificationSent_loanApplication";
-  
-  if (sessionStorage.getItem(key)) {
-    return;
-  }
+TRAFFIC LIGHT
+Score: ${state.trafficLightScore} — ${state.trafficLightRating.toUpperCase()}
 
-  const initialData = {
-    journey: 'Loan Enquiry',
-    name: state.name,
-    business: state.business,
-    email: state.email,
-    phone: state.phone,
-    companyNumber: state.companyNumber || 'Not provided',
-    timestamp: new Date().toISOString(),
-    page: window.location.href
-  };
+SUMMARY
+${summaryText || 'N/A'}
+
+Marketing Consent: ${state.marketingConsent ? 'Yes' : 'No'}`;
 
   const templateParams = {
-    name: state.name,
+    to_email: 'nicole@fiskal.co.uk',
+    subject: `Fiskal Discovery — Loan Enquiry: ${state.business}`,
+    from_name: state.name,
     business_name: state.business,
-    email: state.email,
-    phone: state.phone,
-    company_number: state.companyNumber || 'Not provided',
-    module: 'Loan Enquiry - Initial Info',
-    matched_products: 'Initial information collected',
-    barriers: 'N/A',
-    summary: `New Fiskal Discovery Started - ${state.business}\n\nA user has completed the initial information stage.\n\nJourney: Loan Enquiry\nName: ${state.name}\nBusiness: ${state.business}\nEmail: ${state.email}\nPhone: ${state.phone}\nCompany Number: ${state.companyNumber || 'Not provided'}\nTimestamp: ${new Date().toISOString()}`
+    message: body
   };
 
   try {
     // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-    sessionStorage.setItem(key, "true");
-  } catch (error) {
-    console.warn("Initial info notification failed", error);
+    console.log('Notification (disabled):', templateParams);
+  } catch (err) {
+    console.error('Notification failed:', err);
   }
 }
 
+// ============================================================
+// SEND INITIAL INFO WHEN DETAILS CONFIRMED
+// ============================================================
+function sendInitialInfoNotification() {
+  const body = `New Loan Enquiry started — ${state.business}
+
+APPLICANT
+Name: ${state.name}
+Email: ${state.email}
+Phone: ${state.phone}
+Company No.: ${state.companyNumber || 'N/A'}
+Turnover: ${state.turnover || 'Not provided'}`;
+
+  const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
+    subject: `Fiskal Discovery — Loan started: ${state.business}`,
+    from_name: state.name,
+    business_name: state.business,
+    message: body
+  };
+
+  try {
+    // EMAILS DISABLED — emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    console.log('Initial notification (disabled):', templateParams);
+  } catch (err) {
+    console.error('Initial notification failed:', err);
+  }
+}
+
+// ============================================================
+// EMAIL SUMMARY TO USER
+// ============================================================
 async function emailSummaryToUser() {
   const btn = document.getElementById('email-summary-btn');
   const feedback = document.getElementById('email-summary-feedback');
-  const email = state.email || '';
-
-  if (!email) {
-    feedback.textContent = "We don't have your email address on file — please contact Nicole directly.";
-    feedback.style.color = '#ff7a2e';
+  if (btn) btn.style.display = 'none';
+  const summaryText = document.getElementById('ai-summary-text');
+  const text = summaryText ? (summaryText.innerText || summaryText.textContent) : '';
+  const sent = await sendClientSummaryEmail(text);
+  if (feedback) {
     feedback.style.display = 'block';
-    return;
+    feedback.style.color = sent ? 'rgba(255,255,255,0.6)' : 'rgba(239,68,68,0.8)';
+    feedback.textContent = sent
+      ? `Summary sent to ${state.email}`
+      : 'Could not send email — please contact us directly.';
   }
-
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-
-  const summaryEl = document.getElementById('ai-summary-text');
-  const summaryText = summaryEl ? summaryEl.innerText : '';
-  const firstName = (state.name || '').split(' ')[0];
-
-  try {
-    if (typeof emailjs !== 'undefined') {
-      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', {
-        name: firstName,
-        business_name: state.business,
-        email: email,
-        module: 'Loan Enquiry',
-        matched_products: 'See summary below',
-        summary: summaryText,
-        barriers: ''
-      });
-    }
-    btn.textContent = 'Summary sent!';
-    btn.style.cssText = 'background:linear-gradient(135deg,#4e0063,#8E7ED8);color:#fff;border:none;padding:4px 12px;border-radius:999px;font-size:12px;cursor:default;';
-    feedback.textContent = `We've sent your summary to ${email}`;
-    feedback.style.color = 'rgba(255,255,255,0.7)';
-    feedback.style.display = 'block';
-  } catch (err) {
-    btn.disabled = false;
-    btn.textContent = 'Email me this summary';
-    feedback.textContent = 'Something went wrong — please try again or contact Nicole directly.';
-    feedback.style.color = '#ff7a2e';
-    feedback.style.display = 'block';
-  }
-}
-
-async function sendNotification(summary) {
-  const templateParams = {
-    name: state.name,
-    business_name: state.business,
-    email: state.email,
-    phone: state.phone,
-    company_number: state.companyNumber || 'Not provided',
-    marketing_consent: state.marketingConsent ? 'Yes' : 'No',
-    consent_timestamp: state.marketingConsentTimestamp || 'N/A',
-    consent_text: state.marketingConsentText || 'N/A',
-    module: 'Loan Enquiry',
-    matched_products: `Purpose: ${state.purpose} | Amount: ${state.amount} | Term: ${state.term} | Security: ${state.security}${state.properties.length > 0 ? ' (' + state.properties.map(p => `${p.type || 'No type'}, ${p.charges || 'No charges info'}, value: ${p.value || 'N/A'}, mortgage: ${p.mortgage || 'N/A'}${p.address ? ', address: ' + p.address : ''}${p.owner ? ', owner: ' + p.owner : ''}`).join('; ') + ')' : ''} | Credit: ${state.credit} | Urgency: ${state.urgency} | Existing finance: ${state.existingFacilities.join(', ') || 'None'} | Turnover: ${state.turnover} | Director property ownership: ${state.propertyOwners}`,
-    barriers: 'N/A',
-    summary: summary
-  };
-  // EMAILS DISABLED: await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
 }
 
 async function sendClientSummaryEmail(summary) {
@@ -2195,6 +2199,7 @@ async function sendClientSummaryEmail(summary) {
       if (p.marketingConsentText) state.marketingConsentText = p.marketingConsentText;
       if (p.marketingConsentTimestamp) state.marketingConsentTimestamp = p.marketingConsentTimestamp;
       if (p.turnoverLast) state.turnover = p.turnoverLast;
+      if (p.annualTurnover) state.turnover = state.turnover || p.annualTurnover;
       if (p.turnoverNext) state.turnoverNext = p.turnoverNext;
       if (p.propertyOwners) state.propertyOwners = p.propertyOwners;
     }
@@ -2447,17 +2452,18 @@ async function sendClientSummaryEmail(summary) {
   /* Dark background for question screens */
   #screen-welcome,
   #screen-details,
-  #screen-purpose,
-  #screen-amount,
-  #screen-term,
-  #screen-security,
-  #screen-property-security,
-  #screen-other-security,
-  #screen-credit,
-  #screen-urgency,
-  #screen-existing-finance,
-  #screen-existing-details,
-  #screen-upload,
+  #screen-q1,
+  #screen-q2,
+  #screen-q3,
+  #screen-q4,
+  #screen-q5,
+  #screen-q6,
+  #screen-q7,
+  #screen-q8,
+  #screen-q9,
+  #screen-q10,
+  #screen-q11,
+  #screen-q12,
   #screen-loading {
     background: #000000;
     position: relative;
@@ -2465,17 +2471,18 @@ async function sendClientSummaryEmail(summary) {
 
   #screen-welcome::before,
   #screen-details::before,
-  #screen-purpose::before,
-  #screen-amount::before,
-  #screen-term::before,
-  #screen-security::before,
-  #screen-property-security::before,
-  #screen-other-security::before,
-  #screen-credit::before,
-  #screen-urgency::before,
-  #screen-existing-finance::before,
-  #screen-existing-details::before,
-  #screen-upload::before,
+  #screen-q1::before,
+  #screen-q2::before,
+  #screen-q3::before,
+  #screen-q4::before,
+  #screen-q5::before,
+  #screen-q6::before,
+  #screen-q7::before,
+  #screen-q8::before,
+  #screen-q9::before,
+  #screen-q10::before,
+  #screen-q11::before,
+  #screen-q12::before,
   #screen-loading::before {
     content: '';
     position: fixed;
@@ -2492,45 +2499,48 @@ async function sendClientSummaryEmail(summary) {
 
   #screen-welcome .ob-fixed-header,
   #screen-details .ob-fixed-header,
-  #screen-purpose .ob-fixed-header,
-  #screen-amount .ob-fixed-header,
-  #screen-term .ob-fixed-header,
-  #screen-security .ob-fixed-header,
-  #screen-property-security .ob-fixed-header,
-  #screen-other-security .ob-fixed-header,
-  #screen-credit .ob-fixed-header,
-  #screen-urgency .ob-fixed-header,
-  #screen-existing-finance .ob-fixed-header,
-  #screen-existing-details .ob-fixed-header,
-  #screen-upload .ob-fixed-header,
+  #screen-q1 .ob-fixed-header,
+  #screen-q2 .ob-fixed-header,
+  #screen-q3 .ob-fixed-header,
+  #screen-q4 .ob-fixed-header,
+  #screen-q5 .ob-fixed-header,
+  #screen-q6 .ob-fixed-header,
+  #screen-q7 .ob-fixed-header,
+  #screen-q8 .ob-fixed-header,
+  #screen-q9 .ob-fixed-header,
+  #screen-q10 .ob-fixed-header,
+  #screen-q11 .ob-fixed-header,
+  #screen-q12 .ob-fixed-header,
   #screen-loading .ob-fixed-header,
   #screen-welcome .screen-content,
   #screen-details .screen-content,
-  #screen-purpose .screen-content,
-  #screen-amount .screen-content,
-  #screen-term .screen-content,
-  #screen-security .screen-content,
-  #screen-property-security .screen-content,
-  #screen-other-security .screen-content,
-  #screen-credit .screen-content,
-  #screen-urgency .screen-content,
-  #screen-existing-finance .screen-content,
-  #screen-existing-details .screen-content,
-  #screen-upload .screen-content,
+  #screen-q1 .screen-content,
+  #screen-q2 .screen-content,
+  #screen-q3 .screen-content,
+  #screen-q4 .screen-content,
+  #screen-q5 .screen-content,
+  #screen-q6 .screen-content,
+  #screen-q7 .screen-content,
+  #screen-q8 .screen-content,
+  #screen-q9 .screen-content,
+  #screen-q10 .screen-content,
+  #screen-q11 .screen-content,
+  #screen-q12 .screen-content,
   #screen-loading .screen-content,
   #screen-welcome .nav-row,
   #screen-details .nav-row,
-  #screen-purpose .nav-row,
-  #screen-amount .nav-row,
-  #screen-term .nav-row,
-  #screen-security .nav-row,
-  #screen-property-security .nav-row,
-  #screen-other-security .nav-row,
-  #screen-credit .nav-row,
-  #screen-urgency .nav-row,
-  #screen-existing-finance .nav-row,
-  #screen-existing-details .nav-row,
-  #screen-upload .nav-row { position: relative; z-index: 1; }
+  #screen-q1 .nav-row,
+  #screen-q2 .nav-row,
+  #screen-q3 .nav-row,
+  #screen-q4 .nav-row,
+  #screen-q5 .nav-row,
+  #screen-q6 .nav-row,
+  #screen-q7 .nav-row,
+  #screen-q8 .nav-row,
+  #screen-q9 .nav-row,
+  #screen-q10 .nav-row,
+  #screen-q11 .nav-row,
+  #screen-q12 .nav-row { position: relative; z-index: 1; }
 
   /* Welcome screen — typing intro styling */
   .typing-intro {
@@ -2578,17 +2588,17 @@ async function sendClientSummaryEmail(summary) {
   .progress-label { color: rgba(255,255,255,0.45) !important; }
 
   #screen-details .question-text,
-  #screen-purpose .question-text,
-  #screen-amount .question-text,
-  #screen-term .question-text,
-  #screen-security .question-text,
-  #screen-property-security .question-text,
-  #screen-other-security .question-text,
-  #screen-credit .question-text,
-  #screen-urgency .question-text,
-  #screen-existing-finance .question-text,
-  #screen-existing-details .question-text,
-  #screen-upload .question-text {
+  #screen-q1 .question-text,
+  #screen-q2 .question-text,
+  #screen-q3 .question-text,
+  #screen-q4 .question-text,
+  #screen-q5 .question-text,
+  #screen-q6 .question-text,
+  #screen-q7 .question-text,
+  #screen-q8 .question-text,
+  #screen-q9 .question-text,
+  #screen-q10 .question-text,
+  #screen-q11 .question-text {
     font-family: 'Raleway', sans-serif !important;
     font-weight: 700 !important;
     color: #ffffff !important;
@@ -2644,46 +2654,46 @@ async function sendClientSummaryEmail(summary) {
   }
 
   #screen-details .answer-btn,
-  #screen-purpose .answer-btn,
-  #screen-amount .answer-btn,
-  #screen-term .answer-btn,
-  #screen-security .answer-btn,
-  #screen-property-security .answer-btn,
-  #screen-other-security .answer-btn,
-  #screen-credit .answer-btn,
-  #screen-urgency .answer-btn,
-  #screen-existing-finance .answer-btn,
-  #screen-existing-details .answer-btn,
-  #screen-upload .answer-btn {
+  #screen-q1 .answer-btn,
+  #screen-q2 .answer-btn,
+  #screen-q3 .answer-btn,
+  #screen-q4 .answer-btn,
+  #screen-q5 .answer-btn,
+  #screen-q6 .answer-btn,
+  #screen-q7 .answer-btn,
+  #screen-q8 .answer-btn,
+  #screen-q9 .answer-btn,
+  #screen-q10 .answer-btn,
+  #screen-q11 .answer-btn {
     background: rgba(255,255,255,0.06) !important;
     border: 1.5px solid rgba(255,255,255,0.15) !important;
     color: #ffffff !important;
     border-top: 2px solid #D94F00 !important;
   }
   #screen-details .answer-btn:hover,
-  #screen-purpose .answer-btn:hover,
-  #screen-amount .answer-btn:hover,
-  #screen-term .answer-btn:hover,
-  #screen-security .answer-btn:hover,
-  #screen-property-security .answer-btn:hover,
-  #screen-other-security .answer-btn:hover,
-  #screen-credit .answer-btn:hover,
-  #screen-urgency .answer-btn:hover,
-  #screen-existing-finance .answer-btn:hover,
-  #screen-existing-details .answer-btn:hover,
-  #screen-upload .answer-btn:hover { background: rgba(255,255,255,0.10) !important; }
+  #screen-q1 .answer-btn:hover,
+  #screen-q2 .answer-btn:hover,
+  #screen-q3 .answer-btn:hover,
+  #screen-q4 .answer-btn:hover,
+  #screen-q5 .answer-btn:hover,
+  #screen-q6 .answer-btn:hover,
+  #screen-q7 .answer-btn:hover,
+  #screen-q8 .answer-btn:hover,
+  #screen-q9 .answer-btn:hover,
+  #screen-q10 .answer-btn:hover,
+  #screen-q11 .answer-btn:hover { background: rgba(255,255,255,0.10) !important; }
   #screen-details .answer-btn.selected,
-  #screen-purpose .answer-btn.selected,
-  #screen-amount .answer-btn.selected,
-  #screen-term .answer-btn.selected,
-  #screen-security .answer-btn.selected,
-  #screen-property-security .answer-btn.selected,
-  #screen-other-security .answer-btn.selected,
-  #screen-credit .answer-btn.selected,
-  #screen-urgency .answer-btn.selected,
-  #screen-existing-finance .answer-btn.selected,
-  #screen-existing-details .answer-btn.selected,
-  #screen-upload .answer-btn.selected {
+  #screen-q1 .answer-btn.selected,
+  #screen-q2 .answer-btn.selected,
+  #screen-q3 .answer-btn.selected,
+  #screen-q4 .answer-btn.selected,
+  #screen-q5 .answer-btn.selected,
+  #screen-q6 .answer-btn.selected,
+  #screen-q7 .answer-btn.selected,
+  #screen-q8 .answer-btn.selected,
+  #screen-q9 .answer-btn.selected,
+  #screen-q10 .answer-btn.selected,
+  #screen-q11 .answer-btn.selected {
     border-color: #8E7ED8 !important;
     border-width: 2px !important;
     box-shadow: 0 0 0 3px rgba(142,126,216,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
@@ -2692,80 +2702,80 @@ async function sendClientSummaryEmail(summary) {
   }
 
   #screen-details .back-btn,
-  #screen-purpose .back-btn,
-  #screen-amount .back-btn,
-  #screen-term .back-btn,
-  #screen-security .back-btn,
-  #screen-property-security .back-btn,
-  #screen-other-security .back-btn,
-  #screen-credit .back-btn,
-  #screen-urgency .back-btn,
-  #screen-existing-finance .back-btn,
-  #screen-existing-details .back-btn,
-  #screen-upload .back-btn {
+  #screen-q1 .back-btn,
+  #screen-q2 .back-btn,
+  #screen-q3 .back-btn,
+  #screen-q4 .back-btn,
+  #screen-q5 .back-btn,
+  #screen-q6 .back-btn,
+  #screen-q7 .back-btn,
+  #screen-q8 .back-btn,
+  #screen-q9 .back-btn,
+  #screen-q10 .back-btn,
+  #screen-q11 .back-btn {
     background: transparent !important;
     color: rgba(255,255,255,0.5) !important;
     border: none !important;
   }
 
   #screen-details .btn-primary,
-  #screen-purpose .btn-primary,
-  #screen-amount .btn-primary,
-  #screen-term .btn-primary,
-  #screen-security .btn-primary,
-  #screen-property-security .btn-primary,
-  #screen-other-security .btn-primary,
-  #screen-credit .btn-primary,
-  #screen-urgency .btn-primary,
-  #screen-existing-finance .btn-primary,
-  #screen-existing-details .btn-primary,
-  #screen-upload .btn-primary {
+  #screen-q1 .btn-primary,
+  #screen-q2 .btn-primary,
+  #screen-q3 .btn-primary,
+  #screen-q4 .btn-primary,
+  #screen-q5 .btn-primary,
+  #screen-q6 .btn-primary,
+  #screen-q7 .btn-primary,
+  #screen-q8 .btn-primary,
+  #screen-q9 .btn-primary,
+  #screen-q10 .btn-primary,
+  #screen-q11 .btn-primary {
     background: #D94F00 !important;
     background-image: none !important;
     box-shadow: 0 4px 20px rgba(217,79,0,0.4) !important;
   }
 
   #screen-details .form-label,
-  #screen-purpose .form-label,
-  #screen-amount .form-label,
-  #screen-term .form-label,
-  #screen-security .form-label,
-  #screen-property-security .form-label,
-  #screen-other-security .form-label,
-  #screen-credit .form-label,
-  #screen-urgency .form-label,
-  #screen-existing-finance .form-label,
-  #screen-existing-details .form-label,
-  #screen-upload .form-label { color: rgba(255,255,255,0.7) !important; }
+  #screen-q1 .form-label,
+  #screen-q2 .form-label,
+  #screen-q3 .form-label,
+  #screen-q4 .form-label,
+  #screen-q5 .form-label,
+  #screen-q6 .form-label,
+  #screen-q7 .form-label,
+  #screen-q8 .form-label,
+  #screen-q9 .form-label,
+  #screen-q10 .form-label,
+  #screen-q11 .form-label { color: rgba(255,255,255,0.7) !important; }
 
   #screen-details .form-input,
-  #screen-purpose .form-input,
-  #screen-amount .form-input,
-  #screen-term .form-input,
-  #screen-security .form-input,
-  #screen-property-security .form-input,
-  #screen-other-security .form-input,
-  #screen-credit .form-input,
-  #screen-urgency .form-input,
-  #screen-existing-finance .form-input,
-  #screen-existing-details .form-input,
-  #screen-upload .form-input {
+  #screen-q1 .form-input,
+  #screen-q2 .form-input,
+  #screen-q3 .form-input,
+  #screen-q4 .form-input,
+  #screen-q5 .form-input,
+  #screen-q6 .form-input,
+  #screen-q7 .form-input,
+  #screen-q8 .form-input,
+  #screen-q9 .form-input,
+  #screen-q10 .form-input,
+  #screen-q11 .form-input {
     background: rgba(255,255,255,0.07) !important;
     border-color: rgba(255,255,255,0.15) !important;
     color: #ffffff !important;
   }
   #screen-details .form-input::placeholder,
-  #screen-purpose .form-input::placeholder,
-  #screen-amount .form-input::placeholder,
-  #screen-term .form-input::placeholder,
-  #screen-security .form-input::placeholder,
-  #screen-property-security .form-input::placeholder,
-  #screen-other-security .form-input::placeholder,
-  #screen-credit .form-input::placeholder,
-  #screen-urgency .form-input::placeholder,
-  #screen-existing-finance .form-input::placeholder,
-  #screen-existing-details .form-input::placeholder,
-  #screen-upload .form-input::placeholder { color: rgba(255,255,255,0.35) !important; }
+  #screen-q1 .form-input::placeholder,
+  #screen-q2 .form-input::placeholder,
+  #screen-q3 .form-input::placeholder,
+  #screen-q4 .form-input::placeholder,
+  #screen-q5 .form-input::placeholder,
+  #screen-q6 .form-input::placeholder,
+  #screen-q7 .form-input::placeholder,
+  #screen-q8 .form-input::placeholder,
+  #screen-q9 .form-input::placeholder,
+  #screen-q10 .form-input::placeholder,
+  #screen-q11 .form-input::placeholder { color: rgba(255,255,255,0.35) !important; }
 
   .question-icon { display: none !important; }
 
