@@ -2002,7 +2002,7 @@
       <span class="ob-brand-name">Fiskal Discovery</span>
       <span class="ob-brand-line"></span>
     </div>
-    <button onclick="devSkip()" style="position:fixed;bottom:16px;right:16px;background:rgba(255,100,0,0.15);border:1px dashed rgba(255,100,0,0.5);color:rgba(255,150,50,0.8);font-size:11px;padding:6px 12px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:99999;">⚡ Skip (dev)</button>
+    <button onclick="devSkip()" style="position:fixed;bottom:16px;right:16px;background:rgba(255,100,0,0.15);border:1px dashed rgba(255,100,0,0.5);color:rgba(255,150,50,0.8);font-size:11px;padding:6px 12px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:99999;">Skip (dev)</button>
   </div>
 
 </div>
@@ -2047,7 +2047,7 @@
           <button class="btn-primary" onclick="startWelcome()">Start My Discovery</button>
           <div class="ob-game-block">
             <a href="cashflow-invaders.html" class="ob-game-cta">
-              🎮 Free Your Finances — Play Cashflow Invaders Now
+              Free Your Finances — Play Cashflow Invaders Now
             </a>
           </div>
         </div>
@@ -2128,7 +2128,6 @@
     <div class="progress-label" id="question-progress-label">Question 1 of 9</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon" id="q-icon">💰</div>
     <div class="question-product" id="q-product">Invoice Finance</div>
     <h2 class="question-text" id="q-text">Question goes here</h2>
     <div class="answer-options" id="q-options"></div>
@@ -2153,16 +2152,15 @@
     <div class="progress-label">Final question</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">🤝</div>
     <div class="question-product">One last thing</div>
     <h2 class="question-text">Do you have any concerns that might make accessing finance difficult?</h2>
     <p style="font-size:13px;color:var(--light-text);margin-bottom:20px;font-weight:300;">For example: previous credit issues, HMRC arrears, a short trading history, or a past rejection.</p>
     <div class="answer-options">
       <button class="answer-btn" onclick="selectBarrier('yes')">
-        <span class="answer-emoji">✋</span> Yes, I have some concerns
+        Yes, I have some concerns
       </button>
       <button class="answer-btn" onclick="selectBarrier('no')">
-        <span class="answer-emoji">✅</span> No, nothing I'm aware of
+        No, nothing I'm aware of
       </button>
     </div>
     <div id="barrier-followup" style="display:none" class="barriers-followup">
@@ -2220,7 +2218,7 @@
   </div>
   <div class="screen-content">
     <div class="results-header">
-      <div class="results-check">✨</div>
+      <div class="results-check"></div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="results-name">Here's what we found</p>
     </div>
@@ -2272,7 +2270,7 @@
       <div class="nicole-card-actions">
         <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Fiskal Website</a>
         <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="fiskal-linkedin-btn">Fiskal LinkedIn</a>
-        <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
+        <a href="tel:+447946074268" class="call-now-mobile">Call Nicole now</a>
       </div>
     </section>
 
@@ -2289,10 +2287,10 @@
 <div class="screen" id="screen-confirm">
   <div class="screen-content">
     <div class="confirm-screen">
-      <div class="confirm-icon">✅</div>
+      <div class="confirm-icon"></div>
       <h2 class="confirm-title">You're all set,<br><span id="confirm-name">there</span>!</h2>
       <p class="confirm-text">A summary of your Fiskal Discovery has been sent to your email. Nicole will be in touch personally within a few hours.<br><br>Can't wait?</p>
-      <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
+      <a href="tel:+447946074268" class="call-now-mobile">Call Nicole now</a>
       <button class="btn-secondary" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
   </div>
@@ -2371,8 +2369,8 @@ const welcomeFlow = [
     question: "Are you exploring this for yourself or a client?",
     subtitle: "Let us know so we can personalise your experience",
     options: [
-      { label: "For me / my business", desc: "I'm exploring funding & finance options for my own business", icon: "🏢", value: "For me / my business" },
-      { label: "For a client", desc: "I'm a broker or adviser researching options on behalf of a client", icon: "🤝", value: "For a client" }
+      { label: "For me / my business", desc: "I'm exploring funding & finance options for my own business", icon: "", value: "For me / my business" },
+      { label: "For a client", desc: "I'm a broker or adviser researching options on behalf of a client", icon: "", value: "For a client" }
     ],
     saveAs: "userType"
   },
@@ -2400,16 +2398,16 @@ const welcomeFlow = [
     type: "choice",
     question: "What industry are you in?",
     options: [
-      { label: "🏗️ Construction", value: "Construction" },
-      { label: "👥 Recruitment", value: "Recruitment" },
-      { label: "🏭 Manufacturing", value: "Manufacturing" },
-      { label: "📦 Wholesale", value: "Wholesale" },
-      { label: "🛍️ Retail", value: "Retail" },
-      { label: "🚛 Transport", value: "Transport" },
-      { label: "💼 Professional Services", value: "Professional Services" },
-      { label: "🏥 Healthcare", value: "Healthcare" },
-      { label: "⚡ Clean Energy", value: "Clean Energy" },
-      { label: "✨ Other", value: "Other", freeText: true }
+      { label: "Construction", value: "Construction" },
+      { label: "Recruitment", value: "Recruitment" },
+      { label: "Manufacturing", value: "Manufacturing" },
+      { label: "Wholesale", value: "Wholesale" },
+      { label: "Retail", value: "Retail" },
+      { label: "Transport", value: "Transport" },
+      { label: "Professional Services", value: "Professional Services" },
+      { label: "Healthcare", value: "Healthcare" },
+      { label: "Clean Energy", value: "Clean Energy" },
+      { label: "Other", value: "Other", freeText: true }
     ],
     saveAs: "industry"
   },
@@ -2858,7 +2856,7 @@ function loadChampions() {
     const wrap = document.getElementById(wrapId);
     const rows = document.getElementById(rowsId);
     if (!wrap || !rows) return;
-    const medals = ['🥇','🥈','🥉'];
+    const medals = ['1.','2.','3.'];
     const top = entries
       .filter(Boolean)
       .filter(e => isLender ? e.isLender : !e.isLender)
@@ -2951,14 +2949,14 @@ const state = {
 const fundingFinderQuestions = [
   {
     id: 'invoice',
-    icon: '📋',
+    icon: '',
     product: 'Invoice Finance',
     text: 'Do you send invoices to other businesses and wait 30, 60, even 90 days to get paid?',
     subtext: 'Imagine what your business could achieve with that money in your account within 24 hours.',
     options: [
-      { emoji: '✅', label: 'Yes — and I\'d like the money sooner', value: 'yes' },
-      { emoji: '🤔', label: 'Yes — but I\'m happy to wait', value: 'maybe' },
-      { emoji: '❌', label: 'No — not applicable', value: 'no' }
+      { emoji: '', label: 'Yes — and I\'d like the money sooner', value: 'yes' },
+      { emoji: '', label: 'Yes — but I\'m happy to wait', value: 'maybe' },
+      { emoji: '', label: 'No — not applicable', value: 'no' }
     ],
     followup: {
       trigger: ['yes'],
@@ -2973,86 +2971,86 @@ const fundingFinderQuestions = [
   },
   {
     id: 'trade',
-    icon: '🚛',
+    icon: '',
     product: 'Trade Finance',
     text: 'If you could pay your suppliers upfront, could you negotiate better prices or bigger discounts?',
     subtext: 'The businesses that pay suppliers upfront often get the best prices — and the biggest orders.',
     options: [
-      { emoji: '✅', label: 'Yes — this would really help', value: 'yes' },
-      { emoji: '🤔', label: 'Maybe — worth a conversation', value: 'maybe' },
-      { emoji: '❌', label: 'No — not relevant for us', value: 'no' }
+      { emoji: '', label: 'Yes — this would really help', value: 'yes' },
+      { emoji: '', label: 'Maybe — worth a conversation', value: 'maybe' },
+      { emoji: '', label: 'No — not relevant for us', value: 'no' }
     ]
   },
   {
     id: 'asset',
-    icon: '🔧',
+    icon: '',
     product: 'Asset Finance',
     text: 'Is there equipment, machinery, or vehicles your business needs?',
     subtext: 'Get the vehicles and equipment your business needs today — spread the cost, keep your cash.',
     options: [
-      { emoji: '✅', label: 'Yes — absolutely', value: 'yes' },
-      { emoji: '🤔', label: 'Maybe — we\'re considering it', value: 'maybe' },
-      { emoji: '❌', label: 'No — we\'re well equipped', value: 'no' }
+      { emoji: '', label: 'Yes — absolutely', value: 'yes' },
+      { emoji: '', label: 'Maybe — we\'re considering it', value: 'maybe' },
+      { emoji: '', label: 'No — we\'re well equipped', value: 'no' }
     ]
   },
   {
     id: 'loan',
-    icon: '🏦',
+    icon: '',
     product: 'Business Loan',
     text: 'Do you need a lump sum to fund growth, cover a gap, or invest in your business?',
     subtext: 'Sometimes one injection of capital is all it takes to change everything.',
     options: [
-      { emoji: '✅', label: 'Yes — I need capital', value: 'yes' },
-      { emoji: '🤔', label: 'Maybe — worth knowing what\'s available', value: 'maybe' },
-      { emoji: '❌', label: 'No — not at the moment', value: 'no' }
+      { emoji: '', label: 'Yes — I need capital', value: 'yes' },
+      { emoji: '', label: 'Maybe — worth knowing what\'s available', value: 'maybe' },
+      { emoji: '', label: 'No — not at the moment', value: 'no' }
     ]
   },
   {
     id: 'property',
-    icon: '🏢',
+    icon: '',
     product: 'Commercial Property',
     text: 'Are you looking to purchase, develop, or refinance commercial property?',
     subtext: 'Owning your premises could be one of the smartest moves your business ever makes.',
     options: [
-      { emoji: '✅', label: 'Yes — actively looking', value: 'yes' },
-      { emoji: '🤔', label: 'Maybe — considering it', value: 'maybe' },
-      { emoji: '❌', label: 'No — not right now', value: 'no' }
+      { emoji: '', label: 'Yes — actively looking', value: 'yes' },
+      { emoji: '', label: 'Maybe — considering it', value: 'maybe' },
+      { emoji: '', label: 'No — not right now', value: 'no' }
     ]
   },
   {
     id: 'revolving',
-    icon: '📈',
+    icon: '',
     product: 'Revolving Credit',
     text: 'Would a flexible funding line help your business — money available when you need it, repaid when you don\'t?',
     subtext: 'Imagine never having to turn down an opportunity because the timing was wrong.',
     options: [
-      { emoji: '✅', label: 'Yes — that flexibility would be valuable', value: 'yes' },
-      { emoji: '🤔', label: 'Maybe — tell me more', value: 'maybe' },
-      { emoji: '❌', label: 'No — not what we need', value: 'no' }
+      { emoji: '', label: 'Yes — that flexibility would be valuable', value: 'yes' },
+      { emoji: '', label: 'Maybe — tell me more', value: 'maybe' },
+      { emoji: '', label: 'No — not what we need', value: 'no' }
     ]
   },
   {
     id: 'fx',
-    icon: '💱',
+    icon: '',
     product: 'Foreign Currency',
     text: 'Does your business send or receive money in foreign currencies?',
     subtext: 'Most businesses have no idea how much their bank quietly takes on every transaction.',
     options: [
-      { emoji: '✅', label: 'Yes — we deal in foreign currency', value: 'yes' },
-      { emoji: '🤔', label: 'Sometimes — worth reviewing', value: 'maybe' },
-      { emoji: '❌', label: 'No — we\'re UK-only', value: 'no' }
+      { emoji: '', label: 'Yes — we deal in foreign currency', value: 'yes' },
+      { emoji: '', label: 'Sometimes — worth reviewing', value: 'maybe' },
+      { emoji: '', label: 'No — we\'re UK-only', value: 'no' }
     ]
   },
   {
     id: 'rd',
-    icon: '🔬',
+    icon: '',
     product: 'R&D Tax Credits',
     text: 'Does your business develop new products, processes, or technology?',
     subtext: 'You could already be owed money back — and not even know it.',
     options: [
-      { emoji: '✅', label: 'Yes — we invest in innovation', value: 'yes' },
-      { emoji: '🤔', label: 'Not sure — possibly', value: 'maybe' },
-      { emoji: '❌', label: 'No — not applicable', value: 'no' }
+      { emoji: '', label: 'Yes — we invest in innovation', value: 'yes' },
+      { emoji: '', label: 'Not sure — possibly', value: 'maybe' },
+      { emoji: '', label: 'No — not applicable', value: 'no' }
     ]
   },
 
@@ -3066,15 +3064,15 @@ const moduleLabels = {
 };
 
 const productInfo = {
-  invoice: { icon: '📋', name: 'Invoice Finance' },
-  trade: { icon: '🚛', name: 'Trade Finance' },
-  asset: { icon: '🔧', name: 'Asset Finance' },
-  loan: { icon: '🏦', name: 'Business Loan' },
-  property: { icon: '🏢', name: 'Commercial Property Finance' },
-  revolving: { icon: '📈', name: 'Revolving Credit Facility' },
-  fx: { icon: '💱', name: 'Foreign Currency / FX' },
-  rd: { icon: '🔬', name: 'R&D Tax Credits' },
-  existing: { icon: '🔄', name: 'Facility Review' }
+  invoice: { icon: '', name: 'Invoice Finance' },
+  trade: { icon: '', name: 'Trade Finance' },
+  asset: { icon: '', name: 'Asset Finance' },
+  loan: { icon: '', name: 'Business Loan' },
+  property: { icon: '', name: 'Commercial Property Finance' },
+  revolving: { icon: '', name: 'Revolving Credit Facility' },
+  fx: { icon: '', name: 'Foreign Currency / FX' },
+  rd: { icon: '', name: 'R&D Tax Credits' },
+  existing: { icon: '', name: 'Facility Review' }
 };
 
 // ============================================================
@@ -3285,7 +3283,7 @@ function renderQuestion() {
   q.options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'answer-btn';
-    btn.innerHTML = `<span class="answer-emoji">${opt.emoji}</span> ${opt.label}`;
+    btn.innerHTML = `${opt.label}`;
     btn.onclick = () => selectAnswer(q, opt.value, btn);
     optionsEl.appendChild(btn);
   });

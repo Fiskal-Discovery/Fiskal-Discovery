@@ -814,17 +814,16 @@
     <div class="progress-label">Question 1 of 8</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">🎯</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">What do you need the loan for?</h2>
     <div class="answer-options" id="purpose-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="answer-btn" data-purpose="Working capital — day to day cash flow" onclick="togglePurpose(this)">💼 Working capital</button>
-      <button class="answer-btn" data-purpose="Growth — expanding the business" onclick="togglePurpose(this)">📈 Growth</button>
-      <button class="answer-btn" data-purpose="Equipment or assets" onclick="togglePurpose(this)">🔧 Equipment or assets</button>
-      <button class="answer-btn" data-purpose="Property" onclick="togglePurpose(this)">🏢 Property</button>
-      <button class="answer-btn" data-purpose="Refinancing existing debt" onclick="togglePurpose(this)">🔄 Refinancing</button>
-      <button class="answer-btn" data-purpose="Tax or HMRC bill" onclick="togglePurpose(this)">🏛️ Tax / HMRC bill</button>
-      <button class="answer-btn" id="purpose-other-btn" onclick="togglePurposeOther(this)">📁 Other</button>
+      <button class="answer-btn" data-purpose="Working capital — day to day cash flow" onclick="togglePurpose(this)">Working capital</button>
+      <button class="answer-btn" data-purpose="Growth — expanding the business" onclick="togglePurpose(this)">Growth</button>
+      <button class="answer-btn" data-purpose="Equipment or assets" onclick="togglePurpose(this)">Equipment or assets</button>
+      <button class="answer-btn" data-purpose="Property" onclick="togglePurpose(this)">Property</button>
+      <button class="answer-btn" data-purpose="Refinancing existing debt" onclick="togglePurpose(this)">Refinancing</button>
+      <button class="answer-btn" data-purpose="Tax or HMRC bill" onclick="togglePurpose(this)">Tax / HMRC bill</button>
+      <button class="answer-btn" id="purpose-other-btn" onclick="togglePurposeOther(this)">Other</button>
     </div>
     <div id="purpose-other-box" style="display:none;margin-top:10px">
       <input type="text" class="form-input" id="purpose-other-input" placeholder="Describe your purpose…">
@@ -855,7 +854,6 @@
     <div class="progress-label">Question 2 of 8</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">💷</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">How much are you looking to borrow?</h2>
     <div class="answer-options" id="amount-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -865,7 +863,7 @@
       <button class="answer-btn" onclick="selectState('amount', '£100,000 — £250,000', this, 'amount-opts', 'screen-term')">£100,000 — £250,000</button>
       <button class="answer-btn" onclick="selectState('amount', '£250,000 — £500,000', this, 'amount-opts', 'screen-term')">£250,000 — £500,000</button>
       <button class="answer-btn" onclick="selectState('amount', '£500,000+', this, 'amount-opts', 'screen-term')">£500,000+</button>
-      <button class="answer-btn" onclick="selectState('amount', 'Not sure', this, 'amount-opts', 'screen-term')">🤔 Not sure</button>
+      <button class="answer-btn" onclick="selectState('amount', 'Not sure', this, 'amount-opts', 'screen-term')">Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-purpose')">&lt; Back</button>
@@ -892,7 +890,6 @@
     <div class="progress-label">Question 3 of 8</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">📅</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">How long would you like to repay over?</h2>
     <div class="answer-options" id="term-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -928,14 +925,13 @@
     <div class="progress-label">Question 4 of 8</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">🔒</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">Do you have any security to offer against the loan?</h2>
     <div class="answer-options" id="security-opts">
-      <button class="answer-btn" onclick="selectState('security', 'Property', this, 'security-opts', 'screen-property-security')">🏠 Yes — property</button>
-      <button class="answer-btn" onclick="selectState('security', 'Other assets', this, 'security-opts', 'screen-other-security')">🔧 Yes — other assets</button>
-      <button class="answer-btn" onclick="selectState('security', 'Unsecured', this, 'security-opts', 'screen-credit')">🔓 No — looking for unsecured funding</button>
-      <button class="answer-btn" onclick="selectState('security', 'Not sure', this, 'security-opts', 'screen-credit')">🤔 Not sure</button>
+      <button class="answer-btn" onclick="selectState('security', 'Property', this, 'security-opts', 'screen-property-security')">Yes — property</button>
+      <button class="answer-btn" onclick="selectState('security', 'Other assets', this, 'security-opts', 'screen-other-security')">Yes — other assets</button>
+      <button class="answer-btn" onclick="selectState('security', 'Unsecured', this, 'security-opts', 'screen-credit')">No — looking for unsecured funding</button>
+      <button class="answer-btn" onclick="selectState('security', 'Not sure', this, 'security-opts', 'screen-credit')">Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-term')">&lt; Back</button>
@@ -962,7 +958,6 @@
     <div class="progress-label">Property details</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">🏠</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">Tell us about the property</h2>
     <div class="form-group">
@@ -976,8 +971,8 @@
     <div class="form-group">
       <label class="form-label">Residential or commercial?</label>
       <div class="answer-options" id="prop-type-opts">
-        <button class="answer-btn" onclick="selectState('propType', 'Residential', this, 'prop-type-opts', null)">🏠 Residential</button>
-        <button class="answer-btn" onclick="selectState('propType', 'Commercial', this, 'prop-type-opts', null)">🏢 Commercial</button>
+        <button class="answer-btn" onclick="selectState('propType', 'Residential', this, 'prop-type-opts', null)">Residential</button>
+        <button class="answer-btn" onclick="selectState('propType', 'Commercial', this, 'prop-type-opts', null)">Commercial</button>
       </div>
     </div>
     <div class="form-group">
@@ -987,7 +982,7 @@
     <div class="form-group">
       <label class="form-label">How many charges on the property?</label>
       <div class="answer-options" id="charges-opts">
-        <button class="answer-btn" onclick="selectState('propCharges', 'No charges — owned outright', this, 'charges-opts', null)">✅ No charges — owned outright</button>
+        <button class="answer-btn" onclick="selectState('propCharges', 'No charges — owned outright', this, 'charges-opts', null)">No charges — owned outright</button>
         <button class="answer-btn" onclick="selectState('propCharges', 'One charge', this, 'charges-opts', null)">1️⃣ One charge</button>
         <button class="answer-btn" onclick="selectState('propCharges', 'Two charges', this, 'charges-opts', null)">2️⃣ Two charges</button>
         <button class="answer-btn" onclick="selectState('propCharges', 'Three or more', this, 'charges-opts', null)">3️⃣ Three or more</button>
@@ -1034,7 +1029,6 @@
     <div class="progress-label">Asset details</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">🔧</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">Tell us about the asset</h2>
     <div class="form-group">
@@ -1071,14 +1065,13 @@
     <div class="progress-label">Question 5 of 8</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">📋</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">How would you describe your business credit history?</h2>
     <div class="answer-options" id="credit-opts">
-      <button class="answer-btn" onclick="selectState('credit', 'Clean — no issues', this, 'credit-opts', 'screen-urgency')">✅ Clean — no issues</button>
-      <button class="answer-btn" onclick="selectState('credit', 'Minor issues — some late payments', this, 'credit-opts', 'screen-urgency')">⚠️ Minor issues — some late payments</button>
-      <button class="answer-btn" onclick="selectState('credit', 'CCJs or defaults', this, 'credit-opts', 'screen-urgency')">❗ CCJs or defaults</button>
-      <button class="answer-btn" onclick="selectState('credit', 'Not sure', this, 'credit-opts', 'screen-urgency')">🤔 Not sure</button>
+      <button class="answer-btn" onclick="selectState('credit', 'Clean — no issues', this, 'credit-opts', 'screen-urgency')">Clean — no issues</button>
+      <button class="answer-btn" onclick="selectState('credit', 'Minor issues — some late payments', this, 'credit-opts', 'screen-urgency')">Minor issues — some late payments</button>
+      <button class="answer-btn" onclick="selectState('credit', 'CCJs or defaults', this, 'credit-opts', 'screen-urgency')">CCJs or defaults</button>
+      <button class="answer-btn" onclick="selectState('credit', 'Not sure', this, 'credit-opts', 'screen-urgency')">Not sure</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="goBackFromCredit()">&lt; Back</button>
@@ -1105,14 +1098,13 @@
     <div class="progress-label">Question 6 of 8</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">⏱️</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">How quickly do you need the funding?</h2>
     <div class="answer-options" id="urgency-opts">
-      <button class="answer-btn" onclick="selectState('urgency', 'As soon as possible', this, 'urgency-opts', 'screen-existing-finance')">🚨 As soon as possible</button>
-      <button class="answer-btn" onclick="selectState('urgency', 'Within the next month', this, 'urgency-opts', 'screen-existing-finance')">📅 Within the next month</button>
-      <button class="answer-btn" onclick="selectState('urgency', 'Within the next 3 months', this, 'urgency-opts', 'screen-existing-finance')">🗓️ Within the next 3 months</button>
-      <button class="answer-btn" onclick="selectState('urgency', 'Just exploring options', this, 'urgency-opts', 'screen-existing-finance')">🔍 Just exploring options for now</button>
+      <button class="answer-btn" onclick="selectState('urgency', 'As soon as possible', this, 'urgency-opts', 'screen-existing-finance')">As soon as possible</button>
+      <button class="answer-btn" onclick="selectState('urgency', 'Within the next month', this, 'urgency-opts', 'screen-existing-finance')">Within the next month</button>
+      <button class="answer-btn" onclick="selectState('urgency', 'Within the next 3 months', this, 'urgency-opts', 'screen-existing-finance')">Within the next 3 months</button>
+      <button class="answer-btn" onclick="selectState('urgency', 'Just exploring options', this, 'urgency-opts', 'screen-existing-finance')">Just exploring options for now</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-credit')">&lt; Back</button>
@@ -1139,12 +1131,11 @@
     <div class="progress-label">Question 7 of 8</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">🏦</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">Do you have any existing loans or finance in place?</h2>
     <div class="answer-options" id="existing-opts">
-      <button class="answer-btn" onclick="selectState('existingFinance', 'No', this, 'existing-opts', 'screen-upload')">✅ No — this would be my first</button>
-      <button class="answer-btn" onclick="selectState('existingFinance', 'Yes', this, 'existing-opts', 'screen-existing-details')">🏦 Yes — I have existing finance</button>
+      <button class="answer-btn" onclick="selectState('existingFinance', 'No', this, 'existing-opts', 'screen-upload')">No — this would be my first</button>
+      <button class="answer-btn" onclick="selectState('existingFinance', 'Yes', this, 'existing-opts', 'screen-existing-details')">Yes — I have existing finance</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-urgency')">&lt; Back</button>
@@ -1171,7 +1162,6 @@
     <div class="progress-label">Existing finance</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">🏦</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">Tell us about your existing finance</h2>
     <p class="question-sub">Add as many facilities as you have.</p>
@@ -1203,18 +1193,17 @@
     <div class="progress-label">Final step</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">📄</div>
     <div class="question-product">Loan Enquiry</div>
     <h2 class="question-text">Upload your financial documents</h2>
     <p class="question-sub">To give you the most accurate results, please upload as many of the following as you have available.</p>
     <div class="info-box">
-      📋 Last 2 years filed accounts including profit and loss<br>
-      📊 Up to date management accounts<br>
-      🏦 Last 6 months business bank statements<br><br>
+      Last 2 years filed accounts including profit and loss<br>
+      Up to date management accounts<br>
+      Last 6 months business bank statements<br><br>
       <em>Don't worry if you don't have all of these — upload what you can and Nicole will advise on anything else needed.</em>
     </div>
     <div class="upload-area" id="loan-upload-area" onclick="document.getElementById('loan-file-input').click()">
-      <div class="upload-icon">📎</div>
+      <div class="upload-icon"></div>
       <div class="upload-text"><strong>Tap to upload</strong> your documents<br>PDF, image or Excel accepted — multiple files welcome</div>
       <div id="loan-files-list"></div>
     </div>
@@ -1286,7 +1275,7 @@
   </header>
   <div class="screen-content">
     <div class="results-header">
-      <div class="results-check">&#10024;</div>
+      <div class="results-check"></div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="results-name">Here's what we found</p>
     </div>
@@ -1318,7 +1307,7 @@
       <div class="nicole-card-actions">
         <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Fiskal Website</a>
         <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="fiskal-linkedin-btn">Fiskal LinkedIn</a>
-        <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
+        <a href="tel:+447946074268" class="call-now-mobile">Call Nicole now</a>
       </div>
     </section>
 
@@ -1653,7 +1642,7 @@ function toggleCheckbox(btn, group, value) {
   btn.classList.toggle('selected');
   const tick = btn.querySelector('.checkbox-tick');
   if (btn.classList.contains('selected')) {
-    tick.textContent = '✓';
+    tick.textContent = '';
     if (!state[group]) state[group] = [];
     if (!state[group].includes(value)) state[group].push(value);
   } else {
@@ -1783,7 +1772,7 @@ function handleFileUpload(input) {
   state.loanFiles = files;
   const listEl = document.getElementById('loan-files-list');
   const areaEl = document.getElementById('loan-upload-area');
-  listEl.innerHTML = files.map(f => `<div class="upload-file-item">✅ ${f.name}</div>`).join('');
+  listEl.innerHTML = files.map(f => `<div class="upload-file-item">${f.name}</div>`).join('');
   areaEl.classList.add('has-files');
 }
 
@@ -1880,7 +1869,7 @@ function displayResults(summary) {
     summaryTextEl.innerHTML = summary.summaryHtml || summary.summaryText || '';
   }
 
-  saveDiscovery('Loan Enquiry', '💰', summary.summaryHtml || summary.summaryText || '', state.business);
+  saveDiscovery('Loan Enquiry', '', summary.summaryHtml || summary.summaryText || '', state.business);
   
   showScreen('screen-results');
 

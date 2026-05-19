@@ -1278,30 +1278,29 @@
     <div class="progress-label">Question 1 of 3</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">🎯</div>
     <h2 class="question-text">What would the right funding help you achieve?</h2>
     <p class="question-sub">Think about what would genuinely move your business forward — whether that's growth, stability, stock, equipment, property, or simply creating more breathing room.</p>
     <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectPurpose('Purchase equipment or assets', this)">
-        <span class="answer-emoji">🔧</span> Purchase equipment or assets
+        Purchase equipment or assets
       </button>
       <button class="answer-btn" onclick="selectPurpose('Support business growth', this)">
-        <span class="answer-emoji">🚀</span> Support business growth
+        Support business growth
       </button>
       <button class="answer-btn" onclick="selectPurpose('Improve working capital', this)">
-        <span class="answer-emoji">💰</span> Improve working capital
+        Improve working capital
       </button>
       <button class="answer-btn" onclick="selectPurpose('Fund stock or trade purchases', this)">
-        <span class="answer-emoji">📦</span> Fund stock or trade purchases
+        Fund stock or trade purchases
       </button>
       <button class="answer-btn" onclick="selectPurpose('Support property or premises', this)">
-        <span class="answer-emoji">🏢</span> Support property or premises
+        Support property or premises
       </button>
       <button class="answer-btn" onclick="selectPurpose('Refinance existing funding', this)">
-        <span class="answer-emoji">🔄</span> Refinance existing funding
+        Refinance existing funding
       </button>
       <div id="purpose-other-slot" class="answer-btn" style="grid-column:1/-1;cursor:text;display:flex;align-items:center;gap:8px" onclick="togglePurposeOtherSlot()">
-        <span class="answer-emoji">✨</span><span id="purpose-other-label">Something else</span>
+        <span id="purpose-other-label">Something else</span>
         <input type="text" id="other-purpose" placeholder="Describe your funding purpose…" style="display:none;flex:1;background:transparent;border:none;outline:none;color:inherit;font:inherit;padding:0" oninput="updateQ1Continue()" onclick="event.stopPropagation()">
       </div>
     </div>
@@ -1333,7 +1332,6 @@
     <div class="progress-label">Question 2 of 3</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">💵</div>
     <h2 class="question-text">How much funding would help you move forward?</h2>
     <p class="question-sub">You don't need to know the exact figure yet. A rough idea is enough — and if you're unsure, that's completely fine.</p>
     <div class="form-group">
@@ -1344,7 +1342,7 @@
     </div>
     <div class="answer-options">
       <button class="answer-btn" onclick="selectNotSure(this)">
-        <span class="answer-emoji">🤔</span> I'm not sure yet
+        I'm not sure yet
       </button>
     </div>
     <button class="btn-primary" onclick="saveAmount()">Continue</button>
@@ -1375,21 +1373,20 @@
     <div class="progress-label">Question 3 of 3</div>
   </div>
   <div class="screen-content">
-    <div class="question-icon">⏰</div>
     <h2 class="question-text">How soon would the right funding make a difference?</h2>
     <p class="question-sub">This helps us understand whether you're looking for something immediate, or simply exploring what may be possible.</p>
     <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectTimeline('As soon as possible', this)">
-        <span class="answer-emoji">⚡</span> As soon as possible
+        As soon as possible
       </button>
       <button class="answer-btn" onclick="selectTimeline('Within the next month', this)">
-        <span class="answer-emoji">📅</span> Within the next month
+        Within the next month
       </button>
       <button class="answer-btn" onclick="selectTimeline('In the next 1–3 months', this)">
-        <span class="answer-emoji">🗓️</span> In the next 1–3 months
+        In the next 1–3 months
       </button>
       <button class="answer-btn" onclick="selectTimeline('I\'m just exploring options', this)">
-        <span class="answer-emoji">🔍</span> I'm just exploring options
+        I'm just exploring options
       </button>
     </div>
     <button class="btn-primary" id="shariah-submit-btn" onclick="submitDiscovery()" style="display:none;margin-top:20px">Submit My Discovery</button>
@@ -1446,7 +1443,7 @@
       <div class="nicole-card-actions">
         <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Fiskal Website</a>
         <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="fiskal-linkedin-btn">Fiskal LinkedIn</a>
-        <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
+        <a href="tel:+447946074268" class="call-now-mobile">Call Nicole now</a>
       </div>
     </section>
     <div class="screen-footer">
@@ -1741,7 +1738,7 @@ function displayResults() {
   // Inject summary content
   document.getElementById('summary-text').innerHTML = summary.summaryHtml;
 
-  saveDiscovery('Shariah-Compliant Funding', '🕌', summary.summaryHtml, savedBusiness);
+  saveDiscovery('Shariah-Compliant Funding', '', summary.summaryHtml, savedBusiness);
 
   showScreen('screen-loading');
   window.scrollTo({ top: 0, behavior: 'smooth' });
