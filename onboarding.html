@@ -1482,22 +1482,27 @@
     align-items: center;
   }
   .ob-q-progress-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: center;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     width: 100%;
   }
-  .ob-q-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-    transition: all 0.35s ease;
-    flex-shrink: 0;
+  .ob-q-progress-track {
+    height: 3px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 6px;
   }
-  .ob-q-dot.active { width: 22px; border-radius: 4px; background: #D94F00; }
-  .ob-q-dot.done { background: rgba(217,79,0,0.4); }
+  .ob-q-progress-fill {
+    height: 100%;
+    background: #D94F00;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+  .ob-q-progress-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    text-align: right;
+  }
   .ob-q-heading {
     font-family: 'Raleway', sans-serif;
     font-style: normal;
@@ -2491,7 +2496,7 @@ function renderWelcomeQuestion() {
   const wrap = document.createElement('div');
   wrap.className = 'ob-q-wrap';
 
-  // Progress dots
+  // Progress bar
   const total = welcomeFlow.length;
   const current = welcomeState.currentQuestion;
   const eyebrow = document.createElement('div');
@@ -2499,14 +2504,11 @@ function renderWelcomeQuestion() {
   eyebrow.style.cssText = 'font-family:Raleway,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E7ED8;margin-bottom:10px;text-align:center;';
   wrap.appendChild(eyebrow);
 
-  const dotsRow = document.createElement('div');
-  dotsRow.className = 'ob-q-progress-row';
-  for (let i = 0; i < total; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'ob-q-dot' + (i === current ? ' active' : i < current ? ' done' : '');
-    dotsRow.appendChild(dot);
-  }
-  wrap.appendChild(dotsRow);
+  const pct = Math.round(((current + 1) / total) * 100);
+  const barRow = document.createElement('div');
+  barRow.className = 'ob-q-progress-row';
+  barRow.innerHTML = `<div class="ob-q-progress-track"><div class="ob-q-progress-fill" style="width:${pct}%"></div></div><div class="ob-q-progress-label">Question ${current + 1} of ${total}</div>`;
+  wrap.appendChild(barRow);
 
   // Question heading
   const heading = document.createElement('div');
