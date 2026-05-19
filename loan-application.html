@@ -18,9 +18,9 @@
     --dark: #1a1025;
     --mid: #5a4a6a;
     --light-text: #6b5c80;
-    --orange: #BE123C;
-    --orange-light: #e31b4d;
-    --btn-gradient: linear-gradient(135deg, #BE123C 0%, #e31b4d 100%);
+    --orange: #D94F00;
+    --orange-light: #ff7a2e;
+    --btn-gradient: linear-gradient(135deg, #D94F00 0%, #ff7a2e 100%);
   }
   /* ---- HEADER BRAND ---- */
   .ob-header-title { font-size: 50px; color: #4e0063; }
@@ -37,7 +37,7 @@
   .ob-tagline-refuse {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 26px;
-    color: #e31b4d;
+    color: #ff7a2e;
     letter-spacing: 4px;
   }
   .ob-tagline-rest {
@@ -92,7 +92,7 @@
   .upload-text { font-size: 14px; color: var(--mid); font-weight: 300; }
   .upload-text strong { color: var(--orange); font-weight: 500; }
   .upload-file-item { font-size: 13px; color: var(--indigo); padding: 4px 0; display: flex; align-items: center; gap: 6px; justify-content: center; }
-  .btn-primary { background: var(--btn-gradient); color: white; border: none; border-radius: 999px; padding: 16px 32px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.25s ease; margin-top: 8px; box-shadow: 0 4px 20px rgba(190,18,60,0.35); }
+  .btn-primary { background: var(--btn-gradient); color: white; border: none; border-radius: 999px; padding: 16px 32px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.25s ease; margin-top: 8px; box-shadow: 0 4px 20px rgba(217,79,0,0.35); }
   .btn-primary:hover { opacity: 0.9; }
   .btn-secondary { background: transparent; color: var(--indigo); border: 1.5px solid var(--indigo); border-radius: 12px; padding: 14px 28px; font-size: 14px; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.2s ease; margin-top: 8px; }
   .btn-secondary:hover { background: var(--indigo-pale); }
@@ -109,7 +109,7 @@
   .welcome-box p + p { margin-top: 10px; }
   .welcome-box strong { color: var(--indigo-deep); font-weight: 500; }
   .loading-screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; }
-  .loading-orb { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--orange), var(--orange-light)); margin-bottom: 28px; animation: pulse-orb 1.8s ease-in-out infinite; box-shadow: 0 0 40px rgba(190,18,60,0.3); }
+  .loading-orb { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--orange), var(--orange-light)); margin-bottom: 28px; animation: pulse-orb 1.8s ease-in-out infinite; box-shadow: 0 0 40px rgba(217,79,0,0.3); }
   .loading-logo { width: 100px; height: auto; margin: 0 auto 32px; display: block; animation: logo-bounce 2.5s ease-in-out infinite; }
   @keyframes pulse-orb { 0%, 100% { transform: scale(0.9); opacity: 0.75; } 50% { transform: scale(1.08); opacity: 1; } }
   @keyframes logo-bounce { 0% { transform: translateY(0px); } 15% { transform: translateY(-18px); } 30% { transform: translateY(-4px); } 45% { transform: translateY(-14px); } 60% { transform: translateY(0px); } 75% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
@@ -146,7 +146,7 @@
     position: absolute;
     inset: -40%;
     background:
-      radial-gradient(circle at 18% 20%, rgba(190, 18, 60, 0.18), transparent 28%),
+      radial-gradient(circle at 18% 20%, rgba(217, 79, 0, 0.18), transparent 28%),
       radial-gradient(circle at 82% 80%, rgba(142, 126, 216, 0.15), transparent 30%);
     pointer-events: none;
   }
@@ -174,8 +174,8 @@
     border: 3px solid transparent;
     background:
       rgba(255,255,255,0.12) padding-box,
-      conic-gradient(from var(--border-angle, 0deg), #BE123C, #e31b4d, #8E7ED8, #4e0063, #BE123C) border-box;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.3), 0 0 18px rgba(190,18,60,0.25), 0 0 28px rgba(142,126,216,0.2);
+      conic-gradient(from var(--border-angle, 0deg), #D94F00, #ff7a2e, #8E7ED8, #4e0063, #D94F00) border-box;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.3), 0 0 18px rgba(217,79,0,0.25), 0 0 28px rgba(142,126,216,0.2);
     animation: spin-border 2.5s linear infinite;
     display: flex;
     align-items: center;
@@ -623,7 +623,7 @@
     opacity: 0.4 !important;
   }
 
-  .progress-fill { background: #BE123C !important; }
+  .progress-fill { background: #D94F00 !important; }
   .progress-track { background: rgba(255,255,255,0.12) !important; }
   .progress-label { color: rgba(255,255,255,0.45) !important; }
 
@@ -654,7 +654,7 @@
   .answer-btn {
     background: #ffffff !important;
     border: 1px solid rgba(42,4,64,0.06) !important;
-    border-top: 4px solid #BE123C !important;
+    border-top: 4px solid #D94F00 !important;
     border-radius: 14px !important;
     color: #1a0533 !important;
     font-family: 'Raleway', sans-serif !important;
@@ -678,12 +678,19 @@
   }
 
   .btn-primary {
-    background: #BE123C !important;
-    box-shadow: 0 4px 20px rgba(190,18,60,0.35) !important;
+    background: #D94F00 !important;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.35) !important;
   }
   .btn-primary:hover {
-    background: #e31b4d !important;
-    box-shadow: 0 6px 28px rgba(190,18,60,0.5) !important;
+    background: #ff7a2e !important;
+    box-shadow: 0 6px 28px rgba(217,79,0,0.5) !important;
+  }
+
+  .answer-btn {
+    border-top: 4px solid #BE123C !important;
+  }
+  .answer-btn:hover {
+    border-top-color: #e31b4d !important;
   }
 
   .back-btn { color: #8E7ED8 !important; }
@@ -701,14 +708,14 @@
   .followup-box { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.12) !important; }
   .followup-label { color: rgba(255,255,255,0.5) !important; }
   .followup-btn { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.15) !important; color: rgba(255,255,255,0.85) !important; }
-  .followup-btn:hover, .followup-btn.selected { background: #BE123C !important; border-color: #BE123C !important; color: #ffffff !important; }
+  .followup-btn:hover, .followup-btn.selected { background: #D94F00 !important; border-color: #D94F00 !important; color: #ffffff !important; }
 
   #screen-loading .loading-title,
   #screen-submission-loading .loading-message { color: #ffffff !important; }
   #screen-loading .loading-sub { color: rgba(255,255,255,0.55) !important; }
-  #screen-loading .loading-orb { background: linear-gradient(135deg, #BE123C, #e31b4d) !important; box-shadow: 0 0 40px rgba(190,18,60,0.35) !important; }
-  #screen-loading .loading-dots span { background: #BE123C !important; }
-  #screen-submission-loading .loading-spinner { border-color: rgba(190,18,60,0.2) !important; border-top-color: #BE123C !important; }
+  #screen-loading .loading-orb { background: linear-gradient(135deg, #D94F00, #ff7a2e) !important; box-shadow: 0 0 40px rgba(217,79,0,0.35) !important; }
+  #screen-loading .loading-dots span { background: #D94F00 !important; }
+  #screen-submission-loading .loading-spinner { border-color: rgba(217,79,0,0.2) !important; border-top-color: #D94F00 !important; }
 
   /* Results screen */
   #screen-results {
@@ -722,7 +729,7 @@
     background:
       radial-gradient(ellipse at 20% 20%, rgba(78,0,99,0.6) 0%, transparent 45%),
       radial-gradient(ellipse at 80% 70%, rgba(78,0,99,0.45) 0%, transparent 40%),
-      radial-gradient(ellipse at 50% 90%, rgba(190,18,60,0.15) 0%, transparent 40%);
+      radial-gradient(ellipse at 50% 90%, rgba(217,79,0,0.15) 0%, transparent 40%);
     pointer-events: none;
     z-index: 0;
   }
@@ -735,10 +742,10 @@
     border-radius: 50% !important;
     border: 3px solid transparent !important;
     background:
-      linear-gradient(135deg, #4e0063 0%, #8E7ED8 45%, #BE123C 100%) padding-box,
-      conic-gradient(from var(--border-angle), #BE123C, #e31b4d, #8E7ED8, #4e0063, #BE123C) border-box !important;
+      linear-gradient(135deg, #4e0063 0%, #8E7ED8 45%, #D94F00 100%) padding-box,
+      conic-gradient(from var(--border-angle), #D94F00, #ff7a2e, #8E7ED8, #4e0063, #D94F00) border-box !important;
     animation: spin-border 2.5s linear infinite !important;
-    box-shadow: 0 0 18px rgba(190,18,60,0.4), 0 0 36px rgba(142,126,216,0.25) !important;
+    box-shadow: 0 0 18px rgba(217,79,0,0.4), 0 0 36px rgba(142,126,216,0.25) !important;
     font-family: 'Raleway', sans-serif !important;
     font-size: 22px !important;
     font-weight: 800 !important;
@@ -808,7 +815,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Confirm these details are correct</h2>
-    <p style="font-size:14px;color:#BE123C;font-style:italic;margin-bottom:20px;line-height:1.5;">We've saved your details to make this as quick as possible — just check everything looks right.</p>
+    <p style="font-size:14px;color:#D94F00;font-style:italic;margin-bottom:20px;line-height:1.5;">We've saved your details to make this as quick as possible — just check everything looks right.</p>
     <div class="ai-summary" id="details-summary">
       <div class="ai-summary-label">Saved details</div>
       <div class="ai-summary-text" id="confirm-details-list">Loading your saved details...</div>
@@ -872,7 +879,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">What type of funding are you looking for?</h2>
-    <p class="question-sub" style="color:#BE123C">The right type of funding could change everything — let's find the one that fits you perfectly.</p>
+    <p class="question-sub" style="color:#D94F00">The right type of funding could change everything — let's find the one that fits you perfectly.</p>
     <div class="answer-options" id="q1-opts">
       <button class="answer-btn" onclick="selectLoanType('unsecured', this)">Unsecured business loan</button>
       <button class="answer-btn" onclick="selectLoanType('secured', this)">Secured business loan</button>
@@ -902,7 +909,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">What do you need the funding for?</h2>
-    <p class="question-sub" style="color:#BE123C">Every goal is worth pursuing — the right funding could be the thing that makes it happen.</p>
+    <p class="question-sub" style="color:#D94F00">Every goal is worth pursuing — the right funding could be the thing that makes it happen.</p>
     <div class="answer-options" id="q2-opts">
       <button class="answer-btn" onclick="selectPurpose('Business growth', this)">Business growth</button>
       <button class="answer-btn" onclick="selectPurpose('Working capital / cashflow', this)">Working capital / cashflow</button>
@@ -941,7 +948,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How much are you looking to borrow?</h2>
-    <p class="question-sub" style="color:#BE123C">Whatever the number, there's likely a way to make it work.</p>
+    <p class="question-sub" style="color:#D94F00">Whatever the number, there's likely a way to make it work.</p>
     <div class="form-group">
       <label class="form-label">Funding amount</label>
       <div class="currency-input-wrapper" style="position:relative">
@@ -975,7 +982,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How long would you like to repay over?</h2>
-    <p class="question-sub" style="color:#BE123C">The right repayment plan means funding that works for your business, not against it.</p>
+    <p class="question-sub" style="color:#D94F00">The right repayment plan means funding that works for your business, not against it.</p>
     <div class="answer-options" id="q4-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectTerm('Up to 12 months', this)">Up to 12 months</button>
       <button class="answer-btn" onclick="selectTerm('1–3 years', this)">1–3 years</button>
@@ -1006,7 +1013,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Do you have any security to offer?</h2>
-    <p class="question-sub" style="color:#BE123C">Security can unlock better rates and bigger amounts — but it's not the only way in.</p>
+    <p class="question-sub" style="color:#D94F00">Security can unlock better rates and bigger amounts — but it's not the only way in.</p>
     <div class="answer-options" id="q5-opts">
       <button class="answer-btn" onclick="selectSecurity('property', this)">Yes — property</button>
       <button class="answer-btn" onclick="selectSecurity('assets', this)">Yes — business assets</button>
@@ -1041,7 +1048,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How would you describe your business credit history?</h2>
-    <p class="question-sub" style="color:#BE123C">Whatever your history, there's a lender out there who will look at the full picture.</p>
+    <p class="question-sub" style="color:#D94F00">Whatever your history, there's a lender out there who will look at the full picture.</p>
     <div class="answer-options" id="q6-opts">
       <button class="answer-btn" onclick="selectCredit('clean', this)">Clean — no issues</button>
       <button class="answer-btn" onclick="selectCredit('mostly-clean', this)">Mostly clean — one or two minor issues</button>
@@ -1075,7 +1082,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How long has your business been trading?</h2>
-    <p class="question-sub" style="color:#BE123C">Every established business started somewhere — and there are lenders who back ambition at every stage.</p>
+    <p class="question-sub" style="color:#D94F00">Every established business started somewhere — and there are lenders who back ambition at every stage.</p>
     <div class="answer-options" id="q7-opts">
       <button class="answer-btn" onclick="selectTradingHistory('under-6-months', this)">Less than 6 months</button>
       <button class="answer-btn" onclick="selectTradingHistory('6-12-months', this)">6–12 months</button>
@@ -1105,7 +1112,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">What is your approximate monthly turnover?</h2>
-    <p class="question-sub" style="color:#BE123C">Turnover is just a starting point — what you do with the right funding is what really matters.</p>
+    <p class="question-sub" style="color:#D94F00">Turnover is just a starting point — what you do with the right funding is what really matters.</p>
     <div class="answer-options" id="q8-opts">
       <button class="answer-btn" onclick="selectMonthlyTurnover('Under £10,000', this)">Under £10,000</button>
       <button class="answer-btn" onclick="selectMonthlyTurnover('£10,000–£25,000', this)">£10,000–£25,000</button>
@@ -1137,7 +1144,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Do you have any existing loans or finance in place?</h2>
-    <p class="question-sub" style="color:#BE123C">Existing finance doesn't close doors — the right structure can open new ones.</p>
+    <p class="question-sub" style="color:#D94F00">Existing finance doesn't close doors — the right structure can open new ones.</p>
     <div class="answer-options" id="q9-opts">
       <button class="answer-btn" onclick="selectExistingFinance('none', this)">No existing finance</button>
       <button class="answer-btn" onclick="selectExistingFinance('one', this)">Yes — one facility</button>
@@ -1170,7 +1177,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How quickly do you need the funding?</h2>
-    <p class="question-sub" style="color:#BE123C">Whether you need funding tomorrow or you're planning your next big move — the right timing makes all the difference.</p>
+    <p class="question-sub" style="color:#D94F00">Whether you need funding tomorrow or you're planning your next big move — the right timing makes all the difference.</p>
     <div class="answer-options" id="q10-opts">
       <button class="answer-btn" onclick="selectUrgency('Urgently — within days', this)">Urgently — within days</button>
       <button class="answer-btn" onclick="selectUrgency('Within 2–4 weeks', this)">Within 2–4 weeks</button>
@@ -1199,7 +1206,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Is there anything else you'd like us to know?</h2>
-    <p class="question-sub" style="color:#BE123C">Nothing is too big or too small — Nicole reads every word personally.</p>
+    <p class="question-sub" style="color:#D94F00">Nothing is too big or too small — Nicole reads every word personally.</p>
     <div class="form-group">
       <textarea class="form-textarea" id="additional-notes" placeholder="Tell us anything that might help — the more context the better" style="height:120px"></textarea>
     </div>
@@ -1226,7 +1233,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Would you like to upload any supporting documents?</h2>
-    <p class="question-sub" style="color:#BE123C">The more we have upfront, the faster we can move for you.</p>
+    <p class="question-sub" style="color:#D94F00">The more we have upfront, the faster we can move for you.</p>
     <div class="answer-options" id="q12-choice-opts">
       <button class="answer-btn" id="q12-yes-btn" onclick="selectUploadChoice('yes', this)">Yes — I have documents to upload</button>
       <button class="answer-btn" id="q12-skip-btn" onclick="selectUploadChoice('skip', this)">Skip — I don't have anything to upload right now</button>
@@ -1591,7 +1598,7 @@ function populateDetailsSummary() {
   summary.innerHTML = `<div class="detail-grid">${items.map(([label, val]) => {
     const missing = required.has(label) && !val;
     const displayVal = missing
-      ? `<span style="color:#BE123C;font-weight:600;">★ Required</span>`
+      ? `<span style="color:#D94F00;font-weight:600;">★ Required</span>`
       : escapeHtml(getDetailValue(val));
     return `<div class="detail-item"><span class="detail-label">${label}</span><span class="detail-value">${displayVal}</span></div>`;
   }).join('')}</div>`;
@@ -1639,10 +1646,10 @@ function highlightMissingFields() {
         const star = document.createElement('span');
         star.className = 'field-error-star';
         star.textContent = ' ★';
-        star.style.cssText = 'color:#BE123C;font-size:14px;';
+        star.style.cssText = 'color:#D94F00;font-size:14px;';
         label.appendChild(star);
       }
-      if (input) input.style.borderColor = 'rgba(190,18,60,0.6)';
+      if (input) input.style.borderColor = 'rgba(217,79,0,0.6)';
     }
   });
   return anyMissing;
@@ -2602,14 +2609,14 @@ async function sendClientSummaryEmail(summary) {
     max-width: 100%;
   }
   #screen-welcome .btn-primary {
-    background: #BE123C !important;
+    background: #D94F00 !important;
     background-image: none !important;
-    box-shadow: 0 4px 20px rgba(190,18,60,0.4) !important;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.4) !important;
     margin-top: 40px;
   }
   #screen-welcome .btn-primary:hover {
-    background: #e31b4d !important;
-    box-shadow: 0 6px 28px rgba(190,18,60,0.5) !important;
+    background: #ff7a2e !important;
+    box-shadow: 0 6px 28px rgba(217,79,0,0.5) !important;
   }
   #screen-welcome .back-btn {
     color: #8E7ED8 !important;
@@ -2624,7 +2631,7 @@ async function sendClientSummaryEmail(summary) {
     color: rgba(255,255,255,0.35) !important;
   }
 
-  .progress-fill { background: #BE123C !important; }
+  .progress-fill { background: #D94F00 !important; }
   .progress-track { background: rgba(255,255,255,0.12) !important; }
   .progress-label { color: rgba(255,255,255,0.45) !important; }
 
@@ -2709,7 +2716,7 @@ async function sendClientSummaryEmail(summary) {
     background: rgba(255,255,255,0.06) !important;
     border: 1.5px solid rgba(255,255,255,0.15) !important;
     color: #ffffff !important;
-    border-top: 2px solid #BE123C !important;
+    border-top: 2px solid #D94F00 !important;
   }
   #screen-details .answer-btn:hover,
   #screen-q1 .answer-btn:hover,
@@ -2771,9 +2778,9 @@ async function sendClientSummaryEmail(summary) {
   #screen-q9 .btn-primary,
   #screen-q10 .btn-primary,
   #screen-q11 .btn-primary {
-    background: #BE123C !important;
+    background: #D94F00 !important;
     background-image: none !important;
-    box-shadow: 0 4px 20px rgba(190,18,60,0.4) !important;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.4) !important;
   }
 
   #screen-details .form-label,
@@ -2838,7 +2845,7 @@ async function sendClientSummaryEmail(summary) {
     background:
       radial-gradient(ellipse at 20% 20%, rgba(78,0,99,0.6) 0%, transparent 45%),
       radial-gradient(ellipse at 80% 70%, rgba(78,0,99,0.45) 0%, transparent 40%),
-      radial-gradient(ellipse at 50% 90%, rgba(190,18,60,0.15) 0%, transparent 40%);
+      radial-gradient(ellipse at 50% 90%, rgba(217,79,0,0.15) 0%, transparent 40%);
     pointer-events: none;
     z-index: 0;
   }
@@ -2850,7 +2857,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-results .matched-product {
     background: rgba(255,255,255,0.06) !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
-    border-left: 3px solid #BE123C !important;
+    border-left: 3px solid #D94F00 !important;
     border-radius: 10px !important;
   }
   #screen-results .matched-product-name { color: #ffffff !important; font-family: 'Raleway', sans-serif !important; font-weight: 700 !important; }
