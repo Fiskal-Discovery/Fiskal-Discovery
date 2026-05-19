@@ -2381,6 +2381,8 @@ function applyPurposeToMatchedProducts(purposes) {
     'Vehicles or equipment':     ['asset'],
     'Growth':                    ['loan'],
     'Refinance existing finance':['loan', 'revolving'],
+    'New premises':              ['property', 'loan'],
+    'Marketing / advertising':   ['loan', 'revolving'],
   };
   purposes.forEach(p => {
     (map[p] || []).forEach(product => {
@@ -2833,6 +2835,11 @@ function getMatchedProducts() {
   }
   if ((state.cardSales === 'Yes' || state.cardSales === 'Sometimes / potentially') && productInfo['mca'] && !matched.includes('mca')) {
     matched.push('mca');
+  }
+
+  // Always surface at least a business loan as a baseline option
+  if (!matched.includes('loan')) {
+    matched.push('loan');
   }
 
   return matched;
