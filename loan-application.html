@@ -846,7 +846,6 @@
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="dashed-divider">Fiskal Discovery</div>
   </div>
@@ -2551,9 +2550,6 @@ async function sendClientSummaryEmail(summary) {
     color: #ffffff;
     line-height: 1.55;
     max-width: 520px;
-  }
-  #screen-welcome {
-    background: var(--cream);
   }
   #screen-welcome .btn-primary {
     background: #D94F00 !important;
