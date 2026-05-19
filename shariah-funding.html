@@ -1325,7 +1325,11 @@
     <button class="btn-primary" id="q1-continue" onclick="savePurposes()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
   <div class="screen-footer">
-    <button class="back-btn" onclick="showScreen('screen-home')" style="margin:0 auto;">‹ Back</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-home')">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip</button>
+    </div>
     <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
@@ -1366,7 +1370,11 @@
     <button class="btn-primary" onclick="saveAmount()">Continue</button>
   </div>
   <div class="screen-footer">
-    <button class="back-btn" onclick="goBackToQ1()" style="margin:0 auto;">‹ Back</button>
+    <div class="nav-row">
+      <button class="back-btn" onclick="goBackToQ1()">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip</button>
+    </div>
     <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
@@ -1502,6 +1510,17 @@ const state = {
 // ============================================================
 // SCREEN NAVIGATION
 // ============================================================
+const SHARIAH_SKIP_MAP = {
+  'screen-q1': 'screen-q2',
+  'screen-q2': 'screen-q3',
+};
+function skipCurrentScreen() {
+  const active = document.querySelector('.screen.active');
+  if (!active) return;
+  const next = SHARIAH_SKIP_MAP[active.id];
+  if (next) showScreen(next);
+}
+
 function showScreen(id) {
   document.querySelectorAll('.screen, .loading-screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById(id);
