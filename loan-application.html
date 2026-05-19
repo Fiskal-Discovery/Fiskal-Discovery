@@ -1345,11 +1345,11 @@
       <p class="results-name" id="results-name">Here's what we found</p>
     </div>
     <div id="traffic-light-section" style="margin-bottom:20px;text-align:center;padding:0 8px">
-      <div id="traffic-light-badge" style="display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:16px;margin-bottom:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1)">
-        <span id="traffic-light-emoji" style="font-size:24px"></span>
-        <span id="traffic-light-label" style="font-family:'Raleway',sans-serif;font-weight:700;font-size:16px;color:#ffffff;letter-spacing:0.5px"></span>
+      <div id="traffic-light-badge" style="display:inline-flex;align-items:center;gap:12px;padding:14px 22px;border-radius:16px;margin-bottom:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);max-width:560px;width:100%;box-sizing:border-box">
+        <span id="traffic-light-emoji" style="font-size:28px;flex-shrink:0"></span>
+        <span id="traffic-light-label" style="font-family:'Raleway',sans-serif;font-weight:700;font-size:15px;color:#ffffff;text-align:left;line-height:1.35"></span>
       </div>
-      <p id="traffic-light-message" style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;max-width:500px;margin:0 auto;padding:0 8px;font-style:italic"></p>
+      <p id="traffic-light-message" style="font-size:14px;color:rgba(255,255,255,0.75);line-height:1.65;max-width:540px;margin:0 auto;padding:0 8px"></p>
     </div>
     <div class="ai-summary">
       <div class="ai-summary-label" id="ai-summary-label">Here's what we discovered</div>
@@ -2043,24 +2043,24 @@ function calculateTrafficLight() {
     state.trafficLightRating = 'green';
     return {
       score, rating: 'green',
-      emoji: '🟢', label: 'Strong Position',
-      message: "Based on what you've told us, your application looks promising. There are likely several lenders who would want to help you. Nicole will review your details and come back to you with the best options.",
+      emoji: '🟢',
+      message: "The signs are promising — there are likely several lenders who would want to help. Nicole will review your details and speak with you about the best options available.",
       badgeStyle: 'background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3)'
     };
   } else if (score >= 1) {
     state.trafficLightRating = 'amber';
     return {
       score, rating: 'amber',
-      emoji: '🟡', label: 'Good Potential',
-      message: "There are some things to consider but options definitely exist. Nicole has helped businesses in similar positions find the right funding — she'll review your details and work out the best approach for you.",
+      emoji: '🟡',
+      message: "There's a good chance of success with the right lender and approach. Nicole will review your details and work out the best route for you.",
       badgeStyle: 'background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3)'
     };
   } else {
     state.trafficLightRating = 'red';
     return {
       score, rating: 'red',
-      emoji: '🟠', label: "Needs Work — But Don't Give Up",
-      message: "Your application may face some challenges, but this is far from the end of the story. Nicole has seen tougher cases approved and will review your details to find the best possible route forward.",
+      emoji: '🟠',
+      message: "It would face some challenges — but this is far from the end of the story. Nicole has seen tougher cases approved and will review your details to find the best possible route forward.",
       badgeStyle: 'background:rgba(217,79,0,0.15);border:1px solid rgba(217,79,0,0.4)'
     };
   }
@@ -2124,10 +2124,11 @@ function displayResults(summaryResult, tl) {
   const emoji = document.getElementById('traffic-light-emoji');
   const label = document.getElementById('traffic-light-label');
   const msg   = document.getElementById('traffic-light-message');
+  const businessName = state.business || 'your business';
   if (badge && tl) {
     badge.style.cssText = `display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:16px;margin-bottom:12px;${tl.badgeStyle}`;
     if (emoji) emoji.textContent = tl.emoji;
-    if (label) label.textContent = tl.label;
+    if (label) label.textContent = `If ${businessName} applied for a loan right now...`;
     if (msg)   msg.textContent   = tl.message;
   }
 
