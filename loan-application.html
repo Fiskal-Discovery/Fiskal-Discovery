@@ -21,6 +21,9 @@
     --orange-light: #ff7a2e;
     --btn-gradient: linear-gradient(135deg, #D94F00 0%, #ff7a2e 100%);
   }
+  /* ---- HEADER BRAND ---- */
+  .ob-header-title { font-size: 50px; color: #4e0063; }
+
   /* REFUSE header tagline */
   .ob-header-tagline {
     justify-self: end;
@@ -167,9 +170,12 @@
     aspect-ratio: 1 / 1;
     border-radius: 20px;
     overflow: hidden;
-    border: 3px solid #00aaff;
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2), 0 0 18px rgba(0, 170, 255, 0.18);
+    border: 3px solid transparent;
+    background:
+      rgba(255,255,255,0.12) padding-box,
+      conic-gradient(from var(--border-angle, 0deg), #D94F00, #ff7a2e, #8E7ED8, #4e0063, #D94F00) border-box;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.3), 0 0 18px rgba(217,79,0,0.25), 0 0 28px rgba(142,126,216,0.2);
+    animation: spin-border 2.5s linear infinite;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -714,7 +720,25 @@
   #screen-results .screen-content,
   #screen-results .ob-fixed-header,
   #screen-results .screen-footer { position: relative; z-index: 1; }
-  #screen-results .results-check { background: linear-gradient(135deg, #D94F00, #ff7a2e) !important; }
+  #screen-results .results-check {
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 50% !important;
+    border: 3px solid transparent !important;
+    background:
+      linear-gradient(135deg, #4e0063 0%, #8E7ED8 45%, #D94F00 100%) padding-box,
+      conic-gradient(from var(--border-angle), #D94F00, #ff7a2e, #8E7ED8, #4e0063, #D94F00) border-box !important;
+    animation: spin-border 2.5s linear infinite !important;
+    box-shadow: 0 0 18px rgba(217,79,0,0.4), 0 0 36px rgba(142,126,216,0.25) !important;
+    font-family: 'Raleway', sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    letter-spacing: 1px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
   #screen-results .results-title { font-family: 'Raleway', sans-serif !important; font-weight: 700 !important; color: #ffffff !important; }
   #screen-results .results-name { color: #8E7ED8 !important; }
   #screen-results .ai-summary-label { color: #8E7ED8 !important; font-family: 'Raleway', sans-serif !important; font-weight: 700 !important; letter-spacing: 2px !important; }
@@ -867,7 +891,7 @@
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:15%"></div></div>
-    <div class="progress-label">Question 1 of 8</div>
+    <div class="progress-label"></div>
   </div>
   <div class="screen-content">
     <div class="question-product">Loan Enquiry</div>
@@ -911,7 +935,7 @@
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:25%"></div></div>
-    <div class="progress-label">Question 2 of 8</div>
+    <div class="progress-label"></div>
   </div>
   <div class="screen-content">
     <div class="question-product">Loan Enquiry</div>
@@ -951,7 +975,7 @@
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:37%"></div></div>
-    <div class="progress-label">Question 3 of 8</div>
+    <div class="progress-label"></div>
   </div>
   <div class="screen-content">
     <div class="question-product">Loan Enquiry</div>
@@ -990,7 +1014,7 @@
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:50%"></div></div>
-    <div class="progress-label">Question 4 of 8</div>
+    <div class="progress-label"></div>
   </div>
   <div class="screen-content">
     <div class="question-product">Loan Enquiry</div>
@@ -1142,7 +1166,7 @@
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:62%"></div></div>
-    <div class="progress-label">Question 5 of 8</div>
+    <div class="progress-label"></div>
   </div>
   <div class="screen-content">
     <div class="question-product">Loan Enquiry</div>
@@ -1179,7 +1203,7 @@
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:72%"></div></div>
-    <div class="progress-label">Question 6 of 8</div>
+    <div class="progress-label"></div>
   </div>
   <div class="screen-content">
     <div class="question-product">Loan Enquiry</div>
@@ -1216,7 +1240,7 @@
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:82%"></div></div>
-    <div class="progress-label">Question 7 of 8</div>
+    <div class="progress-label"></div>
   </div>
   <div class="screen-content">
     <div class="question-product">Loan Enquiry</div>
@@ -1379,8 +1403,12 @@
       <p class="results-name" id="results-name">Here's what we found</p>
     </div>
     <div class="ai-summary">
-      <div class="ai-summary-label">Here's what we discovered</div>
+      <div class="ai-summary-label" id="ai-summary-label">Here's what we discovered</div>
       <p class="ai-summary-text" id="ai-summary-text">Analysing your application...</p>
+      <div style="text-align:center;margin-top:14px">
+        <button id="email-summary-btn" onclick="emailSummaryToUser()" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:12px;cursor:pointer;text-decoration:underline;padding:0;">Email this summary to me</button>
+        <p id="email-summary-feedback" style="font-size:12px;text-align:center;margin-top:6px;display:none;"></p>
+      </div>
     </div>
     <section class="nicole-contact-card" aria-label="Nicole Bertolissi contact card">
       <div class="nicole-photo-side">
@@ -1977,10 +2005,24 @@ function displayResults(summary) {
   // Set main heading
   document.getElementById('results-name').textContent = state.business ? `Here's what we found for ${state.business}` : "Here's what we found";
 
-  // Set summary card heading and content
-  const summaryHeadingEl = document.querySelector('.ai-summary-label');
+  // Populate initials in the dot
+  const checkEl = document.querySelector('#screen-results .results-check');
+  if (checkEl) {
+    const name = state.name || '';
+    const parts = name.trim().split(/\s+/);
+    const initials = parts.length >= 2
+      ? parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase()
+      : (parts[0] ? parts[0][0].toUpperCase() : '');
+    checkEl.textContent = initials;
+  }
+
+  // Set summary card heading with business name in orange
+  const summaryHeadingEl = document.getElementById('ai-summary-label');
   if (summaryHeadingEl) {
-    summaryHeadingEl.textContent = summary.summaryHeading || "Here's what we discovered";
+    const heading = summary.summaryHeading || "Here's what we discovered";
+    summaryHeadingEl.innerHTML = state.business
+      ? `${heading} for <span style="color:#D94F00">${state.business}</span>`
+      : heading;
   }
 
   const summaryTextEl = document.getElementById('ai-summary-text');
@@ -2087,6 +2129,51 @@ async function sendInitialInfoNotification() {
     sessionStorage.setItem(key, "true");
   } catch (error) {
     console.warn("Initial info notification failed", error);
+  }
+}
+
+async function emailSummaryToUser() {
+  const btn = document.getElementById('email-summary-btn');
+  const feedback = document.getElementById('email-summary-feedback');
+  const email = state.email || '';
+
+  if (!email) {
+    feedback.textContent = "We don't have your email address on file — please contact Nicole directly.";
+    feedback.style.color = '#ff7a2e';
+    feedback.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  const summaryEl = document.getElementById('ai-summary-text');
+  const summaryText = summaryEl ? summaryEl.innerText : '';
+  const firstName = (state.name || '').split(' ')[0];
+
+  try {
+    if (typeof emailjs !== 'undefined') {
+      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', {
+        name: firstName,
+        business_name: state.business,
+        email: email,
+        module: 'Loan Enquiry',
+        matched_products: 'See summary below',
+        summary: summaryText,
+        barriers: ''
+      });
+    }
+    btn.textContent = 'Summary sent!';
+    btn.style.cssText = 'background:linear-gradient(135deg,#4e0063,#8E7ED8);color:#fff;border:none;padding:4px 12px;border-radius:999px;font-size:12px;cursor:default;';
+    feedback.textContent = `We've sent your summary to ${email}`;
+    feedback.style.color = 'rgba(255,255,255,0.7)';
+    feedback.style.display = 'block';
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Email me this summary';
+    feedback.textContent = 'Something went wrong — please try again or contact Nicole directly.';
+    feedback.style.color = '#ff7a2e';
+    feedback.style.display = 'block';
   }
 }
 
