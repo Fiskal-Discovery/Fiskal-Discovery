@@ -1754,24 +1754,52 @@
     width: 100%;
   }
   .ob-game-cta {
-    display: block;
-    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
     background: linear-gradient(135deg, #D94F00 0%, #ff7a2e 100%);
     color: #ffffff;
     font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    text-align: center;
     text-decoration: none;
     padding: 10px 20px;
     border-radius: 999px;
     box-shadow: 0 4px 20px rgba(217,79,0,0.4);
-    letter-spacing: 0.2px;
     transition: box-shadow 0.2s, transform 0.2s;
   }
   .ob-game-cta:hover {
     box-shadow: 0 6px 28px rgba(217,79,0,0.6);
     transform: translateY(-1px);
+  }
+  .ob-cta-left {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+  }
+  .ob-cta-divider {
+    width: 1px;
+    align-self: stretch;
+    background: rgba(255,255,255,0.35);
+    margin: 0 16px;
+    flex-shrink: 0;
+  }
+  .ob-cta-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    white-space: nowrap;
+  }
+  .ob-cta-right-label {
+    font-size: 10px;
+    font-weight: 600;
+    opacity: 0.85;
+    letter-spacing: 0.3px;
+  }
+  .ob-cta-right-name {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
   }
 
 
@@ -2021,7 +2049,12 @@
           <button class="btn-primary" onclick="startWelcome()">Start My Discovery</button>
           <div class="ob-game-block">
             <a href="cashflow-invaders.html" class="ob-game-cta">
-              🎮 Free Your Finances — Play Cashflow Invaders Now
+              <span class="ob-cta-left">🎮 Free Your Finances — Play Cashflow Invaders Now</span>
+              <span class="ob-cta-divider"></span>
+              <span class="ob-cta-right">
+                <span class="ob-cta-right-label">🏆 Top Lender — Most Cash Released</span>
+                <span class="ob-cta-right-name" id="ob-top-lender-name">—</span>
+              </span>
             </a>
           </div>
         </div>
@@ -2848,6 +2881,16 @@ function loadChampions() {
   function render(entries) {
     renderList(entries, true,  'ob-lender-lb', 'ob-lender-lb-rows');
     renderList(entries, false, 'ob-client-lb', 'ob-client-lb-rows');
+    // Top lender in game CTA button
+    const topLender = entries
+      .filter(Boolean)
+      .filter(e => e.isLender)
+      .map(e => ({ name: String(e.name || 'ANONYMOUS').toUpperCase(), score: Number(e.score) || 0 }))
+      .sort((a, b) => b.score - a.score)[0];
+    const nameEl = document.getElementById('ob-top-lender-name');
+    if (nameEl && topLender && topLender.score > 0) {
+      nameEl.textContent = topLender.name + ' — £' + topLender.score.toLocaleString();
+    }
   }
 
   if (window._ciDb) {
