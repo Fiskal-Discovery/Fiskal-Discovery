@@ -712,18 +712,16 @@
     </div>
   </header>
   <div class="screen-content">
-    <div class="welcome-body">
-      <div class="welcome-label">Loan Enquiry</div>
-      <h2 class="welcome-title">Find out how much your business could borrow</h2>
-      <div class="welcome-box">
-        <p>Answer a few simple questions about your business and what you need — and we'll give you a clear picture of what you could borrow and what it might cost.</p>
-        <p>No credit checks. No commitment. Just a clear, honest picture of what's possible — followed by a personal call from <strong>Nicole</strong> to talk through your options.</p>
-      </div>
-      <button class="btn-primary" onclick="showDetailsConfirm()">Start My Discovery</button>
-      <div class="nav-row">
-        <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      </div>
+    <div class="typing-intro">
+      <div class="typing-text" id="loan-intro-text"></div>
+      <button class="btn-primary" id="loan-start-btn" onclick="showDetailsConfirm()" style="display:none">Start My Discovery ›</button>
     </div>
+  </div>
+  <div class="nav-row" style="padding: 16px 24px;">
+    <button class="back-btn" onclick="window.location.href='home.html?home=1'">← Home</button>
+  </div>
+  <div class="screen-footer">
+    <p class="footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539.<br><a href="https://fiskal.online" target="_blank" style="color:inherit;">fiskal.online</a> | All information is treated in confidence.</p>
   </div>
 </div>
 
@@ -1369,6 +1367,14 @@
 </div>
 
 <script>
+// ---- TYPING INTRO ----
+document.addEventListener('DOMContentLoaded', function() {
+  const textEl = document.getElementById('loan-intro-text');
+  const btn = document.getElementById('loan-start-btn');
+  if (textEl) textEl.textContent = "Let's find out what your business could borrow. A few quick questions and we'll show you what's possible.";
+  if (btn) btn.style.display = 'inline-flex';
+});
+
 // ============================================================
 // DEVELOPMENT MODE
 // ============================================================
@@ -2265,6 +2271,7 @@ async function sendClientSummaryEmail(summary) {
   ============================================================ */
 
   /* Dark background for question screens */
+  #screen-welcome,
   #screen-details,
   #screen-purpose,
   #screen-amount,
@@ -2283,6 +2290,7 @@ async function sendClientSummaryEmail(summary) {
     position: relative;
   }
 
+  #screen-welcome::before,
   #screen-details::before,
   #screen-purpose::before,
   #screen-amount::before,
@@ -2310,6 +2318,7 @@ async function sendClientSummaryEmail(summary) {
     z-index: 0;
   }
 
+  #screen-welcome .ob-fixed-header,
   #screen-details .ob-fixed-header,
   #screen-purpose .ob-fixed-header,
   #screen-amount .ob-fixed-header,
@@ -2324,6 +2333,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-upload .ob-fixed-header,
   #screen-barriers .ob-fixed-header,
   #screen-loading .ob-fixed-header,
+  #screen-welcome .screen-content,
   #screen-details .screen-content,
   #screen-purpose .screen-content,
   #screen-amount .screen-content,
@@ -2338,6 +2348,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-upload .screen-content,
   #screen-barriers .screen-content,
   #screen-loading .screen-content,
+  #screen-welcome .nav-row,
   #screen-details .nav-row,
   #screen-purpose .nav-row,
   #screen-amount .nav-row,
@@ -2351,6 +2362,47 @@ async function sendClientSummaryEmail(summary) {
   #screen-existing-details .nav-row,
   #screen-upload .nav-row,
   #screen-barriers .nav-row { position: relative; z-index: 1; }
+
+  /* Welcome screen — typing intro styling */
+  .typing-intro {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 16px 24px 40px;
+  }
+  .typing-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(17px, 3vw, 24px);
+    font-weight: 300;
+    color: #ffffff;
+    line-height: 1.55;
+    max-width: 520px;
+  }
+  #screen-welcome .btn-primary {
+    background: #D94F00 !important;
+    background-image: none !important;
+    box-shadow: 0 4px 20px rgba(217,79,0,0.4) !important;
+    margin-top: 40px;
+  }
+  #screen-welcome .btn-primary:hover {
+    background: #ff7a2e !important;
+    box-shadow: 0 6px 28px rgba(217,79,0,0.5) !important;
+  }
+  #screen-welcome .back-btn {
+    color: #8E7ED8 !important;
+  }
+  #screen-welcome .back-btn:hover {
+    color: #ffffff !important;
+  }
+  #screen-welcome .footer-legal {
+    color: rgba(255,255,255,0.35) !important;
+  }
+  #screen-welcome .footer-legal a {
+    color: rgba(255,255,255,0.35) !important;
+  }
 
   .progress-fill { background: #D94F00 !important; }
   .progress-track { background: rgba(255,255,255,0.12) !important; }
