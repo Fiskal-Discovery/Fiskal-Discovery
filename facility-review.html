@@ -1178,33 +1178,35 @@
     <h2 class="question-text">Tell us about your current rates</h2>
     <p class="question-sub">Fill in what you know — leave blank anything you're not sure about.</p>
 
-    <div class="form-group">
-      <label class="form-label">Funding limit</label>
-      <input type="text" class="form-input" id="if-limit" placeholder="e.g. £250,000">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Advance rate <span style="font-weight:300;color:var(--light-text)">— % of invoice value you receive upfront</span></label>
-      <input type="text" class="form-input" id="if-advance" placeholder="e.g. 85%">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Service fee <span style="font-weight:300;color:var(--light-text)">— % charged on your turnover</span></label>
-      <input type="text" class="form-input" id="if-service-fee" placeholder="e.g. 0.75%">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Discount/interest rate <span style="font-weight:300;color:var(--light-text)">— charged on funds drawn</span></label>
-      <input type="text" class="form-input" id="if-discount" placeholder="e.g. 2.5% over base rate">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Monthly minimums</label>
-      <input type="text" class="form-input" id="if-minimums" placeholder="e.g. £500/month or None">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Disbursements <span style="font-weight:300;color:var(--light-text)">— admin/CHAPS/other fees</span></label>
-      <input type="text" class="form-input" id="if-disbursements" placeholder="e.g. £25 CHAPS, £50 admin or None">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Bad debt protection rate <span style="font-weight:300;color:var(--light-text)">— % charged on turnover (if applicable)</span></label>
-      <input type="text" class="form-input" id="if-bdp" placeholder="e.g. 0.5%">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" style="font-size:12px">Funding limit</label>
+        <input type="text" class="form-input" id="if-limit" placeholder="e.g. £250,000">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" style="font-size:12px">Advance rate</label>
+        <input type="text" class="form-input" id="if-advance" placeholder="e.g. 85%">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" style="font-size:12px">Service fee</label>
+        <input type="text" class="form-input" id="if-service-fee" placeholder="e.g. 0.75%">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" style="font-size:12px">Discount / interest rate</label>
+        <input type="text" class="form-input" id="if-discount" placeholder="e.g. 2.5% over base">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" style="font-size:12px">Monthly minimums</label>
+        <input type="text" class="form-input" id="if-minimums" placeholder="e.g. £500/month">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" style="font-size:12px">Disbursements</label>
+        <input type="text" class="form-input" id="if-disbursements" placeholder="e.g. £25 CHAPS">
+      </div>
+      <div class="form-group" style="margin-bottom:0;grid-column:1/-1">
+        <label class="form-label" style="font-size:12px">Bad debt protection rate</label>
+        <input type="text" class="form-input" id="if-bdp" placeholder="e.g. 0.5%">
+      </div>
     </div>
     <button class="btn-primary" onclick="saveIFPathA()">Continue →</button>
     <div class="nav-row">
