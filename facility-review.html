@@ -798,16 +798,24 @@
     line-height: 1.5;
   }
 
-  /* Answer buttons — dark theme */
+  /* Answer buttons — white card style */
   .screen:not(#screen-welcome) .answer-btn {
-    background: rgba(255,255,255,0.06) !important;
-    border: 1.5px solid rgba(255,255,255,0.15) !important;
-    color: #ffffff !important;
-    border-top: 2px solid #D94F00 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(42,4,64,0.06) !important;
+    border-top: 4px solid #D94F00 !important;
+    border-radius: 14px !important;
+    color: #1a0533 !important;
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    box-shadow: 0 2px 12px rgba(42,4,64,0.08) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
   }
   .screen:not(#screen-welcome) .answer-btn:hover {
-    background: rgba(255,255,255,0.10) !important;
-    border-color: rgba(255,255,255,0.25) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 28px rgba(42,4,64,0.14) !important;
+    border-top-color: #ff7a2e !important;
+    background: #ffffff !important;
   }
   .screen:not(#screen-welcome) .answer-btn.selected {
     border-color: #8E7ED8 !important;
@@ -817,11 +825,14 @@
     color: #ffffff !important;
   }
 
-  /* Back button */
+  /* Back button — periwinkle */
   .screen:not(#screen-welcome) .back-btn {
     background: transparent !important;
-    color: rgba(255,255,255,0.5) !important;
+    color: #8E7ED8 !important;
     border: none !important;
+  }
+  .screen:not(#screen-welcome) .back-btn:hover {
+    color: #ffffff !important;
   }
 
   /* Primary button — orange */
