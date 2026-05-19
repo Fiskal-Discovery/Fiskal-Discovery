@@ -1149,9 +1149,31 @@
       <button class="answer-btn" onclick="selectExistingFinance('none', this)">No existing finance</button>
       <button class="answer-btn" onclick="selectExistingFinance('one', this)">Yes — one facility</button>
       <button class="answer-btn" onclick="selectExistingFinance('multiple', this)">Yes — multiple facilities</button>
-      <div id="q9-refinance-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;grid-column:1/-1" onclick="toggleRefinanceNote()">
-        <span id="q9-refinance-label">Yes and I'm looking to refinance</span>
-        <input type="text" id="refinance-note" placeholder="Tell us about your existing finance — lender, approximate balance and monthly payment" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ9Continue()" onclick="event.stopPropagation()">
+      <button class="answer-btn" style="grid-column:1/-1" onclick="selectExistingFinance('refinance', this)">Yes — and I'm looking to refinance</button>
+    </div>
+    <div id="q9-details-panel" style="display:none;margin-top:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(142,126,216,0.2);border-radius:14px;padding:18px;flex-direction:column;gap:14px">
+      <p style="font-size:13px;color:rgba(255,255,255,0.55);margin:0 0 4px">Tell us about your existing finance — the more detail the better.</p>
+      <div class="form-group" style="margin:0">
+        <label class="form-label" style="font-size:13px">Finance type <span style="color:rgba(255,255,255,0.4);font-weight:300">(e.g. loan, invoice finance, overdraft)</span></label>
+        <input type="text" class="form-input" id="q9-finance-type" placeholder="e.g. Business loan, Invoice finance">
+      </div>
+      <div class="form-group" style="margin:0">
+        <label class="form-label" style="font-size:13px">Lender name</label>
+        <input type="text" class="form-input" id="q9-lender" placeholder="e.g. HSBC, Funding Circle">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="form-group" style="margin:0">
+          <label class="form-label" style="font-size:13px">Outstanding balance</label>
+          <input type="text" class="form-input" id="q9-balance" placeholder="e.g. £45,000">
+        </div>
+        <div class="form-group" style="margin:0">
+          <label class="form-label" style="font-size:13px">Monthly payment</label>
+          <input type="text" class="form-input" id="q9-monthly" placeholder="e.g. £1,200">
+        </div>
+      </div>
+      <div class="form-group" style="margin:0">
+        <label class="form-label" style="font-size:13px">Anything else to add? <span style="color:rgba(255,255,255,0.4);font-weight:300">(optional)</span></label>
+        <input type="text" class="form-input" id="q9-extra" placeholder="e.g. expires in 6 months, personal guarantee in place">
       </div>
     </div>
     <button class="btn-primary" id="q9-continue" onclick="saveExistingFinance()" style="display:none;margin-top:14px;width:100%">Continue</button>
@@ -1888,32 +1910,28 @@ function selectExistingFinance(value, btn) {
   state.existingFinance = value;
   document.querySelectorAll('#q9-opts .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  document.getElementById('refinance-note').style.display = 'none';
-  document.getElementById('q9-refinance-label').style.display = '';
-  document.getElementById('q9-continue').style.display = 'none';
-  setTimeout(() => showScreen('screen-q10'), 280);
+  const panel = document.getElementById('q9-details-panel');
+  if (value === 'none') {
+    panel.style.display = 'none';
+    document.getElementById('q9-continue').style.display = 'none';
+    setTimeout(() => showScreen('screen-q10'), 280);
+  } else {
+    panel.style.display = 'flex';
+    document.getElementById('q9-continue').style.display = 'block';
+    document.getElementById('q9-finance-type').focus();
+  }
 }
 
-function toggleRefinanceNote() {
-  state.existingFinance = 'refinance';
-  document.querySelectorAll('#q9-opts .answer-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('q9-refinance-slot').classList.add('selected');
-  document.getElementById('q9-refinance-label').style.display = 'none';
-  const input = document.getElementById('refinance-note');
-  input.style.display = 'block';
-  input.focus();
-  updateQ9Continue();
-}
-
-function updateQ9Continue() {
-  const val = document.getElementById('refinance-note').value.trim();
-  document.getElementById('q9-continue').style.display = val.length > 0 ? 'block' : 'none';
-}
+function updateQ9Continue() {}
 
 function saveExistingFinance() {
-  if (state.existingFinance === 'refinance') {
-    state.existingFinanceNote = document.getElementById('refinance-note').value.trim();
-  }
+  state.existingFinanceNote = [
+    document.getElementById('q9-finance-type').value.trim(),
+    document.getElementById('q9-lender').value.trim(),
+    document.getElementById('q9-balance').value.trim(),
+    document.getElementById('q9-monthly').value.trim(),
+    document.getElementById('q9-extra').value.trim(),
+  ].filter(Boolean).join(' | ');
   showScreen('screen-q10');
 }
 
