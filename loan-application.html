@@ -959,7 +959,7 @@
       <label class="form-label">Funding amount</label>
       <div class="currency-input-wrapper" style="position:relative">
         <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.5);font-size:16px">£</span>
-        <input type="text" inputmode="numeric" class="form-input" id="loan-amount-input" placeholder="Enter amount" style="padding-left:28px">
+        <input type="text" inputmode="numeric" class="form-input" id="loan-amount-input" placeholder="Enter amount" style="padding-left:28px" oninput="formatLoanAmount(this)">
       </div>
     </div>
     <div class="answer-options">
@@ -1859,8 +1859,17 @@ function selectAmountNotSure(btn) {
   setTimeout(() => showScreen('screen-q4'), 280);
 }
 
+function formatLoanAmount(inp) {
+  const pos = inp.selectionStart;
+  const num = inp.value.replace(/[^0-9]/g, '');
+  const formatted = num ? Number(num).toLocaleString('en-GB') : '';
+  const added = formatted.length - inp.value.length;
+  inp.value = formatted;
+  try { inp.setSelectionRange(pos + added, pos + added); } catch(e) {}
+}
+
 function saveAmount() {
-  const val = document.getElementById('loan-amount-input').value.trim();
+  const val = document.getElementById('loan-amount-input').value.trim().replace(/,/g, '');
   if (val) { state.amount = val; state.amountNotSure = false; }
   showScreen('screen-q4');
 }
