@@ -448,6 +448,15 @@ html, body { overflow-x: hidden; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ---- Mobile: align screen-content to top instead of vertically centring ---- */
+/* justify-content:center on min-height:100vh screens creates a large blank gap above answer boxes */
+@media (max-width: 768px) {
+  .screen-content {
+    justify-content: flex-start !important;
+    padding-top: 16px !important;
+  }
+}
+
 /* ---- Mobile: collapse 2-column grids to single column on small phones ---- */
 @media (max-width: 390px) {
   .answer-options,
