@@ -2018,7 +2018,8 @@ function selectUploadChoice(value, btn) {
     document.getElementById('q12-upload-area').style.display = 'block';
   } else {
     document.getElementById('q12-upload-area').style.display = 'none';
-    document.getElementById('q11-next-btn').style.display = 'block';
+    document.getElementById('q11-next-btn').style.display = 'none';
+    setTimeout(() => showScreen('screen-q12'), 200);
   }
 }
 
