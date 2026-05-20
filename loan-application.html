@@ -2046,7 +2046,7 @@ function getMonthlyTurnoverScore() {
     if (state.monthlyTurnover === '£250,000+') return 2;
     if (state.monthlyTurnover === '£100,000–£250,000') return 1;
     if (state.monthlyTurnover === '£50,000–£100,000' || state.monthlyTurnover === '£25,000–£50,000') return 0;
-    if (state.monthlyTurnover === '£10,000–£25,000') return 0;
+    if (state.monthlyTurnover === '£10,000–£25,000') return -1;
     if (state.monthlyTurnover === 'Under £10,000') return -1;
     return 0;
   }
@@ -2055,9 +2055,9 @@ function getMonthlyTurnoverScore() {
     const monthly = num / 12;
     if (monthly >= 250000) return 2;
     if (monthly >= 100000) return 1;
-    if (monthly >= 25000) return 0;
-    if (monthly >= 10000) return 0;
-    if (monthly > 0) return -1;
+    if (monthly >= 25000)  return 0;
+    if (monthly >= 10000)  return -1;
+    if (monthly > 0)       return -1;
   }
   return 0;
 }
@@ -2142,71 +2142,77 @@ function calculateIndicativeLending() {
   let lower = roundToNearest5k(figure * 0.75);
   let upper = roundToNearest5k(figure * 1.25);
 
-  // Step 7 — Caps
+  // Step 7 — Floor
   lower = Math.max(lower, 10000);
   upper = Math.max(upper, 10000);
 
-  const specialist = state.trafficLightRating === 'red' && upper > 100000;
+  // Step 8 — Score-based caps
+  const sc = state.trafficLightScore;
+  let caveat = false;
+  if (sc <= -2) {
+    upper = Math.min(upper, 10000);
+    lower = Math.min(lower, upper);
+    caveat = true;
+  } else if (sc <= 0) {
+    upper = Math.min(upper, 20000);
+    lower = Math.min(lower, upper);
+    caveat = true;
+  } else if (sc <= 4) {
+    upper = Math.min(upper, 150000);
+    lower = Math.min(lower, upper);
+  }
 
-  return { skip: false, lower, upper, specialist };
+  const specialist = (state.trafficLightRating === 'red' || state.trafficLightRating === 'very-red') && upper > 100000;
+
+  return { skip: false, lower, upper, specialist, caveat };
 }
 
 function calculateTrafficLight() {
   let score = 0;
 
   // Security Q5
-  if (state.security === 'both') score += 2;
-  else if (state.security === 'property') score += 2;
-  else if (state.security === 'assets') score += 1;
-  else if (state.security === 'none') score -= 1;
+  if (state.security === 'both')               score += 2;
+  else if (state.security === 'property')      score += 2;
+  else if (state.security === 'assets')        score += 1;
+  else if (state.security === 'none')          score -= 1;
+  // personal-guarantee → 0 (no change)
 
   // Credit Q6
-  if (state.credit === 'clean') score += 2;
-  else if (state.credit === 'mostly-clean') score += 1;
-  else if (state.credit === 'some-issues') score -= 1;
-  else if (state.credit === 'significant-issues') score -= 2;
+  if (state.credit === 'clean')                    score += 2;
+  else if (state.credit === 'mostly-clean')        score += 1;
+  else if (state.credit === 'some-issues')         score -= 1;
+  else if (state.credit === 'significant-issues')  score -= 2;
 
   // Trading history Q7
-  if (state.tradingHistory === '5-plus-years') score += 2;
-  else if (state.tradingHistory === '2-5-years') score += 1;
-  else if (state.tradingHistory === '1-2-years') score += 0;
-  else if (state.tradingHistory === '6-12-months') score -= 1;
+  if (state.tradingHistory === '5-plus-years')      score += 2;
+  else if (state.tradingHistory === '2-5-years')    score += 1;
+  else if (state.tradingHistory === '6-12-months')  score -= 1;
   else if (state.tradingHistory === 'under-6-months') score -= 2;
+  // new start via profile turnover
+  if (state.turnover === 'New start') score -= 2;
 
   // Turnover Q8
   score += getMonthlyTurnoverScore();
 
   // Existing finance Q9
-  if (state.existingFinance === 'none') score += 1;
+  if (state.existingFinance === 'none')       score += 1;
   else if (state.existingFinance === 'multiple') score -= 1;
-  else if (state.existingFinance === 'refinance') score -= 1;
+  // one facility → 0, refinance → 0
 
   state.trafficLightScore = score;
 
   if (score >= 5) {
     state.trafficLightRating = 'green';
-    return {
-      score, rating: 'green',
-      emoji: '🟢',
-      message: "The signs are promising — there are likely several lenders who would want to help. Nicole will review your details and speak with you about the best options available.",
-      badgeStyle: 'background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3)'
-    };
+    return { score, rating: 'green', emailFlag: 'Strong application' };
   } else if (score >= 1) {
     state.trafficLightRating = 'amber';
-    return {
-      score, rating: 'amber',
-      emoji: '🟡',
-      message: "There's a good chance of success with the right lender and approach. Nicole will review your details and work out the best route for you.",
-      badgeStyle: 'background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3)'
-    };
-  } else {
+    return { score, rating: 'amber', emailFlag: 'Good potential — some considerations' };
+  } else if (score >= -1) {
     state.trafficLightRating = 'red';
-    return {
-      score, rating: 'red',
-      emoji: '🟠',
-      message: "It would face some challenges — but this is far from the end of the story. Nicole has seen tougher cases approved and will review your details to find the best possible route forward.",
-      badgeStyle: 'background:rgba(217,79,0,0.15);border:1px solid rgba(217,79,0,0.4)'
-    };
+    return { score, rating: 'red', emailFlag: 'Weak application — barriers present' };
+  } else {
+    state.trafficLightRating = 'very-red';
+    return { score, rating: 'very-red', emailFlag: 'Very weak application — significant barriers to lending' };
   }
 }
 
@@ -2219,6 +2225,7 @@ async function submitApplication() {
 
   try {
     const tl = calculateTrafficLight();
+    state._tlEmailFlag = tl.emailFlag || '';
 
     // Build summary before loading screen
     let summaryResult = null;
@@ -2262,24 +2269,30 @@ function setLoanStrength(score, businessName) {
   if (!fill || !marker || !label || !text) return;
   const name = businessName || 'your business';
   let pct, labelText, bodyText, color, labelColor;
-  if (score <= 0) {
-    pct = 15;
-    labelText = 'Needs work — but don\'t give up';
-    bodyText = 'If ' + name + ' applied for a loan right now, it would face some challenges — but this is far from the end of the story. Nicole has seen tougher cases approved and will review your details to find the best possible route forward.';
-    color = '#E24B4A';
-    labelColor = '#E24B4A';
-  } else if (score <= 4) {
-    pct = 42;
-    labelText = 'Good potential';
-    bodyText = 'If ' + name + ' applied for a loan right now, there\'s a good chance of success with the right lender and approach. Nicole will review your details and work out the best approach for you.';
-    color = 'linear-gradient(90deg, #E24B4A, #EF9F27)';
-    labelColor = '#EF9F27';
-  } else {
+  if (score >= 5) {
     pct = 85;
     labelText = 'Strong position';
     bodyText = 'If ' + name + ' applied for a loan right now, the signs are very promising — there are likely several lenders who would want to help. Nicole will review your details and speak with you about the best options available.';
     color = 'linear-gradient(90deg, #E24B4A, #EF9F27, #1D9E75)';
     labelColor = '#1D9E75';
+  } else if (score >= 1) {
+    pct = 55;
+    labelText = 'Good potential';
+    bodyText = 'If ' + name + ' applied for a loan right now, there\'s a good chance of success with the right lender and approach. Nicole will review your details and speak with you about the best options available.';
+    color = 'linear-gradient(90deg, #E24B4A, #EF9F27)';
+    labelColor = '#EF9F27';
+  } else if (score >= -1) {
+    pct = 25;
+    labelText = 'Needs work — but don\'t give up';
+    bodyText = 'If ' + name + ' applied for a loan right now, it would face some challenges — but this is far from the end of the story. Nicole has seen tougher cases approved and will review your details to find the best possible route forward.';
+    color = '#E24B4A';
+    labelColor = '#E24B4A';
+  } else {
+    pct = 15;
+    labelText = 'Needs work — but don\'t give up';
+    bodyText = 'If ' + name + ' applied for a loan right now, it would face some challenges — but this is far from the end of the story. Nicole has seen tougher cases approved and will review your details to find the best possible route forward.';
+    color = '#E24B4A';
+    labelColor = '#E24B4A';
   }
   fill.style.width = pct + '%';
   fill.style.background = color;
@@ -2313,8 +2326,9 @@ function displayResults(summaryResult, tl) {
     const lowerStr = formatGBP(lending.lower);
     const upperStr = lending.upper >= 2000000 ? '£2,000,000+' : formatGBP(lending.upper);
     if (rangeEl) rangeEl.textContent = `${lowerStr} – ${upperStr}`;
-    let note = 'This is an indicative guide only and is not a guarantee of funding. Actual lending will depend on full assessment by the lender, verification of your details, and prevailing market conditions. Nicole will speak with you about what\'s realistic for your specific situation.';
-    if (lending.specialist) note += ' This range assumes a specialist lender — Nicole will discuss what\'s realistic for your situation.';
+    let note = 'This is an indicative guide only and is not a guarantee of funding. Actual lending will depend on full assessment by the lender, verification of your details, and prevailing market conditions.';
+    if (lending.caveat) note += ' This range reflects the current credit profile — Nicole will discuss what\'s realistic for your specific situation.';
+    else note += ' Nicole will speak with you about what\'s realistic for your specific situation.';
     if (noteEl) noteEl.textContent = note;
     if (lendingSection) lendingSection.style.display = 'block';
   }
@@ -2373,6 +2387,7 @@ Q12 — Documents: ${docs}
 
 TRAFFIC LIGHT
 Score: ${state.trafficLightScore} — ${state.trafficLightRating.toUpperCase()}
+Assessment: ${state._tlEmailFlag || ''}
 
 SUMMARY
 ${summaryText || 'N/A'}
@@ -2381,7 +2396,7 @@ Marketing Consent: ${state.marketingConsent ? 'Yes' : 'No'}`;
 
   const templateParams = {
     to_email: 'nicole@fiskal.co.uk',
-    subject: `${isNewStartFlag ? '⚠️ NEW START — ' : ''}Fiskal Discovery — Loan Enquiry: ${state.business}`,
+    subject: `${isNewStartFlag ? '⚠️ NEW START — ' : ''}Fiskal Discovery — Loan Enquiry: ${state.business} [${state._tlEmailFlag || state.trafficLightRating}]`,
     from_name: state.name,
     business_name: state.business,
     message: body
