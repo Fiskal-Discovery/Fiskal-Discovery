@@ -2595,9 +2595,9 @@ const state = {
 // NAVIGATION
 // ============================================================
 function showScreen(id) {
-  // Always clear the thinking overlay so it never blocks the target screen
-  var thinking = document.getElementById('discovery-thinking-screen');
-  if (thinking) { thinking.classList.remove('active'); thinking.style.display = 'none'; }
+  // Always clear the loading overlay so it never blocks the target screen
+  var loading = document.getElementById('fiskal-loading-screen');
+  if (loading) loading.remove();
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   var el = document.getElementById(id);
   if (el) { el.classList.add('active'); window.scrollTo(0,0); }
