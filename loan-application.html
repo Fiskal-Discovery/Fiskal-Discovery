@@ -884,7 +884,12 @@
       <button class="answer-btn" onclick="toggleLoanType('secured', this)">Secured business loan</button>
       <button class="answer-btn" onclick="toggleLoanType('bridging', this)">Bridging finance</button>
       <button class="answer-btn" onclick="toggleLoanType('mca', this)">Merchant cash advance</button>
+      <button class="answer-btn" onclick="toggleLoanType('commercial-mortgage', this)">Commercial mortgage</button>
       <button class="answer-btn" onclick="toggleLoanType('not-sure', this)">I'm not sure — help me decide</button>
+      <div id="q1-other-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;grid-column:1/-1" onclick="toggleLoanTypeOther()">
+        <span id="q1-other-label">Other</span>
+        <input type="text" id="loan-type-other-input" placeholder="Tell us what type of funding you have in mind" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ1Continue()" onclick="event.stopPropagation()">
+      </div>
     </div>
     <button class="btn-primary" id="q1-continue" onclick="saveLoanTypes()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
@@ -1742,10 +1747,41 @@ function toggleLoanType(value, btn) {
     btn.classList.remove('selected');
   }
   state.loanType = state.loanTypes.join(', ');
-  document.getElementById('q1-continue').style.display = state.loanTypes.length > 0 ? 'block' : 'none';
+  updateQ1Continue();
+}
+
+function toggleLoanTypeOther() {
+  const slot = document.getElementById('q1-other-slot');
+  const input = document.getElementById('loan-type-other-input');
+  const label = document.getElementById('q1-other-label');
+  if (input.style.display === 'none') {
+    slot.classList.add('selected');
+    input.style.display = 'block';
+    label.textContent = 'Other — please specify:';
+    setTimeout(() => input.focus(), 50);
+  } else {
+    slot.classList.remove('selected');
+    input.style.display = 'none';
+    label.textContent = 'Other';
+    input.value = '';
+    state.loanTypes = state.loanTypes.filter(v => !v.startsWith('Other:'));
+    state.loanType = state.loanTypes.join(', ');
+    updateQ1Continue();
+  }
+}
+
+function updateQ1Continue() {
+  const otherVal = document.getElementById('loan-type-other-input').value.trim();
+  const hasSelection = state.loanTypes.length > 0 || otherVal.length > 0;
+  document.getElementById('q1-continue').style.display = hasSelection ? 'block' : 'none';
 }
 
 function saveLoanTypes() {
+  const otherVal = document.getElementById('loan-type-other-input').value.trim();
+  if (otherVal && !state.loanTypes.some(v => v.startsWith('Other:'))) {
+    state.loanTypes.push('Other: ' + otherVal);
+    state.loanType = state.loanTypes.join(', ');
+  }
   showScreen('screen-q2');
 }
 
