@@ -1890,34 +1890,6 @@ function selectSecurity(value, btn) {
   setTimeout(() => showScreen('screen-q6'), 280);
 }
 
-function toggleSecurityNote() {
-  state.security = 'not-sure';
-  document.querySelectorAll('#q5-opts .answer-btn').forEach(b => b.classList.remove('selected'));
-  const slot = document.getElementById('q5-notsure-slot');
-  slot.classList.add('selected');
-  slot.style.gridColumn = '1 / -1';
-  document.getElementById('q5-notsure-label').style.display = 'none';
-  const input = document.getElementById('security-note');
-  if (state.homeowner === 'yes') {
-    input.placeholder = 'You indicated you own property — this could be valuable security. Tell us more about any assets your business has and Nicole will help work out what might be useable.';
-  }
-  input.style.display = 'block';
-  input.focus();
-  updateQ5Continue();
-}
-
-function updateQ5Continue() {
-  const val = document.getElementById('security-note').value.trim();
-  document.getElementById('q5-continue').style.display = val.length > 0 ? 'block' : 'none';
-}
-
-function saveSecurity() {
-  if (state.security === 'not-sure') {
-    state.securityNote = document.getElementById('security-note').value.trim();
-  }
-  showScreen('screen-q6');
-}
-
 // ============================================================
 // Q6 — Credit
 // ============================================================
@@ -1994,7 +1966,6 @@ function selectExistingFinance(value, btn) {
   }
 }
 
-function updateQ9Continue() {}
 
 function saveExistingFinance() {
   state.existingFinanceNote = [
