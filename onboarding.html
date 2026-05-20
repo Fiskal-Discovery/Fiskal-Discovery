@@ -2688,7 +2688,6 @@ function renderWelcomeQuestion() {
       renderWelcomeQuestion();
     };
     inp.addEventListener('keypress', e => { if (e.key === 'Enter') continueBtn2.click(); });
-    wrap2.appendChild(continueBtn2);
 
     if (q.allowNewStart) {
       const newStartBtn = document.createElement('button');
@@ -2715,6 +2714,8 @@ function renderWelcomeQuestion() {
       };
       wrap2.appendChild(notSureBtn);
     }
+
+    wrap2.appendChild(continueBtn2);
 
     wrap.appendChild(wrap2);
 
