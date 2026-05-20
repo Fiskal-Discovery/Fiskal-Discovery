@@ -60,7 +60,11 @@ function showFiskalLoadingScreen(firstName, onComplete) {
     if(msgIndex<messages.length) showMessage(msgIndex);
     if(msgIndex>=messages.length-1){
       clearInterval(msgInterval);
-      setTimeout(()=>{overlay.style.opacity='0';setTimeout(()=>{cancelAnimationFrame(animFrame);overlay.remove();if(onComplete)onComplete();},800);},1000);
+      setTimeout(()=>{
+        if(onComplete)onComplete();
+        overlay.style.opacity='0';
+        setTimeout(()=>{cancelAnimationFrame(animFrame);overlay.remove();},800);
+      },2500);
     }
   },3000);
 }

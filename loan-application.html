@@ -1219,6 +1219,7 @@
 </div>
 
 <!-- Q11: Additional Notes -->
+<!-- Q11: Documents -->
 <div class="screen" id="screen-q11">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
@@ -1226,33 +1227,6 @@
     <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:92%"></div></div><div class="progress-label"></div></div>
-  <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
-    <h2 class="question-text">Is there anything else you'd like us to know?</h2>
-    <p class="question-sub" style="color:#D94F00">Nothing is too big or too small — Nicole reads every word personally.</p>
-    <div class="form-group">
-      <textarea class="form-textarea" id="additional-notes" placeholder="Tell us anything that might help — the more context the better" style="height:120px"></textarea>
-    </div>
-    <button class="btn-primary" onclick="saveAdditionalNotes()">Continue</button>
-  </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q10')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
-  </div>
-</div>
-
-<!-- Q12: Documents -->
-<div class="screen" id="screen-q12">
-  <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
-  </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div><div class="progress-label"></div></div>
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Would you like to upload any supporting documents?</h2>
@@ -1275,12 +1249,40 @@
       <input type="file" id="loan-file-input" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleLoanFileUpload(this)">
       <button class="btn-secondary" id="q12-done-btn" onclick="revealSubmitBtn()" style="display:none;margin-top:12px;width:100%">I'm done uploading</button>
     </div>
-    <button class="btn-primary" id="loan-submit-btn" onclick="submitApplication()" style="display:none;margin-top:20px;width:100%">Submit My Discovery</button>
+    <button class="btn-primary" id="q11-next-btn" onclick="showScreen('screen-q12')" style="display:none;margin-top:20px;width:100%">Continue</button>
+  </div>
+  <div class="screen-footer">
+    <div class="nav-row">
+      <button class="back-btn" onclick="showScreen('screen-q10')">‹ Back</button>
+      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+  </div>
+</div>
+
+<!-- Q12: Additional notes -->
+<div class="screen" id="screen-q12">
+  <header class="ob-fixed-header">
+    <div class="ob-header-spacer"></div>
+    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
+    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+  </header>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div><div class="progress-label"></div></div>
+  <div class="screen-content">
+    <div class="question-product">LOAN ENQUIRY</div>
+    <h2 class="question-text">Is there anything else you'd like us to know?</h2>
+    <p class="question-sub" style="color:#D94F00">Nothing is too big or too small — Nicole reads every word personally.</p>
+    <div class="form-group">
+      <textarea class="form-textarea" id="additional-notes" placeholder="Tell us anything that might help — the more context the better" style="height:120px"></textarea>
+    </div>
+    <button class="btn-primary" id="loan-submit-btn" onclick="saveAdditionalNotes()">Submit My Discovery</button>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-q11')">‹ Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="dashed-divider">Fiskal Discovery</div>
   </div>
@@ -1581,6 +1583,7 @@ const LOAN_SKIP_MAP = {
   'screen-q9': 'screen-q10',
   'screen-q10': 'screen-q11',
   'screen-q11': 'screen-q12',
+  'screen-q12': null,
 };
 function skipCurrentScreen() {
   const active = document.querySelector('.screen.active');
@@ -1948,7 +1951,7 @@ function selectUrgency(value, btn) {
   state.urgency = value;
   document.querySelectorAll('#q10-opts .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  setTimeout(() => showScreen('screen-q11'), 280);
+  setTimeout(() => showScreen('screen-q11'), 280); // q11 is now documents
 }
 
 // ============================================================
@@ -1956,7 +1959,7 @@ function selectUrgency(value, btn) {
 // ============================================================
 function saveAdditionalNotes() {
   state.additionalNotes = document.getElementById('additional-notes').value.trim();
-  showScreen('screen-q12');
+  submitApplication();
 }
 
 // ============================================================
@@ -1970,7 +1973,7 @@ function selectUploadChoice(value, btn) {
     document.getElementById('q12-upload-area').style.display = 'block';
   } else {
     document.getElementById('q12-upload-area').style.display = 'none';
-    document.getElementById('loan-submit-btn').style.display = 'block';
+    document.getElementById('q11-next-btn').style.display = 'block';
   }
 }
 
@@ -1986,7 +1989,7 @@ function handleLoanFileUpload(input) {
 }
 
 function revealSubmitBtn() {
-  document.getElementById('loan-submit-btn').style.display = 'block';
+  document.getElementById('q11-next-btn').style.display = 'block';
 }
 
 // ============================================================
