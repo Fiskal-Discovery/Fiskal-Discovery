@@ -3074,6 +3074,11 @@ function buildFacilityReviewSummary() {
 
   let paras = [];
 
+  // New start flag
+  if ((state.turnover || state.annualTurnover || '') === 'New start') {
+    paras.push(typeof getNewStartInsight === 'function' ? getNewStartInsight() : "As a new business, lenders will focus heavily on your business plan and projected turnover — Nicole will help you find the right options.");
+  }
+
   if (facilityType.includes('invoice')) {
     paras = _buildIFSummary(lender, turnover, industry, statementUploaded, firstName);
   } else if (facilityType.includes('overdraft')) {
@@ -4187,6 +4192,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 </style>
 
+<script src="logic/globalInsights.js"></script>
 <script src="shared-components.js"></script>
 <script src="logic/fiskalLoading.js"></script>
 

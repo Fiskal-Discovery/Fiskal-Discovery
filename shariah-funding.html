@@ -1150,12 +1150,14 @@ function submitDiscovery() {
   } catch (e) {}
 
   const shariahAnswers = {
-    purposes:     state.purposes,
-    otherPurpose: state.otherPurpose,
-    amount:       state.amount,
-    notSure:      state.notSure,
-    timeline:     state.timeline,
-    business:     savedBusiness
+    purposes:         state.purposes,
+    otherPurpose:     state.otherPurpose,
+    amount:           state.amount,
+    notSure:          state.notSure,
+    timeline:         state.timeline,
+    business:         savedBusiness,
+    annualTurnover:   profile.annualTurnover || '',
+    projectedTurnover: profile.projectedTurnover || ''
   };
 
   let result;
@@ -1328,7 +1330,7 @@ async function sendNotification() {
     consent_timestamp: state.marketingConsentTimestamp || 'N/A',
     consent_text: state.marketingConsentText || 'N/A',
     module: 'Shariah-Compliant Funding',
-    matched_products: `${(typeof appState !== 'undefined' && (appState.profile?.annualTurnover === 'New start')) ? '⚠️ NEW START | ' : ''}${purpose || 'Not provided'}`,
+    matched_products: `${(function(){ try { return JSON.parse(localStorage.getItem('fiskal_profile')||'{}').annualTurnover === 'New start'; } catch(e){ return false; } })() ? '⚠️ NEW START | ' : ''}${purpose || 'Not provided'}`,
     barriers: timeline,
     summary: summary
   };
