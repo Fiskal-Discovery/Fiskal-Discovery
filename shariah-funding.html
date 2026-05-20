@@ -1290,7 +1290,7 @@
 
   #screen-q1 .form-input:focus,
   #screen-q2 .form-input:focus,
-  #screen-q3 .form-input:focus
+  #screen-q3 .form-input:focus,
   #screen-q4 .form-input:focus, #screen-q5 .form-input:focus, #screen-q6 .form-input:focus,
   #screen-q7 .form-input:focus, #screen-q8 .form-input:focus, #screen-q9 .form-input:focus {
     border-color: #D94F00;
@@ -1298,7 +1298,7 @@
 
   #screen-q1 .form-input::placeholder,
   #screen-q2 .form-input::placeholder,
-  #screen-q3 .form-input::placeholder
+  #screen-q3 .form-input::placeholder,
   #screen-q4 .form-input::placeholder, #screen-q5 .form-input::placeholder, #screen-q6 .form-input::placeholder,
   #screen-q7 .form-input::placeholder, #screen-q8 .form-input::placeholder, #screen-q9 .form-input::placeholder {
     color: rgba(255,255,255,0.35);
@@ -1306,7 +1306,7 @@
 
   #screen-q1 .currency-input-wrapper::before,
   #screen-q2 .currency-input-wrapper::before,
-  #screen-q3 .currency-input-wrapper::before
+  #screen-q3 .currency-input-wrapper::before,
   #screen-q4 .currency-input-wrapper::before, #screen-q5 .currency-input-wrapper::before, #screen-q6 .currency-input-wrapper::before,
   #screen-q7 .currency-input-wrapper::before, #screen-q8 .currency-input-wrapper::before, #screen-q9 .currency-input-wrapper::before {
     color: rgba(255,255,255,0.5);
@@ -2576,10 +2576,10 @@ const fundingLinks = {
     if (current) current.removeEventListener('scroll', current._sbHandler);
     current = active;
     active._sbHandler = () => updateScrollbar(active);
-    active.addEventListener('scroll', active._sbHandler { passive: true });
+    active.addEventListener('scroll', active._sbHandler, { passive: true });
     updateScrollbar(active);
   }
-  new MutationObserver(attachToActive).observe(document.body { attributes: true, subtree: true, attributeFilter: ['class'] });
+  new MutationObserver(attachToActive).observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
   document.addEventListener('DOMContentLoaded', attachToActive);
 })();
 </script>
