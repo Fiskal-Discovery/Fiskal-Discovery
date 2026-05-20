@@ -2695,9 +2695,8 @@ function submitFlow() {
 
   state.barrier = 'no';
   state.barrierDetails = '';
-  showDiscoveryThinkingScreen(() => {
-    generateResults();
-  });
+  const _ffName1 = (state.name || '').trim().split(/\s+/)[0] || '';
+  showFiskalLoadingScreen(_ffName1, generateResults);
 }
 
 // ============================================================
@@ -2813,9 +2812,8 @@ function selectBarrier(value) {
 
 function submitBarriers() {
   state.barrierDetails = document.getElementById('barrier-details').value.trim();
-  showDiscoveryThinkingScreen(() => {
-    generateResults();
-  });
+  const _ffName2 = (state.name || '').trim().split(/\s+/)[0] || '';
+  showFiskalLoadingScreen(_ffName2, generateResults);
 }
 
 // ============================================================
@@ -2832,6 +2830,7 @@ async function generateResults() {
     business: state.business,
     industry: state.industry,
     turnover: state.turnover,
+    annualTurnover: state.turnover,
     fundingAmount: state.fundingAmount,
     fundingPurpose: fa.purpose || '',
     urgency: state.urgency,
@@ -3133,6 +3132,7 @@ async function sendInitialInfoNotification() {
 async function sendNotification(summary, matchedProducts) {
   const fa = state.flowAnswers || {};
   const flags = [];
+  if (state.turnover === 'New start') flags.push('🌱 NEW START — not yet trading');
   if (fa.creditConcern === 'Yes') flags.push('⚠️ Credit concerns — ' + (fa.creditConcernDetails || 'no details provided'));
   if (fa.badDebt === 'Yes') flags.push('⚠️ Has old unpaid invoices — potential debt recovery opportunity');
   if (fa.acquisition === 'Yes' || fa.acquisition === 'Not right now but it\'s on my radar') flags.push('⚠️ Considering acquisition or MBO');
@@ -3309,6 +3309,7 @@ if (fromOnboarding) {
 <script src="logic/fundingFinderInsights.js"></script>
 <script src="logic/productLinks.js"></script>
 <script src="logic/summaryBuilder.js"></script>
+<script src="logic/fiskalLoading.js"></script>
 <script src="shared-components.js"></script>
 <script>
 (function() {

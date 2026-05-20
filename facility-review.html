@@ -3365,7 +3365,8 @@ function submitOtherReview() {
   if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
     state.completedFacilityReviews.push(currentFacilityType);
   }
-  showDiscoveryThinkingScreen(function() {
+  const _frOther1 = (state.name || '').trim().split(/\s+/)[0] || '';
+  showFiskalLoadingScreen(_frOther1, function() {
     const summary = `Thank you for completing your Finance Arrangement Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what options might be available for ${state.business}.`;
     displayOtherResults(summary);
   });
@@ -3540,7 +3541,8 @@ async function submitAssetReview() {
   if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
     state.completedFacilityReviews.push(currentFacilityType);
   }
-  showDiscoveryThinkingScreen(async () => {
+  const _frAsset1 = (state.name || '').trim().split(/\s+/)[0] || '';
+  showFiskalLoadingScreen(_frAsset1, async () => {
     const summary = `Thank you for completing your Asset Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current asset finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
     document.getElementById('asset-results-name').textContent = `Here's what we found for you, ${state.name}`;
     document.getElementById('asset-ai-summary').innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
@@ -3578,7 +3580,8 @@ async function submitTradeReview() {
   if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
     state.completedFacilityReviews.push(currentFacilityType);
   }
-  showDiscoveryThinkingScreen(async () => {
+  const _frTrade1 = (state.name || '').trim().split(/\s+/)[0] || '';
+  showFiskalLoadingScreen(_frTrade1, async () => {
     const summary = `Thank you for completing your Trade Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current trade finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
     document.getElementById('trade-results-name').textContent = `Here's what we found for you, ${state.name}`;
     document.getElementById('trade-ai-summary').innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
@@ -3713,7 +3716,8 @@ function submitReview() {
     state.completedFacilityReviews.push(currentFacilityType);
   }
 
-  showDiscoveryThinkingScreen(function() { generateResults(); });
+  const _frIF1 = (state.name || '').trim().split(/\s+/)[0] || '';
+  showFiskalLoadingScreen(_frIF1, function() { generateResults(); });
 }
 
 function _fmtK(n) {
@@ -3756,6 +3760,10 @@ function buildFacilityReviewSummary() {
   const statementUploaded = state.files && state.files.length > 0;
 
   let paras = [];
+
+  if (typeof isNewStart === 'function' && isNewStart({ annualTurnover: state.turnover })) {
+    paras.push(typeof getNewStartInsight === 'function' ? getNewStartInsight() : "As a new business, your options may be more limited right now — but the right foundations today set you up for much more tomorrow.");
+  }
 
   if (facilityType.includes('invoice')) {
     paras = _buildIFSummary(lender, turnover, industry, statementUploaded, firstName);
@@ -4628,7 +4636,8 @@ async function submitLoanReview() {
   if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
     state.completedFacilityReviews.push(currentFacilityType);
   }
-  showDiscoveryThinkingScreen(async () => {
+  const _frLoan1 = (state.name || '').trim().split(/\s+/)[0] || '';
+  showFiskalLoadingScreen(_frLoan1, async () => {
     const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
     displayResults(summary);
   });
@@ -4696,7 +4705,8 @@ function submitFXReview() {
     state.completedFacilityReviews.push(currentFacilityType);
   }
 
-  showDiscoveryThinkingScreen(function() {
+  const _frFX1 = (state.name || '').trim().split(/\s+/)[0] || '';
+  showFiskalLoadingScreen(_frFX1, function() {
     const firstName = (state.name || '').split(' ')[0] || 'there';
     document.getElementById('fx-results-name').textContent = `Here's what we found for you, ${firstName}`;
     const summary = `Thank you for completing your FX Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current FX arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
@@ -4757,6 +4767,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="logic/globalInsights.js"></script>
+<script src="logic/fiskalLoading.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
 
 

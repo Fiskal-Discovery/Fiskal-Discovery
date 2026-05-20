@@ -2413,17 +2413,18 @@ const welcomeFlow = [
   },
   {
     id: "annualTurnover",
-    type: "choice",
+    type: "currency",
     question: "What is your annual turnover?",
-    options: [
-      { label: "Under £100k", value: "Under £100k" },
-      { label: "£100k – £250k", value: "£100k–£250k" },
-      { label: "£250k – £500k", value: "£250k–£500k" },
-      { label: "£500k – £1m", value: "£500k–£1m" },
-      { label: "£1m – £2m", value: "£1m–£2m" },
-      { label: "£2m+", value: "£2m+" }
-    ],
+    placeholder: "A rough estimate is absolutely fine",
+    allowNewStart: true,
     saveAs: "annualTurnover"
+  },
+  {
+    id: "projectedTurnover",
+    type: "currency",
+    question: "What is your projected turnover for the next 12 months?",
+    placeholder: "Again, a rough estimate is absolutely fine",
+    saveAs: "projectedTurnover"
   },
   {
     id: "fundingAmount",
@@ -2450,15 +2451,26 @@ let welcomeState = {
 
 function startWelcome() {
   clearModuleBadge();
-  // Check if profile already exists
-  if (appState.profile.name && appState.profile.email) {
+  // Check if profile already exists AND includes turnover (added later)
+  const p = appState.profile || {};
+  if (p.name && p.email && 'annualTurnover' in p) {
     showHomepage();
     return;
   }
 
+  // Pre-fill existing answers if profile is partially complete, then resume from turnover
+  const startIdx = (p.name && p.email && !('annualTurnover' in p)) ? 4 : 0;
   welcomeState = {
-    currentQuestion: 0,
-    answers: {}
+    currentQuestion: startIdx,
+    answers: p.name ? {
+      userType: p.userType || '',
+      name: p.name || '',
+      email: p.email || '',
+      phone: p.phone || '',
+      companyName: p.companyName || '',
+      companyNumber: p.companyNumber || '',
+      industry: p.industry || ''
+    } : {}
   };
 
   document.getElementById('onboarding-overlay').classList.remove('hidden');
@@ -2642,6 +2654,66 @@ function renderWelcomeQuestion() {
       grid.appendChild(btn);
     });
     wrap.appendChild(grid);
+
+  } else if (q.type === 'currency') {
+    const wrap2 = document.createElement('div');
+    wrap2.style.cssText = 'display:flex;flex-direction:column;gap:12px;width:100%;';
+
+    const inputRow = document.createElement('div');
+    inputRow.style.cssText = 'display:flex;align-items:center;border:1px solid rgba(42,4,64,0.15);border-radius:10px;background:#fff;overflow:hidden;';
+    const prefix = document.createElement('span');
+    prefix.textContent = '£';
+    prefix.style.cssText = 'padding:0 14px;font-size:18px;font-weight:700;color:#1a0533;font-family:"DM Sans",sans-serif;flex-shrink:0;';
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.placeholder = q.placeholder || 'Enter amount';
+    inp.style.cssText = 'flex:1;padding:14px 16px 14px 0;border:none;font-size:16px;background:transparent;color:#1a0533;font-family:"DM Sans",sans-serif;outline:none;';
+    inp.addEventListener('focus', () => { inputRow.style.borderColor = '#D94F00'; inputRow.style.boxShadow = '0 0 0 3px rgba(217,79,0,0.1)'; });
+    inp.addEventListener('blur', () => { inputRow.style.borderColor = 'rgba(42,4,64,0.15)'; inputRow.style.boxShadow = 'none'; });
+    inputRow.appendChild(prefix);
+    inputRow.appendChild(inp);
+    wrap2.appendChild(inputRow);
+
+    const continueBtn2 = document.createElement('button');
+    continueBtn2.textContent = 'Continue →';
+    continueBtn2.style.cssText = 'background:#D94F00;color:#fff;border:none;border-radius:999px;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:Raleway,sans-serif;box-shadow:0 4px 20px rgba(217,79,0,0.3);transition:all 0.2s;width:100%;';
+    continueBtn2.onmouseover = () => { continueBtn2.style.transform = 'translateY(-1px)'; continueBtn2.style.boxShadow = '0 6px 28px rgba(217,79,0,0.5)'; };
+    continueBtn2.onmouseout = () => { continueBtn2.style.transform = ''; continueBtn2.style.boxShadow = '0 4px 20px rgba(217,79,0,0.3)'; };
+    continueBtn2.onclick = () => {
+      const val = inp.value.trim();
+      if (!val) { inputRow.style.borderColor = '#D94F00'; inp.focus(); return; }
+      welcomeState.answers[q.saveAs] = '£' + val.replace(/^£/, '');
+      welcomeState.currentQuestion++;
+      renderWelcomeQuestion();
+    };
+    inp.addEventListener('keypress', e => { if (e.key === 'Enter') continueBtn2.click(); });
+    wrap2.appendChild(continueBtn2);
+
+    if (q.allowNewStart) {
+      const newStartBtn = document.createElement('button');
+      newStartBtn.innerHTML = '🌱 New start — not trading yet';
+      newStartBtn.style.cssText = 'background:none;border:1px solid rgba(255,255,255,0.2);border-radius:999px;padding:10px 24px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);cursor:pointer;font-family:"DM Sans",sans-serif;transition:all 0.2s;width:100%;';
+      newStartBtn.onmouseover = () => { newStartBtn.style.borderColor = 'rgba(255,255,255,0.5)'; newStartBtn.style.color = '#fff'; };
+      newStartBtn.onmouseout = () => { newStartBtn.style.borderColor = 'rgba(255,255,255,0.2)'; newStartBtn.style.color = 'rgba(255,255,255,0.7)'; };
+      newStartBtn.onclick = () => {
+        welcomeState.answers[q.saveAs] = 'New start';
+        welcomeState.currentQuestion++;
+        renderWelcomeQuestion();
+      };
+      wrap2.appendChild(newStartBtn);
+    }
+
+    const notSureBtn = document.createElement('button');
+    notSureBtn.textContent = "I'm not sure yet";
+    notSureBtn.style.cssText = 'background:none;border:none;color:rgba(255,255,255,0.45);font-size:12px;cursor:pointer;font-family:"DM Sans",sans-serif;padding:4px 0;text-decoration:underline;';
+    notSureBtn.onclick = () => {
+      welcomeState.answers[q.saveAs] = 'Not sure';
+      welcomeState.currentQuestion++;
+      renderWelcomeQuestion();
+    };
+    wrap2.appendChild(notSureBtn);
+
+    wrap.appendChild(wrap2);
 
   } else if (q.type === 'form') {
     const form = document.createElement('div');

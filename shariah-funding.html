@@ -1327,6 +1327,7 @@
 <script src="logic/globalInsights.js"></script>
 <script src="logic/shariahInsights.js"></script>
 <script src="logic/summaryBuilder.js"></script>
+<script src="logic/fiskalLoading.js"></script>
 <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
 <script>if (typeof emailjs !== "undefined") { emailjs.init("g710KFSryN241SQWm"); } else { console.warn("EmailJS not loaded — init skipped"); }</script>
 </head>
@@ -2159,7 +2160,10 @@ function saveDiscovery(module, icon, summaryHtml, business) {
 }
 
 function submitDiscovery() {
-  showShariahThinkingScreen(function() {
+  var _spProfile = {};
+  try { _spProfile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}'); } catch(e) {}
+  var _spFirst = (_spProfile.name || '').trim().split(/\s+/)[0] || '';
+  showFiskalLoadingScreen(_spFirst, function() {
     displayResults();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
@@ -2210,7 +2214,9 @@ function displayResults() {
     businessLoan:     state.businessLoan,
     loanNote:         state.loanNote,
     matchedProducts:  matchedProducts,
-    business:         savedBusiness
+    business:         savedBusiness,
+    annualTurnover:   profile.annualTurnover || '',
+    projectedTurnover: profile.projectedTurnover || ''
   };
 
   let summary;
@@ -2422,6 +2428,9 @@ function getStoredContactDetails() {
 async function sendNotification() {
   const contact = getStoredContactDetails();
   const matchedProducts = getShariahMatchedProducts();
+  let _snProfile = {};
+  try { _snProfile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}'); } catch(e) {}
+  const isNewStartShariah = (_snProfile.annualTurnover || '') === 'New start';
 
   const complianceLabel = {
     'certified':      'Must be fully certified Shariah-compliant',
@@ -2447,7 +2456,7 @@ async function sendNotification() {
   const isHighValue = !state.notSure && parseFloat((state.amount || '').replace(/[^0-9.]/g, '')) >= 500000;
 
   const lines = [
-    'SHARIAH-COMPLIANT FUNDING DISCOVERY',
+    (isNewStartShariah ? '🌱 NEW START — ' : '') + 'SHARIAH-COMPLIANT FUNDING DISCOVERY',
     '',
     'CLIENT: ' + contact.name + ' | ' + contact.business,
     'EMAIL: ' + contact.email + ' | PHONE: ' + contact.phone,

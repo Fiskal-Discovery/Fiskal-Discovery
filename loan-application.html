@@ -2167,14 +2167,10 @@ async function submitApplication() {
   const btn = document.getElementById('loan-submit-btn');
   if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
 
-  // Show loading screen first and let browser paint it
-  showScreen('screen-loading');
-  await new Promise(r => setTimeout(r, 50));
-
   try {
     const tl = calculateTrafficLight();
 
-    // Build summary during loading delay
+    // Build summary before loading screen
     let summaryResult = null;
     try {
       summaryResult = buildDiscoverySummary('loan-application', {
@@ -2190,16 +2186,18 @@ async function submitApplication() {
       });
     } catch(e) { console.warn('Summary build failed:', e); }
 
-    // Minimum loading time
-    await new Promise(r => setTimeout(r, 3000));
+    // Start notification in parallel with loading screen
+    const notifPromise = sendNotification(summaryResult ? summaryResult.summaryText || '' : '');
 
-    await sendNotification(summaryResult ? summaryResult.summaryText || '' : '');
-    displayResults(summaryResult, tl);
-    showScreen('screen-results');
+    const firstName = (state.name || '').trim().split(/\s+/)[0] || '';
+    showFiskalLoadingScreen(firstName, async () => {
+      await notifPromise.catch(() => {});
+      displayResults(summaryResult, tl);
+      showScreen('screen-results');
+    });
   } catch(e) {
     console.error('Submit failed:', e);
     if (btn) { btn.disabled = false; btn.textContent = 'Submit My Discovery'; }
-    showScreen('screen-q12');
   }
 }
 
@@ -2268,7 +2266,8 @@ async function sendNotification(summaryText) {
     ? state.loanFiles.map(f => f.name).join(', ')
     : 'None uploaded';
 
-  const body = `New Loan Enquiry — ${state.business}
+  const isNewStartFlag = state.turnover === 'New start';
+  const body = `${isNewStartFlag ? '⚠️ NEW START — ' : ''}New Loan Enquiry — ${state.business}
 
 APPLICANT
 Name: ${state.name}
@@ -2306,7 +2305,7 @@ Marketing Consent: ${state.marketingConsent ? 'Yes' : 'No'}`;
 
   const templateParams = {
     to_email: 'nicole@fiskal.co.uk',
-    subject: `Fiskal Discovery — Loan Enquiry: ${state.business}`,
+    subject: `${isNewStartFlag ? '⚠️ NEW START — ' : ''}Fiskal Discovery — Loan Enquiry: ${state.business}`,
     from_name: state.name,
     business_name: state.business,
     message: body
@@ -2408,6 +2407,7 @@ async function sendClientSummaryEmail(summary) {
       if (p.marketingConsentTimestamp) state.marketingConsentTimestamp = p.marketingConsentTimestamp;
       if (p.turnoverLast) state.turnover = p.turnoverLast;
       if (p.annualTurnover) state.turnover = state.turnover || p.annualTurnover;
+      if (p.projectedTurnover) state.turnoverNext = state.turnoverNext || p.projectedTurnover;
       if (p.turnoverNext) state.turnoverNext = p.turnoverNext;
       if (p.propertyOwners) state.propertyOwners = p.propertyOwners;
     }
@@ -2438,6 +2438,7 @@ async function sendClientSummaryEmail(summary) {
 <script src="logic/globalInsights.js"></script>
 <script src="logic/loanApplicationInsights.js"></script>
 <script src="logic/summaryBuilder.js"></script>
+<script src="logic/fiskalLoading.js"></script>
 
 <script>emailjs.init("g710KFSryN241SQWm");</script>
 <!-- DISCOVERY THINKING SCREEN -->

@@ -63,6 +63,9 @@ function buildFundingFinderSummary(answers) {
 
   const blocks = [];
 
+  // New start acknowledgement
+  if (isNewStart(answers)) blocks.push(getNewStartInsight());
+
   // Opening — personalised by sector, urgency and purpose
   const sectorNote = getSectorNote(business, industry);
   const urgencyNote = urgency === 'Immediately' || urgency === 'Within 1 month'
@@ -121,6 +124,9 @@ function buildLoanApplicationSummary(answers) {
 
   const blocks = [];
 
+  // New start acknowledgement
+  if (isNewStart(answers)) blocks.push(getNewStartInsight());
+
   // Paragraph 1 — positive opening
   blocks.push(`Great news — based on what you've shared, there are still funding options worth exploring for ${business}. The key is finding the right structure for what the funding needs to achieve, rather than treating this as a generic loan enquiry.`);
 
@@ -165,6 +171,9 @@ function buildFacilityReviewSummary(answers, reviewType) {
   const business = answers.business || 'the business';
 
   const blocks = [];
+
+  // New start acknowledgement
+  if (isNewStart(answers)) blocks.push(getNewStartInsight());
 
   // Opening
   let providerName = '';
@@ -219,6 +228,9 @@ function buildShariahSummary(answers) {
   const business  = answers.business || '';
 
   const blocks = [];
+
+  // New start acknowledgement
+  if (isNewStart(answers)) blocks.push(getNewStartInsight());
 
   // Paragraph 1 — opening sentence with purposes mentioned naturally
   blocks.push(getShariahOpeningInsight(business, purposes, otherPurpose));

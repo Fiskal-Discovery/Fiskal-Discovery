@@ -22,6 +22,28 @@ function hasCreditConcern(answers) {
   return creditKeywords.some(kw => textFields.includes(kw));
 }
 
+// Returns true if the user indicated they are a new start business.
+function isNewStart(answers) {
+  return (answers.annualTurnover || answers.turnover || '') === 'New start';
+}
+
+// Returns a varied new-start acknowledgement phrase (never the same one twice in a session).
+const _newStartPhrases = [
+  "As a new business, your options may be more limited right now — but the right foundations today set you up for much more tomorrow.",
+  "Starting out is the hardest part — but there are lenders who specifically back new businesses with the right proposition.",
+  "As a new start, lenders will focus heavily on your projected turnover and business plan — Nicole will help you put your best foot forward.",
+  "New businesses face more scrutiny from lenders, but that doesn't mean doors are closed — it just means finding the right ones.",
+  "Every established business was once a new start — Nicole will work with you to find the options available at this stage of your journey.",
+  "Being new to trading actually opens some doors that aren't available to established businesses — Nicole will explore all the options with you."
+];
+let _lastNewStartIdx = -1;
+function getNewStartInsight() {
+  let idx;
+  do { idx = Math.floor(Math.random() * _newStartPhrases.length); } while (idx === _lastNewStartIdx && _newStartPhrases.length > 1);
+  _lastNewStartIdx = idx;
+  return _newStartPhrases[idx];
+}
+
 function getCreditConcernInsight() {
   return `You've mentioned that there may be some credit concerns, CCJs, defaults or other issues that could affect an application. It is important to be realistic — some lenders may be cautious, and not every lender will be the right fit.
 
