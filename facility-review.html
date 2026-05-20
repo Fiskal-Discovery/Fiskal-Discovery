@@ -1219,7 +1219,7 @@
     <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
       <div class="form-group" style="margin-bottom:0">
         <label class="form-label" style="font-size:12px">Funding limit</label>
-        <input type="text" class="form-input" id="if-limit" placeholder="e.g. £250,000">
+        <input type="text" class="form-input" id="if-limit" placeholder="e.g. £250,000" oninput="formatCurrencyInput(this)">
       </div>
       <div class="form-group" style="margin-bottom:0">
         <label class="form-label" style="font-size:12px">Advance rate</label>
@@ -1284,7 +1284,7 @@
     <div id="monthly-cost-input" style="display:none;">
       <div class="form-group" style="margin-top:16px;">
         <label class="form-label">Approximate monthly cost</label>
-        <input type="text" class="form-input" id="if-monthly-cost" placeholder="e.g. £800/month">
+        <input type="text" class="form-input" id="if-monthly-cost" placeholder="e.g. £800/month" oninput="formatCurrencyInput(this)">
       </div>
       <button class="btn-primary" onclick="saveAndGo('if-monthly-cost', document.getElementById('if-monthly-cost').value, 'screen-if-priorities')">Continue →</button>
     </div>
@@ -1557,11 +1557,11 @@
     <p class="question-sub">Fill in what you know — leave blank anything you're not sure about.</p>
     <div class="form-group">
       <label class="form-label">Original loan amount</label>
-      <input type="text" class="form-input" id="loan-original" placeholder="e.g. £50,000">
+      <input type="text" class="form-input" id="loan-original" placeholder="e.g. £50,000" oninput="formatCurrencyInput(this)">
     </div>
     <div class="form-group">
       <label class="form-label">Amount still outstanding</label>
-      <input type="text" class="form-input" id="loan-outstanding" placeholder="e.g. £32,000">
+      <input type="text" class="form-input" id="loan-outstanding" placeholder="e.g. £32,000" oninput="formatCurrencyInput(this)">
     </div>
     <div class="form-group">
       <label class="form-label">Interest rate</label>
@@ -1577,7 +1577,7 @@
     </div>
     <div class="form-group">
       <label class="form-label">Monthly repayment</label>
-      <input type="text" class="form-input" id="loan-repayment" placeholder="e.g. £950/month">
+      <input type="text" class="form-input" id="loan-repayment" placeholder="e.g. £950/month" oninput="formatCurrencyInput(this)">
     </div>
     <div class="form-group">
       <label class="form-label">Term remaining</label>
@@ -1625,11 +1625,11 @@
     <p class="question-sub">Don't worry if you can't fill everything in.</p>
     <div class="form-group">
       <label class="form-label">Original loan amount</label>
-      <input type="text" class="form-input" id="loan-original-b" placeholder="e.g. £50,000">
+      <input type="text" class="form-input" id="loan-original-b" placeholder="e.g. £50,000" oninput="formatCurrencyInput(this)">
     </div>
     <div class="form-group">
       <label class="form-label">Amount still outstanding</label>
-      <input type="text" class="form-input" id="loan-outstanding-b" placeholder="e.g. £32,000">
+      <input type="text" class="form-input" id="loan-outstanding-b" placeholder="e.g. £32,000" oninput="formatCurrencyInput(this)">
     </div>
     <div class="form-group">
       <label class="form-label">Approximate monthly cost</label>
@@ -1638,7 +1638,7 @@
         <button class="answer-btn" onclick="selectOption('loanMonthlyKnown', 'no', this, 'loan-monthly-known-options', null); document.getElementById('loan-monthly-b-input').style.display='none'">No idea</button>
       </div>
       <div id="loan-monthly-b-input" style="display:none;margin-top:10px;">
-        <input type="text" class="form-input" id="loan-monthly-b" placeholder="e.g. £800/month">
+        <input type="text" class="form-input" id="loan-monthly-b" placeholder="e.g. £800/month" oninput="formatCurrencyInput(this)">
       </div>
     </div>
     <button class="btn-primary" onclick="saveLoanPathB()">Continue →</button>
@@ -2245,7 +2245,7 @@
     <h2 class="question-text">How much is still outstanding on your current agreement?</h2>
     <div class="form-group">
       <label class="form-label">Outstanding amount (£)</label>
-      <input type="text" class="form-input" id="asset-outstanding" placeholder="e.g. £25,000">
+      <input type="text" class="form-input" id="asset-outstanding" placeholder="e.g. £25,000" oninput="formatCurrencyInput(this)">
     </div>
     <button class="btn-primary" onclick="saveAssetOutstanding()">Continue →</button>
   </div>
@@ -2280,7 +2280,7 @@
     <h2 class="question-text">What are your current monthly repayments?</h2>
     <div class="form-group">
       <label class="form-label">Monthly repayment (£)</label>
-      <input type="text" class="form-input" id="asset-repayments" placeholder="e.g. £850 per month">
+      <input type="text" class="form-input" id="asset-repayments" placeholder="e.g. £850 per month" oninput="formatCurrencyInput(this)">
     </div>
     <button class="btn-primary" onclick="saveAssetRepayments()">Continue →</button>
   </div>
@@ -2505,42 +2505,7 @@
   </div>
 </div>
 
-<!-- Trade Finance Q2: Facility Duration -->
-<div class="screen" id="screen-trade-duration">
-  <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
-  </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:28%"></div></div>
-    <div class="progress-label"></div>
-  </div>
-  <div class="screen-content">
-    <div class="question-product">Trade Finance Review</div>
-    <h2 class="question-text">How long have you had your facility?</h2>
-    <div class="form-group">
-      <label class="form-label">Duration (years/months)</label>
-      <input type="text" class="form-input" id="trade-duration" placeholder="e.g. 2 years, 6 months">
-    </div>
-    <button class="btn-primary" onclick="saveTradeDuration()">Continue →</button>
-  </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-trade-provider')">&lt; Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
-  </div>
-</div>
-
-<!-- Trade Finance Q3: Facility Limit -->
+<!-- Trade Finance Q2: Facility Limit -->
 <div class="screen" id="screen-trade-limit">
   <header class="ob-fixed-header">
     <div class="ob-header-spacer"></div>
@@ -2561,14 +2526,14 @@
     <h2 class="question-text">What is your current facility limit?</h2>
     <div class="form-group">
       <label class="form-label">Facility limit (£)</label>
-      <input type="text" class="form-input" id="trade-limit" placeholder="e.g. £100,000">
+      <input type="text" class="form-input" id="trade-limit" placeholder="e.g. £100,000" oninput="formatCurrencyInput(this)">
     </div>
     <button class="btn-primary" onclick="saveTradeLimit()">Continue →</button>
     <button class="btn-secondary" onclick="setTradeLimitNotSure()">I'm not sure</button>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-trade-duration')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-trade-provider')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -2773,7 +2738,7 @@
     <h2 class="question-text">How much is outstanding or available?</h2>
     <div class="form-group">
       <label class="form-label">Amount (£)</label>
-      <input type="text" class="form-input" id="other-amount" placeholder="e.g. £50,000">
+      <input type="text" class="form-input" id="other-amount" placeholder="e.g. £50,000" oninput="formatCurrencyInput(this)">
     </div>
     <button class="btn-primary" onclick="saveOtherAmount()">Continue →</button>
   </div>
@@ -3118,6 +3083,12 @@ function saveAppState() {
   }
 }
 
+function formatCurrencyInput(input) {
+  const raw = input.value.replace(/[^0-9]/g, '');
+  if (!raw) { input.value = ''; return; }
+  input.value = '£' + Number(raw).toLocaleString('en-GB');
+}
+
 // Load app state on page load
 loadAppState();
 
@@ -3271,8 +3242,7 @@ const FACILITY_SKIP_MAP = {
   'screen-asset-upgrade':     'screen-asset-barriers',
   'screen-asset-barriers':    'screen-asset-loading',
   // Trade sub-flow
-  'screen-trade-provider':    'screen-trade-duration',
-  'screen-trade-duration':    'screen-trade-limit',
+  'screen-trade-provider':    'screen-trade-limit',
   'screen-trade-limit':       'screen-trade-rates',
   'screen-trade-rates':       'screen-trade-reaching',
   'screen-trade-reaching':    'screen-trade-growth',
@@ -3454,15 +3424,6 @@ function saveTradeProvider() {
   state.tradeProvider = document.getElementById('trade-provider').value.trim();
   if (!state.tradeProvider) {
     alert('Please enter your trade finance provider');
-    return;
-  }
-  showScreen('screen-trade-duration');
-}
-
-function saveTradeDuration() {
-  state.tradeDuration = document.getElementById('trade-duration').value.trim();
-  if (!state.tradeDuration) {
-    alert('Please enter how long you have had your facility');
     return;
   }
   showScreen('screen-trade-limit');

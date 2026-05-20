@@ -1452,7 +1452,7 @@
     <div class="form-group">
       <label class="form-label">Funding amount (optional)</label>
       <div class="currency-input-wrapper">
-        <input type="text" inputmode="numeric" class="form-input" id="funding-amount" placeholder="Enter amount">
+        <input type="text" inputmode="numeric" class="form-input" id="funding-amount" placeholder="Enter amount" oninput="formatCurrencyInput(this)">
       </div>
     </div>
     <div class="answer-options">
@@ -1773,6 +1773,12 @@ function skipCurrentScreen() {
   if (!active) return;
   const next = SHARIAH_SKIP_MAP[active.id];
   if (next) showScreen(next);
+}
+
+function formatCurrencyInput(input) {
+  const raw = input.value.replace(/[^0-9]/g, '');
+  if (!raw) { input.value = ''; return; }
+  input.value = '£' + Number(raw).toLocaleString('en-GB');
 }
 
 function showScreen(id) {
