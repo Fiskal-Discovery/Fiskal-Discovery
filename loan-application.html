@@ -2526,7 +2526,7 @@ async function sendClientSummaryEmail(summary) {
     // Pre-fill state
     if (typeof state !== "undefined") {
       if (p.name) state.name = p.name;
-      if (p.businessName) state.business = p.businessName;
+      if (p.companyName || p.businessName) state.business = p.companyName || p.businessName;
       if (p.email) state.email = p.email;
       if (p.phone) state.phone = p.phone;
       if (p.companyNumber) state.companyNumber = p.companyNumber;
@@ -2545,7 +2545,7 @@ async function sendClientSummaryEmail(summary) {
     document.addEventListener("DOMContentLoaded", function() {
       const map = {
         "field-name": p.name,
-        "field-business": p.businessName,
+        "field-business": p.companyName || p.businessName,
         "field-email": p.email,
         "field-phone": p.phone,
         "field-company-number": p.companyNumber,
