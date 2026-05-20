@@ -1372,6 +1372,10 @@
         <p id="indicative-range" style="font-family:'Raleway',sans-serif;font-weight:700;font-size:22px;color:#ffffff;margin:0 0 10px;line-height:1.2"></p>
         <p id="indicative-note" style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.6;margin:0"></p>
       </div>
+      <div id="invoice-finance-suggestion" style="display:none;margin-top:20px;max-width:560px;margin-left:auto;margin-right:auto;background:rgba(217,79,0,0.08);border:1px solid rgba(217,79,0,0.25);border-radius:14px;padding:18px 20px;text-align:left">
+        <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#D94F00;margin:0 0 8px">Invoice Finance — Worth Considering</p>
+        <p id="invoice-finance-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
+      </div>
     </div>
     <div class="ai-summary">
       <div class="ai-summary-label" id="ai-summary-label">Here's what we discovered</div>
@@ -1581,6 +1585,8 @@ const state = {
   additionalNotes: '',
   uploadChoice: '',
   loanFiles: [],
+  // Profile extras
+  invoicesB2B: '', paymentTermsDays: '',
   // Computed
   trafficLightScore: 0, trafficLightRating: ''
 };
@@ -2333,6 +2339,20 @@ function displayResults(summaryResult, tl) {
     if (lendingSection) lendingSection.style.display = 'block';
   }
 
+  // Invoice finance suggestion (weak score + invoices B2B)
+  const ifSuggestion = document.getElementById('invoice-finance-suggestion');
+  const ifText = document.getElementById('invoice-finance-suggestion-text');
+  const tlScore = tl ? tl.score : 0;
+  if (ifSuggestion && ifText && state.invoicesB2B === 'yes' && tlScore <= 0) {
+    const ifAmt = (typeof calcInvoiceFinanceAmount === 'function')
+      ? calcInvoiceFinanceAmount(state.turnover, state.paymentTermsDays)
+      : 0;
+    const days = state.paymentTermsDays || '30';
+    const amtStr = ifAmt ? ` — based on your turnover and ${days}-day payment terms, you could potentially release around £${ifAmt.toLocaleString('en-GB')}` : '';
+    ifText.textContent = `If you don't already have an invoice finance facility in place, it could be worth considering as an alternative or alongside a loan${amtStr}. Invoice finance can also be easier to access than a traditional loan as it's secured against your own invoices rather than your credit history.`;
+    ifSuggestion.style.display = 'block';
+  }
+
   // Summary
   const summaryLabel = document.getElementById('ai-summary-label');
   const summaryText  = document.getElementById('ai-summary-text');
@@ -2384,6 +2404,10 @@ Q9 — Existing Finance: ${state.existingFinance || 'Skipped'}${state.existingFi
 Q10 — Urgency: ${state.urgency || 'Skipped'}
 Q11 — Additional Notes: ${state.additionalNotes || 'None'}
 Q12 — Documents: ${docs}
+
+INVOICE FINANCE
+Invoices B2B: ${state.invoicesB2B === 'yes' ? 'Yes' : state.invoicesB2B === 'no' ? 'No' : 'Not answered'}
+Payment Terms: ${state.invoicesB2B === 'yes' && state.paymentTermsDays ? state.paymentTermsDays + ' days' : 'N/A'}
 
 TRAFFIC LIGHT
 Score: ${state.trafficLightScore} — ${state.trafficLightRating.toUpperCase()}
@@ -2501,6 +2525,8 @@ async function sendClientSummaryEmail(summary) {
       if (p.projectedTurnover) state.turnoverNext = state.turnoverNext || p.projectedTurnover;
       if (p.turnoverNext) state.turnoverNext = p.turnoverNext;
       if (p.propertyOwners) state.propertyOwners = p.propertyOwners;
+      if (p.invoicesB2B) state.invoicesB2B = p.invoicesB2B;
+      if (p.paymentTermsDays) state.paymentTermsDays = p.paymentTermsDays;
     }
     // Pre-fill form fields on DOMContentLoaded
     document.addEventListener("DOMContentLoaded", function() {

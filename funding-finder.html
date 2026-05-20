@@ -2299,7 +2299,9 @@ const state = {
   flowAnswers: {},
   currentQuestion: 0,
   barrier: '',
-  barrierDetails: ''
+  barrierDetails: '',
+  invoicesB2B: appState.profile.invoicesB2B || '',
+  paymentTermsDays: appState.profile.paymentTermsDays || ''
 };
 
 // ============================================================
@@ -3035,9 +3037,19 @@ function displayResults(summary, matchedProducts) {
     }
   }
 
+  // Invoice finance B2B suggestion (if not already matched)
+  if (state.invoicesB2B === 'yes' && !matchedProducts.includes('invoice') && specialSection) {
+    const ifAmt = (typeof calcInvoiceFinanceAmount === 'function')
+      ? calcInvoiceFinanceAmount(state.turnover, state.paymentTermsDays)
+      : 0;
+    const days = state.paymentTermsDays || '30';
+    const amtStr = ifAmt ? ` Based on your turnover and payment terms, you could potentially release around <strong>£${ifAmt.toLocaleString('en-GB')}</strong>` : '';
+    specialSection.innerHTML += `<div class="special-message-card">If you don't already have an invoice finance facility in place, it could be worth considering.${amtStr} — turning invoices you've already raised into cash within 24 hours.</div>`;
+  }
+
   const list = document.getElementById('matched-products-list');
   list.innerHTML = '';
-  
+
   const fundingLinks = {
     "Invoice Finance": "https://www.fiskal.online/invoice-finance",
     "Asset Finance": "https://www.fiskal.online/funding-products#asset-finance",
@@ -3153,6 +3165,11 @@ async function sendNotification(summary, matchedProducts) {
   if (fa.creditConcern === 'Yes') flags.push('⚠️ Credit concerns — ' + (fa.creditConcernDetails || 'no details provided'));
   if (fa.badDebt === 'Yes') flags.push('⚠️ Has old unpaid invoices — potential debt recovery opportunity');
   if (fa.acquisition === 'Yes' || fa.acquisition === 'Not right now but it\'s on my radar') flags.push('⚠️ Considering acquisition or MBO');
+
+  const invoiceInfo = state.invoicesB2B === 'yes'
+    ? `Yes — ${state.paymentTermsDays || '30'}-day payment terms`
+    : state.invoicesB2B === 'no' ? 'No' : 'Not answered';
+  flags.push(`💳 Invoices B2B: ${invoiceInfo}`);
 
   const templateParams = {
     name: state.name,
@@ -3290,6 +3307,8 @@ async function loadNicolePhoto() {
       if (p.industry) state.industry = p.industry;
       if (p.annualTurnover) state.turnover = p.annualTurnover;
       if (p.fundingAmount) state.fundingAmount = p.fundingAmount;
+      if (p.invoicesB2B) state.invoicesB2B = p.invoicesB2B;
+      if (p.paymentTermsDays) state.paymentTermsDays = p.paymentTermsDays;
     }
     document.addEventListener("DOMContentLoaded", function() {
       var map = {

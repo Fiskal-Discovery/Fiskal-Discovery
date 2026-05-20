@@ -2429,6 +2429,31 @@ const welcomeFlow = [
     saveAs: "projectedTurnover"
   },
   {
+    id: "invoicesB2B",
+    type: "choice",
+    question: "Do you invoice other businesses for your products or services?",
+    options: [
+      { label: "Yes", value: "yes" },
+      { label: "No", value: "no", skipNext: 1 }
+    ],
+    saveAs: "invoicesB2B"
+  },
+  {
+    id: "paymentTerms",
+    type: "choice",
+    question: "What payment terms do you offer your customers?",
+    options: [
+      { label: "7 days or less", value: "7" },
+      { label: "14 days", value: "14" },
+      { label: "30 days", value: "30" },
+      { label: "60 days", value: "60" },
+      { label: "90 days", value: "90" },
+      { label: "90+ days", value: "90" },
+      { label: "I'm not sure", value: "30" }
+    ],
+    saveAs: "paymentTermsDays"
+  },
+  {
     id: "fundingAmount",
     type: "choice",
     question: "How much funding would make a real difference right now?",
@@ -2455,7 +2480,7 @@ function startWelcome() {
   clearModuleBadge();
   // Check if profile already exists AND includes turnover (added later)
   const p = appState.profile || {};
-  if (p.name && p.email && 'annualTurnover' in p) {
+  if (p.name && p.email && 'annualTurnover' in p && 'invoicesB2B' in p) {
     showHomepage();
     return;
   }
@@ -2566,7 +2591,7 @@ function renderWelcomeQuestion() {
     }
     welcomeState.answers[q.saveAs] = opt.value;
     if (q.id === 'userType') { appState.profile = appState.profile || {}; appState.profile.userType = opt.value; saveAppState(); }
-    welcomeState.currentQuestion++;
+    welcomeState.currentQuestion += (opt.skipNext ? opt.skipNext + 1 : 1);
     renderWelcomeQuestion();
   }
 

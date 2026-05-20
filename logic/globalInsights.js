@@ -75,7 +75,21 @@ function getNotSureAmountInsight() {
   return `As you're not yet sure how much funding may be required, that is completely fine. The first step is to understand what the funding needs to achieve, then work backwards to a sensible range.`;
 }
 
-// Utility: parse a money string or band like "£50,000", "50k", "£100k–£250k" into a number.
+// Calculates indicative invoice finance availability from turnover and payment terms.
+// Returns rounded figure (nearest £1,000), or 0 if data insufficient.
+function calcInvoiceFinanceAmount(annualTurnover, paymentTermsDays) {
+  const tv = parseMoneyString(String(annualTurnover || '')) || 0;
+  if (!tv) return 0;
+  const days = parseInt(paymentTermsDays) || 30;
+  const monthly = tv / 12;
+  const debtorBook = (monthly / 30) * days;
+  return Math.round(debtorBook * 0.85 / 1000) * 1000;
+}
+
+function formatIFAmount(n) {
+  if (!n) return null;
+  return '£' + n.toLocaleString('en-GB');
+}
 // For band strings (containing '–'), returns the midpoint.
 function parseMoneyString(value) {
   if (!value) return null;

@@ -1662,6 +1662,10 @@
       <div class="results-check"></div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
     </div>
+    <div id="shariah-invoice-suggestion" style="display:none;margin:0 0 20px;background:rgba(217,79,0,0.08);border:1px solid rgba(217,79,0,0.25);border-radius:14px;padding:18px 20px;">
+      <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#D94F00;margin:0 0 8px">Invoice Finance — A Shariah-Compliant Option</p>
+      <p id="shariah-invoice-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
+    </div>
     <div class="ai-summary">
       <div class="ai-summary-label" id="ai-summary-label">Here's what we discovered</div>
       <div class="ai-summary-text" id="ai-summary-text"></div>
@@ -2216,7 +2220,9 @@ function displayResults() {
     matchedProducts:  matchedProducts,
     business:         savedBusiness,
     annualTurnover:   profile.annualTurnover || '',
-    projectedTurnover: profile.projectedTurnover || ''
+    projectedTurnover: profile.projectedTurnover || '',
+    invoicesB2B:      profile.invoicesB2B || '',
+    paymentTermsDays: profile.paymentTermsDays || ''
   };
 
   let summary;
@@ -2253,6 +2259,14 @@ function displayResults() {
 
   document.getElementById('ai-summary-text').innerHTML = summary.summaryHtml;
   saveDiscovery('Shariah-Compliant Funding', '', summary.summaryHtml, savedBusiness);
+
+  // Invoice finance suggestion (not for fully certified compliance)
+  const ifSugg = document.getElementById('shariah-invoice-suggestion');
+  const ifSuggText = document.getElementById('shariah-invoice-suggestion-text');
+  if (ifSugg && ifSuggText && profile.invoicesB2B === 'yes' && state.compliance !== 'certified') {
+    ifSuggText.textContent = 'Invoice finance can be structured in a Shariah-compliant way using a bundled fee arrangement rather than interest — meaning there is no explicit interest charge on the funding. If you don\'t already have a facility in place, this could be worth exploring. Nicole can discuss whether a compliant structure is available for your situation.';
+    ifSugg.style.display = 'block';
+  }
 
   showScreen('screen-loading');
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2474,6 +2488,10 @@ async function sendNotification() {
     '',
     '--- MATCHED PRODUCTS ---',
     matchedProducts.length > 0 ? matchedProducts.join('\n') : 'None matched',
+    '',
+    '--- INVOICE FINANCE ---',
+    'Invoices B2B: ' + (_snProfile.invoicesB2B === 'yes' ? 'Yes' : _snProfile.invoicesB2B === 'no' ? 'No' : 'Not answered'),
+    'Payment Terms: ' + (_snProfile.invoicesB2B === 'yes' && _snProfile.paymentTermsDays ? _snProfile.paymentTermsDays + ' days' : 'N/A'),
     '',
     'Marketing consent: ' + (state.marketingConsent ? 'Yes' : 'No'),
     state.marketingConsentTimestamp ? 'Consent timestamp: ' + state.marketingConsentTimestamp : ''
