@@ -1350,7 +1350,7 @@
     <div id="traffic-light-section" style="margin-bottom:20px;text-align:center;padding:0 8px">
       <div id="traffic-light-badge" style="display:inline-flex;flex-direction:column;gap:10px;padding:16px 22px;border-radius:16px;margin-bottom:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);max-width:560px;width:100%;box-sizing:border-box">
         <div style="display:flex;align-items:center;gap:12px">
-          <span id="traffic-light-emoji" style="font-size:28px;flex-shrink:0"></span>
+          <div id="traffic-light-emoji" style="width:22px;height:22px;border-radius:50%;flex-shrink:0;box-shadow:0 0 10px rgba(255,255,255,0.3)"></div>
           <span id="traffic-light-label" style="font-family:'Raleway',sans-serif;font-weight:700;font-size:15px;color:#ffffff;text-align:left;line-height:1.35"></span>
         </div>
         <p id="traffic-light-message" style="font-size:14px;color:rgba(255,255,255,0.75);line-height:1.65;margin:0;text-align:left"></p>
@@ -2225,7 +2225,14 @@ function displayResults(summaryResult, tl) {
   const businessName = state.business || 'your business';
   if (badge && tl) {
     badge.style.cssText = `display:inline-flex;flex-direction:column;gap:10px;padding:16px 22px;border-radius:16px;margin-bottom:14px;max-width:560px;width:100%;box-sizing:border-box;${tl.badgeStyle}`;
-    if (emoji) emoji.textContent = tl.emoji;
+    if (emoji) {
+      const dotColors = { green: '#22c55e', amber: '#f59e0b', red: '#D94F00' };
+      const glowColors = { green: 'rgba(34,197,94,0.5)', amber: 'rgba(245,158,11,0.5)', red: 'rgba(217,79,0,0.5)' };
+      const c = dotColors[tl.rating] || '#D94F00';
+      const g = glowColors[tl.rating] || 'rgba(217,79,0,0.5)';
+      emoji.style.background = c;
+      emoji.style.boxShadow = `0 0 10px ${g}, 0 0 20px ${g}`;
+    }
     if (label) label.textContent = `If ${businessName} applied for a loan right now...`;
     if (msg)   msg.textContent   = tl.message;
   }
