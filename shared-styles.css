@@ -1,6 +1,8 @@
 /* Shared Styles for Fiskal Discovery
    ================================= */
 
+html, body { overflow-x: hidden; }
+
 /* ---- CONFIRMED COLOUR PALETTE ---- */
 :root {
   /* Core Brand */
