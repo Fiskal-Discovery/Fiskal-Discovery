@@ -611,49 +611,6 @@
     overflow: hidden;
   }
 
-  .loading-message.thinking-phrase {
-    font-size: clamp(1.1rem, 3vw, 2rem);
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-align: center;
-    color: #ffffff;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 500ms ease, transform 500ms ease;
-  }
-
-  .loading-message.thinking-phrase.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .loading-message.thinking-phrase.shimmer {
-    background: linear-gradient(
-      90deg,
-      rgba(255,255,255,0.45) 0%,
-      #ffffff 35%,
-      #FFE600 50%,
-      #ffffff 65%,
-      rgba(255,255,255,0.45) 100%
-    );
-    background-size: 220% auto;
-    background-position: 220% center;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: thinkingShimmer 1.8s ease-in-out forwards;
-    text-shadow: 0 0 18px rgba(79, 70, 229, 0.35);
-  }
-
-  @keyframes thinkingShimmer {
-    0% {
-      background-position: 220% center;
-    }
-    100% {
-      background-position: -220% center;
-    }
-  }
-
   .loading-message::before {
     content: '';
     position: absolute;
@@ -2404,22 +2361,7 @@
 </div>
 
 <!-- SUBMISSION LOADING SCREEN -->
-<div class="screen loading-screen" id="screen-submission-loading">
-  <header class="ob-fixed-header">
-    <a href="https://fiskal.online" target="_blank" class="ob-header-logo-link">
-      <img src="fiskal_logo_recoloured.png" class="ob-header-logo" alt="Fiskal">
-    </a>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Facility Review</span>
-    </div>
-    <div class="ob-header-spacer"></div>
-  </header>
-  <div class="loading-content">
-    <div class="loading-spinner"></div>
-    <div class="loading-message" id="loading-message">Analysing your business</div>
-  </div>
-</div>
+<div id="screen-submission-loading" style="display:none"></div>
 
 <!-- Invoice Finance Loading -->
 <div class="screen" id="screen-loading">
@@ -2745,8 +2687,9 @@ function submitOtherReview() {
   if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
     state.completedFacilityReviews.push(currentFacilityType);
   }
-  showDiscoveryThinkingScreen(function() {
-    const summary = `Thank you for completing your Finance Arrangement Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what options might be available for ${state.business}.`;
+  const firstName = (state.name || '').split(' ')[0];
+  const summary = `Thank you for completing your Finance Arrangement Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what options might be available for ${state.business}.`;
+  showFiskalLoadingScreen(firstName, function() {
     displayOtherResults(summary);
   });
 }
@@ -2920,11 +2863,12 @@ async function submitAssetReview() {
   if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
     state.completedFacilityReviews.push(currentFacilityType);
   }
-  showDiscoveryThinkingScreen(async () => {
-    const summary = `Thank you for completing your Asset Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current asset finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
+  const firstName = (state.name || '').split(' ')[0];
+  const summary = `Thank you for completing your Asset Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current asset finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
+  showFiskalLoadingScreen(firstName, async () => {
     document.getElementById('asset-results-name').textContent = `Here's what we found for you, ${state.name}`;
     document.getElementById('asset-ai-summary').innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
-    document.getElementById('asset-nicole-message').textContent = `I've received your Asset Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+    document.getElementById('asset-nicole-message').textContent = `I've received your Asset Review, ${firstName}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
     showScreen('screen-asset-loading');
     loadNicolePhoto();
     const assetContinueBtn = document.getElementById('asset-continue-btn');
@@ -2958,11 +2902,12 @@ async function submitTradeReview() {
   if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
     state.completedFacilityReviews.push(currentFacilityType);
   }
-  showDiscoveryThinkingScreen(async () => {
-    const summary = `Thank you for completing your Trade Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current trade finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
+  const firstName = (state.name || '').split(' ')[0];
+  const summary = `Thank you for completing your Trade Finance Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current trade finance arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
+  showFiskalLoadingScreen(firstName, async () => {
     document.getElementById('trade-results-name').textContent = `Here's what we found for you, ${state.name}`;
     document.getElementById('trade-ai-summary').innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
-    document.getElementById('trade-nicole-message').textContent = `I've received your Trade Review, ${state.name.split(' ')[0]}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
+    document.getElementById('trade-nicole-message').textContent = `I've received your Trade Review, ${firstName}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
     showScreen('screen-trade-loading');
     loadNicolePhoto();
     const tradeContinueBtn = document.getElementById('trade-continue-btn');
@@ -3084,7 +3029,8 @@ function submitReview() {
     state.completedFacilityReviews.push(currentFacilityType);
   }
 
-  showDiscoveryThinkingScreen(function() { generateResults(); });
+  const firstName = (state.name || '').split(' ')[0];
+  showFiskalLoadingScreen(firstName, function() { generateResults(); });
 }
 
 function _fmtK(n) {
@@ -3933,8 +3879,9 @@ async function submitLoanReview() {
   if (currentFacilityType && !state.completedFacilityReviews.includes(currentFacilityType)) {
     state.completedFacilityReviews.push(currentFacilityType);
   }
-  showDiscoveryThinkingScreen(async () => {
-    const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
+  const firstName = (state.name || '').split(' ')[0];
+  const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
+  showFiskalLoadingScreen(firstName, async () => {
     displayResults(summary);
   });
 }
@@ -4001,11 +3948,11 @@ function submitFXReview() {
     state.completedFacilityReviews.push(currentFacilityType);
   }
 
-  showDiscoveryThinkingScreen(function() {
-    const firstName = (state.name || '').split(' ')[0] || 'there';
+  const firstName = (state.name || '').split(' ')[0] || 'there';
+  const fxSummary = `Thank you for completing your FX Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current FX arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
+  showFiskalLoadingScreen(firstName, function() {
     document.getElementById('fx-results-name').textContent = `Here's what we found for you, ${firstName}`;
-    const summary = `Thank you for completing your FX Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current FX arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
-    document.getElementById('fx-ai-summary').innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
+    document.getElementById('fx-ai-summary').innerHTML = fxSummary.split('\n\n').map(p => `<p>${p}</p>`).join('');
     document.getElementById('fx-nicole-message').textContent = `I've received your FX Review, ${firstName}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
     showScreen('screen-fx-loading');
     loadNicolePhoto();
@@ -4066,144 +4013,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 <style>
-  .thinking-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    text-align: center;
-    padding: 20px;
-  }
-
-  .thinking-logo {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
-    font-style: italic;
-    font-weight: normal;
-    font-size: 1.8rem;
-    color: var(--purple);
-    margin-bottom: 16px;
-    text-shadow: 0 0 30px rgba(79,70,229,.5);
-  }
-
-  .thinking-title {
-    font-size: 1.2rem;
-    color: var(--gold);
-    margin-bottom: 32px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
-
-  .thinking-phrase {
-    font-size: 1rem;
-    color: white;
-    margin-bottom: 40px;
-    font-weight: 300;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 500ms ease-in-out, transform 500ms ease-in-out;
-  }
-
-  .thinking-phrase.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .thinking-loader {
-    display: flex;
-    gap: 12px;
-    margin-top: 20px;
-  }
-
-  .thinking-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-
-  .thinking-dot:nth-child(2) {
-    animation-delay: 0.3s;
-    background: var(--gold);
-  }
-
-  .thinking-dot:nth-child(3) {
-    animation-delay: 0.6s;
-    background: var(--purple);
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(0.8); opacity: 0.5; }
-    50% { transform: scale(1.2); opacity: 1; }
-  }
-
-  /* ---- DISCOVERY THINKING SCREEN ---- */
-  #discovery-thinking-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #ffffff 0%, #f8efff 45%, #eaf8ff 100%);
-    text-align: center;
-  }
-  #discovery-thinking-screen.active {
-    display: flex;
-  }
-  #discovery-thinking-screen .thinking-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 28px;
-    padding: 32px;
-  }
-  #discovery-thinking-screen .thinking-spinner {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: 4px solid rgba(79,70,229,0.18);
-    border-top-color: #4f46e5;
-    animation: spinThinking 1s linear infinite;
-  }
-  #discovery-thinking-screen .thinking-phrase {
-    font-size: clamp(1.2rem, 4vw, 2rem);
-    font-weight: 700;
-    text-align: center;
-    color: #333;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 500ms ease, transform 500ms ease;
-  }
-  #discovery-thinking-screen .thinking-phrase.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  #discovery-thinking-screen .thinking-phrase.shimmer {
-    background: linear-gradient(
-      90deg,
-      rgba(79,70,229,0.65) 0%,
-      #4f46e5 35%,
-      #FFE600 50%,
-      #4f46e5 65%,
-      rgba(79,70,229,0.65) 100%
-    );
-    background-size: 260% auto;
-    background-position: 260% center;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: thinkingShimmer 3.8s ease-in-out forwards;
-  }
-  @keyframes thinkingShimmer {
-    0%   { background-position: 260% center; }
-    100% { background-position: -260% center; }
-  }
-  @keyframes spinThinking {
-    to { transform: rotate(360deg); }
-  }
-
   #screen-asset-loading .screen-content,
   #screen-trade-loading .screen-content,
   #screen-fx-loading .screen-content,
@@ -4378,66 +4187,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 </style>
 
-<script>
-function showDiscoveryThinkingScreen(callback) {
-  const phrases = [
-    'Assessing your requirements',
-    'Analysing your business profile',
-    'Reviewing funding options',
-    'Preparing your Fiskal Discovery summary'
-  ];
-
-  let screen = document.getElementById('discovery-thinking-screen');
-  if (!screen) {
-    screen = document.createElement('div');
-    screen.id = 'discovery-thinking-screen';
-    screen.innerHTML = '<div class="thinking-inner"><div class="thinking-spinner"></div><div id="discovery-thinking-phrase" class="thinking-phrase"></div></div>';
-    document.body.appendChild(screen);
-  }
-
-  if (screen.classList.contains('active')) { setTimeout(function() { if (callback) callback(); }, 0); return; }
-
-  const phraseEl = document.getElementById('discovery-thinking-phrase');
-  screen.style.display = 'flex';
-  screen.classList.add('active');
-
-  let index = 0;
-
-  function showPhrase() {
-    if (index >= phrases.length) {
-      screen.classList.remove('active');
-      screen.style.display = 'none';
-      if (callback) callback();
-      return;
-    }
-
-    let phrase = phrases[index];
-    // Personalize final phrase with user's name
-    if (index === phrases.length - 1) {
-      const name = state.name || '';
-      if (name) {
-        phrase = 'Thanks for waiting ' + name + ', your Discovery is ready';
-      } else {
-        phrase = 'Thanks for waiting, your Discovery is ready';
-      }
-    }
-
-    phraseEl.textContent = phrase;
-    phraseEl.classList.remove('active', 'shimmer');
-    void phraseEl.offsetWidth;
-    phraseEl.classList.add('active', 'shimmer');
-
-    setTimeout(function() {
-      phraseEl.classList.remove('active', 'shimmer');
-      index++;
-      setTimeout(showPhrase, 300);
-    }, 1500);
-  }
-
-  showPhrase();
-}
-</script>
 <script src="shared-components.js"></script>
+<script src="logic/fiskalLoading.js"></script>
 
 </body>
 </html>
