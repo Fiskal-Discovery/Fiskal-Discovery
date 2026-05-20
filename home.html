@@ -107,20 +107,41 @@
 </script>
 <style>
   :root {
-    --navy:       #4e0063;
-    --hero-bg:    #07051a;
-    --periwinkle: #8E7ED8;
-    --orange:     #D94F00;
-    --orange-bright: #ff7a2e;
-    --shariah:    #6A0890;
+    /* Confirmed palette */
+    --col-bg:           #0A0512;
+    --col-deep-purple:  #4E0063;
+    --col-purple:       #7E09A5;
+    --col-violet-mid:   #9B30C0;
+    --col-soft-violet:  #C060D0;
+    --col-gold:         #D4AF37;
+    --col-gold-bright:  #F4D03F;
+    --col-gold-soft:    rgba(212,175,55,0.15);
+    --col-off-white:    #F5F0F7;
+    --col-mute:         #9788A3;
+    --col-divider:      #5C4868;
+    --col-card-dark:    #2A1838;
+    --col-success:      #5BB378;
+    --col-warning:      #F39C12;
+    --col-error:        #E74C3C;
+    --col-info:         #C060D0;
+    --col-rose:         #E89090;
+    --gradient-brand: linear-gradient(90deg, #0A0512 0%, #4E0063 18%, #7E09A5 36%, #9B30C0 54%, #C060D0 70%, #E89090 82%, #D4AF37 100%);
+
+    /* Page-specific aliases */
+    --navy:       var(--col-deep-purple);
+    --hero-bg:    var(--col-bg);
+    --periwinkle: var(--col-soft-violet);
+    --orange:     var(--col-gold);
+    --orange-bright: var(--col-gold-bright);
+    --shariah:    var(--col-purple);
     --body-start: #f4ebfa;
     --body-end:   #F7F8FA;
     --card-bg:    #ffffff;
     --dark-text:  #1a0533;
     --mid-text:   #5a4570;
-    --light-text: #8E7ED8;
+    --light-text: var(--col-mute);
     --c-funding:  #0369A1;
-    --c-facility: #7C3AED;
+    --c-facility: var(--col-purple);
     --c-loan:     #BE123C;
     --c-shariah:  #0F766E;
     --c-game:     #FACC15;
@@ -308,23 +329,23 @@
   .hero-ring {
     position: absolute;
     border-radius: 50%;
-    border: 1px solid rgba(142, 126, 216, 0.2);
+    border: 1px solid rgba(192, 96, 208, 0.2);
     pointer-events: none;
   }
   .hero-ring-1 {
     width: 400px; height: 400px; top: -120px; right: -80px;
-    border-color: rgba(142, 126, 216, 0.3);
-    box-shadow: 0 0 40px 8px rgba(142, 126, 216, 0.12), inset 0 0 40px 8px rgba(142, 126, 216, 0.06);
+    border-color: rgba(192, 96, 208, 0.3);
+    box-shadow: 0 0 40px 8px rgba(192, 96, 208, 0.12), inset 0 0 40px 8px rgba(192, 96, 208, 0.06);
   }
   .hero-ring-3 {
     width: 180px; height: 180px; bottom: 60px; left: -40px;
-    border-color: rgba(142, 126, 216, 0.25);
-    box-shadow: 0 0 35px 8px rgba(142, 126, 216, 0.1), inset 0 0 20px 4px rgba(142, 126, 216, 0.05);
+    border-color: rgba(192, 96, 208, 0.25);
+    box-shadow: 0 0 35px 8px rgba(192, 96, 208, 0.1), inset 0 0 20px 4px rgba(192, 96, 208, 0.05);
   }
   .hero-ring-4 {
     width: 320px; height: 320px; bottom: -100px; left: 10%;
-    border-color: rgba(217, 79, 0, 0.2);
-    box-shadow: 0 0 60px 16px rgba(217, 79, 0, 0.1), inset 0 0 40px 8px rgba(217, 79, 0, 0.05);
+    border-color: rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 60px 16px rgba(212, 175, 55, 0.1), inset 0 0 40px 8px rgba(212, 175, 55, 0.05);
   }
 
   .hero-content {
