@@ -1176,7 +1176,7 @@
   </div>
   <div class="screen-footer">
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-if-payment-terms')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen((appState.profile && appState.profile.invoicesB2B === 'yes' && appState.profile.paymentTermsDays) ? 'screen-if-type' : 'screen-if-payment-terms')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -3415,7 +3415,19 @@ function nextIF(key, value, nextScreen) {
 
 function saveAndGo(key, value, nextScreen) {
   state[key] = value;
-  
+
+  // If about to show the payment terms screen, check if it's already saved in the onboarding profile
+  if (nextScreen === 'screen-if-payment-terms') {
+    const p = appState.profile || {};
+    const savedDays = p.paymentTermsDays;
+    if (p.invoicesB2B === 'yes' && savedDays) {
+      // Pre-populate from profile and skip the question
+      state['if-payment-terms'] = savedDays + ' days';
+      setTimeout(() => showScreen('screen-if-knowledge'), 250);
+      return;
+    }
+  }
+
   // Auto-advance for single-choice questions
   if (nextScreen) {
     setTimeout(() => {
