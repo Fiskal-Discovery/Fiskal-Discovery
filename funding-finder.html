@@ -30,6 +30,7 @@
     --shadow-card: 0 8px 30px rgba(79, 70, 229, 0.18);
     --shadow-glow: 0 0 50px rgba(79, 70, 229, 0.25);
     --btn-gradient: var(--gradient-brand);
+    --btn-stripe: #0369A1;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -497,12 +498,13 @@
   }
 
   .answer-btn {
-    background: white;
-    border: 1.5px solid rgba(75,0,130,0.15);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(160, 153, 232, 0.45);
+    border-top: 3px solid var(--btn-stripe);
     border-radius: 12px;
     padding: 16px 20px;
     font-size: 15px;
-    color: var(--dark);
+    color: var(--col-off-white);
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: left;
@@ -514,15 +516,19 @@
   }
 
   .answer-btn:hover {
-    border-color: var(--indigo);
-    background: var(--indigo-pale);
+    background: rgba(160, 153, 232, 0.12);
+    border-left-color: rgba(160, 153, 232, 0.7);
+    border-right-color: rgba(160, 153, 232, 0.7);
+    border-bottom-color: rgba(160, 153, 232, 0.7);
     transform: translateX(4px);
   }
 
   .answer-btn.selected {
-    border-color: var(--indigo);
-    background: var(--indigo);
-    color: white;
+    background: var(--col-purple);
+    border-color: var(--col-purple);
+    border-top-color: var(--btn-stripe);
+    color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(126, 9, 165, 0.25);
   }
 
   .answer-emoji { font-size: 18px; }
@@ -1583,34 +1589,36 @@
   #screen-question .answer-options { margin-bottom: 10px; }
   #screen-question #q-next-btn { margin-top: 10px !important; }
 
-  /* Answer buttons → white cards, orange top border */
+  /* Answer buttons — dark style with module stripe */
   #screen-question .answer-btn,
   #screen-barriers .answer-btn {
-    background: #ffffff !important;
-    border: 1px solid rgba(42,4,64,0.06) !important;
-    border-top: 4px solid #0369A1 !important;
-    border-radius: 14px !important;
-    color: #1a0533 !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1.5px solid rgba(160, 153, 232, 0.45) !important;
+    border-top: 3px solid #0369A1 !important;
+    border-radius: 12px !important;
+    color: var(--col-off-white) !important;
     font-family: 'Raleway', sans-serif !important;
     font-weight: 600 !important;
     font-size: 15px !important;
-    box-shadow: 0 2px 12px rgba(42,4,64,0.08) !important;
-    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    box-shadow: none !important;
+    transition: all 0.2s ease !important;
   }
   #screen-question .answer-btn:hover,
   #screen-barriers .answer-btn:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 8px 28px rgba(42,4,64,0.14) !important;
-    border-top-color: #0284c7 !important;
-    background: #ffffff !important;
+    background: rgba(160, 153, 232, 0.12) !important;
+    border-left-color: rgba(160, 153, 232, 0.7) !important;
+    border-right-color: rgba(160, 153, 232, 0.7) !important;
+    border-bottom-color: rgba(160, 153, 232, 0.7) !important;
+    transform: translateX(4px) !important;
+    box-shadow: none !important;
   }
   #screen-question .answer-btn.selected,
   #screen-barriers .answer-btn.selected {
-    border-color: var(--col-soft-violet) !important;
-    border-width: 2px !important;
-    box-shadow: 0 0 0 3px rgba(192,96,208,0.25), 0 8px 28px rgba(192,96,208,0.3) !important;
-    background: rgba(192,96,208,0.22) !important;
+    background: var(--col-purple) !important;
+    border-color: var(--col-purple) !important;
+    border-top-color: #0369A1 !important;
     color: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(126, 9, 165, 0.25) !important;
   }
   .answer-emoji { font-size: 16px; }
 

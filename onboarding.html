@@ -27,6 +27,7 @@
     --accent-blue: #4c1d95;
     --accent-purple: var(--col-purple);
     --btn-gradient: var(--gradient-brand);
+    --btn-stripe: var(--col-gold);
     --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
     --shadow-card: 0 8px 30px rgba(124, 58, 237, 0.22);
     --shadow-glow: 0 0 50px rgba(124, 58, 237, 0.3);
@@ -713,22 +714,19 @@
     font-family: 'DM Sans', sans-serif;
     font-size: 24px;
     font-weight: 500;
-
-/* ---- QUESTION SCREEN ---- */
-.question-icon {
-  font-size: 40px;
-  margin-bottom: 12px;
-}
-
-.question-product {
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 10px;
-  font-weight: 500;
-}
     color: var(--dark);
+    line-height: 1.3;
+    margin-bottom: 32px;
+  }
+
+  .answer-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(160, 153, 232, 0.45);
+    border-top: 3px solid var(--btn-stripe);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 15px;
+    color: var(--col-off-white);
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: left;
@@ -740,15 +738,19 @@
   }
 
   .answer-btn:hover {
-    border-color: var(--indigo);
-    background: var(--indigo-pale);
+    background: rgba(160, 153, 232, 0.12);
+    border-left-color: rgba(160, 153, 232, 0.7);
+    border-right-color: rgba(160, 153, 232, 0.7);
+    border-bottom-color: rgba(160, 153, 232, 0.7);
     transform: translateX(4px);
   }
 
   .answer-btn.selected {
-    border-color: var(--indigo);
-    background: var(--indigo);
-    color: white;
+    background: var(--col-purple);
+    border-color: var(--col-purple);
+    border-top-color: var(--btn-stripe);
+    color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(126, 9, 165, 0.25);
   }
 
   .answer-emoji { font-size: 18px; }
