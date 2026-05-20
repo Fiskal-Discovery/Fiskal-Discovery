@@ -4689,8 +4689,25 @@ async function submitLoanReview() {
   const _frLoan1 = (state.name || '').trim().split(/\s+/)[0] || '';
   showFiskalLoadingScreen(_frLoan1, async () => {
     const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
+    sendLoanNotification(summary);
     displayResults(summary);
   });
+}
+
+async function sendLoanNotification(summary) {
+  const templateParams = {
+    name: state.name,
+    business_name: state.business,
+    email: state.email,
+    phone: state.phone,
+    company_number: 'N/A',
+    module: 'Loan Review',
+    matched_products: `Provider: ${state.loanLender} | Rate: ${state.loanRate} | Monthly: ${state.loanMonthly} | Remaining: ${state.loanRemaining} | Barrier: ${state.loanBarrier}`,
+    barriers: state.loanBarrier === 'yes' ? state.loanBarrierDetails : 'N/A',
+    summary: summary
+  };
+  // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+  try { } catch(e) { console.error(e); }
 }
 
 
@@ -4789,6 +4806,7 @@ function submitFXReview() {
     const firstName = (state.name || '').split(' ')[0] || 'there';
     document.getElementById('fx-results-name').textContent = `Here's what we found for you, ${firstName}`;
     const summary = `Thank you for completing your FX Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current FX arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
+    sendFXNotification(summary);
     document.getElementById('fx-ai-summary').innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
     document.getElementById('fx-nicole-message').textContent = `I've received your FX Review, ${firstName}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
     showScreen('screen-fx-loading');
@@ -4799,6 +4817,22 @@ function submitFXReview() {
       fxContinueBtn.style.display = remaining.length > 0 ? 'inline-block' : 'none';
     }
   });
+}
+
+async function sendFXNotification(summary) {
+  const templateParams = {
+    name: state.name,
+    business_name: state.business,
+    email: state.email,
+    phone: state.phone,
+    company_number: 'N/A',
+    module: 'FX Review',
+    matched_products: `Currencies: ${(state.fxCurrencies || []).join(', ')} | Provider: ${state.fxProvider} | Volume: ${state.fxAnnualVolume} | Margin: ${state.fxMargin} | Transfer Fees: ${state.fxTransferFees} | Awareness: ${state.fxAwareness}`,
+    barriers: 'N/A',
+    summary: summary
+  };
+  // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+  try { } catch(e) { console.error(e); }
 }
 
 
@@ -4823,6 +4857,8 @@ function submitFXReview() {
       if (p.annualTurnover) state.turnover = p.annualTurnover;
       if (p.homeowner) state.homeowner = p.homeowner;
       if (p.companyName || p.businessName) state.business = p.companyName || p.businessName;
+      if (p.invoicesB2B) state.invoicesB2B = p.invoicesB2B;
+      if (p.paymentTermsDays) state.paymentTermsDays = p.paymentTermsDays;
     }
     // Pre-fill form fields on DOMContentLoaded
     document.addEventListener("DOMContentLoaded", function() {
