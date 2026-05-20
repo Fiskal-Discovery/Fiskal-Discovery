@@ -3207,17 +3207,17 @@ async function loadNicolePhoto() {
   try {
     const saved = localStorage.getItem(OB_KEY);
     if (!saved) {
-      window.location.href = 'home.html?home=1';
+      window.location.href = 'onboarding.html';
       return;
     }
     const appState = JSON.parse(saved);
     if (!appState || !appState.profile) {
-      window.location.href = 'home.html?home=1';
+      window.location.href = 'onboarding.html';
       return;
     }
     // Check if welcome is completed and profile has required fields
     if (!appState.profile.welcomeCompleted || !appState.profile.name || !appState.profile.email) {
-      window.location.href = 'home.html?home=1';
+      window.location.href = 'onboarding.html';
       return;
     }
     
@@ -3251,7 +3251,7 @@ async function loadNicolePhoto() {
     });
   } catch(e) {
     console.error("Funding Finder profile check error:", e);
-    window.location.href = 'home.html?home=1';
+    window.location.href = 'onboarding.html';
   }
 })();
 

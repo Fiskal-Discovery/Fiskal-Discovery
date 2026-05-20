@@ -1178,7 +1178,7 @@
       <div class="module-grid">
 
         <!-- Funding Finder — primary orange bar -->
-        <div class="module-card" onclick="window.location.href='funding-finder.html'">
+        <div class="module-card" onclick="navigateToModule('funding-finder.html')"  >
           <div class="card-bar bar-funding"></div>
           <div class="card-inner">
             <div class="module-card-body">
@@ -1190,7 +1190,7 @@
         </div>
 
         <!-- Facility Review — periwinkle bar -->
-        <div class="module-card" onclick="window.location.href='facility-review.html'">
+        <div class="module-card" onclick="navigateToModule('facility-review.html')"  >
           <div class="card-bar bar-facility"></div>
           <div class="card-inner">
             <div class="module-card-body">
@@ -1202,7 +1202,7 @@
         </div>
 
         <!-- Loan Enquiry — periwinkle bar -->
-        <div class="module-card" onclick="window.location.href='loan-application.html'">
+        <div class="module-card" onclick="navigateToModule('loan-application.html')"  >
           <div class="card-bar bar-loan"></div>
           <div class="card-inner">
             <div class="module-card-body">
@@ -1214,7 +1214,7 @@
         </div>
 
         <!-- Shariah — shariah bar -->
-        <div class="module-card" onclick="window.location.href='shariah-funding.html'">
+        <div class="module-card" onclick="navigateToModule('shariah-funding.html')"  >
           <div class="card-bar bar-shariah"></div>
           <div class="card-inner">
             <div class="module-card-body">
@@ -1529,6 +1529,15 @@ function showHomepage() {
 function resetOnboarding() {
   localStorage.removeItem('fiskal_appState');
   window.location.href = 'onboarding.html';
+}
+
+function navigateToModule(url) {
+  const p = appState && appState.profile;
+  if (!p || !p.welcomeCompleted || !p.name || !p.email) {
+    window.location.href = 'onboarding.html';
+    return;
+  }
+  window.location.href = url;
 }
 
 function spawnShootingStar() {
