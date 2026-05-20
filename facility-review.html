@@ -2004,8 +2004,11 @@
       <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Etsy')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Etsy</button>
       <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'WooCommerce')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> WooCommerce</button>
       <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'TikTok Shop')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> TikTok Shop</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Other')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Other</button>
       <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'No')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> No — I don't sell online</button>
+    </div>
+    <div id="fx-platforms-other-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:8px;width:100%;box-sizing:border-box;" onclick="toggleFxPlatformOther()">
+      <span id="fx-platforms-other-lbl">Other</span>
+      <input type="text" id="fx-platforms-other-input" placeholder="Please describe the platform..." style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0;" onclick="event.stopPropagation()">
     </div>
     <button class="btn-primary" onclick="showScreen('screen-fx-goals')" style="margin-top:8px">Continue →</button>
   </div>
@@ -2158,8 +2161,12 @@
       <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Vehicle', this, 'asset-type-opts', 'screen-asset-remaining')">Vehicle</button>
       <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Equipment', this, 'asset-type-opts', 'screen-asset-remaining')">Equipment</button>
       <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Machinery', this, 'asset-type-opts', 'screen-asset-remaining')">Machinery</button>
-      <button class="answer-btn" onclick="assetSelectAndGo('assetType', 'Other', this, 'asset-type-opts', 'screen-asset-remaining')">Other</button>
     </div>
+    <div id="asset-type-other-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:8px;width:100%;box-sizing:border-box;" onclick="toggleAssetTypeOther()">
+      <span id="asset-type-other-lbl">Other</span>
+      <input type="text" id="asset-type-other-input" placeholder="Please describe the asset type..." style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0;" onclick="event.stopPropagation()">
+    </div>
+    <button class="btn-primary" id="asset-type-other-continue" onclick="saveAssetTypeOther()" style="display:none;margin-top:12px;width:100%">Continue →</button>
   </div>
   <div class="screen-footer">
     <div class="nav-row">
@@ -3522,9 +3529,40 @@ function saveAssetRepayments() {
 
 function assetSelectAndGo(key, value, btn, optsId, nextScreen) {
   document.querySelectorAll('#' + optsId + ' .answer-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('asset-type-other-slot').classList.remove('selected');
+  document.getElementById('asset-type-other-input').style.display = 'none';
+  document.getElementById('asset-type-other-lbl').textContent = 'Other';
+  document.getElementById('asset-type-other-continue').style.display = 'none';
   btn.classList.add('selected');
   state[key] = value;
   showScreen(nextScreen);
+}
+
+function toggleAssetTypeOther() {
+  const slot = document.getElementById('asset-type-other-slot');
+  const inp = document.getElementById('asset-type-other-input');
+  const lbl = document.getElementById('asset-type-other-lbl');
+  const cont = document.getElementById('asset-type-other-continue');
+  const open = inp.style.display !== 'none';
+  document.querySelectorAll('#asset-type-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  if (open) {
+    slot.classList.remove('selected');
+    inp.style.display = 'none';
+    lbl.textContent = 'Other';
+    cont.style.display = 'none';
+  } else {
+    slot.classList.add('selected');
+    inp.style.display = 'block';
+    lbl.textContent = 'Other — please specify:';
+    cont.style.display = 'block';
+    setTimeout(() => inp.focus(), 50);
+  }
+}
+
+function saveAssetTypeOther() {
+  const val = document.getElementById('asset-type-other-input').value.trim();
+  state.assetType = val ? 'Other: ' + val : 'Other';
+  showScreen('screen-asset-remaining');
 }
 
 function selectAssetBarrier(value, btn) {
@@ -4674,6 +4712,35 @@ function fxToggleCheck(btn, group, value) {
     state[group] = state[group].filter(v => v !== value);
   }
 }
+
+function toggleFxPlatformOther() {
+  const slot = document.getElementById('fx-platforms-other-slot');
+  const inp = document.getElementById('fx-platforms-other-input');
+  const lbl = document.getElementById('fx-platforms-other-lbl');
+  const open = inp.style.display !== 'none';
+  if (!state.fxPlatforms) state.fxPlatforms = [];
+  if (open) {
+    slot.classList.remove('selected');
+    inp.style.display = 'none';
+    lbl.textContent = 'Other';
+    state.fxPlatforms = state.fxPlatforms.filter(v => !v.startsWith('Other:'));
+    inp.value = '';
+  } else {
+    slot.classList.add('selected');
+    inp.style.display = 'block';
+    lbl.textContent = 'Other — please specify:';
+    setTimeout(() => inp.focus(), 50);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('fx-platforms-other-input');
+  if (inp) inp.addEventListener('input', () => {
+    if (!state.fxPlatforms) state.fxPlatforms = [];
+    state.fxPlatforms = state.fxPlatforms.filter(v => !v.startsWith('Other:'));
+    if (inp.value.trim()) state.fxPlatforms.push('Other: ' + inp.value.trim());
+  });
+});
 
 function fxPlatformsContinue() {
   showScreen('screen-fx-goals');

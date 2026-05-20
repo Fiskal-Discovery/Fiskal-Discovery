@@ -2547,41 +2547,58 @@ function renderFlowQuestion() {
     });
   } else if (q.type === 'multi-choice') {
     const selected = new Set();
+    const otherTrigger = q.followUp ? q.followUp.triggerValue : null;
     const grid = document.createElement('div');
     grid.className = 'multi-choice-grid';
-    q.options.forEach(opt => {
+    const regularOpts = q.options.filter(opt => opt !== otherTrigger);
+    regularOpts.forEach(opt => {
       const btn = document.createElement('button');
       btn.className = 'answer-btn answer-btn-compact';
       btn.textContent = opt;
       btn.onclick = () => {
-        if (selected.has(opt)) {
-          selected.delete(opt);
-          btn.classList.remove('selected');
-        } else {
-          selected.add(opt);
-          btn.classList.add('selected');
-        }
-        nextBtn.style.opacity = selected.size > 0 ? '1' : '0.35';
-        nextBtn.style.pointerEvents = selected.size > 0 ? 'auto' : 'none';
-        if (q.followUp && opt === q.followUp.triggerValue) {
-          const followupEl = document.getElementById('q-followup');
-          if (selected.has(opt)) {
-            followupEl.innerHTML = '';
-            const inp = document.createElement('input');
-            inp.type = 'text';
-            inp.className = 'form-input';
-            inp.placeholder = q.followUp.placeholder || '';
-            inp.id = 'multi-followup-input';
-            inp.style.marginTop = '10px';
-            followupEl.appendChild(inp);
-          } else {
-            document.getElementById('q-followup').innerHTML = '';
-          }
-        }
+        if (selected.has(opt)) { selected.delete(opt); btn.classList.remove('selected'); }
+        else { selected.add(opt); btn.classList.add('selected'); }
+        nextBtn.style.opacity = (selected.size > 0) ? '1' : '0.35';
+        nextBtn.style.pointerEvents = (selected.size > 0) ? 'auto' : 'none';
       };
       grid.appendChild(btn);
     });
     optionsEl.appendChild(grid);
+    if (otherTrigger) {
+      const otherSlot = document.createElement('div');
+      otherSlot.className = 'answer-btn';
+      otherSlot.style.cssText = 'cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:7px;width:100%;box-sizing:border-box;';
+      const otherLbl = document.createElement('span');
+      otherLbl.textContent = otherTrigger;
+      const otherInp = document.createElement('input');
+      otherInp.type = 'text';
+      otherInp.id = 'multi-followup-input';
+      otherInp.placeholder = q.followUp.placeholder || 'Please describe...';
+      otherInp.style.cssText = 'display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0;';
+      otherInp.addEventListener('input', () => {
+        nextBtn.style.opacity = (selected.size > 0 || otherInp.value.trim()) ? '1' : '0.35';
+        nextBtn.style.pointerEvents = (selected.size > 0 || otherInp.value.trim()) ? 'auto' : 'none';
+      });
+      otherInp.addEventListener('click', e => e.stopPropagation());
+      otherSlot.onclick = () => {
+        const open = otherInp.style.display !== 'none';
+        if (open) {
+          otherSlot.classList.remove('selected'); otherInp.style.display = 'none';
+          otherLbl.textContent = otherTrigger; otherInp.value = '';
+          selected.delete(otherTrigger);
+        } else {
+          otherSlot.classList.add('selected'); selected.add(otherTrigger);
+          otherInp.style.display = 'block';
+          otherLbl.textContent = otherTrigger + ' — please specify:';
+          setTimeout(() => otherInp.focus(), 50);
+        }
+        nextBtn.style.opacity = (selected.size > 0 || otherInp.value.trim()) ? '1' : '0.35';
+        nextBtn.style.pointerEvents = (selected.size > 0 || otherInp.value.trim()) ? 'auto' : 'none';
+      };
+      otherSlot.appendChild(otherLbl);
+      otherSlot.appendChild(otherInp);
+      optionsEl.appendChild(otherSlot);
+    }
     const nextBtn = document.getElementById('q-next-btn');
     nextBtn.style.display = 'block';
     nextBtn.style.opacity = '0.35';
@@ -2590,7 +2607,7 @@ function renderFlowQuestion() {
     nextBtn.onclick = () => {
       const values = Array.from(selected);
       saveAnswer(q.saveAs, values);
-      if (q.followUp && selected.has(q.followUp.triggerValue)) {
+      if (otherTrigger && selected.has(otherTrigger)) {
         const inp = document.getElementById('multi-followup-input');
         if (inp) saveAnswer(q.followUp.saveAs, inp.value.trim());
       }
