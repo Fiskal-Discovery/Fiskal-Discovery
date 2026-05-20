@@ -2704,9 +2704,8 @@ function renderWelcomeQuestion() {
 
     const notSureBtn = document.createElement('button');
     notSureBtn.textContent = "I'm not sure yet";
-    notSureBtn.style.cssText = 'background:none;border:1px solid rgba(255,255,255,0.2);border-radius:999px;padding:10px 24px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);cursor:pointer;font-family:"DM Sans",sans-serif;transition:all 0.2s;width:100%;';
-    notSureBtn.onmouseover = () => { notSureBtn.style.borderColor = 'rgba(255,255,255,0.5)'; notSureBtn.style.color = '#fff'; };
-    notSureBtn.onmouseout = () => { notSureBtn.style.borderColor = 'rgba(255,255,255,0.2)'; notSureBtn.style.color = 'rgba(255,255,255,0.7)'; };
+    notSureBtn.className = 'ob-q-pill';
+    notSureBtn.style.cssText = 'width:100%;text-align:center;';
     notSureBtn.onclick = () => {
       welcomeState.answers[q.saveAs] = 'Not sure';
       welcomeState.currentQuestion++;
