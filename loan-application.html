@@ -9,21 +9,21 @@
 <link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
-    --indigo: #8E7ED8;
-    --indigo-deep: #4e0063;
-    --indigo-light: #a99ee8;
+    --indigo: var(--col-soft-violet);
+    --indigo-deep: var(--col-deep-purple);
+    --indigo-light: var(--col-soft-violet);
     --indigo-pale: #f0eeff;
-    --blue: #8E7ED8;
-    --cream: #FAF8F5;
-    --dark: #1a1025;
+    --blue: var(--col-soft-violet);
+    --cream: var(--col-off-white);
+    --dark: var(--col-card-dark);
     --mid: #5a4a6a;
     --light-text: #6b5c80;
-    --orange: #D94F00;
-    --orange-light: #ff7a2e;
-    --btn-gradient: linear-gradient(135deg, #D94F00 0%, #ff7a2e 100%);
+    --orange: var(--col-gold);
+    --orange-light: var(--col-gold-bright);
+    --btn-gradient: var(--gradient-brand);
   }
   /* ---- HEADER BRAND ---- */
-  .ob-header-title { font-size: 50px; color: #4e0063; }
+  .ob-header-title { font-size: 50px; color: var(--col-deep-purple); }
 
   /* REFUSE header tagline */
   .ob-header-tagline {
@@ -37,7 +37,7 @@
   .ob-tagline-refuse {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 26px;
-    color: #ff7a2e;
+    color: var(--col-gold-bright);
     letter-spacing: 4px;
   }
   .ob-tagline-rest {
@@ -48,7 +48,7 @@
     font-weight: 400;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'DM Sans', sans-serif; background: #000000; color: var(--dark); min-height: 100vh; overflow-x: hidden; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--col-bg); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
   .bg-orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; opacity: 0.12; }
   .bg-orb-1 { width: 600px; height: 600px; background: var(--indigo); top: -200px; right: -200px; }
   .bg-orb-2 { width: 400px; height: 400px; background: var(--blue); bottom: -100px; left: -100px; }
@@ -71,11 +71,11 @@
   
   .question-product { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; font-weight: 500; }
   .question-text { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 500; color: var(--indigo-deep); line-height: 1.3; margin-bottom: 8px; }
-  .question-sub { font-size: 14px; color: #8E7ED8; font-style: italic; margin-bottom: 24px; line-height: 1.6; font-weight: 300; }
+  .question-sub { font-size: 14px; color: var(--col-soft-violet); font-style: italic; margin-bottom: 24px; line-height: 1.6; font-weight: 300; }
   .answer-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
   .answer-btn { background: white; border: 1.5px solid rgba(142,126,216,0.2); border-top: 2px solid var(--orange); border-radius: 12px; padding: 14px 18px; font-size: 15px; color: #000; cursor: pointer; transition: all 0.2s ease; text-align: left; font-family: 'DM Sans', sans-serif; font-weight: 400; display: flex; align-items: center; gap: 12px; }
   .answer-btn:hover { border-color: var(--indigo); background: var(--indigo-pale); transform: translateX(4px); }
-  .answer-btn.selected { border-color: var(--indigo) !important; border-width: 2px !important; background: var(--indigo-pale); color: var(--indigo-deep); box-shadow: 0 0 0 3px rgba(142,126,216,0.2); }
+  .answer-btn.selected { border-color: var(--indigo) !important; border-width: 2px !important; background: var(--indigo-pale); color: var(--indigo-deep); box-shadow: 0 0 0 3px rgba(192,96,208,0.2); }
   .checkbox-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
   .checkbox-btn { background: white; border: 1.5px solid rgba(142,126,216,0.2); border-radius: 10px; padding: 12px 16px; font-size: 14px; color: #000; cursor: pointer; transition: all 0.2s ease; text-align: left; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 12px; }
   .checkbox-btn.selected { border-color: var(--indigo); background: var(--indigo-pale); color: var(--indigo-deep); }
@@ -92,11 +92,11 @@
   .upload-text { font-size: 14px; color: var(--mid); font-weight: 300; }
   .upload-text strong { color: var(--orange); font-weight: 500; }
   .upload-file-item { font-size: 13px; color: var(--indigo); padding: 4px 0; display: flex; align-items: center; gap: 6px; justify-content: center; }
-  .btn-primary { background: var(--btn-gradient); color: white; border: none; border-radius: 999px; padding: 16px 32px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.25s ease; margin-top: 8px; box-shadow: 0 4px 20px rgba(217,79,0,0.35); }
+  .btn-primary { background: var(--btn-gradient); color: white; border: none; border-radius: 999px; padding: 16px 32px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.25s ease; margin-top: 8px; box-shadow: 0 4px 20px rgba(212,175,55,0.35); }
   .btn-primary:hover { opacity: 0.9; }
   .btn-secondary { background: transparent; color: var(--indigo); border: 1.5px solid var(--indigo); border-radius: 12px; padding: 14px 28px; font-size: 14px; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.2s ease; margin-top: 8px; }
   .btn-secondary:hover { background: var(--indigo-pale); }
-  .back-btn { background: none; border: none; color: #8E7ED8; font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 6px; transition: color 0.2s ease; padding: 12px; min-width: 110px; justify-content: center; text-align: center; }
+  .back-btn { background: none; border: none; color: var(--col-soft-violet); font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 6px; transition: color 0.2s ease; padding: 12px; min-width: 110px; justify-content: center; text-align: center; }
   .back-btn:hover { color: var(--indigo); }
   .btn-skip { background: transparent; border: 1.5px solid var(--indigo); border-radius: 12px; padding: 12px 20px; font-size: 13px; color: var(--indigo); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s ease; }
   .btn-skip:hover { background: var(--indigo-pale); }
@@ -109,7 +109,7 @@
   .welcome-box p + p { margin-top: 10px; }
   .welcome-box strong { color: var(--indigo-deep); font-weight: 500; }
   .loading-screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; }
-  .loading-orb { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--orange), var(--orange-light)); margin-bottom: 28px; animation: pulse-orb 1.8s ease-in-out infinite; box-shadow: 0 0 40px rgba(217,79,0,0.3); }
+  .loading-orb { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--orange), var(--orange-light)); margin-bottom: 28px; animation: pulse-orb 1.8s ease-in-out infinite; box-shadow: 0 0 40px rgba(212,175,55,0.3); }
   .loading-logo { width: 100px; height: auto; margin: 0 auto 32px; display: block; animation: logo-bounce 2.5s ease-in-out infinite; }
   @keyframes pulse-orb { 0%, 100% { transform: scale(0.9); opacity: 0.75; } 50% { transform: scale(1.08); opacity: 1; } }
   @keyframes logo-bounce { 0% { transform: translateY(0px); } 15% { transform: translateY(-18px); } 30% { transform: translateY(-4px); } 45% { transform: translateY(-14px); } 60% { transform: translateY(0px); } 75% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
@@ -132,7 +132,7 @@
     max-width: 720px;
     margin-left: auto;
     margin-right: auto;
-    background: linear-gradient(135deg, #1a0025 0%, #4e0063 55%, #3d0050 100%);
+    background: linear-gradient(135deg, var(--col-bg) 0%, var(--col-deep-purple) 55%, #3d0050 100%);
     color: #ffffff;
     border-radius: 22px;
     padding: 20px 24px;
@@ -174,8 +174,8 @@
     border: 3px solid transparent;
     background:
       rgba(255,255,255,0.12) padding-box,
-      conic-gradient(from var(--border-angle, 0deg), #D94F00, #ff7a2e, #8E7ED8, #4e0063, #D94F00) border-box;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.3), 0 0 18px rgba(217,79,0,0.25), 0 0 28px rgba(142,126,216,0.2);
+      conic-gradient(from var(--border-angle, 0deg), var(--col-gold), var(--col-gold-bright), var(--col-soft-violet), var(--col-deep-purple), var(--col-gold)) border-box;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.3), 0 0 18px rgba(212,175,55,0.25), 0 0 28px rgba(142,126,216,0.2);
     animation: spin-border 2.5s linear infinite;
     display: flex;
     align-items: center;
@@ -280,14 +280,14 @@
   }
 
   .visit-fiskal-btn {
-    background: #FFE600;
+    background: var(--col-gold);
     color: #08000F;
     box-shadow: 0 10px 25px rgba(255, 230, 0, 0.24);
   }
 
   .fiskal-linkedin-btn {
     background: #ffffff;
-    color: #4f46e5;
+    color: var(--col-purple);
     box-shadow: 0 10px 25px rgba(255, 255, 255, 0.18);
   }
 
@@ -352,7 +352,7 @@
       min-height: 48px;
       padding: 13px 20px;
       border-radius: 999px;
-      background: #818cf8;
+      background: var(--col-soft-violet);
       color: #ffffff;
       font-weight: 800;
       text-decoration: none;
@@ -360,7 +360,7 @@
   }
   .divider { height: 1px; background: rgba(79,70,229,0.08); margin: 16px 0; }
   .info-box { background: var(--indigo-pale); border-radius: 10px; padding: 14px; margin-bottom: 16px; font-size: 13px; color: var(--mid); line-height: 1.6; }
-  .error-msg { font-size: 12px; color: #e53e3e; margin-top: 6px; display: none; }
+  .error-msg { font-size: 12px; color: var(--col-error); margin-top: 6px; display: none; }
   .screen-footer {
     display: flex;
     flex-direction: column;
@@ -377,7 +377,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #8E7ED8;
+    color: var(--col-soft-violet);
     font-family: 'Monotype Corsiva', 'Corsiva', cursive;
     font-size: 18px;
     font-style: italic;
@@ -390,7 +390,7 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: #8E7ED8;
+    background: var(--col-soft-violet);
     opacity: 0.4;
   }
 
@@ -446,7 +446,7 @@
       90deg,
       rgba(255,255,255,0.45) 0%,
       #ffffff 35%,
-      #FFE600 50%,
+      var(--col-gold) 50%,
       #ffffff 65%,
       rgba(255,255,255,0.45) 100%
     );
@@ -538,7 +538,7 @@
   #screen-q12,
   #screen-loading,
   #screen-submission-loading {
-    background: #000000;
+    background: var(--col-bg);
     position: relative;
   }
 
@@ -604,7 +604,7 @@
   #screen-q8 .dashed-divider, #screen-q9 .dashed-divider,
   #screen-q10 .dashed-divider, #screen-q11 .dashed-divider,
   #screen-q12 .dashed-divider {
-    color: #8E7ED8 !important;
+    color: var(--col-soft-violet) !important;
   }
   #screen-details .dashed-divider::before, #screen-details .dashed-divider::after,
   #screen-q1 .dashed-divider::before, #screen-q1 .dashed-divider::after,
@@ -619,18 +619,18 @@
   #screen-q10 .dashed-divider::before, #screen-q10 .dashed-divider::after,
   #screen-q11 .dashed-divider::before, #screen-q11 .dashed-divider::after,
   #screen-q12 .dashed-divider::before, #screen-q12 .dashed-divider::after {
-    background: #8E7ED8 !important;
+    background: var(--col-soft-violet) !important;
     opacity: 0.4 !important;
   }
 
-  .progress-fill { background: #D94F00 !important; }
+  .progress-fill { background: var(--col-gold) !important; }
   .progress-track { background: rgba(255,255,255,0.12) !important; }
   .progress-label { color: rgba(255,255,255,0.45) !important; }
 
   .question-product {
     font-family: 'Raleway', sans-serif !important;
     font-weight: 700 !important;
-    color: #8E7ED8 !important;
+    color: var(--col-soft-violet) !important;
     letter-spacing: 2px !important;
   }
 
@@ -654,7 +654,7 @@
   .answer-btn {
     background: #ffffff !important;
     border: 1px solid rgba(42,4,64,0.06) !important;
-    border-top: 4px solid #D94F00 !important;
+    border-top: 4px solid var(--col-gold) !important;
     border-radius: 14px !important;
     color: #1a0533 !important;
     font-family: 'Raleway', sans-serif !important;
@@ -666,60 +666,60 @@
   .answer-btn:hover {
     transform: translateY(-3px) !important;
     box-shadow: 0 8px 28px rgba(42,4,64,0.14) !important;
-    border-top-color: #e11d48 !important;
+    border-top-color: var(--col-error) !important;
     background: #ffffff !important;
   }
   .answer-btn.selected {
-    border-color: #8E7ED8 !important;
+    border-color: var(--col-soft-violet) !important;
     border-width: 2px !important;
-    box-shadow: 0 0 0 3px rgba(142,126,216,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
-    background: rgba(142,126,216,0.22) !important;
+    box-shadow: 0 0 0 3px rgba(192,96,208,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
+    background: rgba(192,96,208,0.22) !important;
     color: #ffffff !important;
   }
 
   .btn-primary {
-    background: #D94F00 !important;
-    box-shadow: 0 4px 20px rgba(217,79,0,0.35) !important;
+    background: var(--col-gold) !important;
+    box-shadow: 0 4px 20px rgba(212,175,55,0.35) !important;
   }
   .btn-primary:hover {
-    background: #ff7a2e !important;
-    box-shadow: 0 6px 28px rgba(217,79,0,0.5) !important;
+    background: var(--col-gold-bright) !important;
+    box-shadow: 0 6px 28px rgba(212,175,55,0.5) !important;
   }
 
   .answer-btn {
-    border-top: 4px solid #BE123C !important;
+    border-top: 4px solid var(--col-gold) !important;
   }
   .answer-btn:hover {
     border-top-color: #e31b4d !important;
   }
 
-  .back-btn { color: #8E7ED8 !important; }
+  .back-btn { color: var(--col-soft-violet) !important; }
   .back-btn:hover { color: #ffffff !important; }
 
   .form-label { color: #ffffff !important; }
   .form-input { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.15) !important; color: #ffffff !important; }
-  .form-input:focus { border-color: #8E7ED8 !important; box-shadow: 0 0 0 3px rgba(142,126,216,0.2) !important; }
+  .form-input:focus { border-color: var(--col-soft-violet) !important; box-shadow: 0 0 0 3px rgba(192,96,208,0.2) !important; }
   .form-textarea { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.15) !important; color: #ffffff !important; }
 
   .upload-area { background: rgba(255,255,255,0.04) !important; border-color: rgba(255,255,255,0.15) !important; }
-  .upload-area:hover, .upload-area.has-files { border-color: #8E7ED8 !important; background: rgba(142,126,216,0.08) !important; }
+  .upload-area:hover, .upload-area.has-files { border-color: var(--col-soft-violet) !important; background: rgba(192,96,208,0.08) !important; }
   .upload-text { color: rgba(255,255,255,0.6) !important; }
 
   .followup-box { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.12) !important; }
   .followup-label { color: rgba(255,255,255,0.5) !important; }
   .followup-btn { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.15) !important; color: rgba(255,255,255,0.85) !important; }
-  .followup-btn:hover, .followup-btn.selected { background: #D94F00 !important; border-color: #D94F00 !important; color: #ffffff !important; }
+  .followup-btn:hover, .followup-btn.selected { background: var(--col-gold) !important; border-color: var(--col-gold) !important; color: #ffffff !important; }
 
   #screen-loading .loading-title,
   #screen-submission-loading .loading-message { color: #ffffff !important; }
   #screen-loading .loading-sub { color: rgba(255,255,255,0.55) !important; }
-  #screen-loading .loading-orb { background: linear-gradient(135deg, #D94F00, #ff7a2e) !important; box-shadow: 0 0 40px rgba(217,79,0,0.35) !important; }
-  #screen-loading .loading-dots span { background: #D94F00 !important; }
-  #screen-submission-loading .loading-spinner { border-color: rgba(217,79,0,0.2) !important; border-top-color: #D94F00 !important; }
+  #screen-loading .loading-orb { background: linear-gradient(135deg, var(--col-gold), var(--col-gold-bright)) !important; box-shadow: 0 0 40px rgba(212,175,55,0.35) !important; }
+  #screen-loading .loading-dots span { background: var(--col-gold) !important; }
+  #screen-submission-loading .loading-spinner { border-color: rgba(212,175,55,0.2) !important; border-top-color: var(--col-gold) !important; }
 
   /* Results screen */
   #screen-results {
-    background: #000000;
+    background: var(--col-bg);
     position: relative;
   }
   #screen-results::before {
@@ -729,7 +729,7 @@
     background:
       radial-gradient(ellipse at 20% 20%, rgba(78,0,99,0.6) 0%, transparent 45%),
       radial-gradient(ellipse at 80% 70%, rgba(78,0,99,0.45) 0%, transparent 40%),
-      radial-gradient(ellipse at 50% 90%, rgba(217,79,0,0.15) 0%, transparent 40%);
+      radial-gradient(ellipse at 50% 90%, rgba(212,175,55,0.15) 0%, transparent 40%);
     pointer-events: none;
     z-index: 0;
   }
@@ -742,10 +742,10 @@
     border-radius: 50% !important;
     border: 3px solid transparent !important;
     background:
-      linear-gradient(135deg, #4e0063 0%, #8E7ED8 45%, #D94F00 100%) padding-box,
-      conic-gradient(from var(--border-angle), #D94F00, #ff7a2e, #8E7ED8, #4e0063, #D94F00) border-box !important;
+      linear-gradient(135deg, var(--col-deep-purple) 0%, var(--col-soft-violet) 45%, var(--col-gold) 100%) padding-box,
+      conic-gradient(from var(--border-angle), var(--col-gold), var(--col-gold-bright), var(--col-soft-violet), var(--col-deep-purple), var(--col-gold)) border-box !important;
     animation: spin-border 2.5s linear infinite !important;
-    box-shadow: 0 0 18px rgba(217,79,0,0.4), 0 0 36px rgba(142,126,216,0.25) !important;
+    box-shadow: 0 0 18px rgba(212,175,55,0.4), 0 0 36px rgba(142,126,216,0.25) !important;
     font-family: 'Raleway', sans-serif !important;
     font-size: 22px !important;
     font-weight: 800 !important;
@@ -756,8 +756,8 @@
     justify-content: center !important;
   }
   #screen-results .results-title { font-family: 'Raleway', sans-serif !important; font-weight: 700 !important; color: #ffffff !important; }
-  #screen-results .results-name { color: #8E7ED8 !important; }
-  #screen-results .ai-summary-label { color: #8E7ED8 !important; font-family: 'Raleway', sans-serif !important; font-weight: 700 !important; letter-spacing: 2px !important; }
+  #screen-results .results-name { color: var(--col-soft-violet) !important; }
+  #screen-results .ai-summary-label { color: var(--col-soft-violet) !important; font-family: 'Raleway', sans-serif !important; font-weight: 700 !important; letter-spacing: 2px !important; }
 </style>
 </head>
 <body>
@@ -814,7 +814,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Confirm these details are correct</h2>
-    <p style="font-size:14px;color:#D94F00;font-style:italic;margin-bottom:20px;line-height:1.5;">We've saved your details to make this as quick as possible — just check everything looks right.</p>
+    <p style="font-size:14px;color:var(--col-gold);font-style:italic;margin-bottom:20px;line-height:1.5;">We've saved your details to make this as quick as possible — just check everything looks right.</p>
     <div class="ai-summary" id="details-summary">
       <div class="ai-summary-label">Saved details</div>
       <div class="ai-summary-text" id="confirm-details-list">Loading your saved details...</div>
@@ -878,7 +878,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Which of these would you like to explore?</h2>
-    <p class="question-sub" style="color:#D94F00">Select all that apply — the right type of funding could change everything.</p>
+    <p class="question-sub" style="color:var(--col-gold)">Select all that apply — the right type of funding could change everything.</p>
     <div class="answer-options" id="q1-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="toggleLoanType('unsecured', this)">Unsecured business loan</button>
       <button class="answer-btn" onclick="toggleLoanType('secured', this)">Secured business loan</button>
@@ -914,7 +914,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Which of these are you thinking of using the funds for?</h2>
-    <p class="question-sub" style="color:#D94F00">Select all that apply — every goal is worth pursuing.</p>
+    <p class="question-sub" style="color:var(--col-gold)">Select all that apply — every goal is worth pursuing.</p>
     <div class="answer-options" id="q2-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="togglePurpose('Business growth', this)">Business growth</button>
       <button class="answer-btn" onclick="togglePurpose('Working capital / cashflow', this)">Working capital / cashflow</button>
@@ -954,7 +954,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How much are you looking to borrow?</h2>
-    <p class="question-sub" style="color:#D94F00">Whatever the number, there's likely a way to make it work.</p>
+    <p class="question-sub" style="color:var(--col-gold)">Whatever the number, there's likely a way to make it work.</p>
     <div class="form-group">
       <label class="form-label">Funding amount</label>
       <div class="currency-input-wrapper" style="position:relative">
@@ -988,7 +988,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How long would you like to repay over?</h2>
-    <p class="question-sub" style="color:#D94F00">The right repayment plan means funding that works for your business, not against it.</p>
+    <p class="question-sub" style="color:var(--col-gold)">The right repayment plan means funding that works for your business, not against it.</p>
     <div class="answer-options" id="q4-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectTerm('Up to 12 months', this)">Up to 12 months</button>
       <button class="answer-btn" onclick="selectTerm('1–3 years', this)">1–3 years</button>
@@ -1019,7 +1019,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Do you have any security to offer?</h2>
-    <p class="question-sub" style="color:#D94F00">Security can unlock better rates and bigger amounts — but it's not the only way in.</p>
+    <p class="question-sub" style="color:var(--col-gold)">Security can unlock better rates and bigger amounts — but it's not the only way in.</p>
     <div class="answer-options" id="q5-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectSecurity('property', this)">Yes — property</button>
       <button class="answer-btn" onclick="selectSecurity('assets', this)">Yes — business assets</button>
@@ -1050,7 +1050,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How would you describe your business credit history?</h2>
-    <p class="question-sub" style="color:#D94F00">Whatever your history, there's a lender out there who will look at the full picture.</p>
+    <p class="question-sub" style="color:var(--col-gold)">Whatever your history, there's a lender out there who will look at the full picture.</p>
     <div class="answer-options" id="q6-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectCredit('clean', this)">Clean — no issues</button>
       <button class="answer-btn" onclick="selectCredit('mostly-clean', this)">Mostly clean — one or two minor issues</button>
@@ -1084,7 +1084,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How long has your business been trading?</h2>
-    <p class="question-sub" style="color:#D94F00">Every established business started somewhere — and there are lenders who back ambition at every stage.</p>
+    <p class="question-sub" style="color:var(--col-gold)">Every established business started somewhere — and there are lenders who back ambition at every stage.</p>
     <div class="answer-options" id="q7-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectTradingHistory('under-6-months', this)">Less than 6 months</button>
       <button class="answer-btn" onclick="selectTradingHistory('6-12-months', this)">6–12 months</button>
@@ -1114,7 +1114,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">What is your approximate monthly turnover?</h2>
-    <p class="question-sub" style="color:#D94F00">Turnover is just a starting point — what you do with the right funding is what really matters.</p>
+    <p class="question-sub" style="color:var(--col-gold)">Turnover is just a starting point — what you do with the right funding is what really matters.</p>
     <div class="answer-options" id="q8-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectMonthlyTurnover('Under £10,000', this)">Under £10,000</button>
       <button class="answer-btn" onclick="selectMonthlyTurnover('£10,000–£25,000', this)">£10,000–£25,000</button>
@@ -1146,7 +1146,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Do you have any existing loans or finance in place?</h2>
-    <p class="question-sub" style="color:#D94F00">Existing finance doesn't close doors — the right structure can open new ones.</p>
+    <p class="question-sub" style="color:var(--col-gold)">Existing finance doesn't close doors — the right structure can open new ones.</p>
     <div class="answer-options" id="q9-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectExistingFinance('none', this)">No existing finance</button>
       <button class="answer-btn" onclick="selectExistingFinance('one', this)">Yes — one facility</button>
@@ -1201,7 +1201,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How quickly do you need the funding?</h2>
-    <p class="question-sub" style="color:#D94F00">Whether you need funding tomorrow or you're planning your next big move — the right timing makes all the difference.</p>
+    <p class="question-sub" style="color:var(--col-gold)">Whether you need funding tomorrow or you're planning your next big move — the right timing makes all the difference.</p>
     <div class="answer-options" id="q10-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="answer-btn" onclick="selectUrgency('Urgently — within days', this)">Urgently — within days</button>
       <button class="answer-btn" onclick="selectUrgency('Within 2–4 weeks', this)">Within 2–4 weeks</button>
@@ -1231,7 +1231,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Would you like to upload any supporting documents?</h2>
-    <p class="question-sub" style="color:#D94F00">The more we have upfront, the faster we can move for you.</p>
+    <p class="question-sub" style="color:var(--col-gold)">The more we have upfront, the faster we can move for you.</p>
     <div class="answer-options" id="q12-choice-opts">
       <button class="answer-btn" id="q12-yes-btn" onclick="selectUploadChoice('yes', this)">Yes — I have documents to upload</button>
       <button class="answer-btn" id="q12-skip-btn" onclick="selectUploadChoice('skip', this)">Skip — I don't have anything to upload right now</button>
@@ -1273,7 +1273,7 @@
   <div class="screen-content">
     <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Is there anything else you'd like us to know?</h2>
-    <p class="question-sub" style="color:#D94F00">Nothing is too big or too small — Nicole reads every word personally.</p>
+    <p class="question-sub" style="color:var(--col-gold)">Nothing is too big or too small — Nicole reads every word personally.</p>
     <div class="form-group">
       <textarea class="form-textarea" id="additional-notes" placeholder="Tell us anything that might help — the more context the better" style="height:120px"></textarea>
     </div>
@@ -1366,14 +1366,14 @@
             <div id="loan-strength-text" style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;"></div>
           </div>
           <div id="indicative-lending-section" style="flex:1;padding:16px 18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;text-align:left;">
-            <p style="font-size:10px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8E7ED8;margin:0 0 6px">Indicative Lending Range</p>
+            <p style="font-size:10px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-soft-violet);margin:0 0 6px">Indicative Lending Range</p>
             <p id="indicative-range" style="font-family:'Raleway',sans-serif;font-weight:700;font-size:20px;color:#ffffff;margin:0 0 8px;line-height:1.2"></p>
             <p id="indicative-note" style="font-size:11px;color:rgba(255,255,255,0.5);line-height:1.6;margin:0"></p>
           </div>
         </div>
       </div>
-      <div id="invoice-finance-suggestion" style="display:none;margin-top:20px;max-width:560px;margin-left:auto;margin-right:auto;background:rgba(217,79,0,0.08);border:1px solid rgba(217,79,0,0.25);border-radius:14px;padding:18px 20px;text-align:left">
-        <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#D94F00;margin:0 0 8px">Invoice Finance — Worth Considering</p>
+      <div id="invoice-finance-suggestion" style="display:none;margin-top:20px;max-width:560px;margin-left:auto;margin-right:auto;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:18px 20px;text-align:left">
+        <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Invoice Finance — Worth Considering</p>
         <p id="invoice-finance-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
       </div>
     </div>
@@ -1650,7 +1650,7 @@ function populateDetailsSummary() {
   summary.innerHTML = `<div class="detail-grid">${items.map(([label, val]) => {
     const missing = required.has(label) && !val;
     const displayVal = missing
-      ? `<span style="color:#D94F00;font-weight:600;">★ Required</span>`
+      ? `<span style="color:var(--col-gold);font-weight:600;">★ Required</span>`
       : escapeHtml(getDetailValue(val));
     return `<div class="detail-item"><span class="detail-label">${label}</span><span class="detail-value">${displayVal}</span></div>`;
   }).join('')}</div>`;
@@ -1698,10 +1698,10 @@ function highlightMissingFields() {
         const star = document.createElement('span');
         star.className = 'field-error-star';
         star.textContent = ' ★';
-        star.style.cssText = 'color:#D94F00;font-size:14px;';
+        star.style.cssText = 'color:var(--col-gold);font-size:14px;';
         label.appendChild(star);
       }
-      if (input) input.style.borderColor = 'rgba(217,79,0,0.6)';
+      if (input) input.style.borderColor = 'rgba(212,175,55,0.6)';
     }
   });
   return anyMissing;
@@ -2596,13 +2596,13 @@ async function sendClientSummaryEmail(summary) {
     font-style: italic;
     font-weight: normal;
     font-size: 1.8rem;
-    color: #4f46e5;
+    color: var(--col-purple);
     margin-bottom: 16px;
     text-shadow: 0 0 30px rgba(79,70,229,.5);
   }
   .thinking-title {
     font-size: 1.2rem;
-    color: #FFE600;
+    color: var(--col-gold);
     margin-bottom: 32px;
     font-weight: 500;
     letter-spacing: 0.5px;
@@ -2634,7 +2634,7 @@ async function sendClientSummaryEmail(summary) {
   }
   .thinking-dot:nth-child(2) {
     animation-delay: 0.3s;
-    background: #FFE600;
+    background: var(--col-gold);
   }
   .thinking-dot:nth-child(3) {
     animation-delay: 0.6s;
@@ -2671,7 +2671,7 @@ async function sendClientSummaryEmail(summary) {
     height: 64px;
     border-radius: 50%;
     border: 4px solid rgba(79,70,229,0.18);
-    border-top-color: #4f46e5;
+    border-top-color: var(--col-purple);
     animation: spinThinking 1s linear infinite;
   }
   #discovery-thinking-screen .thinking-phrase {
@@ -2692,7 +2692,7 @@ async function sendClientSummaryEmail(summary) {
       90deg,
       rgba(79,70,229,0.65) 0%,
       #4f46e5 35%,
-      #FFE600 50%,
+      var(--col-gold) 50%,
       #4f46e5 65%,
       rgba(79,70,229,0.65) 100%
     );
@@ -2728,7 +2728,7 @@ async function sendClientSummaryEmail(summary) {
     border-radius: 999px;
     border: 1px solid rgba(79, 70, 229, 0.25);
     background: #ffffff;
-    color: #4f46e5;
+    color: var(--col-purple);
     font-family: "Open Sans", sans-serif;
     font-size: 0.95rem;
     font-weight: 800;
@@ -2741,9 +2741,9 @@ async function sendClientSummaryEmail(summary) {
     background: rgba(79, 70, 229, 0.08);
   }
   .discovery-nav-btn.primary {
-    background: #FFE600;
+    background: var(--col-gold);
     color: #08000F;
-    border-color: #FFE600;
+    border-color: var(--col-gold);
   }
   .discovery-nav-btn.primary:hover {
     filter: brightness(0.98);
@@ -2800,7 +2800,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-q11,
   #screen-q12,
   #screen-loading {
-    background: #000000;
+    background: var(--col-bg);
     position: relative;
   }
 
@@ -2897,17 +2897,17 @@ async function sendClientSummaryEmail(summary) {
     max-width: 100%;
   }
   #screen-welcome .btn-primary {
-    background: #D94F00 !important;
+    background: var(--col-gold) !important;
     background-image: none !important;
-    box-shadow: 0 4px 20px rgba(217,79,0,0.4) !important;
+    box-shadow: 0 4px 20px rgba(212,175,55,0.4) !important;
     margin-top: 40px;
   }
   #screen-welcome .btn-primary:hover {
-    background: #ff7a2e !important;
-    box-shadow: 0 6px 28px rgba(217,79,0,0.5) !important;
+    background: var(--col-gold-bright) !important;
+    box-shadow: 0 6px 28px rgba(212,175,55,0.5) !important;
   }
   #screen-welcome .back-btn {
-    color: #8E7ED8 !important;
+    color: var(--col-soft-violet) !important;
   }
   #screen-welcome .back-btn:hover {
     color: #ffffff !important;
@@ -2919,7 +2919,7 @@ async function sendClientSummaryEmail(summary) {
     color: rgba(255,255,255,0.35) !important;
   }
 
-  .progress-fill { background: #D94F00 !important; }
+  .progress-fill { background: var(--col-gold) !important; }
   .progress-track { background: rgba(255,255,255,0.12) !important; }
   .progress-label { color: rgba(255,255,255,0.45) !important; }
 
@@ -2946,10 +2946,10 @@ async function sendClientSummaryEmail(summary) {
   #screen-details .ai-summary {
     background: rgba(255,255,255,0.08) !important;
     border-color: rgba(255,255,255,0.15) !important;
-    border-left-color: #8E7ED8 !important;
+    border-left-color: var(--col-soft-violet) !important;
   }
   #screen-details .ai-summary-label {
-    color: #8E7ED8 !important;
+    color: var(--col-soft-violet) !important;
   }
   #screen-details .ai-summary-text {
     color: rgba(255,255,255,0.85) !important;
@@ -3005,7 +3005,7 @@ async function sendClientSummaryEmail(summary) {
     background: rgba(255,255,255,0.06) !important;
     border: 1.5px solid rgba(255,255,255,0.15) !important;
     color: #ffffff !important;
-    border-top: 2px solid #D94F00 !important;
+    border-top: 2px solid var(--col-gold) !important;
   }
   #screen-details .answer-btn:hover,
   #screen-q1 .answer-btn:hover,
@@ -3033,10 +3033,10 @@ async function sendClientSummaryEmail(summary) {
   #screen-q10 .answer-btn.selected,
   #screen-q11 .answer-btn.selected,
   #screen-q12 .answer-btn.selected {
-    border-color: #8E7ED8 !important;
+    border-color: var(--col-soft-violet) !important;
     border-width: 2px !important;
-    box-shadow: 0 0 0 3px rgba(142,126,216,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
-    background: rgba(142,126,216,0.22) !important;
+    box-shadow: 0 0 0 3px rgba(192,96,208,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
+    background: rgba(192,96,208,0.22) !important;
     color: #ffffff !important;
   }
 
@@ -3054,7 +3054,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-q11 .back-btn,
   #screen-q12 .back-btn {
     background: transparent !important;
-    color: #8E7ED8 !important;
+    color: var(--col-soft-violet) !important;
     border: none !important;
   }
 
@@ -3070,9 +3070,9 @@ async function sendClientSummaryEmail(summary) {
   #screen-q9 .btn-primary,
   #screen-q10 .btn-primary,
   #screen-q11 .btn-primary {
-    background: #D94F00 !important;
+    background: var(--col-gold) !important;
     background-image: none !important;
-    box-shadow: 0 4px 20px rgba(217,79,0,0.4) !important;
+    box-shadow: 0 4px 20px rgba(212,175,55,0.4) !important;
   }
 
   #screen-details .form-label,
@@ -3122,12 +3122,12 @@ async function sendClientSummaryEmail(summary) {
   .question-product {
     font-family: 'Raleway', sans-serif !important;
     font-weight: 700 !important;
-    color: #8E7ED8 !important;
+    color: var(--col-soft-violet) !important;
     letter-spacing: 2px !important;
   }
   /* Results screen — dark theme */
   #screen-results {
-    background: #000000;
+    background: var(--col-bg);
     position: relative;
   }
   #screen-results::before {
@@ -3137,26 +3137,26 @@ async function sendClientSummaryEmail(summary) {
     background:
       radial-gradient(ellipse at 20% 20%, rgba(78,0,99,0.6) 0%, transparent 45%),
       radial-gradient(ellipse at 80% 70%, rgba(78,0,99,0.45) 0%, transparent 40%),
-      radial-gradient(ellipse at 50% 90%, rgba(217,79,0,0.15) 0%, transparent 40%);
+      radial-gradient(ellipse at 50% 90%, rgba(212,175,55,0.15) 0%, transparent 40%);
     pointer-events: none;
     z-index: 0;
   }
   #screen-results .screen-content,
   #screen-results .ob-fixed-header,
   #screen-results .screen-footer { position: relative; z-index: 1; }
-  #screen-results .results-name { color: #8E7ED8 !important; }
+  #screen-results .results-name { color: var(--col-soft-violet) !important; }
   #screen-results .ai-summary-text { color: rgba(255,255,255,0.85) !important; }
   #screen-results .matched-product {
     background: rgba(255,255,255,0.06) !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
-    border-left: 3px solid #D94F00 !important;
+    border-left: 3px solid var(--col-gold) !important;
     border-radius: 10px !important;
   }
   #screen-results .matched-product-name { color: #ffffff !important; font-family: 'Raleway', sans-serif !important; font-weight: 700 !important; }
   #screen-results .matched-product-desc { color: rgba(255,255,255,0.6) !important; }
-  #screen-results .back-btn { color: #8E7ED8 !important; background: transparent !important; border: none !important; }
+  #screen-results .back-btn { color: var(--col-soft-violet) !important; background: transparent !important; border: none !important; }
   #screen-results .footer-legal { color: rgba(255,255,255,0.35) !important; }
-  #screen-results .dashed-divider { color: #8E7ED8 !important; }
+  #screen-results .dashed-divider { color: var(--col-soft-violet) !important; }
 
   @media (max-width: 600px) {
     .ob-tagline-refuse { font-size: 20px; letter-spacing: 2px; }
@@ -3241,7 +3241,7 @@ function showDiscoveryThinkingScreen(callback) {
 </script>
 <script>
 (function() {
-  const from = [0x4e, 0x00, 0x63], to = [0xD9, 0x4F, 0x00];
+  const from = [0x4E, 0x00, 0x63], to = [0xD4, 0xAF, 0x37];
   let current = null;
   function updateScrollbar(el) {
     const pct = el.scrollHeight <= el.clientHeight ? 0 : el.scrollTop / (el.scrollHeight - el.clientHeight);

@@ -6,15 +6,16 @@
 <link rel="icon" href="favicon-main.svg">
 <title>Fiskal Discovery — FX Review</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
-    --indigo: #7E09A5;
+    --indigo: var(--col-purple);
     --indigo-deep: #5a0075;
     --indigo-light: #9B20C2;
     --indigo-pale: #f9f0ff;
     --blue: #0099FF;
-    --cream: #FAF8F5;
-    --dark: #1a1025;
+    --cream: var(--col-off-white);
+    --dark: var(--col-card-dark);
     --mid: #5a4a6a;
     --light-text: #6b5c80;
   }
@@ -30,7 +31,7 @@
   .ob-tagline-refuse {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 26px;
-    color: #ff7a2e;
+    color: var(--col-gold-bright);
     letter-spacing: 4px;
   }
   .ob-tagline-rest {
@@ -145,7 +146,7 @@
   #screen-goals,
   #screen-upload,
   #screen-loading {
-    background: #000000;
+    background: var(--col-bg);
   }
   #screen-details::before,
   #screen-provider::before,
@@ -209,7 +210,7 @@
   #screen-online-selling .question-product,
   #screen-goals .question-product,
   #screen-upload .question-product {
-    color: #ff7a2e;
+    color: var(--col-gold-bright);
   }
   #screen-details .answer-btn,
   #screen-provider .answer-btn,
@@ -221,7 +222,7 @@
   #screen-upload .answer-btn {
     background: rgba(255,255,255,0.06);
     border: 1.5px solid transparent;
-    border-top-color: #D94F00;
+    border-top-color: var(--col-gold);
     color: #ffffff;
   }
   #screen-details .answer-btn:hover,
@@ -233,7 +234,7 @@
   #screen-goals .answer-btn:hover,
   #screen-upload .answer-btn:hover {
     background: rgba(255,255,255,0.1);
-    border-color: #D94F00;
+    border-color: var(--col-gold);
     transform: translateX(4px);
   }
   #screen-details .answer-btn.selected,
@@ -244,8 +245,8 @@
   #screen-online-selling .answer-btn.selected,
   #screen-goals .answer-btn.selected,
   #screen-upload .answer-btn.selected {
-    border-color: #8E7ED8;
-    background: rgba(142,126,216,0.22);
+    border-color: var(--col-soft-violet);
+    background: rgba(192,96,208,0.22);
     color: #ffffff;
   }
   #screen-details .checkbox-btn,
@@ -253,21 +254,21 @@
   #screen-goals .checkbox-btn {
     background: rgba(255,255,255,0.06);
     border: 1.5px solid transparent;
-    border-top-color: #D94F00;
+    border-top-color: var(--col-gold);
     color: #ffffff;
   }
   #screen-details .checkbox-btn.selected,
   #screen-online-selling .checkbox-btn.selected,
   #screen-goals .checkbox-btn.selected {
-    border-color: #8E7ED8;
-    background: rgba(142,126,216,0.22);
+    border-color: var(--col-soft-violet);
+    background: rgba(192,96,208,0.22);
     color: #ffffff;
   }
   #screen-details .checkbox-btn.selected .checkbox-tick,
   #screen-online-selling .checkbox-btn.selected .checkbox-tick,
   #screen-goals .checkbox-btn.selected .checkbox-tick {
-    background: #8E7ED8;
-    border-color: #8E7ED8;
+    background: var(--col-soft-violet);
+    border-color: var(--col-soft-violet);
   }
   #screen-details .form-label,
   #screen-upload .form-label {
@@ -281,8 +282,8 @@
   }
   #screen-details .form-input:focus,
   #screen-upload .form-input:focus {
-    border-color: #8E7ED8;
-    box-shadow: 0 0 0 3px rgba(142,126,216,0.2);
+    border-color: var(--col-soft-violet);
+    box-shadow: 0 0 0 3px rgba(192,96,208,0.2);
   }
   #screen-details .btn-primary,
   #screen-provider .btn-primary,
@@ -292,7 +293,7 @@
   #screen-online-selling .btn-primary,
   #screen-goals .btn-primary,
   #screen-upload .btn-primary {
-    background: #D94F00;
+    background: var(--col-gold);
   }
   #screen-details .progress-fill,
   #screen-provider .progress-fill,
@@ -302,7 +303,7 @@
   #screen-online-selling .progress-fill,
   #screen-goals .progress-fill,
   #screen-upload .progress-fill {
-    background: #D94F00;
+    background: var(--col-gold);
   }
   #screen-details .back-btn,
   #screen-provider .back-btn,
@@ -351,7 +352,7 @@
   }
   #screen-upload .upload-area:hover,
   #screen-upload .upload-area.has-files {
-    border-color: #D94F00;
+    border-color: var(--col-gold);
     background: rgba(255,255,255,0.1);
   }
   #screen-upload .upload-text {
@@ -956,7 +957,7 @@ async function sendNotification(summary) {
 <script>emailjs.init("g710KFSryN241SQWm");</script>
 <script>
 (function() {
-  const from = [0x4e, 0x00, 0x63], to = [0xD9, 0x4F, 0x00];
+  const from = [0x4E, 0x00, 0x63], to = [0xD4, 0xAF, 0x37];
   let current = null;
   function updateScrollbar(el) {
     const pct = el.scrollHeight <= el.clientHeight ? 0 : el.scrollTop / (el.scrollHeight - el.clientHeight);

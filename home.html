@@ -378,7 +378,7 @@
   .hero-tagline {
     font-family: 'Raleway', sans-serif;
     font-size: clamp(18px, 3.2vw, 26px);
-    color: #ff7a2e;
+    color: var(--col-gold-bright);
     font-weight: 500;
     letter-spacing: 1px;
     margin-bottom: 36px;
@@ -569,7 +569,7 @@
     padding: 20px 24px;
   }
 
-  .module-card.card-game .module-card-title { color: #ff7a2e; }
+  .module-card.card-game .module-card-title { color: var(--col-gold-bright); }
   .module-card.card-game .module-card-desc  { color: #ffffff; }
   .module-card.card-game .module-arrow      { color: #ffffff; }
 
@@ -991,7 +991,7 @@
     font-family: 'DM Sans', sans-serif;
     font-size: 11px;
     font-weight: 600;
-    color: #ff7a2e;
+    color: var(--col-gold-bright);
     letter-spacing: 0.3px;
   }
   .card-lender-name {
@@ -1032,7 +1032,7 @@
   .mini-lender-title {
     font-size: 11px;
     font-weight: 700;
-    color: #FFE600;
+    color: var(--col-gold);
     letter-spacing: 0.3px;
     font-family: 'DM Sans', sans-serif;
     white-space: nowrap;
@@ -1605,7 +1605,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <script src="shared-components.js"></script>
 <script>
 (function() {
-  const from = [0x4e, 0x00, 0x63], to = [0xD9, 0x4F, 0x00];
+  const from = [0x4E, 0x00, 0x63], to = [0xD4, 0xAF, 0x37];
   let current = null;
   function updateScrollbar(el) {
     const pct = el.scrollHeight <= el.clientHeight ? 0 : el.scrollTop / (el.scrollHeight - el.clientHeight);
