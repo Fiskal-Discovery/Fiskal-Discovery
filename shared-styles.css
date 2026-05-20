@@ -241,9 +241,9 @@ html, body { overflow-x: hidden; }
 .fiskal-linkedin-btn {
   width: 100%;
   min-width: 0;
-  min-height: 40px;
-  height: 40px;
-  padding: 8px 14px;
+  min-height: 44px;
+  height: 44px;
+  padding: 10px 14px;
   display: flex;
   align-items: center;
   justify-content: center;

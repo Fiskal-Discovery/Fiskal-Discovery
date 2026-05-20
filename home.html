@@ -399,8 +399,8 @@
   }
 
   .profile-badge-avatar {
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: var(--orange);
     color: white;
@@ -965,6 +965,10 @@
     .dashed-divider { font-size: 18px; gap: 10px; }
   }
 
+  @media (max-width: 480px) {
+    .module-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 32px !important; }
+  }
   @media (max-width: 380px) {
     .hero-title { font-size: 28px !important; }
     .hero-tagline { font-size: 13px !important; }
