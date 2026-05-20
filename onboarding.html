@@ -2691,10 +2691,9 @@ function renderWelcomeQuestion() {
 
     if (q.allowNewStart) {
       const newStartBtn = document.createElement('button');
-      newStartBtn.innerHTML = '🌱 New start — not trading yet';
-      newStartBtn.style.cssText = 'background:none;border:1px solid rgba(255,255,255,0.2);border-radius:999px;padding:10px 24px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);cursor:pointer;font-family:"DM Sans",sans-serif;transition:all 0.2s;width:100%;';
-      newStartBtn.onmouseover = () => { newStartBtn.style.borderColor = 'rgba(255,255,255,0.5)'; newStartBtn.style.color = '#fff'; };
-      newStartBtn.onmouseout = () => { newStartBtn.style.borderColor = 'rgba(255,255,255,0.2)'; newStartBtn.style.color = 'rgba(255,255,255,0.7)'; };
+      newStartBtn.textContent = '🌱 New start — not trading yet';
+      newStartBtn.className = 'ob-q-pill';
+      newStartBtn.style.cssText = 'width:100%;text-align:center;';
       newStartBtn.onclick = () => {
         welcomeState.answers[q.saveAs] = 'New start';
         welcomeState.currentQuestion++;
