@@ -445,3 +445,14 @@
   40% { transform: scale(1.2); opacity: 1; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---- Mobile: collapse 2-column grids to single column on small phones ---- */
+@media (max-width: 390px) {
+  .answer-options,
+  .checkbox-options,
+  .multi-choice-grid,
+  .ob-q-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
