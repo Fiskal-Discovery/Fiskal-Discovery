@@ -842,11 +842,11 @@
     </div>
       <div class="form-group">
         <label class="form-label">Annual turnover *</label>
-        <input type="text" class="form-input" id="field-turnover" placeholder="e.g. £250,000">
+        <input type="text" class="form-input" id="field-turnover" placeholder="e.g. £250,000" oninput="formatCurrencyInput(this)">
     </div>
       <div class="form-group">
         <label class="form-label">Projected Turnover</label>
-        <input type="text" class="form-input" id="field-turnover-next" placeholder="e.g. £400,000">
+        <input type="text" class="form-input" id="field-turnover-next" placeholder="e.g. £400,000" oninput="formatCurrencyInput(this)">
     </div>
       <div class="form-group">
         <label class="form-label">Homeowner / Property Owner</label>
@@ -1705,6 +1705,12 @@ function highlightMissingFields() {
     }
   });
   return anyMissing;
+}
+
+function formatCurrencyInput(input) {
+  const raw = input.value.replace(/[^0-9]/g, '');
+  if (!raw) { input.value = ''; return; }
+  input.value = '£' + Number(raw).toLocaleString('en-GB');
 }
 
 function clearFieldError(input) {
