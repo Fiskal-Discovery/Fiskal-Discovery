@@ -2047,9 +2047,32 @@ let welcomeState = {
 
 function startWelcome() {
   clearModuleBadge();
-  // Check if profile already exists
-  if (appState.profile.name && appState.profile.email) {
+  const p = appState.profile;
+
+  // Full profile exists and has been through the new turnover question — skip to homepage
+  if (p.name && p.email && 'annualTurnover' in p) {
     showHomepage();
+    return;
+  }
+
+  // Profile exists (old session) but missing turnover answers — pre-fill and jump to turnover
+  if (p.name && p.email) {
+    welcomeState = {
+      currentQuestion: 4, // annualTurnover index
+      answers: {
+        userType:      p.userType      || 'For me / my business',
+        name:          p.name          || '',
+        email:         p.email         || '',
+        phone:         p.phone         || '',
+        companyName:   p.companyName   || p.businessName || '',
+        companyNumber: p.companyNumber || '',
+        industry:      p.industry      || ''
+      }
+    };
+    document.getElementById('onboarding-overlay').classList.remove('hidden');
+    document.getElementById('screen-landing').classList.remove('active');
+    document.getElementById('ob-back-btn').style.display = 'block';
+    renderWelcomeQuestion();
     return;
   }
 
@@ -2060,7 +2083,6 @@ function startWelcome() {
 
   document.getElementById('onboarding-overlay').classList.remove('hidden');
   document.getElementById('screen-landing').classList.remove('active');
-  // Show back button on onboarding overlay
   document.getElementById('ob-back-btn').style.display = 'block';
   renderWelcomeQuestion();
 }
