@@ -2417,6 +2417,7 @@ const welcomeFlow = [
     question: "What is your annual turnover?",
     placeholder: "A rough estimate is absolutely fine",
     allowNewStart: true,
+    hideNotSure: true,
     saveAs: "annualTurnover"
   },
   {
@@ -2691,7 +2692,7 @@ function renderWelcomeQuestion() {
 
     if (q.allowNewStart) {
       const newStartBtn = document.createElement('button');
-      newStartBtn.textContent = '🌱 New start — not trading yet';
+      newStartBtn.textContent = 'New start — not trading yet';
       newStartBtn.className = 'ob-q-pill';
       newStartBtn.style.cssText = 'width:100%;text-align:center;';
       newStartBtn.onclick = () => {
@@ -2702,16 +2703,18 @@ function renderWelcomeQuestion() {
       wrap2.appendChild(newStartBtn);
     }
 
-    const notSureBtn = document.createElement('button');
-    notSureBtn.textContent = "I'm not sure yet";
-    notSureBtn.className = 'ob-q-pill';
-    notSureBtn.style.cssText = 'width:100%;text-align:center;';
-    notSureBtn.onclick = () => {
-      welcomeState.answers[q.saveAs] = 'Not sure';
-      welcomeState.currentQuestion++;
-      renderWelcomeQuestion();
-    };
-    wrap2.appendChild(notSureBtn);
+    if (!q.hideNotSure) {
+      const notSureBtn = document.createElement('button');
+      notSureBtn.textContent = "I'm not sure yet";
+      notSureBtn.className = 'ob-q-pill';
+      notSureBtn.style.cssText = 'width:100%;text-align:center;';
+      notSureBtn.onclick = () => {
+        welcomeState.answers[q.saveAs] = 'Not sure';
+        welcomeState.currentQuestion++;
+        renderWelcomeQuestion();
+      };
+      wrap2.appendChild(notSureBtn);
+    }
 
     wrap.appendChild(wrap2);
 
