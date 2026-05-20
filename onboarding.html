@@ -2686,6 +2686,15 @@ function renderWelcomeQuestion() {
     inp.style.cssText = 'flex:1;padding:14px 16px 14px 0;border:none;font-size:16px;background:transparent;color:#1a0533;font-family:"DM Sans",sans-serif;outline:none;';
     inp.addEventListener('focus', () => { inputRow.style.borderColor = '#D94F00'; inputRow.style.boxShadow = '0 0 0 3px rgba(217,79,0,0.1)'; });
     inp.addEventListener('blur', () => { inputRow.style.borderColor = 'rgba(42,4,64,0.15)'; inputRow.style.boxShadow = 'none'; });
+    inp.addEventListener('input', () => {
+      const pos = inp.selectionStart;
+      const raw = inp.value.replace(/,/g, '');
+      const num = raw.replace(/[^0-9]/g, '');
+      const formatted = num ? Number(num).toLocaleString('en-GB') : '';
+      const added = formatted.length - inp.value.length;
+      inp.value = formatted;
+      try { inp.setSelectionRange(pos + added, pos + added); } catch(e) {}
+    });
     inputRow.appendChild(prefix);
     inputRow.appendChild(inp);
     wrap2.appendChild(inputRow);
@@ -2698,7 +2707,8 @@ function renderWelcomeQuestion() {
     continueBtn2.onclick = () => {
       const val = inp.value.trim();
       if (!val) { inputRow.style.borderColor = '#D94F00'; inp.focus(); return; }
-      welcomeState.answers[q.saveAs] = '£' + val.replace(/^£/, '');
+      const rawVal = val.replace(/,/g, '');
+      welcomeState.answers[q.saveAs] = '£' + rawVal.replace(/^£/, '');
       welcomeState.currentQuestion++;
       renderWelcomeQuestion();
     };
