@@ -849,8 +849,8 @@
         <input type="text" class="form-input" id="field-turnover-next" placeholder="e.g. £400,000">
     </div>
       <div class="form-group">
-        <label class="form-label">Are any directors home or property owners?</label>
-        <input type="text" class="form-input" id="field-property-owners" placeholder="e.g. Yes, No, Not sure">
+        <label class="form-label">Homeowner / Property Owner</label>
+        <input type="text" class="form-input" id="field-property-owners" placeholder="Yes or No" readonly style="cursor:default;">
     </div>
     </div>
     <p class="error-msg" id="details-error" style="display:none">Please fill in all required fields.</p>
@@ -1381,6 +1381,7 @@
         <p id="invoice-finance-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
       </div>
     </div>
+    <div id="homeowner-note" style="display:none;margin:0 8px 16px;padding:14px 18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;"></div>
     <div class="ai-summary">
       <div class="ai-summary-label" id="ai-summary-label">Here's what we discovered</div>
       <p class="ai-summary-text" id="ai-summary-text">Analysing your application...</p>
@@ -1590,7 +1591,7 @@ const state = {
   uploadChoice: '',
   loanFiles: [],
   // Profile extras
-  invoicesB2B: '', paymentTermsDays: '',
+  homeowner: '', invoicesB2B: '', paymentTermsDays: '',
   // Computed
   trafficLightScore: 0, trafficLightRating: ''
 };
@@ -1893,6 +1894,9 @@ function toggleSecurityNote() {
   document.getElementById('q5-notsure-slot').classList.add('selected');
   document.getElementById('q5-notsure-label').style.display = 'none';
   const input = document.getElementById('security-note');
+  if (state.homeowner === 'yes') {
+    input.placeholder = 'You indicated you own property — this could be valuable security. Tell us more about any assets your business has and Nicole will help work out what might be useable.';
+  }
   input.style.display = 'block';
   input.focus();
   updateQ5Continue();
@@ -2180,6 +2184,9 @@ function calculateIndicativeLending() {
 function calculateTrafficLight() {
   let score = 0;
 
+  // Homeowner (from profile)
+  if (state.homeowner === 'yes') score += 1;
+
   // Security Q5
   if (state.security === 'both')               score += 2;
   else if (state.security === 'property')      score += 2;
@@ -2352,6 +2359,18 @@ function displayResults(summaryResult, tl) {
     if (lendingSection) lendingSection.style.display = 'block';
   }
 
+  // Homeowner smart note
+  const homeSuggEl = document.getElementById('homeowner-note');
+  if (homeSuggEl) {
+    if (state.homeowner === 'yes') {
+      homeSuggEl.textContent = 'As a homeowner or property owner, you may have additional security available which could improve your access to secured lending and better rates.';
+      homeSuggEl.style.display = 'block';
+    } else if (state.homeowner === 'no') {
+      homeSuggEl.textContent = 'Without property security, unsecured lending options will be the most relevant — but there are still good options available.';
+      homeSuggEl.style.display = 'block';
+    }
+  }
+
   // Invoice finance suggestion (weak score + invoices B2B)
   const ifSuggestion = document.getElementById('invoice-finance-suggestion');
   const ifText = document.getElementById('invoice-finance-suggestion-text');
@@ -2402,7 +2421,7 @@ Company No.: ${state.companyNumber || 'N/A'}
 DETAILS (from profile)
 Turnover: ${state.turnover || 'Not provided'}
 Projected Turnover: ${state.turnoverNext || 'Not provided'}
-Property Owners: ${state.propertyOwners || 'Not provided'}
+Homeowner / Property Owner: ${state.homeowner === 'yes' ? 'Yes' : state.homeowner === 'no' ? 'No' : (state.propertyOwners || 'Not provided')}
 
 LOAN QUESTIONS
 Q1 — Loan Type: ${state.loanType || 'Skipped'}
@@ -2537,7 +2556,9 @@ async function sendClientSummaryEmail(summary) {
       if (p.annualTurnover) state.turnover = state.turnover || p.annualTurnover;
       if (p.projectedTurnover) state.turnoverNext = state.turnoverNext || p.projectedTurnover;
       if (p.turnoverNext) state.turnoverNext = p.turnoverNext;
-      if (p.propertyOwners) state.propertyOwners = p.propertyOwners;
+      if (p.homeowner) state.propertyOwners = p.homeowner === 'yes' ? 'Yes' : p.homeowner === 'no' ? 'No' : p.homeowner;
+      else if (p.propertyOwners) state.propertyOwners = p.propertyOwners;
+      if (p.homeowner) state.homeowner = p.homeowner;
       if (p.invoicesB2B) state.invoicesB2B = p.invoicesB2B;
       if (p.paymentTermsDays) state.paymentTermsDays = p.paymentTermsDays;
     }

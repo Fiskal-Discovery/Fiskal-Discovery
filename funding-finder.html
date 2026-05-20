@@ -3187,6 +3187,8 @@ async function sendNotification(summary, matchedProducts) {
     ? `Yes — ${state.paymentTermsDays || '30'}-day payment terms`
     : state.invoicesB2B === 'no' ? 'No' : 'Not answered';
   flags.push(`💳 Invoices B2B: ${invoiceInfo}`);
+  const p = appState.profile || {};
+  flags.push(`🏠 Homeowner / Property Owner: ${p.homeowner === 'yes' ? 'Yes' : p.homeowner === 'no' ? 'No' : 'Not answered'}`);
 
   const templateParams = {
     name: state.name,
@@ -3326,6 +3328,7 @@ async function loadNicolePhoto() {
       if (p.fundingAmount) state.fundingAmount = p.fundingAmount;
       if (p.invoicesB2B) state.invoicesB2B = p.invoicesB2B;
       if (p.paymentTermsDays) state.paymentTermsDays = p.paymentTermsDays;
+      if (p.homeowner) state.homeowner = p.homeowner;
     }
     document.addEventListener("DOMContentLoaded", function() {
       var map = {

@@ -2454,6 +2454,16 @@ const welcomeFlow = [
     saveAs: "paymentTermsDays"
   },
   {
+    id: "homeowner",
+    type: "choice",
+    question: "Are you or any of your directors homeowners or property owners?",
+    options: [
+      { label: "Yes", value: "yes" },
+      { label: "No", value: "no" }
+    ],
+    saveAs: "homeowner"
+  },
+  {
     id: "fundingAmount",
     type: "choice",
     question: "How much funding would make a real difference right now?",
@@ -2480,7 +2490,7 @@ function startWelcome() {
   clearModuleBadge();
   // Check if profile already exists AND includes turnover (added later)
   const p = appState.profile || {};
-  if (p.name && p.email && 'annualTurnover' in p && 'invoicesB2B' in p) {
+  if (p.name && p.email && 'annualTurnover' in p && 'invoicesB2B' in p && 'homeowner' in p) {
     showHomepage();
     return;
   }

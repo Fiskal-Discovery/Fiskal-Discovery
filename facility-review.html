@@ -4046,7 +4046,7 @@ Monthly cost: ${state.ifMonthlyCost || 'Not provided'}
 Priorities: ${(state['if-priorities'] || []).join(', ') || 'Not specified'}
 Barriers: ${state.barrier === 'yes' ? state.barrierDetails || 'Yes — no details' : 'None'}
 Annual turnover: ${state.turnover}
-Property ownership: ${state.propertyOwnership}
+Homeowner / Property Owner: ${state.homeowner === 'yes' ? 'Yes' : state.homeowner === 'no' ? 'No' : (state.propertyOwnership || 'Not provided')}
   `;
 
   return `You are writing a warm, personal facility review summary for a business owner who has just completed a Fiskal Facility Review — run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
@@ -4821,6 +4821,8 @@ function submitFXReview() {
       if (p.marketingConsentText) state.marketingConsentText = p.marketingConsentText;
       if (p.marketingConsentTimestamp) state.marketingConsentTimestamp = p.marketingConsentTimestamp;
       if (p.annualTurnover) state.turnover = p.annualTurnover;
+      if (p.homeowner) state.homeowner = p.homeowner;
+      if (p.companyName || p.businessName) state.business = p.companyName || p.businessName;
     }
     // Pre-fill form fields on DOMContentLoaded
     document.addEventListener("DOMContentLoaded", function() {

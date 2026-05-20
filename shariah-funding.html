@@ -2492,6 +2492,7 @@ async function sendNotification() {
     '--- INVOICE FINANCE ---',
     'Invoices B2B: ' + (_snProfile.invoicesB2B === 'yes' ? 'Yes' : _snProfile.invoicesB2B === 'no' ? 'No' : 'Not answered'),
     'Payment Terms: ' + (_snProfile.invoicesB2B === 'yes' && _snProfile.paymentTermsDays ? _snProfile.paymentTermsDays + ' days' : 'N/A'),
+    'Homeowner / Property Owner: ' + (_snProfile.homeowner === 'yes' ? 'Yes' : _snProfile.homeowner === 'no' ? 'No' : 'Not answered'),
     '',
     'Marketing consent: ' + (state.marketingConsent ? 'Yes' : 'No'),
     state.marketingConsentTimestamp ? 'Consent timestamp: ' + state.marketingConsentTimestamp : ''
