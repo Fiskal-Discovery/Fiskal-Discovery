@@ -2407,6 +2407,7 @@ const welcomeFlow = [
       { label: "Professional Services", value: "Professional Services" },
       { label: "Healthcare", value: "Healthcare" },
       { label: "Clean Energy", value: "Clean Energy" },
+      { label: "Financial Services", value: "Financial Services" },
       { label: "Other", value: "Other", freeText: true }
     ],
     saveAs: "industry"
@@ -2607,54 +2608,68 @@ function renderWelcomeQuestion() {
     const grid = document.createElement('div');
     grid.className = isTwoCol ? 'ob-q-grid' : 'ob-q-cards';
 
-    let freeTextWrap = null;
+    const regularOpts = q.options.filter(o => !o.freeText);
+    const freeTextOpt = q.options.find(o => o.freeText);
 
-    q.options.forEach(opt => {
+    regularOpts.forEach(opt => {
       const btn = document.createElement('button');
       btn.className = isTwoCol ? 'ob-q-pill' : 'ob-q-card';
       btn.textContent = opt.label;
       btn.onclick = () => {
         grid.querySelectorAll('.ob-q-pill, .ob-q-card').forEach(b => b.classList.remove('ob-selected'));
+        if (otherSlot) otherSlot.classList.remove('ob-selected');
+        if (otherInp) { otherInp.style.display = 'none'; otherLbl.textContent = freeTextOpt.label; }
+        if (otherContinue) otherContinue.style.display = 'none';
         btn.classList.add('ob-selected');
-        if (opt.freeText) {
-          if (!freeTextWrap) {
-            freeTextWrap = document.createElement('div');
-            freeTextWrap.style.cssText = 'display:flex;flex-direction:column;gap:10px;width:100%;';
-            const backBtn = document.createElement('button');
-            backBtn.textContent = '‹ Back';
-            backBtn.style.cssText = 'background:none;border:none;color:#8E7ED8;font-size:13px;cursor:pointer;font-family:"DM Sans",sans-serif;padding:0;text-align:left;margin-bottom:4px;';
-            backBtn.onclick = () => { freeTextWrap.style.display = 'none'; grid.style.display = ''; };
-            const inp = document.createElement('input');
-            inp.type = 'text';
-            inp.placeholder = 'Please describe your industry…';
-            inp.style.cssText = 'width:100%;padding:12px 16px;border:1px solid rgba(42,4,64,0.15);border-radius:10px;font-size:15px;background:#ffffff;color:#1a0533;font-family:"DM Sans",sans-serif;outline:none;transition:border-color 0.2s,box-shadow 0.2s;box-sizing:border-box;';
-            inp.addEventListener('focus', () => { inp.style.borderColor = '#D94F00'; inp.style.boxShadow = '0 0 0 3px rgba(217,79,0,0.1)'; });
-            inp.addEventListener('blur', () => { inp.style.borderColor = 'rgba(42,4,64,0.15)'; inp.style.boxShadow = 'none'; });
-            const confirmBtn = document.createElement('button');
-            confirmBtn.textContent = 'Continue →';
-            confirmBtn.style.cssText = 'background:#D94F00;color:#fff;border:none;border-radius:999px;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:Raleway,sans-serif;box-shadow:0 4px 20px rgba(217,79,0,0.3);transition:all 0.2s;width:100%;';
-            confirmBtn.onclick = () => {
-              const val = inp.value.trim();
-              if (!val) { inp.style.borderColor = '#D94F00'; inp.focus(); return; }
-              advanceChoice({ ...opt, value: val });
-            };
-            inp.addEventListener('keypress', e => { if (e.key === 'Enter') confirmBtn.click(); });
-            freeTextWrap.appendChild(backBtn);
-            freeTextWrap.appendChild(inp);
-            freeTextWrap.appendChild(confirmBtn);
-            wrap.appendChild(freeTextWrap);
-          }
-          grid.style.display = 'none';
-          freeTextWrap.style.display = 'flex';
-          setTimeout(() => freeTextWrap.querySelector('input').focus(), 50);
-        } else {
-          if (freeTextWrap) freeTextWrap.style.display = 'none';
-          setTimeout(() => advanceChoice(opt), 180);
-        }
+        setTimeout(() => advanceChoice(opt), 180);
       };
       grid.appendChild(btn);
     });
     wrap.appendChild(grid);
+
+    let otherSlot = null, otherInp = null, otherLbl = null, otherContinue = null;
+    if (freeTextOpt) {
+      otherSlot = document.createElement('div');
+      otherSlot.className = 'ob-q-pill';
+      otherSlot.style.cssText = 'cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:8px;width:100%;box-sizing:border-box;grid-column:1/-1;';
+      otherLbl = document.createElement('span');
+      otherLbl.textContent = freeTextOpt.label;
+      otherInp = document.createElement('input');
+      otherInp.type = 'text';
+      otherInp.placeholder = 'Please describe your industry…';
+      otherInp.style.cssText = 'display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(42,4,64,0.2);outline:none;color:#1a0533;font:inherit;padding:4px 0;font-size:15px;';
+      otherInp.addEventListener('click', e => e.stopPropagation());
+      otherContinue = document.createElement('button');
+      otherContinue.textContent = 'Continue →';
+      otherContinue.style.cssText = 'display:none;background:#D94F00;color:#fff;border:none;border-radius:999px;padding:12px 28px;font-size:15px;font-weight:700;cursor:pointer;font-family:Raleway,sans-serif;box-shadow:0 4px 20px rgba(217,79,0,0.3);transition:all 0.2s;width:100%;margin-top:4px;';
+      otherContinue.onclick = (e) => {
+        e.stopPropagation();
+        const val = otherInp.value.trim();
+        if (!val) { otherInp.focus(); return; }
+        advanceChoice({ ...freeTextOpt, value: val });
+      };
+      otherInp.addEventListener('keypress', e => { if (e.key === 'Enter') otherContinue.click(); });
+      otherSlot.onclick = () => {
+        const open = otherInp.style.display !== 'none';
+        grid.querySelectorAll('.ob-q-pill, .ob-q-card').forEach(b => b.classList.remove('ob-selected'));
+        if (open) {
+          otherSlot.classList.remove('ob-selected');
+          otherInp.style.display = 'none';
+          otherLbl.textContent = freeTextOpt.label;
+          otherContinue.style.display = 'none';
+        } else {
+          otherSlot.classList.add('ob-selected');
+          otherInp.style.display = 'block';
+          otherLbl.textContent = freeTextOpt.label + ' — please specify:';
+          otherContinue.style.display = 'block';
+          setTimeout(() => otherInp.focus(), 50);
+        }
+      };
+      otherSlot.appendChild(otherLbl);
+      otherSlot.appendChild(otherInp);
+      otherSlot.appendChild(otherContinue);
+      wrap.appendChild(otherSlot);
+    }
 
   } else if (q.type === 'currency') {
     const wrap2 = document.createElement('div');
