@@ -2182,26 +2182,7 @@ const loadingMessages = [
 
 let lastMessageIndex = -1;
 
-function getRandomMessage() {
-  let newIndex;
-  do {
-    newIndex = Math.floor(Math.random() * loadingMessages.length);
-  } while (newIndex === lastMessageIndex);
-  lastMessageIndex = newIndex;
-  return loadingMessages[newIndex];
-}
 
-function showDiscoveryThinkingScreen(callback) {
-
-  const fullName = state.name || appState.profile.name || (JSON.parse(localStorage.getItem('fiskal_appState') || '{}').profile || {}).name || '';
-  const userName = fullName.split(' ')[0];
-  const phrases = [
-    'Every great business is on a journey.',
-    'Mapping your funding options...',
-    `Thanks for waiting, ${userName} — your discovery is ready.`
-  ];
-
-  let screen = document.getElementById('discovery-thinking-screen');
   if (!screen) {
     screen = document.createElement('div');
     screen.id = 'discovery-thinking-screen';
@@ -2299,8 +2280,15 @@ const state = {
   currentQuestion: 0,
   barrier: '',
   barrierDetails: '',
+  industry: appState.profile.industry || '',
+  turnover: appState.profile.annualTurnover || '',
+  fundingAmount: appState.profile.fundingAmount || '',
+  homeowner: appState.profile.homeowner || '',
   invoicesB2B: appState.profile.invoicesB2B || '',
-  paymentTermsDays: appState.profile.paymentTermsDays || ''
+  paymentTermsDays: appState.profile.paymentTermsDays || '',
+  urgency: '',
+  invoiceCustomers: '',
+  cardSales: ''
 };
 
 // ============================================================
@@ -2760,19 +2748,6 @@ function showScreen(id) {
   }
 }
 
-function goHome() {
-  window.location.href = 'home.html?home=1';
-}
-
-function startModule(module) {
-  state.module = module;
-  state.answers = {};
-  state.currentQuestion = 0;
-  document.getElementById('welcome-badge').textContent = moduleLabels[module];
-  document.getElementById('details-badge').textContent = moduleLabels[module];
-  document.getElementById('question-badge').textContent = moduleLabels[module];
-  showScreen('details');
-}
 
 function startQuestions() {
   state.currentQuestion = 0;
@@ -2888,29 +2863,6 @@ async function generateResults() {
   displayResults(summary, matchedProducts);
 }
 
-function buildAIPrompt(answersText, matchedProducts) {
-  const productNames = matchedProducts.map(p => productInfo[p]?.name).filter(Boolean).join(', ');
-
-  return `You are writing a warm, personal funding summary for a business owner who has just completed Fiskal Discovery — a free commercial finance tool run by Nicole Bertolissi at Fiskal, a Norwich-based commercial finance broker.
-
-Business owner: ${state.name}
-Business: ${state.business}
-Their answers: ${answersText}
-Matched funding products: ${productNames}
-Barriers mentioned: ${state.barrier === 'yes' ? state.barrierDetails || 'Some concerns mentioned' : 'None'}
-
-Write a warm, plain English summary (3-4 sentences) for ${state.name} explaining which funding options could work for their business and why. 
-
-CRITICAL RULES:
-- Do NOT mention any lender names whatsoever
-- Do NOT give specific rates or numbers
-- Write warmly and personally — this is from a human broker, not an algorithm
-- Focus on possibilities and what the funding could do for their business
-- If barriers were mentioned, acknowledge briefly that these are not necessarily obstacles
-- End with something like "Nicole will be in touch within a few hours to talk through what's possible"
-- Keep it under 100 words
-- Do not use bullet points — flowing sentences only`;
-}
 
 function getMatchedProducts() {
   const matched = [];
@@ -2972,14 +2924,6 @@ function getMatchedProducts() {
 }
 
 
-function getFallbackSummary(matchedProducts) {
-  const names = matchedProducts.map(p => productInfo[p]?.name).filter(Boolean);
-  if (names.length === 0) {
-    return `Thank you for completing your Fiskal Discovery, ${state.name}. Nicole will review your answers personally and be in touch within a few hours to explore what's possible for ${state.business}.`;
-  }
-  const list = names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
-  return `Based on your Discovery, ${list} ${names.length > 1 ? 'look' : 'looks'} like ${names.length > 1 ? 'strong options' : 'a strong option'} for ${state.business}. There are some real possibilities worth exploring here. Nicole will be in touch within a few hours to talk through what's possible in more detail.`;
-}
 
 function saveDiscovery(module, icon, summaryHtml, business) {
   try {
@@ -3133,48 +3077,9 @@ function displayResults(summary, matchedProducts) {
 }
 
 // ============================================================
-// NOTIFICATION (placeholder — replace with backend endpoint)
 // ============================================================
-async function sendInitialInfoNotification() {
-  const key = "initialNotificationSent_fundingFinder";
-  
-  if (sessionStorage.getItem(key)) {
-    return;
-  }
-
-  const initialData = {
-    journey: 'Funding Finder',
-    name: state.name,
-    business: state.business,
-    email: state.email,
-    phone: state.phone,
-    companyNumber: state.companyNumber || 'Not provided',
-    timestamp: new Date().toISOString(),
-    page: window.location.href
-  };
-
-  const templateParams = {
-    name: state.name,
-    business_name: state.business,
-    email: state.email,
-    phone: state.phone,
-    company_number: state.companyNumber || 'Not provided',
-    module: 'Funding Finder - Initial Info',
-    matched_products: 'Initial information collected',
-    barriers: 'N/A',
-    summary: `New Fiskal Discovery Started - ${state.business}\n\nA user has completed the initial information stage.\n\nJourney: Funding Finder\nName: ${state.name}\nBusiness: ${state.business}\nEmail: ${state.email}\nPhone: ${state.phone}\nCompany Number: ${state.companyNumber || 'Not provided'}\nTimestamp: ${new Date().toISOString()}`
-  };
-
-  try {
-    if (!(DEV_MODE || !SEND_EMAILS)) {
-      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-      sessionStorage.setItem(key, "true");
-    }
-  } catch (error) {
-    console.warn("Initial info notification failed", error);
-  }
-}
-
+// NOTIFICATION
+// ============================================================
 async function sendNotification(summary, matchedProducts) {
   const fa = state.flowAnswers || {};
   const flags = [];
