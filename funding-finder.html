@@ -2087,8 +2087,7 @@
 
     <div id="matched-products-section">
       <p class="funding-options-label">Funding options to explore</p>
-      <p class="funding-options-sub">Click any option below to learn more on the Fiskal website.</p>
-      <div class="matched-products" id="matched-products-list"></div>
+      <div id="matched-products-list"></div>
     </div>
 
     <div id="nicole-contact-card-container"></div>
@@ -3050,35 +3049,53 @@ function displayResults(summary, matchedProducts) {
   const list = document.getElementById('matched-products-list');
   list.innerHTML = '';
 
-  const fundingLinks = {
-    "Invoice Finance": "https://www.fiskal.online/invoice-finance",
-    "Asset Finance": "https://www.fiskal.online/funding-products#asset-finance",
-    "Business Loan": "https://www.fiskal.online/funding-products#business-loans",
-    "Business Loans": "https://www.fiskal.online/funding-products#business-loans",
-    "Trade Finance": "https://www.fiskal.online/funding-products#trade-finance",
-    "Revolving Credit Facility": "https://www.fiskal.online/funding-products#revolving-credit",
-    "Revolving Credit": "https://www.fiskal.online/funding-products#revolving-credit",
-    "Merchant Cash Advance": "https://www.fiskal.online/funding-products#merchant-cash-advance",
-    "Property Finance": "https://www.fiskal.online/funding-products#property-finance",
-    "Commercial Property Finance": "https://www.fiskal.online/funding-products#property-finance",
-    "R&D Tax Credits": "https://www.fiskal.online/r-d-tax-credits-explained",
-    "R&D Tax Credit": "https://www.fiskal.online/r-d-tax-credits-explained"
+  const isConstruction = (state.industry || '').toLowerCase().includes('construction');
+
+  const productDescriptions = {
+    invoice: isConstruction
+      ? 'A facility that releases cash tied up in unpaid invoices, tailored specifically for the construction sector. For verified, signed-off invoices the advance rate can be up to 85%. For contractual or staged payment invoices, advance rates typically range from 50–70% — but that\'s not a barrier. Fiskal works with specialist construction lenders who understand the nuances of contractual debt and know how to structure facilities that work for the way your business actually operates.'
+      : 'A facility that releases cash tied up in unpaid invoices — typically up to 85% of the invoice value within 24 hours. You don\'t have to wait 30, 60 or 90 days for your customers to pay.',
+    trade:        'A specialist funding line used to pay suppliers upfront — in the UK or internationally. You can then repay the facility in up to 120 days, giving you time to sell the goods and collect payment.',
+    asset:        'A way to acquire vehicles, machinery, equipment or fit out premises without paying upfront. The cost is spread over a fixed term and the asset works for your business from day one.',
+    loan:         'A lump sum of capital injected into your business, repaid over an agreed term. Can be secured or unsecured and used for almost any business purpose.',
+    revolving:    'A flexible funding line you can draw down and repay as needed — like an overdraft but specifically designed for businesses. You only pay for what you use.',
+    mca:          'A funding option for businesses that take card payments. An advance is made against your future card takings and repaid automatically as a small percentage of each transaction.',
+    property:     'Funding to purchase, develop or refinance commercial premises. Can include bridging finance for short term needs or longer term commercial mortgages.',
+    bridging:     'Short term property finance typically used to purchase or renovate a property quickly before longer term funding is arranged. Terms are usually 3–18 months.',
+    rd:           'A government scheme that allows businesses developing new products, processes or technology to claim back a percentage of their R&D costs — even if the project wasn\'t successful.',
+    fx:           'A service that helps businesses send or receive money in foreign currencies at better rates than high street banks — reducing hidden costs on every international transaction.',
+    debtRecovery: 'A no-win no-fee specialist service that pursues old unpaid invoices on your behalf. Nothing to pay upfront — the service only charges if money is successfully recovered.',
+    mbo:          'Specialist funding to purchase a business or fund a management buyout. Can include invoice finance against the target company\'s sales ledger and asset finance against its assets.',
+    shariah:      'Funding structured in accordance with Islamic finance principles — typically using a Commodity Murabaha or bundled fee arrangement rather than traditional interest-based lending.'
   };
-  
+
   if (matchedProducts.length > 0) {
     matchedProducts.forEach(p => {
       const info = productInfo[p];
-      if (info) {
-        const url = fundingLinks[info.name] || 'https://www.fiskal.online/funding-products';
-        const a = document.createElement('a');
-        a.href = url;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.className = 'matched-product';
-        a.style.textDecoration = 'none';
-        a.style.display = 'block';
-        a.innerHTML = `<span class="matched-product-icon">${info.icon}</span><span class="matched-product-name">${info.name}</span>`;
-        list.appendChild(a);
+      const desc = productDescriptions[p];
+      if (info && desc) {
+        const wrap = document.createElement('div');
+        wrap.style.cssText = 'margin-bottom:8px;';
+
+        const btn = document.createElement('button');
+        btn.className = 'answer-btn';
+        btn.style.cssText = 'width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:12px;';
+        btn.innerHTML = `<span>Find out more about ${info.name}</span><span class="ff-expand-arrow" style="font-size:18px;transition:transform 0.25s;flex-shrink:0;">›</span>`;
+
+        const detail = document.createElement('div');
+        detail.style.cssText = 'display:none;padding:14px 16px;font-size:13px;line-height:1.7;color:rgba(255,255,255,0.75);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-top:none;border-radius:0 0 10px 10px;margin-top:-4px;';
+        detail.textContent = desc;
+
+        btn.onclick = () => {
+          const open = detail.style.display !== 'none';
+          detail.style.display = open ? 'none' : 'block';
+          btn.querySelector('.ff-expand-arrow').style.transform = open ? '' : 'rotate(90deg)';
+          btn.style.borderRadius = open ? '' : '10px 10px 0 0';
+        };
+
+        wrap.appendChild(btn);
+        wrap.appendChild(detail);
+        list.appendChild(wrap);
       }
     });
     document.getElementById('matched-products-section').style.display = 'block';
@@ -3212,7 +3229,7 @@ async function emailSummaryToUser() {
 
   const summaryEl = document.getElementById('ai-summary-text');
   const summaryText = summaryEl ? summaryEl.innerText : '';
-  const products = Array.from(document.querySelectorAll('#matched-products-list .matched-product-name')).map(el => el.textContent).join(', ');
+  const products = Array.from(document.querySelectorAll('#matched-products-list .answer-btn span:first-child')).map(el => el.textContent.replace(/^Find out more about /, '')).join(', ');
 
   const templateParams = {
     name: state.name,
