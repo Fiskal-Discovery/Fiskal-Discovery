@@ -2659,6 +2659,7 @@ function renderFlowQuestion() {
       btn.onclick = () => {
         optionsEl.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
+        optionsEl.style.pointerEvents = 'none';
         const followupEl = document.getElementById('q-followup');
         const nextBtn = document.getElementById('q-next-btn');
         if (q.followUp && opt === q.followUp.triggerValue) {
@@ -2691,7 +2692,7 @@ function renderFlowQuestion() {
           } else {
             nextBtn.style.display = 'none';
             saveAnswer(q.saveAs, opt);
-            goNext();
+            setTimeout(goNext, 320);
           }
         }
       };
