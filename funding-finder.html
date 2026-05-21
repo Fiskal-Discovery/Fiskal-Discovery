@@ -1706,33 +1706,34 @@
     margin-bottom: 6px !important;
   }
 
-  /* Multi-choice 2-column grid */
+  /* Multi-choice 2-column grid — mobile only */
+  @media (max-width: 768px) {
+    /* Compact answer button for multi-choice grid */
+    .answer-btn-compact {
+      padding: 8px 10px !important;
+      font-size: 13px !important;
+      min-height: 0 !important;
+      line-height: 1.3 !important;
+      text-align: center !important;
+      justify-content: center !important;
+    }
 
-  /* Compact answer button for multi-choice grid */
-  .answer-btn-compact {
-    padding: 8px 10px !important;
-    font-size: 13px !important;
-    min-height: 0 !important;
-    line-height: 1.3 !important;
-    text-align: center !important;
-    justify-content: center !important;
+    /* Tighten question screen to fit on one viewport */
+    #screen-question .screen-content {
+      justify-content: flex-start;
+      padding-top: 12px;
+      padding-bottom: 20px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      min-height: 0;
+    }
+    #screen-question #q-icon { display: none; }
+    #screen-question .question-product { margin-bottom: 4px; }
+    #screen-question .question-text { font-size: clamp(15px, 2.4vw, 19px); margin-bottom: 4px; }
+    #screen-question .question-sub { margin-bottom: 12px; }
+    #screen-question .answer-options { margin-bottom: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    #screen-question #q-next-btn { margin-top: 12px !important; flex-shrink: 0; }
   }
-
-  /* Tighten question screen to fit on one viewport */
-  #screen-question .screen-content {
-    justify-content: flex-start;
-    padding-top: 12px;
-    padding-bottom: 20px;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    min-height: 0;
-  }
-  #screen-question #q-icon { display: none; }
-  #screen-question .question-product { margin-bottom: 4px; }
-  #screen-question .question-text { font-size: clamp(15px, 2.4vw, 19px); margin-bottom: 4px; }
-  #screen-question .question-sub { margin-bottom: 12px; }
-  #screen-question .answer-options { margin-bottom: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  #screen-question #q-next-btn { margin-top: 12px !important; flex-shrink: 0; }
 
   /* Answer buttons — dark style with module stripe */
   #screen-question .answer-btn,
@@ -2645,7 +2646,10 @@ function renderFlowQuestion() {
 
   const optionsEl = document.getElementById('q-options');
   optionsEl.innerHTML = '';
-  optionsEl.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;';
+  const isMobile = window.innerWidth <= 768;
+  optionsEl.style.cssText = isMobile
+    ? 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;'
+    : 'display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px;';
 
   if (q.type === 'single-choice') {
     q.options.forEach(opt => {
@@ -2696,54 +2700,46 @@ function renderFlowQuestion() {
   } else if (q.type === 'multi-choice') {
     const selected = new Set();
     const otherTrigger = q.followUp ? q.followUp.triggerValue : null;
-    const regularOpts = q.options.filter(opt => opt !== otherTrigger);
-    regularOpts.forEach(opt => {
+
+    // All options go into the grid as equal buttons (including "Other")
+    q.options.forEach(opt => {
       const btn = document.createElement('button');
       btn.className = 'answer-btn answer-btn-compact';
       btn.textContent = opt;
       btn.onclick = () => {
-        if (selected.has(opt)) { selected.delete(opt); btn.classList.remove('selected'); }
-        else { selected.add(opt); btn.classList.add('selected'); }
+        if (opt === otherTrigger) {
+          if (selected.has(opt)) {
+            selected.delete(opt); btn.classList.remove('selected');
+            otherRow.style.display = 'none'; otherInp.value = '';
+          } else {
+            selected.add(opt); btn.classList.add('selected');
+            otherRow.style.display = 'block';
+            setTimeout(() => otherInp.focus(), 50);
+          }
+        } else {
+          if (selected.has(opt)) { selected.delete(opt); btn.classList.remove('selected'); }
+          else { selected.add(opt); btn.classList.add('selected'); }
+        }
         nextBtn.style.opacity = (selected.size > 0) ? '1' : '0.35';
         nextBtn.style.pointerEvents = (selected.size > 0) ? 'auto' : 'none';
       };
       optionsEl.appendChild(btn);
     });
-    if (otherTrigger) {
-      const otherSlot = document.createElement('div');
-      otherSlot.className = 'answer-btn';
-      otherSlot.style.cssText = 'cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:7px;width:100%;box-sizing:border-box;grid-column:1/-1;';
-      const otherLbl = document.createElement('span');
-      otherLbl.textContent = otherTrigger;
-      const otherInp = document.createElement('input');
-      otherInp.type = 'text';
-      otherInp.id = 'multi-followup-input';
-      otherInp.placeholder = q.followUp.placeholder || 'Please describe...';
-      otherInp.style.cssText = 'display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0;';
-      otherInp.addEventListener('input', () => {
-        nextBtn.style.opacity = (selected.size > 0 || otherInp.value.trim()) ? '1' : '0.35';
-        nextBtn.style.pointerEvents = (selected.size > 0 || otherInp.value.trim()) ? 'auto' : 'none';
-      });
-      otherInp.addEventListener('click', e => e.stopPropagation());
-      otherSlot.onclick = () => {
-        const open = otherInp.style.display !== 'none';
-        if (open) {
-          otherSlot.classList.remove('selected'); otherInp.style.display = 'none';
-          otherLbl.textContent = otherTrigger; otherInp.value = '';
-          selected.delete(otherTrigger);
-        } else {
-          otherSlot.classList.add('selected'); selected.add(otherTrigger);
-          otherInp.style.display = 'block';
-          otherLbl.textContent = otherTrigger + ' — please specify:';
-          setTimeout(() => otherInp.focus(), 50);
-        }
-        nextBtn.style.opacity = (selected.size > 0 || otherInp.value.trim()) ? '1' : '0.35';
-        nextBtn.style.pointerEvents = (selected.size > 0 || otherInp.value.trim()) ? 'auto' : 'none';
-      };
-      otherSlot.appendChild(otherLbl);
-      otherSlot.appendChild(otherInp);
-      optionsEl.appendChild(otherSlot);
-    }
+
+    // Text box row — spans both columns, hidden until "Other" is clicked
+    const otherRow = document.createElement('div');
+    otherRow.style.cssText = 'grid-column:1/-1;display:none;margin-top:4px;';
+    const otherInp = document.createElement('input');
+    otherInp.type = 'text';
+    otherInp.id = 'multi-followup-input';
+    otherInp.placeholder = q.followUp ? (q.followUp.placeholder || 'Please describe...') : 'Please describe...';
+    otherInp.style.cssText = 'width:100%;background:rgba(255,255,255,0.06);border:none;border-bottom:1.5px solid rgba(160,153,232,0.5);border-radius:0;outline:none;color:#fff;font-family:inherit;font-size:14px;padding:8px 4px;';
+    otherInp.addEventListener('input', () => {
+      nextBtn.style.opacity = (selected.size > 0) ? '1' : '0.35';
+      nextBtn.style.pointerEvents = (selected.size > 0) ? 'auto' : 'none';
+    });
+    otherRow.appendChild(otherInp);
+    optionsEl.appendChild(otherRow);
     const nextBtn = document.getElementById('q-next-btn');
     nextBtn.style.display = 'block';
     nextBtn.style.opacity = '0.35';
