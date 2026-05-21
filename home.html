@@ -399,10 +399,6 @@
     backdrop-filter: blur(8px);
     border-radius: 999px;
     padding: 8px 16px 8px 8px;
-    position: absolute;
-    bottom: 18px;
-    right: 20px;
-    z-index: 3;
   }
 
   .profile-badge-avatar {
@@ -1132,14 +1128,14 @@
       <h1 class="hero-title">Fiskal Discovery</h1>
       <p class="hero-tagline">Find out what's possible for your business</p>
 
-    </div>
-    <div id="home-profile-badge" style="display:none;" class="profile-badge">
-      <div class="profile-badge-avatar" id="home-avatar">?</div>
-      <div class="profile-badge-info">
-        <div class="profile-badge-name" id="home-profile-name"></div>
-        <div class="profile-badge-company" id="home-profile-company"></div>
+      <div id="home-profile-badge" style="display:none;" class="profile-badge">
+        <div class="profile-badge-avatar" id="home-avatar">?</div>
+        <div class="profile-badge-info">
+          <div class="profile-badge-name" id="home-profile-name"></div>
+          <div class="profile-badge-company" id="home-profile-company"></div>
+        </div>
+        <span class="profile-badge-reset" onclick="resetOnboarding()">Not you?</span>
       </div>
-      <span class="profile-badge-reset" onclick="resetOnboarding()">Not you?</span>
     </div>
   </div>
   <!-- Stars layer — outside .hero so not clipped by ::after, clipped to diagonal shape -->
