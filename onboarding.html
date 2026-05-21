@@ -85,9 +85,15 @@
     height: 80px;
     flex-shrink: 0;
     position: relative;
+    overflow: hidden;
     z-index: 1;
     border-bottom: none;
     backdrop-filter: none;
+  }
+  #onboarding-overlay .ob-fixed-header .dashed-divider,
+  #onboarding-overlay .ob-fixed-header .q-module-name {
+    position: relative;
+    z-index: 1;
   }
   #onboarding-overlay .ob-fixed-header .dashed-divider {
     font-family: 'Dancing Script', cursive;
@@ -2110,7 +2116,7 @@
 
   /* Shooting stars — question overlay */
   #ob-overlay-stars {
-    position: fixed;
+    position: absolute;
     inset: 0;
     pointer-events: none;
     overflow: hidden;
@@ -2201,10 +2207,9 @@
 <!-- ====== ONBOARDING OVERLAY ====== -->
 <div id="onboarding-overlay" class="hidden">
 
-  <div id="ob-overlay-stars"></div>
-
   <!-- Header -->
   <header class="ob-fixed-header">
+    <div id="ob-overlay-stars"></div>
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Getting Started</span>
   </header>
