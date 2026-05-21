@@ -85,7 +85,7 @@
     animation: fadeUp 0.5s ease forwards;
     flex-direction: column;
   }
-  .screen.active { display: flex; flex-direction: column; height: 100dvh; overflow-y: auto; }
+  .screen.active { display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
   /* Results screens must appear immediately — no fade-in that could leave them blank */
   #screen-loading.active,
   #screen-asset-loading.active,
@@ -142,10 +142,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 20px 24px 90px;
+    padding: 20px 24px;
     max-width: 960px;
     width: 100%;
     margin: 0 auto;
+    overflow-y: auto;
   }
 
   
@@ -943,10 +944,8 @@
 
   /* ---- FIXED QUESTION FOOTER TEMPLATE ---- */
   .q-fixed-footer {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
+    flex-shrink: 0;
     background: #000;
-    z-index: 100;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -954,6 +953,7 @@
     min-height: 60px;
     padding-bottom: env(safe-area-inset-bottom, 0px);
     gap: 0;
+    width: 100%;
   }
   .q-footer-nav {
     display: flex;
