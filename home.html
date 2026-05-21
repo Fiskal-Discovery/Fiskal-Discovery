@@ -162,22 +162,8 @@
   /* ============================================================
      SCREEN SHOW/HIDE
   ============================================================ */
-  .screen { display: none; flex-direction: column; }
-  .screen.active {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 1;
-  }
-  #screen-home .screen-content {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-  }
+  .screen { display: none; }
+  .screen.active { display: block; }
 
   /* ============================================================
      NAVBAR
@@ -341,50 +327,6 @@
     100% { opacity: 0;   transform: rotate(var(--sa)) translateX(var(--sd)); }
   }
 
-  @keyframes home-star-twinkle {
-    0%, 100% { opacity: var(--op, 0.4); }
-    50%      { opacity: calc(var(--op, 0.4) * 0.3); }
-  }
-
-  @keyframes refuseFidget {
-    0%   { transform: translateX(0) skewX(0deg); }
-    20%  { transform: translateX(3px) skewX(-5deg); }
-    40%  { transform: translateX(0) skewX(0deg); }
-    65%  { transform: translateX(4px) skewX(-7deg); }
-    85%  { transform: translateX(0) skewX(0deg); }
-    100% { transform: translateX(0) skewX(0deg); }
-  }
-  @keyframes refuseZoom {
-    0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
-    8%   { transform: translateX(12px) skewX(-20deg); opacity: 1; }
-    22%  { transform: translateX(120vw) skewX(-20deg); opacity: 1; }
-    23%  { transform: translateX(120vw) skewX(-20deg); opacity: 0; }
-    24%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
-    40%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
-    41%  { transform: translateX(-120vw) skewX(20deg); opacity: 1; }
-    62%  { transform: translateX(4px) skewX(-4deg); opacity: 1; }
-    74%  { transform: translateX(-2px) skewX(1deg); opacity: 1; }
-    88%  { transform: translateX(0) skewX(0deg); opacity: 1; }
-    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
-  }
-  @keyframes refuseLoop {
-    0%    { transform: translateX(0) skewX(0deg); opacity: 1; }
-    83%   { transform: translateX(0) skewX(0deg); opacity: 1; }
-    85%   { transform: translateX(3px) skewX(-5deg); opacity: 1; }
-    87%   { transform: translateX(0) skewX(0deg); opacity: 1; }
-    89%   { transform: translateX(4px) skewX(-7deg); opacity: 1; }
-    91%   { transform: translateX(0) skewX(0deg); opacity: 1; }
-    92%   { transform: translateX(12px) skewX(-20deg); opacity: 1; }
-    93.5% { transform: translateX(120vw) skewX(-20deg); opacity: 1; }
-    93.7% { transform: translateX(120vw) skewX(-20deg); opacity: 0; }
-    94%   { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
-    96%   { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
-    96.5% { transform: translateX(-120vw) skewX(20deg); opacity: 1; }
-    97.5% { transform: translateX(4px) skewX(-4deg); opacity: 1; }
-    98.5% { transform: translateX(-2px) skewX(1deg); opacity: 1; }
-    99.5% { transform: translateX(0) skewX(0deg); opacity: 1; }
-    100%  { transform: translateX(0) skewX(0deg); opacity: 1; }
-  }
 
   /* Geometric rings */
   .hero-ring {
@@ -984,89 +926,30 @@
   /* ============================================================
      FOOTER
   ============================================================ */
-  /* Black header — matches module pages */
-  #screen-home .ob-fixed-header {
-    background: #000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 80px;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    border-bottom: none;
-    backdrop-filter: none;
+  .site-footer {
+    background: var(--navy);
+    padding: 20px 32px;
+    text-align: center;
   }
-  #screen-home .ob-fixed-header .dashed-divider {
-    font-family: 'Dancing Script', cursive;
-    font-size: 22px;
-    font-style: italic;
-    letter-spacing: 1px;
-    color: var(--col-soft-violet);
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    position: relative;
-    z-index: 1;
+  .site-footer .dashed-divider {
+    color: rgba(255,255,255,0.35);
+    margin: 0 0 12px;
   }
-  #screen-home .ob-fixed-header .dashed-divider::before,
-  #screen-home .ob-fixed-header .dashed-divider::after {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 1px;
-    background: var(--col-soft-violet);
-    opacity: 0.4;
-  }
-  #screen-home .ob-fixed-header .q-module-name {
-    position: absolute;
-    bottom: 6px;
-    right: 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #FF6B2B;
-    z-index: 1;
-  }
-  #screen-home .header-stars {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 0;
+  .site-footer .dashed-divider::before,
+  .site-footer .dashed-divider::after {
+    border-top-color: rgba(255,255,255,0.2);
   }
 
-  /* Black footer — matches module pages */
-  .site-footer {
-    flex-shrink: 0;
-    background: #000;
-    padding: 10px 24px calc(10px + env(safe-area-inset-bottom, 0px));
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
-  .footer-refuse {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 6px;
-    will-change: transform;
-    white-space: nowrap;
-  }
   .footer-legal {
-    font-size: 10px;
+    font-size: 11px;
     color: rgba(255,255,255,0.35);
-    line-height: 1.6;
+    line-height: 1.7;
   }
+
   .footer-legal a {
-    color: rgba(255,255,255,0.35);
+    color: var(--periwinkle);
     text-decoration: none;
+    opacity: 0.7;
   }
 
   /* ============================================================
@@ -1213,18 +1096,13 @@
 
 <div class="screen" id="screen-home">
 
-  <!-- BLACK HEADER -->
-  <header class="ob-fixed-header">
-    <div class="header-stars" id="home-header-stars"></div>
-    <div class="dashed-divider">Fiskal Discovery</div>
-    <span class="q-module-name">Home</span>
-  </header>
-
-  <div class="screen-content">
-
   <!-- HERO -->
   <div class="hero-wrap">
   <div class="hero">
+    <div class="hero-refuse-tag">
+      <span class="tagline-refuse">REFUSE</span>
+      <span class="tagline-rest">to stand still</span>
+    </div>
     <div class="hero-ring hero-ring-1"></div>
     <div class="hero-ring hero-ring-3"></div>
     <div class="hero-ring hero-ring-4"></div>
@@ -1395,14 +1273,9 @@
     </div>
   </div>
 
-  </div><!-- /screen-content -->
-
-  <!-- BLACK FOOTER -->
+  <!-- FOOTER -->
   <footer class="site-footer">
-    <div class="footer-refuse">
-      <span class="tagline-refuse">REFUSE</span>
-      <span class="tagline-rest"> to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
     <p class="footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539. &nbsp;|&nbsp; <a href="https://fiskal.online" target="_blank">fiskal.online</a> &nbsp;|&nbsp; All information is treated in confidence.</p>
   </footer>
 
@@ -1738,53 +1611,11 @@ function loadLenderLeaderboard() {
   }
 }
 
-function createHeaderStars() {
-  const layer = document.getElementById('home-header-stars');
-  if (!layer) return;
-  for (let i = 0; i < 35; i++) {
-    const el = document.createElement('div');
-    const size = Math.random() < 0.2 ? 2 : 1;
-    const op = (Math.random() * 0.45 + 0.15).toFixed(2);
-    const td = (Math.random() * 3 + 2).toFixed(1);
-    const delay = (Math.random() * 4).toFixed(1);
-    el.style.cssText = `position:absolute;border-radius:50%;background:#fff;width:${size}px;height:${size}px;left:${(Math.random()*100).toFixed(1)}%;top:${(Math.random()*100).toFixed(1)}%;opacity:0;animation:home-star-twinkle ${td}s ${delay}s ease-in-out infinite both;--op:${op};`;
-    layer.appendChild(el);
-  }
-}
-
-function spawnHeaderShootingStar() {
-  const layer = document.getElementById('home-header-stars');
-  if (!layer) return;
-  const el = document.createElement('div');
-  el.className = 'shooting-star';
-  el.style.cssText = `left:${(Math.random()*80+5).toFixed(1)}%;top:${(Math.random()*80+5).toFixed(1)}%;width:${(Math.random()*55+75).toFixed(0)}px;--sa:${(Math.random()*22+18).toFixed(0)}deg;--sd:${(Math.random()*100+230).toFixed(0)}px;animation-duration:${(Math.random()*400+700).toFixed(0)}ms`;
-  layer.appendChild(el);
-  const dur = parseFloat(el.style.animationDuration) || 900;
-  setTimeout(() => el.remove(), dur + 200);
-  setTimeout(spawnHeaderShootingStar, Math.random() * 11000 + 9000);
-}
-
 document.addEventListener('DOMContentLoaded', function () {
   loadAppState();
   showHomepage();
   loadLenderLeaderboard();
-  createHeaderStars();
   setTimeout(spawnShootingStar, Math.random() * 5000 + 4000);
-  setTimeout(spawnHeaderShootingStar, Math.random() * 3000 + 2000);
-
-  // Refuse animation on footer tagline
-  const refuse = document.querySelector('.footer-refuse');
-  if (refuse) {
-    setTimeout(() => {
-      refuse.style.animation = 'refuseFidget 1.5s ease-in-out forwards';
-      setTimeout(() => {
-        refuse.style.animation = 'refuseZoom 4s ease-in-out forwards';
-        setTimeout(() => {
-          refuse.style.animation = 'refuseLoop 60s ease-in-out infinite';
-        }, 4000);
-      }, 15000);
-    }, 5000);
-  }
 });
 </script>
 <script src="shared-components.js"></script>
