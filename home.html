@@ -419,10 +419,8 @@
     cursor: pointer;
     text-decoration: underline;
     white-space: nowrap;
-    position: absolute;
-    bottom: 2px;
-    right: 52px;
-    z-index: 5;
+    display: block;
+    margin-top: 2px;
   }
 
   /* ============================================================
@@ -1131,10 +1129,10 @@
         <div class="profile-badge-info">
           <div class="profile-badge-name" id="home-profile-name"></div>
           <div class="profile-badge-company" id="home-profile-company"></div>
+          <span id="home-profile-reset" style="display:none;" class="profile-badge-reset" onclick="resetOnboarding()">Not you?</span>
         </div>
       </div>
     </div>
-    <span id="home-profile-reset" style="display:none;" class="profile-badge-reset" onclick="resetOnboarding()">Not you?</span>
   </div>
   <!-- Stars layer — outside .hero so not clipped by ::after, clipped to diagonal shape -->
   <div class="stars-layer">
