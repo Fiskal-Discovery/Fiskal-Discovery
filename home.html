@@ -464,14 +464,15 @@
 
   .hero-real-support {
     position: absolute;
-    bottom: -22px;
+    bottom: 10px;
     right: 20px;
     font-size: 12px;
     font-weight: 600;
     color: var(--orange-bright);
     margin: 0;
-    z-index: 5;
+    z-index: 10;
     text-align: right;
+    pointer-events: none;
   }
 
   .home-support-blurb {
@@ -1144,8 +1145,8 @@
           <span id="home-profile-reset" style="display:none;" class="profile-badge-reset" onclick="resetOnboarding()">Not you?</span>
         </div>
       </div>
-    <p class="hero-real-support">Real support from a real person.</p>
   </div>
+  <p class="hero-real-support">Real support from a real person.</p>
   <!-- Stars layer — outside .hero so not clipped by ::after, clipped to diagonal shape -->
   <div class="stars-layer">
     <div class="mars"></div>
