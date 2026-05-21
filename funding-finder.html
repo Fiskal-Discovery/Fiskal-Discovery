@@ -1482,6 +1482,47 @@
     .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
   }
 
+  /* ---- REFUSE TO STAND STILL ANIMATION ---- */
+  @keyframes refuseFidget {
+    0%   { transform: translateX(0) skewX(0deg); }
+    20%  { transform: translateX(3px) skewX(-5deg); }
+    40%  { transform: translateX(0) skewX(0deg); }
+    65%  { transform: translateX(4px) skewX(-7deg); }
+    85%  { transform: translateX(0) skewX(0deg); }
+    100% { transform: translateX(0) skewX(0deg); }
+  }
+  @keyframes refuseZoom {
+    0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    8%   { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    22%  { transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    23%  { transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    24%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    40%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    41%  { transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    62%  { transform: translateX(4px) skewX(-4deg); opacity: 1; }
+    74%  { transform: translateX(-2px) skewX(1deg); opacity: 1; }
+    88%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
+  }
+  @keyframes refuseLoop {
+    0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    83%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    85%  { transform: translateX(3px) skewX(-5deg); opacity: 1; }
+    87%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    89%  { transform: translateX(4px) skewX(-7deg); opacity: 1; }
+    91%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    92%  { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    93.5%{ transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    93.7%{ transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    94%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    96%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    96.5%{ transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    97.5%{ transform: translateX(4px) skewX(-4deg); opacity: 1; }
+    98.5%{ transform: translateX(-2px) skewX(1deg); opacity: 1; }
+    99.5%{ transform: translateX(0) skewX(0deg); opacity: 1; }
+    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
+  }
+
   /* ---- HEADER SHOOTING STARS ---- */
   .header-stars {
     position: absolute;
@@ -3312,6 +3353,21 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(spawnHeaderStar, Math.random() * 6000 + 3000);
   }
   setTimeout(spawnHeaderStar, Math.random() * 2000 + 500);
+
+  // REFUSE to stand still animation — same as facility-review
+  (function startRefuseSequence() {
+    const taglines = document.querySelectorAll('.q-footer-tagline');
+    if (!taglines.length) return;
+    setTimeout(function() {
+      taglines.forEach(function(el) { el.style.animation = 'refuseFidget 1.5s ease-in-out forwards'; });
+      setTimeout(function() {
+        taglines.forEach(function(el) { el.style.animation = 'refuseZoom 4s ease-in-out forwards'; });
+        setTimeout(function() {
+          taglines.forEach(function(el) { el.style.animation = 'refuseLoop 60s ease-in-out infinite'; });
+        }, 4000);
+      }, 15000);
+    }, 5000);
+  })();
 
   // Load Nicole's photo
   loadNicolePhoto();
