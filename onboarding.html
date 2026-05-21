@@ -2796,6 +2796,9 @@ function renderWelcomeQuestion() {
   const q = welcomeFlow[welcomeState.currentQuestion];
   if (!q) { completeWelcome(); return; }
 
+  const obMain = document.querySelector('#onboarding-overlay .ob-main');
+  if (obMain) obMain.scrollTop = 0;
+
   const obInputArea = document.getElementById('ob-input-area');
   if (obInputArea) obInputArea.style.display = 'none';
   document.getElementById('ob-choices').style.display = 'none';
