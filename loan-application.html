@@ -533,6 +533,7 @@
      DARK QUESTION FLOW — matches funding-finder.html
   ============================================================ */
 
+  #screen-welcome,
   #screen-details,
   #screen-q1,
   #screen-q2,
@@ -552,6 +553,7 @@
     position: relative;
   }
 
+  #screen-welcome::before,
   #screen-details::before,
   #screen-q1::before,
   #screen-q2::before,
@@ -578,6 +580,7 @@
     z-index: 0;
   }
 
+  #screen-welcome .ob-fixed-header,
   #screen-details .ob-fixed-header, #screen-q1 .ob-fixed-header,
   #screen-q2 .ob-fixed-header, #screen-q3 .ob-fixed-header,
   #screen-q4 .ob-fixed-header, #screen-q5 .ob-fixed-header,
@@ -599,6 +602,8 @@
   #screen-q8 .screen-content, #screen-q9 .screen-content,
   #screen-q10 .screen-content, #screen-q11 .screen-content,
   #screen-q12 .screen-content,
+  #screen-welcome .screen-content,
+  #screen-welcome .nav-row,
   #screen-details .nav-row, #screen-q1 .nav-row,
   #screen-q2 .nav-row, #screen-q3 .nav-row,
   #screen-q4 .nav-row, #screen-q5 .nav-row,
@@ -607,6 +612,7 @@
   #screen-q10 .nav-row, #screen-q11 .nav-row,
   #screen-q12 .nav-row { position: relative; z-index: 1; }
 
+  #screen-welcome .dashed-divider,
   #screen-details .dashed-divider, #screen-q1 .dashed-divider,
   #screen-q2 .dashed-divider, #screen-q3 .dashed-divider,
   #screen-q4 .dashed-divider, #screen-q5 .dashed-divider,
@@ -616,6 +622,7 @@
   #screen-q12 .dashed-divider {
     color: var(--col-soft-violet) !important;
   }
+  #screen-welcome .dashed-divider::before, #screen-welcome .dashed-divider::after,
   #screen-details .dashed-divider::before, #screen-details .dashed-divider::after,
   #screen-q1 .dashed-divider::before, #screen-q1 .dashed-divider::after,
   #screen-q2 .dashed-divider::before, #screen-q2 .dashed-divider::after,
