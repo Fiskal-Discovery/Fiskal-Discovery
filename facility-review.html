@@ -900,7 +900,8 @@
   #screen-welcome .screen-content,
   #screen-welcome .nav-row { position: relative; z-index: 1; }
   #screen-welcome { overflow: hidden; }
-  #screen-welcome .ob-fixed-header { background: #000; }
+  #screen-welcome .ob-fixed-header { background: #000; display: flex; align-items: center; justify-content: center; padding: 0 24px; }
+  #screen-welcome .ob-fixed-header .dashed-divider { color: rgba(255,255,255,0.8); }
   #screen-welcome .screen-content { padding: 8px 16px 100px; }
   #screen-welcome .typing-intro { padding: 8px 16px 8px; }
   #screen-welcome .typing-text { font-size: clamp(15px, 3vw, 20px); }
@@ -976,10 +977,7 @@
 <!-- ====== WELCOME ====== -->
 <div class="screen active" id="screen-welcome">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
   </header>
   <div class="screen-content">
     <div class="typing-intro">
@@ -991,13 +989,12 @@
     <div class="nav-row">
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
     <div class="welcome-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
       <span class="ob-tagline-rest"> to stand still</span>
     </div>
-    </div>
-    </div>
+  </div>
+</div>
 
 <!-- ====== FACILITY TYPE ====== -->
 <div class="screen" id="screen-facility-type">
