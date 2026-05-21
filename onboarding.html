@@ -2073,13 +2073,28 @@
     50%      { opacity: calc(var(--op, 0.4) * 0.3); }
   }
 
-  /* Star layer — lives inside ob-hero, behind content and triangle */
+  /* Static star layer — inside ob-hero, behind content and triangle */
   #ob-stars-layer {
     position: absolute;
     inset: 0;
     pointer-events: none;
     overflow: hidden;
     z-index: 0;
+  }
+
+  /* Shooting star layer — full landing screen, behind all content */
+  #ob-shooting-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  #screen-landing .ob-hero-wrap,
+  #screen-landing .ob-body,
+  #screen-landing .landing-footer {
+    position: relative;
+    z-index: 1;
   }
   .ob-shooting-star {
     position: absolute;
@@ -2175,6 +2190,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Shooting stars — full page behind content -->
+  <div id="ob-shooting-layer"></div>
 
   <!-- BODY -->
   <div class="ob-body">
@@ -3116,7 +3134,7 @@ function createObStarField() {
 }
 
 function spawnObShootingStar() {
-  const layer = document.getElementById('ob-stars-layer');
+  const layer = document.getElementById('ob-shooting-layer');
   if (!layer) return;
   const el = document.createElement('div');
   el.className = 'ob-shooting-star';
