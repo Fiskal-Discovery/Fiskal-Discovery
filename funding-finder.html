@@ -1642,13 +1642,6 @@
   }
 
   /* Multi-choice 2-column grid */
-  .multi-choice-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 7px;
-    width: 100%;
-    grid-column: 1 / -1;
-  }
 
   /* Compact answer button for multi-choice grid */
   .answer-btn-compact {
@@ -2634,8 +2627,6 @@ function renderFlowQuestion() {
   } else if (q.type === 'multi-choice') {
     const selected = new Set();
     const otherTrigger = q.followUp ? q.followUp.triggerValue : null;
-    const grid = document.createElement('div');
-    grid.className = 'multi-choice-grid';
     const regularOpts = q.options.filter(opt => opt !== otherTrigger);
     regularOpts.forEach(opt => {
       const btn = document.createElement('button');
@@ -2647,9 +2638,8 @@ function renderFlowQuestion() {
         nextBtn.style.opacity = (selected.size > 0) ? '1' : '0.35';
         nextBtn.style.pointerEvents = (selected.size > 0) ? 'auto' : 'none';
       };
-      grid.appendChild(btn);
+      optionsEl.appendChild(btn);
     });
-    optionsEl.appendChild(grid);
     if (otherTrigger) {
       const otherSlot = document.createElement('div');
       otherSlot.className = 'answer-btn';
