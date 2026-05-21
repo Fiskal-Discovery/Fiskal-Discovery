@@ -633,12 +633,6 @@
   }
 
   @media (max-width: 600px) {
-    body {
-      height: auto !important;
-      min-height: 100svh !important;
-      overflow-y: auto !important;
-    }
-
     .hero,
     .homepage-hero,
     .app-home,
@@ -1595,7 +1589,6 @@
      LANDING SCREEN — matches home.html visual style
   ============================================================ */
   #screen-landing {
-    height: 100vh;
     overflow: hidden;
     justify-content: flex-start;
     background: #07051a;
@@ -1903,7 +1896,7 @@
   }
 
   @media (max-width: 600px) {
-    #screen-landing { height: 100dvh; overflow-y: auto; overflow-x: hidden; }
+    #screen-landing { overflow: hidden; }
     .ob-nav { padding: 12px 20px; }
     .ob-tagline-refuse { font-size: 20px; letter-spacing: 2px; }
     .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
