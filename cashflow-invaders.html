@@ -481,7 +481,9 @@ function renderLB() {
 
   return db.ref("scores").once("value")
     .then(snapshot => {
-      renderRows(dedupeAndSort(Object.values(snapshot.val() || {})));
+      const firebaseEntries = Object.values(snapshot.val() || {});
+      const localEntries = getLocalLB();
+      renderRows(dedupeAndSort([...firebaseEntries, ...localEntries]));
     })
     .catch(err => {
       console.warn("Firebase renderLB failed, using localStorage fallback", err);
