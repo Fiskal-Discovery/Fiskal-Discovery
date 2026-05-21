@@ -2060,6 +2060,19 @@
     z-index: 0;
   }
 
+  /* Static background stars */
+  .ob-star-bg {
+    position: absolute;
+    border-radius: 50%;
+    background: #ffffff;
+    pointer-events: none;
+    animation: ob-star-twinkle var(--td, 3s) var(--td-delay, 0s) ease-in-out infinite;
+  }
+  @keyframes ob-star-twinkle {
+    0%, 100% { opacity: var(--op, 0.4); }
+    50%      { opacity: calc(var(--op, 0.4) * 0.3); }
+  }
+
   /* Shooting stars — full page overlay */
   #ob-stars-layer {
     position: absolute;
@@ -3088,6 +3101,24 @@ function resetOnboarding() {
 // INITIALIZATION
 // ============================================================
 
+function createObStarField() {
+  const layer = document.getElementById('ob-stars-layer');
+  if (!layer) return;
+  const count = 60;
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'ob-star-bg';
+    const size  = Math.random() < 0.2 ? 2 : 1;
+    const x     = (Math.random() * 100).toFixed(1);
+    const y     = (Math.random() * 100).toFixed(1);
+    const op    = (Math.random() * 0.45 + 0.15).toFixed(2);
+    const td    = (Math.random() * 3 + 2).toFixed(1);
+    const delay = (Math.random() * 4).toFixed(1);
+    el.style.cssText = `width:${size}px;height:${size}px;left:${x}%;top:${y}%;--op:${op};--td:${td}s;--td-delay:${delay}s;`;
+    layer.appendChild(el);
+  }
+}
+
 function spawnObShootingStar() {
   const layer = document.getElementById('ob-stars-layer');
   if (!layer) return;
@@ -3173,6 +3204,7 @@ function loadChampions() {
 document.addEventListener('DOMContentLoaded', function () {
   loadAppState();
   loadChampions();
+  createObStarField();
   setTimeout(spawnObShootingStar, Math.random() * 4000 + 2000);
   setBodyScroll(true);
 
