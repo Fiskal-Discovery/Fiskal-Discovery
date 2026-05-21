@@ -56,8 +56,7 @@
     position: fixed; inset: 0; z-index: 9999;
     background: var(--col-bg);
     display: flex; flex-direction: column;
-    overflow-x: hidden;
-    overscroll-behavior: none;
+    overflow: hidden;
     transition: opacity 0.5s ease;
   }
   #onboarding-overlay::before {
@@ -143,6 +142,7 @@
   /* Main content area */
   .ob-main {
     flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -150,7 +150,7 @@
     padding: 24px 24px 16px;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: none;
+    overscroll-behavior-y: contain;
     position: relative;
     z-index: 1;
   }
@@ -416,6 +416,7 @@
   /* ---- MAIN CONTENT ---- */
   .screen-content {
     flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -425,6 +426,7 @@
     margin: 0 auto;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
   }
 
   #screen-landing {

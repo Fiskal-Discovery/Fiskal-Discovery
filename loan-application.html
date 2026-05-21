@@ -68,7 +68,7 @@
   .progress-track { height: 3px; background: rgba(255,255,255,0.12); border-radius: 3px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--orange); border-radius: 3px; transition: width 0.5s ease; }
   
-  .screen-content { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 20px 24px 24px; max-width: 960px; width: 100%; margin: 0 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .screen-content { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 20px 24px 24px; max-width: 960px; width: 100%; margin: 0 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
   
   .question-product { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; font-weight: 500; }
   .question-text { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 500; color: var(--indigo-deep); line-height: 1.3; margin-bottom: 8px; }
