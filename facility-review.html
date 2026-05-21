@@ -27,6 +27,9 @@
 
   /* ---- HEADER BRAND ---- */
   .ob-header-title { font-family: 'Dancing Script', cursive; font-size: 50px; color: var(--col-deep-purple); }
+  .ob-fixed-header--welcome { justify-content: center; }
+  .ob-fixed-header--welcome .ob-header-brand { align-items: center; gap: 2px; }
+  .ob-welcome-tagline { display: flex; flex-direction: row; align-items: baseline; gap: 4px; }
 
   /* REFUSE header tagline */
   .ob-header-tagline {
@@ -956,14 +959,13 @@
 
 <!-- ====== WELCOME ====== -->
 <div class="screen active" id="screen-welcome">
-  <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
+  <header class="ob-fixed-header ob-fixed-header--welcome">
     <div class="ob-header-brand">
       <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
+      <div class="ob-welcome-tagline">
+        <span class="ob-tagline-refuse">REFUSE</span>
+        <span class="ob-tagline-rest"> to stand still</span>
+      </div>
     </div>
   </header>
   <div class="screen-content">
