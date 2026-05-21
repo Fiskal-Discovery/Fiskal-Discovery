@@ -63,14 +63,15 @@ body.playing-mobile .fiskal-header{display:none!important}
 body.playing-mobile #game-screen{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;padding:0 0 var(--safe-bottom) 0!important;margin:0!important;justify-content:flex-start!important}
 body.playing-mobile #hud{margin:0!important;padding-top:8px!important;width:100%!important;flex-shrink:0!important}
 #mobile-pause-btn{display:none;align-items:center;justify-content:center;background:rgba(126,9,165,.35);color:var(--yellow);border:1px solid rgba(255,230,0,.5);border-radius:4px;font-size:1.1rem;line-height:1;padding:0 10px;min-height:36px;min-width:36px;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
-#target-wave{display:none;font-family:'Press Start 2P',monospace;font-size:.44rem;color:var(--green);margin-left:auto;white-space:nowrap}
+#game-topbar{display:none;width:100%;padding:5px 12px;background:rgba(0,0,0,.5);flex-shrink:0;align-items:center;justify-content:space-between;gap:8px}
+#target-wave{font-family:'Press Start 2P',monospace;font-size:.5rem;color:var(--green);white-space:nowrap}
 body.playing-mobile #mobile-pause-btn{display:flex!important}
-body.playing-mobile #target-wave{display:inline!important}
-body.playing-mobile #work-mode-btn{top:58px!important;right:8px!important;bottom:auto!important;left:auto!important;width:50px!important;height:50px!important}
+body.playing-mobile #game-topbar{display:flex!important}
+body.playing-mobile #work-mode-btn{position:static!important;width:44px!important;height:44px!important;bottom:auto!important;left:auto!important;top:auto!important;right:auto!important}
 body.playing-mobile #hud{flex-wrap:wrap!important}
 body.playing-mobile .hud-score{order:1;flex:1!important;font-size:.82rem!important}
 body.playing-mobile .hud-wave{display:none!important}
-body.playing-mobile .hud-lives{order:3;flex-basis:100%!important;font-size:.76rem!important}
+body.playing-mobile .hud-lives{order:3;flex-basis:100%!important;font-size:1rem!important}
 body.playing-mobile #mobile-pause-btn{order:2!important}
 body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block!important}
 }
@@ -173,7 +174,8 @@ function stopFaviconAnimation() {
 </div>
 <div class="screen" id="game-screen">
   <div id="hud"><span class="hud-score">RELEASED: £<span id="score-display">0</span></span><span class="hud-wave">WAVE: <span id="wave-display">1</span><br><span id="wave-cash-display" style="font-size:.55em;color:#88FF44;letter-spacing:0;visibility:hidden">£0/£180</span></span><span class="hud-lives">LIVES: <span id="lives-display">❤❤❤</span></span><button id="mobile-pause-btn" onclick="togglePause()">⏸</button></div>
-  <div id="target-hud"><div id="target-top-row"><span id="target-label">TARGET: £<span id="target-current">0</span> / £<span id="target-goal">5,000</span></span><span id="bomb-hud" style="display:none">💣 x<span id="bomb-count">0</span></span><span id="target-wave">WAVE <span id="wave-display-2">1</span></span></div><div id="target-bar-wrap"><div id="target-bar"></div></div></div>
+  <div id="target-hud"><div id="target-top-row"><span id="target-label">TARGET: £<span id="target-current">0</span> / £<span id="target-goal">5,000</span></span><span id="bomb-hud" style="display:none">💣 x<span id="bomb-count">0</span></span></div><div id="target-bar-wrap"><div id="target-bar"></div></div></div>
+  <div id="game-topbar"><span id="target-wave">WAVE <span id="wave-display-2">1</span></span><button id="work-mode-btn" onclick="if(!_wmDragged)enterWorkMode()"><span class="btn-eject">⏏</span>WORK<br>MODE</button></div>
   <button id="bomb-btn" style="display:none" onclick="useBomb()">💣 CASH BOMB</button>
   <div id="smash-msg"></div>
   <div id="screen-flash"></div>
@@ -516,7 +518,7 @@ function bombExplode(x,y){const radius=130;screenShake=18;for(let i=0;i<80;i++){
 function showMsg(title,color,subtitle,duration){const el=document.getElementById('msg-flash');el.style.color=color;el.style.borderColor=color;el.style.textShadow='0 0 20px '+color;el.innerHTML=subtitle?title+'<br><span style="color:white;font-size:0.5rem;line-height:2">'+subtitle+'</span>':title;el.style.opacity=1;clearTimeout(el._t);el._t=setTimeout(()=>el.style.opacity=0,duration||2000)}
 function showUpgradeAnnouncement(){const el=document.getElementById('upgrade-cinematic');el.classList.add('active');document.getElementById('game-screen').classList.add('advanced-hud');if(rafId)cancelAnimationFrame(rafId);rafId=null;tone(220,null,.3,.2,'sawtooth');setTimeout(()=>tone(330,null,.3,.2,'sawtooth'),180);setTimeout(()=>tone(440,null,.3,.2,'sawtooth'),360);setTimeout(()=>tone(660,null,.5,.3,'sine'),540);setTimeout(()=>{el.classList.remove('active');if(G&&!G.dead){G.player.w=68;G.player.h=42;G.player.y=Math.min(G.player.y,canvas.height-30);rafId=requestAnimationFrame(gameLoop)}},3200)}
 function stopGame(){if(rafId)cancelAnimationFrame(rafId);rafId=null;if(victoryRafId)cancelAnimationFrame(victoryRafId);victoryRafId=null;if(tvRafId)cancelAnimationFrame(tvRafId);tvRafId=null;paused=false;screenShake=0;ctx.setTransform(1,0,0,1,0,0);const _sf=document.getElementById('screen-flash');if(_sf){clearTimeout(_sf._ft);_sf.classList.remove('show');_sf.style.background=''}document.getElementById('pause-overlay').classList.remove('active');document.getElementById('victory-screen').classList.remove('active');if(document.exitPointerLock&&document.pointerLockElement===canvas)document.exitPointerLock();MUSIC.stop();document.getElementById('target-hud').style.display='none';document.getElementById('bomb-btn').style.display='none';document.getElementById('work-mode-btn').style.display='none';document.getElementById('game-screen').classList.remove('advanced-hud');document.getElementById('upgrade-cinematic').classList.remove('active');workModeActive=false;document.getElementById('work-mode-overlay').style.display='none';G=null}
-function initGame(){stopGame();showScreen('game-screen');showQuitBtn(true);startFaviconAnimation();const hud=document.getElementById('hud');const safeBottom=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom'))||0;canvas.width=Math.min(window.innerWidth,720);canvas.height=Math.max(300,window.innerHeight-document.querySelector('.fiskal-header').offsetHeight-hud.offsetHeight-document.getElementById('target-hud').offsetHeight-2-safeBottom);const bizName='ANONYMOUS';G={player:{x:canvas.width/2,y:canvas.height-40,w:44,h:30,speed:6},bullets:[],bossBlasts:[],enemies:[],powerups:[],particles:[],wordEnemies:[],wordBits:[],defeatedBossWords:[],wordTimer:0,score:0,lives:3,wave:1,doubleBullet:0,tripleBullet:0,shield:0,slowmo:0,rapidFire:0,speedBoost:0,supportShip:0,advancedMode:false,keys:{},lastShot:0,shotDelay:290,state:'playing',spawnTimer:0,spawnRate:120,waveKills:0,waveTarget:6,waveCashStart:0,waveCashTarget:180,playerInv:0,biz:bizName,frame:0,boss:null,bossShootTimer:0,stateTimer:0,puCooldown:0,dead:false,targetIdx:0,smashCount:0,bombs:0,floatingHearts:[],heartChunks:[],bombAttached:false,bombProjectile:null,
+function initGame(){stopGame();showScreen('game-screen');showQuitBtn(true);startFaviconAnimation();const hud=document.getElementById('hud');const safeBottom=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom'))||0;canvas.width=Math.min(window.innerWidth,720);canvas.height=Math.max(300,window.innerHeight-document.querySelector('.fiskal-header').offsetHeight-hud.offsetHeight-document.getElementById('target-hud').offsetHeight-document.getElementById('game-topbar').offsetHeight-2-safeBottom);const bizName='ANONYMOUS';G={player:{x:canvas.width/2,y:canvas.height-40,w:44,h:30,speed:6},bullets:[],bossBlasts:[],enemies:[],powerups:[],particles:[],wordEnemies:[],wordBits:[],defeatedBossWords:[],wordTimer:0,score:0,lives:3,wave:1,doubleBullet:0,tripleBullet:0,shield:0,slowmo:0,rapidFire:0,speedBoost:0,supportShip:0,advancedMode:false,keys:{},lastShot:0,shotDelay:290,state:'playing',spawnTimer:0,spawnRate:120,waveKills:0,waveTarget:6,waveCashStart:0,waveCashTarget:180,playerInv:0,biz:bizName,frame:0,boss:null,bossShootTimer:0,stateTimer:0,puCooldown:0,dead:false,targetIdx:0,smashCount:0,bombs:0,floatingHearts:[],heartChunks:[],bombAttached:false,bombProjectile:null,
 fiskalOrbs:[],cashAttract:0,extraIncome:0,debtShield:0,personalService:0,
 personalServiceX:canvas.width/2+50,personalServiceDir:1,personalServiceLastShot:0,
 frozen:0,larryBeaten:false,bobbyBeaten:false,victoryMode:false};
@@ -627,7 +629,7 @@ function applyPU(effect,lines,desc){
     G.supportShip=TICKS_10;
   }
 }
-async function gameOver(){if(!G||G.dead)return;finalScore=G.score;finalWave=G.wave;const larryB=G.larryBeaten,bobbyB=G.bobbyBeaten;G.dead=true;if(rafId)cancelAnimationFrame(rafId);rafId=null;paused=false;document.getElementById('pause-overlay').classList.remove('active');showQuitBtn(false);stopFaviconAnimation();MUSIC.gameover();document.getElementById('final-score').textContent=finalScore;// store badges for submission
+async function gameOver(){if(!G||G.dead)return;finalScore=G.score;finalWave=G.wave;const larryB=G.larryBeaten,bobbyB=G.bobbyBeaten;G.dead=true;if(rafId)cancelAnimationFrame(rafId);rafId=null;paused=false;document.getElementById('pause-overlay').classList.remove('active');document.getElementById('work-mode-btn').style.display='none';document.getElementById('game-topbar').style.display='none';showQuitBtn(false);stopFaviconAnimation();MUSIC.gameover();document.getElementById('final-score').textContent=finalScore;// store badges for submission
 window._lastBadgeLarry=larryB;window._lastBadgeBobby=bobbyB;setTimeout(()=>showScreen('gameover-screen'),500)}
 function flashScreen(color,dur){const el=document.getElementById('screen-flash');if(!el)return;el.style.background=color;el.classList.add('show');clearTimeout(el._ft);el._ft=setTimeout(()=>{el.classList.remove('show');el.style.background=''},dur||120)}
 function damagePlayer(){if(!G||!G.player||G.playerInv>0||G.shield>0||G.debtShield>0)return;G.lives--;G.playerInv=150;screenShake=22;bigBoom(G.player.x,G.player.y);SFX.player();flashScreen('rgba(255,0,40,.7)',180);updateHUD();G.floatingHearts.push({x:G.player.x+(Math.random()-0.5)*40,y:G.player.y-10,vy:1.2+Math.random()*0.8,vx:(Math.random()-0.5)*1.2,life:1,size:28+Math.random()*14,wobble:0});if(G.lives<=0)gameOver()}
@@ -823,7 +825,6 @@ table tr:nth-child(even) td{background:#fafbff}
 #ack-btn:hover{background:#2a5aab}
 @media(max-width:600px){#work-doc{padding:20px 16px 36px}.doc-header{flex-direction:column;gap:10px}.doc-ref{text-align:left}table{font-size:10px}table th,table td{padding:5px 6px}.sig-row{flex-direction:column;gap:20px}}
 </style>
-<button id="work-mode-btn" onclick="if(!_wmDragged)enterWorkMode()"><span class="btn-eject">⏏</span>WORK<br>MODE</button>
 <div id="work-mode-overlay">
 <div id="work-doc">
   <div class="doc-header">
