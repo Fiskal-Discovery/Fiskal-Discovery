@@ -282,7 +282,7 @@
   .star-bg {
     position: absolute;
     border-radius: 50%;
-    background: rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.3);
     pointer-events: none;
   }
 
@@ -461,9 +461,9 @@
     z-index: 0;
   }
   .modules-wrap { position: relative; z-index: 1; }
-  @keyframes bst-hi  { 0%,100%{opacity:0.55} 50%{opacity:0.08} }
-  @keyframes bst-med { 0%,100%{opacity:0.35} 50%{opacity:0.05} }
-  @keyframes bst-lo  { 0%,100%{opacity:0.18} 50%{opacity:0.03} }
+  @keyframes bst-hi  { 0%,100%{opacity:0.28} 50%{opacity:0.04} }
+  @keyframes bst-med { 0%,100%{opacity:0.18} 50%{opacity:0.03} }
+  @keyframes bst-lo  { 0%,100%{opacity:0.10} 50%{opacity:0.02} }
 
   .modules-wrap {
     max-width: 820px;
@@ -1643,7 +1643,7 @@ function createBodyStars() {
     const dur   = (Math.random() * 4 + 2).toFixed(1);
     const delay = (Math.random() * 5).toFixed(1);
     const anim  = tiers[Math.floor(Math.random() * tiers.length)];
-    el.style.cssText = `position:absolute;border-radius:50%;background:rgba(74,0,100,0.35);pointer-events:none;width:${size}px;height:${size}px;left:${(Math.random()*100).toFixed(1)}%;top:${(Math.random()*100).toFixed(1)}%;animation:${anim} ${dur}s ${delay}s ease-in-out infinite;`;
+    el.style.cssText = `position:absolute;border-radius:50%;background:rgba(74,0,100,0.12);pointer-events:none;width:${size}px;height:${size}px;left:${(Math.random()*100).toFixed(1)}%;top:${(Math.random()*100).toFixed(1)}%;animation:${anim} ${dur}s ${delay}s ease-in-out infinite;`;
     layer.appendChild(el);
   }
 }
