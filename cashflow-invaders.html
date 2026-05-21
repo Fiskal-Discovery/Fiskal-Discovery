@@ -63,10 +63,17 @@ body.playing-mobile .fiskal-header{display:none!important}
 body.playing-mobile #game-screen{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;padding:0!important;margin:0!important;justify-content:flex-start!important}
 body.playing-mobile #hud{margin:0!important;padding-top:8px!important;width:100%!important;flex-shrink:0!important}
 #mobile-pause-btn{display:none;align-items:center;justify-content:center;background:rgba(126,9,165,.35);color:var(--yellow);border:1px solid rgba(255,230,0,.5);border-radius:4px;font-size:1.1rem;line-height:1;padding:0 10px;min-height:36px;min-width:36px;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+#hud-work-btn{display:none;align-items:center;justify-content:center;background:rgba(180,0,0,.4);color:#fff;border:1px solid rgba(255,100,100,.6);border-radius:4px;font-family:'Press Start 2P',monospace;font-size:.38rem;padding:0 8px;min-height:36px;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent;gap:3px}
+#target-wave{display:none;font-family:'Press Start 2P',monospace;font-size:.44rem;color:var(--green);margin-left:auto;white-space:nowrap}
 body.playing-mobile #mobile-pause-btn{display:flex!important}
+body.playing-mobile #hud-work-btn{display:flex!important;order:2}
+body.playing-mobile #target-wave{display:inline!important}
+body.playing-mobile #hud{flex-wrap:wrap!important}
+body.playing-mobile .hud-score{order:1;flex:1!important;font-size:.82rem!important}
+body.playing-mobile .hud-wave{display:none!important}
+body.playing-mobile .hud-lives{order:3;flex-basis:100%!important;font-size:.76rem!important}
+body.playing-mobile #mobile-pause-btn{order:2!important}
 body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block!important}
-body.playing-mobile .hud-score{font-size:.82rem!important}
-body.playing-mobile .hud-lives{font-size:.82rem!important}
 }
 </style>
 <style>
@@ -164,8 +171,8 @@ function stopFaviconAnimation() {
   </div>
 </div>
 <div class="screen" id="game-screen">
-  <div id="hud"><span class="hud-score">RELEASED: £<span id="score-display">0</span></span><span class="hud-wave">WAVE: <span id="wave-display">1</span><br><span id="wave-cash-display" style="font-size:.55em;color:#88FF44;letter-spacing:0;visibility:hidden">£0/£180</span></span><span class="hud-lives">LIVES: <span id="lives-display">❤❤❤</span></span><button id="mobile-pause-btn" onclick="togglePause()">⏸</button></div>
-  <div id="target-hud"><div id="target-top-row"><span id="target-label">TARGET: £<span id="target-current">0</span> / £<span id="target-goal">5,000</span></span><span id="bomb-hud" style="display:none">💣 x<span id="bomb-count">0</span></span></div><div id="target-bar-wrap"><div id="target-bar"></div></div></div>
+  <div id="hud"><span class="hud-score">RELEASED: £<span id="score-display">0</span></span><span class="hud-wave">WAVE: <span id="wave-display">1</span><br><span id="wave-cash-display" style="font-size:.55em;color:#88FF44;letter-spacing:0;visibility:hidden">£0/£180</span></span><span class="hud-lives">LIVES: <span id="lives-display">❤❤❤</span></span><button id="hud-work-btn" onclick="enterWorkMode()">⏏ WORK</button><button id="mobile-pause-btn" onclick="togglePause()">⏸</button></div>
+  <div id="target-hud"><div id="target-top-row"><span id="target-label">TARGET: £<span id="target-current">0</span> / £<span id="target-goal">5,000</span></span><span id="bomb-hud" style="display:none">💣 x<span id="bomb-count">0</span></span><span id="target-wave">WAVE <span id="wave-display-2">1</span></span></div><div id="target-bar-wrap"><div id="target-bar"></div></div></div>
   <button id="bomb-btn" style="display:none" onclick="useBomb()">💣 CASH BOMB</button>
   <div id="smash-msg"></div>
   <div id="screen-flash"></div>
@@ -499,7 +506,7 @@ function showLeaderboardScreen() {
   showScreen('leaderboard-screen');
 }
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('playing-mobile',id==='game-screen'&&window.innerWidth<=520);if(id!=='game-screen')showQuitBtn(false);if(id==='start-screen'){renderPreviewAliens();}if(id==='gameover-screen'){const savedName=localStorage.getItem('fiskal_ci_player_name');if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;const stored=getStoredUserDetails();if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;}}
-function updateHUD(){if(!G)return;document.getElementById('score-display').textContent=G.score;document.getElementById('wave-display').textContent=G.wave;document.getElementById('lives-display').textContent='❤'.repeat(Math.max(0,G.lives));const wcd=document.getElementById('wave-cash-display');if(wcd){if(G.state==='boss'){wcd.textContent='BOSS FIGHT!';wcd.style.color='#FF4444'}else{const waveProg=Math.min(G.score-G.waveCashStart,G.waveCashTarget);wcd.textContent='£'+waveProg+'/£'+G.waveCashTarget;wcd.style.color=waveProg/G.waveCashTarget>.75?'#00FF88':waveProg/G.waveCashTarget>.4?'#FFE600':'#88FF44'}}}
+function updateHUD(){if(!G)return;document.getElementById('score-display').textContent=G.score;document.getElementById('wave-display').textContent=G.wave;const wd2=document.getElementById('wave-display-2');if(wd2)wd2.textContent=G.wave;document.getElementById('lives-display').textContent='❤'.repeat(Math.max(0,G.lives));const wcd=document.getElementById('wave-cash-display');if(wcd){if(G.state==='boss'){wcd.textContent='BOSS FIGHT!';wcd.style.color='#FF4444'}else{const waveProg=Math.min(G.score-G.waveCashStart,G.waveCashTarget);wcd.textContent='£'+waveProg+'/£'+G.waveCashTarget;wcd.style.color=waveProg/G.waveCashTarget>.75?'#00FF88':waveProg/G.waveCashTarget>.4?'#FFE600':'#88FF44'}}}
 function updateTargetHUD(){if(!G)return;const goal=getTarget(G.targetIdx);const pct=Math.min(1,G.score/goal);document.getElementById('target-current').textContent=G.score.toLocaleString();document.getElementById('target-goal').textContent=goal.toLocaleString();const bar=document.getElementById('target-bar');bar.style.width=(pct*100)+'%';const barColor=pct<0.5?'#FFE600':pct<0.8?'#FF8C00':'#00FF88';bar.style.background=barColor;bar.style.boxShadow='0 0 8px '+barColor;const label=document.getElementById('target-label');const thud=document.getElementById('target-hud');if(pct>=0.85){label.style.color='#00FF88';thud.style.background='rgba(0,80,0,.55)'}else if(pct>=0.5){label.style.color='#FF8C00';thud.style.background='rgba(80,40,0,.55)'}else{label.style.color='#FFE600';thud.style.background='rgba(0,0,0,.55)'}if(G.bombs>0){document.getElementById('bomb-hud').style.display='inline';document.getElementById('bomb-count').textContent=G.bombs;document.getElementById('bomb-btn').style.display='block'}else{document.getElementById('bomb-hud').style.display='none';document.getElementById('bomb-btn').style.display='none'}}
 function showSmash(rewardText){const el=document.getElementById('smash-msg');el.innerHTML='🎯 TARGET SMASHED!<br><span style="font-size:.7em;color:#FFE600;text-shadow:0 0 14px #FFE600,0 0 28px rgba(255,230,0,.5)">'+rewardText+'</span>';el.classList.remove('show');void el.offsetWidth;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3800);flashScreen('rgba(255,220,0,.45)',220)}
 function checkTarget(){if(!G)return;const goal=getTarget(G.targetIdx);if(G.score>=goal){G.targetIdx++;G.smashCount++;const isOdd=G.smashCount%2===1;if(isOdd){G.lives++;showSmash('+1 LIFE ❤ AWARDED!');SFX.power()}else{G.bombs+=3;showSmash('💣 CASH BOMBS x3 AWARDED!');SFX.collect()}updateHUD();updateTargetHUD()}}
@@ -515,7 +522,7 @@ frozen:0,larryBeaten:false,bobbyBeaten:false,victoryMode:false};
 document.getElementById('target-hud').style.display='block';
 document.getElementById('bomb-hud').style.display='none';
 document.getElementById('bomb-btn').style.display='none';
-document.getElementById('work-mode-btn').style.display='flex';
+if(!document.body.classList.contains('playing-mobile'))document.getElementById('work-mode-btn').style.display='flex';
 spawnWave(4);updateHUD();updateTargetHUD();rafId=requestAnimationFrame(gameLoop);MUSIC.common()}
 function quitGame(){stopGame();stopFaviconAnimation();showScreen('start-screen')}
 function goHome(){
