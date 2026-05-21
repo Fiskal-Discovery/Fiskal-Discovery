@@ -897,6 +897,19 @@
     pointer-events: none;
     z-index: 0;
   }
+  /* ---- MODULE NAME IN HEADER ---- */
+  .q-module-name {
+    position: absolute;
+    bottom: 4px;
+    right: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+
   /* ---- FIXED QUESTION FOOTER TEMPLATE ---- */
   .q-fixed-footer {
     position: fixed;
@@ -1023,6 +1036,7 @@
 <div class="screen active" id="screen-welcome">
   <header class="ob-fixed-header">
     <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Facility Review</span>
   </header>
   <div class="screen-content">
     <div class="typing-intro">
