@@ -1261,12 +1261,12 @@
     <div class="question-product">Invoice Finance Review</div>
     <h2 class="question-text">What type of invoice finance do you have?</h2>
     <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Full ledger — all invoices go through the facility', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Full ledger</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Selective — I choose which invoices to fund', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Selective</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Spot funding — individual invoices as needed', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Spot funding</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Construction — stage payments or applications for payment', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Construction</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Recruitment — includes payroll funding or back office support', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Recruitment</button>
-      <button class="answer-btn" onclick="saveAndGo('if-type', 'Not sure', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Not sure</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-type', 'Full ledger — all invoices go through the facility', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Full ledger</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-type', 'Selective — I choose which invoices to fund', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Selective</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-type', 'Spot funding — individual invoices as needed', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Spot funding</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-type', 'Construction — stage payments or applications for payment', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Construction</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-type', 'Recruitment — includes payroll funding or back office support', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Recruitment</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-type', 'Not sure', 'screen-if-payment-terms')" style="padding:10px 12px;font-size:13px">Not sure</button>
     </div>
   </div>
   <div class="screen-footer">
@@ -1298,11 +1298,11 @@
     <div class="question-product">Invoice Finance Review</div>
     <h2 class="question-text">How long do your customers typically take to pay?</h2>
     <div class="answer-options">
-      <button class="answer-btn" onclick="saveAndGo('if-payment-terms', '30 days', 'screen-if-knowledge')">30 days</button>
-      <button class="answer-btn" onclick="saveAndGo('if-payment-terms', '60 days', 'screen-if-knowledge')">60 days</button>
-      <button class="answer-btn" onclick="saveAndGo('if-payment-terms', '90 days', 'screen-if-knowledge')">90 days</button>
-      <button class="answer-btn" onclick="saveAndGo('if-payment-terms', '90+ days', 'screen-if-knowledge')">90+ days</button>
-      <button class="answer-btn" onclick="saveAndGo('if-payment-terms', 'It varies', 'screen-if-knowledge')">It varies</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-payment-terms', '30 days', 'screen-if-knowledge')">30 days</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-payment-terms', '60 days', 'screen-if-knowledge')">60 days</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-payment-terms', '90 days', 'screen-if-knowledge')">90 days</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-payment-terms', '90+ days', 'screen-if-knowledge')">90+ days</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-payment-terms', 'It varies', 'screen-if-knowledge')">It varies</button>
     </div>
   </div>
   <div class="screen-footer">
@@ -1334,9 +1334,9 @@
     <div class="question-product">Invoice Finance Review</div>
     <h2 class="question-text">How much do you know about your current facility?</h2>
     <div class="answer-options">
-      <button class="answer-btn" onclick="saveAndGo('if-knowledge', 'Knows details', 'screen-if-path-a')">I know my rates and details fairly well</button>
-      <button class="answer-btn" onclick="saveAndGo('if-knowledge', 'Does not know details', 'screen-if-path-b')">I don't really know the details</button>
-      <button class="answer-btn" onclick="saveAndGo('if-knowledge', 'Has statements', 'screen-if-upload')">I have my statements and can upload them</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-knowledge', 'Knows details', 'screen-if-path-a')">I know my rates and details fairly well</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-knowledge', 'Does not know details', 'screen-if-path-b')">I don't really know the details</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-knowledge', 'Has statements', 'screen-if-upload')">I have my statements and can upload them</button>
     </div>
   </div>
   <div class="screen-footer">
@@ -1431,14 +1431,14 @@
     <h2 class="question-text">Do you know roughly how much your facility costs you each month?</h2>
     <div class="answer-options">
       <button class="answer-btn" onclick="showMonthlyCost()">Yes — I know roughly</button>
-      <button class="answer-btn" onclick="saveAndGo('if-monthly-cost', 'Not known', 'screen-if-priorities')">No — I have no idea</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-monthly-cost', 'Not known', 'screen-if-priorities')">No — I have no idea</button>
     </div>
     <div id="monthly-cost-input" style="display:none;">
       <div class="form-group" style="margin-top:16px;">
         <label class="form-label">Approximate monthly cost</label>
         <input type="text" class="form-input" id="if-monthly-cost" placeholder="e.g. £800/month" oninput="formatCurrencyInput(this)">
       </div>
-      <button class="btn-primary" onclick="saveAndGo('if-monthly-cost', document.getElementById('if-monthly-cost').value, 'screen-if-priorities')">Continue →</button>
+      <button class="btn-primary" onclick="saveAndGo(this,'if-monthly-cost', document.getElementById('if-monthly-cost').value, 'screen-if-priorities')">Continue →</button>
     </div>
   </div>
   <div class="screen-footer">
@@ -1631,11 +1631,11 @@
         <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">What type of loan do you have?</h2>
     <div class="answer-options">
-      <button class="answer-btn" onclick="saveAndGo('loanType', 'Unsecured business loan', 'screen-loan-knowledge')">Unsecured business loan</button>
-      <button class="answer-btn" onclick="saveAndGo('loanType', 'Secured business loan', 'screen-loan-knowledge')">Secured business loan</button>
-      <button class="answer-btn" onclick="saveAndGo('loanType', 'Government backed loan', 'screen-loan-knowledge')">Government backed loan (e.g. Start Up Loan, Recovery Loan)</button>
-      <button class="answer-btn" onclick="saveAndGo('loanType', 'Merchant Cash Advance', 'screen-loan-knowledge')">Merchant Cash Advance</button>
-      <button class="answer-btn" onclick="saveAndGo('loanType', 'Not sure', 'screen-loan-knowledge')">Not sure</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'loanType', 'Unsecured business loan', 'screen-loan-knowledge')">Unsecured business loan</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'loanType', 'Secured business loan', 'screen-loan-knowledge')">Secured business loan</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'loanType', 'Government backed loan', 'screen-loan-knowledge')">Government backed loan (e.g. Start Up Loan, Recovery Loan)</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'loanType', 'Merchant Cash Advance', 'screen-loan-knowledge')">Merchant Cash Advance</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'loanType', 'Not sure', 'screen-loan-knowledge')">Not sure</button>
     </div>
   </div>
   <div class="screen-footer">
@@ -1667,8 +1667,8 @@
         <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">How much do you know about your current loan?</h2>
     <div class="answer-options">
-      <button class="answer-btn" onclick="saveAndGo('loanKnowledge', 'Knows details', 'screen-loan-path-a')">I know my rates and details fairly well</button>
-      <button class="answer-btn" onclick="saveAndGo('loanKnowledge', 'Does not know details', 'screen-loan-path-b')">I don't really know the details</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'loanKnowledge', 'Knows details', 'screen-loan-path-a')">I know my rates and details fairly well</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'loanKnowledge', 'Does not know details', 'screen-loan-path-b')">I don't really know the details</button>
     </div>
   </div>
   <div class="screen-footer">
@@ -3497,8 +3497,9 @@ function nextIF(key, value, nextScreen) {
   showScreen(nextScreen);
 }
 
-function saveAndGo(key, value, nextScreen) {
+function saveAndGo(btn, key, value, nextScreen) {
   state[key] = value;
+  if (btn) btn.classList.add('selected');
 
   // If about to show the payment terms screen, check if it's already saved in the onboarding profile
   if (nextScreen === 'screen-if-payment-terms') {
