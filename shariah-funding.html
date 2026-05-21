@@ -506,15 +506,20 @@
   /* Loading Screen */
   .loading-screen {
     display: none;
-    min-height: 100vh;
-    position: relative;
+    position: fixed;
+    inset: 0;
     z-index: 1000;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
+    align-items: stretch;
   }
   .loading-screen.active { display: flex; }
+  .loading-screen .screen-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start !important;
+    padding: 20px 24px 24px;
+  }
 
   
 
