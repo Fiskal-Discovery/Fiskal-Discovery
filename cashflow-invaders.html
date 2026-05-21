@@ -62,6 +62,8 @@ body.playing-mobile{margin:0!important;padding:0!important;height:100dvh!importa
 body.playing-mobile .fiskal-header{display:none!important}
 body.playing-mobile #game-screen{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;padding:0!important;margin:0!important;justify-content:flex-start!important}
 body.playing-mobile #hud{margin:0!important;padding-top:8px!important;width:100%!important;flex-shrink:0!important}
+#mobile-pause-btn{display:none;align-items:center;justify-content:center;background:rgba(126,9,165,.35);color:var(--yellow);border:1px solid rgba(255,230,0,.5);border-radius:4px;font-size:1.1rem;line-height:1;padding:0 10px;min-height:36px;min-width:36px;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+body.playing-mobile #mobile-pause-btn{display:flex!important}
 body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block!important}
 }
 </style>
@@ -160,7 +162,7 @@ function stopFaviconAnimation() {
   </div>
 </div>
 <div class="screen" id="game-screen">
-  <div id="hud"><span class="hud-score">RELEASED: £<span id="score-display">0</span></span><span class="hud-wave">WAVE: <span id="wave-display">1</span><br><span id="wave-cash-display" style="font-size:.55em;color:#88FF44;letter-spacing:0">£0/£180</span></span><span class="hud-lives">LIVES: <span id="lives-display">❤❤❤</span></span></div>
+  <div id="hud"><span class="hud-score">RELEASED: £<span id="score-display">0</span></span><span class="hud-wave">WAVE: <span id="wave-display">1</span><br><span id="wave-cash-display" style="font-size:.55em;color:#88FF44;letter-spacing:0">£0/£180</span></span><span class="hud-lives">LIVES: <span id="lives-display">❤❤❤</span></span><button id="mobile-pause-btn" onclick="togglePause()">⏸</button></div>
   <div id="target-hud"><div id="target-top-row"><span id="target-label">TARGET: £<span id="target-current">0</span> / £<span id="target-goal">5,000</span></span><span id="bomb-hud" style="display:none">💣 x<span id="bomb-count">0</span></span></div><div id="target-bar-wrap"><div id="target-bar"></div></div></div>
   <button id="bomb-btn" style="display:none" onclick="useBomb()">💣 CASH BOMB</button>
   <div id="smash-msg"></div>
