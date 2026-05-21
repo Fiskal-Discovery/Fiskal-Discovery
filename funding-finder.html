@@ -1490,19 +1490,20 @@
     overflow: hidden;
     z-index: 0;
   }
-  .hstar {
+  .shooting-star {
     position: absolute;
     height: 1px;
-    background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.95) 45%, rgba(255,255,255,0.2) 100%);
-    border-radius: 2px;
+    background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.55) 35%, rgba(255,255,255,0.9) 100%);
+    border-radius: 1px;
+    pointer-events: none;
     opacity: 0;
-    animation: hshoot linear infinite;
+    animation: shoot-star linear forwards;
   }
-  @keyframes hshoot {
-    0%   { transform: translateX(-140px) rotate(-20deg); opacity: 0; }
-    4%   { opacity: 1; }
-    88%  { opacity: 0.7; }
-    100% { transform: translateX(calc(100vw + 140px)) rotate(-20deg); opacity: 0; }
+  @keyframes shoot-star {
+    0%   { opacity: 0;   transform: rotate(var(--sa)) translateX(0); }
+    12%  { opacity: 1; }
+    80%  { opacity: 0.5; }
+    100% { opacity: 0;   transform: rotate(var(--sa)) translateX(var(--sd)); }
   }
 
   /* ---- NEW FIXED HEADER (facility-review style) ---- */
@@ -3286,26 +3287,31 @@ document.addEventListener('DOMContentLoaded', () => {
   window.scrollTo(0, 0);
   showScreen('details');
 
-  // Shooting stars in all headers
-  const starDefs = [
-    { top:'18%', width:'90px',  dur:'4.2s', delay:'0s'    },
-    { top:'60%', width:'55px',  dur:'3.1s', delay:'1.4s'  },
-    { top:'35%', width:'110px', dur:'5.5s', delay:'0.7s'  },
-    { top:'75%', width:'45px',  dur:'3.8s', delay:'2.8s'  },
-    { top:'50%', width:'70px',  dur:'6.1s', delay:'4.0s'  },
-  ];
+  // Shooting stars in all headers — same style as home.html
   document.querySelectorAll('.ob-fixed-header').forEach(hdr => {
     hdr.style.overflow = 'hidden';
-    const wrap = document.createElement('div');
-    wrap.className = 'header-stars';
-    starDefs.forEach(d => {
-      const s = document.createElement('span');
-      s.className = 'hstar';
-      s.style.cssText = `top:${d.top};width:${d.width};animation-duration:${d.dur};animation-delay:${d.delay};`;
-      wrap.appendChild(s);
-    });
-    hdr.insertBefore(wrap, hdr.firstChild);
+    const layer = document.createElement('div');
+    layer.className = 'header-stars';
+    hdr.insertBefore(layer, hdr.firstChild);
   });
+
+  function spawnHeaderStar() {
+    document.querySelectorAll('.ob-fixed-header .header-stars').forEach(layer => {
+      const el = document.createElement('div');
+      el.className = 'shooting-star';
+      const x     = (Math.random() * 75 + 5).toFixed(1);
+      const y     = (Math.random() * 70 + 5).toFixed(1);
+      const angle = (Math.random() * 22 + 18).toFixed(0);
+      const len   = (Math.random() * 55 + 75).toFixed(0);
+      const dist  = (Math.random() * 100 + 230).toFixed(0);
+      const dur   = (Math.random() * 250 + 520).toFixed(0);
+      el.style.cssText = `left:${x}%;top:${y}%;width:${len}px;--sa:${angle}deg;--sd:${dist}px;animation-duration:${dur}ms`;
+      layer.appendChild(el);
+      setTimeout(() => el.remove(), +dur + 200);
+    });
+    setTimeout(spawnHeaderStar, Math.random() * 6000 + 3000);
+  }
+  setTimeout(spawnHeaderStar, Math.random() * 2000 + 500);
 
   // Load Nicole's photo
   loadNicolePhoto();
