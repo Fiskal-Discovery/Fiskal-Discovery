@@ -457,9 +457,8 @@ html, body { overflow-x: hidden; }
   }
 }
 
-/* ---- Mobile: collapse 2-column grids to single column on small phones ---- */
-@media (max-width: 390px) {
-  .answer-options,
+/* ---- Mobile: collapse 2-column grids to single column on very small phones ---- */
+@media (max-width: 320px) {
   .checkbox-options,
   .multi-choice-grid,
   .ob-q-grid {
