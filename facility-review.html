@@ -905,10 +905,11 @@
   #screen-welcome .typing-intro { padding: 8px 16px 8px; }
   #screen-welcome .typing-text { font-size: clamp(15px, 3vw, 20px); }
   #screen-welcome .screen-footer {
-    padding: 8px 0 0;
-    gap: 4px;
     background: #000;
-    padding-bottom: max(16px, env(safe-area-inset-bottom));
+    padding: 12px 0 max(16px, env(safe-area-inset-bottom));
+    gap: 4px;
+    flex-shrink: 0;
+    min-height: 60px;
   }
 
   .typing-intro {
