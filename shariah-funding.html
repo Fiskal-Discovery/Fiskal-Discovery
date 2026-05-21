@@ -57,12 +57,15 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+  }
+
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--col-bg);
     color: var(--dark);
-    min-height: 100vh;
-    overflow-x: hidden;
   }
 
   .bg-orb {
@@ -78,13 +81,17 @@
 
   .screen {
     display: none;
-    min-height: 100vh;
-    position: relative;
-    z-index: 1;
-    animation: fadeUp 0.5s ease forwards;
     flex-direction: column;
   }
-  .screen.active { display: flex; }
+  .screen.active {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease forwards;
+    z-index: 1;
+  }
 
   @keyframes fadeUp {
     from { opacity: 0; }
@@ -137,10 +144,11 @@
     flex-direction: column;
     justify-content: center;
     padding: 20px 24px 24px;
-
     max-width: 960px;
     width: 100%;
     margin: 0 auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   
