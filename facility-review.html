@@ -897,6 +897,45 @@
     pointer-events: none;
     z-index: 0;
   }
+  /* ---- FIXED QUESTION FOOTER TEMPLATE ---- */
+  .q-fixed-footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: #000;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 16px max(8px, env(safe-area-inset-bottom));
+    gap: 4px;
+  }
+  .q-footer-nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .q-nav-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    padding: 6px 10px;
+    min-height: 44px;
+  }
+  .q-nav-home {
+    color: #fff;
+    font-weight: 600;
+  }
+  .q-footer-tagline {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
+  }
+
   #screen-welcome .ob-fixed-header,
   #screen-welcome .screen-content,
   #screen-welcome .nav-row { position: relative; z-index: 1; }
@@ -1036,13 +1075,16 @@
     </div>
     <button class="btn-primary" onclick="goToReviewSelection()">Continue →</button>
     </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
