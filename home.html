@@ -462,6 +462,18 @@
     margin: 0 auto;
   }
 
+  .hero-real-support {
+    position: absolute;
+    bottom: 14px;
+    right: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--orange-bright);
+    margin: 0;
+    z-index: 5;
+    text-align: right;
+  }
+
   .home-support-blurb {
     font-size: 14px;
     line-height: 1.55;
@@ -1132,7 +1144,7 @@
           <span id="home-profile-reset" style="display:none;" class="profile-badge-reset" onclick="resetOnboarding()">Not you?</span>
         </div>
       </div>
-    </div>
+    <p class="hero-real-support">Real support from a real person.</p>
   </div>
   <!-- Stars layer — outside .hero so not clipped by ::after, clipped to diagonal shape -->
   <div class="stars-layer">
@@ -1182,7 +1194,7 @@
     <div style="position:absolute;top:8px;left:8px;width:12px;height:12px;border-radius:50%;background:red;z-index:9999;pointer-events:none;"></div>
 <div class="page-body-stars" id="page-body-stars"></div>
     <div class="modules-wrap">
-      <p class="home-support-blurb"><span class="home-support-first">Real support from a real person.</span><br><strong>Nicole</strong> personally reviews every submission and works with you on your options.</p>
+      <p class="home-support-blurb"><strong>Nicole</strong> personally reviews every submission and works with you on your options.</p>
       <!-- MY DISCOVERY SUMMARIES CARD -->
       <div class="summaries-home-card" onclick="showSummariesScreen()">
         <div class="summaries-home-bar"></div>
