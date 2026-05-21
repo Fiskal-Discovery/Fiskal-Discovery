@@ -1894,6 +1894,54 @@
     color: var(--col-soft-violet);
     text-decoration: none;
   }
+  .q-fixed-footer {
+    flex-shrink: 0;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  .q-footer-nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .q-nav-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 2px 10px;
+    min-height: 36px;
+  }
+  .q-footer-legal {
+    font-size: 9px;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 0 8px;
+    line-height: 1.5;
+  }
+  .q-footer-legal a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  .q-footer-tagline {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
+    margin-top: 2px;
+  }
+  .q-footer-tagline .ob-tagline-rest { font-size: 10px; }
 
   @media (max-width: 600px) {
     #screen-landing { overflow: hidden; }
@@ -2054,9 +2102,17 @@
     </div>
   </div>
 
-  <footer class="ob-footer">
-    <p class="ob-footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539. &nbsp;|&nbsp; <a href="https://fiskal.online" target="_blank">fiskal.online</a> &nbsp;|&nbsp; All information is treated in confidence.</p>
-  </footer>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
+      <p class="q-footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539. &nbsp;|&nbsp; <a href="https://fiskal.online" target="_blank">fiskal.online</a> &nbsp;|&nbsp; All information is treated in confidence.</p>
+      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
+    </div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
+  </div>
 
 </div>
 
