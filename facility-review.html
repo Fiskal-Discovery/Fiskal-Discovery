@@ -901,15 +901,19 @@
   #screen-welcome .nav-row { position: relative; z-index: 1; }
   #screen-welcome { overflow: hidden; }
   #screen-welcome .ob-fixed-header { background: #000; }
-  #screen-welcome .screen-content { padding: 8px 16px 8px; }
+  #screen-welcome .screen-content { padding: 8px 16px 100px; }
   #screen-welcome .typing-intro { padding: 8px 16px 8px; }
   #screen-welcome .typing-text { font-size: clamp(15px, 3vw, 20px); }
   #screen-welcome .screen-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     background: #000;
-    padding: 12px 0 max(16px, env(safe-area-inset-bottom));
+    padding: 10px 0 max(20px, env(safe-area-inset-bottom));
     gap: 4px;
-    flex-shrink: 0;
-    min-height: 60px;
+    z-index: 100;
+    border-top: none;
   }
 
   .typing-intro {
