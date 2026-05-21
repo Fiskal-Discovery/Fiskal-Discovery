@@ -1596,8 +1596,19 @@
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
   }
+  .landing-footer {
+    flex-shrink: 0;
+    background: #000;
+    padding: 10px 24px calc(10px + env(safe-area-inset-bottom, 0px));
+    text-align: center;
+  }
+  .landing-footer-legal {
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.6;
+  }
+  .landing-footer-legal a { color: rgba(255,255,255,0.35); text-decoration: none; }
   #screen-landing::before { display: none; }
 
   .ob-nav {
@@ -2107,16 +2118,8 @@
     </div>
   </div>
 
-  <div class="q-fixed-footer">
-    <div class="q-footer-nav">
-      <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
-      <p class="q-footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539. &nbsp;|&nbsp; <a href="https://fiskal.online" target="_blank">fiskal.online</a> &nbsp;|&nbsp; All information is treated in confidence.</p>
-      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
-    </div>
-    <div class="q-footer-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest"> to stand still</span>
-    </div>
+  <div class="landing-footer">
+    <p class="landing-footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539. &nbsp;|&nbsp; <a href="https://fiskal.online" target="_blank">fiskal.online</a> &nbsp;|&nbsp; All information is treated in confidence.</p>
   </div>
 
 </div>
