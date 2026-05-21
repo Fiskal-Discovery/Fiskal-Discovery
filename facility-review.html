@@ -5437,13 +5437,14 @@ function showDiscoveryThinkingScreen(callback) {
     document.documentElement.style.setProperty('--sb-thumb', `rgb(${r},${g},${b})`);
   }
   function attachToActive() {
-    const active = document.querySelector('.screen.active');
-    if (!active || active === current) return;
+    const activeScreen = document.querySelector('.screen.active');
+    const el = activeScreen && (activeScreen.querySelector('.screen-content') || activeScreen);
+    if (!el || el === current) return;
     if (current) current.removeEventListener('scroll', current._sbHandler);
-    current = active;
-    active._sbHandler = () => updateScrollbar(active);
-    active.addEventListener('scroll', active._sbHandler, { passive: true });
-    updateScrollbar(active);
+    current = el;
+    el._sbHandler = () => updateScrollbar(el);
+    el.addEventListener('scroll', el._sbHandler, { passive: true });
+    updateScrollbar(el);
   }
   new MutationObserver(attachToActive).observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
   document.addEventListener('DOMContentLoaded', attachToActive);
