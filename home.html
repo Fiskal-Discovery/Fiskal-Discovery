@@ -371,7 +371,7 @@
   .hero-title {
     font-family: 'Dancing Script', cursive;
     font-style: normal;
-    font-size: clamp(58px, 10vw, 100px);
+    font-size: clamp(72px, 13vw, 120px);
     font-weight: 700;
     color: #ffffff;
     line-height: 1.05;
@@ -451,6 +451,19 @@
     background: linear-gradient(180deg, var(--body-start) 0%, var(--body-end) 100%);
     padding: 40px 24px 60px;
     min-height: 50vh;
+    position: relative;
+  }
+  .page-body-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .modules-wrap { position: relative; z-index: 1; }
+  @keyframes body-star-twinkle {
+    0%, 100% { opacity: var(--op, 0.35); }
+    50%      { opacity: calc(var(--op, 0.35) * 0.2); }
   }
 
   .modules-wrap {
@@ -970,10 +983,10 @@
 
   @media (max-width: 480px) {
     .module-grid { grid-template-columns: 1fr; }
-    .hero-title { font-size: 32px !important; }
+    .hero-title { font-size: 42px !important; }
   }
   @media (max-width: 380px) {
-    .hero-title { font-size: 28px !important; }
+    .hero-title { font-size: 36px !important; }
     .hero-tagline { font-size: 13px !important; }
     .tagline-refuse { font-size: 16px; letter-spacing: 1px; }
     .tagline-rest { font-size: 7px; letter-spacing: 0px; }
@@ -1163,6 +1176,7 @@
 
   <!-- PAGE BODY -->
   <div class="page-body">
+    <div class="page-body-stars" id="page-body-stars"></div>
     <div class="modules-wrap">
       <!-- MY DISCOVERY SUMMARIES CARD -->
       <div class="summaries-home-card" onclick="showSummariesScreen()">
@@ -1607,11 +1621,39 @@ function loadLenderLeaderboard() {
   }
 }
 
+function createBodyStars() {
+  const layer = document.getElementById('page-body-stars');
+  if (!layer) return;
+  for (let i = 0; i < 55; i++) {
+    const el = document.createElement('div');
+    const size = Math.random() < 0.15 ? 2 : 1;
+    const op = (Math.random() * 0.4 + 0.12).toFixed(2);
+    const td = (Math.random() * 4 + 2).toFixed(1);
+    const delay = (Math.random() * 5).toFixed(1);
+    el.style.cssText = `position:absolute;border-radius:50%;background:#fff;pointer-events:none;width:${size}px;height:${size}px;left:${(Math.random()*100).toFixed(1)}%;top:${(Math.random()*100).toFixed(1)}%;opacity:0;--op:${op};animation:body-star-twinkle ${td}s ${delay}s ease-in-out infinite both;`;
+    layer.appendChild(el);
+  }
+}
+
+function spawnBodyShootingStar() {
+  const layer = document.getElementById('page-body-stars');
+  if (!layer) return;
+  const el = document.createElement('div');
+  el.className = 'shooting-star';
+  el.style.cssText = `left:${(Math.random()*80+5).toFixed(1)}%;top:${(Math.random()*80+5).toFixed(1)}%;width:${(Math.random()*55+75).toFixed(0)}px;--sa:${(Math.random()*22+18).toFixed(0)}deg;--sd:${(Math.random()*100+230).toFixed(0)}px;animation-duration:${(Math.random()*400+700).toFixed(0)}ms`;
+  layer.appendChild(el);
+  const dur = parseFloat(el.style.animationDuration) || 900;
+  setTimeout(() => el.remove(), dur + 200);
+  setTimeout(spawnBodyShootingStar, Math.random() * 13000 + 10000);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   loadAppState();
   showHomepage();
   loadLenderLeaderboard();
+  createBodyStars();
   setTimeout(spawnShootingStar, Math.random() * 5000 + 4000);
+  setTimeout(spawnBodyShootingStar, Math.random() * 4000 + 3000);
 });
 </script>
 <script src="shared-components.js"></script>
