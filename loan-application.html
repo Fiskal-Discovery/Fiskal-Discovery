@@ -565,6 +565,11 @@
   #screen-results .screen-content {
     max-width: 100%;
     padding: 20px 40px 24px;
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+  @media (max-width: 600px) {
+    #screen-results .screen-content { padding: 16px 16px 24px; }
   }
   @media (max-width: 600px) {
     .bg-orb-1, .bg-orb-2 { display: none; }
