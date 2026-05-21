@@ -2089,7 +2089,6 @@
 
 <!-- ====== WELCOME INTRO SCREEN ====== -->
 <div class="screen active" id="screen-landing">
-  <div style="position:absolute;top:8px;left:8px;width:12px;height:12px;border-radius:50%;background:red;z-index:9999;"></div>
 
   <div class="ob-nav-tagline" style="position:absolute;top:16px;right:28px;z-index:10;">
     <span class="ob-tagline-refuse">REFUSE</span>
@@ -2589,6 +2588,7 @@ function startWelcome() {
 
   document.getElementById('onboarding-overlay').classList.remove('hidden');
   document.getElementById('screen-landing').classList.remove('active');
+  setBodyScroll(false);
   document.getElementById('ob-back-btn').style.display = 'block';
   startOverlayStars();
   renderWelcomeQuestion();
@@ -2610,6 +2610,7 @@ function obGoBack() {
   if (!welcomeState || typeof welcomeState.currentQuestion === 'undefined') {
     document.getElementById('onboarding-overlay').classList.add('hidden');
     document.getElementById('screen-landing').classList.add('active');
+    setBodyScroll(true);
     document.getElementById('ob-back-btn').style.display = 'none';
     return;
   }
@@ -2618,6 +2619,7 @@ function obGoBack() {
   if (welcomeState.currentQuestion === 0) {
     document.getElementById('onboarding-overlay').classList.add('hidden');
     document.getElementById('screen-landing').classList.add('active');
+    setBodyScroll(true);
     document.getElementById('ob-back-btn').style.display = 'none';
     const fp = document.getElementById('ob-fixed-progress'); if (fp) fp.style.display = 'none';
   } else if (welcomeState.currentQuestion > 0) {
@@ -2628,6 +2630,7 @@ function obGoBack() {
     // Fallback for negative or invalid index: go to WELCOME_INTRO
     document.getElementById('onboarding-overlay').classList.add('hidden');
     document.getElementById('screen-landing').classList.add('active');
+    setBodyScroll(true);
     document.getElementById('ob-back-btn').style.display = 'none';
   }
 }
@@ -3108,6 +3111,7 @@ document.addEventListener('DOMContentLoaded', function () {
   loadAppState();
   loadChampions();
   setTimeout(spawnObShootingStar, Math.random() * 4000 + 2000);
+  setBodyScroll(true);
 
   // DEV: Clear localStorage to test fresh welcome flow
   if (DEV_MODE) {
@@ -3292,6 +3296,13 @@ const productInfo = {
 // ============================================================
 // NAVIGATION
 // ============================================================
+function setBodyScroll(isLanding) {
+  document.body.style.overflow = isLanding ? 'auto' : '';
+  document.body.style.height = isLanding ? 'auto' : '';
+  document.documentElement.style.overflow = isLanding ? 'auto' : '';
+  document.documentElement.style.height = isLanding ? 'auto' : '';
+}
+
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById('screen-' + id);
@@ -3299,6 +3310,7 @@ function showScreen(id) {
     el.classList.add('active');
     window.scrollTo(0, 0);
   }
+  setBodyScroll(id === 'landing');
 }
 
 function showFundingFinderThinkingScreen(callback) {
