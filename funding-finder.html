@@ -2647,8 +2647,12 @@ function renderFlowQuestion() {
   const optionsEl = document.getElementById('q-options');
   optionsEl.innerHTML = '';
   const isMobile = window.innerWidth <= 768;
+  const optCount = q.options ? q.options.length : 0;
+  const useSingleCol = isMobile && optCount <= 3;
   optionsEl.style.cssText = isMobile
-    ? 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;'
+    ? useSingleCol
+      ? 'display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:10px;'
+      : 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;'
     : 'display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px;';
 
   if (q.type === 'single-choice') {
