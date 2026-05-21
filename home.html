@@ -392,12 +392,18 @@
   ============================================================ */
   .profile-badge {
     display: inline-flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
     position: absolute;
     bottom: 2px;
     right: 52px;
     z-index: 5;
+  }
+  .profile-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   .profile-badge-avatar {
@@ -422,7 +428,7 @@
     color: var(--periwinkle);
     cursor: pointer;
     text-decoration: underline;
-    margin-left: 6px;
+    margin-left: 0;
     white-space: nowrap;
   }
 
@@ -1129,12 +1135,14 @@
 
     </div>
     <div id="home-profile-badge" style="display:none;" class="profile-badge">
-      <div class="profile-badge-avatar" id="home-avatar">?</div>
-      <div class="profile-badge-info">
-        <div class="profile-badge-name" id="home-profile-name"></div>
-        <div class="profile-badge-company" id="home-profile-company"></div>
-      </div>
       <span class="profile-badge-reset" onclick="resetOnboarding()">Not you?</span>
+      <div class="profile-badge-row">
+        <div class="profile-badge-avatar" id="home-avatar">?</div>
+        <div class="profile-badge-info">
+          <div class="profile-badge-name" id="home-profile-name"></div>
+          <div class="profile-badge-company" id="home-profile-company"></div>
+        </div>
+      </div>
     </div>
   </div>
   <!-- Stars layer — outside .hero so not clipped by ::after, clipped to diagonal shape -->
