@@ -1275,37 +1275,12 @@
   <div class="screen-content">
     <h2 class="question-text">Do you have any existing loans or finance in place?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Existing finance doesn't close doors — the right structure can open new ones.</p>
-    <div class="answer-options answer-grid-2col" id="q9-opts">
-      <button class="answer-btn" onclick="selectExistingFinance('none', this)">No existing finance</button>
-      <button class="answer-btn" onclick="selectExistingFinance('one', this)">Yes — one facility</button>
-      <button class="answer-btn" onclick="selectExistingFinance('multiple', this)">Yes — multiple facilities</button>
-      <button class="answer-btn" onclick="selectExistingFinance('refinance', this)">Yes — and I'm looking to refinance</button>
+    <div class="answer-options" id="q9-opts" style="display:flex;flex-direction:column;gap:10px;">
+      <button class="answer-btn" id="q9-no-btn" onclick="selectExistingFinance('none', this)">No existing finance</button>
+      <button class="answer-btn" id="q9-yes-btn" onclick="selectExistingFinanceYes(this)">Yes, I have funding in place</button>
     </div>
-    <div id="q9-details-panel" style="display:none;margin-top:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(142,126,216,0.2);border-radius:14px;padding:18px;flex-direction:column;gap:14px">
-      <p style="font-size:13px;color:rgba(255,255,255,0.55);margin:0 0 4px">Tell us about your existing finance — the more detail the better.</p>
-      <div class="form-group" style="margin:0">
-        <label class="form-label" style="font-size:13px">Finance type <span style="color:rgba(255,255,255,0.4);font-weight:300">(e.g. loan, invoice finance, overdraft)</span></label>
-        <input type="text" class="form-input" id="q9-finance-type" placeholder="e.g. Business loan, Invoice finance">
-      </div>
-      <div class="form-group" style="margin:0">
-        <label class="form-label" style="font-size:13px">Lender name</label>
-        <input type="text" class="form-input" id="q9-lender" placeholder="e.g. HSBC, Funding Circle">
-      </div>
-      <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div class="form-group" style="margin:0">
-          <label class="form-label" style="font-size:13px">Outstanding balance</label>
-          <input type="text" class="form-input" id="q9-balance" placeholder="e.g. £45,000" oninput="formatCurrencyInput(this)">
-        </div>
-        <div class="form-group" style="margin:0">
-          <label class="form-label" style="font-size:13px">Monthly payment</label>
-          <input type="text" class="form-input" id="q9-monthly" placeholder="e.g. £1,200" oninput="formatCurrencyInput(this)">
-        </div>
-      </div>
-      <div class="form-group" style="margin:0">
-        <label class="form-label" style="font-size:13px">Anything else to add? <span style="color:rgba(255,255,255,0.4);font-weight:300">(optional)</span></label>
-        <input type="text" class="form-input" id="q9-extra" placeholder="e.g. expires in 6 months, personal guarantee in place">
-      </div>
-    </div>
+    <div id="q9-facilities-list" style="display:none;margin-top:14px;flex-direction:column;gap:10px;"></div>
+    <button id="q9-add-btn" onclick="addFinanceFacility()" style="display:none;background:none;border:none;color:var(--col-soft-violet);font-size:13px;font-family:inherit;cursor:pointer;padding:6px 0;text-align:left;width:100%;">+ Add another facility</button>
     <button class="btn-primary" id="q9-continue" onclick="saveExistingFinance()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
   <div class="q-fixed-footer">
@@ -2135,32 +2110,54 @@ function selectMonthlyTurnover(value, btn) {
 // ============================================================
 // Q9 — Existing finance
 // ============================================================
+var q9FacilityCount = 0;
+
 function selectExistingFinance(value, btn) {
   state.existingFinance = value;
   document.querySelectorAll('#q9-opts .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  const panel = document.getElementById('q9-details-panel');
-  if (value === 'none') {
-    panel.style.display = 'none';
-    document.getElementById('q9-continue').style.display = 'none';
-    lockOpts('q9-opts', 280);
-    setTimeout(() => showScreen('screen-q10'), 280);
-  } else {
-    panel.style.display = 'flex';
-    document.getElementById('q9-continue').style.display = 'block';
-    document.getElementById('q9-finance-type').focus();
-  }
+  document.getElementById('q9-facilities-list').style.display = 'none';
+  document.getElementById('q9-add-btn').style.display = 'none';
+  document.getElementById('q9-continue').style.display = 'none';
+  lockOpts('q9-opts', 280);
+  setTimeout(() => showScreen('screen-q10'), 280);
 }
 
+function selectExistingFinanceYes(btn) {
+  state.existingFinance = 'yes';
+  document.querySelectorAll('#q9-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const list = document.getElementById('q9-facilities-list');
+  list.style.display = 'flex';
+  if (q9FacilityCount === 0) addFinanceFacility();
+  document.getElementById('q9-add-btn').style.display = 'block';
+  document.getElementById('q9-continue').style.display = 'block';
+}
+
+function addFinanceFacility() {
+  q9FacilityCount++;
+  const list = document.getElementById('q9-facilities-list');
+  const box = document.createElement('div');
+  box.style.cssText = 'background:rgba(255,255,255,0.05);border:1px solid rgba(142,126,216,0.2);border-radius:12px;padding:14px;';
+  if (q9FacilityCount > 1) {
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;';
+    lbl.textContent = 'Facility ' + q9FacilityCount;
+    box.appendChild(lbl);
+  }
+  const inp = document.createElement('input');
+  inp.type = 'text';
+  inp.className = 'form-input';
+  inp.placeholder = 'e.g. Business loan with HSBC, £45k outstanding';
+  inp.style.cssText = 'width:100%;';
+  box.appendChild(inp);
+  list.appendChild(box);
+  setTimeout(() => inp.focus(), 50);
+}
 
 function saveExistingFinance() {
-  state.existingFinanceNote = [
-    document.getElementById('q9-finance-type').value.trim(),
-    document.getElementById('q9-lender').value.trim(),
-    document.getElementById('q9-balance').value.trim(),
-    document.getElementById('q9-monthly').value.trim(),
-    document.getElementById('q9-extra').value.trim(),
-  ].filter(Boolean).join(' | ');
+  const inputs = document.querySelectorAll('#q9-facilities-list input');
+  state.existingFinanceNote = Array.from(inputs).map(i => i.value.trim()).filter(Boolean).join(' | ');
   showScreen('screen-q10');
 }
 
