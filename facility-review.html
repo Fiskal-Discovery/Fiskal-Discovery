@@ -84,7 +84,7 @@
     animation: fadeUp 0.5s ease forwards;
     flex-direction: column;
   }
-  .screen.active { display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
+  .screen.active { display: flex; flex-direction: column; height: 100dvh; overflow-y: auto; }
   /* Results screens must appear immediately — no fade-in that could leave them blank */
   #screen-loading.active,
   #screen-asset-loading.active,
@@ -903,7 +903,12 @@
   #screen-welcome .screen-content { padding: 8px 16px 8px; }
   #screen-welcome .typing-intro { padding: 8px 16px 8px; }
   #screen-welcome .typing-text { font-size: clamp(15px, 3vw, 20px); }
-  #screen-welcome .screen-footer { padding: 8px 0 12px; gap: 4px; }
+  #screen-welcome .screen-footer {
+    padding: 8px 0 0;
+    gap: 4px;
+    background: #000;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
 
   .typing-intro {
     flex: 1;
