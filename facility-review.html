@@ -945,7 +945,6 @@
   #screen-welcome .ob-fixed-header .dashed-divider { font-size: 28px; }
   #screen-welcome .screen-content { padding: 8px 16px 0; flex: 1; display: flex; flex-direction: column; }
   #screen-welcome .typing-intro { padding: 8px 16px; flex: 1; overflow: hidden; }
-  #screen-welcome .screen-content .nav-row { margin-top: auto; padding: 8px 0 54px; }
   #screen-welcome .typing-text { font-size: clamp(14px, 3vw, 18px); }
   #screen-welcome .screen-footer {
     position: fixed;
@@ -1030,12 +1029,14 @@
       <div class="typing-text" id="facility-intro-text"></div>
       <button class="btn-primary" id="facility-start-btn" onclick="showScreen('screen-facility-type')" style="display:none">Start My Facility Review Discovery ›</button>
     </div>
-    <div class="nav-row">
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-    </div>
   </div>
-  <div class="screen-footer">
-    <div class="welcome-footer-tagline">
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
+    </div>
+    <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
       <span class="ob-tagline-rest"> to stand still</span>
     </div>
