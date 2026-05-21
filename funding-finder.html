@@ -1482,6 +1482,29 @@
     .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
   }
 
+  /* ---- HEADER SHOOTING STARS ---- */
+  .header-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .hstar {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.95) 45%, rgba(255,255,255,0.2) 100%);
+    border-radius: 2px;
+    opacity: 0;
+    animation: hshoot linear infinite;
+  }
+  @keyframes hshoot {
+    0%   { transform: translateX(-140px) rotate(-20deg); opacity: 0; }
+    4%   { opacity: 1; }
+    88%  { opacity: 0.7; }
+    100% { transform: translateX(calc(100vw + 140px)) rotate(-20deg); opacity: 0; }
+  }
+
   /* ---- NEW FIXED HEADER (facility-review style) ---- */
   .ob-fixed-header {
     background: #000;
@@ -1657,7 +1680,8 @@
   #screen-question .screen-content {
     justify-content: flex-start;
     padding-top: 12px;
-    padding-bottom: 12px;
+    padding-bottom: 24px;
+    overflow-y: auto;
   }
   #screen-question #q-icon { display: none; }
   #screen-question .question-product { margin-bottom: 4px; }
@@ -2577,6 +2601,7 @@ function renderFlowQuestion() {
 
   const optionsEl = document.getElementById('q-options');
   optionsEl.innerHTML = '';
+  optionsEl.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;';
 
   if (q.type === 'single-choice') {
     q.options.forEach(opt => {
@@ -3260,6 +3285,28 @@ async function emailSummaryToUser() {
 document.addEventListener('DOMContentLoaded', () => {
   window.scrollTo(0, 0);
   showScreen('details');
+
+  // Shooting stars in all headers
+  const starDefs = [
+    { top:'18%', width:'90px',  dur:'4.2s', delay:'0s'    },
+    { top:'60%', width:'55px',  dur:'3.1s', delay:'1.4s'  },
+    { top:'35%', width:'110px', dur:'5.5s', delay:'0.7s'  },
+    { top:'75%', width:'45px',  dur:'3.8s', delay:'2.8s'  },
+    { top:'50%', width:'70px',  dur:'6.1s', delay:'4.0s'  },
+  ];
+  document.querySelectorAll('.ob-fixed-header').forEach(hdr => {
+    hdr.style.overflow = 'hidden';
+    const wrap = document.createElement('div');
+    wrap.className = 'header-stars';
+    starDefs.forEach(d => {
+      const s = document.createElement('span');
+      s.className = 'hstar';
+      s.style.cssText = `top:${d.top};width:${d.width};animation-duration:${d.dur};animation-delay:${d.delay};`;
+      wrap.appendChild(s);
+    });
+    hdr.insertBefore(wrap, hdr.firstChild);
+  });
+
   // Load Nicole's photo
   loadNicolePhoto();
   // Start typing intro
