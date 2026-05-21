@@ -23,18 +23,76 @@
     --btn-gradient: var(--gradient-brand);
     --btn-stripe: #BE123C;
   }
-  /* ---- HEADER BRAND ---- */
-  .ob-header-title { font-family: 'Dancing Script', cursive; font-style: italic; font-weight: normal; font-size: clamp(16px, 3vw, 22px); color: #ffffff; line-height: 1.1; }
-  .ob-header-sub { font-size: clamp(10px, 2vw, 13px); color: var(--col-soft-violet); font-weight: 400; letter-spacing: 0.3px; }
-
-  /* REFUSE header tagline */
-  .ob-header-tagline {
-    justify-self: end;
+  /* ---- HEADER: facility-review / funding-finder style ---- */
+  .ob-fixed-header {
+    background: #000 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 24px !important;
+    height: 90px !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+    grid-template-columns: unset !important;
+  }
+  .ob-fixed-header .dashed-divider {
+    font-size: 24px;
+    padding: 0;
+    white-space: nowrap;
+    margin: 0;
+  }
+  .q-module-name {
+    position: absolute;
+    bottom: 4px;
+    right: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #FF6B2B;
+  }
+  /* ---- FOOTER: facility-review / funding-finder style ---- */
+  .q-fixed-footer {
+    flex-shrink: 0;
+    background: #000;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    line-height: 1;
-    gap: 1px;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    width: 100%;
+  }
+  .q-footer-nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .q-nav-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 2px 10px;
+    min-height: 36px;
+  }
+  .q-nav-home {
+    color: #fff;
+    font-weight: 600;
+  }
+  .q-footer-tagline {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
+    margin-top: 2px;
   }
   .ob-tagline-refuse {
     font-family: 'Bebas Neue', sans-serif;
@@ -48,6 +106,14 @@
     text-transform: uppercase;
     color: #FF6B2B;
     font-weight: 400;
+  }
+  @media (max-width: 600px) {
+    .ob-tagline-refuse { font-size: 20px; letter-spacing: 2px; }
+    .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
+  }
+  @media (max-width: 380px) {
+    .ob-tagline-refuse { font-size: 16px; letter-spacing: 1px; }
+    .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { height: 100%; overflow: hidden; background: #000; }
@@ -581,14 +647,6 @@
     z-index: 0;
   }
 
-  #screen-welcome .ob-fixed-header,
-  #screen-details .ob-fixed-header, #screen-q1 .ob-fixed-header,
-  #screen-q2 .ob-fixed-header, #screen-q3 .ob-fixed-header,
-  #screen-q4 .ob-fixed-header, #screen-q5 .ob-fixed-header,
-  #screen-q6 .ob-fixed-header, #screen-q7 .ob-fixed-header,
-  #screen-q8 .ob-fixed-header, #screen-q9 .ob-fixed-header,
-  #screen-q10 .ob-fixed-header, #screen-q11 .ob-fixed-header,
-  #screen-q12 .ob-fixed-header,
   #screen-details .progress-bar-wrap, #screen-q1 .progress-bar-wrap,
   #screen-q2 .progress-bar-wrap, #screen-q3 .progress-bar-wrap,
   #screen-q4 .progress-bar-wrap, #screen-q5 .progress-bar-wrap,
@@ -603,15 +661,7 @@
   #screen-q8 .screen-content, #screen-q9 .screen-content,
   #screen-q10 .screen-content, #screen-q11 .screen-content,
   #screen-q12 .screen-content,
-  #screen-welcome .screen-content,
-  #screen-welcome .nav-row,
-  #screen-details .nav-row, #screen-q1 .nav-row,
-  #screen-q2 .nav-row, #screen-q3 .nav-row,
-  #screen-q4 .nav-row, #screen-q5 .nav-row,
-  #screen-q6 .nav-row, #screen-q7 .nav-row,
-  #screen-q8 .nav-row, #screen-q9 .nav-row,
-  #screen-q10 .nav-row, #screen-q11 .nav-row,
-  #screen-q12 .nav-row { position: relative; z-index: 1; }
+  #screen-welcome .screen-content { position: relative; z-index: 1; }
 
   #screen-welcome .dashed-divider,
   #screen-details .dashed-divider, #screen-q1 .dashed-divider,
@@ -749,7 +799,7 @@
   }
   #screen-results .screen-content,
   #screen-results .ob-fixed-header,
-  #screen-results .screen-footer { position: relative; z-index: 1; }
+  #screen-results .q-fixed-footer { position: relative; z-index: 1; }
   #screen-results .results-check {
     width: 72px !important;
     height: 72px !important;
@@ -848,15 +898,8 @@
 <!-- WELCOME -->
 <div class="screen active" id="screen-welcome">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Application</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="screen-content">
     <div class="typing-intro">
@@ -865,26 +908,24 @@
       <button class="btn-primary" id="loan-start-btn" onclick="showDetailsConfirm()" style="display:none;margin-top:24px">Start My Loan Discovery ›</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="window.location.href='home.html?home=1'" style="visibility:hidden">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="void(0)" style="visibility:hidden">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- DETAILS -->
 <div class="screen" id="screen-details">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Loan Application</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:5%">
@@ -939,21 +980,24 @@
     <button class="btn-secondary" id="details-edit-btn" onclick="editDetails()">Edit</button>
     <button class="btn-primary" id="details-save-btn" onclick="submitDetails()" style="display:none">Save and continue ></button>
     </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-welcome')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="void(0)" style="visibility:hidden">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q1: Loan Type -->
 <div class="screen" id="screen-q1">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:8%"></div></div><div class="progress-label">Question 1 of 12</div></div>
   <div class="screen-content">
@@ -974,22 +1018,24 @@
     </div>
     <button class="btn-primary" id="q1-continue" onclick="saveLoanTypes()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-details')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-details')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q2: Purpose -->
 <div class="screen" id="screen-q2">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:17%"></div></div><div class="progress-label">Question 2 of 12</div></div>
   <div class="screen-content">
@@ -1014,22 +1060,24 @@
     </div>
     <button class="btn-primary" id="q2-continue" onclick="savePurpose()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q1')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q1')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q3: Amount -->
 <div class="screen" id="screen-q3">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:25%"></div></div><div class="progress-label">Question 3 of 12</div></div>
   <div class="screen-content">
@@ -1048,22 +1096,24 @@
     </div>
     <button class="btn-primary" id="q3-continue" onclick="saveAmount()">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q2')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q2')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q4: Term -->
 <div class="screen" id="screen-q4">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:33%"></div></div><div class="progress-label">Question 4 of 12</div></div>
   <div class="screen-content">
@@ -1079,22 +1129,24 @@
       <button class="answer-btn" onclick="selectTerm('I'm not sure', this)">I'm not sure</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q3')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q3')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q5: Security -->
 <div class="screen" id="screen-q5">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:42%"></div></div><div class="progress-label">Question 5 of 12</div></div>
   <div class="screen-content">
@@ -1110,22 +1162,24 @@
       <button class="answer-btn" onclick="selectSecurity('not-sure', this)">I'm not sure what I have to offer</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q4')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q4')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q6: Credit History -->
 <div class="screen" id="screen-q6">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:50%"></div></div><div class="progress-label">Question 6 of 12</div></div>
   <div class="screen-content">
@@ -1144,22 +1198,24 @@
     </div>
     <button class="btn-primary" id="q6-continue" onclick="saveCredit()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q5')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q5')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q7: Trading History -->
 <div class="screen" id="screen-q7">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:58%"></div></div><div class="progress-label">Question 7 of 12</div></div>
   <div class="screen-content">
@@ -1174,22 +1230,24 @@
       <button class="answer-btn" onclick="selectTradingHistory('5-plus-years', this)">5+ years</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q6')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q6')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q8: Monthly Turnover (conditional) -->
 <div class="screen" id="screen-q8">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:67%"></div></div><div class="progress-label">Question 8 of 12</div></div>
   <div class="screen-content">
@@ -1206,22 +1264,24 @@
       <button class="answer-btn" style="grid-column:1/-1" onclick="selectMonthlyTurnover('Rather not say', this)">I'd rather not say</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q7')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q7')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q9: Existing Finance -->
 <div class="screen" id="screen-q9">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:75%"></div></div><div class="progress-label">Question 9 of 12</div></div>
   <div class="screen-content">
@@ -1261,22 +1321,24 @@
     </div>
     <button class="btn-primary" id="q9-continue" onclick="saveExistingFinance()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="goBackFromQ9()">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="goBackFromQ9()">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q10: Urgency -->
 <div class="screen" id="screen-q10">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:83%"></div></div><div class="progress-label">Question 10 of 12</div></div>
   <div class="screen-content">
@@ -1290,13 +1352,16 @@
       <button class="answer-btn" onclick="selectUrgency('No rush — I'm planning ahead', this)">No rush — I'm planning ahead</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q9')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q9')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
@@ -1304,9 +1369,8 @@
 <!-- Q11: Documents -->
 <div class="screen" id="screen-q11">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:92%"></div></div><div class="progress-label">Question 11 of 12</div></div>
   <div class="screen-content">
@@ -1333,22 +1397,24 @@
     </div>
     <button class="btn-primary" id="q11-next-btn" onclick="showScreen('screen-q12')" style="display:none;margin-top:20px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q10')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q10')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q12: Additional notes -->
 <div class="screen" id="screen-q12">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div><div class="progress-label">Question 12 of 12</div></div>
   <div class="screen-content">
@@ -1360,13 +1426,16 @@
     </div>
     <button class="btn-primary" id="loan-submit-btn" onclick="saveAdditionalNotes()">Submit My Discovery</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q11')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q11')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
@@ -1374,14 +1443,8 @@
 <!-- Loading -->
 <div class="screen" id="screen-loading">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="screen-content">
     <div class="loading-screen">
@@ -1396,14 +1459,8 @@
 <!-- LOADING SCREEN -->
 <div class="screen loading-screen" id="screen-submission-loading">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="loading-content">
     <div class="loading-spinner"></div>
@@ -1414,14 +1471,8 @@
 <!-- Results -->
 <div class="screen" id="screen-results">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Application</span>
   </header>
   <div class="screen-content">
     <div class="results-header">
@@ -1497,9 +1548,16 @@
 
     <div class="divider"></div>
   </div>
-  <div class="screen-footer" style="margin-top:8px;">
-    <button class="back-btn" onclick="window.location.href='home.html?home=1'" style="margin:0 auto;">Home</button>
-    <div class="dashed-divider">Fiskal Discovery</div>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q12')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
+    </div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
@@ -1542,7 +1600,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // REFUSE to stand still animation
   (function startRefuseSequence() {
-    var taglines = document.querySelectorAll('.ob-header-tagline');
+    var taglines = document.querySelectorAll('.q-footer-tagline');
     if (!taglines.length) return;
     setTimeout(function() {
       taglines.forEach(function(el) { el.style.animation = 'refuseFidget 1.5s ease-in-out forwards'; });
@@ -3288,7 +3346,7 @@ async function sendClientSummaryEmail(summary) {
   }
   #screen-results .screen-content,
   #screen-results .ob-fixed-header,
-  #screen-results .screen-footer { position: relative; z-index: 1; }
+  #screen-results .q-fixed-footer { position: relative; z-index: 1; }
   #screen-results .results-name { color: var(--col-soft-violet) !important; }
   #screen-results .ai-summary-text { color: rgba(255,255,255,0.85) !important; }
   #screen-results .matched-product {
