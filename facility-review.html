@@ -910,10 +910,14 @@
     left: 0;
     right: 0;
     background: #000;
-    padding: 10px 0 max(20px, env(safe-area-inset-bottom));
+    height: calc(60px + max(0px, env(safe-area-inset-bottom)));
+    padding: 0 0 max(0px, env(safe-area-inset-bottom));
     gap: 4px;
     z-index: 100;
-    border-top: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .typing-intro {
