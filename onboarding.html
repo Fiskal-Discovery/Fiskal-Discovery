@@ -2642,6 +2642,7 @@ const welcomeFlow = [
     id: "industry",
     type: "choice",
     question: "What industry are you in?",
+    twoCol: true,
     options: [
       { label: "Construction", value: "Construction" },
       { label: "Recruitment", value: "Recruitment" },
@@ -2860,7 +2861,7 @@ function renderWelcomeQuestion() {
 
   if (q.type === 'cards') {
     const cards = document.createElement('div');
-    cards.className = 'ob-q-cards';
+    cards.className = q.twoCol ? 'ob-q-grid' : 'ob-q-cards';
     q.options.forEach(opt => {
       const card = document.createElement('button');
       card.className = 'ob-q-card';
@@ -2880,12 +2881,16 @@ function renderWelcomeQuestion() {
         body.appendChild(desc);
       }
 
-      const arrow = document.createElement('div');
-      arrow.className = 'ob-q-card-arrow';
-      arrow.textContent = '›';
-
-      card.appendChild(body);
-      card.appendChild(arrow);
+      if (!q.twoCol) {
+        const arrow = document.createElement('div');
+        arrow.className = 'ob-q-card-arrow';
+        arrow.textContent = '›';
+        card.appendChild(body);
+        card.appendChild(arrow);
+      } else {
+        card.appendChild(body);
+        card.style.cssText += 'justify-content:center;text-align:center;padding:12px 10px;';
+      }
       card.onclick = () => { card.classList.add('ob-selected'); setTimeout(() => advanceChoice(opt), 180); };
       cards.appendChild(card);
     });
