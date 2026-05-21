@@ -969,7 +969,6 @@
   /* ---- WELCOME SCREEN DARK STYLING ---- */
   #screen-home {
     background: var(--col-bg);
-    position: relative;
   }
   #screen-home::before {
     content: '';
@@ -1114,7 +1113,6 @@
   /* ---- DARK RESULTS SCREEN ---- */
   #screen-loading {
     background: var(--col-bg);
-    position: relative;
   }
   #screen-loading::before {
     content: '';
@@ -1585,7 +1583,7 @@
     </div>
     <button class="btn-primary" id="q1-continue" onclick="savePurposes()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-<div class="q-fixed-footer">
+  <div class="q-fixed-footer">
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-home')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -1620,7 +1618,7 @@
     </div>
     <button class="btn-primary" id="q2-continue" onclick="saveCompliance()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-<div class="q-fixed-footer">
+  <div class="q-fixed-footer">
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q1')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -1630,11 +1628,6 @@
       <span class="ob-tagline-refuse">REFUSE</span>
       <span class="ob-tagline-rest"> to stand still</span>
     </div>
-  </div>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
   </div>
 </div>
 
@@ -1660,7 +1653,7 @@
     </div>
     <button class="btn-primary" onclick="saveAmount()">Continue</button>
   </div>
-<div class="q-fixed-footer">
+  <div class="q-fixed-footer">
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q2')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -1691,7 +1684,7 @@
       <button class="answer-btn" onclick="selectTimeline('I\'m just exploring options', this)">I'm just exploring options</button>
     </div>
   </div>
-<div class="q-fixed-footer">
+  <div class="q-fixed-footer">
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q3')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -1722,7 +1715,7 @@
       <button class="answer-btn" onclick="selectPropertyInterest('no', this)">No — not for me</button>
     </div>
   </div>
-<div class="q-fixed-footer">
+  <div class="q-fixed-footer">
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q4')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -1752,7 +1745,7 @@
       <button class="answer-btn" onclick="selectFX('exploring', this)">Not yet but we're looking to trade internationally</button>
     </div>
   </div>
-<div class="q-fixed-footer">
+  <div class="q-fixed-footer">
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q5')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -1785,7 +1778,7 @@
     </div>
     <button class="btn-primary" id="q7-continue" onclick="saveDebtRecovery()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-<div class="q-fixed-footer">
+  <div class="q-fixed-footer">
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q6')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -1819,7 +1812,7 @@
     </div>
     <button class="btn-primary" id="q8-continue" onclick="saveAsset()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-<div class="q-fixed-footer">
+  <div class="q-fixed-footer">
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q7')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -1853,7 +1846,7 @@
     </div>
     <button class="btn-primary" id="shariah-submit-btn" onclick="submitDiscovery()" style="display:none;margin-top:20px;width:100%">Submit My Discovery</button>
   </div>
-<div class="q-fixed-footer">
+  <div class="q-fixed-footer">
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q8')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
