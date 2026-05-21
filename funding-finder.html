@@ -1992,7 +1992,7 @@
 </div>
 
 <!-- ====== DETAILS SCREEN ====== -->
-<div class="screen active" id="screen-details">
+<div class="screen" id="screen-details">
   <header class="ob-fixed-header">
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Funding Finder</span>
@@ -2109,14 +2109,12 @@
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Funding Finder</span>
   </header>
-  <div class="screen-content">
-    <div class="loading-screen">
-      <div class="loading-orb"></div>
-      <h2 class="loading-title">Analysing your answers</h2>
-      <p class="loading-sub">Finding the best possibilities for your business</p>
-      <div class="loading-dots">
-        <span></span><span></span><span></span>
-      </div>
+  <div class="screen-content" style="align-items:center;justify-content:center;">
+    <div class="loading-orb"></div>
+    <h2 class="loading-title">Analysing your answers</h2>
+    <p class="loading-sub">Finding the best possibilities for your business</p>
+    <div class="loading-dots">
+      <span></span><span></span><span></span>
     </div>
   </div>
 </div>
@@ -3264,7 +3262,7 @@ async function emailSummaryToUser() {
 // For now using a placeholder
 document.addEventListener('DOMContentLoaded', () => {
   window.scrollTo(0, 0);
-  showScreen('home');
+  showScreen('details');
   // Load Nicole's photo
   loadNicolePhoto();
   // Start typing intro
