@@ -2037,7 +2037,6 @@
   </div>
   <div class="screen-content">
     <div class="question-icon" id="q-icon"></div>
-    <div class="question-product" id="q-product">Funding Finder</div>
     <h2 class="question-text" id="q-text">Question goes here</h2>
     <p class="question-sub" id="q-sub" style="display:none;"></p>
     <div class="answer-options" id="q-options"></div>
@@ -2070,7 +2069,6 @@
     <div class="progress-label">Final question</div>
   </div>
   <div class="screen-content">
-        <div class="question-product">Funding Finder</div>
     <h2 class="question-text">Do you have any concerns that might make accessing finance difficult?</h2>
     <p style="font-size:13px;color:var(--light-text);margin-bottom:20px;font-weight:300;">For example: previous credit issues, HMRC arrears, a short trading history, or a past rejection.</p>
     <div class="answer-options">
@@ -2577,7 +2575,6 @@ function renderFlowQuestion() {
 
   const skipBtn = document.getElementById('q-skip-btn');
   if (skipBtn) skipBtn.style.display = isLast ? 'none' : '';
-  document.getElementById('q-product').textContent = 'Funding Finder';
   document.getElementById('q-text').textContent = q.question;
   const subEl = document.getElementById('q-sub');
   if (q.subtitle) { subEl.textContent = q.subtitle; subEl.style.display = 'block'; }
