@@ -854,20 +854,21 @@ table tr:nth-child(even) td{background:#fafbff}
 </div>
 </div>
 <style>
-#victory-screen{display:none;position:fixed;inset:0;z-index:800;background:#000;overflow:hidden;flex-direction:column;align-items:center;justify-content:center}
+#victory-screen{display:none;position:fixed;inset:0;z-index:800;background:#000;overflow-y:auto;overflow-x:hidden;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px 12px 32px}
 #victory-screen.active{display:flex}
-#victory-confetti{position:absolute;inset:0;pointer-events:none;z-index:1}
-#victory-msg{position:relative;z-index:3;text-align:center;margin-bottom:20px}
-#victory-headline{font-family:'Press Start 2P',monospace;font-size:clamp(1rem,4vw,1.8rem);color:#FFE600;text-shadow:0 0 30px #FFE600,0 0 60px rgba(255,230,0,.5);margin-bottom:14px;animation:flicker 3s infinite}
-#victory-sub{font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.5vw,.72rem);color:#00FF88;margin-bottom:22px;text-shadow:0 0 12px #00FF88}
-#victory-badges{font-size:1.1rem;margin-bottom:18px;letter-spacing:.1em}
-#crt-wrap{position:relative;z-index:2;margin-bottom:20px}
+#victory-confetti{position:fixed;inset:0;pointer-events:none;z-index:1}
+#victory-msg{position:relative;z-index:3;text-align:center;margin-bottom:14px;margin-top:10px}
+#victory-headline{font-family:'Press Start 2P',monospace;font-size:clamp(.85rem,4vw,1.8rem);color:#FFE600;text-shadow:0 0 30px #FFE600,0 0 60px rgba(255,230,0,.5);margin-bottom:10px;animation:flicker 3s infinite}
+#victory-sub{font-family:'Press Start 2P',monospace;font-size:clamp(.42rem,1.8vw,.72rem);color:#00FF88;margin-bottom:10px;text-shadow:0 0 12px #00FF88}
+#victory-badges{font-size:1.2rem;margin-bottom:10px;letter-spacing:.1em}
+#crt-wrap{position:relative;z-index:2;margin-bottom:16px}
 #tv-canvas{display:block;border-radius:28px 28px 20px 20px;box-shadow:0 0 40px rgba(255,255,255,.15),0 0 0 8px #1a1a1a,0 0 0 14px #333}
-#victory-buttons{position:relative;z-index:4;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
-#victory-buttons button{font-family:'Press Start 2P',monospace;font-size:.55rem;padding:11px 20px;border-radius:4px;cursor:pointer}
+#victory-buttons{position:relative;z-index:4;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+#victory-buttons button{font-family:'Press Start 2P',monospace;font-size:.55rem;padding:14px 22px;border-radius:4px;cursor:pointer;min-height:44px;touch-action:manipulation}
 #btn-victory-submit{background:#00FF88;color:#080010;border:none}
 #btn-victory-home{background:transparent;color:#FFE600;border:2px solid #FFE600}
-@media(max-width:720px){#tv-canvas{width:280px!important;height:210px!important}#victory-headline{font-size:.95rem}#victory-sub{font-size:.45rem}}
+@media(max-width:720px){#tv-canvas{width:280px!important;height:210px!important}#victory-headline{font-size:.9rem}#victory-sub{font-size:.44rem}#victory-msg{margin-bottom:10px}#crt-wrap{margin-bottom:12px}}
+@media(max-width:520px){#tv-canvas{width:240px!important;height:180px!important}#victory-headline{font-size:.78rem}#victory-screen{padding:12px 8px 24px}#victory-buttons button{font-size:.48rem;padding:12px 16px}}
 </style>
 <div id="victory-screen">
   <canvas id="victory-confetti"></canvas>
