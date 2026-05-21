@@ -74,8 +74,43 @@
   #onboarding-overlay.hidden .ob-home-bottom { display: none; }
   #onboarding-overlay.hidden #ob-fixed-progress { display: none !important; }
 
-  /* Fixed header */
-  /* ob-fixed-header base styles are in shared-styles.css */
+  /* Overlay fixed header */
+  #onboarding-overlay .ob-fixed-header {
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    height: 80px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  #onboarding-overlay .ob-fixed-header .dashed-divider {
+    font-size: 22px;
+    padding: 0;
+    white-space: nowrap;
+  }
+  #onboarding-overlay .ob-fixed-header .q-module-name {
+    position: static;
+    margin-top: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #FF6B2B;
+  }
+
+  /* Overlay progress bar */
+  #ob-fixed-progress {
+    flex-shrink: 0;
+    padding: 0 24px 8px;
+    position: relative;
+    z-index: 1;
+    background: #000;
+  }
 
   /* Main content area — fills remaining height, centres content */
   .ob-main {
@@ -84,7 +119,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 16px 24px 100px;
+    padding: 16px 24px 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     position: relative;
@@ -2027,6 +2062,7 @@
     line-height: 1.5;
   }
   .q-footer-legal a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  .q-nav-home { color: #fff; font-weight: 600; }
   .q-footer-tagline {
     display: flex;
     flex-direction: row;
@@ -2144,31 +2180,40 @@
 
   <div id="ob-overlay-stars"></div>
 
-  <!-- Fixed progress bar - always at top -->
-  <div id="ob-fixed-progress" style="display:none;position:fixed;top:0;left:0;right:0;z-index:10002;padding:14px 24px 0;">
-    <div id="ob-fixed-eyebrow" style="font-family:Raleway,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-soft-violet);margin-bottom:8px;text-align:center;"></div>
+  <!-- Header -->
+  <header class="ob-fixed-header">
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Getting Started</span>
+  </header>
+
+  <!-- Progress bar -->
+  <div id="ob-fixed-progress" style="display:none;">
     <div style="height:3px;background:rgba(255,255,255,0.12);border-radius:3px;overflow:hidden;margin-bottom:6px;">
-      <div id="ob-fixed-fill" style="height:100%;background:var(--col-gold);border-radius:3px;transition:width 0.5s ease;width:0%"></div>
+      <div id="ob-fixed-fill" style="height:100%;background:#FF6B2B;border-radius:3px;transition:width 0.5s ease;width:0%"></div>
     </div>
     <div id="ob-fixed-label" style="font-size:11px;color:rgba(255,255,255,0.4);text-align:right;"></div>
   </div>
 
-  <main class="ob-main" style="padding-top:72px;">
+  <main class="ob-main">
     <div id="welcome-question-container"></div>
     <div id="ob-chat"></div>
     <div id="ob-choices" style="display:none;"></div>
   </main>
 
-  <div class="ob-home-bottom">
-    <button class="back-btn" id="ob-home-btn" onclick="goHome()" style="display:none;">Home</button>
-    <button class="back-btn" id="ob-back-btn" onclick="obGoBack()" style="display:none;">&lt; Back</button>
-    <div class="ob-brand-divider">
-      <span class="ob-brand-line"></span>
-      <span class="ob-brand-name">Fiskal Discovery</span>
-      <span class="ob-brand-line"></span>
+  <!-- Footer -->
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" id="ob-back-btn" onclick="obGoBack()" style="visibility:hidden;">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" id="ob-home-btn" onclick="goHome()">Home</button>
+      <button class="q-nav-btn" id="ob-skip-btn" onclick="obSkip()" style="visibility:hidden;">Skip ›</button>
     </div>
-    <button onclick="devSkip()" style="position:fixed;bottom:16px;right:16px;background:rgba(255,100,0,0.15);border:1px dashed rgba(255,100,0,0.5);color:rgba(255,150,50,0.8);font-size:11px;padding:6px 12px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:99999;">Skip (dev)</button>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
+
+  <button onclick="devSkip()" style="position:fixed;bottom:16px;right:16px;background:rgba(255,100,0,0.15);border:1px dashed rgba(255,100,0,0.5);color:rgba(255,150,50,0.8);font-size:11px;padding:6px 12px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:99999;">Skip (dev)</button>
 
 </div>
 
@@ -2536,7 +2581,7 @@ const welcomeFlow = [
     subtitle: "Let us know so we can personalise your experience",
     options: [
       { label: "For me / my business", desc: "I'm exploring funding & finance options for my own business", icon: "", value: "For me / my business" },
-      { label: "For a client", desc: "I'm a broker or adviser researching options on behalf of a client", icon: "", value: "For a client" }
+      { label: "For a client", desc: "I'm an accountant or adviser researching options on behalf of a client", icon: "", value: "For a client" }
     ],
     saveAs: "userType"
   },
@@ -2679,7 +2724,6 @@ function startWelcome() {
   document.getElementById('onboarding-overlay').classList.remove('hidden');
   document.getElementById('screen-landing').classList.remove('active');
   setBodyScroll(false);
-  document.getElementById('ob-back-btn').style.display = 'block';
   startOverlayStars();
   renderWelcomeQuestion();
 }
@@ -2695,13 +2739,18 @@ function devSkip() {
   window.location.href = 'home.html';
 }
 
+function obSkip() {
+  if (!welcomeState) return;
+  welcomeState.currentQuestion++;
+  renderWelcomeQuestion();
+}
+
 function obGoBack() {
   // Safe fallback: if welcomeState is invalid, go to WELCOME_INTRO
   if (!welcomeState || typeof welcomeState.currentQuestion === 'undefined') {
     document.getElementById('onboarding-overlay').classList.add('hidden');
     document.getElementById('screen-landing').classList.add('active');
     setBodyScroll(true);
-    document.getElementById('ob-back-btn').style.display = 'none';
     return;
   }
 
@@ -2710,18 +2759,14 @@ function obGoBack() {
     document.getElementById('onboarding-overlay').classList.add('hidden');
     document.getElementById('screen-landing').classList.add('active');
     setBodyScroll(true);
-    document.getElementById('ob-back-btn').style.display = 'none';
     const fp = document.getElementById('ob-fixed-progress'); if (fp) fp.style.display = 'none';
   } else if (welcomeState.currentQuestion > 0) {
-    // Otherwise, go to previous onboarding question
     welcomeState.currentQuestion--;
     renderWelcomeQuestion();
   } else {
-    // Fallback for negative or invalid index: go to WELCOME_INTRO
     document.getElementById('onboarding-overlay').classList.add('hidden');
     document.getElementById('screen-landing').classList.add('active');
     setBodyScroll(true);
-    document.getElementById('ob-back-btn').style.display = 'none';
   }
 }
 
@@ -2747,10 +2792,11 @@ function renderWelcomeQuestion() {
   const fixedProgress = document.getElementById('ob-fixed-progress');
   if (fixedProgress) {
     fixedProgress.style.display = 'block';
-    document.getElementById('ob-fixed-eyebrow').textContent = 'Getting Started';
     document.getElementById('ob-fixed-fill').style.width = pct + '%';
     document.getElementById('ob-fixed-label').textContent = `Question ${current + 1} of ${total}`;
   }
+  const backBtn = document.getElementById('ob-back-btn');
+  if (backBtn) backBtn.style.visibility = current > 0 ? 'visible' : 'hidden';
 
   // Question heading
   const heading = document.createElement('div');
