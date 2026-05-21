@@ -40,6 +40,11 @@
     overflow: hidden;
     background: #000;
   }
+  /* Landing screen breaks out of app-scroll — body scrolls for it */
+  body:has(#screen-landing.active) {
+    overflow-y: auto;
+    height: auto;
+  }
 
   body {
     font-family: 'DM Sans', sans-serif;
@@ -1589,18 +1594,21 @@
      LANDING SCREEN — matches home.html visual style
   ============================================================ */
   #screen-landing {
+    position: relative !important;
+    inset: auto !important;
+    height: auto !important;
+    min-height: 100dvh;
+    overflow: visible !important;
     justify-content: flex-start;
     background: #07051a;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
   }
   #screen-landing .ob-body {
-    flex: none;
-    overflow: visible;
+    flex: none !important;
+    overflow: visible !important;
   }
   #screen-landing .ob-body-inner {
-    flex: none;
-    justify-content: flex-start;
+    flex: none !important;
+    justify-content: flex-start !important;
   }
   .landing-footer {
     flex-shrink: 0;
