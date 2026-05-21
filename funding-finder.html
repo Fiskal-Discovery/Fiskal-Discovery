@@ -1647,6 +1647,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 7px;
     width: 100%;
+    grid-column: 1 / -1;
   }
 
   /* Compact answer button for multi-choice grid */
@@ -2655,7 +2656,7 @@ function renderFlowQuestion() {
     if (otherTrigger) {
       const otherSlot = document.createElement('div');
       otherSlot.className = 'answer-btn';
-      otherSlot.style.cssText = 'cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:7px;width:100%;box-sizing:border-box;';
+      otherSlot.style.cssText = 'cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:7px;width:100%;box-sizing:border-box;grid-column:1/-1;';
       const otherLbl = document.createElement('span');
       otherLbl.textContent = otherTrigger;
       const otherInp = document.createElement('input');
