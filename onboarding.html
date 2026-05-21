@@ -2073,16 +2073,13 @@
     50%      { opacity: calc(var(--op, 0.4) * 0.3); }
   }
 
-  /* Shooting stars — full page overlay */
+  /* Star layer — lives inside ob-hero, behind content and triangle */
   #ob-stars-layer {
     position: absolute;
-    top: 52px;
-    left: 0;
-    right: 0;
-    bottom: 36px;
+    inset: 0;
     pointer-events: none;
     overflow: hidden;
-    z-index: 1;
+    z-index: 0;
   }
   .ob-shooting-star {
     position: absolute;
@@ -2167,11 +2164,10 @@
 <!-- ====== WELCOME INTRO SCREEN ====== -->
 <div class="screen active" id="screen-landing">
 
-  <div id="ob-stars-layer"></div>
-
   <!-- HERO -->
   <div class="ob-hero-wrap">
     <div class="ob-hero">
+      <div id="ob-stars-layer"></div>
       <div class="ob-hero-content">
         <div class="ob-hero-eyebrow">Welcome to</div>
         <h1 class="ob-hero-title">Fiskal Discovery</h1>
