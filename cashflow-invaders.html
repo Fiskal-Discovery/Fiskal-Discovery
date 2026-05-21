@@ -67,7 +67,7 @@ body.playing-mobile #hud{margin:0!important;padding-top:8px!important;width:100%
 #target-wave{font-family:'Press Start 2P',monospace;font-size:.5rem;color:var(--green);white-space:nowrap}
 body.playing-mobile #mobile-pause-btn{display:flex!important}
 body.playing-mobile #game-topbar{display:flex!important}
-body.playing-mobile #work-mode-btn{position:static!important;width:44px!important;height:44px!important;bottom:auto!important;left:auto!important;top:auto!important;right:auto!important}
+body.playing-mobile #work-mode-btn{right:8px!important;left:auto!important;bottom:auto!important;width:48px!important;height:48px!important}
 body.playing-mobile #hud{flex-wrap:wrap!important}
 body.playing-mobile .hud-score{order:1;flex:1!important;font-size:.82rem!important}
 body.playing-mobile .hud-wave{display:none!important}
@@ -175,7 +175,7 @@ function stopFaviconAnimation() {
 <div class="screen" id="game-screen">
   <div id="hud"><span class="hud-score">RELEASED: £<span id="score-display">0</span></span><span class="hud-wave">WAVE: <span id="wave-display">1</span><br><span id="wave-cash-display" style="font-size:.55em;color:#88FF44;letter-spacing:0;visibility:hidden">£0/£180</span></span><span class="hud-lives">LIVES: <span id="lives-display">❤❤❤</span></span><button id="mobile-pause-btn" onclick="togglePause()">⏸</button></div>
   <div id="target-hud"><div id="target-top-row"><span id="target-label">TARGET: £<span id="target-current">0</span> / £<span id="target-goal">5,000</span></span><span id="bomb-hud" style="display:none">💣 x<span id="bomb-count">0</span></span></div><div id="target-bar-wrap"><div id="target-bar"></div></div></div>
-  <div id="game-topbar"><span id="target-wave">WAVE <span id="wave-display-2">1</span></span><button id="work-mode-btn" onclick="if(!_wmDragged)enterWorkMode()"><span class="btn-eject">⏏</span>WORK<br>MODE</button></div>
+  <div id="game-topbar"><span id="target-wave">WAVE <span id="wave-display-2">1</span></span></div>
   <button id="bomb-btn" style="display:none" onclick="useBomb()">💣 CASH BOMB</button>
   <div id="smash-msg"></div>
   <div id="screen-flash"></div>
@@ -525,7 +525,7 @@ frozen:0,larryBeaten:false,bobbyBeaten:false,victoryMode:false};
 document.getElementById('target-hud').style.display='block';
 document.getElementById('bomb-hud').style.display='none';
 document.getElementById('bomb-btn').style.display='none';
-document.getElementById('work-mode-btn').style.display='flex';
+const _wmb=document.getElementById('work-mode-btn');_wmb.style.display='flex';if(document.body.classList.contains('playing-mobile')){const _tbr=document.getElementById('game-topbar').getBoundingClientRect();_wmb.style.top=(_tbr.top+4)+'px';}
 spawnWave(4);updateHUD();updateTargetHUD();rafId=requestAnimationFrame(gameLoop);MUSIC.common()}
 function quitGame(){stopGame();stopFaviconAnimation();showScreen('start-screen')}
 function goHome(){
@@ -825,6 +825,7 @@ table tr:nth-child(even) td{background:#fafbff}
 #ack-btn:hover{background:#2a5aab}
 @media(max-width:600px){#work-doc{padding:20px 16px 36px}.doc-header{flex-direction:column;gap:10px}.doc-ref{text-align:left}table{font-size:10px}table th,table td{padding:5px 6px}.sig-row{flex-direction:column;gap:20px}}
 </style>
+<button id="work-mode-btn" onclick="if(!_wmDragged)enterWorkMode()"><span class="btn-eject">⏏</span>WORK<br>MODE</button>
 <div id="work-mode-overlay">
 <div id="work-doc">
   <div class="doc-header">
