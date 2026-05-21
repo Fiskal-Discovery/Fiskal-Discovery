@@ -999,6 +999,42 @@
     justify-content: center;
     gap: 6px;
     margin-bottom: 4px;
+    will-change: transform;
+    white-space: nowrap;
+  }
+
+  @keyframes refuseFidget {
+    0%   { transform: translateX(0) skewX(0deg); }
+    20%  { transform: translateX(3px) skewX(-5deg); }
+    40%  { transform: translateX(0) skewX(0deg); }
+    65%  { transform: translateX(4px) skewX(-7deg); }
+    85%  { transform: translateX(0) skewX(0deg); }
+    100% { transform: translateX(0) skewX(0deg); }
+  }
+  @keyframes refuseZoom {
+    0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    8%   { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    22%  { transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    23%  { transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    24%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    36%  { transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    50%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
+  }
+  @keyframes refuseLoop {
+    0%    { transform: translateX(0) skewX(0deg); opacity: 1; }
+    83%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    85%   { transform: translateX(3px) skewX(-5deg); opacity: 1; }
+    87%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    89%   { transform: translateX(4px) skewX(-7deg); opacity: 1; }
+    91%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    92%   { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    93.5% { transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    93.7% { transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    93.9% { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    95%   { transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    98%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    100%  { transform: translateX(0) skewX(0deg); opacity: 1; }
   }
   .footer-legal {
     font-size: 11px;
@@ -1729,6 +1765,28 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   new MutationObserver(attachToActive).observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
   document.addEventListener('DOMContentLoaded', attachToActive);
+})();
+</script>
+<script>
+(function() {
+  function startHomeRefuse() {
+    var el = document.querySelector('.footer-refuse');
+    if (!el) return;
+    setTimeout(function() {
+      el.style.animation = 'refuseFidget 1.5s ease-in-out forwards';
+      setTimeout(function() {
+        el.style.animation = 'refuseZoom 4s ease-in-out forwards';
+        setTimeout(function() {
+          el.style.animation = 'refuseLoop 60s ease-in-out infinite';
+        }, 4000);
+      }, 15000);
+    }, 5000);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startHomeRefuse);
+  } else {
+    startHomeRefuse();
+  }
 })();
 </script>
 </body>
