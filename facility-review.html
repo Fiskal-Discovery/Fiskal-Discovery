@@ -959,14 +959,14 @@
   .q-footer-tagline .ob-tagline-rest { font-size: 10px; }
 
   @keyframes refuseSlide {
-    0%   { transform: translateX(0) rotate(0deg); }
-    12%  { transform: translateX(12px) rotate(8deg); }
-    22%  { transform: translateX(120vw) rotate(8deg); }
-    23%  { transform: translateX(-120vw) rotate(-4deg); }
-    55%  { transform: translateX(-120vw) rotate(-4deg); }
-    80%  { transform: translateX(4px) rotate(2deg); }
-    90%  { transform: translateX(-2px) rotate(-1deg); }
-    100% { transform: translateX(0) rotate(0deg); }
+    0%   { transform: translateX(0) skewX(0deg); }
+    12%  { transform: translateX(12px) skewX(-20deg); }
+    22%  { transform: translateX(120vw) skewX(-20deg); }
+    23%  { transform: translateX(-120vw) skewX(10deg); }
+    55%  { transform: translateX(-120vw) skewX(10deg); }
+    80%  { transform: translateX(4px) skewX(-4deg); }
+    90%  { transform: translateX(-2px) skewX(1deg); }
+    100% { transform: translateX(0) skewX(0deg); }
   }
 
   #screen-welcome .ob-fixed-header,
