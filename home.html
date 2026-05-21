@@ -82,6 +82,7 @@
   </div>
   <footer class="site-footer">
     <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="footer-refuse"><span class="tagline-refuse">REFUSE</span><span class="tagline-rest">to stand still</span></div>
     <p class="footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539. &nbsp;|&nbsp; <a href="https://fiskal.online" target="_blank">fiskal.online</a> &nbsp;|&nbsp; All information is treated in confidence.</p>
   </footer>
 </div>
@@ -980,24 +981,31 @@
   ============================================================ */
   .site-footer {
     background: var(--navy);
-    padding: 20px 32px;
+    padding: 12px 32px 10px;
     text-align: center;
   }
   .site-footer .dashed-divider {
     color: #ffffff;
-    margin: 0 0 12px;
+    margin: 0 0 6px;
   }
   .site-footer .dashed-divider::before,
   .site-footer .dashed-divider::after {
     border-top: 1px solid #ffffff;
     opacity: 0.6;
   }
-
+  .footer-refuse {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
   .footer-legal {
     font-size: 11px;
-    color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.8);
     line-height: 1.7;
   }
+  .footer-legal a { color: rgba(255,255,255,0.8); }
 
   .footer-legal a {
     color: var(--periwinkle);
