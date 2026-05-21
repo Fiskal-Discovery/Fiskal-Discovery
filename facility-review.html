@@ -3767,11 +3767,11 @@ function toggleCheckbox(btn, group, value) {
   btn.classList.toggle('selected');
   const tick = btn.querySelector('.checkbox-tick');
   if (btn.classList.contains('selected')) {
-    tick.textContent = '';
+    if (tick) tick.textContent = '';
     if (!state[group]) state[group] = [];
     if (!state[group].includes(value)) state[group].push(value);
   } else {
-    tick.textContent = '';
+    if (tick) tick.textContent = '';
     state[group] = state[group].filter(v => v !== value);
   }
 }
