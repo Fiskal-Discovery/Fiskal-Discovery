@@ -1591,11 +1591,16 @@
   #screen-landing {
     justify-content: flex-start;
     background: #07051a;
-  }
-  #screen-landing .ob-body {
-    flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+  }
+  #screen-landing .ob-body {
+    flex: none;
+    overflow: visible;
+  }
+  #screen-landing .ob-body-inner {
+    flex: none;
+    justify-content: flex-start;
   }
   .landing-footer {
     flex-shrink: 0;
