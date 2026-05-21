@@ -25,21 +25,76 @@
     --btn-stripe: #0F766E;
   }
 
-  /* ---- HEADER BRAND ---- */
-  .ob-header-title {
-    font-family: 'Dancing Script', cursive;
-    font-size: 50px;
-    color: var(--col-deep-purple);
+  /* ---- NEW HEADER / FOOTER (matches other modules) ---- */
+  .ob-fixed-header {
+    background: #000 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 24px !important;
+    height: 90px !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
   }
-
-  /* REFUSE header tagline */
-  .ob-header-tagline {
-    justify-self: end;
+  .ob-fixed-header .dashed-divider {
+    font-size: 24px;
+    padding: 0;
+    white-space: nowrap;
+    margin: 0;
+    color: #ffffff;
+  }
+  .ob-fixed-header .dashed-divider::before,
+  .ob-fixed-header .dashed-divider::after { border-color: rgba(255,255,255,0.4); }
+  .q-module-name {
+    position: absolute;
+    bottom: 6px;
+    right: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #FF6B2B;
+  }
+  .q-fixed-footer {
+    flex-shrink: 0;
+    background: #000;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    line-height: 1;
-    gap: 1px;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    width: 100%;
+  }
+  .q-footer-nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .q-nav-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 2px 10px;
+    min-height: 36px;
+  }
+  .q-nav-home { color: #fff; font-weight: 600; }
+  .q-footer-tagline {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
+    margin-top: 2px;
+    will-change: transform;
+    white-space: nowrap;
   }
   .ob-tagline-refuse {
     font-family: 'Bebas Neue', sans-serif;
@@ -53,6 +108,66 @@
     text-transform: uppercase;
     color: #FF6B2B;
     font-weight: 400;
+  }
+
+  /* ---- SHOOTING STARS ---- */
+  .header-stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .shooting-star {
+    position: absolute;
+    top: 50%;
+    width: 120px;
+    height: 1.5px;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 50%, rgba(255,230,100,0.6) 100%);
+    border-radius: 2px;
+    animation: shoot-star var(--dur, 0.7s) linear forwards;
+    opacity: 0;
+  }
+  @keyframes shoot-star {
+    0%   { transform: translateX(0) translateY(-50%) rotate(var(--sa, -20deg)); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateX(var(--sd, 300px)) translateY(-50%) rotate(var(--sa, -20deg)); opacity: 0; }
+  }
+
+  /* ---- REFUSE ANIMATION ---- */
+  @keyframes refuseFidget {
+    0%   { transform: translateX(0) skewX(0deg); }
+    20%  { transform: translateX(3px) skewX(-5deg); }
+    40%  { transform: translateX(0) skewX(0deg); }
+    65%  { transform: translateX(4px) skewX(-7deg); }
+    85%  { transform: translateX(0) skewX(0deg); }
+    100% { transform: translateX(0) skewX(0deg); }
+  }
+  @keyframes refuseZoom {
+    0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    8%   { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    22%  { transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    23%  { transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    24%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    36%  { transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    50%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
+  }
+  @keyframes refuseLoop {
+    0%    { transform: translateX(0) skewX(0deg); opacity: 1; }
+    83%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    85%   { transform: translateX(3px) skewX(-5deg); opacity: 1; }
+    87%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    89%   { transform: translateX(4px) skewX(-7deg); opacity: 1; }
+    91%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    92%   { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    93.5% { transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    93.7% { transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    93.9% { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    95%   { transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    98%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    100%  { transform: translateX(0) skewX(0deg); opacity: 1; }
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1109,7 +1224,6 @@
   #screen-q5, #screen-q6, #screen-q7, #screen-q8, #screen-q9 {
     background: var(--col-bg);
     color: #ffffff;
-    position: relative;
   }
 
   #screen-home::before,
@@ -1414,6 +1528,7 @@
 <script>if (typeof emailjs !== "undefined") { emailjs.init("g710KFSryN241SQWm"); } else { console.warn("EmailJS not loaded — init skipped"); }</script>
 </head>
 <body>
+<div id="test-dot" style="position:fixed;bottom:8px;left:8px;width:10px;height:10px;border-radius:50%;background:red;z-index:99999;pointer-events:none;"></div>
 
 <div class="bg-orb bg-orb-1"></div>
 <div class="bg-orb bg-orb-2"></div>
@@ -1421,15 +1536,9 @@
 <!-- ====== HOME SCREEN ====== -->
 <div class="screen active" id="screen-home">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Shariah-Compliant Funding</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="header-stars"></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Shariah Funding</span>
   </header>
   <div class="screen-content">
     <div class="typing-intro">
@@ -1437,22 +1546,28 @@
       <button class="btn-primary" id="shariah-start-btn" onclick="startJourney()" style="display:none">Start My Shariah Compliant Discovery ›</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <button class="back-btn" onclick="window.location.href='home.html?home=1'" style="margin:0 auto;">Home</button>
-    <div class="dashed-divider">Fiskal Discovery</div>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
+    </div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== Q1: What would the right funding help you achieve? ====== -->
 <div class="screen" id="screen-q1">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="header-stars"></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Shariah Funding</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:11%"></div></div><div class="progress-label">Question 1 of 9</div></div>
   <div class="screen-content">
-    <div class="question-product">Shariah-Compliant Funding</div>
     <h2 class="question-text">What would the right funding help you achieve?</h2>
     <p class="question-sub">Whatever your goals, there may be a Shariah-compliant way to achieve them that you haven't considered yet.</p>
     <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -1470,26 +1585,28 @@
     </div>
     <button class="btn-primary" id="q1-continue" onclick="savePurposes()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-home')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+<div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-home')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== Q2: How important is full Shariah compliance? ====== -->
 <div class="screen" id="screen-q2">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="header-stars"></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Shariah Funding</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:22%"></div></div><div class="progress-label">Question 2 of 9</div></div>
   <div class="screen-content">
-    <div class="question-product">Shariah-Compliant Funding</div>
     <h2 class="question-text">How important is full Shariah compliance to you?</h2>
     <p class="question-sub">Your values matter — your answer helps us find options that work for your beliefs as well as your business.</p>
     <div class="answer-options">
@@ -1503,9 +1620,17 @@
     </div>
     <button class="btn-primary" id="q2-continue" onclick="saveCompliance()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q1')">‹ Back</button>
+<div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q1')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
+    </div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
+  </div>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -1516,13 +1641,12 @@
 <!-- ====== Q3: How much funding? ====== -->
 <div class="screen" id="screen-q3">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="header-stars"></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Shariah Funding</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:33%"></div></div><div class="progress-label">Question 3 of 9</div></div>
   <div class="screen-content">
-    <div class="question-product">Shariah-Compliant Funding</div>
     <h2 class="question-text">How much funding would help you move forward?</h2>
     <p class="question-sub">Don't worry about the exact figure — even a rough idea helps us explore what's possible for you.</p>
     <div class="form-group">
@@ -1536,26 +1660,28 @@
     </div>
     <button class="btn-primary" onclick="saveAmount()">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q2')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+<div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q2')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== Q4: How soon? ====== -->
 <div class="screen" id="screen-q4">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="header-stars"></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Shariah Funding</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:44%"></div></div><div class="progress-label">Question 4 of 9</div></div>
   <div class="screen-content">
-    <div class="question-product">Shariah-Compliant Funding</div>
     <h2 class="question-text">How soon would the right funding make a difference?</h2>
     <p class="question-sub">Whether you need funding tomorrow or you're just starting to think about it — it's never too early to find out what's possible.</p>
     <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -1565,26 +1691,28 @@
       <button class="answer-btn" onclick="selectTimeline('I\'m just exploring options', this)">I'm just exploring options</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q3')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+<div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q3')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== Q5: Property / Commodity Murabaha ====== -->
 <div class="screen" id="screen-q5">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="header-stars"></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Shariah Funding</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:56%"></div></div><div class="progress-label">Question 5 of 9</div></div>
   <div class="screen-content">
-    <div class="question-product">Shariah-Compliant Funding</div>
     <h2 class="question-text">If there was a fully Shariah-compliant avenue allowing you to purchase property as a short term investment, would you consider it?</h2>
     <p class="question-sub">Keep an open mind — the right opportunity might be closer than you think.</p>
     <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -1594,26 +1722,28 @@
       <button class="answer-btn" onclick="selectPropertyInterest('no', this)">No — not for me</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q4')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+<div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q4')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== Q6: FX ====== -->
 <div class="screen" id="screen-q6">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="header-stars"></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Shariah Funding</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:67%"></div></div><div class="progress-label">Question 6 of 9</div></div>
   <div class="screen-content">
-    <div class="question-product">Shariah-Compliant Funding</div>
     <h2 class="question-text">Does your business send or receive money in foreign currencies?</h2>
     <p class="question-sub">Most businesses have no idea how much they're losing on every international transaction — there could be significant savings waiting.</p>
     <div class="answer-options">
@@ -1622,26 +1752,28 @@
       <button class="answer-btn" onclick="selectFX('exploring', this)">Not yet but we're looking to trade internationally</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q5')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+<div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q5')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== Q7: Debt Recovery ====== -->
 <div class="screen" id="screen-q7">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="header-stars"></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Shariah Funding</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:78%"></div></div><div class="progress-label">Question 7 of 9</div></div>
   <div class="screen-content">
-    <div class="question-product">Shariah-Compliant Funding</div>
     <h2 class="question-text">Do you have old unpaid invoices on your books that you've nearly given up on?</h2>
     <p class="question-sub">You might not have to write them off just yet — there are specialist options that could recover cash you thought was gone.</p>
     <div class="answer-options">
@@ -1653,26 +1785,28 @@
     </div>
     <button class="btn-primary" id="q7-continue" onclick="saveDebtRecovery()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q6')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+<div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q6')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== Q8: Asset Finance ====== -->
 <div class="screen" id="screen-q8">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="header-stars"></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Shariah Funding</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:89%"></div></div><div class="progress-label">Question 8 of 9</div></div>
   <div class="screen-content">
-    <div class="question-product">Shariah-Compliant Funding</div>
     <h2 class="question-text">Would it help your business to grow and thrive if you could update, replace or acquire new vehicles, machinery or equipment?</h2>
     <p class="question-sub">The possibilities are endless — and none of it needs to touch your cashflow.</p>
     <div class="answer-options">
@@ -1685,26 +1819,28 @@
     </div>
     <button class="btn-primary" id="q8-continue" onclick="saveAsset()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q7')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+<div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q7')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== Q9: Business Loan ====== -->
 <div class="screen" id="screen-q9">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="header-stars"></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Shariah Funding</span>
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div><div class="progress-label">Question 9 of 9</div></div>
   <div class="screen-content">
-    <div class="question-product">Shariah-Compliant Funding</div>
     <h2 class="question-text">Would a lump sum of cash make a significant difference to your business right now?</h2>
     <p class="question-sub">Sometimes one injection of capital is all it takes to change everything.</p>
     <div class="answer-options">
@@ -1717,27 +1853,25 @@
     </div>
     <button class="btn-primary" id="shariah-submit-btn" onclick="submitDiscovery()" style="display:none;margin-top:20px;width:100%">Submit My Discovery</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q8')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+<div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q8')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== LOADING SCREEN ====== -->
 <div class="loading-screen" id="screen-loading">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">Shariah-Compliant Funding</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="header-stars"></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Shariah Funding</span>
   </header>
   <div class="screen-content">
     <div class="results-header">
@@ -1783,9 +1917,17 @@
         <a href="tel:+447946074268" class="call-now-mobile">Call Nicole now</a>
       </div>
     </section>
-    <div class="screen-footer">
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'" style="margin:0 auto;">Home</button>
-      <div class="dashed-divider">Fiskal Discovery</div>
+
+  </div>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
+    </div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
     </div>
   </div>
 </div>
@@ -1837,7 +1979,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // REFUSE to stand still animation
   (function startRefuseSequence() {
-    var taglines = document.querySelectorAll('.ob-header-tagline');
+    var taglines = document.querySelectorAll('.q-footer-tagline');
     if (!taglines.length) return;
     setTimeout(function() {
       taglines.forEach(function(el) { el.style.animation = 'refuseFidget 1.5s ease-in-out forwards'; });
