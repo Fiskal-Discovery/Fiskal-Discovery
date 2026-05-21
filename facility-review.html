@@ -3373,7 +3373,12 @@ function showScreen(id) {
   if (thinking) { thinking.classList.remove('active'); thinking.style.display = 'none'; }
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   var el = document.getElementById(id);
-  if (el) { el.classList.add('active'); window.scrollTo(0,0); }
+  if (el) {
+    el.classList.add('active');
+    // Clear any highlighted single-choice answers on the incoming screen
+    el.querySelectorAll('.answer-btn.selected').forEach(b => b.classList.remove('selected'));
+    window.scrollTo(0,0);
+  }
 }
 
 // ============================================================
