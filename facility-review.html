@@ -953,28 +953,50 @@
     align-items: baseline;
     gap: 4px;
     margin-top: 2px;
-    animation: refuseSlide 60s ease-in-out 20s infinite;
     will-change: transform;
   }
   .q-footer-tagline .ob-tagline-rest { font-size: 10px; }
 
-  @keyframes refuseSlide {
+  @keyframes refuseFidget {
+    0%   { transform: translateX(0) skewX(0deg); }
+    20%  { transform: translateX(3px) skewX(-5deg); }
+    40%  { transform: translateX(0) skewX(0deg); }
+    65%  { transform: translateX(4px) skewX(-7deg); }
+    85%  { transform: translateX(0) skewX(0deg); }
+    100% { transform: translateX(0) skewX(0deg); }
+  }
+
+  @keyframes refuseZoom {
     0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
-    1%   { transform: translateX(12px) skewX(-20deg); opacity: 1; }
-    1.8% { transform: translateX(120vw) skewX(-20deg); opacity: 1; }
-    1.9% { transform: translateX(120vw) skewX(-20deg); opacity: 0; }
-    2%   { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
-    4.5% { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
-    4.6% { transform: translateX(-120vw) skewX(20deg); opacity: 1; }
-    6.7% { transform: translateX(4px) skewX(-4deg); opacity: 1; }
-    7.5% { transform: translateX(-2px) skewX(1deg); opacity: 1; }
-    8.5%  { transform: translateX(0) skewX(0deg); opacity: 1; }
-    83%   { transform: translateX(0) skewX(0deg); opacity: 1; }
-    85%   { transform: translateX(3px) skewX(-5deg); opacity: 1; }
-    87%   { transform: translateX(0) skewX(0deg); opacity: 1; }
-    89%   { transform: translateX(4px) skewX(-7deg); opacity: 1; }
-    91%   { transform: translateX(0) skewX(0deg); opacity: 1; }
-    100%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    8%   { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    22%  { transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    23%  { transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    24%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    40%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    41%  { transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    62%  { transform: translateX(4px) skewX(-4deg); opacity: 1; }
+    74%  { transform: translateX(-2px) skewX(1deg); opacity: 1; }
+    88%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
+  }
+
+  @keyframes refuseLoop {
+    0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    83%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    85%  { transform: translateX(3px) skewX(-5deg); opacity: 1; }
+    87%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    89%  { transform: translateX(4px) skewX(-7deg); opacity: 1; }
+    91%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    92%  { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    93.5%{ transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    93.7%{ transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    94%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    96%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    96.5%{ transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    97.5%{ transform: translateX(4px) skewX(-4deg); opacity: 1; }
+    98.5%{ transform: translateX(-2px) skewX(1deg); opacity: 1; }
+    99.5%{ transform: translateX(0) skewX(0deg); opacity: 1; }
+    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
   }
 
   #screen-welcome .ob-fixed-header,
@@ -984,7 +1006,8 @@
   #screen-welcome .ob-fixed-header { background: #000; display: flex; align-items: center; justify-content: center; padding: 0 24px; flex-shrink: 0; height: 90px; }
   #screen-welcome .ob-fixed-header .dashed-divider { font-size: 28px; }
   #screen-welcome .screen-content { padding: 8px 16px 0; flex: 1; display: flex; flex-direction: column; }
-  #screen-welcome .typing-intro { padding: 8px 16px; flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  #screen-welcome .typing-intro { padding: 8px 16px; flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  #screen-welcome .intro-content { display: flex; flex-direction: column; align-items: center; gap: 16px; width: 100%; }
   #screen-welcome .typing-text { font-size: clamp(14px, 3vw, 18px); }
   #screen-welcome .screen-footer {
     position: fixed;
@@ -1067,8 +1090,10 @@
   </header>
   <div class="screen-content">
     <div class="typing-intro">
-      <div class="typing-text" id="facility-intro-text"></div>
-      <button class="btn-primary" id="facility-start-btn" onclick="showScreen('screen-facility-type')" style="display:none">Start My Facility Review Discovery ›</button>
+      <div class="intro-content">
+        <div class="typing-text" id="facility-intro-text"></div>
+        <button class="btn-primary" id="facility-start-btn" onclick="showScreen('screen-facility-type')" style="display:none">Start My Facility Review Discovery ›</button>
+      </div>
     </div>
   </div>
   <div class="q-fixed-footer">
@@ -5456,6 +5481,43 @@ function showDiscoveryThinkingScreen(callback) {
 </script>
 
 
+<script>
+(function() {
+  function startRefuseSequence() {
+    const taglines = document.querySelectorAll('.q-footer-tagline');
+    if (!taglines.length) return;
+
+    // Phase 1 — fidget at 5s
+    setTimeout(function() {
+      taglines.forEach(function(el) {
+        el.style.animation = 'refuseFidget 1.5s ease-in-out forwards';
+      });
+
+      // Phase 2 — zoom off and back at 20s (15s after fidget)
+      setTimeout(function() {
+        taglines.forEach(function(el) {
+          el.style.animation = 'refuseZoom 4s ease-in-out forwards';
+        });
+
+        // Phase 3 — start 60s loop once zoom finishes
+        setTimeout(function() {
+          taglines.forEach(function(el) {
+            el.style.animation = 'refuseLoop 60s ease-in-out infinite';
+          });
+        }, 4000);
+
+      }, 15000);
+
+    }, 5000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startRefuseSequence);
+  } else {
+    startRefuseSequence();
+  }
+})();
+</script>
 </body>
 </html>
 
