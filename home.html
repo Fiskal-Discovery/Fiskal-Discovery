@@ -1187,6 +1187,7 @@
 
   <!-- PAGE BODY -->
   <div class="page-body">
+    <div style="position:absolute;top:8px;left:8px;width:12px;height:12px;border-radius:50%;background:red;z-index:9999;pointer-events:none;"></div>
     <div class="page-body-stars" id="page-body-stars"></div>
     <div class="modules-wrap">
       <p class="home-support-blurb"><span class="home-support-first">Real support from a real person.</span> <strong>Nicole</strong> personally reviews every submission and works with you on your options.</p>
@@ -1643,7 +1644,7 @@ function createBodyStars() {
     const dur   = (Math.random() * 4 + 2).toFixed(1);
     const delay = (Math.random() * 5).toFixed(1);
     const anim  = tiers[Math.floor(Math.random() * tiers.length)];
-    el.style.cssText = `position:absolute;border-radius:50%;background:#fff;pointer-events:none;width:${size}px;height:${size}px;left:${(Math.random()*100).toFixed(1)}%;top:${(Math.random()*100).toFixed(1)}%;animation:${anim} ${dur}s ${delay}s ease-in-out infinite;`;
+    el.style.cssText = `position:absolute;border-radius:50%;background:rgba(74,0,100,0.35);pointer-events:none;width:${size}px;height:${size}px;left:${(Math.random()*100).toFixed(1)}%;top:${(Math.random()*100).toFixed(1)}%;animation:${anim} ${dur}s ${delay}s ease-in-out infinite;`;
     layer.appendChild(el);
   }
 }
