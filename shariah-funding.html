@@ -515,10 +515,15 @@
   .loading-screen.active { display: flex; }
   .loading-screen .screen-content {
     flex: 1;
+    min-height: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     justify-content: flex-start !important;
-    padding: 20px 24px 24px;
+    align-items: stretch;
+    padding: 20px 24px 32px;
+  }
+  .loading-screen .nicole-contact-card {
+    max-width: 100%;
   }
 
   
@@ -1838,6 +1843,7 @@
       <button class="answer-btn" onclick="selectLoan('maybe', this)">Possibly</button>
       <button class="answer-btn" onclick="selectLoan('no', this)">Not right now</button>
     </div>
+    <button class="btn-primary" id="shariah-submit-btn" onclick="submitDiscovery()" style="display:none;margin-top:20px;width:100%">Submit My Discovery</button>
   </div>
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
@@ -2218,12 +2224,7 @@ function selectLoan(value, btn) {
   state.businessLoan = value;
   document.querySelectorAll('#screen-q9 .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  const opts = document.querySelector('#screen-q9 .answer-options');
-  if (opts) opts.style.pointerEvents = 'none';
-  setTimeout(function() {
-    submitDiscovery();
-    if (opts) opts.style.pointerEvents = '';
-  }, 280);
+  document.getElementById('shariah-submit-btn').style.display = 'block';
 }
 
 // ============================================================
