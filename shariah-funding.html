@@ -1770,13 +1770,9 @@
     <h2 class="question-text">Do you have old unpaid invoices on your books that you've nearly given up on?</h2>
     <p class="question-sub">You might not have to write them off just yet — there are specialist options that could recover cash you thought was gone.</p>
     <div class="answer-options">
-      <div id="debt-yes-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="toggleDebtDetails()">
-        <span id="debt-yes-label">Yes</span>
-        <input type="text" id="debt-details" placeholder="Tell us a little more — how old are the debts and roughly how much is owed?" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ7Continue()" onclick="event.stopPropagation()">
-      </div>
+      <button class="answer-btn" onclick="selectDebtRecovery('yes', this)">Yes</button>
       <button class="answer-btn" onclick="selectDebtRecovery('no', this)">No</button>
     </div>
-    <button class="btn-primary" id="q7-continue" onclick="saveDebtRecovery()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
@@ -1804,13 +1800,9 @@
     <p class="question-sub">The possibilities are endless — and none of it needs to touch your cashflow.</p>
     <div class="answer-options">
       <button class="answer-btn" onclick="selectAsset('yes', this)">Yes</button>
-      <div id="asset-maybe-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="toggleAssetMaybe()">
-        <span id="asset-maybe-label">Maybe — tell me more</span>
-        <input type="text" id="asset-note" placeholder="Tell us what you have in mind" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ8Continue()" onclick="event.stopPropagation()">
-      </div>
+      <button class="answer-btn" onclick="selectAsset('maybe', this)">Maybe — tell me more</button>
       <button class="answer-btn" onclick="selectAsset('no', this)">No</button>
     </div>
-    <button class="btn-primary" id="q8-continue" onclick="saveAsset()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
@@ -2195,72 +2187,29 @@ function selectFX(value, btn) {
 }
 
 // Q7 — Debt recovery
-function toggleDebtDetails() {
-  state.debtRecovery = 'yes';
-  document.querySelectorAll('#screen-q7 .answer-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('debt-yes-slot').classList.add('selected');
-  const label = document.getElementById('debt-yes-label');
-  const input = document.getElementById('debt-details');
-  label.style.display = 'none';
-  input.style.display = 'block';
-  input.focus();
-  updateQ7Continue();
-}
-
 function selectDebtRecovery(value, btn) {
   state.debtRecovery = value;
   document.querySelectorAll('#screen-q7 .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  // Hide the details input if "No" chosen
-  document.getElementById('debt-details').style.display = 'none';
-  document.getElementById('debt-yes-label').style.display = '';
-  document.getElementById('q7-continue').style.display = 'block';
-}
-
-function updateQ7Continue() {
-  const details = document.getElementById('debt-details').value.trim();
-  document.getElementById('q7-continue').style.display = details.length > 0 ? 'block' : 'none';
-}
-
-function saveDebtRecovery() {
-  if (state.debtRecovery === 'yes') {
-    state.debtDetails = document.getElementById('debt-details').value.trim();
-  }
-  showScreen('screen-q8');
+  const opts = document.querySelector('#screen-q7 .answer-options');
+  if (opts) opts.style.pointerEvents = 'none';
+  setTimeout(function() {
+    showScreen('screen-q8');
+    if (opts) opts.style.pointerEvents = '';
+  }, 280);
 }
 
 // Q8 — Asset finance
-function toggleAssetMaybe() {
-  state.assetFinance = 'maybe';
-  document.querySelectorAll('#screen-q8 .answer-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('asset-maybe-slot').classList.add('selected');
-  const label = document.getElementById('asset-maybe-label');
-  const input = document.getElementById('asset-note');
-  label.style.display = 'none';
-  input.style.display = 'block';
-  input.focus();
-  updateQ8Continue();
-}
-
 function selectAsset(value, btn) {
   state.assetFinance = value;
   document.querySelectorAll('#screen-q8 .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  document.getElementById('asset-note').style.display = 'none';
-  document.getElementById('asset-maybe-label').style.display = '';
-  document.getElementById('q8-continue').style.display = 'block';
-}
-
-function updateQ8Continue() {
-  const note = document.getElementById('asset-note').value.trim();
-  document.getElementById('q8-continue').style.display = note.length > 0 ? 'block' : 'none';
-}
-
-function saveAsset() {
-  if (state.assetFinance === 'maybe') {
-    state.assetNote = document.getElementById('asset-note').value.trim();
-  }
-  showScreen('screen-q9');
+  const opts = document.querySelector('#screen-q8 .answer-options');
+  if (opts) opts.style.pointerEvents = 'none';
+  setTimeout(function() {
+    showScreen('screen-q9');
+    if (opts) opts.style.pointerEvents = '';
+  }, 280);
 }
 
 // Q9 — Business loan
