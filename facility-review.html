@@ -57,21 +57,15 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html {
-    background: #000;
-    height: 100dvh;
+  html, body {
+    height: 100%;
     overflow: hidden;
+    background: #000;
   }
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: #000;
     color: var(--dark);
-    height: 100dvh;
-    width: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
   }
 
   .bg-orb {
@@ -87,13 +81,17 @@
 
   .screen {
     display: none;
-    min-height: 100vh;
-    position: relative;
-    z-index: 1;
-    animation: fadeUp 0.5s ease forwards;
     flex-direction: column;
   }
-  .screen.active { display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
+  .screen.active {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease forwards;
+    z-index: 1;
+  }
   /* Results screens must appear immediately — no fade-in that could leave them blank */
   #screen-loading.active,
   #screen-asset-loading.active,
@@ -5489,14 +5487,6 @@ function showDiscoveryThinkingScreen(callback) {
     startRefuseSequence();
   }
 })();
-</script>
-<script>
-// Prevent iOS rubber-band bounce on everything except scrollable content
-document.addEventListener('touchmove', function(e) {
-  if (!e.target.closest('.screen-content')) {
-    e.preventDefault();
-  }
-}, { passive: false });
 </script>
 </body>
 </html>
