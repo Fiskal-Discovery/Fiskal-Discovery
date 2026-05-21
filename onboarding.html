@@ -74,7 +74,7 @@
   #onboarding-overlay.hidden .ob-home-bottom { display: none; }
   #onboarding-overlay.hidden #ob-fixed-progress { display: none !important; }
 
-  /* Overlay fixed header */
+  /* Overlay fixed header — matches facility-review question screen */
   #onboarding-overlay .ob-fixed-header {
     background: #000;
     display: flex;
@@ -86,15 +86,34 @@
     flex-shrink: 0;
     position: relative;
     z-index: 1;
+    border-bottom: none;
+    backdrop-filter: none;
   }
   #onboarding-overlay .ob-fixed-header .dashed-divider {
+    font-family: 'Dancing Script', cursive;
     font-size: 22px;
+    font-style: italic;
+    letter-spacing: 1px;
+    color: var(--col-soft-violet);
     padding: 0;
+    max-width: none;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  #onboarding-overlay .ob-fixed-header .dashed-divider::before,
+  #onboarding-overlay .ob-fixed-header .dashed-divider::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--col-soft-violet);
+    opacity: 0.4;
   }
   #onboarding-overlay .ob-fixed-header .q-module-name {
     position: static;
-    margin-top: 2px;
+    margin-top: 4px;
     font-family: 'DM Sans', sans-serif;
     font-size: 9px;
     font-weight: 700;
@@ -103,13 +122,13 @@
     color: #FF6B2B;
   }
 
-  /* Overlay progress bar */
+  /* Overlay progress bar — sits below black header in body area */
   #ob-fixed-progress {
     flex-shrink: 0;
-    padding: 0 24px 8px;
+    padding: 10px 24px 6px;
     position: relative;
     z-index: 1;
-    background: #000;
+    background: transparent;
   }
 
   /* Main content area — fills remaining height, centres content */
@@ -119,7 +138,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 16px 24px 0;
+    padding: 0 24px 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     position: relative;
