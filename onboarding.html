@@ -2121,7 +2121,9 @@
     border-radius: 50%;
     background: #ffffff;
     pointer-events: none;
+    opacity: 0;
     animation: ob-star-twinkle var(--td, 3s) var(--td-delay, 0s) ease-in-out infinite;
+    animation-fill-mode: backwards;
   }
   @keyframes ob-star-twinkle {
     0%, 100% { opacity: var(--op, 0.4); }
