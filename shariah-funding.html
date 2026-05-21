@@ -2114,10 +2114,14 @@ function selectCompliance(level, btn) {
   state.compliance = level;
   document.querySelectorAll('#screen-q2 .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  // Hide the not-sure text input if a definitive option chosen
   document.getElementById('compliance-note').style.display = 'none';
   document.getElementById('compliance-notsure-label').style.display = '';
-  document.getElementById('q2-continue').style.display = 'block';
+  const opts = document.getElementById('screen-q2').querySelector('.answer-options');
+  if (opts) opts.style.pointerEvents = 'none';
+  setTimeout(function() {
+    showScreen('screen-q3');
+    if (opts) opts.style.pointerEvents = '';
+  }, 280);
 }
 
 function toggleComplianceNotSure() {
