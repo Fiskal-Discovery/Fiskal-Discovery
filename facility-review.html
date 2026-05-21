@@ -798,6 +798,21 @@
   .screen:not(#screen-welcome) .screen-content,
   .screen:not(#screen-welcome) .nav-row { position: relative; z-index: 1; }
 
+  /* Question screen header — black, flex (overrides shared-styles 3-col grid) */
+  .screen:not(#screen-welcome) .ob-fixed-header {
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    height: 90px;
+  }
+  .screen:not(#screen-welcome) .ob-fixed-header .dashed-divider {
+    font-size: 24px;
+    padding: 0;
+    white-space: nowrap;
+  }
+
   /* Progress bar — orange */
   .progress-fill { background: var(--col-gold) !important; }
   .progress-track { background: rgba(255,255,255,0.12) !important; }
