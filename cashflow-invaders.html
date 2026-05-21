@@ -63,11 +63,10 @@ body.playing-mobile .fiskal-header{display:none!important}
 body.playing-mobile #game-screen{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;padding:0 0 var(--safe-bottom) 0!important;margin:0!important;justify-content:flex-start!important}
 body.playing-mobile #hud{margin:0!important;padding-top:8px!important;width:100%!important;flex-shrink:0!important}
 #mobile-pause-btn{display:none;align-items:center;justify-content:center;background:rgba(126,9,165,.35);color:var(--yellow);border:1px solid rgba(255,230,0,.5);border-radius:4px;font-size:1.1rem;line-height:1;padding:0 10px;min-height:36px;min-width:36px;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
-#hud-work-btn{display:none;align-items:center;justify-content:center;background:rgba(180,0,0,.4);color:#fff;border:1px solid rgba(255,100,100,.6);border-radius:4px;font-family:'Press Start 2P',monospace;font-size:.38rem;padding:0 8px;min-height:36px;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent;gap:3px}
 #target-wave{display:none;font-family:'Press Start 2P',monospace;font-size:.44rem;color:var(--green);margin-left:auto;white-space:nowrap}
 body.playing-mobile #mobile-pause-btn{display:flex!important}
-body.playing-mobile #hud-work-btn{display:flex!important;order:2}
 body.playing-mobile #target-wave{display:inline!important}
+body.playing-mobile #work-mode-btn{top:58px!important;right:8px!important;bottom:auto!important;left:auto!important;width:50px!important;height:50px!important}
 body.playing-mobile #hud{flex-wrap:wrap!important}
 body.playing-mobile .hud-score{order:1;flex:1!important;font-size:.82rem!important}
 body.playing-mobile .hud-wave{display:none!important}
@@ -109,7 +108,7 @@ body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block
   c.style.cssText='width:100%;height:100%;display:block;';
   sf.appendChild(c);
   const sctx=c.getContext('2d');
-  let stars=[];
+  let stars=[],shootingStars=[],sfTimer=0,sfNext=200;
   function initStars(){
     c.width=window.innerWidth;
     c.height=window.innerHeight;
@@ -118,6 +117,8 @@ body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block
   function drawStars(){
     sctx.clearRect(0,0,c.width,c.height);
     stars.forEach(st=>{st.y+=st.s;if(st.y>c.height){st.y=0;st.x=Math.random()*c.width;}sctx.beginPath();sctx.arc(st.x,st.y,st.r,0,Math.PI*2);sctx.fillStyle='rgba(255,255,255,'+st.o+')';sctx.fill();});
+    if(++sfTimer>=sfNext){sfTimer=0;sfNext=180+Math.random()*240;const ang=Math.PI/5+Math.random()*Math.PI/8;const spd=11+Math.random()*8;shootingStars.push({x:-20,y:Math.random()*c.height*.6,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,life:1});}
+    shootingStars=shootingStars.filter(s=>{s.x+=s.vx;s.y+=s.vy;s.life-=0.022;if(s.life<=0||s.x>c.width+40)return false;const spd=Math.hypot(s.vx,s.vy),len=(50+s.life*50)/spd;const tx=s.x-s.vx*len,ty=s.y-s.vy*len;const g=sctx.createLinearGradient(tx,ty,s.x,s.y);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(255,255,255,'+(s.life*.9)+')');sctx.beginPath();sctx.moveTo(tx,ty);sctx.lineTo(s.x,s.y);sctx.strokeStyle=g;sctx.lineWidth=1.5;sctx.stroke();return true;});
     requestAnimationFrame(drawStars);
   }
   initStars();drawStars();window.addEventListener('resize',()=>{document.body.classList.toggle('playing-mobile',!!G&&window.innerWidth<=520);if(G&&!G.dead){canvas.width=Math.min(window.innerWidth,720);const headerH=document.body.classList.contains('playing-mobile')?0:document.querySelector('.fiskal-header').offsetHeight;canvas.height=Math.max(300,window.innerHeight-headerH-document.getElementById('hud').offsetHeight-2);if(G.player){G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x));G.player.y=canvas.height-40}}});
@@ -171,7 +172,7 @@ function stopFaviconAnimation() {
   </div>
 </div>
 <div class="screen" id="game-screen">
-  <div id="hud"><span class="hud-score">RELEASED: £<span id="score-display">0</span></span><span class="hud-wave">WAVE: <span id="wave-display">1</span><br><span id="wave-cash-display" style="font-size:.55em;color:#88FF44;letter-spacing:0;visibility:hidden">£0/£180</span></span><span class="hud-lives">LIVES: <span id="lives-display">❤❤❤</span></span><button id="hud-work-btn" onclick="enterWorkMode()">⏏ WORK</button><button id="mobile-pause-btn" onclick="togglePause()">⏸</button></div>
+  <div id="hud"><span class="hud-score">RELEASED: £<span id="score-display">0</span></span><span class="hud-wave">WAVE: <span id="wave-display">1</span><br><span id="wave-cash-display" style="font-size:.55em;color:#88FF44;letter-spacing:0;visibility:hidden">£0/£180</span></span><span class="hud-lives">LIVES: <span id="lives-display">❤❤❤</span></span><button id="mobile-pause-btn" onclick="togglePause()">⏸</button></div>
   <div id="target-hud"><div id="target-top-row"><span id="target-label">TARGET: £<span id="target-current">0</span> / £<span id="target-goal">5,000</span></span><span id="bomb-hud" style="display:none">💣 x<span id="bomb-count">0</span></span><span id="target-wave">WAVE <span id="wave-display-2">1</span></span></div><div id="target-bar-wrap"><div id="target-bar"></div></div></div>
   <button id="bomb-btn" style="display:none" onclick="useBomb()">💣 CASH BOMB</button>
   <div id="smash-msg"></div>
@@ -188,9 +189,9 @@ function stopFaviconAnimation() {
     <input type="text" id="leaderboard-name" placeholder="YOUR NAME" maxlength="22">
     <label>ENTER YOUR BUSINESS / COMPANY</label>
     <input type="text" id="leaderboard-company" placeholder="BUSINESS / COMPANY" maxlength="22">
-    <label class="lender-check-label" style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:.48rem;color:rgba(255,255,255,0.65);margin-top:4px;max-width:100%;flex-wrap:wrap;">
-      <input type="checkbox" id="is-lender" style="width:16px;height:16px;accent-color:#FFE600;cursor:pointer;flex-shrink:0;">
-      I AM A LENDER — RELEASING FINANCES FOR MY CLIENTS
+    <label class="lender-check-label" style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:.48rem;color:rgba(255,255,255,0.65);margin-top:4px;max-width:100%;">
+      <input type="checkbox" id="is-lender" style="width:16px;height:16px;accent-color:#FFE600;cursor:pointer;flex-shrink:0;margin-top:2px;">
+      <span>I AM A LENDER<br>RELEASING FINANCES FOR MY CLIENTS</span>
     </label>
     <button class="btn-submit" id="btn-submit-score">🏆 SUBMIT TO LEADERBOARD</button>
   </div>
@@ -522,7 +523,7 @@ frozen:0,larryBeaten:false,bobbyBeaten:false,victoryMode:false};
 document.getElementById('target-hud').style.display='block';
 document.getElementById('bomb-hud').style.display='none';
 document.getElementById('bomb-btn').style.display='none';
-if(!document.body.classList.contains('playing-mobile'))document.getElementById('work-mode-btn').style.display='flex';
+document.getElementById('work-mode-btn').style.display='flex';
 spawnWave(4);updateHUD();updateTargetHUD();rafId=requestAnimationFrame(gameLoop);MUSIC.common()}
 function quitGame(){stopGame();stopFaviconAnimation();showScreen('start-screen')}
 function goHome(){
@@ -740,7 +741,7 @@ G.bullets=G.bullets.filter(b=>{
   return true;
 });
 }
-if(G.state==='wave_clear'){G.stateTimer--;if(G.stateTimer<=0){if(G.wave===10){G.advancedMode=true;showUpgradeAnnouncement();setTimeout(()=>{if(G&&!G.dead){G.defeatedBossWords=[...ACT2_BOSS_NAMES.map(b=>b.name),'BAILIFF BOBBY'];G.wordEnemies=[]}},3000)}G.wave++;G.waveKills=0;G.waveTarget=6+G.wave;G.waveCashStart=G.score;G.waveCashTarget=100+G.wave*80;const advancedMultiplier=G.wave>10?1+((G.wave-10)*0.1):1;G.spawnRate=Math.max(60,Math.floor((120-G.wave*5)/advancedMultiplier));G.state='playing';updateHUD();spawnWave(4+Math.floor(G.wave/2))}}
+if(G.state==='wave_clear'){G.stateTimer--;if(G.stateTimer<=0){if(G.wave===10){G.advancedMode=true;showUpgradeAnnouncement();setTimeout(()=>{if(G&&!G.dead){G.defeatedBossWords=[...ACT2_BOSS_NAMES.map(b=>b.name),'BAILIFF BOBBY'];G.wordEnemies=[]}},3000)}G.wave++;G.waveKills=0;G.waveTarget=6+G.wave;G.waveCashStart=G.score;G.waveCashTarget=Math.round(120+G.wave*60+G.wave*G.wave*5);const advancedMultiplier=G.wave>10?1+((G.wave-10)*0.1):1;G.spawnRate=Math.max(60,Math.floor((120-G.wave*5)/advancedMultiplier));G.state='playing';updateHUD();spawnWave(4+Math.floor(G.wave/2))}}
 G.enemies.forEach(e=>{const alt=Math.floor(e.frame/22)%2===0;drawPixelSprite(ctx,e.type.pixels,alt?e.type.color:brighten(e.type.color,50),e.x,e.y,e.type.scale);ctx.save();ctx.globalAlpha=.1;ctx.fillStyle=e.type.color;ctx.beginPath();ctx.arc(e.x,e.y,e.w/2,0,Math.PI*2);ctx.fill();ctx.restore()});
 G.wordEnemies.forEach(e=>drawWordEnemy(ctx,e));G.wordBits.forEach(bit=>{ctx.save();const bc=bit.color||'#00FF88';ctx.fillStyle=bc;ctx.shadowColor=bc;ctx.shadowBlur=10;ctx.font='bold '+bit.size+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(bit.char||'£',bit.x,bit.y);ctx.restore()});
 if(G.boss){drawBoss(ctx,G.boss);if(G.boss.badDebtShield>0){ctx.save();ctx.beginPath();ctx.arc(G.boss.x,G.boss.y,G.boss.r+14,0,Math.PI*2);ctx.strokeStyle='rgba(140,100,60,'+(.5+Math.sin(G.frame*.15)*.3)+')';ctx.lineWidth=6;ctx.shadowColor='#8B6914';ctx.shadowBlur=18;ctx.stroke();ctx.shadowBlur=0;ctx.font='bold 8px "Press Start 2P",monospace';ctx.fillStyle='#C8A020';ctx.textAlign='center';ctx.fillText('SHIELD: '+G.boss.badDebtShield,G.boss.x,G.boss.y-G.boss.r-20);ctx.restore()}const hpW=Math.min(canvas.width-60,300),hpX=(canvas.width-hpW)/2,hpY=G.boss.y+G.boss.r+10;ctx.fillStyle='rgba(255,255,255,.1)';ctx.fillRect(hpX,hpY,hpW,8);ctx.fillStyle=G.boss.hp>G.boss.maxHp*.5?'#00FF88':G.boss.hp>G.boss.maxHp*.25?'#FFAA00':'#FF2244';ctx.fillRect(hpX,hpY,G.boss.hp/G.boss.maxHp*hpW,8);ctx.fillStyle='#FF4466';ctx.shadowColor='#FF0044';ctx.shadowBlur=18;G.bossBlasts.forEach(b=>{if(b.bobby){ctx.save();ctx.fillStyle='#FFFFF0';ctx.strokeStyle='#CC0000';ctx.lineWidth=1;ctx.shadowColor='rgba(200,0,0,.4)';ctx.shadowBlur=6;ctx.fillRect(b.x-9,b.y-12,18,22);ctx.strokeRect(b.x-9,b.y-12,18,22);ctx.fillStyle='#CC0000';ctx.font='bold 4px sans-serif';ctx.textAlign='center';ctx.fillText('NOTICE',b.x,b.y-4);ctx.restore()}else{ctx.fillStyle='#FF4466';ctx.fillRect(b.x-3,b.y-10,6,18);ctx.fillStyle='rgba(255,180,200,0.85)';ctx.fillRect(b.x-1,b.y-10,2,18)}});ctx.shadowBlur=0}G.fiskalOrbs=G.fiskalOrbs.filter(orb=>{orb.y+=orb.vy;orb.x+=orb.vx;orb.spin+=.06;orb.pulse+=.1;if(orb.x-orb.r<0){orb.x=orb.r;orb.vx=Math.abs(orb.vx)}if(orb.x+orb.r>canvas.width){orb.x=canvas.width-orb.r;orb.vx=-Math.abs(orb.vx)}if(Math.hypot(orb.x-p.x,orb.y-p.y)<orb.r+p.w/2){applyOrbPower(orb.power);bigBoom(orb.x,orb.y);return false}drawFiskalOrb(ctx,orb);return orb.y<canvas.height+50});
