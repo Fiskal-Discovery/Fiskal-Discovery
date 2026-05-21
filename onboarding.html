@@ -1589,9 +1589,14 @@
      LANDING SCREEN — matches home.html visual style
   ============================================================ */
   #screen-landing {
-    overflow: hidden;
     justify-content: flex-start;
     background: #07051a;
+  }
+  #screen-landing .ob-body {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   #screen-landing::before { display: none; }
 
