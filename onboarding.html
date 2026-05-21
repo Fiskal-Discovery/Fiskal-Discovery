@@ -2891,7 +2891,12 @@ function renderWelcomeQuestion() {
         card.appendChild(body);
         card.style.cssText += 'justify-content:center;text-align:center;padding:12px 10px;';
       }
-      card.onclick = () => { card.classList.add('ob-selected'); setTimeout(() => advanceChoice(opt), 180); };
+      card.onclick = () => {
+        if (card.dataset.clicked) return;
+        card.dataset.clicked = '1';
+        card.classList.add('ob-selected');
+        setTimeout(() => advanceChoice(opt), 80);
+      };
       cards.appendChild(card);
     });
     wrap.appendChild(cards);
@@ -2909,12 +2914,14 @@ function renderWelcomeQuestion() {
       btn.className = isTwoCol ? 'ob-q-pill' : 'ob-q-card';
       btn.textContent = opt.label;
       btn.onclick = () => {
-        grid.querySelectorAll('.ob-q-pill, .ob-q-card').forEach(b => b.classList.remove('ob-selected'));
+        if (btn.dataset.clicked) return;
+        grid.querySelectorAll('.ob-q-pill, .ob-q-card').forEach(b => { b.classList.remove('ob-selected'); delete b.dataset.clicked; });
         if (otherSlot) otherSlot.classList.remove('ob-selected');
         if (otherInp) { otherInp.style.display = 'none'; otherLbl.textContent = freeTextOpt.label; }
         if (otherContinue) otherContinue.style.display = 'none';
+        btn.dataset.clicked = '1';
         btn.classList.add('ob-selected');
-        setTimeout(() => advanceChoice(opt), 180);
+        setTimeout(() => advanceChoice(opt), 80);
       };
       grid.appendChild(btn);
     });
