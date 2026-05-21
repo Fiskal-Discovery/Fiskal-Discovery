@@ -392,16 +392,6 @@
   ============================================================ */
   .profile-badge {
     display: inline-flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-    position: absolute;
-    bottom: 2px;
-    right: 52px;
-    z-index: 5;
-  }
-  .profile-badge-row {
-    display: flex;
     align-items: center;
     gap: 10px;
   }
@@ -428,8 +418,11 @@
     color: var(--periwinkle);
     cursor: pointer;
     text-decoration: underline;
-    margin-left: 0;
     white-space: nowrap;
+    position: absolute;
+    bottom: 2px;
+    right: 52px;
+    z-index: 5;
   }
 
   /* ============================================================
@@ -1133,10 +1126,7 @@
       <h1 class="hero-title">Fiskal Discovery</h1>
       <p class="hero-tagline">Find out what's possible for your business</p>
 
-    </div>
-    <div id="home-profile-badge" style="display:none;" class="profile-badge">
-      <span class="profile-badge-reset" onclick="resetOnboarding()">Not you?</span>
-      <div class="profile-badge-row">
+      <div id="home-profile-badge" style="display:none;" class="profile-badge">
         <div class="profile-badge-avatar" id="home-avatar">?</div>
         <div class="profile-badge-info">
           <div class="profile-badge-name" id="home-profile-name"></div>
@@ -1144,6 +1134,7 @@
         </div>
       </div>
     </div>
+    <span id="home-profile-reset" style="display:none;" class="profile-badge-reset" onclick="resetOnboarding()">Not you?</span>
   </div>
   <!-- Stars layer — outside .hero so not clipped by ::after, clipped to diagonal shape -->
   <div class="stars-layer">
@@ -1552,6 +1543,7 @@ function showHomepage() {
   document.getElementById('screen-home').classList.add('active');
   if (appState.profile && appState.profile.name) {
     document.getElementById('home-profile-badge').style.display = 'inline-flex';
+    document.getElementById('home-profile-reset').style.display = 'inline';
     document.getElementById('home-profile-name').textContent = appState.profile.name;
     document.getElementById('home-profile-company').textContent = appState.profile.companyName || '';
     document.getElementById('home-avatar').textContent = appState.profile.name.charAt(0).toUpperCase();
