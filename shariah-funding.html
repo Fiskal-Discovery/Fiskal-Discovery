@@ -1830,13 +1830,9 @@
     <p class="question-sub">Sometimes one injection of capital is all it takes to change everything.</p>
     <div class="answer-options">
       <button class="answer-btn" onclick="selectLoan('yes', this)">Yes absolutely</button>
-      <div id="loan-maybe-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px" onclick="toggleLoanMaybe()">
-        <span id="loan-maybe-label">Possibly — tell me more</span>
-        <input type="text" id="loan-note" placeholder="Tell us what you'd use it for" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ9Submit()" onclick="event.stopPropagation()">
-      </div>
+      <button class="answer-btn" onclick="selectLoan('maybe', this)">Possibly</button>
       <button class="answer-btn" onclick="selectLoan('no', this)">Not right now</button>
     </div>
-    <button class="btn-primary" id="shariah-submit-btn" onclick="submitDiscovery()" style="display:none;margin-top:20px;width:100%">Submit My Discovery</button>
   </div>
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
@@ -2213,30 +2209,16 @@ function selectAsset(value, btn) {
 }
 
 // Q9 — Business loan
-function toggleLoanMaybe() {
-  state.businessLoan = 'maybe';
-  document.querySelectorAll('#screen-q9 .answer-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('loan-maybe-slot').classList.add('selected');
-  const label = document.getElementById('loan-maybe-label');
-  const input = document.getElementById('loan-note');
-  label.style.display = 'none';
-  input.style.display = 'block';
-  input.focus();
-  updateQ9Submit();
-}
-
 function selectLoan(value, btn) {
   state.businessLoan = value;
   document.querySelectorAll('#screen-q9 .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  document.getElementById('loan-note').style.display = 'none';
-  document.getElementById('loan-maybe-label').style.display = '';
-  document.getElementById('shariah-submit-btn').style.display = 'block';
-}
-
-function updateQ9Submit() {
-  const note = document.getElementById('loan-note').value.trim();
-  document.getElementById('shariah-submit-btn').style.display = note.length > 0 ? 'block' : 'none';
+  const opts = document.querySelector('#screen-q9 .answer-options');
+  if (opts) opts.style.pointerEvents = 'none';
+  setTimeout(function() {
+    submitDiscovery();
+    if (opts) opts.style.pointerEvents = '';
+  }, 280);
 }
 
 // ============================================================
