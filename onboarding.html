@@ -431,7 +431,12 @@
 
   #screen-landing {
     justify-content: flex-start;
-    position: relative;
+  }
+  #screen-landing.active {
+    position: relative !important;
+    inset: auto !important;
+    overflow: visible !important;
+    min-height: 100dvh;
   }
   #screen-landing::before {
     content: '';
