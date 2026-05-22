@@ -2670,6 +2670,7 @@ const welcomeFlow = [
     question: "Your contact details",
     subtitle: "So Nicole can get back to you directly",
     skipIf: a => a.userType !== "For a client",
+    showMarketing: true,
     fields: [
       { label: "Your name", saveAs: "name", inputType: "text", placeholder: "e.g. Sarah Johnson", required: true },
       { label: "Your email address", saveAs: "email", inputType: "email", placeholder: "e.g. sarah@accountancy.com", required: true },
@@ -2681,6 +2682,7 @@ const welcomeFlow = [
     type: "form",
     question: "Let's start with your details",
     skipIf: a => a.userType === "For a client",
+    showMarketing: true,
     fields: [
       { label: "Your name", saveAs: "name", inputType: "text", placeholder: "e.g. Sarah Johnson", required: true },
       { label: "Email address", saveAs: "email", inputType: "email", placeholder: "e.g. sarah@business.com", required: true },
@@ -3137,6 +3139,23 @@ function renderWelcomeQuestion() {
       inputs.push(inp);
     });
 
+    // Marketing consent checkbox (only on personal/adviser details forms)
+    let marketingCb = null;
+    if (q.showMarketing) {
+      const cbWrap = document.createElement('label');
+      cbWrap.style.cssText = 'display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-top:4px;';
+      marketingCb = document.createElement('input');
+      marketingCb.type = 'checkbox';
+      marketingCb.checked = welcomeState.answers.marketingConsent === true;
+      marketingCb.style.cssText = 'margin-top:3px;flex-shrink:0;accent-color:var(--col-gold);width:16px;height:16px;cursor:pointer;';
+      const cbText = document.createElement('span');
+      cbText.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.55);font-family:"DM Sans",sans-serif;line-height:1.5;';
+      cbText.textContent = "I'm happy to receive occasional updates on financial products, offers and news from Nicole.";
+      cbWrap.appendChild(marketingCb);
+      cbWrap.appendChild(cbText);
+      form.appendChild(cbWrap);
+    }
+
     const errMsg = document.createElement('div');
     errMsg.style.cssText = 'color:var(--col-gold);font-size:13px;font-family:"DM Sans",sans-serif;visibility:hidden;min-height:1.2em;';
     errMsg.textContent = 'Please fill in the required fields.';
@@ -3156,6 +3175,7 @@ function renderWelcomeQuestion() {
       });
       if (!valid) { errMsg.style.visibility = 'visible'; return; }
       errMsg.style.visibility = 'hidden';
+      if (marketingCb) welcomeState.answers.marketingConsent = marketingCb.checked;
       welcomeState.currentQuestion++;
       renderWelcomeQuestion();
     };
