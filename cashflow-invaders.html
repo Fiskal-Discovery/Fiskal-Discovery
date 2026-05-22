@@ -96,6 +96,30 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
   /* Row colour coding — lenders gold, clients green */
   .lb-row-lender td { color: #FFD700; text-shadow: 0 0 8px rgba(255,215,0,.35); }
   .lb-row-client td { color: #B0C8FF; }
+  /* Gameover card — white to dark purple gradient */
+  .gameover-card {
+    background: linear-gradient(to bottom, #ffffff 0%, #2a004a 55%, #07000E 100%);
+    border-radius: 12px;
+    padding: 22px 20px 18px;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    box-shadow: 0 0 40px rgba(126,9,165,.5), 0 0 80px rgba(126,9,165,.2);
+  }
+  .gameover-card .leaderboard-form { width: 100%; margin-bottom: 0; }
+  .gameover-card label { color: #ffffff !important; text-shadow: 0 1px 3px rgba(0,0,0,.4); }
+  .gameover-card input[type="text"] {
+    background: rgba(255,255,255,0.15) !important;
+    border-color: rgba(255,255,255,0.5) !important;
+    color: #ffffff !important;
+  }
+  .gameover-card input[type="text"]::placeholder { color: rgba(255,255,255,0.45) !important; }
+  .gameover-card input[type="text"]:focus { border-color: #ffffff !important; background: rgba(255,255,255,0.22) !important; }
+  .gameover-card .lender-check-label { color: rgba(255,255,255,0.8) !important; }
+  .gameover-card .gameover-buttons { margin-top: 14px; width: 100%; }
 </style>
 
 <!-- ================= FAVICON ================= -->
@@ -212,20 +236,22 @@ function stopFaviconAnimation() {
 <div class="screen" id="gameover-screen">
   <div class="game-over-msg">YOU'VE BEEN LIQUIDATED</div>
   <div class="final-score">YOU RELEASED £<span id="final-score">0</span></div>
-  <div class="leaderboard-form">
-    <label>ENTER YOUR NAME FOR THE LEADERBOARD</label>
-    <input type="text" id="leaderboard-name" placeholder="YOUR NAME" maxlength="22">
-    <label>ENTER YOUR BUSINESS / COMPANY</label>
-    <input type="text" id="leaderboard-company" placeholder="BUSINESS / COMPANY" maxlength="22">
-    <label class="lender-check-label" style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:.48rem;color:rgba(255,255,255,0.65);margin-top:4px;max-width:100%;">
-      <input type="checkbox" id="is-lender" style="width:16px;height:16px;accent-color:#FFE600;cursor:pointer;flex-shrink:0;margin-top:2px;">
-      <span>I AM A LENDER<br>RELEASING FINANCES FOR MY CLIENTS</span>
-    </label>
-    <button class="btn-submit" id="btn-submit-score">🏆 SUBMIT TO LEADERBOARD</button>
-  </div>
-  <div class="gameover-buttons">
-    <button class="btn-play-again" id="btn-play-again">▶ PLAY AGAIN</button>
-    <button class="btn-play-again" id="btn-home">⌂ RETURN TO HOME</button>
+  <div class="gameover-card">
+    <div class="leaderboard-form">
+      <label>ENTER YOUR NAME FOR THE LEADERBOARD</label>
+      <input type="text" id="leaderboard-name" placeholder="YOUR NAME" maxlength="22">
+      <label>ENTER YOUR BUSINESS / COMPANY</label>
+      <input type="text" id="leaderboard-company" placeholder="BUSINESS / COMPANY" maxlength="22">
+      <label class="lender-check-label" style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:.48rem;color:rgba(255,255,255,0.8);margin-top:4px;max-width:100%;">
+        <input type="checkbox" id="is-lender" style="width:16px;height:16px;accent-color:#FFE600;cursor:pointer;flex-shrink:0;margin-top:2px;">
+        <span>I AM A LENDER<br>RELEASING FINANCES FOR MY CLIENTS</span>
+      </label>
+      <button class="btn-submit" id="btn-submit-score">🏆 SUBMIT TO LEADERBOARD</button>
+    </div>
+    <div class="gameover-buttons">
+      <button class="btn-play-again" id="btn-play-again">▶ PLAY AGAIN</button>
+      <button class="btn-play-again" id="btn-home">⌂ RETURN TO HOME</button>
+    </div>
   </div>
 </div>
 <div class="screen" id="leaderboard-screen">
