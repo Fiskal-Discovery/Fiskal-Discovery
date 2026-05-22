@@ -1540,8 +1540,14 @@
     .home-title { font-size: 68px; }
   }
 
+  #screen-results {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   #screen-results .screen-content {
     max-width: 860px;
+    overflow-y: visible;
+    flex: none;
   }
 
   /* ====== MOBILE FIXES ====== */
