@@ -124,7 +124,7 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
   .lb-row-client td { color: #B0C8FF; }
   /* Gameover card — white to dark purple gradient */
   .gameover-card {
-    background: linear-gradient(to bottom, #ffffff 0%, #2a004a 55%, #07000E 100%);
+    background: linear-gradient(to bottom, #f0e8ff 0%, #2a004a 55%, #07000E 100%);
     border-radius: 12px;
     padding: 22px 20px 18px;
     width: 100%;
@@ -136,7 +136,7 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
     box-shadow: 0 0 40px rgba(126,9,165,.5), 0 0 80px rgba(126,9,165,.2);
   }
   .gameover-card .leaderboard-form { width: 100%; margin-bottom: 0; }
-  .gameover-card label { color: #ffffff !important; text-shadow: 0 1px 3px rgba(0,0,0,.4); }
+  .gameover-card label { color: #1a0030 !important; text-shadow: none; }
   .gameover-card input[type="text"] {
     background: rgba(255,255,255,0.15) !important;
     border-color: rgba(255,255,255,0.5) !important;
@@ -820,7 +820,7 @@ function closeLB(){
   if(_lbPausedGame&&G&&!G.dead){paused=false;MUSIC.resume();rafId=requestAnimationFrame(gameLoop);}
   _lbPausedGame=false;
 }
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('playing-mobile',id==='game-screen'&&window.innerWidth<=520);if(id!=='game-screen')showQuitBtn(false);if(id==='start-screen'){renderPreviewAliens();updatePersonalBest();drawWantedPoster();}if(id==='gameover-screen'){const savedName=localStorage.getItem('fiskal_ci_player_name');if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;const stored=getStoredUserDetails();if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;}}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('playing-mobile',id==='game-screen'&&window.innerWidth<=520);if(id!=='game-screen')showQuitBtn(false);if(id==='start-screen'){renderPreviewAliens();updatePersonalBest();drawWantedPoster();}if(id==='gameover-screen'){document.getElementById('work-mode-btn').style.display='none';const savedName=localStorage.getItem('fiskal_ci_player_name');if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;const stored=getStoredUserDetails();if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;}}
 function updateHUD(){if(!G)return;document.getElementById('score-display').textContent=G.score;document.getElementById('wave-display').textContent=G.wave;const wd2=document.getElementById('wave-display-2');if(wd2)wd2.textContent=G.wave;if(G.advancedMode&&G.hullDamage>0){let h='';for(let i=0;i<G.lives;i++)h+=i===G.lives-1?'<span style="color:#FF8800;opacity:.65">❤</span>':'❤';document.getElementById('lives-display').innerHTML=h;}else{document.getElementById('lives-display').textContent='❤'.repeat(Math.max(0,G.lives));}const wcd=document.getElementById('wave-cash-display');if(wcd){if(G.state==='boss'){wcd.textContent='BOSS FIGHT!';wcd.style.color='#FF4444'}else{const waveProg=Math.min(G.score-G.waveCashStart,G.waveCashTarget);wcd.textContent='£'+waveProg+'/£'+G.waveCashTarget;wcd.style.color=waveProg/G.waveCashTarget>.75?'#00FF88':waveProg/G.waveCashTarget>.4?'#FFE600':'#88FF44'}}}
 function updateTargetHUD(){if(!G)return;const goal=getTarget(G.targetIdx);const pct=Math.min(1,G.score/goal);document.getElementById('target-current').textContent=G.score.toLocaleString();document.getElementById('target-goal').textContent=goal.toLocaleString();const bar=document.getElementById('target-bar');bar.style.width=(pct*100)+'%';const barColor=pct<0.5?'#FFE600':pct<0.8?'#FF8C00':'#00FF88';bar.style.background=barColor;bar.style.boxShadow='0 0 8px '+barColor;const label=document.getElementById('target-label');const thud=document.getElementById('target-hud');if(pct>=0.85){label.style.color='#00FF88';thud.style.background='rgba(0,80,0,.55)'}else if(pct>=0.5){label.style.color='#FF8C00';thud.style.background='rgba(80,40,0,.55)'}else{label.style.color='#FFE600';thud.style.background='rgba(0,0,0,.55)'}if(G.bombs>0){document.getElementById('bomb-count').textContent=G.bombs;document.getElementById('bomb-btn').style.display='flex'}else{document.getElementById('bomb-btn').style.display='none'}}
 function showSmash(rewardText){const el=document.getElementById('smash-msg');el.innerHTML='🎯 TARGET SMASHED!<br><span style="font-size:.7em;color:#FFE600;text-shadow:0 0 14px #FFE600,0 0 28px rgba(255,230,0,.5)">'+rewardText+'</span>';el.classList.remove('show');void el.offsetWidth;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3800);flashScreen('rgba(255,220,0,.45)',220)}
@@ -1678,11 +1678,10 @@ table tr:nth-child(even) td{background:#fafbff}
 #vp2-badges{font-size:1.4rem;margin-bottom:4px;letter-spacing:.15em}
 @keyframes vcFadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 /* Panel 3 — fiskal brand */
-#vp3-poweredby{font-family:'Press Start 2P',monospace;font-size:clamp(.42rem,1.8vw,.7rem);color:rgba(180,140,255,.85);margin-bottom:clamp(6px,1.5vh,14px);letter-spacing:.1em}
+#vp3-poweredby{font-family:'Press Start 2P',monospace;font-size:clamp(.42rem,1.8vw,.7rem);color:rgba(255,255,255,.85);margin-bottom:clamp(6px,1.5vh,14px);letter-spacing:.1em}
 #vp3-fiskal{font-family:'Press Start 2P',monospace;font-size:clamp(2rem,12vw,5.5rem);background:linear-gradient(90deg,#FFE600,#fff,#00FF88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:none;filter:drop-shadow(0 0 30px rgba(255,230,0,.6));margin-bottom:clamp(8px,2vh,18px);animation:vcSlam .4s ease-out}
-#vp3-tags{font-family:'Press Start 2P',monospace;font-size:clamp(.38rem,1.6vw,.65rem);color:#00FF88;text-shadow:0 0 12px #00FF88;margin-bottom:clamp(6px,1.5vh,14px);line-height:2}
-#vp3-tagline{font-family:'Press Start 2P',monospace;font-size:clamp(.38rem,1.6vw,.65rem);color:rgba(200,175,255,.85);margin-bottom:clamp(6px,1.5vh,14px)}
-#vp3-url{font-family:'Press Start 2P',monospace;font-size:clamp(.6rem,2.8vw,1.1rem);color:#FFE600;text-shadow:0 0 20px #FFE600;animation:vcPulse 2s infinite}
+#vp3-score{font-family:'Press Start 2P',monospace;font-size:clamp(1rem,6vw,2.6rem);color:#FFE600;text-shadow:0 0 30px #FFE600;margin-bottom:clamp(8px,2vh,16px)}
+#vp3-tags{font-family:'Press Start 2P',monospace;font-size:clamp(.38rem,1.6vw,.65rem);color:#00FF88;text-shadow:0 0 12px #00FF88;margin-bottom:clamp(12px,3vh,24px);line-height:2}
 @keyframes vcPulse{0%,100%{text-shadow:0 0 20px #FFE600}50%{text-shadow:0 0 40px #FFE600,0 0 80px rgba(255,230,0,.5)}}
 /* Panel 4 — leaderboard entry */
 #vp4-headline{font-family:'Press Start 2P',monospace;font-size:clamp(.7rem,3vw,1.3rem);color:#FFE600;text-shadow:0 0 20px #FFE600;margin-bottom:clamp(8px,2vh,18px);animation:flicker 3s infinite}
@@ -1702,30 +1701,14 @@ table tr:nth-child(even) td{background:#fafbff}
     <div id="vp1-bobby">BAILIFF BOBBY</div>
     <div id="vp1-hasbeen">HAS BEEN</div>
     <div id="vp1-defeated">DEFEATED</div>
-    <button class="vcin-next" onclick="_cinNext(2)">NEXT ▶</button>
-  </div>
-  <!-- Panel 2: Score -->
-  <div class="vcin-panel" id="vcin-p2">
-    <div id="vp2-free">YOUR FINANCES ARE FREE!</div>
-    <div id="vp2-score">£<span id="victory-score-counter">0</span> RELEASED</div>
-    <div id="vp2-sub">20 WAVES COMPLETE<br>ALL BOSSES DEFEATED</div>
-    <div id="vp2-badges"></div>
     <button class="vcin-next" onclick="_cinNext(3)">NEXT ▶</button>
   </div>
-  <!-- Panel 3: Fiskal Brand -->
+  <!-- Panel 3: Fiskal Brand + submit -->
   <div class="vcin-panel" id="vcin-p3">
     <div id="vp3-poweredby">POWERED BY</div>
     <div id="vp3-fiskal">FISKAL</div>
-    <div id="vp3-tags">INVOICE · ASSET · TRADE FINANCE</div>
-    <div id="vp3-tagline">LIBERATING UK BUSINESSES FROM CASHFLOW HELL</div>
-    <div id="vp3-url">FISKAL.CO.UK</div>
-    <button class="vcin-next" style="margin-top:clamp(14px,3vh,28px)" onclick="_cinNext(4)">NEXT ▶</button>
-  </div>
-  <!-- Panel 4: CRT TV + submit -->
-  <div class="vcin-panel" id="vcin-p4">
-    <div id="vp4-headline">CASHFLOW CHAMPION!</div>
-    <div id="vp4-score">£<span id="vp4-score-val">0</span> RELEASED</div>
-    <div id="crt-wrap"><canvas id="tv-canvas" width="400" height="300"></canvas></div>
+    <div id="vp3-score">£<span id="victory-score-counter">0</span> RELEASED</div>
+    <div id="vp3-tags">COMMERCIAL FINANCE EXPERTS</div>
     <div id="victory-buttons">
       <button id="btn-victory-submit">🏆 SUBMIT TO LEADERBOARD</button>
       <button id="btn-victory-home" onclick="stopGame();stopFaviconAnimation();showScreen('start-screen');document.getElementById('victory-screen').classList.remove('active')">⌂ HOME</button>
@@ -1749,16 +1732,14 @@ function _vClamp(a,b,c){return Math.max(a,Math.min(c,b))}
 function _cinNext(panel){
   document.querySelectorAll('.vcin-panel').forEach(p=>p.classList.remove('vp-active'));
   const el=document.getElementById('vcin-p'+panel);if(el)el.classList.add('vp-active');
-  if(panel===2){
-    // animate score counter
+  if(panel===3){
     const target=finalScore;let cur=0;const t0=performance.now();
     const el2=document.getElementById('victory-score-counter');
-    const el3=document.getElementById('vp4-score-val');
-    function tick(now){const prog=Math.min(1,(now-t0)/1800);const e=1-Math.pow(1-prog,3);cur=Math.round(e*target);if(el2)el2.textContent=cur.toLocaleString();if(el3)el3.textContent=cur.toLocaleString();if(prog<1)requestAnimationFrame(tick);}
+    function tick(now){const prog=Math.min(1,(now-t0)/1800);const e=1-Math.pow(1-prog,3);cur=Math.round(e*target);if(el2)el2.textContent=cur.toLocaleString();if(prog<1)requestAnimationFrame(tick);}
     requestAnimationFrame(tick);
     SFX.collect&&SFX.collect();
+    startConfetti();
   }
-  if(panel===4){startConfetti();startCRTTV();}
 }
 function showWaveClearOverlay(){
   if(!G)return;
@@ -1778,7 +1759,7 @@ function showVictory(){
   if(finalScore>_pb)localStorage.setItem('fiskal_ci_best_score',finalScore);
   window._lastBadgeLarry=G.larryBeaten;window._lastBadgeBobby=G.bobbyBeaten;
   let badges='';if(G.larryBeaten)badges+='⚡ ';if(G.bobbyBeaten)badges+='🏆 ';
-  document.getElementById('vp2-badges').textContent=badges;
+  // badges available if needed in future
   stopFaviconAnimation();
   document.getElementById('btn-victory-submit').onclick=()=>{
     document.getElementById('victory-screen').classList.remove('active');
@@ -1794,7 +1775,7 @@ function showVictory(){
   showBobbyCinematic(()=>{
     document.getElementById('victory-screen').classList.add('active');
     startCinStars();
-    _cinNext(2);
+    _cinNext(3);
     setTimeout(()=>SFX.power&&SFX.power(),300);
   });
 }
