@@ -2072,6 +2072,8 @@ function showBobbyCinematic(onDone){
 
     // SCENE 5: emotional copy
     else if(scene===5){
+      c.clearRect(0,0,W,H);
+      c.fillStyle='#000';c.fillRect(0,0,W,H);
       const grd=c.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*0.65);
       grd.addColorStop(0,'rgba(70,15,110,0.18)');grd.addColorStop(1,'rgba(0,0,0,0)');
       c.fillStyle=grd;c.fillRect(0,0,W,H);
@@ -2090,8 +2092,8 @@ function showBobbyCinematic(onDone){
           const shown=ln.txt.slice(0,Math.floor(lAge*30));
           c.globalAlpha=gAlpha*Math.min(1,lAge/0.5);
           c.fillStyle=ln.col;
-          c.shadowColor=ln.col==='#FFD700'?'#FFD700':ln.col==='#CC88FF'?'#CC88FF':'transparent';
-          c.shadowBlur=ln.col==='#FFD700'?28:ln.col==='#CC88FF'?14:0;
+          c.shadowColor=ln.col==='#FFD700'?'#FFD700':'transparent';
+          c.shadowBlur=ln.col==='#FFD700'?28:0;
           c.font=`${ln.fs>0.04?'bold ':''} ${fsPx}px "DM Sans",sans-serif`;
           c.fillText(shown,W/2,yy+fsPx);
           yy+=fsPx*1.85;
@@ -2105,25 +2107,24 @@ function showBobbyCinematic(onDone){
     else if(scene===6){
       c.textAlign='center';
       const pbP=clamp(t/0.45,0,1);
-      c.globalAlpha=pbP;c.fillStyle='#C060D0';c.shadowColor='#C060D0';c.shadowBlur=20;
+      c.globalAlpha=pbP;c.fillStyle='#FFFFFF';c.shadowColor='#FFFFFF';c.shadowBlur=10;
       c.font=`bold ${clamp(W*0.024,12,22)}px "Press Start 2P",monospace`;c.fillText('POWERED BY',W/2,H*0.26);
       const fP=clamp((t-0.3)/0.35,0,1);const fSc=fP<0.25?1+(1-fP/0.25)*0.45:1;
       c.globalAlpha=fP;c.save();c.translate(W/2,H*0.46);c.scale(fSc,fSc);
-      const fsz=clamp(W*0.13,56,124);const gr=c.createLinearGradient(-fsz,0,fsz,0);
+      const fsz=clamp(W*0.13,56,124);
+      // Purple radial glow behind FISKAL
+      const purpleGlow=c.createRadialGradient(0,0,0,0,0,fsz*1.2);
+      purpleGlow.addColorStop(0,'rgba(160,40,220,0.55)');purpleGlow.addColorStop(0.5,'rgba(100,0,180,0.3)');purpleGlow.addColorStop(1,'rgba(60,0,120,0)');
+      c.fillStyle=purpleGlow;c.beginPath();c.ellipse(0,0,fsz*1.3,fsz*0.9,0,0,Math.PI*2);c.fill();
+      const gr=c.createLinearGradient(-fsz,0,fsz,0);
       gr.addColorStop(0,'#FFD700');gr.addColorStop(0.5,'#FFFFFF');gr.addColorStop(1,'#00FF88');
       c.fillStyle=gr;c.shadowColor='#FFD700';c.shadowBlur=80;
       c.font=`bold ${fsz}px "Press Start 2P",monospace`;c.fillText('FISKAL',0,0);c.restore();
       const s1P=clamp((t-0.8)/0.35,0,1);
-      c.globalAlpha=s1P;c.fillStyle='#00FF88';c.shadowColor='#00AA55';c.shadowBlur=14;
-      c.font=`bold ${clamp(W*0.021,10,19)}px "Press Start 2P",monospace`;c.fillText('INVOICE · ASSET · TRADE FINANCE',W/2,H*0.6);
-      const s2txt='LIBERATING UK BUSINESSES FROM CASHFLOW HELL'.slice(0,Math.floor(clamp(t-1.3,0,99)/0.038));
-      c.globalAlpha=clamp((t-1.3)/0.2,0,1);c.fillStyle='#FFFFFF';c.shadowColor='#888';c.shadowBlur=8;
-      c.font=`bold ${clamp(W*0.017,8,15)}px "Press Start 2P",monospace`;c.fillText(s2txt,W/2,H*0.71);
-      const urlP=clamp((t-2.1)/0.4,0,1);const urlSc=1+Math.sin(now*0.006)*0.04;
-      c.globalAlpha=urlP;c.fillStyle='#FFD700';c.shadowColor='#FFD700';c.shadowBlur=20+Math.sin(now*0.006)*8;
-      c.font=`bold ${clamp(W*0.029,14,26)*urlSc}px "Press Start 2P",monospace`;c.fillText('FISKAL.CO.UK',W/2,H*0.83);
+      c.globalAlpha=s1P;c.fillStyle='#00FF88';c.shadowBlur=0;
+      c.font=`bold ${clamp(W*0.021,10,19)}px "Press Start 2P",monospace`;c.fillText('COMMERCIAL FINANCE EXPERTS',W/2,H*0.6);
       c.globalAlpha=1;c.shadowBlur=0;
-      if(t>2.8)showNext();
+      if(t>1.8)showNext();
     }
 
     c.restore();shakeX*=0.78;shakeY*=0.78;
