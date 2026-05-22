@@ -45,6 +45,12 @@
     overflow-y: auto;
     height: auto;
   }
+  body:has(#screen-landing.active) #onboarding-overlay {
+    overflow-y: auto;
+    position: relative;
+    inset: auto;
+    min-height: 100dvh;
+  }
 
   body {
     font-family: 'DM Sans', sans-serif;
