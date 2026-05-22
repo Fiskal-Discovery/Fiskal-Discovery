@@ -101,6 +101,9 @@ body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block
 body.playing-mobile #screen-flash{bottom:env(safe-area-inset-bottom,0px)!important}
 body.lb-active .fiskal-header{display:none!important}
 body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;padding:16px!important;margin:0!important;overflow-y:auto!important;z-index:10!important}
+#wanted-poster{display:none!important}
+#intro-cin{padding:16px 12px!important}
+.ic-panel{gap:6px!important}
 }
 </style>
 <style>
@@ -697,6 +700,7 @@ function _cinStarsActive(){
          document.getElementById('larry-cin').classList.contains('lc-active')||
          document.getElementById('victory-screen').classList.contains('active');
 }
+window.addEventListener('resize',()=>{const cv=document.getElementById('cin-stars');if(cv&&cv.style.display!=='none'){cv.width=window.innerWidth;cv.height=window.innerHeight;}});
 function startCinStars(){
   const cv=document.getElementById('cin-stars');
   cv.width=window.innerWidth;cv.height=window.innerHeight;
