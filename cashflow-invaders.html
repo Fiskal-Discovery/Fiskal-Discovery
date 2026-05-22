@@ -1932,7 +1932,7 @@ function showBobbyCinematic(onDone){
       burstLines.forEach(bl=>{c.strokeStyle=`rgba(255,200,0,${clamp(1-t/1.8,0,1)*0.85})`;c.lineWidth=1.5;c.beginPath();c.moveTo(W/2,H/2);c.lineTo(W/2+Math.cos(bl.a)*bl.maxL*lp,H/2+Math.sin(bl.a)*bl.maxL*lp);c.stroke();});
       s1p.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.12;p.life-=p.dec;if(p.life<=0)return;c.globalAlpha=Math.max(0,p.life)*clamp(1-t/2.5,0,1);c.fillStyle=p.col;c.beginPath();c.arc(p.x,p.y,p.sz,0,Math.PI*2);c.fill();});
       c.globalAlpha=1;
-      if(t>1.8)showNext();
+      if(t>1.8&&!nextReady){nextReady=true;advanceScene();}
     }
 
     // SCENE 2: Bailiff Bobby defeated + boot kick
