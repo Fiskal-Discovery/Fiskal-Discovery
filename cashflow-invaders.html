@@ -848,6 +848,7 @@ function showLarryCinematic(defeatedBosses,onDone){
   setTimeout(()=>MUSIC.newHope(),400);
   el.classList.add('active');el.style.pointerEvents='auto';
   cin.classList.add('lc-active');
+  document.getElementById('bomb-btn').style.display='none';
   startCinStars();
   // Static threat list — no dynamic population needed
   window._lcOnDone=onDone;
