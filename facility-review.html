@@ -1123,7 +1123,7 @@
     letter-spacing: 2px !important;
   }
 /* ── Cashflow Invaders Button ───────────────────────── */
-.cfi-btn{position:relative;display:block;width:100%;background:linear-gradient(135deg,#0a0e2e 0%,#1a0f3a 60%,#0a0e2e 100%);border:2px solid #ffd700;border-radius:10px;padding:16px 18px;cursor:pointer;overflow:hidden;text-decoration:none;box-shadow:0 0 0 1px rgba(255,215,0,0.25),0 0 24px rgba(255,215,0,0.25),inset 0 0 40px rgba(138,43,226,0.18);transition:transform 0.25s cubic-bezier(.2,.9,.3,1),border-color 0.25s;animation:cfiBorder 2.6s ease-in-out infinite,cfiFlicker 7s infinite;box-sizing:border-box;}
+.cfi-btn{container-type:inline-size;container-name:cfi;position:relative;display:block;width:100%;background:linear-gradient(135deg,#0a0e2e 0%,#1a0f3a 60%,#0a0e2e 100%);border:2px solid #ffd700;border-radius:10px;padding:16px 18px;cursor:pointer;overflow:hidden;text-decoration:none;box-shadow:0 0 0 1px rgba(255,215,0,0.25),0 0 24px rgba(255,215,0,0.25),inset 0 0 40px rgba(138,43,226,0.18);transition:transform 0.25s cubic-bezier(.2,.9,.3,1),border-color 0.25s;animation:cfiBorder 2.6s ease-in-out infinite,cfiFlicker 7s infinite;box-sizing:border-box;}
 @keyframes cfiBorder{0%,100%{box-shadow:0 0 0 1px rgba(255,215,0,0.25),0 0 22px rgba(255,215,0,0.25),inset 0 0 40px rgba(138,43,226,0.18)}50%{box-shadow:0 0 0 1px rgba(255,215,0,0.55),0 0 45px rgba(255,215,0,0.55),inset 0 0 55px rgba(138,43,226,0.3)}}
 @keyframes cfiFlicker{0%,94%,100%{filter:brightness(1)}95%{filter:brightness(1.2)}96%{filter:brightness(0.8)}97%{filter:brightness(1.15)}98%{filter:brightness(0.9)}99%{filter:brightness(1.05)}}
 .cfi-btn:hover{transform:translateY(-3px);border-color:#fff8dc;}
@@ -1131,22 +1131,22 @@
 .cfi-btn::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(0,0,0,.18) 2px,rgba(0,0,0,.18) 3px);pointer-events:none;z-index:5;}
 .cfi-btn::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.5) 100%);pointer-events:none;z-index:4;}
 .cfi-content{display:flex;align-items:center;gap:14px;position:relative;z-index:6;min-width:0;}
-.cfi-hero{position:relative;flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;animation:cfiHop 0.7s steps(2) infinite;}
+.cfi-hero{flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;animation:cfiHop 0.7s steps(2) infinite;}
 @keyframes cfiHop{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 .cfi-hero svg{width:100%;height:auto;color:#ffd700;filter:drop-shadow(0 0 8px rgba(255,215,0,0.85));}
 .cfi-text{flex:1 1 0;min-width:0;overflow:hidden;}
-.cfi-title{font-family:'Press Start 2P',monospace;font-size:clamp(11px,2vw,17px);line-height:1.25;margin:0 0 6px;background:linear-gradient(90deg,#ffd700 0%,#fff8dc 25%,#98ffd0 50%,#7fe8c0 75%,#66ff99 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 10px rgba(150,255,200,0.45));letter-spacing:1.5px;word-wrap:break-word;overflow-wrap:break-word;}
+.cfi-title{font-family:'Press Start 2P',monospace;font-size:clamp(11px,2vw,17px);line-height:1.3;margin:0 0 8px;background:linear-gradient(90deg,#ffd700 0%,#fff8dc 25%,#98ffd0 50%,#7fe8c0 75%,#66ff99 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 10px rgba(150,255,200,0.45));letter-spacing:1.5px;word-break:normal;overflow-wrap:normal;hyphens:none;}
 .cfi-tag{font-family:'Press Start 2P',monospace;font-size:clamp(9px,1.3vw,12px);line-height:1.5;color:#b8a5e8;margin:0;text-shadow:0 0 6px rgba(184,165,232,0.5);letter-spacing:.4px;}
-.cfi-tag .cfi-dot{color:#ffd700;padding:0 2px;}
 .cfi-play-zone{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:5px;}
-.cfi-coin{font-family:'Press Start 2P',monospace;font-size:6px;color:#ff6b9d;text-shadow:0 0 6px rgba(255,107,157,0.85);letter-spacing:1.5px;white-space:nowrap;animation:cfiCoinBlink 1.1s steps(2) infinite;}
+.cfi-coin{font-family:'Press Start 2P',monospace;font-size:7px;color:#ff6b9d;text-shadow:0 0 6px rgba(255,107,157,0.85);letter-spacing:1.5px;white-space:nowrap;animation:cfiCoinBlink 1.1s steps(2) infinite;}
 @keyframes cfiCoinBlink{0%,100%{opacity:1}50%{opacity:0.25}}
 .cfi-play{display:flex;align-items:center;gap:8px;padding:8px 14px;background:transparent;border:2px solid #ffd700;border-radius:4px;color:#ffd700;font-family:'Press Start 2P',monospace;font-size:11px;letter-spacing:1.5px;text-shadow:0 0 8px rgba(255,215,0,0.9);box-shadow:0 0 12px rgba(255,215,0,0.4),inset 0 0 8px rgba(255,215,0,0.12);animation:cfiPlay 1.3s ease-in-out infinite;white-space:nowrap;}
 @keyframes cfiPlay{0%,100%{box-shadow:0 0 12px rgba(255,215,0,0.4),inset 0 0 8px rgba(255,215,0,0.12)}50%{box-shadow:0 0 24px rgba(255,215,0,0.85),inset 0 0 16px rgba(255,215,0,0.25)}}
 .cfi-arrow{animation:cfiBlink 0.55s steps(2) infinite;display:inline-block;}
 @keyframes cfiBlink{0%,100%{opacity:1}50%{opacity:0.25}}
-@media(max-width:520px){.cfi-coin{display:none}.cfi-hero{width:36px;height:36px}.cfi-play{font-size:9px;padding:7px 11px;letter-spacing:1px}.cfi-content{gap:10px}.cfi-btn{padding:14px}}
-@media(max-width:380px){.cfi-title{letter-spacing:1px}.cfi-tag{display:none}}
+@container cfi (max-width:560px){.cfi-coin{display:none}.cfi-hero{width:38px;height:38px}.cfi-play{font-size:10px;padding:7px 12px;letter-spacing:1px}.cfi-content{gap:12px}.cfi-btn{padding:14px 16px}}
+@container cfi (max-width:420px){.cfi-tag{display:none}.cfi-title{letter-spacing:1px}.cfi-hero{width:32px;height:32px}.cfi-play{font-size:9px;padding:6px 10px}}
+@supports not (container-type:inline-size){@media(max-width:560px){.cfi-coin{display:none}.cfi-hero{width:38px;height:38px}.cfi-play{font-size:10px;padding:7px 12px;letter-spacing:1px}.cfi-content{gap:12px}.cfi-btn{padding:14px 16px}}}
 </style>
 </head>
 <body>
