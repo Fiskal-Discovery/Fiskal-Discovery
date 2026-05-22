@@ -837,10 +837,9 @@ function _lcRunLarryAnim(){
       invoiceStarted=true;
     }
     if(phase===2){
-      // Invoice descends slowly over ~4s — total travel = H+docH pixels
+      // Invoice descends slowly over ~4s — use fresh elapsed() so phase transition in same tick doesn't skip
       const travel=H+docH;
-      const prog=Math.min(1,e/4);
-      docY=-docH+travel*prog; // easeIn feel — starts slow
+      const prog=Math.min(1,elapsed()/4);
       const eased=-docH+travel*(prog*prog*0.5+prog*0.5);
       docY=eased;
       if(docY>=ly-docH*0.3){
