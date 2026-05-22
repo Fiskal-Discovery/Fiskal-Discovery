@@ -1994,6 +1994,28 @@
     transform: translateY(-1px);
   }
 
+  /* ---- ARCADE BUTTON ---- */
+  @keyframes ibnBorderPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,.55),0 0 18px 2px rgba(255,215,0,.22),inset 0 0 18px rgba(255,215,0,.06)}50%{box-shadow:0 0 0 6px rgba(255,215,0,0),0 0 32px 8px rgba(255,215,0,.38),inset 0 0 28px rgba(255,215,0,.12)}}
+  @keyframes ibnMarch{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  @keyframes ibnHop{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  @keyframes ibnPlay{0%,100%{box-shadow:0 0 8px rgba(255,215,0,.4),inset 0 0 6px rgba(255,215,0,.1)}50%{box-shadow:0 0 22px rgba(255,215,0,.85),inset 0 0 14px rgba(255,215,0,.22)}}
+  @keyframes ibnBlink{0%,100%{opacity:1}49%{opacity:1}50%,99%{opacity:0}}
+  .invaders-btn{display:block;position:relative;overflow:hidden;background:linear-gradient(160deg,#0a0520 0%,#130935 40%,#1a0845 70%,#0d0428 100%);border:2px solid #ffd700;border-radius:10px;padding:22px 24px;text-decoration:none;cursor:pointer;transition:transform .15s,border-color .15s;animation:ibnBorderPulse 2s ease-in-out infinite;width:100%;box-sizing:border-box;margin:0 auto;}
+  .invaders-btn:hover{transform:translateY(-3px);border-color:#fff8dc;}
+  .invaders-btn:active{transform:translateY(-1px);}
+  .invaders-btn::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(0,0,0,.18) 2px,rgba(0,0,0,.18) 3px);pointer-events:none;z-index:5;}
+  .invaders-btn::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.5) 100%);pointer-events:none;z-index:4;}
+  .ibn-march{display:flex;gap:28px;position:absolute;top:50%;left:0;transform:translateY(-50%);width:200%;animation:ibnMarch 18s linear infinite;pointer-events:none;z-index:1;opacity:.15;}
+  .ibn-content{position:relative;z-index:6;display:flex;flex-direction:column;gap:14px;}
+  .ibn-hero{display:flex;align-items:center;gap:14px;}
+  .ibn-invader{animation:ibnHop 1s ease-in-out infinite;filter:drop-shadow(0 0 8px rgba(255,215,0,.7));}
+  .ibn-text{display:flex;flex-direction:column;gap:6px;min-width:0;}
+  .ibn-title{font-family:'Press Start 2P',monospace;font-size:16px;line-height:1.2;margin:0 0 10px;background:linear-gradient(90deg,#ffd700 0%,#fff8dc 25%,#98ffd0 50%,#7fe8c0 75%,#66ff99 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px rgba(150,255,200,.45));letter-spacing:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .ibn-tagline{font-family:'Press Start 2P',monospace;font-size:8px;line-height:1.5;color:#b8a5e8;margin:0;text-shadow:0 0 8px rgba(184,165,232,.6);letter-spacing:1px;}
+  .ibn-play-zone{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .ibn-hiscore{font-family:'Press Start 2P',monospace;font-size:7px;color:#ff6b9d;text-shadow:0 0 8px rgba(255,107,157,.85);letter-spacing:1.5px;}
+  .ibn-play{display:flex;align-items:center;gap:10px;padding:11px 20px;background:transparent;border:2px solid #ffd700;border-radius:4px;color:#ffd700;font-family:'Press Start 2P',monospace;font-size:13px;letter-spacing:2px;text-shadow:0 0 10px rgba(255,215,0,.9);box-shadow:0 0 15px rgba(255,215,0,.4),inset 0 0 10px rgba(255,215,0,.12);animation:ibnPlay 1.3s ease-in-out infinite;cursor:pointer;}
+  .ibn-arrow{animation:ibnBlink .8s step-end infinite;}
 
   /* ---- LENDER LEADERBOARD NEXT TO GAME BUTTON ---- */
   .ob-game-row {
@@ -2332,8 +2354,38 @@
         <div class="ob-actions">
           <button class="btn-primary" onclick="startWelcome()">Start My Discovery</button>
           <div class="ob-game-block">
-            <a href="cashflow-invaders.html" class="ob-game-cta">
-              Free Your Finances — Play Cashflow Invaders Now
+            <a href="cashflow-invaders.html" class="invaders-btn">
+              <div class="ibn-march" aria-hidden="true">
+                <svg viewBox="0 0 11 8" width="22" height="16" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;opacity:.18;"><rect x="4" y="0" width="3" height="1" fill="#7B61FF"/><rect x="2" y="1" width="7" height="1" fill="#7B61FF"/><rect x="1" y="2" width="9" height="1" fill="#7B61FF"/><rect x="0" y="3" width="11" height="2" fill="#7B61FF"/><rect x="2" y="5" width="3" height="1" fill="#7B61FF"/><rect x="6" y="5" width="3" height="1" fill="#7B61FF"/><rect x="1" y="6" width="2" height="2" fill="#7B61FF"/><rect x="8" y="6" width="2" height="2" fill="#7B61FF"/></svg>
+                <svg viewBox="0 0 11 8" width="22" height="16" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;opacity:.18;"><rect x="4" y="0" width="3" height="1" fill="#7B61FF"/><rect x="2" y="1" width="7" height="1" fill="#7B61FF"/><rect x="1" y="2" width="9" height="1" fill="#7B61FF"/><rect x="0" y="3" width="11" height="2" fill="#7B61FF"/><rect x="2" y="5" width="3" height="1" fill="#7B61FF"/><rect x="6" y="5" width="3" height="1" fill="#7B61FF"/><rect x="1" y="6" width="2" height="2" fill="#7B61FF"/><rect x="8" y="6" width="2" height="2" fill="#7B61FF"/></svg>
+                <svg viewBox="0 0 11 8" width="22" height="16" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;opacity:.18;"><rect x="4" y="0" width="3" height="1" fill="#7B61FF"/><rect x="2" y="1" width="7" height="1" fill="#7B61FF"/><rect x="1" y="2" width="9" height="1" fill="#7B61FF"/><rect x="0" y="3" width="11" height="2" fill="#7B61FF"/><rect x="2" y="5" width="3" height="1" fill="#7B61FF"/><rect x="6" y="5" width="3" height="1" fill="#7B61FF"/><rect x="1" y="6" width="2" height="2" fill="#7B61FF"/><rect x="8" y="6" width="2" height="2" fill="#7B61FF"/></svg>
+                <svg viewBox="0 0 11 8" width="22" height="16" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;opacity:.18;"><rect x="4" y="0" width="3" height="1" fill="#7B61FF"/><rect x="2" y="1" width="7" height="1" fill="#7B61FF"/><rect x="1" y="2" width="9" height="1" fill="#7B61FF"/><rect x="0" y="3" width="11" height="2" fill="#7B61FF"/><rect x="2" y="5" width="3" height="1" fill="#7B61FF"/><rect x="6" y="5" width="3" height="1" fill="#7B61FF"/><rect x="1" y="6" width="2" height="2" fill="#7B61FF"/><rect x="8" y="6" width="2" height="2" fill="#7B61FF"/></svg>
+                <svg viewBox="0 0 11 8" width="22" height="16" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;opacity:.18;"><rect x="4" y="0" width="3" height="1" fill="#7B61FF"/><rect x="2" y="1" width="7" height="1" fill="#7B61FF"/><rect x="1" y="2" width="9" height="1" fill="#7B61FF"/><rect x="0" y="3" width="11" height="2" fill="#7B61FF"/><rect x="2" y="5" width="3" height="1" fill="#7B61FF"/><rect x="6" y="5" width="3" height="1" fill="#7B61FF"/><rect x="1" y="6" width="2" height="2" fill="#7B61FF"/><rect x="8" y="6" width="2" height="2" fill="#7B61FF"/></svg>
+              </div>
+              <div class="ibn-content">
+                <div class="ibn-hero">
+                  <svg class="ibn-invader" viewBox="0 0 11 8" width="44" height="32" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;">
+                    <rect x="4" y="0" width="3" height="1" fill="#ffd700"/>
+                    <rect x="2" y="1" width="7" height="1" fill="#ffd700"/>
+                    <rect x="1" y="2" width="9" height="1" fill="#ffd700"/>
+                    <rect x="0" y="3" width="11" height="2" fill="#ffd700"/>
+                    <rect x="2" y="5" width="3" height="1" fill="#ffd700"/>
+                    <rect x="6" y="5" width="3" height="1" fill="#ffd700"/>
+                    <rect x="1" y="6" width="2" height="2" fill="#ffd700"/>
+                    <rect x="8" y="6" width="2" height="2" fill="#ffd700"/>
+                  </svg>
+                  <div class="ibn-text">
+                    <p class="ibn-title">CASHFLOW INVADERS</p>
+                    <p class="ibn-tagline">PLAY THE FISKAL ARCADE GAME · FREE YOUR FINANCES</p>
+                  </div>
+                </div>
+                <div class="ibn-play-zone">
+                  <span class="ibn-hiscore">HI-SCORE &nbsp; 999999</span>
+                  <button class="ibn-play" onclick="event.preventDefault();window.location.href='cashflow-invaders.html'">
+                    PLAY <span class="ibn-arrow">▶</span>
+                  </button>
+                </div>
+              </div>
             </a>
           </div>
         </div>
