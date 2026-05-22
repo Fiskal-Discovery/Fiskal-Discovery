@@ -1981,11 +1981,17 @@ function showBobbyCinematic(onDone){
     // SCENE 3: Fiskal quote
     else if(scene===3){
       c.textAlign='center';
+      const maxW=W*0.88;
       const lines3=[
         {txt:'With a little help from Fiskal…',col:'#CC88EE',delay:0.4,fs:clamp(W*0.034,13,34)},
         {txt:'business owners refuse to stand still',col:'#FFFFFF',delay:2.2,fs:clamp(W*0.038,14,38)},
         {txt:'and defeat their financial challenges.',col:'#FFD700',delay:4.2,fs:clamp(W*0.036,13,36)},
       ];
+      // shrink each line font until it fits
+      lines3.forEach(ln=>{
+        c.font=`bold ${ln.fs}px "Press Start 2P",monospace`;
+        while(c.measureText(ln.txt).width>maxW&&ln.fs>9){ln.fs-=1;c.font=`bold ${ln.fs}px "Press Start 2P",monospace`;}
+      });
       const totalH=lines3.reduce((s,l)=>s+l.fs*2.4,0);
       let yy=H/2-totalH/2;
       lines3.forEach(ln=>{
