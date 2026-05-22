@@ -151,6 +151,7 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
 </head>
 <body>
 <div id="starfield"></div>
+<canvas id="cin-stars" style="position:fixed;inset:0;z-index:850;pointer-events:none;display:none"></canvas>
 <div id="msg-flash"></div>
 <script>
 'use strict';
@@ -689,6 +690,38 @@ lines.forEach((line,i)=>{const ty=boss.y-total/2+lh/2+i*lh;c.lineWidth=4;c.strok
 c.restore()}
 function drawWordEnemy(c,e){c.save();if(e.trail){e.trail.forEach((pt,i)=>{c.globalAlpha=i/e.trail.length*.22;c.font='700 '+Math.max(9,e.size-2)+'px Orbitron,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillStyle='#FF2244';c.fillText(e.display,pt.x,pt.y)})}c.globalAlpha=.82+Math.sin(e.angle*2)*.15;c.translate(e.x,e.y);c.rotate(Math.sin(e.angle)*.11);c.font='700 '+e.size+'px Orbitron,sans-serif';c.textAlign='center';c.textBaseline='middle';c.shadowColor='#FF2244';c.shadowBlur=8;c.lineWidth=4;c.strokeStyle='rgba(0,0,0,.9)';c.strokeText(e.display,0,0);c.fillStyle='#FF6680';c.fillText(e.display,0,0);c.restore()}
 function drawBomb(cx,cy,r,frame){ctx.save();ctx.shadowColor='#FF8C00';ctx.shadowBlur=12+Math.sin(frame*.25)*6;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle='#aaa';ctx.fill();ctx.strokeStyle='#777';ctx.lineWidth=1.5;ctx.stroke();const shine=ctx.createRadialGradient(cx-r*.3,cy-r*.32,0,cx-r*.3,cy-r*.32,r*.42);shine.addColorStop(0,'rgba(255,255,255,0.45)');shine.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=shine;ctx.beginPath();ctx.arc(cx-r*.3,cy-r*.32,r*.42,0,Math.PI*2);ctx.fill();ctx.shadowColor='#FFD700';ctx.shadowBlur=6;ctx.fillStyle='#FFD700';ctx.font=`bold ${Math.round(r*1.15)}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('£',cx,cy+r*.06);ctx.shadowBlur=0;ctx.strokeStyle='#996633';ctx.lineWidth=2;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(cx+r*.18,cy-r*.88);ctx.quadraticCurveTo(cx+r*.65,cy-r*1.35,cx+r*.45,cy-r*1.82);ctx.stroke();const sk=Math.sin(frame*.45);ctx.fillStyle=sk>0?'#FFE600':'#FF6600';ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=10+sk*6;ctx.beginPath();ctx.arc(cx+r*.45,cy-r*1.82,2.5,0,Math.PI*2);ctx.fill();ctx.restore()}
+// Cinematic shooting stars — runs during intro, larry, and victory cinematics
+let _csRafId=null,_csStars=[],_csTimer=0,_csNext=120;
+function _cinStarsActive(){
+  return document.getElementById('intro-cin').classList.contains('ic-active')||
+         document.getElementById('larry-cin').classList.contains('lc-active')||
+         document.getElementById('victory-screen').classList.contains('active');
+}
+function startCinStars(){
+  const cv=document.getElementById('cin-stars');
+  cv.width=window.innerWidth;cv.height=window.innerHeight;
+  cv.style.display='block';
+  _csStars=[];_csTimer=0;_csNext=120;
+  if(_csRafId)cancelAnimationFrame(_csRafId);
+  function loop(){
+    if(!_cinStarsActive()){cv.style.display='none';_csRafId=null;return;}
+    _csRafId=requestAnimationFrame(loop);
+    const c=cv.getContext('2d');
+    c.clearRect(0,0,cv.width,cv.height);
+    if(++_csTimer>=_csNext){_csTimer=0;_csNext=180+Math.random()*300;
+      const ang=Math.PI/5+Math.random()*Math.PI/8,spd=10+Math.random()*7;
+      _csStars.push({x:-20,y:Math.random()*cv.height*.65,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,life:1});}
+    _csStars=_csStars.filter(s=>{s.x+=s.vx;s.y+=s.vy;s.life-=0.018;
+      if(s.life<=0||s.x>cv.width+40)return false;
+      const spd=Math.hypot(s.vx,s.vy),len=(50+s.life*60)/spd;
+      const tx=s.x-s.vx*len,ty=s.y-s.vy*len;
+      const g=c.createLinearGradient(tx,ty,s.x,s.y);
+      g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(255,255,255,'+(s.life*.85)+')');
+      c.beginPath();c.moveTo(tx,ty);c.lineTo(s.x,s.y);c.strokeStyle=g;c.lineWidth=1.5;c.stroke();
+      return true;});
+  }
+  loop();
+}
 function drawWantedPoster(){
   const cv=document.getElementById('wanted-poster');if(!cv)return;
   const W=cv.width,H=cv.height,c=cv.getContext('2d');
@@ -811,6 +844,7 @@ function showLarryCinematic(defeatedBosses,onDone){
   setTimeout(()=>MUSIC.newHope(),400);
   el.classList.add('active');el.style.pointerEvents='auto';
   cin.classList.add('lc-active');
+  startCinStars();
   // Static threat list — no dynamic population needed
   window._lcOnDone=onDone;
   _lcNext(1);
@@ -1505,7 +1539,7 @@ ctx.setTransform(1,0,0,1,0,0)
 function runTests(){console.assert(ALIEN_TYPES.length===3,'aliens available');console.assert(document.getElementById('alien-preview'),'alien preview element exists');console.assert(typeof initGame==='function','init exists');console.assert(typeof spawnWordEnemy==='function','word spawn exists');console.log('Fiskal game tests passed')}
 renderPreviewAliens();runTests();updatePersonalBest();drawWantedPoster();
 document.getElementById('pause-btn').addEventListener('click',togglePause);document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-quit-pause').addEventListener('click',quitGame);document.getElementById('quit-btn').addEventListener('click',quitGame);document.getElementById('btn-start').addEventListener('click',showIntroCin);
-function showIntroCin(){const el=document.getElementById('intro-cin');el.classList.add('ic-active');_icNext(1);}
+function showIntroCin(){const el=document.getElementById('intro-cin');el.classList.add('ic-active');_icNext(1);startCinStars();}
 function _icNext(panel){document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});const el=document.getElementById('ic-p'+panel);if(el){el.style.display='flex';el.classList.add('ic-show');}}
 function _icDone(){const el=document.getElementById('intro-cin');el.classList.remove('ic-active');el.style.display='none';document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});initGame();}document.getElementById('btn-play-again').addEventListener('click',()=>{stopGame();showScreen('start-screen')});document.getElementById('btn-submit-score').addEventListener('click',async()=>{
   const btn = document.getElementById('btn-submit-score');
@@ -1742,7 +1776,7 @@ function showVictory(){
   document.getElementById('vp2-badges').textContent=badges;
   document.getElementById('victory-screen').classList.add('active');
   stopFaviconAnimation();
-  // Show panel 1
+  startCinStars();
   _cinNext(1);
   document.getElementById('btn-victory-submit').onclick=()=>{
     document.getElementById('victory-screen').classList.remove('active');
