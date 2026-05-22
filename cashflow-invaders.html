@@ -53,12 +53,12 @@
 #larry-cin.lc-active{display:flex!important}
 .lc-panel{display:none;flex-direction:column;align-items:center;width:100%;max-width:560px;gap:10px;text-align:center;animation:vcFadeIn .5s ease-out}
 .lc-panel.lc-show{display:flex!important}
-.lc-eyebrow{font-family:'Press Start 2P',monospace;font-size:clamp(.32rem,1.3vw,.52rem);color:rgba(170,136,255,.75);letter-spacing:.1em;margin-bottom:2px}
+.lc-eyebrow{font-family:'Press Start 2P',monospace;font-size:clamp(.52rem,2vw,.7rem);color:rgba(170,136,255,.75);letter-spacing:.08em;margin-bottom:2px}
 .lc-title{font-family:'Press Start 2P',monospace;font-size:clamp(.9rem,4.5vw,2rem);color:#FFE600;text-shadow:0 0 30px #FFE600,0 0 60px rgba(255,230,0,.4);line-height:1.4;margin-bottom:4px}
-.lc-body{font-family:'Press Start 2P',monospace;font-size:clamp(.38rem,1.5vw,.58rem);color:rgba(210,200,255,.85);line-height:1.9;max-width:480px}
-.lc-list-label{font-family:'Press Start 2P',monospace;font-size:clamp(.35rem,1.3vw,.5rem);color:#00FF88;letter-spacing:.08em;margin-top:4px}
-.lc-boss-list{display:flex;flex-direction:column;gap:4px;width:100%;max-width:400px;margin:4px 0 8px}.lc-boss-item{font-family:'Press Start 2P',monospace;font-size:clamp(.38rem,1.5vw,.62rem);color:#00FF88;text-shadow:0 0 8px #00FF8866;padding:3px 10px;border-left:2px solid #00FF88;background:rgba(0,255,136,.06)}
-.lc-boss-row{font-family:'Press Start 2P',monospace;font-size:clamp(.36rem,1.4vw,.54rem);color:#FFE600;text-align:left;padding:4px 10px;background:rgba(255,230,0,.06);border-left:3px solid #FFE600;border-radius:2px;animation:vcFadeIn .4s ease-out}
+.lc-body{font-family:'Press Start 2P',monospace;font-size:clamp(.6rem,2.2vw,.78rem);color:rgba(210,200,255,.85);line-height:1.8;max-width:480px}
+.lc-list-label{font-family:'Press Start 2P',monospace;font-size:clamp(.52rem,2vw,.65rem);color:#00FF88;letter-spacing:.08em;margin-top:4px}
+.lc-boss-list{display:flex;flex-direction:column;gap:4px;width:100%;max-width:400px;margin:4px 0 8px}.lc-boss-item{font-family:'Press Start 2P',monospace;font-size:clamp(.58rem,2.2vw,.78rem);color:#00FF88;text-shadow:0 0 8px #00FF8866;padding:3px 10px;border-left:2px solid #00FF88;background:rgba(0,255,136,.06)}
+.lc-boss-row{font-family:'Press Start 2P',monospace;font-size:clamp(.55rem,2vw,.7rem);color:#FFE600;text-align:left;padding:4px 10px;background:rgba(255,230,0,.06);border-left:3px solid #FFE600;border-radius:2px;animation:vcFadeIn .4s ease-out}
 .lc-next{font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.8vw,.75rem);background:rgba(255,230,0,.1);color:#FFE600;border:2px solid #FFE600;padding:14px 28px;border-radius:4px;cursor:pointer;min-height:48px;touch-action:manipulation;letter-spacing:.05em;margin-top:8px;box-shadow:0 0 16px rgba(255,230,0,.25)}
 .lc-next:hover{background:rgba(255,230,0,.22)}#upgrade-inner{text-align:center;animation:upgradeIn .6s ease-out forwards}@keyframes upgradeIn{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}#upgrade-title{font-family:'Press Start 2P',monospace;font-size:clamp(1rem,4vw,1.8rem);color:#FFE600;text-shadow:0 0 30px #FFE600,0 0 60px #FFE600;margin-bottom:16px;letter-spacing:.05em}#upgrade-subtitle{font-family:'Press Start 2P',monospace;font-size:clamp(.7rem,2.5vw,1.1rem);color:#AA44FF;text-shadow:0 0 20px #AA44FF;margin-bottom:20px}#upgrade-detail{font-family:'Press Start 2P',monospace;font-size:clamp(.4rem,1.5vw,.6rem);color:#00FF88;text-shadow:0 0 10px #00FF88;letter-spacing:.08em}.advanced-hud #hud{border-bottom:2px solid rgba(255,230,0,.6);box-shadow:0 2px 16px rgba(255,230,0,.3)}#wave-clear-overlay{position:absolute;inset:0;z-index:80;display:none;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;background:rgba(0,0,10,.72)}
 #wave-clear-overlay.show{display:flex}
@@ -252,7 +252,7 @@ function stopFaviconAnimation() {
     <div class="lc-eyebrow">MISSION BRIEFING — EYES ONLY</div>
     <div class="lc-title" style="color:#00FF88">FIGHT BACK.</div>
     <div class="lc-body" style="max-width:500px;margin-top:8px">Fiskal has the intelligence. You have the firepower. Hunt down every financial predator, collect the cash they stole, and protect your business. Survive ten waves, defeat Larry — and uncover what's waiting in Act II.</div>
-    <div class="lc-body" style="color:#AA88FF;margin-top:10px;font-size:clamp(.32rem,1.2vw,.48rem)">The battle for financial freedom starts now.</div>
+    <div class="lc-body" style="color:#AA88FF;margin-top:10px;font-size:clamp(.52rem,1.8vw,.65rem)">The battle for financial freedom starts now.</div>
     <button class="lc-next" style="margin-top:20px;background:rgba(0,255,136,.15);color:#00FF88;border-color:#00FF88;box-shadow:0 0 20px rgba(0,255,136,.3)" onclick="_icDone()">▶ BEGIN OPERATION</button>
   </div>
 </div>
