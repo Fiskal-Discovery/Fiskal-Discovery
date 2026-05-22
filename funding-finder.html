@@ -145,9 +145,15 @@
     overscroll-behavior-y: contain;
   }
 
+  #screen-results {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   #screen-results .screen-content {
     max-width: 100%;
     padding: 20px 40px 24px;
+    overflow-y: visible;
+    flex: none;
   }
 
   /* ---- HOME SCREEN ---- */
@@ -3207,7 +3213,9 @@ function displayResults(summary, matchedProducts) {
   }
 
   showScreen('results');
-  
+  const resultsEl = document.getElementById('screen-results');
+  if (resultsEl) resultsEl.scrollTop = 0;
+
   // Render shared Nicole contact card
   const nicoleCardContainer = document.getElementById('nicole-contact-card-container');
   if (nicoleCardContainer) {

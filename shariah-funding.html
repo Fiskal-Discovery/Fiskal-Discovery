@@ -1201,9 +1201,15 @@
     color: #ffffff !important;
   }
 
+  #screen-results {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   #screen-results .screen-content {
     max-width: 100%;
     padding: 20px 40px 24px;
+    overflow-y: visible;
+    flex: none;
   }
   @media (max-width: 600px) {
     .bg-orb { display: none; }
@@ -2377,6 +2383,8 @@ function submitDiscovery() {
   showFiskalLoadingScreen(_spFirst, function() {
     displayResults();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    const resultsEl = document.getElementById('screen-results');
+    if (resultsEl) resultsEl.scrollTop = 0;
   });
 }
 

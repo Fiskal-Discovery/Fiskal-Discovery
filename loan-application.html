@@ -562,11 +562,16 @@
     transition: opacity 0.3s ease;
   }
 
+  #screen-results {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   #screen-results .screen-content {
     max-width: 100%;
     padding: 20px 40px 24px;
     justify-content: flex-start;
-    overflow-y: auto;
+    overflow-y: visible;
+    flex: none;
   }
   @media (max-width: 600px) {
     #screen-results .screen-content { padding: 16px 16px 24px; }
@@ -2431,6 +2436,8 @@ async function submitApplication() {
       await notifPromise.catch(() => {});
       displayResults(summaryResult, tl);
       showScreen('screen-results');
+      const resultsEl = document.getElementById('screen-results');
+      if (resultsEl) resultsEl.scrollTop = 0;
     });
   } catch(e) {
     console.error('Submit failed:', e);
