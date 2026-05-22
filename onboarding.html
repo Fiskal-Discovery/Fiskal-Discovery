@@ -2649,9 +2649,38 @@ const welcomeFlow = [
     saveAs: "userType"
   },
   {
+    id: "adviserRole",
+    type: "choice",
+    question: "What is your role?",
+    subtitle: "So we can tailor the results for you",
+    skipIf: a => a.userType !== "For a client",
+    options: [
+      { label: "Accountant", value: "Accountant" },
+      { label: "Financial Director", value: "Financial Director" },
+      { label: "IFA / Financial Adviser", value: "IFA / Financial Adviser" },
+      { label: "Bookkeeper", value: "Bookkeeper" },
+      { label: "Business Adviser", value: "Business Adviser" },
+      { label: "Other", value: "Other", freeText: true }
+    ],
+    saveAs: "adviserRole"
+  },
+  {
+    id: "adviserDetails",
+    type: "form",
+    question: "Your contact details",
+    subtitle: "So Nicole can get back to you directly",
+    skipIf: a => a.userType !== "For a client",
+    fields: [
+      { label: "Your name", saveAs: "name", inputType: "text", placeholder: "e.g. Sarah Johnson", required: true },
+      { label: "Your email address", saveAs: "email", inputType: "email", placeholder: "e.g. sarah@accountancy.com", required: true },
+      { label: "Your phone number", saveAs: "phone", inputType: "tel", placeholder: "e.g. 07700 900000", required: true }
+    ]
+  },
+  {
     id: "personal",
     type: "form",
     question: "Let's start with your details",
+    skipIf: a => a.userType === "For a client",
     fields: [
       { label: "Your name", saveAs: "name", inputType: "text", placeholder: "e.g. Sarah Johnson", required: true },
       { label: "Email address", saveAs: "email", inputType: "email", placeholder: "e.g. sarah@business.com", required: true },
@@ -2826,6 +2855,11 @@ function obGoBack() {
     const fp = document.getElementById('ob-fixed-progress'); if (fp) fp.style.display = 'none';
   } else if (welcomeState.currentQuestion > 0) {
     welcomeState.currentQuestion--;
+    // Skip back over questions that don't apply
+    while (welcomeState.currentQuestion > 0) {
+      const q = welcomeFlow[welcomeState.currentQuestion];
+      if (q && q.skipIf && q.skipIf(welcomeState.answers)) { welcomeState.currentQuestion--; } else { break; }
+    }
     renderWelcomeQuestion();
   } else {
     document.getElementById('onboarding-overlay').classList.add('hidden');
@@ -2835,7 +2869,12 @@ function obGoBack() {
 }
 
 function renderWelcomeQuestion() {
-  const q = welcomeFlow[welcomeState.currentQuestion];
+  let q = welcomeFlow[welcomeState.currentQuestion];
+  // Skip questions that don't apply to this user's path
+  while (q && q.skipIf && q.skipIf(welcomeState.answers)) {
+    welcomeState.currentQuestion++;
+    q = welcomeFlow[welcomeState.currentQuestion];
+  }
   if (!q) { completeWelcome(); return; }
 
   const obMain = document.querySelector('#onboarding-overlay .ob-main');
