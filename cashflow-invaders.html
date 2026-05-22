@@ -1831,11 +1831,11 @@ function showBobbyCinematic(onDone){
 
   // Scene 5 assets: emotional copy groups
   const S5G=[
-    {t:0.5,end:5.5,lines:[{txt:'Every business owner faces moments',col:'#BBBBBB',fs:0.032},{txt:'that feel impossible.',col:'#FFFFFF',fs:0.044}]},
-    {t:6.2,end:11.0,lines:[{txt:'Cash dries up. Debts stack.',col:'#AAAAAA',fs:0.030},{txt:'The phone keeps ringing.',col:'#CCCCCC',fs:0.030}]},
-    {t:11.8,end:18.5,lines:[{txt:'But behind every struggling business',col:'#DDDDDD',fs:0.028},{txt:'is a real person —',col:'#FFFFFF',fs:0.034},{txt:'working hard, refusing to give in.',col:'#DDDDDD',fs:0.028}]},
-    {t:19.2,end:25.5,lines:[{txt:'Small, independent brokers like Fiskal',col:'#CC88FF',fs:0.026},{txt:'exist for exactly those moments.',col:'#CC88FF',fs:0.028},{txt:'Real people. Real solutions. Alongside you.',col:'#888888',fs:0.022}]},
-    {t:26.2,end:32.0,lines:[{txt:"Whatever you're facing…",col:'#FFFFFF',fs:0.030},{txt:'there is a way through.',col:'#FFD700',fs:0.054}]},
+    {t:0.5,end:5.5,lines:[{txt:'Every business owner faces moments',col:'#BBBBBB',fs:0.042},{txt:'that feel impossible.',col:'#FFFFFF',fs:0.054}]},
+    {t:6.2,end:11.0,lines:[{txt:'Cash dries up. Debts stack.',col:'#AAAAAA',fs:0.040},{txt:'The phone keeps ringing.',col:'#CCCCCC',fs:0.040}]},
+    {t:11.8,end:18.5,lines:[{txt:'But behind every struggling business',col:'#DDDDDD',fs:0.038},{txt:'is a real person —',col:'#FFFFFF',fs:0.044},{txt:'working hard, refusing to give in.',col:'#DDDDDD',fs:0.038}]},
+    {t:19.2,end:25.5,lines:[{txt:'Small, independent brokers like Fiskal',col:'#CC88FF',fs:0.036},{txt:'exist for exactly those moments.',col:'#CC88FF',fs:0.038},{txt:'Real people. Real solutions. Alongside you.',col:'#888888',fs:0.034}]},
+    {t:26.2,end:32.0,lines:[{txt:"Whatever you're facing…",col:'#FFFFFF',fs:0.040},{txt:'there is a way through.',col:'#FFD700',fs:0.060}]},
   ];
   const S5_END=33.0;
 
@@ -1964,9 +1964,9 @@ function showBobbyCinematic(onDone){
       c.textAlign='center';
       const maxW=W*0.88;
       const lines3=[
-        {txt:'With a little help from Fiskal…',col:'#CC88EE',delay:0.4,fs:clamp(W*0.044,16,44)},
-        {txt:'business owners refuse to stand still',col:'#FFFFFF',delay:2.2,fs:clamp(W*0.048,18,48)},
-        {txt:'and defeat their financial challenges.',col:'#FFD700',delay:4.2,fs:clamp(W*0.044,16,44)},
+        {txt:'With a little help from Fiskal…',col:'#CC88EE',delay:0.4,fs:clamp(W*0.050,20,48)},
+        {txt:'business owners refuse to stand still',col:'#FFFFFF',delay:2.2,fs:clamp(W*0.054,22,52)},
+        {txt:'and defeat their financial challenges.',col:'#FFD700',delay:4.2,fs:clamp(W*0.050,20,48)},
       ];
       // shrink each line font until it fits
       lines3.forEach(ln=>{
@@ -2063,7 +2063,7 @@ function showBobbyCinematic(onDone){
       S5G.forEach(grp=>{
         if(t<grp.t)return;
         const gAlpha=Math.min(clamp((t-grp.t)/0.7,0,1),clamp((grp.end-t)/0.7,0,1));
-        const lineHeights=grp.lines.map(ln=>clamp(W*ln.fs,11,ln.fs>0.04?58:36));
+        const lineHeights=grp.lines.map(ln=>clamp(W*ln.fs,16,ln.fs>0.04?68:48));
         const totalH=lineHeights.reduce((s,h)=>s+h*1.85,0);
         let yy=H/2-totalH/2;
         grp.lines.forEach((ln,li)=>{
