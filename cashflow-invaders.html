@@ -239,19 +239,23 @@ function stopFaviconAnimation() {
         <div class="lc-eyebrow">FISKAL INTELLIGENCE REPORT — OPERATION CASHFLOW</div>
         <div class="lc-title">DEBT NETWORK<br>DISMANTLED</div>
         <div class="lc-body">Armed with Fiskal's cashflow intelligence, you have hunted down and neutralised every financial predator standing between UK businesses and their money. Ten waves. Ten bosses. Zero mercy.</div>
-        <div class="lc-list-label">CONFIRMED ELIMINATIONS:</div>
-        <div id="lc-boss-list" class="lc-boss-list"></div>
         <button class="lc-next" onclick="_lcNext(2)">NEXT ▶</button>
       </div>
-      <!-- Panel 2: Larry's downfall (canvas) -->
+      <!-- Panel 2: Confirmed eliminations list -->
       <div class="lc-panel" id="lc-p2" style="display:none">
-        <div class="lc-eyebrow">CASE CLOSURE — LATE PAYMENT LARRY</div>
-        <canvas id="larry-cin-canvas" style="display:block;max-width:100%;border-radius:6px"></canvas>
-        <div id="lc-p2-caption" class="lc-body" style="text-align:center;opacity:0;transition:opacity .8s">One final invoice. Delivered.</div>
-        <button class="lc-next" id="lc-p2-btn" style="display:none" onclick="_lcNext(3)">NEXT ▶</button>
+        <div class="lc-eyebrow">FISKAL INTELLIGENCE REPORT — CONFIRMED THREATS</div>
+        <div class="lc-title">CONFIRMED<br>ELIMINATIONS</div>
+        <div id="lc-boss-list" class="lc-boss-list"></div>
+        <button class="lc-next" onclick="_lcNext(3)">NEXT ▶</button>
       </div>
-      <!-- Panel 3: The mission continues -->
+      <!-- Panel 3: Larry animation -->
       <div class="lc-panel" id="lc-p3" style="display:none">
+        <canvas id="larry-cin-canvas" style="display:block;max-width:100%;border-radius:6px"></canvas>
+        <div id="lc-p3-caption" class="lc-body" style="text-align:center;opacity:0;transition:opacity 1.2s;margin-top:10px;font-size:clamp(.5rem,2vw,.85rem);color:#FFE600"></div>
+        <button class="lc-next" id="lc-p3-btn" style="display:none" onclick="_lcNext(4)">NEXT ▶</button>
+      </div>
+      <!-- Panel 4: The mission continues -->
+      <div class="lc-panel" id="lc-p4" style="display:none">
         <div class="lc-eyebrow">TRANSMISSION INCOMING</div>
         <div class="lc-title" style="color:#FF4422">THE THREAT RUNS<br>DEEPER</div>
         <div class="lc-body">Larry was only the frontman. Fiskal's data reveals a far more dangerous operator — one who has been pulling strings from the shadows all along.</div>
@@ -656,6 +660,10 @@ function showLarryCinematic(defeatedBosses,onDone){
   const el=document.getElementById('upgrade-cinematic');
   document.getElementById('upgrade-inner').style.display='none';
   document.getElementById('upgrade-showcase').style.display='none';
+  // Stop gameplay loop and switch music immediately
+  if(rafId){cancelAnimationFrame(rafId);rafId=null;}
+  MUSIC.stop();
+  setTimeout(()=>MUSIC.newHope(),400);
   el.classList.add('active');el.style.pointerEvents='auto';
   cin.classList.add('lc-active');
   // Populate boss list
@@ -674,7 +682,7 @@ let _lcRafId=null;
 function _lcNext(panel){
   document.querySelectorAll('.lc-panel').forEach(p=>p.classList.remove('lc-show'));
   const el=document.getElementById('lc-p'+panel);if(el)el.classList.add('lc-show');
-  if(panel===2)_lcRunLarryAnim();
+  if(panel===3){if(_lcRafId){cancelAnimationFrame(_lcRafId);_lcRafId=null;}_lcRunLarryAnim();}
 }
 function _lcDone(){
   const cin=document.getElementById('larry-cin');
@@ -685,143 +693,196 @@ function _lcDone(){
 }
 function _lcRunLarryAnim(){
   const cv=document.getElementById('larry-cin-canvas');
-  const W=Math.min(window.innerWidth-40,440),H=Math.round(W*0.62);
+  // Big canvas — fills most of the panel
+  const W=Math.min(window.innerWidth-40,520),H=Math.round(W*0.7);
   cv.width=W;cv.height=H;
   const c=cv.getContext('2d');
-  let frame=0,exploded=false,docY=-60,docFalling=true;
-  const docH=44,docW=70,docX=W*0.72;
-  const cx=W*0.72,cy=H*0.58; // Larry center
-  let parts=[];
-  // caption + button reveal after explosion
-  const caption=document.getElementById('lc-p2-caption');
-  const btn=document.getElementById('lc-p2-btn');
-  caption.style.opacity='0';btn.style.display='none';
+  const caption=document.getElementById('lc-p3-caption');
+  const btn=document.getElementById('lc-p3-btn');
+  caption.style.opacity='0';caption.textContent='';btn.style.display='none';
 
-  function drawBackground(){
+  // Larry sits centred, large
+  const lx=W/2,ly=H*0.54;
+  const larryScale=Math.min(W/320,1)*1.4; // big!
+
+  // Document (invoice) properties — starts well above canvas
+  const docW=110,docH=72;
+  let docY=-docH-20;
+  const docX=W/2;
+
+  // Animation phases (all in real seconds, using timestamps)
+  // Phase 0: Larry just sitting there (5s)
+  // Phase 1: Caption "One final invoice. Delivered." fades in (5s)
+  // Phase 2: Invoice slowly descends (takes ~4s)
+  // Phase 3: Impact — Larry squishes flat, explosion
+  // Phase 4: Button appears
+  let phase=0;
+  let phaseStart=performance.now();
+  let squishAmount=0; // 0=normal, 1=fully flat
+  let parts=[];
+  let invoiceStarted=false;
+
+  function elapsed(){return(performance.now()-phaseStart)/1000;}
+
+  function drawBg(){
     const bg=c.createLinearGradient(0,0,0,H);
-    bg.addColorStop(0,'#050015');bg.addColorStop(1,'#0A0020');
+    bg.addColorStop(0,'#040012');bg.addColorStop(1,'#080020');
     c.fillStyle=bg;c.fillRect(0,0,W,H);
-    // floor line
-    c.strokeStyle='rgba(90,170,34,.25)';c.lineWidth=1;
-    c.beginPath();c.moveTo(0,H*0.82);c.lineTo(W,H*0.82);c.stroke();
+    // subtle floor
+    c.strokeStyle='rgba(90,170,34,.18)';c.lineWidth=1;
+    c.beginPath();c.moveTo(0,H*0.84);c.lineTo(W,H*0.84);c.stroke();
+    // shadow under Larry
+    const shadowW=80*larryScale*(1+squishAmount*0.8);
+    const shadowH=10*larryScale*(1-squishAmount*0.7);
+    c.fillStyle='rgba(0,0,0,.4)';c.beginPath();
+    c.ellipse(lx,H*0.84,shadowW,Math.max(4,shadowH),0,0,Math.PI*2);c.fill();
   }
-  function drawLarrySad(frame){
-    // Defeated Larry — slumped, no briefcases, shocked expression
-    const lx=cx,ly=cy;
-    c.save();c.translate(lx,ly);
-    // scale down a bit
-    const sc=Math.min(W/380,1)*0.82;c.scale(sc,sc);
-    // shadow on floor
-    c.fillStyle='rgba(0,0,0,.35)';c.beginPath();c.ellipse(0,48,45,8,0,0,Math.PI*2);c.fill();
-    // body — slumped (rotate slightly)
-    c.rotate(0.18);
-    c.shadowColor='#3A7A12';c.shadowBlur=10;
-    c.fillStyle=exploded?'transparent':'#3A7A12';
-    if(!exploded){
-      c.beginPath();c.ellipse(0,0,52,38,0,0,Math.PI*2);c.fill();
-      c.fillStyle='#5AAA22';c.beginPath();c.ellipse(0,6,38,25,0,0,Math.PI*2);c.fill();
-    }
+
+  function drawLarry(sq){
+    // sq: 0=normal, 1=fully squished flat
+    c.save();c.translate(lx,ly);c.scale(larryScale,larryScale);
+    const scaleY=1-sq*0.88; // squish vertically
+    const scaleX=1+sq*0.7;  // expand horizontally as squished
+    c.scale(scaleX,scaleY);
+    // slumped lean
+    c.rotate(sq>0.05?0:0.14);
+    // body
+    c.shadowColor='#3A7A12';c.shadowBlur=18;
+    c.fillStyle='#3A7A12';c.beginPath();c.ellipse(0,0,52,40,0,0,Math.PI*2);c.fill();
+    c.fillStyle='#5AAA22';c.beginPath();c.ellipse(0,8,38,26,0,0,Math.PI*2);c.fill();
     c.shadowBlur=0;
-    if(!exploded){
+    if(sq<0.5){
       // tie
-      c.fillStyle='#AA0022';c.beginPath();c.moveTo(-5,-18);c.lineTo(5,-18);c.lineTo(8,-2);c.lineTo(0,8);c.lineTo(-8,-2);c.closePath();c.fill();
-      // sad eyes (X X)
-      c.font='bold 13px sans-serif';c.textAlign='center';c.textBaseline='middle';
-      c.fillStyle='#FF3333';c.fillText('x',-18,-13);c.fillText('x',18,-13);
-      // sad mouth
-      c.strokeStyle='#1A5A00';c.lineWidth=2.5;
-      c.beginPath();c.arc(0,14,14,Math.PI+0.4,-0.4+Math.PI*2,false);// frown
-      c.beginPath();c.arc(0,10,12,0.3,Math.PI-0.3,true);c.stroke();
-      // £ sign drooping
-      c.fillStyle='rgba(255,230,0,.4)';c.font='bold 16px serif';c.fillText('£',0,8);
+      c.fillStyle='#AA0022';c.beginPath();c.moveTo(-5,-20);c.lineTo(5,-20);c.lineTo(9,0);c.lineTo(0,10);c.lineTo(-9,0);c.closePath();c.fill();
+      // briefcases (he's still clutching them)
+      const bc=['#7B3A0A','#5A2A08'];
+      [-1,1].forEach(side=>{
+        c.fillStyle=bc[0];c.fillRect(side*54-13,-8,26,20);
+        c.fillStyle=bc[1];c.fillRect(side*54-13,-8,26,6);
+        c.fillStyle='#FFE600';c.fillRect(side*54-4,0,8,5);
+      });
+      // sad X eyes
+      const eyeAlpha=sq<0.3?1:1-(sq-0.3)/0.2;
+      c.globalAlpha=Math.max(0,eyeAlpha);
+      c.font='bold 16px sans-serif';c.textAlign='center';c.textBaseline='middle';
+      c.fillStyle='#FF3333';c.fillText('x',-22,-16);c.fillText('x',22,-16);
+      // frown
+      c.strokeStyle='#1A5A00';c.lineWidth=3;
+      c.beginPath();c.arc(0,12,14,0.4,Math.PI-0.4,true);c.stroke();
+      c.globalAlpha=1;
+      // drooping £
+      c.fillStyle=`rgba(255,230,0,${0.35*(1-sq)})`;c.font='bold 18px serif';c.fillText('£',0,6);
     }
     c.restore();
   }
-  function drawDoc(y){
-    // "FISKAL DISCOVERY" paper falling
-    const wobble=Math.sin(frame*0.22)*4;
-    c.save();c.translate(docX,y);c.rotate(0.08+Math.sin(frame*0.18)*0.06);
-    c.shadowColor='rgba(255,230,0,.6)';c.shadowBlur=12;
-    c.fillStyle='#F5F0E8';c.fillRect(-docW/2,-docH/2,docW,docH);
-    c.strokeStyle='rgba(255,230,0,.8)';c.lineWidth=1.5;c.strokeRect(-docW/2,-docH/2,docW,docH);
+
+  function drawInvoice(y){
+    // Slow gentle tumble as it falls
+    const wobble=Math.sin(performance.now()*0.0008)*0.04;
+    c.save();c.translate(docX,y);c.rotate(wobble);
+    // Paper shadow
+    c.fillStyle='rgba(0,0,0,.25)';c.fillRect(-docW/2+4,-docH/2+4,docW,docH);
+    // Paper
+    c.shadowColor='rgba(255,230,0,.5)';c.shadowBlur=20;
+    c.fillStyle='#F0EBD8';c.fillRect(-docW/2,-docH/2,docW,docH);
+    c.strokeStyle='rgba(170,68,255,.7)';c.lineWidth=2;c.strokeRect(-docW/2,-docH/2,docW,docH);
     c.shadowBlur=0;
-    c.fillStyle='#AA44FF';c.font='bold 5px "Press Start 2P",monospace';c.textAlign='center';c.textBaseline='middle';
-    c.fillText('FISKAL',-1,-docH/2+8);
-    c.fillStyle='#333';c.font='bold 4px "Press Start 2P",monospace';
-    c.fillText('DISCOVERY',-1,-docH/2+16);
-    c.fillStyle='#666';c.font='3px monospace';
-    c.fillText('FINAL DEMAND',-1,-docH/2+24);
-    c.fillText('INVOICE #00001',-1,-docH/2+30);
-    c.fillText('AMOUNT: £∞',-1,-docH/2+36);
+    // Header bar
+    c.fillStyle='#AA44FF';c.fillRect(-docW/2,-docH/2,docW,16);
+    c.fillStyle='#fff';c.font='bold 6px "Press Start 2P",monospace';
+    c.textAlign='center';c.textBaseline='middle';c.fillText('FISKAL DISCOVERY',0,-docH/2+8);
+    // Content lines
+    c.fillStyle='#222';c.font='bold 5px "Press Start 2P",monospace';
+    c.fillText('FINAL DEMAND',0,-docH/2+24);
+    c.fillStyle='#555';c.font='4px "Press Start 2P",monospace';
+    c.fillText('INVOICE #LPL-00001',-2,-docH/2+34);
+    c.fillText('DATE: OVERDUE',-2,-docH/2+42);
+    c.fillStyle='#AA0022';c.font='bold 6px "Press Start 2P",monospace';
+    c.fillText('AMOUNT DUE: £∞',-2,-docH/2+54);
+    c.fillStyle='#007700';c.font='bold 8px serif';
+    c.fillText('✓ PAID IN FULL',-2,-docH/2+64);
     c.restore();
   }
+
   function spawnExplosion(){
-    for(let i=0;i<80;i++){
-      const a=Math.random()*Math.PI*2,spd=2+Math.random()*8;
-      parts.push({x:cx,y:cy,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd-3,
-        life:1,decay:.012+Math.random()*.02,sz:4+Math.random()*12,
-        col:['#5AAA22','#3A7A12','#FFE600','#FF8800','#FFF','#00FF88'][Math.floor(Math.random()*6)]});
+    for(let i=0;i<100;i++){
+      const a=Math.random()*Math.PI*2,spd=1+Math.random()*5;
+      parts.push({x:lx,y:ly,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd-2,
+        life:1,decay:.007+Math.random()*.012,sz:3+Math.random()*10,
+        col:['#5AAA22','#3A7A12','#FFE600','#FF8800','#FFF','#00FF88','#AA44FF'][Math.floor(Math.random()*7)]});
     }
-    // £ signs scatter
-    for(let i=0;i<12;i++){
-      const a=Math.random()*Math.PI*2,spd=1.5+Math.random()*4;
-      parts.push({x:cx,y:cy,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd-2,
-        life:1.2,decay:.008,sz:0,col:'#FFE600',char:'£',fs:12+Math.random()*10});
+    for(let i=0;i<18;i++){
+      const a=Math.random()*Math.PI*2,spd=0.8+Math.random()*3;
+      parts.push({x:lx,y:ly,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd-1.5,
+        life:1.4,decay:.005,sz:0,col:'#FFE600',char:'£',fs:14+Math.random()*14});
     }
   }
-  function tick(){
-    if(!document.getElementById('larry-cin').classList.contains('lc-active')){return;}
+
+  function tick(now){
+    if(!document.getElementById('larry-cin').classList.contains('lc-active'))return;
     c.clearRect(0,0,W,H);
-    drawBackground();
-    // Left panel — text
-    c.save();
-    c.fillStyle='rgba(255,255,255,.06)';c.fillRect(0,0,W*0.44,H);
-    c.font='bold 6px "Press Start 2P",monospace';c.fillStyle='rgba(170,136,255,.6)';c.textAlign='left';c.textBaseline='top';
-    c.fillText('CASE FILE #LPL-010',10,12);
-    c.fillStyle='rgba(255,230,0,.9)';c.font='bold 7px "Press Start 2P",monospace';
-    const lines=['LATE PAYMENT','LARRY','CONFIRMED','NEUTRALISED'];
-    lines.forEach((l,i)=>c.fillText(l,10,28+i*14));
-    c.fillStyle='rgba(0,255,136,.7)';c.font='5px "Press Start 2P",monospace';
-    c.fillText('STATUS: ELIMINATED',10,H-22);
-    c.fillText('THREAT LEVEL: ZERO',10,H-12);
-    c.restore();
-    // Particles
+    drawBg();
+
+    // Phase transitions
+    const e=elapsed();
+    if(phase===0 && e>5){
+      // Show caption after 5s
+      phase=1;phaseStart=now;
+      caption.textContent='One final invoice. Delivered.';
+      caption.style.opacity='1';
+    }
+    if(phase===1 && e>5){
+      // Start invoice falling after another 5s
+      phase=2;phaseStart=now;
+      invoiceStarted=true;
+    }
+    if(phase===2){
+      // Invoice descends slowly over ~4s — total travel = H+docH pixels
+      const travel=H+docH;
+      const prog=Math.min(1,e/4);
+      docY=-docH+travel*prog; // easeIn feel — starts slow
+      const eased=-docH+travel*(prog*prog*0.5+prog*0.5);
+      docY=eased;
+      if(docY>=ly-docH*0.3){
+        // Impact
+        phase=3;phaseStart=now;
+        spawnExplosion();
+        tone&&tone(80,null,.7,.5,'sawtooth');
+        SFX.bossDead&&SFX.bossDead();
+      }
+    }
+
+    // Draw particles
     parts.forEach(p=>{
-      p.x+=p.vx;p.y+=p.vy;p.vy+=0.15;p.vx*=0.97;p.life-=p.decay;
+      p.x+=p.vx;p.y+=p.vy;p.vy+=0.08;p.vx*=0.98;p.life-=p.decay;
       if(p.life>0){
-        c.globalAlpha=Math.max(0,p.life);
-        if(p.char){
-          c.font='bold '+p.fs+'px serif';c.fillStyle=p.col;c.textAlign='center';c.textBaseline='middle';
-          c.fillText(p.char,p.x,p.y);
-        }else{
-          c.fillStyle=p.col;c.beginPath();c.arc(p.x,p.y,p.sz*p.life,0,Math.PI*2);c.fill();
-        }
+        c.globalAlpha=Math.max(0,p.life*.9);
+        if(p.char){c.font='bold '+p.fs+'px serif';c.fillStyle=p.col;c.textAlign='center';c.textBaseline='middle';c.fillText(p.char,p.x,p.y);}
+        else{c.fillStyle=p.col;c.beginPath();c.arc(p.x,p.y,p.sz*p.life,0,Math.PI*2);c.fill();}
         c.globalAlpha=1;
       }
     });
     parts=parts.filter(p=>p.life>0);
-    // Doc falling
-    if(!exploded){
-      if(docFalling){
-        docY=Math.min(cy-docH/2-2,docY+3.2+(frame*0.08));
-        drawDoc(docY);
-        if(docY>=cy-docH/2-2){
-          // Impact!
-          docFalling=false;exploded=true;
-          spawnExplosion();
-          SFX.bossDead&&SFX.bossDead();
-          tone(80,null,.6,.4,'sawtooth');
-          setTimeout(()=>{
-            caption.style.opacity='1';
-            setTimeout(()=>{btn.style.display='inline-block';},600);
-          },1200);
-        }
+
+    // Larry squish during phase 3
+    if(phase===3){
+      const e3=elapsed();
+      squishAmount=Math.min(1,e3/1.2); // squish over 1.2s
+      if(e3>2.5 && btn.style.display==='none'){
+        btn.style.display='inline-block';
       }
-    } else {
-      drawLarrySad(frame);// draw aftermath (empty)
     }
-    if(!exploded)drawLarrySad(frame);
-    frame++;
+
+    // Draw Larry (hidden after full squish when invoice is on top)
+    if(phase<3||squishAmount<0.98)drawLarry(squishAmount);
+
+    // Draw invoice while falling or resting on squished Larry
+    if(phase===2)drawInvoice(docY);
+    if(phase===3){
+      // Invoice sits on the floor at impact point
+      drawInvoice(ly-docH*0.3+squishAmount*docH*0.2);
+    }
+
     _lcRafId=requestAnimationFrame(tick);
   }
   _lcRafId=requestAnimationFrame(tick);
@@ -839,8 +900,6 @@ function _doUpgradeAnnouncement(){
   const ready=document.getElementById('upgrade-ready');
   inner.style.display='';showcase.style.display='none';ready.style.display='none';
   el.classList.add('active');el.style.pointerEvents='none';
-  if(rafId)cancelAnimationFrame(rafId);rafId=null;
-  MUSIC.newHope();
   // Shared state — must be in outer scope so all phase closures can read/write
   let currentScheme=PAINT_SCHEMES[0];
   const features=[
