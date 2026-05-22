@@ -969,14 +969,12 @@ function _lcRunLarryAnim(){
 
     // Phase transitions
     const e=elapsed();
-    if(phase===0 && e>5){
-      // Show caption after 5s
+    if(phase===0 && e>2){
       phase=1;phaseStart=now;
       caption.textContent='One final invoice. Delivered.';
       caption.style.opacity='1';
     }
-    if(phase===1 && e>5){
-      // Start invoice falling after another 5s
+    if(phase===1 && e>1){
       phase=2;phaseStart=now;
       invoiceStarted=true;
     }
