@@ -6,104 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fiskal Discovery</title>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- SCREEN: MY DISCOVERY SUMMARIES -->
-<div class="screen" id="screen-summaries">
-  <nav class="navbar">
-    <span class="nav-brand">Fiskal Discovery</span>
-  </nav>
-  <div class="summaries-screen-body">
-    <div class="summaries-screen-wrap">
-      <div class="summaries-greeting" id="summaries-greeting"></div>
-
-      <div class="summaries-screen-layout">
-
-        <!-- Summaries + email -->
-        <div class="summaries-main-col">
-          <div class="summaries-screen-actions">
-            <div>
-              <div class="summaries-screen-heading">My Discovery Summaries</div>
-              <div class="summaries-screen-sub" style="margin-bottom:0;">Tap any result to read your full summary</div>
-            </div>
-            <button class="summaries-clear-all" onclick="clearAllSummaries()">Clear all</button>
-          </div>
-          <div id="summaries-screen-list"></div>
-        </div>
-
-      </div><!-- /summaries-screen-layout -->
-
-      <div class="summaries-email-section">
-        <div class="summaries-email-label">Email selected summaries</div>
-        <div class="summaries-email-row">
-          <input type="email" id="summaries-email-input" class="summaries-email-input" placeholder="your@email.com">
-          <button class="summaries-email-btn" id="summaries-email-btn" onclick="emailSummaries()">Send</button>
-        </div>
-        <div class="summaries-email-feedback" id="summaries-email-feedback"></div>
-      </div>
-
-      <!-- Game card at bottom -->
-      <div class="summaries-game-bottom">
-        <div class="game-preview-card" id="game-preview-card">
-          <div class="game-preview-bar"></div>
-          <div class="game-preview-body">
-            <div class="game-preview-alien">
-              <svg viewBox="0 0 44 32" width="44" height="32" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;">
-                <rect x="8"  y="0"  width="4" height="4" fill="#FACC15"/>
-                <rect x="32" y="0"  width="4" height="4" fill="#FACC15"/>
-                <rect x="12" y="4"  width="4" height="4" fill="#FACC15"/>
-                <rect x="28" y="4"  width="4" height="4" fill="#FACC15"/>
-                <rect x="8"  y="8"  width="28" height="4" fill="#FACC15"/>
-                <rect x="4"  y="12" width="8"  height="4" fill="#FACC15"/>
-                <rect x="16" y="12" width="12" height="4" fill="#FACC15"/>
-                <rect x="32" y="12" width="8"  height="4" fill="#FACC15"/>
-                <rect x="0"  y="16" width="44" height="4" fill="#FACC15"/>
-                <rect x="0"  y="20" width="4"  height="4" fill="#FACC15"/>
-                <rect x="8"  y="20" width="28" height="4" fill="#FACC15"/>
-                <rect x="40" y="20" width="4"  height="4" fill="#FACC15"/>
-                <rect x="0"  y="24" width="4"  height="4" fill="#FACC15"/>
-                <rect x="8"  y="24" width="4"  height="4" fill="#FACC15"/>
-                <rect x="32" y="24" width="4"  height="4" fill="#FACC15"/>
-                <rect x="40" y="24" width="4"  height="4" fill="#FACC15"/>
-                <rect x="12" y="28" width="8"  height="4" fill="#FACC15"/>
-                <rect x="24" y="28" width="8"  height="4" fill="#FACC15"/>
-              </svg>
-            </div>
-            <div class="game-preview-title">Cashflow Invaders</div>
-            <div id="game-preview-content"></div>
-            <a class="game-preview-btn" href="cashflow-invaders.html">Play now</a>
-          </div>
-        </div>
-      </div>
-      <div style="text-align:center;padding:8px 24px 16px;">
-        <button class="summaries-back-btn" onclick="showHomeFromSummaries()">‹ Back to home</button>
-      </div>
-    </div>
-  </div>
-  <footer class="site-footer">
-    <div class="dashed-divider">Fiskal Discovery</div>
-    <div class="footer-refuse"><span class="tagline-refuse">REFUSE</span><span class="tagline-rest">to stand still</span></div>
-    <p class="footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539. &nbsp;|&nbsp; <a href="https://fiskal.online" target="_blank">fiskal.online</a> &nbsp;|&nbsp; All information is treated in confidence.</p>
-  </footer>
-</div>
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>emailjs.init("g710KFSryN241SQWm");</script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-<script>
-(function(){
-  try {
-    const cfg = {
-      apiKey: "AIzaSyCKyh0x4fei6TT1zDdo6Qn6FtqrRbHLu0k",
-      authDomain: "cashflow-invaders.firebaseapp.com",
-      databaseURL: "https://cashflow-invaders-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "cashflow-invaders",
-      storageBucket: "cashflow-invaders.firebasestorage.app"
-    };
-    if (window.firebase && !firebase.apps.length) firebase.initializeApp(cfg);
-    window._ciDb = firebase.apps.length ? firebase.database() : null;
-  } catch(e) { window._ciDb = null; }
-})();
-</script>
 <style>
   :root {
     /* Confirmed palette */
@@ -1188,6 +1090,104 @@
   ::-webkit-scrollbar-thumb { background: var(--sb-thumb, #4e0063); border-radius: 3px; }
   * { scrollbar-width: thin; scrollbar-color: var(--sb-thumb, #4e0063) transparent; }
 </style>
+<!-- SCREEN: MY DISCOVERY SUMMARIES -->
+<div class="screen" id="screen-summaries">
+  <nav class="navbar">
+    <span class="nav-brand">Fiskal Discovery</span>
+  </nav>
+  <div class="summaries-screen-body">
+    <div class="summaries-screen-wrap">
+      <div class="summaries-greeting" id="summaries-greeting"></div>
+
+      <div class="summaries-screen-layout">
+
+        <!-- Summaries + email -->
+        <div class="summaries-main-col">
+          <div class="summaries-screen-actions">
+            <div>
+              <div class="summaries-screen-heading">My Discovery Summaries</div>
+              <div class="summaries-screen-sub" style="margin-bottom:0;">Tap any result to read your full summary</div>
+            </div>
+            <button class="summaries-clear-all" onclick="clearAllSummaries()">Clear all</button>
+          </div>
+          <div id="summaries-screen-list"></div>
+        </div>
+
+      </div><!-- /summaries-screen-layout -->
+
+      <div class="summaries-email-section">
+        <div class="summaries-email-label">Email selected summaries</div>
+        <div class="summaries-email-row">
+          <input type="email" id="summaries-email-input" class="summaries-email-input" placeholder="your@email.com">
+          <button class="summaries-email-btn" id="summaries-email-btn" onclick="emailSummaries()">Send</button>
+        </div>
+        <div class="summaries-email-feedback" id="summaries-email-feedback"></div>
+      </div>
+
+      <!-- Game card at bottom -->
+      <div class="summaries-game-bottom">
+        <div class="game-preview-card" id="game-preview-card">
+          <div class="game-preview-bar"></div>
+          <div class="game-preview-body">
+            <div class="game-preview-alien">
+              <svg viewBox="0 0 44 32" width="44" height="32" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;">
+                <rect x="8"  y="0"  width="4" height="4" fill="#FACC15"/>
+                <rect x="32" y="0"  width="4" height="4" fill="#FACC15"/>
+                <rect x="12" y="4"  width="4" height="4" fill="#FACC15"/>
+                <rect x="28" y="4"  width="4" height="4" fill="#FACC15"/>
+                <rect x="8"  y="8"  width="28" height="4" fill="#FACC15"/>
+                <rect x="4"  y="12" width="8"  height="4" fill="#FACC15"/>
+                <rect x="16" y="12" width="12" height="4" fill="#FACC15"/>
+                <rect x="32" y="12" width="8"  height="4" fill="#FACC15"/>
+                <rect x="0"  y="16" width="44" height="4" fill="#FACC15"/>
+                <rect x="0"  y="20" width="4"  height="4" fill="#FACC15"/>
+                <rect x="8"  y="20" width="28" height="4" fill="#FACC15"/>
+                <rect x="40" y="20" width="4"  height="4" fill="#FACC15"/>
+                <rect x="0"  y="24" width="4"  height="4" fill="#FACC15"/>
+                <rect x="8"  y="24" width="4"  height="4" fill="#FACC15"/>
+                <rect x="32" y="24" width="4"  height="4" fill="#FACC15"/>
+                <rect x="40" y="24" width="4"  height="4" fill="#FACC15"/>
+                <rect x="12" y="28" width="8"  height="4" fill="#FACC15"/>
+                <rect x="24" y="28" width="8"  height="4" fill="#FACC15"/>
+              </svg>
+            </div>
+            <div class="game-preview-title">Cashflow Invaders</div>
+            <div id="game-preview-content"></div>
+            <a class="game-preview-btn" href="cashflow-invaders.html">Play now</a>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;padding:8px 24px 16px;">
+        <button class="summaries-back-btn" onclick="showHomeFromSummaries()">‹ Back to home</button>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="footer-refuse"><span class="tagline-refuse">REFUSE</span><span class="tagline-rest">to stand still</span></div>
+    <p class="footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539. &nbsp;|&nbsp; <a href="https://fiskal.online" target="_blank">fiskal.online</a> &nbsp;|&nbsp; All information is treated in confidence.</p>
+  </footer>
+</div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init("g710KFSryN241SQWm");</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+(function(){
+  try {
+    const cfg = {
+      apiKey: "AIzaSyCKyh0x4fei6TT1zDdo6Qn6FtqrRbHLu0k",
+      authDomain: "cashflow-invaders.firebaseapp.com",
+      databaseURL: "https://cashflow-invaders-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "cashflow-invaders",
+      storageBucket: "cashflow-invaders.firebasestorage.app"
+    };
+    if (window.firebase && !firebase.apps.length) firebase.initializeApp(cfg);
+    window._ciDb = firebase.apps.length ? firebase.database() : null;
+  } catch(e) { window._ciDb = null; }
+})();
+</script>
 </head>
 <body>
 
