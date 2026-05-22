@@ -86,22 +86,21 @@ function buildFundingFinderSummary(answers) {
     blocks.push(`Based on what you've told us, there are funding options worth exploring for ${business}.${purposeText}${urgencyNote}`);
   }
 
-  // Top 2 product insights
+  // Top product insight (one only — keep it focused)
   const insights = getTopFundingFinderInsights(answers, business, industry);
-  insights.forEach(i => blocks.push(i));
+  if (insights.length > 0) blocks.push(insights[0]);
 
-  // Credit concern
-  if (hasCreditConcern(answers) || barrier === 'yes') {
+  // Credit concern only if directly relevant (skip if summary already has 2+ blocks)
+  if (blocks.length < 2 && (hasCreditConcern(answers) || barrier === 'yes')) {
     blocks.push(getCreditConcernInsight());
   }
 
-  // No generic close - contact card handles follow-up
-
-  const summaryText = blocks.join('\n\n');
+  const summaryText = blocks.slice(0, 2).join('\n\n');
+  const finalBlocks = blocks.slice(0, 2);
   return {
     pageHeading:    PAGE_HEADING,
     summaryHeading: SUMMARY_HEADING,
-    summaryHtml:    blocksToHtml(blocks),
+    summaryHtml:    blocksToHtml(finalBlocks),
     summaryText:    summaryText
   };
 }
@@ -127,32 +126,23 @@ function buildLoanApplicationSummary(answers) {
   // New start acknowledgement
   if (isNewStart(answers)) blocks.push(getNewStartInsight());
 
-  // Paragraph 1 — positive opening
-  blocks.push(`Great news — based on what you've shared, there are still funding options worth exploring for ${business}. The key is finding the right structure for what the funding needs to achieve, rather than treating this as a generic loan enquiry.`);
-
-  // Paragraph 2 — purpose insight + credit history + credit concern
+  // Paragraph 1 — purpose-led opening (no generic "Great news" opener)
   const purposeInsight = getLoanPurposeInsight(purpose, business);
   const creditHistoryInsight = getCreditHistoryInsight(credit);
   const creditConcern = getLoanCreditConcernInsight(barrier, barrierDetails, business);
 
+  let para1 = purposeInsight || `Based on what you've told us, there are funding options worth exploring for ${business}.`;
+  blocks.push(para1);
+
+  // Paragraph 2 — credit history + security (most decision-relevant factors)
+  const securityInsight = getLoanSecurityInsight(security, answers.properties || [], business);
   let para2 = '';
-  if (purposeInsight) para2 += purposeInsight + ' ';
   if (creditHistoryInsight) para2 += creditHistoryInsight + ' ';
-  if (creditConcern) para2 += creditConcern;
+  if (creditConcern) para2 += creditConcern + ' ';
+  if (securityInsight) para2 += securityInsight;
   if (para2) blocks.push(para2.trim());
 
-  // Paragraph 3 — security + funding amount sense-check + existing facilities
-  const securityInsight = getLoanSecurityInsight(security, answers.properties || [], business);
-  const amountInsight = getFundingAmountInsight(amount, turnover, hasSecurityOrAsset);
-  const facilitiesNote = getExistingFacilitiesNote(existingFacilities, business);
-
-  let para3 = '';
-  if (securityInsight) para3 += securityInsight + ' ';
-  if (amountInsight) para3 += amountInsight + ' ';
-  if (facilitiesNote) para3 += facilitiesNote;
-  if (para3) blocks.push(para3.trim());
-
-  const finalBlocks = blocks.slice(0, 3);
+  const finalBlocks = blocks.slice(0, 2);
 
   const summaryText = finalBlocks.join('\n\n');
   return {
