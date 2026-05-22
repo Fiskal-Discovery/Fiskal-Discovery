@@ -695,7 +695,7 @@ function showUpgradeAnnouncement(){
           el.style.pointerEvents='none';el.classList.remove('active');
           ri.style.opacity='0';ri.style.display='none';showcase.style.display='none';
           if(G)G.paintScheme=currentScheme;
-          MUSIC.common();
+          MUSIC.newHope();
           if(G&&!G.dead){G.enemies=[];G.bullets=[];G.wordEnemies=[];G.powerups=[];G.fiskalOrbs=[];G.spawnTimer=0;G.player.w=68;G.player.h=42;G.player.y=Math.min(G.player.y,canvas.height-30);rafId=requestAnimationFrame(gameLoop)}
         };
       },1400);
@@ -732,7 +732,7 @@ function skipWave(){
     }
     if(G.boss.larry)G.larryBeaten=true;
     const dn=G.boss.name;if(!G.defeatedBossWords.includes(dn))G.defeatedBossWords.push(dn);
-    G.boss=null;G.bossBlasts=[];MUSIC.common();
+    G.boss=null;G.bossBlasts=[];G.wave>=11?MUSIC.newHope():MUSIC.common();
   }
   G.enemies=[];G.bullets=[];G.wordEnemies=[];G.powerups=[];G.fiskalOrbs=[];
   G.score=Math.max(G.score,G.waveCashStart+G.waveCashTarget);
@@ -1017,7 +1017,7 @@ G.bullets=G.bullets.filter(b=>{
       if(!G.defeatedBossWords.includes(defeatedName)){G.defeatedBossWords.push(defeatedName)}
       G.boss=null;G.bossBlasts=[];
       if(isBobby){MUSIC.stop();setTimeout(()=>{if(G&&!G.dead)showVictory()},2200);G.state='transition';G.stateTimer=9999;return false}
-      MUSIC.common();
+      G.wave>=11?MUSIC.newHope():MUSIC.common();
       G.state='wave_clear';
       G.stateTimer=140;
       setTimeout(()=>{if(G&&!G.dead)SFX.clear()},400);
