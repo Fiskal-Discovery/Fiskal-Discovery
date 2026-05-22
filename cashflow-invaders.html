@@ -182,15 +182,21 @@ function stopFaviconAnimation() {
   <div id="screen-flash"></div>
   <div id="upgrade-cinematic">
     <div id="upgrade-inner"><div id="upgrade-title">ADVANCED CASHFLOW</div><div id="upgrade-subtitle">MODE UNLOCKED</div><div id="upgrade-detail">SHIP UPGRADED · FULL MOVEMENT</div></div>
-    <div id="upgrade-showcase" style="display:none;flex-direction:column;align-items:center;gap:14px;overflow-y:auto;padding:20px 16px;width:100%;max-height:100dvh;box-sizing:border-box">
-      <div style="font-family:'Press Start 2P',monospace;font-size:.55rem;color:#AA44FF;letter-spacing:.1em;text-shadow:0 0 14px #AA44FF;margin-bottom:4px">YOUR SHIP HAS BEEN UPGRADED</div>
-      <canvas id="upgrade-ship-canvas" width="180" height="180" style="display:block;flex-shrink:0"></canvas>
-      <div id="upgrade-features-list" style="display:flex;flex-direction:column;gap:8px;align-items:center;width:100%"></div>
-      <div id="upgrade-paint-picker" style="display:none;flex-direction:column;align-items:center;gap:10px;width:100%;opacity:0;transition:opacity .6s">
-        <div style="font-family:'Press Start 2P',monospace;font-size:.38rem;color:#AA44FF;letter-spacing:.06em;text-shadow:0 0 10px #AA44FF">CHOOSE YOUR PAINT JOB</div>
-        <div id="upgrade-paint-swatches" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"></div>
+    <div id="upgrade-showcase" style="display:none;flex-direction:column;align-items:center;gap:16px;overflow-y:auto;padding:20px 16px;width:100%;max-height:100dvh;box-sizing:border-box">
+      <div style="font-family:'Press Start 2P',monospace;font-size:.55rem;color:#AA44FF;letter-spacing:.1em;text-shadow:0 0 14px #AA44FF;text-align:center">YOUR SHIP HAS BEEN UPGRADED</div>
+      <div id="upgrade-main-row" style="display:flex;gap:20px;width:100%;align-items:flex-start;justify-content:center;flex-wrap:wrap">
+        <div id="upgrade-left-col" style="flex:1;min-width:160px;display:flex;flex-direction:column;gap:4px;padding-top:6px">
+          <div id="upgrade-features-list" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+        <div id="upgrade-right-col" style="display:flex;flex-direction:column;align-items:center;gap:10px;flex-shrink:0">
+          <canvas id="upgrade-ship-canvas" width="180" height="180" style="display:block"></canvas>
+          <div id="upgrade-paint-picker" style="display:none;flex-direction:column;align-items:center;gap:8px;opacity:0;transition:opacity .6s">
+            <div style="font-family:'Press Start 2P',monospace;font-size:.38rem;color:#AA44FF;letter-spacing:.06em;text-shadow:0 0 10px #AA44FF">CHOOSE YOUR PAINT JOB</div>
+            <div id="upgrade-paint-swatches" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"></div>
+          </div>
+        </div>
       </div>
-      <div id="upgrade-ready-inline" style="display:none;flex-direction:column;align-items:center;gap:22px;margin-top:10px;opacity:0;transition:opacity .7s;width:100%">
+      <div id="upgrade-ready-inline" style="display:none;flex-direction:column;align-items:center;gap:22px;margin-top:6px;opacity:0;transition:opacity .7s;width:100%">
         <div style="font-family:'Press Start 2P',monospace;font-size:clamp(1rem,4vw,1.6rem);color:#FFE600;text-shadow:0 0 30px #FFE600,0 0 60px #FFE600;animation:flicker 1.8s infinite;text-align:center">ARE YOU READY?</div>
         <button id="upgrade-ready-btn" style="font-family:'Press Start 2P',monospace;font-size:.65rem;background:#8B00FF;color:#FFE600;border:3px solid #FFE600;padding:16px 36px;border-radius:4px;cursor:pointer;animation:pulse-btn 1.2s infinite;box-shadow:0 0 24px rgba(139,0,255,.7)">LET'S GO! ▶</button>
       </div>
@@ -573,7 +579,7 @@ function showUpgradeAnnouncement(){
   setTimeout(()=>tone(330,null,.3,.2,'sawtooth'),180);
   setTimeout(()=>tone(440,null,.3,.2,'sawtooth'),360);
   setTimeout(()=>tone(660,null,.5,.3,'sine'),540);
-  // Phase 2: ship showcase
+  // Phase 2: ship showcase (delayed longer so title screen has time to read)
   setTimeout(()=>{
     inner.style.display='none';showcase.style.display='flex';
     const uc=document.getElementById('upgrade-ship-canvas');
@@ -647,6 +653,21 @@ function showUpgradeAnnouncement(){
           tone(550+idx*110,null,.12,.07,'sine');
         });
       });
+      // Phase 3: ARE YOU READY fades in 1400ms after paint picker appears
+      setTimeout(()=>{
+        const ri=document.getElementById('upgrade-ready-inline');
+        ri.style.display='flex';
+        requestAnimationFrame(()=>requestAnimationFrame(()=>ri.style.opacity='1'));
+        el.style.pointerEvents='auto';
+        tone(880,null,.25,.14,'sine');setTimeout(()=>tone(1100,null,.35,.16,'sine'),220);
+        document.getElementById('upgrade-ready-btn').onclick=()=>{
+          el.style.pointerEvents='none';el.classList.remove('active');
+          ri.style.opacity='0';ri.style.display='none';showcase.style.display='none';
+          if(G)G.paintScheme=currentScheme;
+          MUSIC.common();
+          if(G&&!G.dead){G.player.w=68;G.player.h=42;G.player.y=Math.min(G.player.y,canvas.height-30);rafId=requestAnimationFrame(gameLoop)}
+        };
+      },1400);
     }, features.length*700+600+600);
     const fl=document.getElementById('upgrade-features-list');fl.innerHTML='';
     features.forEach((f,i)=>setTimeout(()=>{
@@ -655,22 +676,7 @@ function showUpgradeAnnouncement(){
       fl.appendChild(d);requestAnimationFrame(()=>requestAnimationFrame(()=>d.style.opacity='1'));
       tone(440+i*180,null,.15,.08,'sine');
     },i*700+600));
-  },1800);
-  // Phase 3: reveal ARE YOU READY inline (ship stays visible)
-  setTimeout(()=>{
-    const ri=document.getElementById('upgrade-ready-inline');
-    ri.style.display='flex';
-    requestAnimationFrame(()=>requestAnimationFrame(()=>ri.style.opacity='1'));
-    el.style.pointerEvents='auto';
-    tone(880,null,.25,.14,'sine');setTimeout(()=>tone(1100,null,.35,.16,'sine'),220);
-    document.getElementById('upgrade-ready-btn').onclick=()=>{
-      el.style.pointerEvents='none';el.classList.remove('active');
-      ri.style.opacity='0';ri.style.display='none';showcase.style.display='none';
-      if(G)G.paintScheme=currentScheme;
-      MUSIC.common();
-      if(G&&!G.dead){G.player.w=68;G.player.h=42;G.player.y=Math.min(G.player.y,canvas.height-30);rafId=requestAnimationFrame(gameLoop)}
-    };
-  },6200);
+  },3000);
 }
 function stopGame(){if(rafId)cancelAnimationFrame(rafId);rafId=null;if(victoryRafId)cancelAnimationFrame(victoryRafId);victoryRafId=null;if(tvRafId)cancelAnimationFrame(tvRafId);tvRafId=null;paused=false;screenShake=0;ctx.setTransform(1,0,0,1,0,0);const _sf=document.getElementById('screen-flash');if(_sf){clearTimeout(_sf._ft);clearTimeout(_sf._ft2);_sf.classList.remove('show');_sf.style.background='';_sf.style.display='none'}document.getElementById('pause-overlay').classList.remove('active');document.getElementById('victory-screen').classList.remove('active');if(document.exitPointerLock&&document.pointerLockElement===canvas)document.exitPointerLock();MUSIC.stop();document.getElementById('target-hud').style.display='none';document.getElementById('bomb-btn').style.display='none';document.getElementById('work-mode-btn').style.display='none';document.getElementById('game-screen').classList.remove('advanced-hud');document.getElementById('upgrade-cinematic').classList.remove('active');workModeActive=false;document.getElementById('work-mode-overlay').style.display='none';G=null}
 function resizeCanvas(){const hud=document.getElementById('hud');const headerH=document.body.classList.contains('playing-mobile')?0:document.querySelector('.fiskal-header').offsetHeight;const safeBottom=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom'))||0;canvas.width=Math.min(window.innerWidth,720);canvas.height=Math.max(300,window.innerHeight-headerH-hud.offsetHeight-document.getElementById('target-hud').offsetHeight-document.getElementById('game-topbar').offsetHeight-2-safeBottom);if(G&&G.player){G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x));G.player.y=canvas.height-40}}
