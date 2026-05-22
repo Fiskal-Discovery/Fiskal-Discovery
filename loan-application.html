@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="favicon-main.svg">
 <title>Fiskal Discovery — Loan Enquiry</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
@@ -21,18 +21,78 @@
     --orange: var(--col-gold);
     --orange-light: var(--col-gold-bright);
     --btn-gradient: var(--gradient-brand);
+    --btn-stripe: #BE123C;
   }
-  /* ---- HEADER BRAND ---- */
-  .ob-header-title { font-size: 50px; color: var(--col-deep-purple); }
-
-  /* REFUSE header tagline */
-  .ob-header-tagline {
-    justify-self: end;
+  /* ---- HEADER: facility-review / funding-finder style ---- */
+  .ob-fixed-header {
+    background: #000 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 24px !important;
+    height: 90px !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+    grid-template-columns: unset !important;
+  }
+  .ob-fixed-header .dashed-divider {
+    font-size: 24px;
+    padding: 0;
+    white-space: nowrap;
+    margin: 0;
+  }
+  .q-module-name {
+    position: absolute;
+    bottom: 4px;
+    right: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #FF6B2B;
+  }
+  /* ---- FOOTER: facility-review / funding-finder style ---- */
+  .q-fixed-footer {
+    flex-shrink: 0;
+    background: #000;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    line-height: 1;
-    gap: 1px;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    width: 100%;
+  }
+  .q-footer-nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .q-nav-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 2px 10px;
+    min-height: 36px;
+  }
+  .q-nav-home {
+    color: #fff;
+    font-weight: 600;
+  }
+  .q-footer-tagline {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
+    margin-top: 2px;
   }
   .ob-tagline-refuse {
     font-family: 'Bebas Neue', sans-serif;
@@ -44,48 +104,56 @@
     font-size: 9px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.75);
+    color: #FF6B2B;
     font-weight: 400;
   }
+  @media (max-width: 600px) {
+    .ob-tagline-refuse { font-size: 20px; letter-spacing: 2px; }
+    .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
+  }
+  @media (max-width: 380px) {
+    .ob-tagline-refuse { font-size: 16px; letter-spacing: 1px; }
+    .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--col-bg); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
+  html, body { height: 100%; overflow: hidden; background: #000; }
+  body { font-family: 'DM Sans', sans-serif; color: var(--dark); }
   .bg-orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; opacity: 0.12; }
   .bg-orb-1 { width: 600px; height: 600px; background: var(--indigo); top: -200px; right: -200px; }
   .bg-orb-2 { width: 400px; height: 400px; background: var(--blue); bottom: -100px; left: -100px; }
-  .screen { display: none; min-height: 100vh; position: relative; z-index: 1; animation: fadeUp 0.5s ease forwards; flex-direction: column; }
-  .screen.active { display: flex; }
+  .screen { display: none; flex-direction: column; }
+  .screen.active { position: fixed; inset: 0; display: flex; flex-direction: column; overflow: hidden; animation: fadeUp 0.5s ease forwards; z-index: 1; }
   @keyframes fadeUp { from { opacity: 0; } to { opacity: 1; } }
   .logo-corner { position: fixed; top: 20px; left: 20px; z-index: 10002; }
   .logo-corner .site-logo { width: 60px; height: auto; opacity: 0.85; transition: opacity 0.2s ease; }
   .logo-corner:hover .site-logo { opacity: 1; }
   .brand-header { text-align: center; padding: 28px 20px 12px; }
-  .brand-title { font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive; font-style: italic; font-weight: normal; font-size: 42px; color: var(--indigo); line-height: 1.1; }
+  .brand-title { font-family: 'Dancing Script', cursive; font-style: italic; font-weight: normal; font-size: 42px; color: var(--indigo); line-height: 1.1; }
   .brand-sub { font-size: 17px; color: var(--indigo); margin-top: 4px; }
   .brand-label { display: inline-block; background: var(--indigo); color: white; font-size: 11px; padding: 4px 12px; border-radius: 20px; font-weight: 500; letter-spacing: 0.5px; margin-top: 12px; }
   
   .progress-track { height: 3px; background: rgba(255,255,255,0.12); border-radius: 3px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--orange); border-radius: 3px; transition: width 0.5s ease; }
   
-  .screen-content { flex: 1; display: flex; flex-direction: column;
-    justify-content: center; padding: 20px 24px 24px; max-width: 960px; width: 100%; margin: 0 auto;  }
+  .screen-content { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 20px 24px 24px; max-width: 960px; width: 100%; margin: 0 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
   
   .question-product { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; font-weight: 500; }
   .question-text { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 500; color: var(--indigo-deep); line-height: 1.3; margin-bottom: 8px; }
   .question-sub { font-size: 14px; color: var(--col-soft-violet); font-style: italic; margin-bottom: 24px; line-height: 1.6; font-weight: 300; }
   .answer-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-  .answer-btn { background: white; border: 1.5px solid rgba(142,126,216,0.2); border-top: 2px solid var(--orange); border-radius: 12px; padding: 14px 18px; font-size: 15px; color: #000; cursor: pointer; transition: all 0.2s ease; text-align: left; font-family: 'DM Sans', sans-serif; font-weight: 400; display: flex; align-items: center; gap: 12px; }
-  .answer-btn:hover { border-color: var(--indigo); background: var(--indigo-pale); transform: translateX(4px); }
-  .answer-btn.selected { border-color: var(--indigo) !important; border-width: 2px !important; background: var(--indigo-pale); color: var(--indigo-deep); box-shadow: 0 0 0 3px rgba(192,96,208,0.2); }
+  .answer-btn { background: rgba(255, 255, 255, 0.05); border: 1.5px solid rgba(160, 153, 232, 0.45); border-top: 3px solid var(--btn-stripe); border-radius: 12px; padding: 14px 18px; font-size: 15px; color: var(--col-off-white); cursor: pointer; transition: all 0.2s ease; text-align: left; font-family: 'DM Sans', sans-serif; font-weight: 400; display: flex; align-items: center; gap: 12px; }
+  .answer-btn:hover { background: rgba(160, 153, 232, 0.12); border-left-color: rgba(160, 153, 232, 0.7); border-right-color: rgba(160, 153, 232, 0.7); border-bottom-color: rgba(160, 153, 232, 0.7); transform: translateX(4px); }
+  .answer-btn.selected { background: var(--col-purple) !important; border-color: var(--col-purple) !important; border-top-color: var(--btn-stripe) !important; color: #ffffff; box-shadow: 0 0 0 3px rgba(126, 9, 165, 0.25); }
   .checkbox-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-  .checkbox-btn { background: white; border: 1.5px solid rgba(142,126,216,0.2); border-radius: 10px; padding: 12px 16px; font-size: 14px; color: #000; cursor: pointer; transition: all 0.2s ease; text-align: left; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 12px; }
-  .checkbox-btn.selected { border-color: var(--indigo); background: var(--indigo-pale); color: var(--indigo-deep); }
+  .checkbox-btn { background: rgba(255, 255, 255, 0.05); border: 1.5px solid rgba(160, 153, 232, 0.45); border-top: 3px solid var(--btn-stripe); border-radius: 10px; padding: 12px 16px; font-size: 14px; color: var(--col-off-white); cursor: pointer; transition: all 0.2s ease; text-align: left; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 12px; }
+  .checkbox-btn.selected { background: var(--col-purple); border-color: var(--col-purple); border-top-color: var(--btn-stripe); color: #ffffff; box-shadow: 0 0 0 3px rgba(126, 9, 165, 0.25); }
   .checkbox-tick { width: 20px; height: 20px; border: 2px solid rgba(142,126,216,0.3); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all 0.2s ease; }
   .checkbox-btn.selected .checkbox-tick { background: var(--indigo); border-color: var(--indigo); color: white; }
   .form-group { margin-bottom: 16px; }
   .form-label { display: block; font-size: 12px; font-weight: 500; color: var(--mid); margin-bottom: 6px; letter-spacing: 0.5px; text-transform: uppercase; }
   .form-input { width: 100%; background: white; border: 1.5px solid rgba(142,126,216,0.2); border-radius: 10px; padding: 14px 16px; font-size: 16px; color: var(--dark); font-family: 'DM Sans', sans-serif; transition: border-color 0.2s ease; outline: none; }
   .form-input:focus { border-color: var(--indigo); box-shadow: 0 0 0 3px rgba(142,126,216,0.15); }
-  .form-textarea { width: 100%; background: white; border: 1.5px solid rgba(142,126,216,0.2); border-radius: 10px; padding: 14px 16px; font-size: 14px; color: var(--dark); font-family: 'DM Sans', sans-serif; resize: none; height: 80px; outline: none; transition: border-color 0.2s ease; }
+  .form-textarea { width: 100%; background: white; border: 1.5px solid rgba(142,126,216,0.2); border-radius: 10px; padding: 14px 16px; font-size: 16px; color: var(--dark); font-family: 'DM Sans', sans-serif; resize: none; height: 80px; outline: none; transition: border-color 0.2s ease; }
   .upload-area { border: 2px dashed rgba(142,126,216,0.3); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s ease; background: white; margin-bottom: 12px; }
   .upload-area:hover, .upload-area.has-files { border-color: var(--indigo); background: var(--indigo-pale); }
   .upload-icon { font-size: 32px; margin-bottom: 8px; }
@@ -267,10 +335,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 38px;
+    min-height: 44px;
     min-width: 145px;
     flex: 0 1 auto;
-    padding: 8px 14px;
+    padding: 10px 14px;
     font-size: 0.84rem;
     border-radius: 999px;
     font-weight: 800;
@@ -378,7 +446,7 @@
     align-items: center;
     gap: 12px;
     color: var(--col-soft-violet);
-    font-family: 'Monotype Corsiva', 'Corsiva', cursive;
+    font-family: 'Dancing Script', cursive;
     font-size: 18px;
     font-style: italic;
     letter-spacing: 1px;
@@ -497,6 +565,11 @@
   #screen-results .screen-content {
     max-width: 100%;
     padding: 20px 40px 24px;
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+  @media (max-width: 600px) {
+    #screen-results .screen-content { padding: 16px 16px 24px; }
   }
   @media (max-width: 600px) {
     .bg-orb-1, .bg-orb-2 { display: none; }
@@ -519,10 +592,20 @@
     .brand-title { font-size: 32px !important; }
   }
 
+  /* 2-column answer grid — mobile only */
+  @media (max-width: 768px) {
+    .answer-grid-2col {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 8px !important;
+    }
+  }
+
   /* ============================================================
      DARK QUESTION FLOW — matches funding-finder.html
   ============================================================ */
 
+  #screen-welcome,
   #screen-details,
   #screen-q1,
   #screen-q2,
@@ -539,9 +622,9 @@
   #screen-loading,
   #screen-submission-loading {
     background: var(--col-bg);
-    position: relative;
   }
 
+  #screen-welcome::before,
   #screen-details::before,
   #screen-q1::before,
   #screen-q2::before,
@@ -568,13 +651,6 @@
     z-index: 0;
   }
 
-  #screen-details .ob-fixed-header, #screen-q1 .ob-fixed-header,
-  #screen-q2 .ob-fixed-header, #screen-q3 .ob-fixed-header,
-  #screen-q4 .ob-fixed-header, #screen-q5 .ob-fixed-header,
-  #screen-q6 .ob-fixed-header, #screen-q7 .ob-fixed-header,
-  #screen-q8 .ob-fixed-header, #screen-q9 .ob-fixed-header,
-  #screen-q10 .ob-fixed-header, #screen-q11 .ob-fixed-header,
-  #screen-q12 .ob-fixed-header,
   #screen-details .progress-bar-wrap, #screen-q1 .progress-bar-wrap,
   #screen-q2 .progress-bar-wrap, #screen-q3 .progress-bar-wrap,
   #screen-q4 .progress-bar-wrap, #screen-q5 .progress-bar-wrap,
@@ -589,14 +665,9 @@
   #screen-q8 .screen-content, #screen-q9 .screen-content,
   #screen-q10 .screen-content, #screen-q11 .screen-content,
   #screen-q12 .screen-content,
-  #screen-details .nav-row, #screen-q1 .nav-row,
-  #screen-q2 .nav-row, #screen-q3 .nav-row,
-  #screen-q4 .nav-row, #screen-q5 .nav-row,
-  #screen-q6 .nav-row, #screen-q7 .nav-row,
-  #screen-q8 .nav-row, #screen-q9 .nav-row,
-  #screen-q10 .nav-row, #screen-q11 .nav-row,
-  #screen-q12 .nav-row { position: relative; z-index: 1; }
+  #screen-welcome .screen-content { position: relative; z-index: 1; }
 
+  #screen-welcome .dashed-divider,
   #screen-details .dashed-divider, #screen-q1 .dashed-divider,
   #screen-q2 .dashed-divider, #screen-q3 .dashed-divider,
   #screen-q4 .dashed-divider, #screen-q5 .dashed-divider,
@@ -606,6 +677,7 @@
   #screen-q12 .dashed-divider {
     color: var(--col-soft-violet) !important;
   }
+  #screen-welcome .dashed-divider::before, #screen-welcome .dashed-divider::after,
   #screen-details .dashed-divider::before, #screen-details .dashed-divider::after,
   #screen-q1 .dashed-divider::before, #screen-q1 .dashed-divider::after,
   #screen-q2 .dashed-divider::before, #screen-q2 .dashed-divider::after,
@@ -652,29 +724,31 @@
   }
 
   .answer-btn {
-    background: #ffffff !important;
-    border: 1px solid rgba(42,4,64,0.06) !important;
-    border-top: 4px solid var(--col-gold) !important;
-    border-radius: 14px !important;
-    color: #1a0533 !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1.5px solid rgba(160, 153, 232, 0.45) !important;
+    border-top: 3px solid var(--btn-stripe) !important;
+    border-radius: 12px !important;
+    color: var(--col-off-white) !important;
     font-family: 'Raleway', sans-serif !important;
     font-weight: 600 !important;
     font-size: 15px !important;
-    box-shadow: 0 2px 12px rgba(42,4,64,0.08) !important;
-    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    box-shadow: none !important;
+    transition: all 0.2s ease !important;
   }
   .answer-btn:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 8px 28px rgba(42,4,64,0.14) !important;
-    border-top-color: var(--col-error) !important;
-    background: #ffffff !important;
+    background: rgba(160, 153, 232, 0.12) !important;
+    border-left-color: rgba(160, 153, 232, 0.7) !important;
+    border-right-color: rgba(160, 153, 232, 0.7) !important;
+    border-bottom-color: rgba(160, 153, 232, 0.7) !important;
+    transform: translateX(4px) !important;
+    box-shadow: none !important;
   }
   .answer-btn.selected {
-    border-color: var(--col-soft-violet) !important;
-    border-width: 2px !important;
-    box-shadow: 0 0 0 3px rgba(192,96,208,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
-    background: rgba(192,96,208,0.22) !important;
+    background: var(--col-purple) !important;
+    border-color: var(--col-purple) !important;
+    border-top-color: var(--btn-stripe) !important;
     color: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(126, 9, 165, 0.25) !important;
   }
 
   .btn-primary {
@@ -686,12 +760,6 @@
     box-shadow: 0 6px 28px rgba(212,175,55,0.5) !important;
   }
 
-  .answer-btn {
-    border-top: 4px solid var(--col-gold) !important;
-  }
-  .answer-btn:hover {
-    border-top-color: #e31b4d !important;
-  }
 
   .back-btn { color: var(--col-soft-violet) !important; }
   .back-btn:hover { color: #ffffff !important; }
@@ -720,7 +788,6 @@
   /* Results screen */
   #screen-results {
     background: var(--col-bg);
-    position: relative;
   }
   #screen-results::before {
     content: '';
@@ -735,7 +802,7 @@
   }
   #screen-results .screen-content,
   #screen-results .ob-fixed-header,
-  #screen-results .screen-footer { position: relative; z-index: 1; }
+  #screen-results .q-fixed-footer { position: relative; z-index: 1; }
   #screen-results .results-check {
     width: 72px !important;
     height: 72px !important;
@@ -758,6 +825,71 @@
   #screen-results .results-title { font-family: 'Raleway', sans-serif !important; font-weight: 700 !important; color: #ffffff !important; }
   #screen-results .results-name { color: var(--col-soft-violet) !important; }
   #screen-results .ai-summary-label { color: var(--col-soft-violet) !important; font-family: 'Raleway', sans-serif !important; font-weight: 700 !important; letter-spacing: 2px !important; }
+
+  /* ---- REFUSE TO STAND STILL ANIMATION ---- */
+  @keyframes refuseFidget {
+    0%   { transform: translateX(0) skewX(0deg); }
+    20%  { transform: translateX(3px) skewX(-5deg); }
+    40%  { transform: translateX(0) skewX(0deg); }
+    65%  { transform: translateX(4px) skewX(-7deg); }
+    85%  { transform: translateX(0) skewX(0deg); }
+    100% { transform: translateX(0) skewX(0deg); }
+  }
+  @keyframes refuseZoom {
+    0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    8%   { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    22%  { transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    23%  { transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    24%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    40%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    41%  { transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    62%  { transform: translateX(4px) skewX(-4deg); opacity: 1; }
+    74%  { transform: translateX(-2px) skewX(1deg); opacity: 1; }
+    88%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
+  }
+  @keyframes refuseLoop {
+    0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    83%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    85%  { transform: translateX(3px) skewX(-5deg); opacity: 1; }
+    87%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    89%  { transform: translateX(4px) skewX(-7deg); opacity: 1; }
+    91%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    92%  { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    93.5%{ transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    93.7%{ transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    94%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    96%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    96.5%{ transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    97.5%{ transform: translateX(4px) skewX(-4deg); opacity: 1; }
+    98.5%{ transform: translateX(-2px) skewX(1deg); opacity: 1; }
+    99.5%{ transform: translateX(0) skewX(0deg); opacity: 1; }
+    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
+  }
+
+  /* ---- HEADER SHOOTING STARS ---- */
+  .header-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .shooting-star {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.55) 35%, rgba(255,255,255,0.9) 100%);
+    border-radius: 1px;
+    pointer-events: none;
+    opacity: 0;
+    animation: shoot-star linear forwards;
+  }
+  @keyframes shoot-star {
+    0%   { opacity: 0;   transform: rotate(var(--sa)) translateX(0); }
+    12%  { opacity: 1; }
+    80%  { opacity: 0.5; }
+    100% { opacity: 0;   transform: rotate(var(--sa)) translateX(var(--sd)); }
+  }
 </style>
 </head>
 <body>
@@ -768,14 +900,8 @@
 <!-- WELCOME -->
 <div class="screen active" id="screen-welcome">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
   <div class="screen-content">
     <div class="typing-intro">
@@ -784,35 +910,32 @@
       <button class="btn-primary" id="loan-start-btn" onclick="showDetailsConfirm()" style="display:none;margin-top:24px">Start My Loan Discovery ›</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="window.location.href='home.html?home=1'" style="visibility:hidden">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="void(0)" style="visibility:hidden">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
     </div>
-    </div>
+  </div>
+</div>
 
 <!-- DETAILS -->
 <div class="screen" id="screen-details">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer">
-    </div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:5%">
     </div>
     </div>
-    <div class="progress-label"></div>
+    <div class="progress-label">Your Details</div>
     </div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Confirm these details are correct</h2>
     <p style="font-size:14px;color:var(--col-gold);font-style:italic;margin-bottom:20px;line-height:1.5;">We've saved your details to make this as quick as possible — just check everything looks right.</p>
     <div class="ai-summary" id="details-summary">
@@ -842,11 +965,11 @@
     </div>
       <div class="form-group">
         <label class="form-label">Annual turnover *</label>
-        <input type="text" class="form-input" id="field-turnover" placeholder="e.g. £250,000">
+        <input type="text" class="form-input" id="field-turnover" placeholder="e.g. £250,000" oninput="formatCurrencyInput(this)">
     </div>
       <div class="form-group">
         <label class="form-label">Projected Turnover</label>
-        <input type="text" class="form-input" id="field-turnover-next" placeholder="e.g. £400,000">
+        <input type="text" class="form-input" id="field-turnover-next" placeholder="e.g. £400,000" oninput="formatCurrencyInput(this)">
     </div>
       <div class="form-group">
         <label class="form-label">Homeowner / Property Owner</label>
@@ -858,28 +981,30 @@
     <button class="btn-secondary" id="details-edit-btn" onclick="editDetails()">Edit</button>
     <button class="btn-primary" id="details-save-btn" onclick="submitDetails()" style="display:none">Save and continue ></button>
     </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-welcome')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="void(0)" style="visibility:hidden">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q1: Loan Type -->
 <div class="screen" id="screen-q1">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:8%"></div></div><div class="progress-label"></div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:8%"></div></div><div class="progress-label">Question 1 of 12</div></div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Which of these would you like to explore?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Select all that apply — the right type of funding could change everything.</p>
-    <div class="answer-options" id="q1-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div class="answer-options answer-grid-2col" id="q1-opts">
       <button class="answer-btn" onclick="toggleLoanType('unsecured', this)">Unsecured business loan</button>
       <button class="answer-btn" onclick="toggleLoanType('secured', this)">Secured business loan</button>
       <button class="answer-btn" onclick="toggleLoanType('bridging', this)">Bridging finance</button>
@@ -893,29 +1018,30 @@
     </div>
     <button class="btn-primary" id="q1-continue" onclick="saveLoanTypes()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-details')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-details')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q2: Purpose -->
 <div class="screen" id="screen-q2">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:17%"></div></div><div class="progress-label"></div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:17%"></div></div><div class="progress-label">Question 2 of 12</div></div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Which of these are you thinking of using the funds for?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Select all that apply — every goal is worth pursuing.</p>
-    <div class="answer-options" id="q2-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div class="answer-options answer-grid-2col" id="q2-opts">
       <button class="answer-btn" onclick="togglePurpose('Business growth', this)">Business growth</button>
       <button class="answer-btn" onclick="togglePurpose('Working capital / cashflow', this)">Working capital / cashflow</button>
       <button class="answer-btn" onclick="togglePurpose('Equipment or vehicles', this)">Equipment or vehicles</button>
@@ -933,26 +1059,27 @@
     </div>
     <button class="btn-primary" id="q2-continue" onclick="savePurpose()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q1')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q1')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q3: Amount -->
 <div class="screen" id="screen-q3">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:25%"></div></div><div class="progress-label"></div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:25%"></div></div><div class="progress-label">Question 3 of 12</div></div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How much are you looking to borrow?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Whatever the number, there's likely a way to make it work.</p>
     <div class="form-group">
@@ -967,29 +1094,30 @@
     </div>
     <button class="btn-primary" id="q3-continue" onclick="saveAmount()">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q2')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q2')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q4: Term -->
 <div class="screen" id="screen-q4">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:33%"></div></div><div class="progress-label"></div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:33%"></div></div><div class="progress-label">Question 4 of 12</div></div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How long would you like to repay over?</h2>
     <p class="question-sub" style="color:var(--col-gold)">The right repayment plan means funding that works for your business, not against it.</p>
-    <div class="answer-options" id="q4-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div class="answer-options answer-grid-2col" id="q4-opts">
       <button class="answer-btn" onclick="selectTerm('Up to 12 months', this)">Up to 12 months</button>
       <button class="answer-btn" onclick="selectTerm('1–3 years', this)">1–3 years</button>
       <button class="answer-btn" onclick="selectTerm('3–5 years', this)">3–5 years</button>
@@ -998,29 +1126,30 @@
       <button class="answer-btn" onclick="selectTerm('I'm not sure', this)">I'm not sure</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q3')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q3')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q5: Security -->
 <div class="screen" id="screen-q5">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:42%"></div></div><div class="progress-label"></div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:42%"></div></div><div class="progress-label">Question 5 of 12</div></div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Do you have any security to offer?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Security can unlock better rates and bigger amounts — but it's not the only way in.</p>
-    <div class="answer-options" id="q5-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div class="answer-options answer-grid-2col" id="q5-opts">
       <button class="answer-btn" onclick="selectSecurity('property', this)">Yes — property</button>
       <button class="answer-btn" onclick="selectSecurity('assets', this)">Yes — business assets</button>
       <button class="answer-btn" onclick="selectSecurity('both', this)">Yes — both property and assets</button>
@@ -1029,29 +1158,30 @@
       <button class="answer-btn" onclick="selectSecurity('not-sure', this)">I'm not sure what I have to offer</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q4')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q4')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q6: Credit History -->
 <div class="screen" id="screen-q6">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:50%"></div></div><div class="progress-label"></div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:50%"></div></div><div class="progress-label">Question 6 of 12</div></div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How would you describe your business credit history?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Whatever your history, there's a lender out there who will look at the full picture.</p>
-    <div class="answer-options" id="q6-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div class="answer-options answer-grid-2col" id="q6-opts">
       <button class="answer-btn" onclick="selectCredit('clean', this)">Clean — no issues</button>
       <button class="answer-btn" onclick="selectCredit('mostly-clean', this)">Mostly clean — one or two minor issues</button>
       <button class="answer-btn" onclick="selectCredit('some-issues', this)">Some issues — CCJs, defaults or missed payments</button>
@@ -1063,59 +1193,60 @@
     </div>
     <button class="btn-primary" id="q6-continue" onclick="saveCredit()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q5')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q5')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q7: Trading History -->
 <div class="screen" id="screen-q7">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:58%"></div></div><div class="progress-label"></div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:58%"></div></div><div class="progress-label">Question 7 of 12</div></div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How long has your business been trading?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Every established business started somewhere — and there are lenders who back ambition at every stage.</p>
-    <div class="answer-options" id="q7-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="answer-btn" onclick="selectTradingHistory('under-6-months', this)">Less than 6 months</button>
-      <button class="answer-btn" onclick="selectTradingHistory('6-12-months', this)">6–12 months</button>
+    <div class="answer-options answer-grid-2col" id="q7-opts">
+      <button class="answer-btn" onclick="selectTradingHistory('under-12-months', this)">Less than 12 months</button>
       <button class="answer-btn" onclick="selectTradingHistory('1-2-years', this)">1–2 years</button>
       <button class="answer-btn" onclick="selectTradingHistory('2-5-years', this)">2–5 years</button>
       <button class="answer-btn" onclick="selectTradingHistory('5-plus-years', this)">5+ years</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q6')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q6')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q8: Monthly Turnover (conditional) -->
 <div class="screen" id="screen-q8">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:67%"></div></div><div class="progress-label"></div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:67%"></div></div><div class="progress-label">Question 8 of 12</div></div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">What is your approximate monthly turnover?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Turnover is just a starting point — what you do with the right funding is what really matters.</p>
-    <div class="answer-options" id="q8-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div class="answer-options answer-grid-2col" id="q8-opts">
       <button class="answer-btn" onclick="selectMonthlyTurnover('Under £10,000', this)">Under £10,000</button>
       <button class="answer-btn" onclick="selectMonthlyTurnover('£10,000–£25,000', this)">£10,000–£25,000</button>
       <button class="answer-btn" onclick="selectMonthlyTurnover('£25,000–£50,000', this)">£25,000–£50,000</button>
@@ -1125,97 +1256,77 @@
       <button class="answer-btn" style="grid-column:1/-1" onclick="selectMonthlyTurnover('Rather not say', this)">I'd rather not say</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q7')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q7')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q9: Existing Finance -->
 <div class="screen" id="screen-q9">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:75%"></div></div><div class="progress-label"></div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:75%"></div></div><div class="progress-label">Question 9 of 12</div></div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Do you have any existing loans or finance in place?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Existing finance doesn't close doors — the right structure can open new ones.</p>
-    <div class="answer-options" id="q9-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <button class="answer-btn" onclick="selectExistingFinance('none', this)">No existing finance</button>
-      <button class="answer-btn" onclick="selectExistingFinance('one', this)">Yes — one facility</button>
-      <button class="answer-btn" onclick="selectExistingFinance('multiple', this)">Yes — multiple facilities</button>
-      <button class="answer-btn" onclick="selectExistingFinance('refinance', this)">Yes — and I'm looking to refinance</button>
+    <div class="answer-options" id="q9-opts" style="display:flex;flex-direction:column;gap:10px;">
+      <button class="answer-btn" id="q9-no-btn" onclick="selectExistingFinance('none', this)">No existing finance</button>
+      <button class="answer-btn" id="q9-yes-btn" onclick="selectExistingFinanceYes(this)">Yes, I have funding in place</button>
     </div>
-    <div id="q9-details-panel" style="display:none;margin-top:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(142,126,216,0.2);border-radius:14px;padding:18px;flex-direction:column;gap:14px">
-      <p style="font-size:13px;color:rgba(255,255,255,0.55);margin:0 0 4px">Tell us about your existing finance — the more detail the better.</p>
-      <div class="form-group" style="margin:0">
-        <label class="form-label" style="font-size:13px">Finance type <span style="color:rgba(255,255,255,0.4);font-weight:300">(e.g. loan, invoice finance, overdraft)</span></label>
-        <input type="text" class="form-input" id="q9-finance-type" placeholder="e.g. Business loan, Invoice finance">
-      </div>
-      <div class="form-group" style="margin:0">
-        <label class="form-label" style="font-size:13px">Lender name</label>
-        <input type="text" class="form-input" id="q9-lender" placeholder="e.g. HSBC, Funding Circle">
-      </div>
-      <div class="answer-options" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div class="form-group" style="margin:0">
-          <label class="form-label" style="font-size:13px">Outstanding balance</label>
-          <input type="text" class="form-input" id="q9-balance" placeholder="e.g. £45,000">
-        </div>
-        <div class="form-group" style="margin:0">
-          <label class="form-label" style="font-size:13px">Monthly payment</label>
-          <input type="text" class="form-input" id="q9-monthly" placeholder="e.g. £1,200">
-        </div>
-      </div>
-      <div class="form-group" style="margin:0">
-        <label class="form-label" style="font-size:13px">Anything else to add? <span style="color:rgba(255,255,255,0.4);font-weight:300">(optional)</span></label>
-        <input type="text" class="form-input" id="q9-extra" placeholder="e.g. expires in 6 months, personal guarantee in place">
-      </div>
-    </div>
+    <div id="q9-facilities-list" style="display:none;margin-top:14px;flex-direction:column;gap:10px;"></div>
+    <button id="q9-add-btn" onclick="addFinanceFacility()" style="display:none;background:none;border:none;color:var(--col-soft-violet);font-size:13px;font-family:inherit;cursor:pointer;padding:6px 0;text-align:left;width:100%;">+ Add another facility</button>
     <button class="btn-primary" id="q9-continue" onclick="saveExistingFinance()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="goBackFromQ9()">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="goBackFromQ9()">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q10: Urgency -->
 <div class="screen" id="screen-q10">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:83%"></div></div><div class="progress-label"></div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:83%"></div></div><div class="progress-label">Question 10 of 12</div></div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">How quickly do you need the funding?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Whether you need funding tomorrow or you're planning your next big move — the right timing makes all the difference.</p>
-    <div class="answer-options" id="q10-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div class="answer-options answer-grid-2col" id="q10-opts">
       <button class="answer-btn" onclick="selectUrgency('Urgently — within days', this)">Urgently — within days</button>
       <button class="answer-btn" onclick="selectUrgency('Within 2–4 weeks', this)">Within 2–4 weeks</button>
       <button class="answer-btn" onclick="selectUrgency('Within 1–3 months', this)">Within 1–3 months</button>
       <button class="answer-btn" onclick="selectUrgency('No rush — I'm planning ahead', this)">No rush — I'm planning ahead</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q9')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q9')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
@@ -1223,13 +1334,11 @@
 <!-- Q11: Documents -->
 <div class="screen" id="screen-q11">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:92%"></div></div><div class="progress-label"></div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:92%"></div></div><div class="progress-label">Question 11 of 12</div></div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Would you like to upload any supporting documents?</h2>
     <p class="question-sub" style="color:var(--col-gold)">The more we have upfront, the faster we can move for you.</p>
     <div class="answer-options" id="q12-choice-opts">
@@ -1252,26 +1361,27 @@
     </div>
     <button class="btn-primary" id="q11-next-btn" onclick="showScreen('screen-q12')" style="display:none;margin-top:20px;width:100%">Continue</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q10')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q10')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- Q12: Additional notes -->
 <div class="screen" id="screen-q12">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand"><span class="ob-header-title">Fiskal Discovery</span></div>
-    <div class="ob-header-tagline"><span class="ob-tagline-refuse">REFUSE</span><span class="ob-tagline-rest">to stand still</span></div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div><div class="progress-label"></div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div><div class="progress-label">Question 12 of 12</div></div>
   <div class="screen-content">
-    <div class="question-product">LOAN ENQUIRY</div>
     <h2 class="question-text">Is there anything else you'd like us to know?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Nothing is too big or too small — Nicole reads every word personally.</p>
     <div class="form-group">
@@ -1279,13 +1389,16 @@
     </div>
     <button class="btn-primary" id="loan-submit-btn" onclick="saveAdditionalNotes()">Submit My Discovery</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-q11')">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" onclick="skipCurrentScreen()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q11')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
@@ -1293,14 +1406,8 @@
 <!-- Loading -->
 <div class="screen" id="screen-loading">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
   <div class="screen-content">
     <div class="loading-screen">
@@ -1315,14 +1422,8 @@
 <!-- LOADING SCREEN -->
 <div class="screen loading-screen" id="screen-submission-loading">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
   <div class="loading-content">
     <div class="loading-spinner"></div>
@@ -1333,14 +1434,8 @@
 <!-- Results -->
 <div class="screen" id="screen-results">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Loan Enquiry</span>
   </header>
   <div class="screen-content">
     <div class="results-header">
@@ -1416,9 +1511,16 @@
 
     <div class="divider"></div>
   </div>
-  <div class="screen-footer" style="margin-top:8px;">
-    <button class="back-btn" onclick="window.location.href='home.html?home=1'" style="margin:0 auto;">Home</button>
-    <div class="dashed-divider">Fiskal Discovery</div>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" onclick="showScreen('screen-q12')">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
+    </div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
@@ -1429,6 +1531,50 @@ document.addEventListener('DOMContentLoaded', function() {
   const btn = document.getElementById('loan-start-btn');
   if (textEl) textEl.textContent = "Knowledge is power — let's find out exactly what you could access.";
   if (btn) btn.style.display = 'inline-flex';
+});
+
+// ---- Shooting stars + REFUSE animation ----
+document.addEventListener('DOMContentLoaded', function() {
+  // Shooting stars in all headers
+  document.querySelectorAll('.ob-fixed-header').forEach(function(hdr) {
+    hdr.style.overflow = 'hidden';
+    var layer = document.createElement('div');
+    layer.className = 'header-stars';
+    hdr.insertBefore(layer, hdr.firstChild);
+  });
+
+  function spawnHeaderStar() {
+    document.querySelectorAll('.ob-fixed-header .header-stars').forEach(function(layer) {
+      var el = document.createElement('div');
+      el.className = 'shooting-star';
+      var x     = (Math.random() * 75 + 5).toFixed(1);
+      var y     = (Math.random() * 70 + 5).toFixed(1);
+      var angle = (Math.random() * 22 + 18).toFixed(0);
+      var len   = (Math.random() * 55 + 75).toFixed(0);
+      var dist  = (Math.random() * 100 + 230).toFixed(0);
+      var dur   = (Math.random() * 250 + 520).toFixed(0);
+      el.style.cssText = 'left:'+x+'%;top:'+y+'%;width:'+len+'px;--sa:'+angle+'deg;--sd:'+dist+'px;animation-duration:'+dur+'ms';
+      layer.appendChild(el);
+      setTimeout(function() { el.remove(); }, +dur + 200);
+    });
+    setTimeout(spawnHeaderStar, Math.random() * 6000 + 3000);
+  }
+  setTimeout(spawnHeaderStar, Math.random() * 2000 + 500);
+
+  // REFUSE to stand still animation
+  (function startRefuseSequence() {
+    var taglines = document.querySelectorAll('.q-footer-tagline');
+    if (!taglines.length) return;
+    setTimeout(function() {
+      taglines.forEach(function(el) { el.style.animation = 'refuseFidget 1.5s ease-in-out forwards'; });
+      setTimeout(function() {
+        taglines.forEach(function(el) { el.style.animation = 'refuseZoom 4s ease-in-out forwards'; });
+        setTimeout(function() {
+          taglines.forEach(function(el) { el.style.animation = 'refuseLoop 60s ease-in-out infinite'; });
+        }, 4000);
+      }, 15000);
+    }, 5000);
+  })();
 });
 
 // ============================================================
@@ -1707,6 +1853,12 @@ function highlightMissingFields() {
   return anyMissing;
 }
 
+function formatCurrencyInput(input) {
+  const raw = input.value.replace(/[^0-9]/g, '');
+  if (!raw) { input.value = ''; return; }
+  input.value = '£' + Number(raw).toLocaleString('en-GB');
+}
+
 function clearFieldError(input) {
   if (!input.value.trim()) return;
   input.style.borderColor = '';
@@ -1843,6 +1995,12 @@ function savePurpose() {
   showScreen('screen-q3');
 }
 
+// lock pointer events on a container, auto-release after delay
+function lockOpts(id, delay) {
+  const el = document.getElementById(id);
+  if (el) { el.style.pointerEvents = 'none'; setTimeout(() => { el.style.pointerEvents = ''; }, delay + 50); }
+}
+
 // ============================================================
 // Q3 — Amount
 // ============================================================
@@ -1851,6 +2009,7 @@ function selectAmountNotSure(btn) {
   state.amount = 'Not sure yet';
   document.querySelectorAll('#screen-q3 .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
+  btn.style.pointerEvents = 'none';
   document.getElementById('loan-amount-input').value = '';
   setTimeout(() => showScreen('screen-q4'), 280);
 }
@@ -1877,6 +2036,7 @@ function selectTerm(value, btn) {
   state.term = value;
   document.querySelectorAll('#q4-opts .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
+  lockOpts('q4-opts', 280);
   setTimeout(() => showScreen('screen-q5'), 280);
 }
 
@@ -1887,6 +2047,7 @@ function selectSecurity(value, btn) {
   state.security = value;
   document.querySelectorAll('#q5-opts .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
+  lockOpts('q5-opts', 280);
   setTimeout(() => showScreen('screen-q6'), 280);
 }
 
@@ -1900,6 +2061,7 @@ function selectCredit(value, btn) {
   document.getElementById('credit-note').style.display = 'none';
   document.getElementById('q6-notsure-label').style.display = '';
   document.getElementById('q6-continue').style.display = 'none';
+  lockOpts('q6-opts', 280);
   setTimeout(() => showScreen('screen-q7'), 280);
 }
 
@@ -1933,6 +2095,7 @@ function selectTradingHistory(value, btn) {
   state.tradingHistory = value;
   document.querySelectorAll('#q7-opts .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
+  lockOpts('q7-opts', 280);
   const next = state.turnover ? 'screen-q9' : 'screen-q8';
   setTimeout(() => showScreen(next), 280);
 }
@@ -1944,37 +2107,61 @@ function selectMonthlyTurnover(value, btn) {
   state.monthlyTurnover = value;
   document.querySelectorAll('#q8-opts .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
+  lockOpts('q8-opts', 280);
   setTimeout(() => showScreen('screen-q9'), 280);
 }
 
 // ============================================================
 // Q9 — Existing finance
 // ============================================================
+var q9FacilityCount = 0;
+
 function selectExistingFinance(value, btn) {
   state.existingFinance = value;
   document.querySelectorAll('#q9-opts .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  const panel = document.getElementById('q9-details-panel');
-  if (value === 'none') {
-    panel.style.display = 'none';
-    document.getElementById('q9-continue').style.display = 'none';
-    setTimeout(() => showScreen('screen-q10'), 280);
-  } else {
-    panel.style.display = 'flex';
-    document.getElementById('q9-continue').style.display = 'block';
-    document.getElementById('q9-finance-type').focus();
-  }
+  document.getElementById('q9-facilities-list').style.display = 'none';
+  document.getElementById('q9-add-btn').style.display = 'none';
+  document.getElementById('q9-continue').style.display = 'none';
+  lockOpts('q9-opts', 280);
+  setTimeout(() => showScreen('screen-q10'), 280);
 }
 
+function selectExistingFinanceYes(btn) {
+  state.existingFinance = 'yes';
+  document.querySelectorAll('#q9-opts .answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const list = document.getElementById('q9-facilities-list');
+  list.style.display = 'flex';
+  if (q9FacilityCount === 0) addFinanceFacility();
+  document.getElementById('q9-add-btn').style.display = 'block';
+  document.getElementById('q9-continue').style.display = 'block';
+}
+
+function addFinanceFacility() {
+  q9FacilityCount++;
+  const list = document.getElementById('q9-facilities-list');
+  const box = document.createElement('div');
+  box.style.cssText = 'background:rgba(255,255,255,0.05);border:1px solid rgba(142,126,216,0.2);border-radius:12px;padding:14px;';
+  if (q9FacilityCount > 1) {
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;';
+    lbl.textContent = '#' + q9FacilityCount;
+    box.appendChild(lbl);
+  }
+  const inp = document.createElement('input');
+  inp.type = 'text';
+  inp.className = 'form-input';
+  inp.placeholder = 'e.g. Business loan with HSBC, £45k outstanding';
+  inp.style.cssText = 'width:100%;';
+  box.appendChild(inp);
+  list.appendChild(box);
+  setTimeout(() => inp.focus(), 50);
+}
 
 function saveExistingFinance() {
-  state.existingFinanceNote = [
-    document.getElementById('q9-finance-type').value.trim(),
-    document.getElementById('q9-lender').value.trim(),
-    document.getElementById('q9-balance').value.trim(),
-    document.getElementById('q9-monthly').value.trim(),
-    document.getElementById('q9-extra').value.trim(),
-  ].filter(Boolean).join(' | ');
+  const inputs = document.querySelectorAll('#q9-facilities-list input');
+  state.existingFinanceNote = Array.from(inputs).map(i => i.value.trim()).filter(Boolean).join(' | ');
   showScreen('screen-q10');
 }
 
@@ -1985,6 +2172,7 @@ function selectUrgency(value, btn) {
   state.urgency = value;
   document.querySelectorAll('#q10-opts .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
+  lockOpts('q10-opts', 280);
   setTimeout(() => showScreen('screen-q11'), 280); // q11 is now documents
 }
 
@@ -2592,7 +2780,7 @@ async function sendClientSummaryEmail(summary) {
     padding: 20px;
   }
   .thinking-logo {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
+    font-family: 'Dancing Script', cursive;
     font-style: italic;
     font-weight: normal;
     font-size: 1.8rem;
@@ -2801,7 +2989,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-q12,
   #screen-loading {
     background: var(--col-bg);
-    position: relative;
   }
 
   #screen-welcome::before,
@@ -3128,7 +3315,6 @@ async function sendClientSummaryEmail(summary) {
   /* Results screen — dark theme */
   #screen-results {
     background: var(--col-bg);
-    position: relative;
   }
   #screen-results::before {
     content: '';
@@ -3143,7 +3329,7 @@ async function sendClientSummaryEmail(summary) {
   }
   #screen-results .screen-content,
   #screen-results .ob-fixed-header,
-  #screen-results .screen-footer { position: relative; z-index: 1; }
+  #screen-results .q-fixed-footer { position: relative; z-index: 1; }
   #screen-results .results-name { color: var(--col-soft-violet) !important; }
   #screen-results .ai-summary-text { color: rgba(255,255,255,0.85) !important; }
   #screen-results .matched-product {
@@ -3160,11 +3346,11 @@ async function sendClientSummaryEmail(summary) {
 
   @media (max-width: 600px) {
     .ob-tagline-refuse { font-size: 20px; letter-spacing: 2px; }
-    .ob-tagline-rest { font-size: 7px; letter-spacing: 2px; }
+    .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
   }
   @media (max-width: 380px) {
     .ob-tagline-refuse { font-size: 16px; letter-spacing: 1px; }
-    .ob-tagline-rest { display: none; }
+    .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
   }
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -3241,7 +3427,7 @@ function showDiscoveryThinkingScreen(callback) {
 </script>
 <script>
 (function() {
-  const from = [0x4E, 0x00, 0x63], to = [0xD4, 0xAF, 0x37];
+  const from = [0x4E, 0x00, 0x63], to = [0xFF, 0x6B, 0x2B];
   let current = null;
   function updateScrollbar(el) {
     const pct = el.scrollHeight <= el.clientHeight ? 0 : el.scrollTop / (el.scrollHeight - el.clientHeight);
@@ -3251,13 +3437,14 @@ function showDiscoveryThinkingScreen(callback) {
     document.documentElement.style.setProperty('--sb-thumb', `rgb(${r},${g},${b})`);
   }
   function attachToActive() {
-    const active = document.querySelector('.screen.active');
-    if (!active || active === current) return;
+    const activeScreen = document.querySelector('.screen.active');
+    const el = activeScreen && (activeScreen.querySelector('.screen-content') || activeScreen);
+    if (!el || el === current) return;
     if (current) current.removeEventListener('scroll', current._sbHandler);
-    current = active;
-    active._sbHandler = () => updateScrollbar(active);
-    active.addEventListener('scroll', active._sbHandler, { passive: true });
-    updateScrollbar(active);
+    current = el;
+    el._sbHandler = () => updateScrollbar(el);
+    el.addEventListener('scroll', el._sbHandler, { passive: true });
+    updateScrollbar(el);
   }
   new MutationObserver(attachToActive).observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
   document.addEventListener('DOMContentLoaded', attachToActive);

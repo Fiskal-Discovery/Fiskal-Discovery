@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="favicon-main.svg">
 <title>Fiskal Discovery</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared-styles.css">
 <style>
   :root {
@@ -30,17 +30,20 @@
     --shadow-card: 0 8px 30px rgba(79, 70, 229, 0.18);
     --shadow-glow: 0 0 50px rgba(79, 70, 229, 0.25);
     --btn-gradient: var(--gradient-brand);
+    --btn-stripe: #0369A1;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+  }
+
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--col-bg);
     color: var(--dark);
-    min-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: hidden;
   }
 
   /* Welcome/onboarding screens keep the dark navy background */
@@ -68,12 +71,17 @@
   /* ---- SCREENS ---- */
   .screen {
     display: none;
-    min-height: 100vh;
-    position: relative;
-    z-index: 1;
-    animation: fadeUp 0.5s ease forwards;
+    flex-direction: column;
   }
-  .screen.active { display: flex; flex-direction: column; justify-content: flex-start; height: 100vh; overflow-y: auto; }
+  .screen.active {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease forwards;
+    z-index: 1;
+  }
 
   @keyframes fadeUp {
     from { opacity: 0; }
@@ -124,14 +132,17 @@
   /* ---- MAIN CONTENT ---- */
   .screen-content {
     flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 20px 24px 24px;
-
     max-width: 960px;
     width: 100%;
     margin: 0 auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
   }
 
   #screen-results .screen-content {
@@ -160,7 +171,7 @@
   }
 
   .home-title {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
+    font-family: 'Dancing Script', cursive;
     font-size: 52px;
     font-weight: 300;
     color: var(--white);
@@ -316,7 +327,7 @@
   }
 
   .brand-title {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
+    font-family: 'Dancing Script', cursive;
     font-style: italic;
     font-weight: normal;
     font-size: 42px;
@@ -388,7 +399,7 @@
   }
 
   .welcome-hero-title {
-    font-family: 'Monotype Corsiva', 'Apple Chancery', 'Palatino Linotype', cursive;
+    font-family: 'Dancing Script', cursive;
     font-style: italic;
     font-weight: normal;
     font-size: clamp(28px, 6vw, 52px);
@@ -497,12 +508,13 @@
   }
 
   .answer-btn {
-    background: white;
-    border: 1.5px solid rgba(75,0,130,0.15);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid rgba(160, 153, 232, 0.45);
+    border-top: 3px solid var(--btn-stripe);
     border-radius: 12px;
     padding: 16px 20px;
     font-size: 15px;
-    color: var(--dark);
+    color: var(--col-off-white);
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: left;
@@ -514,15 +526,19 @@
   }
 
   .answer-btn:hover {
-    border-color: var(--indigo);
-    background: var(--indigo-pale);
+    background: rgba(160, 153, 232, 0.12);
+    border-left-color: rgba(160, 153, 232, 0.7);
+    border-right-color: rgba(160, 153, 232, 0.7);
+    border-bottom-color: rgba(160, 153, 232, 0.7);
     transform: translateX(4px);
   }
 
   .answer-btn.selected {
-    border-color: var(--indigo);
-    background: var(--indigo);
-    color: white;
+    background: var(--col-purple);
+    border-color: var(--col-purple);
+    border-top-color: var(--btn-stripe);
+    color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(126, 9, 165, 0.25);
   }
 
   .answer-emoji { font-size: 18px; }
@@ -629,7 +645,7 @@
     border: 1.5px solid rgba(75,0,130,0.15);
     border-radius: 10px;
     padding: 14px 16px;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--dark);
     font-family: 'DM Sans', sans-serif;
     resize: none;
@@ -1084,7 +1100,7 @@
     align-items: center;
     gap: 12px;
     color: var(--col-soft-violet);
-    font-family: 'Monotype Corsiva', 'Corsiva', cursive;
+    font-family: 'Dancing Script', cursive;
     font-size: 18px;
     font-style: italic;
     letter-spacing: 1px;
@@ -1429,6 +1445,7 @@
 
   /* ---- HEADER BRAND ---- */
   .ob-header-title {
+    font-family: 'Dancing Script', cursive;
     font-size: 50px;
     color: var(--col-deep-purple);
   }
@@ -1452,16 +1469,153 @@
     font-size: 9px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.75);
+    color: #FF6B2B;
     font-weight: 400;
   }
   @media (max-width: 600px) {
     .ob-tagline-refuse { font-size: 20px; letter-spacing: 2px; }
-    .ob-tagline-rest { font-size: 7px; letter-spacing: 2px; }
+    .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
   }
   @media (max-width: 380px) {
     .ob-tagline-refuse { font-size: 16px; letter-spacing: 1px; }
-    .ob-tagline-rest { display: none; }
+    .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
+  }
+
+  /* ---- REFUSE TO STAND STILL ANIMATION ---- */
+  @keyframes refuseFidget {
+    0%   { transform: translateX(0) skewX(0deg); }
+    20%  { transform: translateX(3px) skewX(-5deg); }
+    40%  { transform: translateX(0) skewX(0deg); }
+    65%  { transform: translateX(4px) skewX(-7deg); }
+    85%  { transform: translateX(0) skewX(0deg); }
+    100% { transform: translateX(0) skewX(0deg); }
+  }
+  @keyframes refuseZoom {
+    0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    8%   { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    22%  { transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    23%  { transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    24%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    40%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    41%  { transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    62%  { transform: translateX(4px) skewX(-4deg); opacity: 1; }
+    74%  { transform: translateX(-2px) skewX(1deg); opacity: 1; }
+    88%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
+  }
+  @keyframes refuseLoop {
+    0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    83%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    85%  { transform: translateX(3px) skewX(-5deg); opacity: 1; }
+    87%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    89%  { transform: translateX(4px) skewX(-7deg); opacity: 1; }
+    91%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    92%  { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    93.5%{ transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    93.7%{ transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    94%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    96%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    96.5%{ transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    97.5%{ transform: translateX(4px) skewX(-4deg); opacity: 1; }
+    98.5%{ transform: translateX(-2px) skewX(1deg); opacity: 1; }
+    99.5%{ transform: translateX(0) skewX(0deg); opacity: 1; }
+    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
+  }
+
+  /* ---- HEADER SHOOTING STARS ---- */
+  .header-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .shooting-star {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.55) 35%, rgba(255,255,255,0.9) 100%);
+    border-radius: 1px;
+    pointer-events: none;
+    opacity: 0;
+    animation: shoot-star linear forwards;
+  }
+  @keyframes shoot-star {
+    0%   { opacity: 0;   transform: rotate(var(--sa)) translateX(0); }
+    12%  { opacity: 1; }
+    80%  { opacity: 0.5; }
+    100% { opacity: 0;   transform: rotate(var(--sa)) translateX(var(--sd)); }
+  }
+
+  /* ---- NEW FIXED HEADER (facility-review style) ---- */
+  .ob-fixed-header {
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    height: 90px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .ob-fixed-header .dashed-divider {
+    font-size: 24px;
+    padding: 0;
+    white-space: nowrap;
+    margin: 0;
+  }
+  .q-module-name {
+    position: absolute;
+    bottom: 4px;
+    right: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #FF6B2B;
+  }
+
+  /* ---- NEW FIXED FOOTER (facility-review style) ---- */
+  .q-fixed-footer {
+    flex-shrink: 0;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    width: 100%;
+  }
+  .q-footer-nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .q-nav-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 2px 10px;
+    min-height: 36px;
+  }
+  .q-nav-home {
+    color: #fff;
+    font-weight: 600;
+  }
+  .q-footer-tagline {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
+    margin-top: 2px;
   }
 
   /* ============================================================
@@ -1475,7 +1629,6 @@
   #screen-loading,
   #screen-submission-loading {
     background: var(--col-bg);
-    position: relative;
   }
 
   /* Purple orb overlay */
@@ -1552,65 +1705,68 @@
     margin-bottom: 6px !important;
   }
 
-  /* Multi-choice 2-column grid */
-  .multi-choice-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 7px;
-    width: 100%;
+  /* Multi-choice 2-column grid — mobile only */
+  @media (max-width: 768px) {
+    /* Compact answer button for multi-choice grid */
+    .answer-btn-compact {
+      padding: 8px 10px !important;
+      font-size: 13px !important;
+      min-height: 0 !important;
+      line-height: 1.3 !important;
+      text-align: center !important;
+      justify-content: center !important;
+    }
+
+    /* Tighten question screen to fit on one viewport */
+    #screen-question .screen-content {
+      justify-content: flex-start;
+      padding-top: 12px;
+      padding-bottom: 20px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      min-height: 0;
+    }
+    #screen-question #q-icon { display: none; }
+    #screen-question .question-product { margin-bottom: 4px; }
+    #screen-question .question-text { font-size: clamp(15px, 2.4vw, 19px); margin-bottom: 4px; }
+    #screen-question .question-sub { margin-bottom: 12px; }
+    #screen-question .answer-options { margin-bottom: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    #screen-question #q-next-btn { margin-top: 12px !important; flex-shrink: 0; }
   }
 
-  /* Compact answer button for multi-choice grid */
-  .answer-btn-compact {
-    padding: 8px 10px !important;
-    font-size: 13px !important;
-    min-height: 0 !important;
-    line-height: 1.3 !important;
-    text-align: center !important;
-    justify-content: center !important;
-  }
-
-  /* Tighten question screen to fit on one viewport */
-  #screen-question .screen-content {
-    justify-content: flex-start;
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
-  #screen-question #q-icon { display: none; }
-  #screen-question .question-product { margin-bottom: 4px; }
-  #screen-question .question-text { font-size: clamp(15px, 2.4vw, 19px); margin-bottom: 4px; }
-  #screen-question .question-sub { margin-bottom: 12px; }
-  #screen-question .answer-options { margin-bottom: 10px; }
-  #screen-question #q-next-btn { margin-top: 10px !important; }
-
-  /* Answer buttons → white cards, orange top border */
+  /* Answer buttons — dark style with module stripe */
   #screen-question .answer-btn,
   #screen-barriers .answer-btn {
-    background: #ffffff !important;
-    border: 1px solid rgba(42,4,64,0.06) !important;
-    border-top: 4px solid #0369A1 !important;
-    border-radius: 14px !important;
-    color: #1a0533 !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1.5px solid rgba(160, 153, 232, 0.45) !important;
+    border-top: 3px solid #0369A1 !important;
+    border-radius: 12px !important;
+    color: var(--col-off-white) !important;
     font-family: 'Raleway', sans-serif !important;
     font-weight: 600 !important;
-    font-size: 15px !important;
-    box-shadow: 0 2px 12px rgba(42,4,64,0.08) !important;
-    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    font-size: 14px !important;
+    box-shadow: none !important;
+    transition: all 0.2s ease !important;
+    text-align: center !important;
+    justify-content: center !important;
+    padding: 10px 8px !important;
   }
   #screen-question .answer-btn:hover,
   #screen-barriers .answer-btn:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 8px 28px rgba(42,4,64,0.14) !important;
-    border-top-color: #0284c7 !important;
-    background: #ffffff !important;
+    background: rgba(160, 153, 232, 0.12) !important;
+    border-left-color: rgba(160, 153, 232, 0.7) !important;
+    border-right-color: rgba(160, 153, 232, 0.7) !important;
+    border-bottom-color: rgba(160, 153, 232, 0.7) !important;
+    transform: translateX(4px) !important;
+    box-shadow: none !important;
   }
   #screen-question .answer-btn.selected,
   #screen-barriers .answer-btn.selected {
-    border-color: var(--col-soft-violet) !important;
-    border-width: 2px !important;
-    box-shadow: 0 0 0 3px rgba(192,96,208,0.25), 0 8px 28px rgba(192,96,208,0.3) !important;
-    background: rgba(192,96,208,0.22) !important;
+    background: var(--col-purple) !important;
+    border-color: var(--col-purple) !important;
+    border-top-color: #0369A1 !important;
     color: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(126, 9, 165, 0.25) !important;
   }
   .answer-emoji { font-size: 16px; }
 
@@ -1691,7 +1847,6 @@
   #screen-results,
   #screen-confirm {
     background: var(--col-bg);
-    position: relative;
   }
 
   #screen-results::before,
@@ -1847,20 +2002,14 @@
 <!-- ====== HOME SCREEN ====== -->
 <div class="screen" id="screen-home">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Funding Finder</span>
   </header>
 
   <div class="screen-content">
     <div class="home-hero">
       <div class="home-eyebrow">Welcome to</div>
-      <h1 class="home-title"><span style="font-family:'Monotype Corsiva','Apple Chancery','Palatino Linotype',cursive;font-style:italic;font-weight:normal;font-size:44px;color:#4f46e5;">Fiskal Discovery</span></h1>
+      <h1 class="home-title"><span style="font-family:'Dancing Script',cursive;font-style:italic;font-weight:normal;font-size:44px;color:#4f46e5;">Fiskal Discovery</span></h1>
       <p class="home-tagline"><strong>Refuse to Stand Still</strong><br><span style="color:#818cf8;text-transform:uppercase;letter-spacing:3px;font-size:16px;font-weight:500;">Find out what's possible for your business.</span></p>
     </div>
     <div class="module-grid">
@@ -1891,22 +2040,24 @@
 
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="dashed-divider">Fiskal Discovery</div>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html'">Home</button>
+      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
+    </div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== DETAILS SCREEN ====== -->
 <div class="screen active" id="screen-details">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Funding Finder</span>
   </header>
 
 
@@ -1919,69 +2070,65 @@
       <button class="btn-primary" id="intro-continue" onclick="startQuestionFlow()" style="display:none;margin-top:40px">Start My Funding Finder Discovery ›</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <button class="back-btn" onclick="window.location.href='home.html?home=1'" style="margin:0 auto;">Home</button>
-    <div class="dashed-divider">Fiskal Discovery</div>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
+    </div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== QUESTION SCREEN ====== -->
 <div class="screen" id="screen-question">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Funding Finder</span>
   </header>
 
 
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" id="question-progress" style="width:20%"></div></div>
-    <div class="progress-label" id="question-progress-label" style="display:none"></div>
+    <div class="progress-label" id="question-progress-label"></div>
   </div>
   <div class="screen-content">
     <div class="question-icon" id="q-icon"></div>
-    <div class="question-product" id="q-product">Funding Finder</div>
     <h2 class="question-text" id="q-text">Question goes here</h2>
     <p class="question-sub" id="q-sub" style="display:none;"></p>
     <div class="answer-options" id="q-options"></div>
     <div id="q-followup"></div>
     <button class="btn-primary" id="q-next-btn" style="display:none;margin-top:16px">Next ></button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="goBackQuestion()">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="back-btn" id="q-skip-btn" onclick="skipQuestion()">Skip ›</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" id="ff-back-btn" onclick="goBackQuestion()">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" id="ff-skip-btn" onclick="skipQuestion()">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== BARRIERS SCREEN ====== -->
 <div class="screen" id="screen-barriers">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Funding Finder</span>
   </header>
 
 
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" style="width:90%"></div></div>
-    <div class="progress-label" style="display:none"></div>
+    <div class="progress-label">Final question</div>
   </div>
   <div class="screen-content">
-        <div class="question-product">Funding Finder</div>
     <h2 class="question-text">Do you have any concerns that might make accessing finance difficult?</h2>
     <p style="font-size:13px;color:var(--light-text);margin-bottom:20px;font-weight:300;">For example: previous credit issues, HMRC arrears, a short trading history, or a past rejection.</p>
     <div class="answer-options">
@@ -2003,35 +2150,31 @@
     </div>
     <button class="btn-primary" id="barriers-next" onclick="submitBarriers()" style="display:none;margin-top:20px">Submit My Discovery ›</button>
   </div>
-  <div class="screen-footer">
-    <div class="nav-row">
-      <button class="back-btn" onclick="goBackBarriers()">‹ Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" id="ff-back-btn" onclick="goBackBarriers()">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
     </div>
-    <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== LOADING SCREEN ====== -->
 <div class="screen" id="screen-loading">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Funding Finder</span>
   </header>
-  <div class="screen-content">
-    <div class="loading-screen">
-      <div class="loading-orb"></div>
-      <h2 class="loading-title">Analysing your answers</h2>
-      <p class="loading-sub">Finding the best possibilities for your business</p>
-      <div class="loading-dots">
-        <span></span><span></span><span></span>
-      </div>
+  <div class="screen-content" style="align-items:center;justify-content:center;">
+    <div class="loading-orb"></div>
+    <h2 class="loading-title">Analysing your answers</h2>
+    <p class="loading-sub">Finding the best possibilities for your business</p>
+    <div class="loading-dots">
+      <span></span><span></span><span></span>
     </div>
   </div>
 </div>
@@ -2039,14 +2182,8 @@
 <!-- ====== LOADING SCREEN ====== -->
 <div class="screen loading-screen" id="screen-submission-loading">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Funding Finder</span>
   </header>
   <div class="loading-content">
     <div class="loading-spinner"></div>
@@ -2057,14 +2194,8 @@
 <!-- ====== RESULTS SCREEN ====== -->
 <div class="screen" id="screen-results">
   <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Funding Finder</span>
   </header>
 
 
@@ -2093,14 +2224,25 @@
     <div id="nicole-contact-card-container"></div>
 
   </div>
-  <div class="screen-footer">
-    <button class="back-btn" onclick="window.location.href='home.html?home=1'" style="margin:0 auto;">Home</button>
-    <div class="dashed-divider">Fiskal Discovery</div>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
+      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
+    </div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
 <!-- ====== CONFIRMATION SCREEN ====== -->
 <div class="screen" id="screen-confirm">
+  <header class="ob-fixed-header">
+    <div class="dashed-divider">Fiskal Discovery</div>
+    <span class="q-module-name">Funding Finder</span>
+  </header>
   <div class="screen-content">
     <div class="confirm-screen">
       <div class="confirm-icon"></div>
@@ -2110,8 +2252,16 @@
       <button class="btn-secondary" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
   </div>
-  <div class="screen-footer">
-    <div class="dashed-divider">Fiskal Discovery</div>
+  <div class="q-fixed-footer">
+    <div class="q-footer-nav">
+      <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
+      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html'">Home</button>
+      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
+    </div>
+    <div class="q-footer-tagline">
+      <span class="ob-tagline-refuse">REFUSE</span>
+      <span class="ob-tagline-rest"> to stand still</span>
+    </div>
   </div>
 </div>
 
@@ -2182,7 +2332,15 @@ const loadingMessages = [
 
 let lastMessageIndex = -1;
 
+function showDiscoveryThinkingScreen(callback) {
+  const userName = state.name || appState.profile.name || (JSON.parse(localStorage.getItem('fiskal_appState') || '{}').profile || {}).name || '';
+  const phrases = [
+    'Every great business is on a journey.',
+    'Mapping your funding options...',
+    `Thanks for waiting, ${userName} — your discovery is ready.`
+  ];
 
+  let screen = document.getElementById('discovery-thinking-screen');
   if (!screen) {
     screen = document.createElement('div');
     screen.id = 'discovery-thinking-screen';
@@ -2477,7 +2635,6 @@ function renderFlowQuestion() {
 
   const skipBtn = document.getElementById('q-skip-btn');
   if (skipBtn) skipBtn.style.display = isLast ? 'none' : '';
-  document.getElementById('q-product').textContent = 'Funding Finder';
   document.getElementById('q-text').textContent = q.question;
   const subEl = document.getElementById('q-sub');
   if (q.subtitle) { subEl.textContent = q.subtitle; subEl.style.display = 'block'; }
@@ -2487,6 +2644,14 @@ function renderFlowQuestion() {
 
   const optionsEl = document.getElementById('q-options');
   optionsEl.innerHTML = '';
+  const isMobile = window.innerWidth <= 768;
+  const optCount = q.options ? q.options.length : 0;
+  const useSingleCol = isMobile && optCount <= 3;
+  optionsEl.style.cssText = isMobile
+    ? useSingleCol
+      ? 'display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:10px;'
+      : 'display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;'
+    : 'display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px;';
 
   if (q.type === 'single-choice') {
     q.options.forEach(opt => {
@@ -2496,6 +2661,7 @@ function renderFlowQuestion() {
       btn.onclick = () => {
         optionsEl.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
+        optionsEl.style.pointerEvents = 'none';
         const followupEl = document.getElementById('q-followup');
         const nextBtn = document.getElementById('q-next-btn');
         if (q.followUp && opt === q.followUp.triggerValue) {
@@ -2528,7 +2694,7 @@ function renderFlowQuestion() {
           } else {
             nextBtn.style.display = 'none';
             saveAnswer(q.saveAs, opt);
-            goNext();
+            setTimeout(goNext, 320);
           }
         }
       };
@@ -2537,57 +2703,46 @@ function renderFlowQuestion() {
   } else if (q.type === 'multi-choice') {
     const selected = new Set();
     const otherTrigger = q.followUp ? q.followUp.triggerValue : null;
-    const grid = document.createElement('div');
-    grid.className = 'multi-choice-grid';
-    const regularOpts = q.options.filter(opt => opt !== otherTrigger);
-    regularOpts.forEach(opt => {
+
+    // All options go into the grid as equal buttons (including "Other")
+    q.options.forEach(opt => {
       const btn = document.createElement('button');
       btn.className = 'answer-btn answer-btn-compact';
       btn.textContent = opt;
       btn.onclick = () => {
-        if (selected.has(opt)) { selected.delete(opt); btn.classList.remove('selected'); }
-        else { selected.add(opt); btn.classList.add('selected'); }
+        if (opt === otherTrigger) {
+          if (selected.has(opt)) {
+            selected.delete(opt); btn.classList.remove('selected');
+            otherRow.style.display = 'none'; otherInp.value = '';
+          } else {
+            selected.add(opt); btn.classList.add('selected');
+            otherRow.style.display = 'block';
+            setTimeout(() => otherInp.focus(), 50);
+          }
+        } else {
+          if (selected.has(opt)) { selected.delete(opt); btn.classList.remove('selected'); }
+          else { selected.add(opt); btn.classList.add('selected'); }
+        }
         nextBtn.style.opacity = (selected.size > 0) ? '1' : '0.35';
         nextBtn.style.pointerEvents = (selected.size > 0) ? 'auto' : 'none';
       };
-      grid.appendChild(btn);
+      optionsEl.appendChild(btn);
     });
-    optionsEl.appendChild(grid);
-    if (otherTrigger) {
-      const otherSlot = document.createElement('div');
-      otherSlot.className = 'answer-btn';
-      otherSlot.style.cssText = 'cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:7px;width:100%;box-sizing:border-box;';
-      const otherLbl = document.createElement('span');
-      otherLbl.textContent = otherTrigger;
-      const otherInp = document.createElement('input');
-      otherInp.type = 'text';
-      otherInp.id = 'multi-followup-input';
-      otherInp.placeholder = q.followUp.placeholder || 'Please describe...';
-      otherInp.style.cssText = 'display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0;';
-      otherInp.addEventListener('input', () => {
-        nextBtn.style.opacity = (selected.size > 0 || otherInp.value.trim()) ? '1' : '0.35';
-        nextBtn.style.pointerEvents = (selected.size > 0 || otherInp.value.trim()) ? 'auto' : 'none';
-      });
-      otherInp.addEventListener('click', e => e.stopPropagation());
-      otherSlot.onclick = () => {
-        const open = otherInp.style.display !== 'none';
-        if (open) {
-          otherSlot.classList.remove('selected'); otherInp.style.display = 'none';
-          otherLbl.textContent = otherTrigger; otherInp.value = '';
-          selected.delete(otherTrigger);
-        } else {
-          otherSlot.classList.add('selected'); selected.add(otherTrigger);
-          otherInp.style.display = 'block';
-          otherLbl.textContent = otherTrigger + ' — please specify:';
-          setTimeout(() => otherInp.focus(), 50);
-        }
-        nextBtn.style.opacity = (selected.size > 0 || otherInp.value.trim()) ? '1' : '0.35';
-        nextBtn.style.pointerEvents = (selected.size > 0 || otherInp.value.trim()) ? 'auto' : 'none';
-      };
-      otherSlot.appendChild(otherLbl);
-      otherSlot.appendChild(otherInp);
-      optionsEl.appendChild(otherSlot);
-    }
+
+    // Text box row — spans both columns, hidden until "Other" is clicked
+    const otherRow = document.createElement('div');
+    otherRow.style.cssText = 'grid-column:1/-1;display:none;margin-top:4px;';
+    const otherInp = document.createElement('input');
+    otherInp.type = 'text';
+    otherInp.id = 'multi-followup-input';
+    otherInp.placeholder = q.followUp ? (q.followUp.placeholder || 'Please describe...') : 'Please describe...';
+    otherInp.style.cssText = 'width:100%;background:rgba(255,255,255,0.06);border:none;border-bottom:1.5px solid rgba(160,153,232,0.5);border-radius:0;outline:none;color:#fff;font-family:inherit;font-size:14px;padding:8px 4px;';
+    otherInp.addEventListener('input', () => {
+      nextBtn.style.opacity = (selected.size > 0) ? '1' : '0.35';
+      nextBtn.style.pointerEvents = (selected.size > 0) ? 'auto' : 'none';
+    });
+    otherRow.appendChild(otherInp);
+    optionsEl.appendChild(otherRow);
     const nextBtn = document.getElementById('q-next-btn');
     nextBtn.style.display = 'block';
     nextBtn.style.opacity = '0.35';
@@ -2856,7 +3011,7 @@ async function generateResults() {
     summary = {
       pageHeading: 'Your Fiskal Discovery is ready',
       summaryHeading: 'Here\'s what we discovered',
-      summaryHtml: '<p>Great news — based on what you\'ve shared, there are funding options worth exploring for ' + (state.business || 'your business') + '. The most suitable route will depend on what the funding needs to achieve, how quickly it is needed, and which providers are the best fit.</p>'
+      summaryHtml: '<p>Based on what you\'ve told us, there are funding options worth exploring for ' + (state.business || 'your business') + '. The right route will depend on what the funding needs to achieve and which structure fits best.</p>'
     };
   }
   
@@ -3014,17 +3169,21 @@ function displayResults(summary, matchedProducts) {
   };
 
   if (matchedProducts.length > 0) {
+    const isMobileResults = window.innerWidth <= 768;
+    if (isMobileResults && matchedProducts.length > 1) {
+      list.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px;';
+    }
     matchedProducts.forEach(p => {
       const info = productInfo[p];
       const desc = productDescriptions[p];
       if (info && desc) {
         const wrap = document.createElement('div');
-        wrap.style.cssText = 'margin-bottom:8px;';
+        wrap.style.cssText = 'display:flex;flex-direction:column;';
 
         const btn = document.createElement('button');
         btn.className = 'answer-btn';
-        btn.style.cssText = 'width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:12px;';
-        btn.innerHTML = `<span>Find out more about ${info.name}</span><span class="ff-expand-arrow" style="font-size:18px;transition:transform 0.25s;flex-shrink:0;">›</span>`;
+        btn.style.cssText = 'width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:8px;flex:1;';
+        btn.innerHTML = `<span style="font-weight:700;">${info.name}</span><span class="ff-expand-arrow" style="font-size:18px;transition:transform 0.25s;flex-shrink:0;">›</span>`;
 
         const detail = document.createElement('div');
         detail.style.cssText = 'display:none;padding:14px 16px;font-size:13px;line-height:1.7;color:rgba(255,255,255,0.75);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-top:none;border-radius:0 0 10px 10px;margin-top:-4px;';
@@ -3136,7 +3295,7 @@ async function emailSummaryToUser() {
 
   const summaryEl = document.getElementById('ai-summary-text');
   const summaryText = summaryEl ? summaryEl.innerText : '';
-  const products = Array.from(document.querySelectorAll('#matched-products-list .answer-btn span:first-child')).map(el => el.textContent.replace(/^Find out more about /, '')).join(', ');
+  const products = Array.from(document.querySelectorAll('#matched-products-list .answer-btn span:first-child')).map(el => el.textContent.trim()).join(', ');
 
   const templateParams = {
     name: state.name,
@@ -3172,6 +3331,49 @@ async function emailSummaryToUser() {
 // For now using a placeholder
 document.addEventListener('DOMContentLoaded', () => {
   window.scrollTo(0, 0);
+  showScreen('details');
+
+  // Shooting stars in all headers — same style as home.html
+  document.querySelectorAll('.ob-fixed-header').forEach(hdr => {
+    hdr.style.overflow = 'hidden';
+    const layer = document.createElement('div');
+    layer.className = 'header-stars';
+    hdr.insertBefore(layer, hdr.firstChild);
+  });
+
+  function spawnHeaderStar() {
+    document.querySelectorAll('.ob-fixed-header .header-stars').forEach(layer => {
+      const el = document.createElement('div');
+      el.className = 'shooting-star';
+      const x     = (Math.random() * 75 + 5).toFixed(1);
+      const y     = (Math.random() * 70 + 5).toFixed(1);
+      const angle = (Math.random() * 22 + 18).toFixed(0);
+      const len   = (Math.random() * 55 + 75).toFixed(0);
+      const dist  = (Math.random() * 100 + 230).toFixed(0);
+      const dur   = (Math.random() * 250 + 520).toFixed(0);
+      el.style.cssText = `left:${x}%;top:${y}%;width:${len}px;--sa:${angle}deg;--sd:${dist}px;animation-duration:${dur}ms`;
+      layer.appendChild(el);
+      setTimeout(() => el.remove(), +dur + 200);
+    });
+    setTimeout(spawnHeaderStar, Math.random() * 6000 + 3000);
+  }
+  setTimeout(spawnHeaderStar, Math.random() * 2000 + 500);
+
+  // REFUSE to stand still animation — same as facility-review
+  (function startRefuseSequence() {
+    const taglines = document.querySelectorAll('.q-footer-tagline');
+    if (!taglines.length) return;
+    setTimeout(function() {
+      taglines.forEach(function(el) { el.style.animation = 'refuseFidget 1.5s ease-in-out forwards'; });
+      setTimeout(function() {
+        taglines.forEach(function(el) { el.style.animation = 'refuseZoom 4s ease-in-out forwards'; });
+        setTimeout(function() {
+          taglines.forEach(function(el) { el.style.animation = 'refuseLoop 60s ease-in-out infinite'; });
+        }, 4000);
+      }, 15000);
+    }, 5000);
+  })();
+
   // Load Nicole's photo
   loadNicolePhoto();
   // Start typing intro
@@ -3207,17 +3409,17 @@ async function loadNicolePhoto() {
   try {
     const saved = localStorage.getItem(OB_KEY);
     if (!saved) {
-      window.location.href = 'home.html?home=1';
+      window.location.href = 'onboarding.html';
       return;
     }
     const appState = JSON.parse(saved);
     if (!appState || !appState.profile) {
-      window.location.href = 'home.html?home=1';
+      window.location.href = 'onboarding.html';
       return;
     }
     // Check if welcome is completed and profile has required fields
     if (!appState.profile.welcomeCompleted || !appState.profile.name || !appState.profile.email) {
-      window.location.href = 'home.html?home=1';
+      window.location.href = 'onboarding.html';
       return;
     }
     
@@ -3251,7 +3453,7 @@ async function loadNicolePhoto() {
     });
   } catch(e) {
     console.error("Funding Finder profile check error:", e);
-    window.location.href = 'home.html?home=1';
+    window.location.href = 'onboarding.html';
   }
 })();
 
@@ -3274,8 +3476,7 @@ if (fromOnboarding) {
 <script src="shared-components.js"></script>
 <script>
 (function() {
-  const from = [0x4e, 0x00, 0x63];
-  const to   = [0xD9, 0x4F, 0x00];
+  const from = [0x4E, 0x00, 0x63], to = [0xFF, 0x6B, 0x2B];
   let current = null;
   function updateScrollbar(el) {
     const pct = el.scrollHeight <= el.clientHeight ? 0
@@ -3286,13 +3487,14 @@ if (fromOnboarding) {
     document.documentElement.style.setProperty('--sb-thumb', `rgb(${r},${g},${b})`);
   }
   function attachToActive() {
-    const active = document.querySelector('.screen.active');
-    if (!active || active === current) return;
+    const activeScreen = document.querySelector('.screen.active');
+    const el = activeScreen && (activeScreen.querySelector('.screen-content') || activeScreen);
+    if (!el || el === current) return;
     if (current) current.removeEventListener('scroll', current._sbHandler);
-    current = active;
-    active._sbHandler = () => updateScrollbar(active);
-    active.addEventListener('scroll', active._sbHandler, { passive: true });
-    updateScrollbar(active);
+    current = el;
+    el._sbHandler = () => updateScrollbar(el);
+    el.addEventListener('scroll', el._sbHandler, { passive: true });
+    updateScrollbar(el);
   }
   new MutationObserver(attachToActive).observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
   document.addEventListener('DOMContentLoaded', attachToActive);

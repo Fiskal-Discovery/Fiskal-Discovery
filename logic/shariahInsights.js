@@ -5,7 +5,7 @@ function getShariahOpeningInsight(businessName, purposes, otherPurpose) {
   const name = businessName || 'the business';
   const purposeText = otherPurpose || (Array.isArray(purposes) ? purposes.join(' and ') : purposes);
 
-  let para = `Great news — based on what you've told us, there are options worth exploring for ${name}. You're looking for Shariah-compliant funding to support`;
+  let para = `Based on what you've told us, Shariah-compliant funding is worth exploring for ${name}. You're looking for support with`;
   if (purposeText && purposeText !== 'Something else') {
     para += ` ${purposeText.toLowerCase()}`;
   } else {

@@ -55,7 +55,7 @@
   .progress-track { height: 3px; background: rgba(126,9,165,0.12); border-radius: 3px; overflow: hidden; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, var(--indigo), var(--blue)); border-radius: 3px; transition: width 0.5s ease; }
   
-  .screen-content { flex: 1; display: flex; flex-direction: column; padding: 24px 24px 32px; max-width: 960px; width: 100%; margin: 0 auto; }
+  .screen-content { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 24px 24px 32px; max-width: 960px; width: 100%; margin: 0 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
   #screen-results .screen-content { max-width: 100%; padding: 20px 40px 24px; }
   
   .question-product { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; font-weight: 500; }
@@ -381,6 +381,71 @@
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--sb-thumb, #4e0063); border-radius: 3px; }
   * { scrollbar-width: thin; scrollbar-color: var(--sb-thumb, #4e0063) transparent; }
+
+  /* ---- REFUSE TO STAND STILL ANIMATION ---- */
+  @keyframes refuseFidget {
+    0%   { transform: translateX(0) skewX(0deg); }
+    20%  { transform: translateX(3px) skewX(-5deg); }
+    40%  { transform: translateX(0) skewX(0deg); }
+    65%  { transform: translateX(4px) skewX(-7deg); }
+    85%  { transform: translateX(0) skewX(0deg); }
+    100% { transform: translateX(0) skewX(0deg); }
+  }
+  @keyframes refuseZoom {
+    0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    8%   { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    22%  { transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    23%  { transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    24%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    40%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    41%  { transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    62%  { transform: translateX(4px) skewX(-4deg); opacity: 1; }
+    74%  { transform: translateX(-2px) skewX(1deg); opacity: 1; }
+    88%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
+  }
+  @keyframes refuseLoop {
+    0%   { transform: translateX(0) skewX(0deg); opacity: 1; }
+    83%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    85%  { transform: translateX(3px) skewX(-5deg); opacity: 1; }
+    87%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    89%  { transform: translateX(4px) skewX(-7deg); opacity: 1; }
+    91%  { transform: translateX(0) skewX(0deg); opacity: 1; }
+    92%  { transform: translateX(12px) skewX(-20deg); opacity: 1; }
+    93.5%{ transform: translateX(120vw) skewX(-20deg); opacity: 1; }
+    93.7%{ transform: translateX(120vw) skewX(-20deg); opacity: 0; }
+    94%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    96%  { transform: translateX(-120vw) skewX(20deg); opacity: 0; }
+    96.5%{ transform: translateX(-120vw) skewX(20deg); opacity: 1; }
+    97.5%{ transform: translateX(4px) skewX(-4deg); opacity: 1; }
+    98.5%{ transform: translateX(-2px) skewX(1deg); opacity: 1; }
+    99.5%{ transform: translateX(0) skewX(0deg); opacity: 1; }
+    100% { transform: translateX(0) skewX(0deg); opacity: 1; }
+  }
+
+  /* ---- HEADER SHOOTING STARS ---- */
+  .header-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .shooting-star {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.55) 35%, rgba(255,255,255,0.9) 100%);
+    border-radius: 1px;
+    pointer-events: none;
+    opacity: 0;
+    animation: shoot-star linear forwards;
+  }
+  @keyframes shoot-star {
+    0%   { opacity: 0;   transform: rotate(var(--sa)) translateX(0); }
+    12%  { opacity: 1; }
+    80%  { opacity: 0.5; }
+    100% { opacity: 0;   transform: rotate(var(--sa)) translateX(var(--sd)); }
+  }
 </style>
 </head>
 <body>
@@ -951,13 +1016,56 @@ async function sendNotification(summary) {
   } catch(e) {}
 })();
 
+// ---- Shooting stars + REFUSE animation ----
+document.addEventListener('DOMContentLoaded', function() {
+  // Shooting stars in all headers
+  document.querySelectorAll('.ob-fixed-header').forEach(function(hdr) {
+    hdr.style.overflow = 'hidden';
+    var layer = document.createElement('div');
+    layer.className = 'header-stars';
+    hdr.insertBefore(layer, hdr.firstChild);
+  });
+
+  function spawnHeaderStar() {
+    document.querySelectorAll('.ob-fixed-header .header-stars').forEach(function(layer) {
+      var el = document.createElement('div');
+      el.className = 'shooting-star';
+      var x     = (Math.random() * 75 + 5).toFixed(1);
+      var y     = (Math.random() * 70 + 5).toFixed(1);
+      var angle = (Math.random() * 22 + 18).toFixed(0);
+      var len   = (Math.random() * 55 + 75).toFixed(0);
+      var dist  = (Math.random() * 100 + 230).toFixed(0);
+      var dur   = (Math.random() * 250 + 520).toFixed(0);
+      el.style.cssText = 'left:'+x+'%;top:'+y+'%;width:'+len+'px;--sa:'+angle+'deg;--sd:'+dist+'px;animation-duration:'+dur+'ms';
+      layer.appendChild(el);
+      setTimeout(function() { el.remove(); }, +dur + 200);
+    });
+    setTimeout(spawnHeaderStar, Math.random() * 6000 + 3000);
+  }
+  setTimeout(spawnHeaderStar, Math.random() * 2000 + 500);
+
+  // REFUSE to stand still animation
+  (function startRefuseSequence() {
+    var taglines = document.querySelectorAll('.ob-header-tagline');
+    if (!taglines.length) return;
+    setTimeout(function() {
+      taglines.forEach(function(el) { el.style.animation = 'refuseFidget 1.5s ease-in-out forwards'; });
+      setTimeout(function() {
+        taglines.forEach(function(el) { el.style.animation = 'refuseZoom 4s ease-in-out forwards'; });
+        setTimeout(function() {
+          taglines.forEach(function(el) { el.style.animation = 'refuseLoop 60s ease-in-out infinite'; });
+        }, 4000);
+      }, 15000);
+    }, 5000);
+  })();
+});
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("g710KFSryN241SQWm");</script>
 <script>
 (function() {
-  const from = [0x4E, 0x00, 0x63], to = [0xD4, 0xAF, 0x37];
+  const from = [0x4E, 0x00, 0x63], to = [0xFF, 0x6B, 0x2B];
   let current = null;
   function updateScrollbar(el) {
     const pct = el.scrollHeight <= el.clientHeight ? 0 : el.scrollTop / (el.scrollHeight - el.clientHeight);
@@ -967,13 +1075,14 @@ async function sendNotification(summary) {
     document.documentElement.style.setProperty('--sb-thumb', `rgb(${r},${g},${b})`);
   }
   function attachToActive() {
-    const active = document.querySelector('.screen.active');
-    if (!active || active === current) return;
+    const activeScreen = document.querySelector('.screen.active');
+    const el = activeScreen && (activeScreen.querySelector('.screen-content') || activeScreen);
+    if (!el || el === current) return;
     if (current) current.removeEventListener('scroll', current._sbHandler);
-    current = active;
-    active._sbHandler = () => updateScrollbar(active);
-    active.addEventListener('scroll', active._sbHandler, { passive: true });
-    updateScrollbar(active);
+    current = el;
+    el._sbHandler = () => updateScrollbar(el);
+    el.addEventListener('scroll', el._sbHandler, { passive: true });
+    updateScrollbar(el);
   }
   new MutationObserver(attachToActive).observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
   document.addEventListener('DOMContentLoaded', attachToActive);
