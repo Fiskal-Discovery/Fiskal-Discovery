@@ -1760,27 +1760,17 @@ document.addEventListener('DOMContentLoaded', function () {
 <script src="shared-components.js"></script>
 <script>
 (function() {
-  const from = [0x4E, 0x00, 0x63], to = [0xFF, 0x6B, 0x2B];
-  let current = null;
-  function updateScrollbar(el) {
+  const from = [0x4E, 0x00, 0x63], to = [0xC0, 0x60, 0xD0];
+  function updateScrollbar() {
+    const el = document.documentElement;
     const pct = el.scrollHeight <= el.clientHeight ? 0 : el.scrollTop / (el.scrollHeight - el.clientHeight);
     const r = Math.round(from[0] + (to[0] - from[0]) * pct);
     const g = Math.round(from[1] + (to[1] - from[1]) * pct);
     const b = Math.round(from[2] + (to[2] - from[2]) * pct);
     document.documentElement.style.setProperty('--sb-thumb', `rgb(${r},${g},${b})`);
   }
-  function attachToActive() {
-    const activeScreen = document.querySelector('.screen.active');
-    const el = activeScreen && (activeScreen.querySelector('.screen-content') || activeScreen);
-    if (!el || el === current) return;
-    if (current) current.removeEventListener('scroll', current._sbHandler);
-    current = el;
-    el._sbHandler = () => updateScrollbar(el);
-    el.addEventListener('scroll', el._sbHandler, { passive: true });
-    updateScrollbar(el);
-  }
-  new MutationObserver(attachToActive).observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
-  document.addEventListener('DOMContentLoaded', attachToActive);
+  window.addEventListener('scroll', updateScrollbar, { passive: true });
+  document.addEventListener('DOMContentLoaded', updateScrollbar);
 })();
 </script>
 <script>
