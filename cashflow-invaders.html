@@ -2017,18 +2017,21 @@ function showBobbyCinematic(onDone){
         const pos=bPos[i],col=BOSS_COLS[i];
         let fs=clamp(W*0.068,18,76);
         c.font=`bold ${fs}px "Press Start 2P",monospace`;
-        while(c.measureText(name).width>W*0.80&&fs>12){fs-=2;c.font=`bold ${fs}px "Press Start 2P",monospace`;}
+        while(c.measureText(name).width>W*0.86&&fs>10){fs-=2;c.font=`bold ${fs}px "Press Start 2P",monospace`;}
+        const tw=c.measureText(name).width;
+        const px=clamp(pos.x,tw/2+8,W-tw/2-8);
+        const py=pos.y;
         c.textAlign='center';
         if(lt<0.8){
           const sc=0.04+easeOut(lt/0.8)*0.96;
           const alpha=clamp(lt/0.15,0,1);
-          c.save();c.translate(pos.x,pos.y);c.scale(sc,sc);
+          c.save();c.translate(px,py);c.scale(sc,sc);
           c.globalAlpha=alpha;c.fillStyle=col;c.shadowColor=col;c.shadowBlur=clamp(22*sc,2,28);
           c.font=`bold ${fs}px "Press Start 2P",monospace`;c.fillText(name,0,0);
           c.restore();
         } else if(lt<1.45){
           const cp=(lt-0.8)/0.65;
-          c.save();c.translate(pos.x,pos.y);
+          c.save();c.translate(px,py);
           c.globalAlpha=1;c.fillStyle=col;c.shadowColor=col;c.shadowBlur=16;
           c.font=`bold ${fs}px "Press Start 2P",monospace`;c.fillText(name,0,0);
           c.shadowBlur=0;
@@ -2042,7 +2045,7 @@ function showBobbyCinematic(onDone){
           if(!bGlass[i]){bGlass[i]=true;glassSound();}
         } else {
           const sp=(lt-1.45)/0.85;
-          c.save();c.translate(pos.x,pos.y);
+          c.save();c.translate(px,py);
           c.globalAlpha=Math.max(0,1-sp*1.1)*0.25;c.fillStyle=col;
           c.font=`bold ${fs}px "Press Start 2P",monospace`;c.fillText(name,0,0);
           const fragFs=clamp(fs*0.38,7,22);
