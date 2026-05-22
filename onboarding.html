@@ -432,8 +432,7 @@
     justify-content: flex-start;
   }
   #screen-landing.active {
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden !important;
   }
   #screen-landing::before {
     content: '';
@@ -1710,10 +1709,19 @@
     position: fixed !important;
     inset: 0 !important;
     height: 100dvh !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
     justify-content: flex-start;
     background: #07051a;
+  }
+  #screen-landing .ob-hero-wrap {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+  #screen-landing .ob-hero {
+    height: 100%;
   }
   #screen-landing .ob-body {
     flex: none !important;
