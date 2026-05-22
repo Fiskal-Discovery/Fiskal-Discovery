@@ -694,15 +694,7 @@ function showLarryCinematic(defeatedBosses,onDone){
   setTimeout(()=>MUSIC.newHope(),400);
   el.classList.add('active');el.style.pointerEvents='auto';
   cin.classList.add('lc-active');
-  // Populate boss list
-  const list=document.getElementById('lc-boss-list');
-  list.innerHTML='';
-  defeatedBosses.forEach((name,i)=>{
-    const row=document.createElement('div');row.className='lc-boss-row';
-    row.style.animationDelay=(i*120)+'ms';
-    row.textContent='✓ '+name;
-    list.appendChild(row);
-  });
+  // Static threat list — no dynamic population needed
   window._lcOnDone=onDone;
   _lcNext(1);
 }
