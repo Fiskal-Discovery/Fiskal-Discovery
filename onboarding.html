@@ -2757,7 +2757,7 @@ const welcomeFlow = [
       { label: "60 days", value: "60" },
       { label: "90 days", value: "90" },
       { label: "90+ days", value: "90" },
-      { label: "I'm not sure", value: "30" }
+      { label: "I'm not sure", value: "30", fullWidth: true }
     ],
     saveAs: "paymentTermsDays"
   },
@@ -2984,6 +2984,7 @@ function renderWelcomeQuestion() {
     regularOpts.forEach(opt => {
       const btn = document.createElement('button');
       btn.className = isTwoCol ? 'ob-q-pill' : 'ob-q-card';
+      if (isTwoCol && opt.fullWidth) btn.style.gridColumn = '1 / -1';
       btn.textContent = opt.label;
       btn.onclick = () => {
         if (btn.dataset.clicked) return;
