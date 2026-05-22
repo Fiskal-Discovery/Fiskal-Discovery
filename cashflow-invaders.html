@@ -1843,10 +1843,9 @@ function showBobbyCinematic(onDone){
   for(let i=0;i<20;i++){bST.push(bacc);if(i<2)bacc+=2.5;else if(i<6)bacc+=1.2;else if(i<13)bacc+=0.55;else bacc+=0.28;}
   const S4_END=bST[19]+2.3;
   const bPos=BOSS_LIST.map((_,i)=>({x:W*(0.15+(i%4)*(0.7/4)+Math.random()*0.08),y:H*(0.15+Math.floor(i/4)*(0.7/5)+Math.random()*0.06)}));
-  const bCracks=BOSS_LIST.map(()=>Array.from({length:12},()=>({a:Math.random()*Math.PI*2,l:55+Math.random()*90,ox:(Math.random()-.5)*60,oy:(Math.random()-.5)*30})));
-  const bFrags=BOSS_LIST.map((nm)=>Array.from({length:20},()=>({vx:(Math.random()-.5)*11,vy:(Math.random()-.5)*7-1.5,va:(Math.random()-.5)*0.35,ox:(Math.random()-.5)*55,oy:(Math.random()-.5)*28,ch:nm[Math.floor(Math.random()*nm.length)]||'#'})));
-  const bGlass=new Array(20).fill(false);
-  let s4done=false;
+  const bExploded=new Array(20).fill(false);
+  const pile=[];
+  let s4done=false,lastFT=0;
 
   // Scene 5 assets: emotional copy groups
   const S5G=[
@@ -1871,7 +1870,7 @@ function showBobbyCinematic(onDone){
     }
     scene++;st=performance.now();
     if(scene===2){s2kicked=false;s2kickedAt=0;s2nextShown=false;}
-    if(scene===4){s4done=false;bGlass.fill(false);}
+    if(scene===4){s4done=false;bExploded.fill(false);pile.length=0;lastFT=0;}
   }
   nb.onclick=advanceScene;
   function showNext(){if(!nextReady){nextReady=true;nb.style.display='block';}}
@@ -2008,57 +2007,63 @@ function showBobbyCinematic(onDone){
       if(t>6.5)showNext();
     }
 
-    // SCENE 4: 20 boss names zoom in, crack, shatter
+    // SCENE 4: 20 boss names zoom in, explode, fragments pile at bottom
     else if(scene===4){
-      c.textBaseline='middle';
+      const dt=lastFT>0?Math.min((now-lastFT)/1000,0.05):0.016;lastFT=now;
+      // Physics update for pile fragments
+      pile.forEach(fr=>{
+        if(fr.settled)return;
+        fr.vy+=900*dt;fr.x+=fr.vx*dt;fr.y+=fr.vy*dt;fr.angle+=fr.va*dt;
+        fr.vx*=Math.pow(0.88,dt*60);
+        if(fr.y>=H-fr.ro){fr.y=H-fr.ro;fr.settled=true;fr.vx=0;fr.vy=0;}
+      });
+      // Draw pile fragments
+      c.textBaseline='middle';c.textAlign='center';
+      pile.forEach(fr=>{
+        c.save();c.translate(fr.x,fr.y);c.rotate(fr.angle);
+        c.globalAlpha=fr.settled?0.7:0.9;
+        c.fillStyle=fr.col;c.shadowColor=fr.col;c.shadowBlur=fr.settled?2:8;
+        c.font=`bold ${fr.fs}px "Press Start 2P",monospace`;c.fillText(fr.ch,0,0);
+        c.restore();
+      });
+      c.shadowBlur=0;
+      // Process each boss name
       BOSS_LIST.forEach((name,i)=>{
         const lt=t-bST[i];
-        if(lt<0||lt>2.3)return;
-        const pos=bPos[i],col=BOSS_COLS[i];
+        if(lt<0)return;
+        const col=BOSS_COLS[i];
         let fs=clamp(W*0.068,18,76);
         c.font=`bold ${fs}px "Press Start 2P",monospace`;
         while(c.measureText(name).width>W*0.86&&fs>10){fs-=2;c.font=`bold ${fs}px "Press Start 2P",monospace`;}
         const tw=c.measureText(name).width;
-        const px=clamp(pos.x,tw/2+8,W-tw/2-8);
-        const py=pos.y;
-        c.textAlign='center';
+        const px=clamp(bPos[i].x,tw/2+8,W-tw/2-8);
+        const py=bPos[i].y;
+        c.textAlign='center';c.textBaseline='middle';
         if(lt<0.8){
           const sc=0.04+easeOut(lt/0.8)*0.96;
-          const alpha=clamp(lt/0.15,0,1);
           c.save();c.translate(px,py);c.scale(sc,sc);
-          c.globalAlpha=alpha;c.fillStyle=col;c.shadowColor=col;c.shadowBlur=clamp(22*sc,2,28);
+          c.globalAlpha=clamp(lt/0.15,0,1);c.fillStyle=col;c.shadowColor=col;c.shadowBlur=clamp(22*sc,2,28);
           c.font=`bold ${fs}px "Press Start 2P",monospace`;c.fillText(name,0,0);
           c.restore();
-        } else if(lt<1.45){
-          const cp=(lt-0.8)/0.65;
-          c.save();c.translate(px,py);
-          c.globalAlpha=1;c.fillStyle=col;c.shadowColor=col;c.shadowBlur=16;
-          c.font=`bold ${fs}px "Press Start 2P",monospace`;c.fillText(name,0,0);
-          c.shadowBlur=0;
-          bCracks[i].forEach(ck=>{
-            c.strokeStyle=`rgba(255,255,255,${cp*0.85})`;c.lineWidth=1.8;
-            c.beginPath();c.moveTo(ck.ox,ck.oy);
-            c.lineTo(ck.ox+Math.cos(ck.a)*ck.l*cp,ck.oy+Math.sin(ck.a)*ck.l*cp);
-            c.stroke();
-          });
-          c.restore();
-          if(!bGlass[i]){bGlass[i]=true;glassSound();}
         } else {
-          const sp=(lt-1.45)/0.85;
-          c.save();c.translate(px,py);
-          c.globalAlpha=Math.max(0,1-sp*1.1)*0.25;c.fillStyle=col;
-          c.font=`bold ${fs}px "Press Start 2P",monospace`;c.fillText(name,0,0);
-          const fragFs=clamp(fs*0.38,7,22);
-          bFrags[i].forEach(fr=>{
-            c.save();
-            c.translate(fr.ox+fr.vx*sp*55,fr.oy+fr.vy*sp*55);
-            c.rotate(fr.va*sp*6);
-            c.globalAlpha=Math.max(0,1-sp*1.1);
-            c.fillStyle=col;c.shadowColor=col;c.shadowBlur=6;
-            c.font=`bold ${fragFs}px "Press Start 2P",monospace`;c.fillText(fr.ch,0,0);
+          if(!bExploded[i]){
+            bExploded[i]=true;glassSound();
+            for(let j=0;j<18;j++){
+              const a=Math.random()*Math.PI*2,spd=120+Math.random()*380;
+              pile.push({x:px+(Math.random()-.5)*tw*0.7,y:py+(Math.random()-.5)*fs*0.6,
+                vx:Math.cos(a)*spd,vy:Math.sin(a)*spd-80,
+                angle:Math.random()*Math.PI*2,va:(Math.random()-.5)*10,
+                col,ch:name[Math.floor(Math.random()*name.length)]||'#',
+                fs:clamp(fs*0.38,7,22),ro:4+Math.random()*45,settled:false});
+            }
+          }
+          if(lt<0.95){
+            const fp=1-(lt-0.8)/0.15;
+            c.save();c.translate(px,py);c.scale(1+(1-fp)*0.5,1+(1-fp)*0.5);
+            c.globalAlpha=fp;c.fillStyle='#FFFFFF';c.shadowColor='#FFFFFF';c.shadowBlur=50;
+            c.font=`bold ${fs}px "Press Start 2P",monospace`;c.fillText(name,0,0);
             c.restore();
-          });
-          c.restore();
+          }
         }
       });
       c.globalAlpha=1;c.shadowBlur=0;c.textBaseline='alphabetic';
