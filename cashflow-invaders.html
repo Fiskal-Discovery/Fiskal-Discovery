@@ -220,9 +220,14 @@ function stopFaviconAnimation() {
   <div class="game-title">CASHFLOW<br>INVADERS</div>
   <div class="game-tagline">FREE YOUR FINANCES</div>
   <div id="personal-best" style="font-family:'Press Start 2P',monospace;font-size:.48rem;color:rgba(255,230,0,.7);margin-bottom:8px;min-height:1.2em;text-shadow:0 0 10px rgba(255,230,0,.4)"></div>
-  <div class="alien-preview" id="alien-preview"></div>
-  <div class="start-form">
-    <button class="btn-start" id="btn-start">▶ START GAME</button>
+  <div style="display:flex;align-items:flex-start;justify-content:center;gap:28px;flex-wrap:wrap;width:100%;max-width:720px">
+    <canvas id="wanted-poster" width="180" height="240" style="border-radius:4px;flex-shrink:0;image-rendering:pixelated"></canvas>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+      <div class="alien-preview" id="alien-preview"></div>
+      <div class="start-form">
+        <button class="btn-start" id="btn-start">▶ START GAME</button>
+      </div>
+    </div>
   </div>
 </div>
 <!-- Intro Cinematic Overlay -->
@@ -684,13 +689,92 @@ lines.forEach((line,i)=>{const ty=boss.y-total/2+lh/2+i*lh;c.lineWidth=4;c.strok
 c.restore()}
 function drawWordEnemy(c,e){c.save();if(e.trail){e.trail.forEach((pt,i)=>{c.globalAlpha=i/e.trail.length*.22;c.font='700 '+Math.max(9,e.size-2)+'px Orbitron,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillStyle='#FF2244';c.fillText(e.display,pt.x,pt.y)})}c.globalAlpha=.82+Math.sin(e.angle*2)*.15;c.translate(e.x,e.y);c.rotate(Math.sin(e.angle)*.11);c.font='700 '+e.size+'px Orbitron,sans-serif';c.textAlign='center';c.textBaseline='middle';c.shadowColor='#FF2244';c.shadowBlur=8;c.lineWidth=4;c.strokeStyle='rgba(0,0,0,.9)';c.strokeText(e.display,0,0);c.fillStyle='#FF6680';c.fillText(e.display,0,0);c.restore()}
 function drawBomb(cx,cy,r,frame){ctx.save();ctx.shadowColor='#FF8C00';ctx.shadowBlur=12+Math.sin(frame*.25)*6;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle='#aaa';ctx.fill();ctx.strokeStyle='#777';ctx.lineWidth=1.5;ctx.stroke();const shine=ctx.createRadialGradient(cx-r*.3,cy-r*.32,0,cx-r*.3,cy-r*.32,r*.42);shine.addColorStop(0,'rgba(255,255,255,0.45)');shine.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=shine;ctx.beginPath();ctx.arc(cx-r*.3,cy-r*.32,r*.42,0,Math.PI*2);ctx.fill();ctx.shadowColor='#FFD700';ctx.shadowBlur=6;ctx.fillStyle='#FFD700';ctx.font=`bold ${Math.round(r*1.15)}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('£',cx,cy+r*.06);ctx.shadowBlur=0;ctx.strokeStyle='#996633';ctx.lineWidth=2;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(cx+r*.18,cy-r*.88);ctx.quadraticCurveTo(cx+r*.65,cy-r*1.35,cx+r*.45,cy-r*1.82);ctx.stroke();const sk=Math.sin(frame*.45);ctx.fillStyle=sk>0?'#FFE600':'#FF6600';ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=10+sk*6;ctx.beginPath();ctx.arc(cx+r*.45,cy-r*1.82,2.5,0,Math.PI*2);ctx.fill();ctx.restore()}
+function drawWantedPoster(){
+  const cv=document.getElementById('wanted-poster');if(!cv)return;
+  const W=cv.width,H=cv.height,c=cv.getContext('2d');
+  // Paper background with aged texture
+  const paper=c.createLinearGradient(0,0,W,H);
+  paper.addColorStop(0,'#C8A85A');paper.addColorStop(.4,'#D4B870');paper.addColorStop(1,'#B89040');
+  c.fillStyle=paper;c.fillRect(0,0,W,H);
+  // Noise/grain overlay
+  for(let i=0;i<600;i++){c.fillStyle='rgba('+(Math.random()>0.5?0:255)+','+Math.floor(Math.random()*80)+',0,'+Math.random()*.06+')';c.fillRect(Math.random()*W,Math.random()*H,2,2);}
+  // Outer border
+  c.strokeStyle='#6B4A10';c.lineWidth=5;c.strokeRect(3,3,W-6,H-6);
+  c.strokeStyle='#8B6020';c.lineWidth=2;c.strokeRect(7,7,W-14,H-14);
+  // WANTED header
+  c.fillStyle='#3A1800';c.font='bold 22px serif';c.textAlign='center';c.textBaseline='top';
+  c.fillText('WANTED',W/2,12);
+  // Subheader
+  c.font='bold 7px "Press Start 2P",monospace';c.fillStyle='#5A2800';
+  c.fillText('FINANCIAL CRIMINAL',W/2,37);
+  // Portrait box — aged sepia tint behind Larry
+  const boxY=48,boxH=108;
+  c.fillStyle='#8B6830';c.fillRect(14,boxY,W-28,boxH);
+  c.fillStyle='rgba(0,0,0,.25)';c.fillRect(14,boxY,W-28,boxH);
+  // Draw Larry (adapted from drawLarry, scaled to fit portrait)
+  const cx=W/2,cy=boxY+boxH/2+4;
+  c.save();c.translate(cx,cy);c.scale(0.72,0.72);
+  // Body
+  c.shadowColor='#88CC00';c.shadowBlur=10;
+  c.fillStyle='#3A7A12';c.beginPath();c.ellipse(0,0,58,42,0,0,Math.PI*2);c.fill();
+  c.fillStyle='#5AAA22';c.beginPath();c.ellipse(0,6,42,28,0,0,Math.PI*2);c.fill();
+  c.shadowBlur=0;
+  // Tie
+  c.fillStyle='#AA0022';c.beginPath();c.moveTo(-6,-22);c.lineTo(6,-22);c.lineTo(9,0);c.lineTo(0,10);c.lineTo(-9,0);c.closePath();c.fill();
+  c.fillStyle='#CC0033';c.fillRect(-5,-26,10,8);
+  // £ symbol
+  c.fillStyle='#FFE600';c.shadowColor='#FFE600';c.shadowBlur=6;c.font='bold 20px serif';c.textAlign='center';c.textBaseline='middle';c.fillText('£',0,10);
+  c.shadowBlur=0;
+  // Eyes
+  c.fillStyle='#fff';c.beginPath();c.ellipse(-20,-14,9,11,0,0,Math.PI*2);c.fill();
+  c.beginPath();c.ellipse(20,-14,9,11,0,0,Math.PI*2);c.fill();
+  c.fillStyle='#FF0000';c.beginPath();c.arc(-20,-13,6,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(20,-13,6,0,Math.PI*2);c.fill();
+  c.fillStyle='#000';c.beginPath();c.arc(-19,-12,3,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(21,-12,3,0,Math.PI*2);c.fill();
+  // Smile
+  c.strokeStyle='#1A5A00';c.lineWidth=3;
+  c.beginPath();c.arc(0,10,20,0.2,Math.PI-0.2);c.stroke();
+  // Arms
+  c.beginPath();c.moveTo(-28,-25);c.lineTo(-12,-19);c.stroke();
+  c.beginPath();c.moveTo(28,-25);c.lineTo(12,-19);c.stroke();
+  // Mini briefcases
+  c.fillStyle='#7B3A0A';c.fillRect(-78,-6,22,16);c.fillStyle='#5A2A08';c.fillRect(-78,-6,22,5);
+  c.strokeStyle='#5A2A08';c.lineWidth=1.5;c.beginPath();c.arc(-67,-6,5,Math.PI,0);c.stroke();
+  c.fillStyle='#FFE600';c.fillRect(-72,2,6,4);
+  c.fillStyle='#7B3A0A';c.fillRect(56,-6,22,16);c.fillStyle='#5A2A08';c.fillRect(56,-6,22,5);
+  c.beginPath();c.arc(67,-6,5,Math.PI,0);c.stroke();
+  c.fillStyle='#FFE600';c.fillRect(62,2,6,4);
+  c.restore();
+  // Portrait border
+  c.strokeStyle='#6B4A10';c.lineWidth=2;c.strokeRect(14,boxY,W-28,boxH);
+  // Name plate
+  const nameY=boxY+boxH+4;
+  c.fillStyle='#3A1800';c.font='bold 8px "Press Start 2P",monospace';c.textAlign='center';c.textBaseline='top';
+  c.fillText('LATE PAYMENT',W/2,nameY);
+  c.fillText('LARRY',W/2,nameY+14);
+  // Charges
+  c.font='6px "Press Start 2P",monospace';c.fillStyle='#5A2800';
+  c.fillText('CRIMES: LATE PAYMENT',W/2,nameY+30);
+  c.fillText('& CASHFLOW SABOTAGE',W/2,nameY+40);
+  // Reward
+  c.fillStyle='#6B0000';c.font='bold 9px "Press Start 2P",monospace';
+  c.fillText('REWARD',W/2,nameY+54);
+  c.fillStyle='#3A1800';c.font='bold 13px serif';
+  c.fillText('£1,000,000',W/2,nameY+66);
+  // Aged corner stains
+  c.fillStyle='rgba(80,40,0,.18)';c.beginPath();c.arc(0,0,30,0,Math.PI/2);c.fill();
+  c.beginPath();c.arc(W,0,30,Math.PI/2,Math.PI);c.fill();
+  c.beginPath();c.arc(0,H,30,-Math.PI/2,0);c.fill();
+  c.beginPath();c.arc(W,H,30,Math.PI,-Math.PI/2);c.fill();
+}
 function renderPreviewAliens(){const prev=document.getElementById('alien-preview');prev.innerHTML='';ALIEN_TYPES.forEach(t=>{const c=document.createElement('canvas'),w=t.pixels[0].length*4,h=t.pixels.length*4;c.width=w+4;c.height=h+4;c.style.cssText='image-rendering:pixelated';drawPixelSprite(c.getContext('2d'),t.pixels,t.color,(w+4)/2,(h+4)/2,4);prev.appendChild(c)})}
 function showQuitBtn(show){document.getElementById('quit-btn').style.display=show?'block':'none';document.getElementById('home-btn').style.display=show?'none':'block';document.getElementById('pause-btn').style.display=show?'block':'none'}
 function showLeaderboardScreen() {
   renderLB();
   showScreen('leaderboard-screen');
 }
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('playing-mobile',id==='game-screen'&&window.innerWidth<=520);document.body.classList.toggle('lb-active',id==='leaderboard-screen');if(id!=='game-screen')showQuitBtn(false);if(id==='start-screen'){renderPreviewAliens();updatePersonalBest();}if(id==='gameover-screen'){const savedName=localStorage.getItem('fiskal_ci_player_name');if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;const stored=getStoredUserDetails();if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;}}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('playing-mobile',id==='game-screen'&&window.innerWidth<=520);document.body.classList.toggle('lb-active',id==='leaderboard-screen');if(id!=='game-screen')showQuitBtn(false);if(id==='start-screen'){renderPreviewAliens();updatePersonalBest();drawWantedPoster();}if(id==='gameover-screen'){const savedName=localStorage.getItem('fiskal_ci_player_name');if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;const stored=getStoredUserDetails();if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;}}
 function updateHUD(){if(!G)return;document.getElementById('score-display').textContent=G.score;document.getElementById('wave-display').textContent=G.wave;const wd2=document.getElementById('wave-display-2');if(wd2)wd2.textContent=G.wave;if(G.advancedMode&&G.hullDamage>0){let h='';for(let i=0;i<G.lives;i++)h+=i===G.lives-1?'<span style="color:#FF8800;opacity:.65">❤</span>':'❤';document.getElementById('lives-display').innerHTML=h;}else{document.getElementById('lives-display').textContent='❤'.repeat(Math.max(0,G.lives));}const wcd=document.getElementById('wave-cash-display');if(wcd){if(G.state==='boss'){wcd.textContent='BOSS FIGHT!';wcd.style.color='#FF4444'}else{const waveProg=Math.min(G.score-G.waveCashStart,G.waveCashTarget);wcd.textContent='£'+waveProg+'/£'+G.waveCashTarget;wcd.style.color=waveProg/G.waveCashTarget>.75?'#00FF88':waveProg/G.waveCashTarget>.4?'#FFE600':'#88FF44'}}}
 function updateTargetHUD(){if(!G)return;const goal=getTarget(G.targetIdx);const pct=Math.min(1,G.score/goal);document.getElementById('target-current').textContent=G.score.toLocaleString();document.getElementById('target-goal').textContent=goal.toLocaleString();const bar=document.getElementById('target-bar');bar.style.width=(pct*100)+'%';const barColor=pct<0.5?'#FFE600':pct<0.8?'#FF8C00':'#00FF88';bar.style.background=barColor;bar.style.boxShadow='0 0 8px '+barColor;const label=document.getElementById('target-label');const thud=document.getElementById('target-hud');if(pct>=0.85){label.style.color='#00FF88';thud.style.background='rgba(0,80,0,.55)'}else if(pct>=0.5){label.style.color='#FF8C00';thud.style.background='rgba(80,40,0,.55)'}else{label.style.color='#FFE600';thud.style.background='rgba(0,0,0,.55)'}if(G.bombs>0){document.getElementById('bomb-count').textContent=G.bombs;document.getElementById('bomb-btn').style.display='flex'}else{document.getElementById('bomb-btn').style.display='none'}}
 function showSmash(rewardText){const el=document.getElementById('smash-msg');el.innerHTML='🎯 TARGET SMASHED!<br><span style="font-size:.7em;color:#FFE600;text-shadow:0 0 14px #FFE600,0 0 28px rgba(255,230,0,.5)">'+rewardText+'</span>';el.classList.remove('show');void el.offsetWidth;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3800);flashScreen('rgba(255,220,0,.45)',220)}
@@ -1412,7 +1496,7 @@ if(G._flash&&G._flash.alpha>0){ctx.setTransform(1,0,0,1,0,0);ctx.save();ctx.glob
 ctx.setTransform(1,0,0,1,0,0)
 }
 function runTests(){console.assert(ALIEN_TYPES.length===3,'aliens available');console.assert(document.getElementById('alien-preview'),'alien preview element exists');console.assert(typeof initGame==='function','init exists');console.assert(typeof spawnWordEnemy==='function','word spawn exists');console.log('Fiskal game tests passed')}
-renderPreviewAliens();runTests();updatePersonalBest();
+renderPreviewAliens();runTests();updatePersonalBest();drawWantedPoster();
 document.getElementById('pause-btn').addEventListener('click',togglePause);document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-quit-pause').addEventListener('click',quitGame);document.getElementById('quit-btn').addEventListener('click',quitGame);document.getElementById('btn-start').addEventListener('click',showIntroCin);
 function showIntroCin(){const el=document.getElementById('intro-cin');el.classList.add('ic-active');_icNext(1);}
 function _icNext(panel){document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});const el=document.getElementById('ic-p'+panel);if(el){el.style.display='flex';el.classList.add('ic-show');}}
