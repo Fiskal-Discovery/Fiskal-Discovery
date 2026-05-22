@@ -1253,7 +1253,13 @@ if(G.frozen<=0){if(G.keys.ArrowLeft||G.keys.a||G.keys.A)p.x=Math.max(p.w/2,p.x-p
 if(G.state==='playing'){G.spawnTimer++;if(G.spawnTimer>=G.spawnRate&&G.enemies.length<4+Math.floor(G.wave/2)){G.spawnTimer=0;spawnAlien();spawnPU()}if(G.defeatedBossWords.length){G.wordTimer++;const maxWords=G.wave>=11?Math.min(8,3+Math.floor((G.wave-10)/2)):Math.min(4,1+Math.floor(G.defeatedBossWords.length/2));const wordRate=G.wave>=11?Math.max(60,160-G.wave*8):Math.max(120,280-G.wave*14);if(G.wordTimer>=wordRate&&G.wordEnemies.length<maxWords){G.wordTimer=0;spawnWordEnemy()}}
 }
 // Personal service orb ship auto-fire — runs regardless of state so it shoots during boss fights too
-if(G.personalService>0){G.personalServiceLastShot++;if(G.personalServiceLastShot>=28){G.personalServiceLastShot=0;const psx=G.personalServiceX;G.bullets.push({x:psx,y:p.y-20,vy:-12,vx:0,support:true})}}
+if(G.personalService>0){G.personalServiceLastShot++;if(G.personalServiceLastShot>=28){G.personalServiceLastShot=0;const psx=G.personalServiceX,psy=p.y-20;
+// Aim at nearest threat: boss first, then nearest enemy/word enemy
+let tx=psx,ty=psy-200;
+if(G.boss){tx=G.boss.x;ty=G.boss.y;}
+else{let best=Infinity;[...G.enemies,...G.wordEnemies].forEach(e=>{const d=Math.hypot(e.x-psx,e.y-psy);if(d<best){best=d;tx=e.x;ty=e.y;}});}
+const dist=Math.hypot(tx-psx,ty-psy)||1;const spd=14;
+G.bullets.push({x:psx,y:psy,vy:(ty-psy)/dist*spd,vx:(tx-psx)/dist*spd,support:true});}}
 G.bullets=G.bullets.filter(b=>{b.y+=b.vy;b.x+=b.vx;return b.y>-10&&b.x>-10&&b.x<canvas.width+10});
 G.bossBlasts=G.bossBlasts.filter(b=>{b.y+=b.vy;if(b.bobby){b.x+=b.vx||0;if(b.x<0||b.x>canvas.width)return false}if(Math.abs(b.x-p.x)<p.w*0.3&&Math.abs(b.y-p.y)<p.h*0.5){if(G.boss&&G.boss.special==='freeze'&&G.frozen<=0&&G.debtShield<=0&&G.shield<=0){G.frozen=300;boom(p.x,p.y,'#88CCFF',10);showMsg('❄ FROZEN!','#88CCFF','SHIP LOCKED FOR 5 SECONDS',2500);tone(220,110,.4,.2,'sine');return false}else if(G.boss&&G.boss.special==='cashDrain'&&G.debtShield<=0&&G.shield<=0){G.score=Math.max(0,G.score-100);updateHUD();updateTargetHUD();boom(p.x,p.y,'#FF4444',8);showMsg('💸 CASH DRAINED','#FF4444','-£100!',1400);G.playerInv=60;return false}else{damagePlayer();return false}}return b.y<canvas.height+10});
 G.enemies=G.enemies.filter(e=>{e.frame++;e.y+=e.vy;e.x+=e.vx;if(e.x-e.w/2<0){e.x=e.w/2;e.vx=Math.abs(e.vx)}if(e.x+e.w/2>canvas.width){e.x=canvas.width-e.w/2;e.vx=-Math.abs(e.vx)}if(Math.abs(e.x-p.x)<e.w/2+p.w/2-8&&Math.abs(e.y-p.y)<e.h/2+p.h/2-4){damagePlayer();return false}return e.y<canvas.height+e.h+10});
