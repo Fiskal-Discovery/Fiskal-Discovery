@@ -888,7 +888,8 @@
   }
   .site-footer .dashed-divider {
     color: #ffffff;
-    margin: 0 0 4px;
+    margin: 0 auto 4px;
+    justify-content: center;
   }
   .site-footer .dashed-divider::before,
   .site-footer .dashed-divider::after {
@@ -1214,7 +1215,6 @@
         </div>
       </div>
   </div>
-  <p class="hero-real-support">Real support from a real person.</p>
   <!-- Stars layer — outside .hero so not clipped by ::after, clipped to diagonal shape -->
   <div class="stars-layer">
     <div class="mars"></div>
@@ -1264,20 +1264,11 @@
     <div class="modules-wrap">
       <div class="nicole-row">
         <img src="nicole.jpg" alt="Nicole" class="nicole-photo">
-        <p class="nicole-text"><strong>Nicole</strong> personally reviews every submission and works with you on your options.</p>
-      </div>
-      <!-- MY DISCOVERY SUMMARIES CARD -->
-      <div class="summaries-home-card" onclick="showSummariesScreen()">
-        <div class="summaries-home-bar"></div>
-        <div class="summaries-home-inner">
-          <div class="summaries-home-body">
-            <div class="summaries-home-title">My Discovery Summaries</div>
-            <div class="summaries-home-desc" id="summaries-home-desc">View your completed discovery results</div>
-          </div>
-          <div class="summaries-home-arrow">›</div>
+        <div>
+          <p style="font-size:15px;font-weight:700;color:#FF6B2B;margin:0 0 4px 0">Real support from a real person.</p>
+          <p class="nicole-text" style="margin:0"><strong>Nicole</strong> personally reviews every submission and works with you on your options.</p>
         </div>
       </div>
-
       <div class="modules-label">Choose your journey</div>
 
       <div class="module-grid">
@@ -1327,6 +1318,18 @@
               <div class="module-card-desc">Explore funding options designed around Shariah-compliant principles</div>
             </div>
             <div class="module-arrow">›</div>
+          </div>
+        </div>
+
+        <!-- My Discovery Summaries -->
+        <div class="summaries-home-card" onclick="showSummariesScreen()">
+          <div class="summaries-home-bar"></div>
+          <div class="summaries-home-inner">
+            <div class="summaries-home-body">
+              <div class="summaries-home-title">My Discovery Summaries</div>
+              <div class="summaries-home-desc" id="summaries-home-desc">View your completed discovery results</div>
+            </div>
+            <div class="summaries-home-arrow">›</div>
           </div>
         </div>
 
