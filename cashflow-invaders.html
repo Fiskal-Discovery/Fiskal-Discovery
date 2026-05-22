@@ -556,6 +556,15 @@ function showUpgradeAnnouncement(){
   document.getElementById('game-screen').classList.add('advanced-hud');
   if(rafId)cancelAnimationFrame(rafId);rafId=null;
   MUSIC.newHope();
+  // Shared state — must be in outer scope so all phase closures can read/write
+  let currentScheme=PAINT_SCHEMES[0];
+  const features=[
+    {t:'⚡  AUTO-FIRE CANNONS ONLINE',c:'#FFE600'},
+    {t:'↕  OMNIDIRECTIONAL THRUSTERS',c:'#00FF88'},
+    {t:'🛡  REINFORCED TITANIUM HULL',c:'#00AAFF'},
+    {t:'❤  COMBAT SYSTEMS RESTORED',c:'#FF4466'},
+    {t:'⚡  OVERDRIVE BOOST INSTALLED',c:'#CC44FF'},
+  ];
   // Phase 1 audio stings
   tone(220,null,.3,.2,'sawtooth');
   setTimeout(()=>tone(330,null,.3,.2,'sawtooth'),180);
@@ -566,7 +575,7 @@ function showUpgradeAnnouncement(){
     inner.style.display='none';showcase.style.display='flex';
     const uc=document.getElementById('upgrade-ship-canvas');
     const uCtx=uc.getContext('2d');
-    let sf=0,currentScheme=PAINT_SCHEMES[0];
+    let sf=0;
     function animShip(){
       if(!el.classList.contains('active'))return;
       sf++;
@@ -636,13 +645,6 @@ function showUpgradeAnnouncement(){
         });
       });
     }, features.length*700+600+600);
-    const features=[
-      {t:'⚡  AUTO-FIRE CANNONS ONLINE',c:'#FFE600'},
-      {t:'↕  OMNIDIRECTIONAL THRUSTERS',c:'#00FF88'},
-      {t:'🛡  REINFORCED TITANIUM HULL',c:'#00AAFF'},
-      {t:'❤  COMBAT SYSTEMS RESTORED',c:'#FF4466'},
-      {t:'⚡  OVERDRIVE BOOST INSTALLED',c:'#CC44FF'},
-    ];
     const fl=document.getElementById('upgrade-features-list');fl.innerHTML='';
     features.forEach((f,i)=>setTimeout(()=>{
       const d=document.createElement('div');d.textContent=f.t;
