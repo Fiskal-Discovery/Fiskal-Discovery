@@ -3613,11 +3613,7 @@ function showFundingFinderThinkingScreen(callback) {
 }
 
 function goHome() {
-  Object.assign(state, {
-    module: 'funding-finder', name: '', business: '', email: '', phone: '',
-    companyNumber: '', answers: {}, currentQuestion: 0, barrier: '', barrierDetails: ''
-  });
-  showScreen('home');
+  window.location.href = 'home.html';
 }
 
 function startModule(module) {
