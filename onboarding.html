@@ -42,11 +42,7 @@
   }
   /* Landing screen breaks out of app-scroll — body scrolls for it */
   body:has(#screen-landing.active) {
-    overflow-y: auto;
-    height: auto;
-  }
-  body:has(#screen-landing.active) #onboarding-overlay {
-    overflow-y: auto;
+    overflow: hidden;
   }
 
   body {
@@ -436,10 +432,8 @@
     justify-content: flex-start;
   }
   #screen-landing.active {
-    position: relative !important;
-    inset: auto !important;
-    overflow: visible !important;
-    min-height: 100dvh;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
   }
   #screen-landing::before {
     content: '';
@@ -1712,12 +1706,12 @@
   /* ============================================================
      LANDING SCREEN — matches home.html visual style
   ============================================================ */
-  #screen-landing {
-    position: relative !important;
-    inset: auto !important;
-    height: auto !important;
-    min-height: 100dvh;
-    overflow: visible !important;
+  #screen-landing.active {
+    position: fixed !important;
+    inset: 0 !important;
+    height: 100dvh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
     justify-content: flex-start;
     background: #07051a;
   }
