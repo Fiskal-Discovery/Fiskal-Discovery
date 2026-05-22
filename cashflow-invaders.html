@@ -240,7 +240,7 @@ const LB_KEY='fiskal_ci_clean_fixed';
 let finalScore=0,finalWave=1;
 let playerIsLender = false;
 const ALIEN_TYPES=[{pixels:['01110111011','11111111111','11011101101','11111111111','01011010110','10000000001'],color:'#FF4488',scale:3},{pixels:['00010001000','00111111100','01101101101','01111111110','00101010100','01000000010'],color:'#44AAFF',scale:3},{pixels:['00001000000','00011100000','01111111100','11011011110','11111111111','00101010100'],color:'#88FF44',scale:3}];
-const BOSS_NAMES=[{name:'BAD SERVICE',color:'#8B4513'},{name:'INTEREST HIKE',color:'#2F4F4F'},{name:'HIDDEN FEES',color:'#483D8B'},{name:'DEFAULTS',color:'#800000'},{name:'DEBT TRAP',color:'#4A4A4A'},{name:'WINDFALL TAX',color:'#556B2F'},{name:'FROZEN FUNDS',color:'#4682B4'},{name:'DISPUTES',color:'#6B4423'},{name:'CLAWBACKS',color:'#5F4B32'}];
+const BOSS_NAMES=[{name:'BAD SERVICE',color:'#CC4400'},{name:'INTEREST HIKE',color:'#FF8800'},{name:'HIDDEN FEES',color:'#FF2266'},{name:'DEFAULTS',color:'#CC0022'},{name:'DEBT TRAP',color:'#AA00CC'},{name:'WINDFALL TAX',color:'#88AA00'},{name:'FROZEN FUNDS',color:'#0088DD'},{name:'DISPUTES',color:'#DD6600'},{name:'CLAWBACKS',color:'#BB3300'}];
 const ACT2_BOSS_NAMES=[
   {name:'CASH DRAIN',color:'#8B0000',special:'cashDrain'},
   {name:'FINE PRINT',color:'#2E4053',special:null},
@@ -845,7 +845,7 @@ function drawBoostBanner(){
   const bs=[];const fps=60;
   if(G.shield>0)bs.push({t:'SHIELD',s:G.shield,c:'#FFFF00'});
   if(G.doubleBullet>0)bs.push({t:'2X BULLETS',s:G.doubleBullet,c:'#CC44FF'});
-  if(G.rapidFire>0)bs.push({t:'RAPID FIRE',s:G.rapidFire,c:'#00FF88'});
+  if(G.rapidFire>0)bs.push({t:'RAPID FIRE',s:G.rapidFire,c:'#FF4499'});
   if(G.debtShield>0)bs.push({t:'DEBT SHIELD',s:G.debtShield,c:'#00FFAA'});
   if(G.cashAttract>0)bs.push({t:'MAGNET',s:G.cashAttract,c:'#CC44FF'});
   if(G.extraIncome>0)bs.push({t:'2X CASH',s:G.extraIncome,c:'#FFE600'});
@@ -902,6 +902,7 @@ else if(boss.behaviour==='dash'){boss.x+=boss.vx*2;boss.y+=Math.sin(boss.frame*.
 else if(boss.behaviour==='curve'){boss.x+=Math.sin(boss.frame*.05)*boss.vx*3;boss.y+=Math.cos(boss.frame*.06)*boss.vx*2}
 else if(boss.behaviour==='chaos'){boss.x+=Math.cos(boss.frame*.2)*boss.vx*2;boss.y+=Math.sin(boss.frame*.15)*boss.vx*2}
 else if(boss.behaviour==='figure8'){const t=boss.frame*.04;boss.x=canvas.width/2+Math.sin(t)*(canvas.width*.35);boss.y=boss.r+40+Math.sin(2*t)*(canvas.height*.18)}
+else if(boss.behaviour==='spread'){boss.x+=boss.vx*1.8;boss.y=boss.r+22+Math.abs(Math.sin(boss.frame*.045))*canvas.height*.22}
 else if(boss.behaviour==='aggressive'){boss.x+=boss.vx*(1+(boss.taxAnger||0));boss.y=boss.r+30+Math.sin(boss.frame*.08)*(canvas.height*.12+((boss.taxAnger||0)*canvas.height*.08))}
 else{boss.x+=boss.vx;boss.y+=Math.sin(boss.frame*.05)*boss.vx}
 
