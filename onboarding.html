@@ -4115,6 +4115,9 @@ function displayResults(summary, matchedProducts) {
   const list = document.getElementById('matched-products-list');
   list.innerHTML = '';
   if (matchedProducts.length > 0) {
+    const twoCol = matchedProducts.length >= 8;
+    list.style.display = 'grid';
+    list.style.gridTemplateColumns = twoCol ? '1fr 1fr' : '1fr';
     matchedProducts.forEach(p => {
       const info = productInfo[p];
       if (info) {

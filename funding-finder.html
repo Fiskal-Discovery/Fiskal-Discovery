@@ -3203,10 +3203,8 @@ function displayResults(summary, matchedProducts) {
   };
 
   if (matchedProducts.length > 0) {
-    const isMobileResults = window.innerWidth <= 768;
-    if (isMobileResults && matchedProducts.length > 1) {
-      list.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px;';
-    }
+    const twoCol = matchedProducts.length >= 8;
+    list.style.cssText = `display:grid;grid-template-columns:${twoCol ? '1fr 1fr' : '1fr'};gap:10px;`;
     matchedProducts.forEach(p => {
       const info = productInfo[p];
       const desc = productDescriptions[p];
