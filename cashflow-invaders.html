@@ -58,8 +58,10 @@
 .ic-enemy{font-family:'Press Start 2P',monospace;font-size:clamp(.55rem,2vw,.7rem);color:rgba(255,180,140,.9);letter-spacing:.05em;padding:3px 12px;border-left:2px solid rgba(255,110,60,.6);background:rgba(255,80,40,.06);text-align:left}
 .ic-larry-label{font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.8vw,.6rem);color:rgba(255,255,255,.55);letter-spacing:.12em;margin-top:10px}
 .ic-larry{font-family:'Press Start 2P',monospace;font-size:clamp(.95rem,3.2vw,1.2rem);color:#FF2244;text-shadow:0 0 14px rgba(255,34,68,.7),0 0 30px rgba(255,34,68,.35);letter-spacing:.08em;margin-top:4px;padding:7px 14px;border:2px solid rgba(255,34,68,.6);background:rgba(255,34,68,.08);border-radius:3px;max-width:min(100%,360px);box-sizing:border-box;word-break:break-word;text-align:center}
-.cin-skip{position:absolute;top:clamp(14px,3.5vh,30px);right:clamp(14px,3vw,28px);font-family:'Press Start 2P',monospace;font-size:clamp(.42rem,1.4vw,.55rem);background:rgba(255,255,255,.06);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.25);padding:7px 12px;border-radius:3px;cursor:pointer;letter-spacing:.06em;z-index:20;touch-action:manipulation;pointer-events:auto}
-.cin-skip:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.45)}
+.cin-skip,.cin-back{position:absolute;top:clamp(14px,3.5vh,30px);font-family:'Press Start 2P',monospace;font-size:clamp(.42rem,1.4vw,.55rem);background:rgba(255,255,255,.06);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.25);padding:7px 12px;border-radius:3px;cursor:pointer;letter-spacing:.06em;z-index:20;touch-action:manipulation;pointer-events:auto}
+.cin-skip{right:clamp(14px,3vw,28px)}
+.cin-back{left:clamp(14px,3vw,28px)}
+.cin-skip:hover,.cin-back:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.45)}
 .ic-act-slam{font-family:'Press Start 2P',monospace;font-size:clamp(3.2rem,16vw,7rem);color:#FFE600;text-shadow:0 0 28px #FFE600,0 0 60px rgba(255,230,0,.55),0 0 110px rgba(255,140,0,.35);line-height:1;letter-spacing:.06em;transform:scale(1);opacity:1}
 .ic-act-slam.slam{animation:icActSlam .7s cubic-bezier(.22,.61,.36,1) both}
 @keyframes icActSlam{0%{transform:scale(7);opacity:0;filter:blur(6px)}55%{transform:scale(.85);opacity:1;filter:blur(0)}72%{transform:scale(1.1)}86%{transform:scale(.96)}100%{transform:scale(1)}}
@@ -249,7 +251,8 @@ function stopFaviconAnimation() {
 </div>
 <!-- Intro Cinematic Overlay -->
 <div id="intro-cin" style="display:none;position:fixed;inset:0;z-index:900;background:radial-gradient(ellipse at center,#07001a 0%,#000 100%);flex-direction:column;align-items:center;justify-content:center;padding:24px 20px">
-  <button class="cin-skip" onclick="_icDone()">SKIP ▶</button>
+  <button class="cin-back" id="ic-back" onclick="_icBack()">◀ BACK</button>
+  <button class="cin-skip" id="ic-skip" onclick="_icDone()">SKIP ▶</button>
   <div id="ic-top-banner"></div>
   <div class="ic-panel" id="ic-p1">
     <div class="lc-title">YOUR BUSINESS<br>IS UNDER ATTACK</div>
@@ -295,7 +298,8 @@ function stopFaviconAnimation() {
   <div id="upgrade-cinematic">
     <!-- Larry Defeat Cinematic — 3 panels before upgrade screen -->
     <div id="larry-cin" style="display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;overflow-y:auto;z-index:10">
-      <button class="cin-skip" onclick="_lcDone()">SKIP ▶</button>
+      <button class="cin-back" id="lc-back" onclick="_lcBack()">◀ BACK</button>
+      <button class="cin-skip" id="lc-skip" onclick="_lcDone()">SKIP ▶</button>
       <div id="lc-top-banner"></div>
       <!-- Panel 1: Intelligence Report -->
       <div class="lc-panel" id="lc-p1" style="display:none">
@@ -931,13 +935,17 @@ function showLarryCinematic(defeatedBosses,onDone){
   _lcNext(1);
 }
 let _lcRafId=null;
+const _LC_LAST=4;let _lcPanel=1;
 function _lcNext(panel){
+  _lcPanel=panel;
   document.querySelectorAll('.lc-panel').forEach(p=>p.classList.remove('lc-show'));
   const el=document.getElementById('lc-p'+panel);if(el)el.classList.add('lc-show');
   if(panel===3){if(_lcRafId){cancelAnimationFrame(_lcRafId);_lcRafId=null;}_lcRunLarryAnim();}
   const b=document.getElementById('lc-top-banner');
   if(_lcBannerText[panel])_typewrite(b,_lcBannerText[panel]);else _typewriteClear(b);
+  _cinNavSync('lc-back','lc-skip',panel,_LC_LAST);
 }
+function _lcBack(){if(_lcPanel>1)_lcNext(_lcPanel-1);}
 function _lcDone(){
   const cin=document.getElementById('larry-cin');
   cin.classList.remove('lc-active');cin.style.display='none';
@@ -1628,7 +1636,10 @@ function _typewrite(el,text){if(!el)return;if(el._tt){clearInterval(el._tt);el._
 function _typewriteClear(el){if(!el)return;if(el._tt){clearInterval(el._tt);el._tt=null;}el.textContent='';el.classList.remove('typing');}
 const _icBannerText={1:'FISKAL DISCOVERY INTELLIGENCE',2:'CONFIRMED HOSTILE ACTORS',3:'MISSION BRIEFING'};
 const _lcBannerText={1:'OPERATION CASHFLOW',2:'CONFIRMED THREATS',4:'TRANSMISSION INCOMING'};
-function _icNext(panel){document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});const el=document.getElementById('ic-p'+panel);if(el){el.style.display='flex';el.classList.add('ic-show');}const b=document.getElementById('ic-top-banner');if(_icBannerText[panel])_typewrite(b,_icBannerText[panel]);else _typewriteClear(b);if(panel===4){const slam=document.querySelector('#ic-p4 .ic-act-slam');if(slam){slam.classList.remove('slam');void slam.offsetWidth;slam.classList.add('slam');}}}
+const _IC_LAST=4;let _icPanel=1;
+function _icNext(panel){_icPanel=panel;document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});const el=document.getElementById('ic-p'+panel);if(el){el.style.display='flex';el.classList.add('ic-show');}const b=document.getElementById('ic-top-banner');if(_icBannerText[panel])_typewrite(b,_icBannerText[panel]);else _typewriteClear(b);if(panel===4){const slam=document.querySelector('#ic-p4 .ic-act-slam');if(slam){slam.classList.remove('slam');void slam.offsetWidth;slam.classList.add('slam');}}_cinNavSync('ic-back','ic-skip',panel,_IC_LAST);}
+function _icBack(){if(_icPanel>1)_icNext(_icPanel-1);}
+function _cinNavSync(backId,skipId,panel,last){const bk=document.getElementById(backId),sk=document.getElementById(skipId);if(bk)bk.style.display=panel>1?'':'none';if(sk)sk.style.display=panel<last?'':'none';}
 function _icDone(){const el=document.getElementById('intro-cin');el.classList.remove('ic-active');el.style.display='none';document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});_typewriteClear(document.getElementById('ic-top-banner'));initGame();}document.getElementById('btn-play-again').addEventListener('click',()=>{stopGame();showScreen('start-screen')});document.getElementById('btn-submit-score').addEventListener('click',async()=>{
   const btn = document.getElementById('btn-submit-score');
   const nameInput = document.getElementById('leaderboard-name').value.trim() || 'ANONYMOUS';
