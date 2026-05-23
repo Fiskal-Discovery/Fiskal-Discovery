@@ -1737,8 +1737,8 @@ function enterWorkMode(){if(!G||G.dead)return;workModeActive=true;MUSIC.pause();
 function exitWorkMode(){workModeActive=false;document.getElementById('work-mode-overlay').style.display='none';MUSIC.resume();if(G&&!G.dead&&!paused)rafId=requestAnimationFrame(gameLoop)}
 </script>
 <style>
-#work-mode-btn{position:fixed;bottom:72px;left:12px;z-index:500;font-family:'Press Start 2P',monospace;font-size:.42rem;background:radial-gradient(circle at 40% 35%,#ff6666,#cc0000 60%,#880000);color:#fff;border:3px solid #ff4444;border-radius:6px;width:auto;height:auto;padding:8px 10px;cursor:pointer;box-shadow:0 0 12px rgba(255,0,0,.7),0 4px 8px rgba(0,0,0,.5),inset 0 2px 4px rgba(255,150,150,.4);display:none;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-shadow:0 1px 2px rgba(0,0,0,.8);transition:transform .1s,box-shadow .1s;line-height:1.4;touch-action:none}
-#work-mode-btn:active{transform:scale(.93);box-shadow:0 0 6px rgba(255,0,0,.5),0 2px 4px rgba(0,0,0,.5),inset 0 3px 6px rgba(0,0,0,.4)}
+#work-mode-btn{position:fixed;bottom:72px;left:12px;z-index:500;font-family:'Press Start 2P',monospace;font-size:.42rem;background:#fff;color:#000;border:3px solid #ff0000;border-radius:6px;width:auto;height:auto;padding:8px 10px;cursor:pointer;box-shadow:0 0 8px rgba(255,0,0,.5),0 4px 8px rgba(0,0,0,.4);display:none;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-shadow:none;transition:transform .1s,box-shadow .1s;line-height:1.4;touch-action:none}
+#work-mode-btn:active{transform:scale(.93);box-shadow:0 0 4px rgba(255,0,0,.4),0 2px 4px rgba(0,0,0,.4)}
 #work-mode-overlay{display:none;position:fixed;inset:0;z-index:9999;background:#f5f5f0;overflow-y:auto;font-family:Arial,sans-serif;font-size:13px;color:#1a1a1a}
 #work-doc{max-width:780px;margin:0 auto;padding:32px 40px 48px;background:#fff;min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.12)}
 .doc-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1a3a6b;padding-bottom:12px;margin-bottom:20px}
