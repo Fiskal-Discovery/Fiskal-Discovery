@@ -52,15 +52,15 @@
 #intro-cin.ic-active{display:flex!important}.ic-panel{display:flex;flex-direction:column;align-items:center;width:100%;max-width:560px;gap:10px;text-align:center;animation:vcFadeIn .5s ease-out}.ic-panel.ic-show{display:flex!important}
 #ic-top-banner,#lc-top-banner{position:absolute;top:clamp(54px,8vh,90px);left:0;right:0;text-align:center;font-family:'Press Start 2P',monospace;color:#fff;font-size:clamp(.95rem,3.4vw,1.6rem);letter-spacing:.08em;line-height:1.4;padding:0 16px;text-shadow:0 0 14px rgba(255,255,255,.45),0 0 28px rgba(255,255,255,.18);min-height:1.4em;pointer-events:none}
 #ic-top-banner.typing::after,#lc-top-banner.typing::after{content:'▌';margin-left:2px;animation:icCaretBlink .8s steps(1) infinite}
-.lc-boss-item-larry{font-size:clamp(.75rem,2.8vw,1rem)!important;color:#FF2244!important;text-shadow:0 0 10px rgba(255,34,68,.6)!important;border-left:3px solid #FF2244!important;background:rgba(255,34,68,.08)!important;padding:5px 12px!important;margin-top:4px;letter-spacing:.06em}
+.lc-boss-item-larry{font-size:clamp(.6rem,2.2vw,.85rem)!important;color:#FF2244!important;text-shadow:0 0 10px rgba(255,34,68,.6)!important;border-left:3px solid #FF2244!important;background:rgba(255,34,68,.08)!important;padding:3px 10px!important;margin-top:2px;letter-spacing:.06em}
 @keyframes icCaretBlink{0%,50%{opacity:1}51%,100%{opacity:0}}
-.ic-enemy-list{display:flex;flex-direction:column;gap:3px;width:100%;max-width:340px;margin:4px 0 2px}
-.ic-enemy{font-family:'Press Start 2P',monospace;font-size:clamp(.55rem,2vw,.7rem);color:rgba(255,180,140,.9);letter-spacing:.05em;padding:3px 12px;border-left:2px solid rgba(255,110,60,.6);background:rgba(255,80,40,.06);text-align:left}
+.ic-enemy-list{display:flex;flex-direction:column;gap:2px;width:100%;max-width:340px;margin:2px 0 2px}
+.ic-enemy{font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.8vw,.65rem);color:rgba(255,180,140,.9);letter-spacing:.05em;padding:2px 10px;border-left:2px solid rgba(255,110,60,.6);background:rgba(255,80,40,.06);text-align:left}
 .ic-larry-label{font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.8vw,.6rem);color:rgba(255,255,255,.55);letter-spacing:.12em;margin-top:10px}
 .ic-larry{font-family:'Press Start 2P',monospace;font-size:clamp(.95rem,3.2vw,1.2rem);color:#FF2244;text-shadow:0 0 14px rgba(255,34,68,.7),0 0 30px rgba(255,34,68,.35);letter-spacing:.08em;margin-top:4px;padding:7px 14px;border:2px solid rgba(255,34,68,.6);background:rgba(255,34,68,.08);border-radius:3px;max-width:min(100%,360px);box-sizing:border-box;word-break:break-word;text-align:center}
 .cin-bottom-bar{flex-shrink:0;width:100%;display:flex;justify-content:center;align-items:center;gap:8px;padding:12px 10px calc(12px + env(safe-area-inset-bottom,0px));background:rgba(8,0,15,.88);border-top:1px solid rgba(255,255,255,.07);z-index:20;flex-wrap:wrap}
 .cin-bottom-bar button{font-family:'Press Start 2P',monospace;font-size:clamp(.48rem,1.5vw,.62rem);background:rgba(255,230,0,.1);color:#FFE600;border:2px solid #FFE600;padding:10px 14px;border-radius:4px;cursor:pointer;letter-spacing:.05em;min-height:42px;touch-action:manipulation;transition:background .15s,opacity .15s,visibility 0s;white-space:nowrap}
-.cin-content{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-y:auto;padding:clamp(100px,14vh,160px) 20px 16px;gap:0}
+.cin-content{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:12px 20px 8px;gap:0}
 .cin-bottom-bar button:hover{background:rgba(255,230,0,.22)}
 .cin-bottom-bar button.hidden{opacity:0;pointer-events:none;visibility:hidden}
 .cin-bottom-bar .cin-sound{background:rgba(255,255,255,.05);color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.35)}
@@ -71,15 +71,15 @@
 .ic-act-slam.slam{animation:icActSlam .7s cubic-bezier(.22,.61,.36,1) both}
 @keyframes icActSlam{0%{transform:scale(7);opacity:0;filter:blur(6px)}55%{transform:scale(.85);opacity:1;filter:blur(0)}72%{transform:scale(1.1)}86%{transform:scale(.96)}100%{transform:scale(1)}}
 #larry-cin.lc-active{display:flex!important}
-.lc-panel{display:none;flex-direction:column;align-items:center;width:100%;max-width:560px;gap:10px;text-align:center;animation:vcFadeIn .5s ease-out}
+.lc-panel{display:none;flex-direction:column;align-items:center;width:100%;max-width:560px;gap:6px;text-align:center;animation:vcFadeIn .5s ease-out}
 .lc-panel.lc-show{display:flex!important}
 .lc-eyebrow{font-family:'Press Start 2P',monospace;font-size:clamp(.52rem,2vw,.7rem);color:rgba(170,136,255,.75);letter-spacing:.08em;margin-bottom:2px}
-.lc-title{font-family:'Press Start 2P',monospace;font-size:clamp(.9rem,4.5vw,2rem);color:#FFE600;text-shadow:0 0 30px #FFE600,0 0 60px rgba(255,230,0,.4);line-height:1.4;margin-bottom:4px}
-.lc-body{font-family:'Press Start 2P',monospace;font-size:clamp(.6rem,2.2vw,.78rem);color:rgba(210,200,255,.85);line-height:1.8;max-width:480px}
+.lc-title{font-family:'Press Start 2P',monospace;font-size:clamp(.8rem,3.5vw,1.5rem);color:#FFE600;text-shadow:0 0 30px #FFE600,0 0 60px rgba(255,230,0,.4);line-height:1.2;margin-bottom:2px}
+.lc-body{font-family:'Press Start 2P',monospace;font-size:clamp(.55rem,2vw,.72rem);color:rgba(210,200,255,.85);line-height:1.6;max-width:480px}
 .lc-list-label{font-family:'Press Start 2P',monospace;font-size:clamp(.52rem,2vw,.65rem);color:#00FF88;letter-spacing:.08em;margin-top:4px}
-.lc-boss-list{display:flex;flex-direction:column;gap:4px;width:100%;max-width:400px;margin:4px 0 8px}.lc-boss-item{font-family:'Press Start 2P',monospace;font-size:clamp(.58rem,2.2vw,.78rem);color:#00FF88;text-shadow:0 0 8px #00FF8866;padding:3px 10px;border-left:2px solid #00FF88;background:rgba(0,255,136,.06)}
+.lc-boss-list{display:flex;flex-direction:column;gap:2px;width:100%;max-width:400px;margin:2px 0 4px}.lc-boss-item{font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.8vw,.68rem);color:#00FF88;text-shadow:0 0 8px #00FF8866;padding:2px 8px;border-left:2px solid #00FF88;background:rgba(0,255,136,.06)}
 .lc-boss-row{font-family:'Press Start 2P',monospace;font-size:clamp(.55rem,2vw,.7rem);color:#FFE600;text-align:left;padding:4px 10px;background:rgba(255,230,0,.06);border-left:3px solid #FFE600;border-radius:2px;animation:vcFadeIn .4s ease-out}
-.lc-next{font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.8vw,.75rem);background:rgba(255,230,0,.1);color:#FFE600;border:2px solid #FFE600;padding:14px 28px;border-radius:4px;cursor:pointer;min-height:48px;touch-action:manipulation;letter-spacing:.05em;margin-top:8px;box-shadow:0 0 16px rgba(255,230,0,.25)}
+.lc-next{font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.8vw,.75rem);background:rgba(255,230,0,.1);color:#FFE600;border:2px solid #FFE600;padding:10px 24px;border-radius:4px;cursor:pointer;min-height:40px;touch-action:manipulation;letter-spacing:.05em;margin-top:4px;box-shadow:0 0 16px rgba(255,230,0,.25)}
 .lc-next:hover{background:rgba(255,230,0,.22)}#upgrade-inner{text-align:center;animation:upgradeIn .6s ease-out forwards}@keyframes upgradeIn{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}#upgrade-title{font-family:'Press Start 2P',monospace;font-size:clamp(1rem,4vw,1.8rem);color:#FFE600;text-shadow:0 0 30px #FFE600,0 0 60px #FFE600;margin-bottom:16px;letter-spacing:.05em}#upgrade-subtitle{font-family:'Press Start 2P',monospace;font-size:clamp(.7rem,2.5vw,1.1rem);color:#AA44FF;text-shadow:0 0 20px #AA44FF;margin-bottom:20px}#upgrade-detail{font-family:'Press Start 2P',monospace;font-size:clamp(.4rem,1.5vw,.6rem);color:#00FF88;text-shadow:0 0 10px #00FF88;letter-spacing:.08em}.advanced-hud #hud{border-bottom:2px solid rgba(255,230,0,.6);box-shadow:0 2px 16px rgba(255,230,0,.3)}#wave-clear-overlay{position:absolute;inset:0;z-index:80;display:none;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;background:rgba(0,0,10,.72)}
 #wave-clear-overlay.show{display:flex}
 #wco-title{font-family:'Press Start 2P',monospace;font-size:clamp(.9rem,3.5vw,1.5rem);color:#FFE600;text-shadow:0 0 24px #FFE600;margin-bottom:12px;animation:flicker 2s infinite}
@@ -327,8 +327,8 @@ function stopFaviconAnimation() {
         <div class="lc-body">Armed with Fiskal's cashflow intelligence, you have hunted down and neutralised every financial predator standing between UK businesses and their money. Ten waves. Ten bosses. Zero mercy.</div>
       </div>
       <!-- Panel 2: Confirmed eliminations list -->
-      <div class="lc-panel" id="lc-p2" style="display:none;padding-top:clamp(40px,6vh,80px)">
-        <div class="lc-title" style="font-size:clamp(.7rem,3vw,1.2rem);white-space:nowrap">THREATS ELIMINATED</div>
+      <div class="lc-panel" id="lc-p2" style="display:none">
+        <div class="lc-title" style="white-space:nowrap">THREATS ELIMINATED</div>
         <div class="lc-boss-list">
           <div class="lc-boss-item">✓ BAD SERVICE</div>
           <div class="lc-boss-item">✓ INTEREST HIKE</div>
