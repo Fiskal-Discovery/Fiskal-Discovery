@@ -63,6 +63,7 @@
 .cin-back{left:clamp(14px,3vw,28px)}
 .cin-skip:hover,.cin-back:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.45)}
 .ic-act-slam{font-family:'Press Start 2P',monospace;font-size:clamp(3.2rem,16vw,7rem);color:#FFE600;text-shadow:0 0 28px #FFE600,0 0 60px rgba(255,230,0,.55),0 0 110px rgba(255,140,0,.35);line-height:1;letter-spacing:.06em;transform:scale(1);opacity:1}
+.ic-act-slam.act2{color:#FF4422;text-shadow:0 0 28px #FF4422,0 0 60px rgba(255,68,34,.55),0 0 120px rgba(255,30,0,.4)}
 .ic-act-slam.slam{animation:icActSlam .7s cubic-bezier(.22,.61,.36,1) both}
 @keyframes icActSlam{0%{transform:scale(7);opacity:0;filter:blur(6px)}55%{transform:scale(.85);opacity:1;filter:blur(0)}72%{transform:scale(1.1)}86%{transform:scale(.96)}100%{transform:scale(1)}}
 #larry-cin.lc-active{display:flex!important}
@@ -363,6 +364,11 @@ function stopFaviconAnimation() {
       </div>
     </div>
     <div id="upgrade-ready" style="display:none"></div>
+    <div id="act2-slam-screen" style="display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px;background:radial-gradient(ellipse at center,#1a0008 0%,#000 100%);z-index:30">
+      <div class="ic-act-slam act2">ACT II</div>
+      <div class="lc-body" style="color:#FF6644;margin-top:18px;font-size:clamp(.7rem,2.4vw,.95rem);line-height:1.8;letter-spacing:.05em">The bailiff is coming.</div>
+      <button class="lc-next" id="act2-begin-btn" style="margin-top:24px;background:rgba(255,68,34,.18);color:#FF6644;border-color:#FF6644;box-shadow:0 0 20px rgba(255,68,34,.4)">▶ BEGIN ACT II</button>
+    </div>
   </div>
   <canvas id="canvas"></canvas>
   <div id="pause-overlay"><div class="pause-title">PAUSED</div><button class="btn-resume" id="btn-resume">▶ RESUME</button><div class="pause-audio-row"><button class="btn-audio-toggle" id="btn-music-toggle" onclick="toggleMusicMute()">♪ MUSIC ON</button><button class="btn-audio-toggle" id="btn-sfx-toggle" onclick="toggleSFXMute()">◉ SFX ON</button></div><button class="btn-quit" id="btn-quit-pause">✕ QUIT</button></div>
@@ -946,6 +952,20 @@ function _lcNext(panel){
   _cinNavSync('lc-back','lc-skip',panel,_LC_LAST);
 }
 function _lcBack(){if(_lcPanel>1)_lcNext(_lcPanel-1);}
+function _showAct2Slam(){
+  const el=document.getElementById('upgrade-cinematic');
+  const screen=document.getElementById('act2-slam-screen');
+  screen.style.display='flex';
+  el.style.pointerEvents='auto';
+  const slam=screen.querySelector('.ic-act-slam');
+  if(slam){slam.classList.remove('slam');void slam.offsetWidth;slam.classList.add('slam');}
+  document.getElementById('act2-begin-btn').onclick=()=>{
+    el.style.pointerEvents='none';el.classList.remove('active');
+    screen.style.display='none';
+    MUSIC.newHope();
+    if(G&&!G.dead){G.enemies=[];G.bullets=[];G.wordEnemies=[];G.powerups=[];G.fiskalOrbs=[];G.spawnTimer=0;G.player.w=50;G.player.h=34;G.player.y=Math.min(G.player.y,canvas.height-30);rafId=requestAnimationFrame(gameLoop)}
+  };
+}
 function _lcDone(){
   const cin=document.getElementById('larry-cin');
   cin.classList.remove('lc-active');cin.style.display='none';
@@ -1158,7 +1178,8 @@ function _doUpgradeAnnouncement(){
   const inner=document.getElementById('upgrade-inner');
   const showcase=document.getElementById('upgrade-showcase');
   const ready=document.getElementById('upgrade-ready');
-  inner.style.display='';showcase.style.display='none';ready.style.display='none';
+  const a2=document.getElementById('act2-slam-screen');
+  inner.style.display='';showcase.style.display='none';ready.style.display='none';if(a2)a2.style.display='none';
   el.classList.add('active');el.style.pointerEvents='none';
   // Shared state — must be in outer scope so all phase closures can read/write
   let currentScheme=PAINT_SCHEMES[0];
@@ -1256,11 +1277,9 @@ function _doUpgradeAnnouncement(){
         el.style.pointerEvents='auto';
         tone(880,null,.25,.14,'sine');setTimeout(()=>tone(1100,null,.35,.16,'sine'),220);
         document.getElementById('upgrade-ready-btn').onclick=()=>{
-          el.style.pointerEvents='none';el.classList.remove('active');
           ri.style.opacity='0';ri.style.display='none';showcase.style.display='none';
           if(G)G.paintScheme=currentScheme;
-          MUSIC.newHope();
-          if(G&&!G.dead){G.enemies=[];G.bullets=[];G.wordEnemies=[];G.powerups=[];G.fiskalOrbs=[];G.spawnTimer=0;G.player.w=50;G.player.h=34;G.player.y=Math.min(G.player.y,canvas.height-30);rafId=requestAnimationFrame(gameLoop)}
+          _showAct2Slam();
         };
       },1400);
     }, features.length*700+600+600);
@@ -1273,7 +1292,7 @@ function _doUpgradeAnnouncement(){
     },i*700+600));
   },3000);
 }
-function stopGame(){if(rafId)cancelAnimationFrame(rafId);rafId=null;if(victoryRafId)cancelAnimationFrame(victoryRafId);victoryRafId=null;if(tvRafId)cancelAnimationFrame(tvRafId);tvRafId=null;paused=false;screenShake=0;ctx.setTransform(1,0,0,1,0,0);const _sf=document.getElementById('screen-flash');if(_sf){clearTimeout(_sf._ft);clearTimeout(_sf._ft2);_sf.classList.remove('show');_sf.style.background='';_sf.style.display='none'}document.getElementById('pause-overlay').classList.remove('active');document.getElementById('victory-screen').classList.remove('active');document.getElementById('wave-clear-overlay').classList.remove('show');if(document.exitPointerLock&&document.pointerLockElement===canvas)document.exitPointerLock();MUSIC.stop();document.getElementById('target-hud').style.display='none';document.getElementById('bomb-btn').style.display='none';document.getElementById('work-mode-btn').style.display='none';document.getElementById('game-screen').classList.remove('advanced-hud');document.getElementById('upgrade-cinematic').classList.remove('active');const _lcin=document.getElementById('larry-cin');if(_lcin){_lcin.classList.remove('lc-active');_lcin.style.display='none';document.querySelectorAll('.lc-panel').forEach(p=>p.classList.remove('lc-show'));}if(_lcRafId){cancelAnimationFrame(_lcRafId);_lcRafId=null;}workModeActive=false;document.getElementById('work-mode-overlay').style.display='none';G=null}
+function stopGame(){if(rafId)cancelAnimationFrame(rafId);rafId=null;if(victoryRafId)cancelAnimationFrame(victoryRafId);victoryRafId=null;if(tvRafId)cancelAnimationFrame(tvRafId);tvRafId=null;paused=false;screenShake=0;ctx.setTransform(1,0,0,1,0,0);const _sf=document.getElementById('screen-flash');if(_sf){clearTimeout(_sf._ft);clearTimeout(_sf._ft2);_sf.classList.remove('show');_sf.style.background='';_sf.style.display='none'}document.getElementById('pause-overlay').classList.remove('active');document.getElementById('victory-screen').classList.remove('active');document.getElementById('wave-clear-overlay').classList.remove('show');if(document.exitPointerLock&&document.pointerLockElement===canvas)document.exitPointerLock();MUSIC.stop();document.getElementById('target-hud').style.display='none';document.getElementById('bomb-btn').style.display='none';document.getElementById('work-mode-btn').style.display='none';document.getElementById('game-screen').classList.remove('advanced-hud');document.getElementById('upgrade-cinematic').classList.remove('active');const _a2s=document.getElementById('act2-slam-screen');if(_a2s)_a2s.style.display='none';const _lcin=document.getElementById('larry-cin');if(_lcin){_lcin.classList.remove('lc-active');_lcin.style.display='none';document.querySelectorAll('.lc-panel').forEach(p=>p.classList.remove('lc-show'));}if(_lcRafId){cancelAnimationFrame(_lcRafId);_lcRafId=null;}workModeActive=false;document.getElementById('work-mode-overlay').style.display='none';G=null}
 function resizeCanvas(){const hud=document.getElementById('hud');const headerH=document.body.classList.contains('playing-mobile')?0:document.querySelector('.fiskal-header').offsetHeight;const safeBottom=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom'))||0;canvas.width=Math.min(window.innerWidth,720);canvas.height=Math.max(300,window.innerHeight-headerH-hud.offsetHeight-document.getElementById('target-hud').offsetHeight-document.getElementById('game-topbar').offsetHeight-2-safeBottom);if(G&&G.player){G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x));G.player.y=canvas.height-40}}
 function updatePersonalBest(){
   const pb=localStorage.getItem('fiskal_ci_best_score');
