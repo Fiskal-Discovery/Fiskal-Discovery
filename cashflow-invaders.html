@@ -58,8 +58,8 @@
 .ic-enemy{font-family:'Press Start 2P',monospace;font-size:clamp(.55rem,2vw,.7rem);color:rgba(255,180,140,.9);letter-spacing:.05em;padding:3px 12px;border-left:2px solid rgba(255,110,60,.6);background:rgba(255,80,40,.06);text-align:left}
 .ic-larry-label{font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.8vw,.6rem);color:rgba(255,255,255,.55);letter-spacing:.12em;margin-top:10px}
 .ic-larry{font-family:'Press Start 2P',monospace;font-size:clamp(.95rem,3.2vw,1.2rem);color:#FF2244;text-shadow:0 0 14px rgba(255,34,68,.7),0 0 30px rgba(255,34,68,.35);letter-spacing:.08em;margin-top:4px;padding:7px 14px;border:2px solid rgba(255,34,68,.6);background:rgba(255,34,68,.08);border-radius:3px;max-width:min(100%,360px);box-sizing:border-box;word-break:break-word;text-align:center}
-.cin-bottom-bar{position:absolute;bottom:clamp(14px,3vh,28px);left:0;right:0;display:flex;justify-content:center;align-items:center;gap:10px;padding:0 14px;z-index:20;pointer-events:none}
-.cin-bottom-bar button{pointer-events:auto;font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.6vw,.65rem);background:rgba(255,230,0,.1);color:#FFE600;border:2px solid #FFE600;padding:11px 16px;border-radius:4px;cursor:pointer;letter-spacing:.05em;min-height:44px;touch-action:manipulation;transition:background .15s,opacity .15s,visibility 0s}
+.cin-bottom-bar{position:absolute;bottom:clamp(14px,3vh,28px);left:0;right:0;display:flex;justify-content:center;align-items:center;gap:8px;padding:0 10px;z-index:20;pointer-events:none;flex-wrap:wrap}
+.cin-bottom-bar button{pointer-events:auto;font-family:'Press Start 2P',monospace;font-size:clamp(.48rem,1.5vw,.62rem);background:rgba(255,230,0,.1);color:#FFE600;border:2px solid #FFE600;padding:10px 14px;border-radius:4px;cursor:pointer;letter-spacing:.05em;min-height:42px;touch-action:manipulation;transition:background .15s,opacity .15s,visibility 0s;white-space:nowrap}
 .cin-bottom-bar button:hover{background:rgba(255,230,0,.22)}
 .cin-bottom-bar button.hidden{opacity:0;pointer-events:none;visibility:hidden}
 .cin-bottom-bar .cin-sound{background:rgba(255,255,255,.05);color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.35)}
@@ -268,7 +268,7 @@ function stopFaviconAnimation() {
   </div>
 </div>
 <!-- Intro Cinematic Overlay -->
-<div id="intro-cin" style="display:none;position:fixed;inset:0;z-index:900;background:radial-gradient(ellipse at center,#07001a 0%,#000 100%);flex-direction:column;align-items:center;justify-content:center;padding:clamp(110px,15vh,170px) 20px clamp(90px,12vh,130px)">
+<div id="intro-cin" style="display:none;position:fixed;inset:0;z-index:900;background:radial-gradient(ellipse at center,#07001a 0%,#000 100%);flex-direction:column;align-items:center;justify-content:center;padding:clamp(110px,15vh,170px) 20px clamp(90px,12vh,130px);overflow-y:auto">
   <div id="ic-top-banner"></div>
   <div class="ic-panel" id="ic-p1">
     <div class="lc-title">YOUR BUSINESS<br>IS UNDER ATTACK</div>
