@@ -1692,7 +1692,7 @@ function _typewriteClear(el){if(!el)return;if(el._tt){clearInterval(el._tt);el._
 const _icBannerText={1:'FISKAL DISCOVERY INTELLIGENCE',2:'CONFIRMED HOSTILE ACTORS',3:'MISSION BRIEFING'};
 const _lcBannerText={1:'OPERATION CASHFLOW',2:'CONFIRMED THREATS',4:'TRANSMISSION INCOMING'};
 const _IC_LAST=4;let _icPanel=1;
-const _IC_NEXT_TEXT={1:'NEXT ▶',2:'NEXT ▶',3:'NEXT ▶',4:'▶ BEGIN OPERATION'};
+const _IC_NEXT_TEXT={1:'NEXT ▶',2:'NEXT ▶',3:'NEXT ▶',4:'BEGIN ▶'};
 const _LC_NEXT_TEXT={1:'NEXT ▶',2:'NEXT ▶',3:'NEXT ▶',4:'UPGRADE SHIP ▶'};
 function _icNext(panel){_icPanel=panel;document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});const el=document.getElementById('ic-p'+panel);if(el){el.style.display='flex';el.classList.add('ic-show');}const b=document.getElementById('ic-top-banner');if(_icBannerText[panel])_typewrite(b,_icBannerText[panel]);else _typewriteClear(b);if(panel===4){const slam=document.querySelector('#ic-p4 .ic-act-slam');if(slam){slam.classList.remove('slam');void slam.offsetWidth;slam.classList.add('slam');}}_cinNavSync('ic-bb-back','ic-bb-next',panel,_IC_LAST,_IC_NEXT_TEXT);}
 function _icBack(){if(_icPanel>1)_icNext(_icPanel-1);}
