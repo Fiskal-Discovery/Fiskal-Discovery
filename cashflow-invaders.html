@@ -2002,6 +2002,7 @@ function showBobbyCinematic(onDone){
   const bPos=BOSS_LIST.map((_,i)=>({x:W*(0.15+(i%4)*(0.7/4)+Math.random()*0.08),y:H*(0.15+Math.floor(i/4)*(0.7/5)+Math.random()*0.06)}));
   const bExploded=new Array(20).fill(false);
   const pile=[];
+  const footerH=68;
   let s4done=false,lastFT=0;
 
   // Scene 5 assets: emotional copy groups
@@ -2172,7 +2173,7 @@ function showBobbyCinematic(onDone){
         if(fr.settled)return;
         fr.vy+=900*dt;fr.x+=fr.vx*dt;fr.y+=fr.vy*dt;fr.angle+=fr.va*dt;
         fr.vx*=Math.pow(0.88,dt*60);
-        if(fr.y>=H-fr.ro){fr.y=H-fr.ro;fr.settled=true;fr.vx=0;fr.vy=0;}
+        if(fr.y>=H-footerH-fr.ro){fr.y=H-footerH-fr.ro;fr.settled=true;fr.vx=0;fr.vy=0;}
       });
       // Draw pile fragments
       c.textBaseline='middle';c.textAlign='center';
@@ -2184,6 +2185,11 @@ function showBobbyCinematic(onDone){
         c.restore();
       });
       c.shadowBlur=0;
+      // Draw footer bar
+      c.save();
+      c.fillStyle='rgba(8,0,15,.92)';c.fillRect(0,H-footerH,W,footerH);
+      c.strokeStyle='rgba(255,255,255,.07)';c.lineWidth=1;c.beginPath();c.moveTo(0,H-footerH);c.lineTo(W,H-footerH);c.stroke();
+      c.restore();
       // Process each boss name
       BOSS_LIST.forEach((name,i)=>{
         const lt=t-bST[i];
