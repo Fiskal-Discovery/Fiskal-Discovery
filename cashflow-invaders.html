@@ -179,7 +179,8 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
   .go-nav-row { display: flex; gap: 12px; margin-top: 6px; flex-wrap: wrap; justify-content: center; }
   .go-secondary { background: transparent !important; color: rgba(255,230,0,.55) !important; border-color: rgba(255,230,0,.45) !important; box-shadow: none !important; }
   .go-secondary:hover { background: rgba(255,230,0,.08) !important; color: #FFE600 !important; }
-  #gameover-screen { overflow-y: auto; padding: 24px 16px; justify-content: flex-start; padding-top: clamp(24px,4vh,48px); }
+  #gameover-screen { padding: 0; justify-content: stretch; align-items: stretch; flex-direction: column; overflow: hidden; }
+  #gameover-screen .cin-content { padding: clamp(20px,4vh,40px) 16px 16px; }
 </style>
 
 <!-- ================= FAVICON ================= -->
@@ -397,12 +398,12 @@ function stopFaviconAnimation() {
   </div>
 </div>
 <div class="screen" id="gameover-screen">
+  <div class="cin-content">
   <div class="go-panel" id="go-p1">
     <div class="game-over-msg" id="gameover-msg">YOU'VE BEEN LIQUIDATED</div>
     <div class="final-score">YOU RELEASED £<span id="final-score">0</span></div>
     <div class="go-section-label">ENEMIES DEFEATED</div>
     <div id="go-defeated-list" class="lc-boss-list"></div>
-    <button class="lc-next" onclick="_goNext(2)">NEXT ▶</button>
   </div>
   <div class="go-panel" id="go-p2" style="display:none">
     <div class="go-reflective">
@@ -411,10 +412,6 @@ function stopFaviconAnimation() {
       <div class="go-r-line"><span class="go-r-soft">But behind every struggling business</span><br><span class="go-r-strong">is a real person —</span><br><span class="go-r-soft">working hard, refusing to give in.</span></div>
       <div class="go-r-line"><span class="go-r-purple">Small, independent brokers like Fiskal</span><br><span class="go-r-purple">exist for exactly those moments.</span><br><span class="go-r-soft">Real people. Real solutions. Alongside you.</span></div>
       <div class="go-r-line"><span class="go-r-soft">Whatever you're facing…</span><br><span class="go-r-gold">there is a way through.</span></div>
-    </div>
-    <div class="go-nav-row">
-      <button class="lc-next go-secondary" onclick="_goNext(1)">◀ BACK</button>
-      <button class="lc-next" onclick="_goNext(3)">NEXT ▶</button>
     </div>
   </div>
   <div class="go-panel" id="go-p3" style="display:none">
@@ -435,7 +432,12 @@ function stopFaviconAnimation() {
         <button class="btn-play-again" id="btn-home">⌂ RETURN TO HOME</button>
       </div>
     </div>
-    <button class="lc-next go-secondary" style="margin-top:14px" onclick="_goNext(2)">◀ BACK</button>
+  </div>
+  </div>
+  <div class="cin-bottom-bar">
+    <button id="go-bb-back" onclick="_goBack()">◀ BACK</button>
+    <button id="go-bb-sound" class="cin-sound" onclick="toggleMusicMute()">♪ SOUND ON</button>
+    <button id="go-bb-next" onclick="_goNextAction()">NEXT ▶</button>
   </div>
 </div>
 <div id="leaderboard-screen" style="display:none;position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.82);align-items:center;justify-content:center;padding:16px">
@@ -946,7 +948,10 @@ function closeLB(){
   _lbPausedGame=false;
 }
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('playing-mobile',id==='game-screen'&&window.innerWidth<=520);if(id!=='game-screen')showQuitBtn(false);if(id==='start-screen'){renderPreviewAliens();updatePersonalBest();drawWantedPoster();}if(id==='gameover-screen'){document.getElementById('work-mode-btn').style.display='none';const goMsg=document.getElementById('gameover-msg');if(goMsg&&goMsg.textContent!=='🏆 YOU WON!'){goMsg.textContent="YOU'VE BEEN LIQUIDATED";goMsg.style.color='';goMsg.style.textShadow='';}const savedName=localStorage.getItem('fiskal_ci_player_name');if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;const stored=getStoredUserDetails();if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;_goNext(1);}}
-function _goNext(n){document.querySelectorAll('.go-panel').forEach(p=>p.style.display='none');const el=document.getElementById('go-p'+n);if(el)el.style.display='flex';if(n===1)_goRenderDefeated();const so=document.getElementById('gameover-screen');if(so)so.scrollTop=0;}
+const _GO_LAST=3;let _goPanel=1;
+function _goNext(n){_goPanel=n;document.querySelectorAll('.go-panel').forEach(p=>p.style.display='none');const el=document.getElementById('go-p'+n);if(el)el.style.display='flex';if(n===1)_goRenderDefeated();const cont=document.querySelector('#gameover-screen .cin-content');if(cont)cont.scrollTop=0;const bk=document.getElementById('go-bb-back'),nx=document.getElementById('go-bb-next');if(bk)bk.classList.toggle('hidden',n<=1);if(nx)nx.classList.toggle('hidden',n>=_GO_LAST);}
+function _goBack(){if(_goPanel>1)_goNext(_goPanel-1);}
+function _goNextAction(){if(_goPanel<_GO_LAST)_goNext(_goPanel+1);}
 function _goRenderDefeated(){const list=document.getElementById('go-defeated-list');if(!list)return;list.innerHTML='';const arr=window._goDefeatedBosses||[];if(arr.length===0){const empty=document.createElement('div');empty.style.cssText='color:rgba(255,255,255,.45);font-family:"Press Start 2P",monospace;font-size:.5rem;padding:8px;letter-spacing:.06em';empty.textContent='— NONE —';list.appendChild(empty);return;}arr.forEach(name=>{const item=document.createElement('div');item.className='lc-boss-item';item.textContent='✓ '+name;list.appendChild(item);});}
 function updateHUD(){if(!G)return;document.getElementById('score-display').textContent=G.score;document.getElementById('wave-display').textContent=G.wave;const wd2=document.getElementById('wave-display-2');if(wd2)wd2.textContent=G.wave;if(G.advancedMode&&G.hullDamage>0){let h='';for(let i=0;i<G.lives;i++)h+=i===G.lives-1?'<span style="color:#FF8800;opacity:.65">❤</span>':'❤';document.getElementById('lives-display').innerHTML=h;}else{document.getElementById('lives-display').textContent='❤'.repeat(Math.max(0,G.lives));}const wcd=document.getElementById('wave-cash-display');if(wcd){if(G.state==='boss'){wcd.textContent='BOSS FIGHT!';wcd.style.color='#FF2244'}else{const waveProg=Math.min(G.score-G.waveCashStart,G.waveCashTarget);wcd.textContent='£'+waveProg+'/£'+G.waveCashTarget;wcd.style.color=waveProg/G.waveCashTarget>.75?'#00FF88':waveProg/G.waveCashTarget>.4?'#FFE600':'#88FF44'}}}
 function updateTargetHUD(){if(!G)return;const goal=getTarget(G.targetIdx);const pct=Math.min(1,G.score/goal);document.getElementById('target-current').textContent=G.score.toLocaleString();document.getElementById('target-goal').textContent=goal.toLocaleString();const bar=document.getElementById('target-bar');bar.style.width=(pct*100)+'%';const barColor=pct<0.5?'#FFE600':pct<0.8?'#FF8C00':'#00FF88';bar.style.background=barColor;bar.style.boxShadow='0 0 8px '+barColor;const label=document.getElementById('target-label');const thud=document.getElementById('target-hud');if(pct>=0.85){label.style.color='#00FF88';thud.style.background='rgba(0,80,0,.55)'}else if(pct>=0.5){label.style.color='#FF8C00';thud.style.background='rgba(80,40,0,.55)'}else{label.style.color='#FFE600';thud.style.background='rgba(0,0,0,.55)'}if(G.bombs>0){document.getElementById('bomb-count').textContent=G.bombs;document.getElementById('bomb-btn').style.display='flex'}else{document.getElementById('bomb-btn').style.display='none'}}
