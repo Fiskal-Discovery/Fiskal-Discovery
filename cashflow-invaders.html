@@ -1942,10 +1942,7 @@ function showVictory(){
     const stored=getStoredUserDetails();
     if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;
     if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;
-    document.getElementById('gameover-msg').textContent='🏆 YOU WON!';
-    document.getElementById('gameover-msg').style.color='#00FF88';
-    document.getElementById('gameover-msg').style.textShadow='0 0 20px #00FF88';
-    showScreen('gameover-screen')
+    showScreen('gameover-screen');_goNext(3);
   };
   SFX.clear&&SFX.clear();
   showBobbyCinematic(()=>{
