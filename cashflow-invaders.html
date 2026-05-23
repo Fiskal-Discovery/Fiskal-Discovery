@@ -53,6 +53,9 @@
 #ic-top-banner{position:absolute;top:clamp(18px,5vh,56px);left:0;right:0;text-align:center;font-family:'Press Start 2P',monospace;color:#fff;font-size:clamp(.95rem,3.4vw,1.6rem);letter-spacing:.08em;line-height:1.4;padding:0 16px;text-shadow:0 0 14px rgba(255,255,255,.45),0 0 28px rgba(255,255,255,.18);min-height:1.4em;pointer-events:none}
 #ic-top-banner.typing::after{content:'▌';margin-left:2px;animation:icCaretBlink .8s steps(1) infinite}
 @keyframes icCaretBlink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.ic-act-slam{font-family:'Press Start 2P',monospace;font-size:clamp(3.2rem,16vw,7rem);color:#FFE600;text-shadow:0 0 28px #FFE600,0 0 60px rgba(255,230,0,.55),0 0 110px rgba(255,140,0,.35);line-height:1;letter-spacing:.06em;transform:scale(1);opacity:1}
+.ic-act-slam.slam{animation:icActSlam .7s cubic-bezier(.22,.61,.36,1) both}
+@keyframes icActSlam{0%{transform:scale(7);opacity:0;filter:blur(6px)}55%{transform:scale(.85);opacity:1;filter:blur(0)}72%{transform:scale(1.1)}86%{transform:scale(.96)}100%{transform:scale(1)}}
 #larry-cin.lc-active{display:flex!important}
 .lc-panel{display:none;flex-direction:column;align-items:center;width:100%;max-width:560px;gap:10px;text-align:center;animation:vcFadeIn .5s ease-out}
 .lc-panel.lc-show{display:flex!important}
@@ -253,8 +256,12 @@ function stopFaviconAnimation() {
   <div class="ic-panel" id="ic-p3" style="display:none">
     <div class="lc-title" style="color:#00FF88">FIGHT BACK.</div>
     <div class="lc-body" style="max-width:500px;margin-top:8px">Fiskal has the intelligence. You have the firepower. Hunt down every financial predator, collect the cash they stole, and protect your business. Survive ten waves, defeat Larry — and uncover what's waiting in Act II.</div>
-    <div class="lc-body" style="color:#AA88FF;margin-top:10px;font-size:clamp(.52rem,1.8vw,.65rem)">The battle for financial freedom starts now.</div>
-    <button class="lc-next" style="margin-top:20px;background:rgba(0,255,136,.15);color:#00FF88;border-color:#00FF88;box-shadow:0 0 20px rgba(0,255,136,.3)" onclick="_icDone()">▶ BEGIN OPERATION</button>
+    <button class="lc-next" style="margin-top:20px" onclick="_icNext(4)">NEXT ▶</button>
+  </div>
+  <div class="ic-panel" id="ic-p4" style="display:none">
+    <div class="ic-act-slam">ACT I</div>
+    <div class="lc-body" style="color:#AA88FF;margin-top:18px;font-size:clamp(.7rem,2.4vw,.95rem);line-height:1.8">The battle for financial freedom starts now.</div>
+    <button class="lc-next" style="margin-top:24px;background:rgba(0,255,136,.15);color:#00FF88;border-color:#00FF88;box-shadow:0 0 20px rgba(0,255,136,.3)" onclick="_icDone()">▶ BEGIN OPERATION</button>
   </div>
 </div>
 <div class="screen" id="game-screen">
@@ -1549,7 +1556,7 @@ function showIntroCin(){const el=document.getElementById('intro-cin');el.classLi
 const _icBannerText={1:'FISKAL DISCOVERY INTELLIGENCE',2:'CONFIRMED HOSTILE ACTORS',3:'MISSION BRIEFING'};
 let _icTypeTimer=null;
 function _icType(text){const b=document.getElementById('ic-top-banner');if(!b)return;if(_icTypeTimer){clearInterval(_icTypeTimer);_icTypeTimer=null;}b.textContent='';b.classList.add('typing');let i=0;_icTypeTimer=setInterval(()=>{if(i>=text.length){clearInterval(_icTypeTimer);_icTypeTimer=null;setTimeout(()=>b.classList.remove('typing'),900);return;}b.textContent+=text.charAt(i);i++;},55);}
-function _icNext(panel){document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});const el=document.getElementById('ic-p'+panel);if(el){el.style.display='flex';el.classList.add('ic-show');}if(_icBannerText[panel])_icType(_icBannerText[panel]);}
+function _icNext(panel){document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});const el=document.getElementById('ic-p'+panel);if(el){el.style.display='flex';el.classList.add('ic-show');}if(_icBannerText[panel]){_icType(_icBannerText[panel]);}else{if(_icTypeTimer){clearInterval(_icTypeTimer);_icTypeTimer=null;}const b=document.getElementById('ic-top-banner');if(b){b.textContent='';b.classList.remove('typing');}}if(panel===4){const slam=document.querySelector('#ic-p4 .ic-act-slam');if(slam){slam.classList.remove('slam');void slam.offsetWidth;slam.classList.add('slam');}}}
 function _icDone(){const el=document.getElementById('intro-cin');el.classList.remove('ic-active');el.style.display='none';document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});if(_icTypeTimer){clearInterval(_icTypeTimer);_icTypeTimer=null;}const b=document.getElementById('ic-top-banner');if(b){b.textContent='';b.classList.remove('typing');}initGame();}document.getElementById('btn-play-again').addEventListener('click',()=>{stopGame();showScreen('start-screen')});document.getElementById('btn-submit-score').addEventListener('click',async()=>{
   const btn = document.getElementById('btn-submit-score');
   const nameInput = document.getElementById('leaderboard-name').value.trim() || 'ANONYMOUS';
