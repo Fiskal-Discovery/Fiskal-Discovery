@@ -1816,15 +1816,13 @@ table tr:nth-child(even) td{background:#fafbff}
 </div>
 </div>
 <style>
-#victory-screen{display:none;position:fixed;inset:0;z-index:800;background:#000;overflow:hidden;flex-direction:column;align-items:center;justify-content:center}
+#victory-screen{display:none;position:fixed;inset:0;z-index:800;background:radial-gradient(ellipse at center,#07001a 0%,#000 100%);overflow:hidden;flex-direction:column;align-items:stretch;justify-content:stretch}
 #victory-screen.active{display:flex}
+#victory-screen .cin-content{padding:clamp(24px,5vh,60px) 20px 20px;position:relative;z-index:5}
 #victory-confetti{position:fixed;inset:0;pointer-events:none;z-index:1}
 /* Panels */
-.vcin-panel{display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px 20px;text-align:center;z-index:5;background:radial-gradient(ellipse at center,#07001a 0%,#000 100%)}
+.vcin-panel{display:none;flex-direction:column;align-items:center;justify-content:center;padding:0;text-align:center;width:100%;max-width:720px}
 .vcin-panel.vp-active{display:flex}
-/* Next button */
-.vcin-next{font-family:'Press Start 2P',monospace;font-size:clamp(.55rem,2vw,.85rem);background:rgba(255,230,0,.12);color:#FFE600;border:2px solid #FFE600;padding:16px 32px;border-radius:5px;cursor:pointer;min-height:52px;min-width:160px;touch-action:manipulation;margin-top:auto;letter-spacing:.05em;box-shadow:0 0 20px rgba(255,230,0,.3)}
-.vcin-next:hover{background:rgba(255,230,0,.25)}
 /* Panel 1 — defeated */
 #vp1-bobby{font-family:'Press Start 2P',monospace;font-size:clamp(1.1rem,6vw,3rem);color:#FFE600;text-shadow:0 0 40px #FFE600,0 0 80px rgba(255,230,0,.5);margin-bottom:clamp(8px,2vh,18px);animation:vcSlam .4s ease-out}
 #vp1-hasbeen{font-family:'Press Start 2P',monospace;font-size:clamp(.55rem,2.5vw,1.1rem);color:rgba(210,205,240,.9);margin-bottom:clamp(8px,2vh,18px)}
@@ -1855,21 +1853,27 @@ table tr:nth-child(even) td{background:#fafbff}
 </style>
 <div id="victory-screen">
   <canvas id="victory-confetti"></canvas>
-  <!-- Panel 1: Bobby Defeated -->
-  <div class="vcin-panel" id="vcin-p1">
-    <div id="vp1-bobby">BAILIFF BOBBY</div>
-    <div id="vp1-hasbeen">HAS BEEN</div>
-    <div id="vp1-defeated">DEFEATED</div>
-    <button class="vcin-next" onclick="_cinNext(3)">NEXT ▶</button>
-  </div>
-  <!-- Panel 3: Fiskal Brand + submit -->
-  <div class="vcin-panel" id="vcin-p3">
-    <div id="vp3-score">£<span id="victory-score-counter">0</span> RELEASED</div>
-    <div id="vp3-tags">COMMERCIAL FINANCE EXPERTS</div>
-    <div id="victory-buttons">
-      <button id="btn-victory-submit">🏆 SUBMIT TO LEADERBOARD</button>
-      <button id="btn-victory-home" onclick="stopGame();stopFaviconAnimation();showScreen('start-screen');document.getElementById('victory-screen').classList.remove('active')">⌂ HOME</button>
+  <div class="cin-content">
+    <!-- Panel 1: Bobby Defeated -->
+    <div class="vcin-panel" id="vcin-p1">
+      <div id="vp1-bobby">BAILIFF BOBBY</div>
+      <div id="vp1-hasbeen">HAS BEEN</div>
+      <div id="vp1-defeated">DEFEATED</div>
     </div>
+    <!-- Panel 3: Fiskal Brand + submit -->
+    <div class="vcin-panel" id="vcin-p3">
+      <div id="vp3-score">£<span id="victory-score-counter">0</span> RELEASED</div>
+      <div id="vp3-tags">COMMERCIAL FINANCE EXPERTS</div>
+      <div id="victory-buttons">
+        <button id="btn-victory-submit">🏆 SUBMIT TO LEADERBOARD</button>
+        <button id="btn-victory-home" onclick="stopGame();stopFaviconAnimation();showScreen('start-screen');document.getElementById('victory-screen').classList.remove('active')">⌂ HOME</button>
+      </div>
+    </div>
+  </div>
+  <div class="cin-bottom-bar">
+    <button id="v-bb-back" class="hidden" onclick="_vBack()">◀ BACK</button>
+    <button id="v-bb-sound" class="cin-sound" onclick="toggleMusicMute()">♪ SOUND ON</button>
+    <button id="v-bb-next" onclick="_vNextAction()">NEXT ▶</button>
   </div>
 </div>
 
@@ -1886,7 +1890,9 @@ const TV_HEADLINES=[
   'FISKAL.CO.UK — CITED IN 47 SEPARATE FINANCIAL LIBERATION INCIDENTS'
 ];
 function _vClamp(a,b,c){return Math.max(a,Math.min(c,b))}
+const _V_PANELS=[1,3];let _vPanel=1;
 function _cinNext(panel){
+  _vPanel=panel;
   document.querySelectorAll('.vcin-panel').forEach(p=>p.classList.remove('vp-active'));
   const el=document.getElementById('vcin-p'+panel);if(el)el.classList.add('vp-active');
   if(panel===3){
@@ -1897,7 +1903,12 @@ function _cinNext(panel){
     SFX.collect&&SFX.collect();
     startConfetti();
   }
+  const bk=document.getElementById('v-bb-back'),nx=document.getElementById('v-bb-next');
+  if(bk)bk.classList.toggle('hidden',panel===_V_PANELS[0]);
+  if(nx)nx.classList.toggle('hidden',panel===_V_PANELS[_V_PANELS.length-1]);
 }
+function _vBack(){const i=_V_PANELS.indexOf(_vPanel);if(i>0)_cinNext(_V_PANELS[i-1]);}
+function _vNextAction(){const i=_V_PANELS.indexOf(_vPanel);if(i>=0&&i<_V_PANELS.length-1)_cinNext(_V_PANELS[i+1]);}
 function showWaveClearOverlay(){
   if(!G)return;
   const ov=document.getElementById('wave-clear-overlay');
