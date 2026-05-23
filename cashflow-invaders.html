@@ -1337,9 +1337,7 @@ function initGame(){stopGame();showScreen('game-screen');showQuitBtn(true);start
 fiskalOrbs:[],cashAttract:0,extraIncome:0,debtShield:0,personalService:0,
 personalServiceX:canvas.width/2+50,personalServiceDir:1,personalServiceLastShot:0,
 frozen:0,waveAnnounce:0,bannerFlash:null,boostCharge:0,boostActive:0,hullDamage:0,paintScheme:null,larryBeaten:false,bobbyBeaten:false,victoryMode:false};
-document.getElementById('target-hud').style.display='block';
 document.getElementById('bomb-btn').style.display='none';
-document.getElementById('game-topbar').style.display='flex';
 const _sf=document.getElementById('screen-flash');if(_sf&&safeBottom>0)_sf.style.bottom=safeBottom+'px';
 const _wmb=document.getElementById('work-mode-btn');_wmb.style.display='flex';if(document.body.classList.contains('playing-mobile')){const _tbr=document.getElementById('game-topbar').getBoundingClientRect();_wmb.style.top=(_tbr.top+4)+'px';}
 spawnWave(4);updateHUD();updateTargetHUD();requestAnimationFrame(()=>{resizeCanvas();rafId=requestAnimationFrame(gameLoop)});MUSIC.common()}
