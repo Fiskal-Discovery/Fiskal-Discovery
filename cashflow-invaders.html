@@ -1960,9 +1960,14 @@ function showBobbyCinematic(onDone){
     el=document.createElement('div');el.id='bobby-epic-cin';
     el.style.cssText='position:fixed;inset:0;z-index:960;background:#000;overflow:hidden;';
     const cv=document.createElement('canvas');cv.id='bobby-epic-cv';el.appendChild(cv);
-    const nb=document.createElement('button');nb.id='bobby-epic-next';
-    nb.style.cssText='position:absolute;bottom:8%;left:50%;transform:translateX(-50%);font-family:"Press Start 2P",monospace;font-size:clamp(.55rem,2vw,.85rem);background:rgba(255,230,0,.12);color:#FFE600;border:2px solid #FFE600;padding:16px 32px;border-radius:5px;cursor:pointer;min-height:52px;min-width:160px;touch-action:manipulation;letter-spacing:.05em;box-shadow:0 0 20px rgba(255,230,0,.3);display:none;z-index:10;';
-    nb.textContent='NEXT ▶';el.appendChild(nb);
+    const nb=document.createElement('div');nb.id='bobby-epic-next';
+    nb.style.cssText='position:absolute;bottom:0;left:0;right:0;height:68px;display:none;align-items:center;justify-content:center;gap:8px;padding:0 10px;background:rgba(8,0,15,.92);border-top:1px solid rgba(255,255,255,.07);z-index:10;box-sizing:border-box;';
+    const _btnStyle='font-family:"Press Start 2P",monospace;font-size:clamp(.48rem,1.5vw,.62rem);background:rgba(255,230,0,.1);color:#FFE600;border:2px solid #FFE600;padding:10px 14px;border-radius:4px;cursor:pointer;letter-spacing:.05em;min-height:42px;touch-action:manipulation;white-space:nowrap;';
+    const _soundStyle='font-family:"Press Start 2P",monospace;font-size:clamp(.48rem,1.5vw,.62rem);background:rgba(255,255,255,.05);color:rgba(255,255,255,.75);border:2px solid rgba(255,255,255,.35);padding:10px 14px;border-radius:4px;cursor:pointer;letter-spacing:.05em;min-height:42px;touch-action:manipulation;white-space:nowrap;';
+    const _bb=document.createElement('button');_bb.id='bobby-epic-back';_bb.style.cssText=_btnStyle+'opacity:0;pointer-events:none;';_bb.textContent='◀ BACK';nb.appendChild(_bb);
+    const _sb=document.createElement('button');_sb.id='bobby-epic-sound';_sb.style.cssText=_soundStyle;_sb.textContent='♪ SOUND ON';nb.appendChild(_sb);
+    const _nx=document.createElement('button');_nx.id='bobby-epic-nxt';_nx.style.cssText=_btnStyle;_nx.textContent='NEXT ▶';nb.appendChild(_nx);
+    el.appendChild(nb);
     document.body.appendChild(el);
   }
   el.style.display='block';
@@ -1970,6 +1975,9 @@ function showBobbyCinematic(onDone){
   cv.width=W;cv.height=H;
   const c=cv.getContext('2d');
   const nb=document.getElementById('bobby-epic-next');
+  const _bb=document.getElementById('bobby-epic-back');
+  const _sb=document.getElementById('bobby-epic-sound');
+  const _nx=document.getElementById('bobby-epic-nxt');
   nb.style.display='none';
   // 6 scenes: 1=fireworks 2=Bobby defeated+kick 3=Fiskal quote 4=boss shatter 5=emotional copy 6=Fiskal brand
   let raf2,scene=1,st=performance.now(),nextReady=false;
@@ -2018,7 +2026,7 @@ function showBobbyCinematic(onDone){
     if(!nextReady)return;
     nb.style.display='none';nextReady=false;
     if(scene===6){
-      cancelAnimationFrame(raf2);
+      cancelAnimationFrame(raf2);nb.style.display='none';
       let fo=0;
       (function fade(){fo=Math.min(1,fo+0.06);c.fillStyle=`rgba(0,0,0,${fo})`;c.fillRect(0,0,W,H);if(fo<1)requestAnimationFrame(fade);else{el.style.display='none';if(onDone)onDone();}})();
       return;
@@ -2026,9 +2034,12 @@ function showBobbyCinematic(onDone){
     scene++;st=performance.now();
     if(scene===2){s2kicked=false;s2kickedAt=0;s2nextShown=false;}
     if(scene===4){s4done=false;bExploded.fill(false);pile.length=0;lastFT=0;}
+    _bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';
   }
-  nb.onclick=advanceScene;
-  function showNext(){if(!nextReady){nextReady=true;nb.style.display='block';}}
+  _nx.onclick=advanceScene;
+  _bb.onclick=()=>{if(scene>1){scene--;st=performance.now();nextReady=false;_bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';}};
+  _sb.onclick=()=>toggleMusicMute();
+  function showNext(){if(!nextReady){nextReady=true;nb.style.display='flex';_bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';}}
 
   function glassSound(){
     try{
