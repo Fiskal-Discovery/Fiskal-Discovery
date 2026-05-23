@@ -339,7 +339,7 @@ function stopFaviconAnimation() {
       <!-- Panel 3: Larry animation -->
       <div class="lc-panel" id="lc-p3" style="display:none">
         <canvas id="larry-cin-canvas" style="display:block;max-width:100%;border-radius:6px"></canvas>
-        <div id="lc-p3-caption" class="lc-body" style="text-align:center;opacity:0;transition:opacity 1.2s;margin-top:10px;font-size:clamp(.72rem,2.8vw,1.1rem);color:#FFE600;line-height:1.6"></div>
+        <div id="lc-p3-caption" class="lc-body" style="text-align:center;opacity:0;transition:opacity 1.2s;margin-top:4px;font-size:clamp(.62rem,2.2vw,.95rem);color:#FFE600;line-height:1.4"></div>
       </div>
       <!-- Panel 4: The mission continues -->
       <div class="lc-panel" id="lc-p4" style="display:none">
@@ -1147,7 +1147,7 @@ function _lcRunLarryAnim(){
     const e=elapsed();
     if(phase===0 && e>2){
       phase=1;phaseStart=now;
-      caption.innerHTML='One final invoice.<br><span style="font-size:1.35em;letter-spacing:.04em">Delivered!</span>';
+      caption.innerHTML='One final invoice. <span style="font-size:1.2em;letter-spacing:.04em">Delivered!</span>';
       caption.style.opacity='1';
     }
     if(phase===1 && e>1){
