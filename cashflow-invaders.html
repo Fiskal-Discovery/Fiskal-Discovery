@@ -236,6 +236,7 @@ function stopFaviconAnimation() {
       <div class="alien-preview" id="alien-preview"></div>
       <div class="start-form">
         <button class="btn-start" id="btn-start">▶ START GAME</button>
+        <button onclick="devStartWave()" style="font-family:'Press Start 2P',monospace;font-size:.38rem;background:rgba(255,230,0,.08);color:rgba(255,230,0,.5);border:1px solid rgba(255,230,0,.3);padding:5px 12px;border-radius:3px;cursor:pointer;letter-spacing:.04em;margin-top:2px">⚙ DEV: SKIP TO WAVE</button>
       </div>
     </div>
   </div>
@@ -1201,7 +1202,8 @@ function updatePersonalBest(){
   const el=document.getElementById('personal-best');
   if(pb&&el)el.textContent='BEST: £'+Number(pb).toLocaleString();
 }
-function initGame(){stopGame();showScreen('game-screen');showQuitBtn(true);startFaviconAnimation();const safeBottom=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom'))||0;canvas.width=Math.min(window.innerWidth,720);canvas.height=Math.max(300,window.innerHeight-document.querySelector('.fiskal-header').offsetHeight-document.getElementById('hud').offsetHeight-document.getElementById('target-hud').offsetHeight-document.getElementById('game-topbar').offsetHeight-2-safeBottom);const bizName='ANONYMOUS';G={player:{x:canvas.width/2,y:canvas.height-40,w:44,h:30,speed:6},bullets:[],bossBlasts:[],enemies:[],powerups:[],particles:[],wordEnemies:[],wordBits:[],floatTexts:[],defeatedBossWords:[],wordTimer:0,score:0,lives:3,wave:1,doubleBullet:0,tripleBullet:0,shield:0,slowmo:0,rapidFire:0,speedBoost:0,supportShip:0,advancedMode:false,keys:{},lastShot:0,shotDelay:290,state:'playing',spawnTimer:0,spawnRate:90,waveKills:0,waveTarget:6,waveCashStart:0,waveCashTarget:180,playerInv:0,biz:bizName,frame:0,boss:null,bossShootTimer:0,stateTimer:0,puCooldown:0,dead:false,targetIdx:0,smashCount:0,bombs:0,bombAttached:false,bombProjectile:null,
+function devStartWave(){const w=parseInt(prompt('Start at wave (1-20):'),10);if(w>=1&&w<=20)initGame(w);}
+function initGame(startWave){stopGame();showScreen('game-screen');showQuitBtn(true);startFaviconAnimation();const safeBottom=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom'))||0;canvas.width=Math.min(window.innerWidth,720);canvas.height=Math.max(300,window.innerHeight-document.querySelector('.fiskal-header').offsetHeight-document.getElementById('hud').offsetHeight-document.getElementById('target-hud').offsetHeight-document.getElementById('game-topbar').offsetHeight-2-safeBottom);const bizName='ANONYMOUS';const _sw=startWave&&startWave>1?startWave:1;const _adv=_sw>10;G={player:{x:canvas.width/2,y:canvas.height-40,w:44,h:30,speed:6},bullets:[],bossBlasts:[],enemies:[],powerups:[],particles:[],wordEnemies:[],wordBits:[],floatTexts:[],defeatedBossWords:[],wordTimer:0,score:0,lives:3,wave:_sw,doubleBullet:0,tripleBullet:0,shield:0,slowmo:0,rapidFire:0,speedBoost:0,supportShip:0,advancedMode:_adv,keys:{},lastShot:0,shotDelay:290,state:'playing',spawnTimer:0,spawnRate:Math.max(_adv?35:60,Math.floor((120-_sw*5)/(_adv?1+(_sw-10)*0.1:1))),waveKills:0,waveTarget:6+_sw,waveCashStart:0,waveCashTarget:Math.round(120+_sw*60+_sw*_sw*5),playerInv:0,biz:bizName,frame:0,boss:null,bossShootTimer:0,stateTimer:0,puCooldown:0,dead:false,targetIdx:0,smashCount:0,bombs:0,bombAttached:false,bombProjectile:null,
 fiskalOrbs:[],cashAttract:0,extraIncome:0,debtShield:0,personalService:0,
 personalServiceX:canvas.width/2+50,personalServiceDir:1,personalServiceLastShot:0,
 frozen:0,waveAnnounce:0,bannerFlash:null,boostCharge:0,boostActive:0,hullDamage:0,paintScheme:null,larryBeaten:false,bobbyBeaten:false,victoryMode:false};
@@ -1587,9 +1589,8 @@ function enterWorkMode(){if(!G||G.dead)return;workModeActive=true;MUSIC.pause();
 function exitWorkMode(){workModeActive=false;document.getElementById('work-mode-overlay').style.display='none';MUSIC.resume();if(G&&!G.dead&&!paused)rafId=requestAnimationFrame(gameLoop)}
 </script>
 <style>
-#work-mode-btn{position:fixed;bottom:72px;left:12px;z-index:500;font-family:'Press Start 2P',monospace;font-size:.42rem;background:radial-gradient(circle at 40% 35%,#ff6666,#cc0000 60%,#880000);color:#fff;border:3px solid #ff4444;border-radius:50%;width:58px;height:58px;cursor:pointer;box-shadow:0 0 12px rgba(255,0,0,.7),0 4px 8px rgba(0,0,0,.5),inset 0 2px 4px rgba(255,150,150,.4);display:none;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-shadow:0 1px 2px rgba(0,0,0,.8);transition:transform .1s,box-shadow .1s;line-height:1.2;touch-action:none}
+#work-mode-btn{position:fixed;bottom:72px;left:12px;z-index:500;font-family:'Press Start 2P',monospace;font-size:.42rem;background:radial-gradient(circle at 40% 35%,#ff6666,#cc0000 60%,#880000);color:#fff;border:3px solid #ff4444;border-radius:6px;width:auto;height:auto;padding:8px 10px;cursor:pointer;box-shadow:0 0 12px rgba(255,0,0,.7),0 4px 8px rgba(0,0,0,.5),inset 0 2px 4px rgba(255,150,150,.4);display:none;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-shadow:0 1px 2px rgba(0,0,0,.8);transition:transform .1s,box-shadow .1s;line-height:1.4;touch-action:none}
 #work-mode-btn:active{transform:scale(.93);box-shadow:0 0 6px rgba(255,0,0,.5),0 2px 4px rgba(0,0,0,.5),inset 0 3px 6px rgba(0,0,0,.4)}
-#work-mode-btn .btn-eject{font-size:1rem;line-height:1}
 #work-mode-overlay{display:none;position:fixed;inset:0;z-index:9999;background:#f5f5f0;overflow-y:auto;font-family:Arial,sans-serif;font-size:13px;color:#1a1a1a}
 #work-doc{max-width:780px;margin:0 auto;padding:32px 40px 48px;background:#fff;min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.12)}
 .doc-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1a3a6b;padding-bottom:12px;margin-bottom:20px}
@@ -1622,7 +1623,7 @@ table tr:nth-child(even) td{background:#fafbff}
 #ack-btn:hover{background:#2a5aab}
 @media(max-width:600px){#work-doc{padding:20px 16px 36px}.doc-header{flex-direction:column;gap:10px}.doc-ref{text-align:left}table{font-size:10px}table th,table td{padding:5px 6px}.sig-row{flex-direction:column;gap:20px}}
 </style>
-<button id="work-mode-btn" onclick="if(!_wmDragged)enterWorkMode()"><span class="btn-eject">⏏</span>WORK<br>MODE</button>
+<button id="work-mode-btn" onclick="if(!_wmDragged)enterWorkMode()">WORK<br>MODE</button>
 <div id="work-mode-overlay">
 <div id="work-doc">
   <div class="doc-header">
