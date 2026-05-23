@@ -73,7 +73,7 @@ function buildFundingFinderSummary(answers) {
     : '';
 
   if (sectorNote) {
-    const sectorPhrase = sectorNote.replace(business, 'the business');
+    const sectorPhrase = sectorNote.charAt(0).toUpperCase() + sectorNote.slice(1);
     blocks.push(`Based on what you've told us, there are funding options worth exploring for ${business}. ${sectorPhrase} — and for businesses in this space, the right funding structure needs to fit how the business actually operates, not just how much is needed.${urgencyNote}`);
   } else {
     const purposeRaw = answers.fundingPurpose || '';
