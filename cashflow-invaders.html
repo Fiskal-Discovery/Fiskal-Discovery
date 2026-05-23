@@ -916,7 +916,7 @@ function bombExplode(x,y){const radius=130;screenShake=18;for(let i=0;i<80;i++){
 function showMsg(title,color,subtitle,duration){
   const area=document.getElementById('toast-area');if(!area)return;
   const t=document.createElement('div');t.className='toast-msg';
-  t.style.color=color;t.style.borderLeftColor=color;t.style.textShadow='0 0 10px '+color+'88';
+  t.style.color=color;t.style.borderLeftColor=color;
   t.textContent=subtitle?title+' — '+subtitle:title;
   area.appendChild(t);
   requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('toast-in')));
@@ -1448,9 +1448,10 @@ function drawBoostBar(){
     const fl=0.55+Math.sin(G.frame*0.4)*0.45;
     ctx.shadowColor='#FFE600';ctx.shadowBlur=14;
     ctx.fillStyle='rgba(255,230,0,'+fl+')';ctx.fillRect(bx,by,bw,bh);
+    ctx.shadowBlur=0;
     ctx.font='bold 6px "Press Start 2P",monospace';ctx.fillStyle='#FFE600';
     ctx.textAlign='center';ctx.textBaseline='bottom';
-    ctx.shadowBlur=18;ctx.fillText('⚡ OVERDRIVE ⚡',canvas.width/2,by-3);
+    ctx.fillText('⚡ OVERDRIVE ⚡',canvas.width/2,by-3);
   } else if(G.boostCharge>0){
     const pct=G.boostCharge/BOOST_MAX;
     const grad=ctx.createLinearGradient(bx,0,bx+bw*pct,0);
@@ -1491,7 +1492,7 @@ function drawBoostBanner(){
   let x=Math.max(8,(canvas.width-total)/2);
   items.forEach((it,i)=>{
     ctx.globalAlpha=it.flash?(0.65+Math.sin(G.frame*0.28)*0.35):1;
-    ctx.fillStyle=it.color;ctx.shadowColor=it.color;ctx.shadowBlur=8;
+    ctx.fillStyle=it.color;ctx.shadowBlur=0;
     ctx.fillText(it.text,x,bh/2);x+=ctx.measureText(it.text).width;
     if(i<items.length-1){ctx.globalAlpha=1;ctx.fillStyle='#556';ctx.shadowBlur=0;ctx.fillText(SEP,x,bh/2);x+=ctx.measureText(SEP).width;}
   });
