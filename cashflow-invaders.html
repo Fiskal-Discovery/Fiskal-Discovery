@@ -53,6 +53,10 @@
 #ic-top-banner{position:absolute;top:clamp(18px,5vh,56px);left:0;right:0;text-align:center;font-family:'Press Start 2P',monospace;color:#fff;font-size:clamp(.95rem,3.4vw,1.6rem);letter-spacing:.08em;line-height:1.4;padding:0 16px;text-shadow:0 0 14px rgba(255,255,255,.45),0 0 28px rgba(255,255,255,.18);min-height:1.4em;pointer-events:none}
 #ic-top-banner.typing::after{content:'▌';margin-left:2px;animation:icCaretBlink .8s steps(1) infinite}
 @keyframes icCaretBlink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.ic-enemy-list{display:flex;flex-direction:column;gap:3px;width:100%;max-width:340px;margin:4px 0 2px}
+.ic-enemy{font-family:'Press Start 2P',monospace;font-size:clamp(.55rem,2vw,.7rem);color:rgba(255,180,140,.9);letter-spacing:.05em;padding:3px 12px;border-left:2px solid rgba(255,110,60,.6);background:rgba(255,80,40,.06);text-align:left}
+.ic-larry-label{font-family:'Press Start 2P',monospace;font-size:clamp(.5rem,1.8vw,.6rem);color:rgba(255,255,255,.55);letter-spacing:.12em;margin-top:10px}
+.ic-larry{font-family:'Press Start 2P',monospace;font-size:clamp(.95rem,3.2vw,1.2rem);color:#FF2244;text-shadow:0 0 14px rgba(255,34,68,.7),0 0 30px rgba(255,34,68,.35);letter-spacing:.08em;margin-top:4px;padding:7px 16px;border:2px solid rgba(255,34,68,.6);background:rgba(255,34,68,.08);border-radius:3px}
 .ic-act-slam{font-family:'Press Start 2P',monospace;font-size:clamp(3.2rem,16vw,7rem);color:#FFE600;text-shadow:0 0 28px #FFE600,0 0 60px rgba(255,230,0,.55),0 0 110px rgba(255,140,0,.35);line-height:1;letter-spacing:.06em;transform:scale(1);opacity:1}
 .ic-act-slam.slam{animation:icActSlam .7s cubic-bezier(.22,.61,.36,1) both}
 @keyframes icActSlam{0%{transform:scale(7);opacity:0;filter:blur(6px)}55%{transform:scale(.85);opacity:1;filter:blur(0)}72%{transform:scale(1.1)}86%{transform:scale(.96)}100%{transform:scale(1)}}
@@ -250,8 +254,21 @@ function stopFaviconAnimation() {
   </div>
   <div class="ic-panel" id="ic-p2" style="display:none">
     <div class="lc-title">NINE ENEMIES.<br>ONE RINGLEADER.</div>
-    <div class="lc-body" style="max-width:500px;margin-top:8px">Bad Service. Interest Hikes. Hidden Fees. Defaults. Debt Traps. Windfall Taxes. Frozen Funds. Disputes. Clawbacks. Each one deployed to drain your business dry — and behind them all, pulling every string: <span style="color:#FFE600">Late Payment Larry.</span></div>
-    <button class="lc-next" style="margin-top:20px" onclick="_icNext(3)">NEXT ▶</button>
+    <div class="lc-body" style="max-width:500px;margin-top:8px">Each one deployed to drain your business dry:</div>
+    <div class="ic-enemy-list">
+      <div class="ic-enemy">BAD SERVICE</div>
+      <div class="ic-enemy">INTEREST HIKES</div>
+      <div class="ic-enemy">HIDDEN FEES</div>
+      <div class="ic-enemy">DEFAULTS</div>
+      <div class="ic-enemy">DEBT TRAPS</div>
+      <div class="ic-enemy">WINDFALL TAXES</div>
+      <div class="ic-enemy">FROZEN FUNDS</div>
+      <div class="ic-enemy">DISPUTES</div>
+      <div class="ic-enemy">CLAWBACKS</div>
+    </div>
+    <div class="ic-larry-label">PULLING EVERY STRING:</div>
+    <div class="ic-larry">LATE PAYMENT LARRY</div>
+    <button class="lc-next" style="margin-top:18px" onclick="_icNext(3)">NEXT ▶</button>
   </div>
   <div class="ic-panel" id="ic-p3" style="display:none">
     <div class="lc-title" style="color:#00FF88">FIGHT BACK.</div>
