@@ -322,7 +322,7 @@ function stopFaviconAnimation() {
       </div>
       <!-- Panel 2: Confirmed eliminations list -->
       <div class="lc-panel" id="lc-p2" style="display:none">
-        <div class="lc-title">THREATS<br>ELIMINATED</div>
+        <div class="lc-title">THREATS ELIMINATED</div>
         <div class="lc-boss-list">
           <div class="lc-boss-item">✓ BAD SERVICE</div>
           <div class="lc-boss-item">✓ INTEREST HIKE</div>
@@ -1688,7 +1688,7 @@ function showIntroCin(){const el=document.getElementById('intro-cin');el.classLi
 function _typewrite(el,text){if(!el)return;if(el._tt){clearInterval(el._tt);el._tt=null;}el.textContent='';el.classList.add('typing');try{getAudio();}catch(e){}let i=0;el._tt=setInterval(()=>{if(i>=text.length){clearInterval(el._tt);el._tt=null;setTimeout(()=>el.classList.remove('typing'),900);return;}const ch=text.charAt(i);el.textContent+=ch;if(ch!==' ')noise(.024,.05,4200+Math.random()*1600);i++;},55);}
 function _typewriteClear(el){if(!el)return;if(el._tt){clearInterval(el._tt);el._tt=null;}el.textContent='';el.classList.remove('typing');}
 const _icBannerText={1:'FISKAL DISCOVERY INTELLIGENCE',2:'CONFIRMED HOSTILE ACTORS',3:'MISSION BRIEFING'};
-const _lcBannerText={1:'OPERATION CASHFLOW',2:'CONFIRMED THREATS',4:'TRANSMISSION INCOMING'};
+const _lcBannerText={1:'OPERATION CASHFLOW',4:'TRANSMISSION INCOMING'};
 const _IC_LAST=4;let _icPanel=1;
 const _IC_NEXT_TEXT={1:'NEXT ▶',2:'NEXT ▶',3:'NEXT ▶',4:'BEGIN ▶'};
 const _LC_NEXT_TEXT={1:'NEXT ▶',2:'NEXT ▶',3:'NEXT ▶',4:'UPGRADE SHIP ▶'};
