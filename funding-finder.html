@@ -2249,6 +2249,19 @@
   .fc-card .chart-wrap .pulse-7       { animation-delay: 10.6s; }
   .fc-card .chart-wrap .pulse-8       { animation-delay: 12.2s; }
 
+  /* Spot funding — invoice pick/dim animations */
+  @keyframes fc-pickInvoice {
+    from { stroke: rgba(255,255,255,0.3); stroke-width: 1;   fill: rgba(245,166,35,0.06); }
+    to   { stroke: #f5a623;               stroke-width: 2.5; fill: rgba(245,166,35,0.22); }
+  }
+  @keyframes fc-dimInvoice {
+    from { opacity: 1;    }
+    to   { opacity: 0.35; }
+  }
+  .fc-card .chart-wrap .fc-inv-pick rect  { animation: fc-pickInvoice 1s 2.5s both; }
+  .fc-card .chart-wrap .fc-inv-label      { opacity: 0; animation: fc-fadeIn 1s 2.5s both; }
+  .fc-card .chart-wrap .fc-inv-other      { animation: fc-dimInvoice  1s 2.5s both; }
+
   /* Confirmation screen */
   #screen-confirm .confirm-title {
     font-family: 'Raleway', sans-serif !important;
