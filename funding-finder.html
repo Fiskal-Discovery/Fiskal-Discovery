@@ -3620,6 +3620,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const c = document.getElementById('nicole-contact-card-container');
         if (c) { c.innerHTML = renderNicoleContactCard(); loadNicolePhoto(); }
       }
+      const checkEl = document.querySelector('#screen-results .results-check');
+      if (checkEl) {
+        const name = (state.name || '').trim();
+        const parts = name.split(/\s+/);
+        checkEl.textContent = parts.length >= 2
+          ? parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase()
+          : (parts[0] ? parts[0][0].toUpperCase() : '');
+      }
       showScreen('results');
       return;
     }
