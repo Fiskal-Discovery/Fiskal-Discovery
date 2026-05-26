@@ -400,8 +400,13 @@
     height: 64px;
     object-fit: cover;
     object-position: center top;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    border-radius: 50%;
+    border: 3px solid transparent;
+    background-image: linear-gradient(var(--card-bg), var(--card-bg)),
+                      linear-gradient(135deg, #C060D0 0%, #7E09A5 40%, #4E0063 70%, #CC88FF 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    box-shadow: 0 0 0 1px rgba(126,9,165,0.15), 0 4px 16px rgba(78,0,99,0.25);
     flex-shrink: 0;
   }
   .nicole-text {
