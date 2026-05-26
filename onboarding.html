@@ -2285,7 +2285,8 @@
 <!-- ====== BRAND INTRO ======-->
 <div id="fd-intro" style="position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'DM Sans',sans-serif;">
   <canvas id="fd-intro-cv" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
-  <button id="fd-intro-skip" style="position:absolute;bottom:6%;left:50%;transform:translateX(-50%);font-family:'DM Sans',sans-serif;font-size:clamp(.75rem,2.5vw,1rem);font-weight:500;background:rgba(255,255,255,.08);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.18);padding:12px 32px;border-radius:100px;cursor:pointer;letter-spacing:.04em;display:none;">Continue →</button>
+  <button id="fd-intro-skip" style="position:absolute;bottom:6%;left:6%;font-family:'DM Sans',sans-serif;font-size:clamp(.7rem,2vw,.9rem);font-weight:400;background:none;color:rgba(255,255,255,.35);border:none;padding:10px 20px;border-radius:100px;cursor:pointer;letter-spacing:.04em;display:none;">Skip</button>
+  <button id="fd-intro-cont" style="position:absolute;bottom:6%;right:6%;font-family:'DM Sans',sans-serif;font-size:clamp(.75rem,2.5vw,1rem);font-weight:500;background:rgba(255,255,255,.08);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.18);padding:12px 32px;border-radius:100px;cursor:pointer;letter-spacing:.04em;display:none;">Next →</button>
 </div>
 
 <!-- ====== WELCOME INTRO SCREEN ====== -->
@@ -4323,52 +4324,53 @@ const OB_KEY = 'fiskal_profile';
 function runFdIntro(onDone){
   const el=document.getElementById('fd-intro');
   const cv=document.getElementById('fd-intro-cv');
-  const skip=document.getElementById('fd-intro-skip');
+  const skipBtn=document.getElementById('fd-intro-skip');
+  const contBtn=document.getElementById('fd-intro-cont');
   cv.width=window.innerWidth;cv.height=window.innerHeight;
   const W=cv.width,H=cv.height,c=cv.getContext('2d');
   const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
   const groups=[
-    {t:0.6,end:5.0,lines:[{txt:'Every business owner faces moments',col:'#BBBBBB',fs:0.042},{txt:'that feel impossible.',col:'#FFFFFF',fs:0.054}]},
-    {t:5.8,end:10.5,lines:[{txt:'Cash dries up. Debts stack.',col:'#AAAAAA',fs:0.040},{txt:'The phone keeps ringing.',col:'#CCCCCC',fs:0.040}]},
-    {t:11.2,end:17.5,lines:[{txt:'But behind every struggling business',col:'#DDDDDD',fs:0.038},{txt:'is a real person —',col:'#FFFFFF',fs:0.048},{txt:'working hard, refusing to give in.',col:'#DDDDDD',fs:0.038}]},
-    {t:18.0,end:24.0,lines:[{txt:'Small, independent brokers like Fiskal',col:'#CC88FF',fs:0.036},{txt:'exist for exactly those moments.',col:'#CC88FF',fs:0.038},{txt:'Real people. Real solutions. Alongside you.',col:'#888888',fs:0.034}]},
-    {t:24.8,end:30.5,lines:[{txt:"Whatever you're facing…",col:'#FFFFFF',fs:0.040},{txt:'there is a way through.',col:'#FFD700',fs:0.060}]},
+    {lines:[{txt:'Every business owner faces moments',col:'#BBBBBB',fs:0.042},{txt:'that feel impossible.',col:'#FFFFFF',fs:0.054}]},
+    {lines:[{txt:'Cash dries up. Debts stack.',col:'#AAAAAA',fs:0.040},{txt:'The phone keeps ringing.',col:'#CCCCCC',fs:0.040}]},
+    {lines:[{txt:'But behind every struggling business',col:'#DDDDDD',fs:0.038},{txt:'is a real person —',col:'#FFFFFF',fs:0.048},{txt:'working hard, refusing to give in.',col:'#DDDDDD',fs:0.038}]},
+    {lines:[{txt:'Small, independent brokers like Fiskal',col:'#CC88FF',fs:0.036},{txt:'exist for exactly those moments.',col:'#CC88FF',fs:0.038},{txt:'Real people. Real solutions. Alongside you.',col:'#888888',fs:0.034}]},
+    {lines:[{txt:"Whatever you're facing…",col:'#FFFFFF',fs:0.040},{txt:'there is a way through.',col:'#FFD700',fs:0.060}]},
   ];
-  const TOTAL=31.5;
-  let start=null,raf,done=false;
+  let currentIdx=0,groupStartTs=null,raf,done=false;
   function finish(){if(done)return;done=true;cancelAnimationFrame(raf);let fo=0;(function fade(){fo=Math.min(1,fo+0.04);el.style.opacity=1-fo;if(fo<1)requestAnimationFrame(fade);else{el.style.display='none';onDone();}})();}
-  skip.addEventListener('click',finish);
-  setTimeout(()=>{if(!done)skip.style.display='block';},3000);
+  function updateCont(){contBtn.textContent=currentIdx>=groups.length-1?'Start my discovery →':'Next →';}
+  function advance(){if(done)return;if(currentIdx>=groups.length-1){finish();return;}currentIdx++;groupStartTs=null;updateCont();}
+  skipBtn.addEventListener('click',finish);
+  contBtn.addEventListener('click',advance);
+  setTimeout(()=>{if(!done){skipBtn.style.display='block';contBtn.style.display='block';}},2000);
   function frame(ts){
-    if(!start)start=ts;
-    const t=(ts-start)/1000;
+    if(!groupStartTs)groupStartTs=ts;
+    const t=(ts-groupStartTs)/1000;
     c.clearRect(0,0,W,H);
     c.fillStyle='#000';c.fillRect(0,0,W,H);
     const grd=c.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*0.7);
     grd.addColorStop(0,'rgba(70,15,110,0.22)');grd.addColorStop(1,'rgba(0,0,0,0)');
     c.fillStyle=grd;c.fillRect(0,0,W,H);
     c.textAlign='center';
-    groups.forEach(grp=>{
-      if(t<grp.t)return;
-      const gAlpha=Math.min(clamp((t-grp.t)/0.8,0,1),clamp((grp.end-t)/0.8,0,1));
-      const lineHeights=grp.lines.map(ln=>clamp(W*ln.fs,16,ln.fs>0.04?68:52));
-      const totalH=lineHeights.reduce((s,h)=>s+h*1.85,0);
-      let yy=H/2-totalH/2;
-      grp.lines.forEach((ln,li)=>{
-        const ld=grp.t+li*0.9;if(t<ld){yy+=lineHeights[li]*1.85;return;}
-        const lAge=t-ld,fsPx=lineHeights[li];
-        const shown=ln.txt.slice(0,Math.floor(lAge*28));
-        c.globalAlpha=gAlpha*Math.min(1,lAge/0.5);
-        c.fillStyle=ln.col;
-        c.shadowColor=ln.col==='#FFD700'?'#FFD700':'transparent';
-        c.shadowBlur=ln.col==='#FFD700'?28:0;
-        c.font=`${ln.fs>0.04?'600':''} ${fsPx}px "DM Sans",sans-serif`;
-        c.fillText(shown,W/2,yy+fsPx);
-        yy+=fsPx*1.85;
-      });
+    const grp=groups[currentIdx];
+    const gAlpha=clamp(t/0.8,0,1);
+    const lineHeights=grp.lines.map(ln=>clamp(W*ln.fs,16,ln.fs>0.04?68:52));
+    const totalH=lineHeights.reduce((s,h)=>s+h*1.85,0);
+    let yy=H/2-totalH/2;
+    grp.lines.forEach((ln,li)=>{
+      const ld=li*0.9;if(t<ld){yy+=lineHeights[li]*1.85;return;}
+      const lAge=t-ld,fsPx=lineHeights[li];
+      const shown=ln.txt.slice(0,Math.floor(lAge*28));
+      c.globalAlpha=gAlpha*Math.min(1,lAge/0.5);
+      c.fillStyle=ln.col;
+      c.shadowColor=ln.col==='#FFD700'?'#FFD700':'transparent';
+      c.shadowBlur=ln.col==='#FFD700'?28:0;
+      c.font=`${ln.fs>0.04?'600':''} ${fsPx}px "DM Sans",sans-serif`;
+      c.fillText(shown,W/2,yy+fsPx);
+      yy+=fsPx*1.85;
     });
     c.globalAlpha=1;c.shadowBlur=0;
-    if(t>=TOTAL)finish();else raf=requestAnimationFrame(frame);
+    raf=requestAnimationFrame(frame);
   }
   raf=requestAnimationFrame(frame);
 }
