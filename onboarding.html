@@ -4352,7 +4352,8 @@ const OB_KEY = 'fiskal_profile';
         const x0=p0*W, y0=H*(1-p0*b.yf)+yo;
         if(b.yf===0.3){
           // Middle track: overlapping circles growing toward head — organic fireball
-          const orbs=18;
+          const trailPx=Math.sqrt((x-x0)**2+(y-y0)**2);
+          const orbs=Math.max(18,Math.ceil(trailPx/8));
           for(let i=0;i<orbs;i++){
             const u=i/(orbs-1);
             const pu=p0+u*(b.p-p0);
