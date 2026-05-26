@@ -439,8 +439,12 @@
     color: #FF6B2B;
     font-weight: 700;
     margin-bottom: 20px;
-    border-left: 3px solid var(--col-purple);
-    padding-left: 10px;
+    padding-left: 12px;
+    border-left: 4px solid transparent;
+    background-image: linear-gradient(var(--card-bg), var(--card-bg)),
+                      linear-gradient(to bottom, #0369A1 0%, #7E09A5 33%, #BE123C 66%, #0F766E 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
   }
 
   /* ============================================================
