@@ -1833,10 +1833,11 @@ document.addEventListener('DOMContentLoaded', function () {
       const yLeft=yHyp(0,W);
       c.beginPath();c.moveTo(0,yLeft);c.lineTo(W,H*0.25);c.lineTo(W,H);c.lineTo(0,H);c.closePath();c.clip();
 
-      burst.p=(burst.p+burst.speed/60)%1;
+      burst.p+=burst.speed/60; if(burst.p-trailLen>1)burst.p=0;
       const phase=performance.now()/5000;
       const trailLen=Math.min(0.7,320/W);
       const p0=Math.max(0,burst.p-trailLen);
+      if(burst.p<=0){requestAnimationFrame(frame);return;}
       const x=burst.p*W, y=yMid(burst.p,W);
       const x0=p0*W, y0=yMid(p0,W);
       const trailPx=Math.sqrt((x-x0)**2+(y-y0)**2);
