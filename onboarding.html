@@ -4353,7 +4353,7 @@ const OB_KEY = 'fiskal_profile';
         for(let i=0;i<=steps;i++){
           const u=i/steps;
           const [r,g,bv]=waveColor(u,phase);
-          const a=u<0.12?(u/0.12)*0.16:0.16;
+          const a=u<0.3?(u/0.3)*0.16:u>0.75?((1-u)/0.25)*0.16:0.16;
           tr.addColorStop(u,`rgba(${r},${g},${bv},${a.toFixed(2)})`);
         }
         c.beginPath();c.strokeStyle=tr;c.lineWidth=b.sz*1.5;c.lineCap='round';
