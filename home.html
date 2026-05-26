@@ -598,6 +598,52 @@
   }
   .summaries-home-arrow { color: var(--periwinkle); font-size: 20px; }
 
+  /* Returning visitors section */
+  .returning-section {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  .returning-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(126,9,165,0.25) 20%, rgba(126,9,165,0.25) 80%, transparent);
+    margin-bottom: 20px;
+  }
+  .returning-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .returning-label {
+    padding-top: 6px;
+  }
+  .returning-eyebrow {
+    display: block;
+    font-family: 'Raleway', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--col-purple);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .returning-desc {
+    font-size: 12px;
+    color: var(--mid-text);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .returning-cards {
+    display: flex;
+    flex-direction: column;
+  }
+  .returning-cards .summaries-home-card {
+    margin-bottom: 0;
+  }
+  @media (max-width: 480px) {
+    .returning-row { grid-template-columns: 1fr; gap: 12px; }
+  }
+
   /* ============================================================
      SCREEN — MY DISCOVERY SUMMARIES
   ============================================================ */
@@ -1367,22 +1413,33 @@
           </div>
         </div>
 
-        <!-- My Discovery Summaries -->
-        <div class="summaries-home-card" onclick="showSummariesScreen()" style="grid-column:1/-1">
-          <div class="summaries-home-bar"></div>
-          <div class="summaries-home-inner">
-            <div class="summaries-home-body">
-              <div class="summaries-home-title">My Discovery Summaries</div>
-              <div class="summaries-home-desc" id="summaries-home-desc">View your completed discovery results</div>
-            </div>
-            <div class="summaries-home-arrow">›</div>
-          </div>
-        </div>
-
         <!-- Cashflow Invaders arcade button -->
         <a href="cashflow-invaders.html" class="cfi-btn" aria-label="Play Cashflow Invaders"><div class="cfi-content"><div class="cfi-hero"><svg viewBox="0 0 11 8" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" fill="currentColor"><rect x="2" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="3" y="1" width="1" height="1"/><rect x="7" y="1" width="1" height="1"/><rect x="2" y="2" width="7" height="1"/><rect x="1" y="3" width="2" height="1"/><rect x="4" y="3" width="3" height="1"/><rect x="8" y="3" width="2" height="1"/><rect x="0" y="4" width="11" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="2" y="5" width="7" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="3" y="7" width="2" height="1"/><rect x="6" y="7" width="2" height="1"/></svg></div><div class="cfi-text"><h2 class="cfi-title">CASHFLOW INVADERS</h2><p class="cfi-tag">Play the Fiskal arcade game<br>Free your finances</p></div><div class="cfi-play-zone"><div class="cfi-coin">INSERT COIN</div><div class="cfi-play">PLAY <span class="cfi-arrow">&#9654;</span></div></div></div></a>
 
       </div><!-- /module-grid -->
+
+      <!-- Returning visitors divider + summaries -->
+      <div class="returning-section">
+        <div class="returning-divider"></div>
+        <div class="returning-row">
+          <div class="returning-label">
+            <span class="returning-eyebrow">Returning visitors</span>
+            <p class="returning-desc">Pick up where you left off or review your completed reports.</p>
+          </div>
+          <div class="returning-cards">
+            <div class="summaries-home-card" onclick="showSummariesScreen()">
+              <div class="summaries-home-bar"></div>
+              <div class="summaries-home-inner">
+                <div class="summaries-home-body">
+                  <div class="summaries-home-title">My Discovery Summaries</div>
+                  <div class="summaries-home-desc" id="summaries-home-desc">View your completed discovery results</div>
+                </div>
+                <div class="summaries-home-arrow">›</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>
