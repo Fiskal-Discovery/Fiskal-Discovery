@@ -4330,11 +4330,26 @@ function runFdIntro(onDone){
   const W=cv.width,H=cv.height,c=cv.getContext('2d');
   const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
   const groups=[
-    {lines:[{txt:'Every business owner faces moments',col:'#BBBBBB',fs:0.042},{txt:'that feel impossible.',col:'#FFFFFF',fs:0.054}]},
-    {lines:[{txt:'Cash dries up. Debts stack.',col:'#AAAAAA',fs:0.040},{txt:'The phone keeps ringing.',col:'#CCCCCC',fs:0.040}]},
-    {lines:[{txt:'But behind every struggling business',col:'#DDDDDD',fs:0.038},{txt:'is a real person —',col:'#FFFFFF',fs:0.048},{txt:'working hard, refusing to give in.',col:'#DDDDDD',fs:0.038}]},
-    {lines:[{txt:'Small, independent brokers like Fiskal',col:'#CC88FF',fs:0.036},{txt:'exist for exactly those moments.',col:'#CC88FF',fs:0.038},{txt:'Real people. Real solutions. Alongside you.',col:'#888888',fs:0.034}]},
-    {lines:[{txt:"Whatever you're facing…",col:'#FFFFFF',fs:0.040},{txt:'there is a way through.',col:'#FFD700',fs:0.060}]},
+    {lines:[
+      {txt:'REFUSE',col:'#F4D03F',fs:0.13,font:'Bebas Neue',gap:0.55},
+      {txt:'TO STAND STILL',col:'#FF6B2B',fs:0.026,font:'DM Sans',gap:2.2},
+    ]},
+    {lines:[
+      {txt:'Behind every business is a real person —',col:'#DDDDDD',fs:0.038},
+      {txt:'working hard, refusing to stop.',col:'#FFFFFF',fs:0.050},
+    ]},
+    {lines:[
+      {txt:"Some days you're pushing forward.",col:'#CCCCCC',fs:0.040},
+      {txt:"Some days you're just keeping pace.",col:'#AAAAAA',fs:0.038},
+    ]},
+    {lines:[
+      {txt:'Fiskal is here for both.',col:'#CC88FF',fs:0.042},
+      {txt:'Real people. Real solutions. Alongside you.',col:'#888888',fs:0.034},
+    ]},
+    {lines:[
+      {txt:"Wherever you're going next…",col:'#FFFFFF',fs:0.040},
+      {txt:"we'll help you get there.",col:'#F4D03F',fs:0.060},
+    ]},
   ];
   let currentIdx=0,groupStartTs=null,raf,done=false;
   function finish(){if(done)return;done=true;cancelAnimationFrame(raf);let fo=0;(function fade(){fo=Math.min(1,fo+0.04);el.style.opacity=1-fo;if(fo<1)requestAnimationFrame(fade);else{el.style.display='none';onDone();}})();}
@@ -4355,19 +4370,19 @@ function runFdIntro(onDone){
     const grp=groups[currentIdx];
     const gAlpha=clamp(t/0.8,0,1);
     const lineHeights=grp.lines.map(ln=>clamp(W*ln.fs,16,ln.fs>0.04?68:52));
-    const totalH=lineHeights.reduce((s,h)=>s+h*1.85,0);
+    const totalH=lineHeights.reduce((s,h,i)=>s+h*(grp.lines[i].gap??1.85),0);
     let yy=H/2-totalH/2;
     grp.lines.forEach((ln,li)=>{
-      const ld=li*0.9;if(t<ld){yy+=lineHeights[li]*1.85;return;}
+      const ld=li*0.9;if(t<ld){yy+=lineHeights[li]*(ln.gap??1.85);return;}
       const lAge=t-ld,fsPx=lineHeights[li];
       const shown=ln.txt.slice(0,Math.floor(lAge*28));
       c.globalAlpha=gAlpha*Math.min(1,lAge/0.5);
       c.fillStyle=ln.col;
-      c.shadowColor=ln.col==='#FFD700'?'#FFD700':'transparent';
-      c.shadowBlur=ln.col==='#FFD700'?28:0;
-      c.font=`${ln.fs>0.04?'600':''} ${fsPx}px "DM Sans",sans-serif`;
+      c.shadowColor=(ln.col==='#F4D03F'&&currentIdx===0)?'#F4D03F':'transparent';
+      c.shadowBlur=(ln.col==='#F4D03F'&&currentIdx===0)?20:0;
+      c.font=ln.font?`${fsPx}px "${ln.font}",sans-serif`:`${ln.fs>0.04?'600':''} ${fsPx}px "DM Sans",sans-serif`;
       c.fillText(shown,W/2,yy+fsPx);
-      yy+=fsPx*1.85;
+      yy+=fsPx*(ln.gap??1.85);
     });
     c.globalAlpha=1;c.shadowBlur=0;
     raf=requestAnimationFrame(frame);
