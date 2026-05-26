@@ -121,7 +121,7 @@ body.playing-mobile #canvas{margin:0!important;padding:0!important;display:block
 body.playing-mobile #screen-flash{bottom:env(safe-area-inset-bottom,0px)!important}
 body.lb-active .fiskal-header{display:none!important}
 body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;padding:16px!important;margin:0!important;overflow-y:auto!important;z-index:10!important}
-#wanted-poster{display:none!important}
+#wanted-poster,#bobby-poster{display:none!important}
 #intro-cin{padding:16px 12px!important}
 .ic-panel{gap:6px!important}
 }
@@ -259,15 +259,16 @@ function stopFaviconAnimation() {
   <div class="game-title">CASHFLOW<br>INVADERS</div>
   <div class="game-tagline">FREE YOUR FINANCES</div>
   <div id="personal-best" style="font-family:'Press Start 2P',monospace;font-size:.48rem;color:rgba(255,230,0,.7);margin-bottom:8px;min-height:1.2em;text-shadow:0 0 10px rgba(255,230,0,.4)"></div>
-  <div style="display:flex;align-items:flex-start;justify-content:center;gap:28px;flex-wrap:wrap;width:100%;max-width:720px">
+  <div style="display:flex;align-items:flex-start;justify-content:center;gap:28px;flex-wrap:nowrap;width:100%;max-width:860px">
     <canvas id="wanted-poster" width="180" height="240" style="border-radius:4px;flex-shrink:0;image-rendering:pixelated"></canvas>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;min-width:0">
       <div class="alien-preview" id="alien-preview"></div>
       <div class="start-form">
         <button class="btn-start" id="btn-start">▶ START GAME</button>
         <button onclick="devStartWave()" style="font-family:'Press Start 2P',monospace;font-size:.38rem;background:rgba(255,230,0,.08);color:rgba(255,230,0,.5);border:1px solid rgba(255,230,0,.3);padding:5px 12px;border-radius:3px;cursor:pointer;letter-spacing:.04em;margin-top:2px">⚙ DEV: SKIP TO WAVE</button>
       </div>
     </div>
+    <canvas id="bobby-poster" width="180" height="240" style="border-radius:4px;flex-shrink:0;image-rendering:pixelated"></canvas>
   </div>
 </div>
 <!-- Intro Cinematic Overlay -->
@@ -855,7 +856,7 @@ function drawBobbyWantedPoster(cv){
 }
 function drawWantedPoster(){
   const cv=document.getElementById('wanted-poster');if(!cv)return;
-  if(localStorage.getItem('fiskal_ci_larry_beaten')==='1')return drawBobbyWantedPoster(cv);
+  const bcv=document.getElementById('bobby-poster');if(bcv)drawBobbyWantedPoster(bcv);
   const W=cv.width,H=cv.height,c=cv.getContext('2d');
   // Paper background with aged texture
   const paper=c.createLinearGradient(0,0,W,H);
