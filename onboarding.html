@@ -4320,9 +4320,10 @@ const OB_KEY = 'fiskal_profile';
     window.addEventListener('resize',resize);
     // yf = y-drop factor: 0.6=hypotenuse, 0.3=middle diagonal, 0=flat bottom
     const bursts=[
-      {p:0.1, speed:0.09,sz:2.0,yf:0.6},
-      {p:0.45,speed:0.07,sz:5.0,yf:0.3},
-      {p:0.7, speed:0.08,sz:2.0,yf:0.0},
+      {p:0.1, speed:0.09,sz:2.0,yf:0.6,yo:-4}, // nudge inside hypotenuse
+      {p:0.45,speed:0.07,sz:5.0,yf:0.3,yo:0},
+      {p:0.7, speed:0.08,sz:2.0,yf:0.0,yo:-4}, // nudge up from bottom edge
+
     ];
     const c=cv.getContext('2d');
     // Colour cycle: deep purple → blue → cyan → yellow → back to purple
@@ -4344,10 +4345,11 @@ const OB_KEY = 'fiskal_profile';
       const phase=performance.now()/5000; // full colour cycle every 5s
       bursts.forEach(b=>{
         b.p=(b.p+b.speed/60)%1;
-        const x=b.p*W, y=H*(1-b.p*b.yf);
+        const yo=b.yo||0;
+        const x=b.p*W, y=H*(1-b.p*b.yf)+yo;
         const trailLen=0.22;
         const p0=Math.max(0,b.p-trailLen);
-        const x0=p0*W, y0=H*(1-p0*b.yf);
+        const x0=p0*W, y0=H*(1-p0*b.yf)+yo;
         const tr=c.createLinearGradient(x0,y0,x,y);
         const steps=8;
         for(let i=0;i<=steps;i++){
