@@ -4270,15 +4270,14 @@ const OB_KEY = 'fiskal_profile';
   function startRefuseSequence() {
     const tagline = document.querySelector('.landing-footer-tagline');
     if (!tagline) return;
-    setTimeout(function() {
-      tagline.style.animation = 'refuseFidget 1.5s ease-in-out forwards';
+    function runCycle() {
+      tagline.style.animation = 'none'; void tagline.offsetWidth; tagline.style.animation = 'refuseFidget 1.5s ease-in-out forwards';
       setTimeout(function() {
-        tagline.style.animation = 'refuseZoom 4s ease-in-out forwards';
-        setTimeout(function() {
-          tagline.style.animation = 'refuseLoop 60s ease-in-out infinite';
-        }, 4000);
-      }, 15000);
-    }, 5000);
+        tagline.style.animation = 'none'; void tagline.offsetWidth; tagline.style.animation = 'refuseZoom 4s ease-in-out forwards';
+        setTimeout(function() { tagline.style.animation = 'none'; void tagline.offsetWidth; }, 4000);
+      }, 1500);
+    }
+    setTimeout(function() { runCycle(); setInterval(runCycle, 30000); }, 5000);
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', startRefuseSequence);
@@ -4292,15 +4291,14 @@ const OB_KEY = 'fiskal_profile';
   function startResultsRefuse() {
     var tagline = document.querySelector('.results-refuse-tagline');
     if (!tagline) return;
-    setTimeout(function() {
-      tagline.style.animation = 'refuseFidget 1.5s ease-in-out forwards';
+    function runCycle() {
+      tagline.style.animation = 'none'; void tagline.offsetWidth; tagline.style.animation = 'refuseFidget 1.5s ease-in-out forwards';
       setTimeout(function() {
-        tagline.style.animation = 'refuseZoom 4s ease-in-out forwards';
-        setTimeout(function() {
-          tagline.style.animation = 'refuseLoop 60s ease-in-out infinite';
-        }, 4000);
-      }, 15000);
-    }, 5000);
+        tagline.style.animation = 'none'; void tagline.offsetWidth; tagline.style.animation = 'refuseZoom 4s ease-in-out forwards';
+        setTimeout(function() { tagline.style.animation = 'none'; void tagline.offsetWidth; }, 4000);
+      }, 1500);
+    }
+    setTimeout(function() { runCycle(); setInterval(runCycle, 30000); }, 5000);
   }
   var origShowScreen = window.showScreen;
   document.addEventListener('DOMContentLoaded', function() {

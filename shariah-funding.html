@@ -2009,15 +2009,14 @@ document.addEventListener('DOMContentLoaded', function() {
   (function startRefuseSequence() {
     var taglines = document.querySelectorAll('.q-footer-tagline');
     if (!taglines.length) return;
-    setTimeout(function() {
-      taglines.forEach(function(el) { el.style.animation = 'refuseFidget 1.5s ease-in-out forwards'; });
+    function runCycle() {
+      taglines.forEach(function(el) { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = 'refuseFidget 1.5s ease-in-out forwards'; });
       setTimeout(function() {
-        taglines.forEach(function(el) { el.style.animation = 'refuseZoom 4s ease-in-out forwards'; });
-        setTimeout(function() {
-          taglines.forEach(function(el) { el.style.animation = 'refuseLoop 60s ease-in-out infinite'; });
-        }, 4000);
-      }, 15000);
-    }, 5000);
+        taglines.forEach(function(el) { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = 'refuseZoom 4s ease-in-out forwards'; });
+        setTimeout(function() { taglines.forEach(function(el) { el.style.animation = 'none'; void el.offsetWidth; }); }, 4000);
+      }, 1500);
+    }
+    setTimeout(function() { runCycle(); setInterval(runCycle, 30000); }, 5000);
   })();
 });
 

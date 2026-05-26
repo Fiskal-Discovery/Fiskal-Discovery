@@ -5492,29 +5492,14 @@ function showDiscoveryThinkingScreen(callback) {
   function startRefuseSequence() {
     const taglines = document.querySelectorAll('.q-footer-tagline');
     if (!taglines.length) return;
-
-    // Phase 1 — fidget at 5s
-    setTimeout(function() {
-      taglines.forEach(function(el) {
-        el.style.animation = 'refuseFidget 1.5s ease-in-out forwards';
-      });
-
-      // Phase 2 — zoom off and back at 20s (15s after fidget)
+    function runCycle() {
+      taglines.forEach(function(el) { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = 'refuseFidget 1.5s ease-in-out forwards'; });
       setTimeout(function() {
-        taglines.forEach(function(el) {
-          el.style.animation = 'refuseZoom 4s ease-in-out forwards';
-        });
-
-        // Phase 3 — start 60s loop once zoom finishes
-        setTimeout(function() {
-          taglines.forEach(function(el) {
-            el.style.animation = 'refuseLoop 60s ease-in-out infinite';
-          });
-        }, 4000);
-
-      }, 15000);
-
-    }, 5000);
+        taglines.forEach(function(el) { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = 'refuseZoom 4s ease-in-out forwards'; });
+        setTimeout(function() { taglines.forEach(function(el) { el.style.animation = 'none'; void el.offsetWidth; }); }, 4000);
+      }, 1500);
+    }
+    setTimeout(function() { runCycle(); setInterval(runCycle, 30000); }, 5000);
   }
 
   if (document.readyState === 'loading') {
