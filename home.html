@@ -1387,6 +1387,7 @@
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="dashed-divider">Fiskal Discovery</div>
+    <div class="footer-refuse"><span class="tagline-refuse">REFUSE</span><span class="tagline-rest">to stand still</span></div>
     <p class="footer-legal">Fiskal is a broker, not a lender. Reg. No. 14445539. &nbsp;|&nbsp; <a href="https://fiskal.online" target="_blank">fiskal.online</a> &nbsp;|&nbsp; All information is treated in confidence.</p>
   </footer>
 
@@ -1805,7 +1806,8 @@ function runFdIntro(onDone){
 
 document.addEventListener('DOMContentLoaded', function () {
   loadAppState();
-  runFdIntro(()=>{showHomepage();});
+  showHomepage();
+  runFdIntro(()=>{});
   loadLenderLeaderboard();
   createBodyStars();
   setTimeout(spawnShootingStar, Math.random() * 5000 + 4000);

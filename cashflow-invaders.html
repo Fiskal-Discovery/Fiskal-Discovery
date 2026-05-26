@@ -2196,7 +2196,7 @@ function showBobbyCinematic(onDone){
           c.restore();
         } else {
           if(!bExploded[i]){
-            bExploded[i]=true;glassSound();
+            bExploded[i]=true;SFX.wordBreak();
             for(let j=0;j<18;j++){
               const a=Math.random()*Math.PI*2,spd=120+Math.random()*380;
               pile.push({x:px+(Math.random()-.5)*tw*0.7,y:py+(Math.random()-.5)*fs*0.6,
