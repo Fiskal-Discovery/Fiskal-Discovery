@@ -211,27 +211,35 @@ function buildFacilityReviewSummary(answers, reviewType) {
 // SHARIAH SUMMARY
 // ============================================================
 function buildShariahSummary(answers) {
-  const purposes  = answers.purposes || [];
+  const purposes     = answers.purposes || [];
   const otherPurpose = answers.otherPurpose || '';
-  const amount    = answers.amount || '';
-  const notSure   = answers.notSure || amount === 'Not sure yet';
-  const business  = answers.business || '';
+  const amount       = answers.amount || '';
+  const notSure      = answers.notSure || amount === 'Not sure yet';
+  const business     = answers.business || '';
 
   const blocks = [];
 
   // New start acknowledgement
   if (isNewStart(answers)) blocks.push(getNewStartInsight());
 
-  // Paragraph 1 — opening sentence with purposes mentioned naturally
+  // Paragraph 1 — opening with purpose context
   blocks.push(getShariahOpeningInsight(business, purposes, otherPurpose));
 
-  // Paragraph 2 — Shariah context + purpose-specific insight + amount sentence
-  const purposeInsight = getShariahPurposeInsight(purposes, otherPurpose, business);
-  const amountSentence = getShariahAmountInsight(amount, notSure);
-  let para2 = `Shariah-compliant business funding can be more specialist and sometimes harder to source through mainstream routes, but that does not mean suitable options are out of reach. The key is understanding exactly what the funding needs to achieve, whether the amount required is realistic, and which providers may be able to support the business in a way that aligns more closely with Shariah-compliant principles.`;
-  if (purposeInsight) para2 += ` ${purposeInsight}`;
+  // Paragraph 2 — Shariah structure recommendation based on purpose
+  const structureInsight = getShariahStructureInsight(purposes, otherPurpose);
+  const purposeInsight   = getShariahPurposeInsight(purposes, otherPurpose, business);
+  const amountSentence   = getShariahAmountInsight(amount, notSure);
+  let para2 = `Shariah-compliant business funding can be more specialist and sometimes harder to source through mainstream routes, but that does not mean suitable options are out of reach.`;
+  if (structureInsight) para2 += ` ${structureInsight}`;
+  else if (purposeInsight) para2 += ` ${purposeInsight}`;
   if (amountSentence) para2 += ` ${amountSentence}`;
   blocks.push(para2);
+
+  // Paragraph 3 — market context (UK hub, non-Muslim accessibility)
+  blocks.push(getShariahMarketInsight());
+
+  // Paragraph 4 — practical: range, speed, profit rate
+  blocks.push(getShariahPracticalInsight(amount, notSure));
 
   const summaryText = blocks.join('\n\n');
   return {
