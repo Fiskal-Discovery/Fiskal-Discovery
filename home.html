@@ -1570,7 +1570,8 @@ function renderSummariesScreen() {
   if (greetingEl) {
     let profile = {};
     try { profile = JSON.parse(localStorage.getItem('fiskal_profile') || '{}'); } catch(e) {}
-    const name = profile.name || (appState.profile && appState.profile.name) || '';
+    const rawName = profile.name || (appState.profile && appState.profile.name) || '';
+    const name = rawName.replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
     const biz  = profile.companyName || (appState.profile && appState.profile.companyName)
               || (discoveries.length && discoveries[0].business) || '';
     const hi   = name ? `Hi <strong>${name.split(' ')[0]}</strong>` : 'Hi there';
@@ -1716,7 +1717,7 @@ function showHomepage() {
   if (appState.profile && appState.profile.name) {
     document.getElementById('home-profile-badge').style.display = 'inline-flex';
     document.getElementById('home-profile-reset').style.display = 'inline';
-    document.getElementById('home-profile-name').textContent = appState.profile.name;
+    document.getElementById('home-profile-name').textContent = appState.profile.name.replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
     document.getElementById('home-profile-company').textContent = appState.profile.companyName || '';
     document.getElementById('home-avatar').textContent = appState.profile.name.charAt(0).toUpperCase();
   }

@@ -3692,7 +3692,11 @@ function startQuestions() {
 }
 
 function submitDetails() {
-  const name = document.getElementById('field-name').value.trim();
+  function toTitleCase(str) {
+    return str.replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+  }
+
+  const name = toTitleCase(document.getElementById('field-name').value.trim());
   const business = document.getElementById('field-business').value.trim();
   const email = document.getElementById('field-email').value.trim();
   const phone = document.getElementById('field-phone').value.trim();
