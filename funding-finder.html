@@ -1195,10 +1195,6 @@
     color: transparent;
     animation: thinkingShimmer 3.8s ease-in-out forwards;
   }
-  @keyframes thinkingShimmer {
-    0%   { background-position: 260% center; }
-    100% { background-position: -260% center; }
-  }
   @keyframes spinThinking {
     to { transform: rotate(360deg); }
   }
@@ -2847,7 +2843,7 @@ function renderFlowQuestion() {
   document.getElementById('question-progress-label').textContent = `Question ${current} of ${total}`;
   document.getElementById('q-icon').textContent = '';
 
-  const skipBtn = document.getElementById('q-skip-btn');
+  const skipBtn = document.getElementById('ff-skip-btn');
   if (skipBtn) skipBtn.style.display = isLast ? 'none' : '';
   document.getElementById('q-text').textContent = q.question;
   const subEl = document.getElementById('q-sub');
@@ -3509,7 +3505,6 @@ function displayResults(summary, matchedProducts) {
   }
   
   sendNotification(summary.summaryText || summary.summaryHtml, matchedProducts);
-  loadNicolePhoto();
 }
 
 // ============================================================
@@ -3620,7 +3615,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('special-messages-section').innerHTML = r.specialHtml;
       const prodSection = document.getElementById('matched-products-section');
       document.getElementById('matched-products-list').outerHTML = r.productsHtml;
-      prodSection.style.display = r.productsVisible ? 'block' : 'none';
+      // section is permanently hidden; don't restore visibility from session
       if (typeof renderNicoleContactCard === 'function') {
         const c = document.getElementById('nicole-contact-card-container');
         if (c) { c.innerHTML = renderNicoleContactCard(); loadNicolePhoto(); }
