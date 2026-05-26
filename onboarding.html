@@ -4360,7 +4360,7 @@ const OB_KEY = 'fiskal_profile';
             const xb=pb*W, yb=H*(1-pb*b.yf)+yo;
             const u=(ua+ub)/2;
             const [r,g,bv]=waveColor(u,phase);
-            const a=u<0.3?(u/0.3)*0.16:u>0.75?((1-u)/0.25)*0.16:0.16;
+            const a=u<0.3?(u/0.3)*0.16:0.16;
             const w=b.sz*0.3+b.sz*2.2*u; // thin at start, thick at end
             c.beginPath();c.strokeStyle=`rgba(${r},${g},${bv},${a.toFixed(2)})`;
             c.lineWidth=w;c.lineCap='round';c.moveTo(xa,ya);c.lineTo(xb,yb);c.stroke();
@@ -4371,7 +4371,7 @@ const OB_KEY = 'fiskal_profile';
           for(let i=0;i<=steps;i++){
             const u=i/steps;
             const [r,g,bv]=waveColor(u,phase);
-            const a=u<0.3?(u/0.3)*0.16:u>0.75?((1-u)/0.25)*0.16:0.16;
+            const a=u<0.3?(u/0.3)*0.16:0.16;
             tr.addColorStop(u,`rgba(${r},${g},${bv},${a.toFixed(2)})`);
           }
           c.beginPath();c.strokeStyle=tr;c.lineWidth=b.sz*1.5;c.lineCap='round';
