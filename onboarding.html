@@ -2282,15 +2282,8 @@
 <div class="bg-orb bg-orb-2"></div>
 
 
-<!-- ====== BRAND INTRO ======-->
-<div id="fd-intro" style="position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'DM Sans',sans-serif;">
-  <canvas id="fd-intro-cv" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
-  <button id="fd-intro-skip" style="position:absolute;bottom:6%;left:6%;font-family:'DM Sans',sans-serif;font-size:clamp(.7rem,2vw,.9rem);font-weight:400;background:none;color:rgba(255,255,255,.35);border:none;padding:10px 20px;border-radius:100px;cursor:pointer;letter-spacing:.04em;display:none;">Skip</button>
-  <button id="fd-intro-cont" style="position:absolute;bottom:6%;right:6%;font-family:'DM Sans',sans-serif;font-size:clamp(.75rem,2.5vw,1rem);font-weight:500;background:rgba(255,255,255,.08);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.18);padding:12px 32px;border-radius:100px;cursor:pointer;letter-spacing:.04em;display:none;">Next →</button>
-</div>
-
 <!-- ====== WELCOME INTRO SCREEN ====== -->
-<div class="screen" id="screen-landing">
+<div class="screen active" id="screen-landing">
 
   <!-- HERO -->
   <div class="ob-hero-wrap">
@@ -3438,11 +3431,8 @@ document.addEventListener('DOMContentLoaded', function () {
     window.location.replace('home.html');
     return;
   }
-  // Run brand intro, then show landing screen
-  runFdIntro(function(){
-    document.getElementById('screen-landing').classList.add('active');
-    clearModuleBadge();
-  });
+  // Show landing screen
+  clearModuleBadge();
 });
 
 // ============================================================
@@ -4319,74 +4309,3 @@ const OB_KEY = 'fiskal_profile';
 </script>
 </body>
 </html>
-
-<script>
-function runFdIntro(onDone){
-  const el=document.getElementById('fd-intro');
-  const cv=document.getElementById('fd-intro-cv');
-  const skipBtn=document.getElementById('fd-intro-skip');
-  const contBtn=document.getElementById('fd-intro-cont');
-  cv.width=window.innerWidth;cv.height=window.innerHeight;
-  const W=cv.width,H=cv.height,c=cv.getContext('2d');
-  const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
-  const groups=[
-    {lines:[
-      {txt:'REFUSE',col:'#F4D03F',fs:0.13,font:'Bebas Neue',gap:0.55},
-      {txt:'TO STAND STILL',col:'#FF6B2B',fs:0.026,font:'DM Sans',gap:2.2},
-    ]},
-    {lines:[
-      {txt:'Behind every business is a real person —',col:'#DDDDDD',fs:0.038},
-      {txt:'working hard, refusing to stop.',col:'#FFFFFF',fs:0.050},
-    ]},
-    {lines:[
-      {txt:"Some days you're pushing forward.",col:'#CCCCCC',fs:0.040},
-      {txt:"Some days you're just keeping pace.",col:'#AAAAAA',fs:0.038},
-    ]},
-    {lines:[
-      {txt:'Fiskal is here for both.',col:'#CC88FF',fs:0.042},
-      {txt:'Real people. Real solutions. Alongside you.',col:'#888888',fs:0.034},
-    ]},
-    {lines:[
-      {txt:"Wherever you're going next…",col:'#FFFFFF',fs:0.040},
-      {txt:"we'll help you get there.",col:'#F4D03F',fs:0.060},
-    ]},
-  ];
-  let currentIdx=0,groupStartTs=null,raf,done=false;
-  function finish(){if(done)return;done=true;cancelAnimationFrame(raf);let fo=0;(function fade(){fo=Math.min(1,fo+0.04);el.style.opacity=1-fo;if(fo<1)requestAnimationFrame(fade);else{el.style.display='none';onDone();}})();}
-  function updateCont(){contBtn.textContent=currentIdx>=groups.length-1?'Start my discovery →':'Next →';}
-  function advance(){if(done)return;if(currentIdx>=groups.length-1){finish();return;}currentIdx++;groupStartTs=null;updateCont();}
-  skipBtn.addEventListener('click',finish);
-  contBtn.addEventListener('click',advance);
-  setTimeout(()=>{if(!done){skipBtn.style.display='block';contBtn.style.display='block';}},2000);
-  function frame(ts){
-    if(!groupStartTs)groupStartTs=ts;
-    const t=(ts-groupStartTs)/1000;
-    c.clearRect(0,0,W,H);
-    c.fillStyle='#000';c.fillRect(0,0,W,H);
-    const grd=c.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*0.7);
-    grd.addColorStop(0,'rgba(70,15,110,0.22)');grd.addColorStop(1,'rgba(0,0,0,0)');
-    c.fillStyle=grd;c.fillRect(0,0,W,H);
-    c.textAlign='center';
-    const grp=groups[currentIdx];
-    const gAlpha=clamp(t/0.8,0,1);
-    const lineHeights=grp.lines.map(ln=>clamp(W*ln.fs,16,ln.fs>0.04?68:52));
-    const totalH=lineHeights.reduce((s,h,i)=>s+h*(grp.lines[i].gap??1.85),0);
-    let yy=H/2-totalH/2;
-    grp.lines.forEach((ln,li)=>{
-      const ld=li*0.9;if(t<ld){yy+=lineHeights[li]*(ln.gap??1.85);return;}
-      const lAge=t-ld,fsPx=lineHeights[li];
-      const shown=ln.txt.slice(0,Math.floor(lAge*28));
-      c.globalAlpha=gAlpha*Math.min(1,lAge/0.5);
-      c.fillStyle=ln.col;
-      c.shadowColor=(ln.col==='#F4D03F'&&currentIdx===0)?'#F4D03F':'transparent';
-      c.shadowBlur=(ln.col==='#F4D03F'&&currentIdx===0)?20:0;
-      c.font=ln.font?`${fsPx}px "${ln.font}",sans-serif`:`${ln.fs>0.04?'600':''} ${fsPx}px "DM Sans",sans-serif`;
-      c.fillText(shown,W/2,yy+fsPx);
-      yy+=fsPx*(ln.gap??1.85);
-    });
-    c.globalAlpha=1;c.shadowBlur=0;
-    raf=requestAnimationFrame(frame);
-  }
-  raf=requestAnimationFrame(frame);
-}
-</script>
