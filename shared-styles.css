@@ -227,53 +227,69 @@ html, body { overflow-x: hidden; }
 
 .nicole-card-actions {
   grid-area: actions;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(150px, 1fr));
-  gap: 14px;
-  width: 100%;
-  max-width: 380px;
-  align-self: center;
-  justify-self: center;
-  align-items: stretch;
-}
-
-.visit-fiskal-btn,
-.fiskal-linkedin-btn {
-  width: 100%;
-  min-width: 0;
-  min-height: 44px;
-  height: 44px;
-  padding: 10px 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  line-height: 1;
+  width: 100%;
+  align-self: center;
+  justify-self: center;
+}
+
+/* 3-button grid: Book a Call full-width top row, Website + LinkedIn split below */
+.nicole-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+.nicole-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
   white-space: nowrap;
-  border-radius: 999px;
   box-sizing: border-box;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  cursor: pointer;
+  border: none;
 }
 
-.visit-fiskal-btn {
-  background: var(--col-gold);
-  color: #08000F;
-  box-shadow: 0 10px 25px rgba(255, 230, 0, 0.24);
+/* Row 1: Book a Call — full width, gold fill */
+.nicole-btn-primary {
+  grid-column: 1 / -1;
+  background: #d4a93a;
+  color: #1a1230;
+  box-shadow: 0 4px 14px rgba(212,169,58,0.35);
 }
-
-.fiskal-linkedin-btn {
-  background: #ffffff;
-  color: var(--col-purple);
-  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.18);
-}
-
-.visit-fiskal-btn:hover,
-.fiskal-linkedin-btn:hover {
+.nicole-btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 22px rgba(212,169,58,0.45);
 }
 
+/* Row 2: Website + LinkedIn — outlined */
+.nicole-btn-secondary {
+  background: transparent;
+  color: #ffffff;
+  border: 1.5px solid rgba(255,255,255,0.4);
+}
+.nicole-btn-secondary:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.06);
+}
+
+/* Keep old class names working as aliases (other pages may reference them) */
+.visit-fiskal-btn,
+.fiskal-linkedin-btn,
 .call-now-mobile {
-  display: none;
+  display: none; /* hidden — replaced by nicole-btn structure */
 }
 
 @media (max-width: 760px) {
@@ -306,71 +322,12 @@ html, body { overflow-x: hidden; }
     justify-content: center;
   }
 
-  .nicole-card-actions {
+  /* Stack buttons to single column on mobile */
+  .nicole-buttons {
     grid-template-columns: 1fr;
-    max-width: 100%;
   }
-
-  .visit-fiskal-btn,
-  .fiskal-linkedin-btn,
-  .call-now-mobile {
-    width: 100%;
-  }
-
-  .call-now-mobile {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 48px;
-    padding: 12px 16px;
-    border-radius: 999px;
-    background: var(--col-purple);
-    color: #ffffff;
-    font-weight: 800;
-    text-decoration: none;
-  }
-}
-
-/* ---- NICOLE CARD BUTTON ALIGNMENT OVERRIDE ---- */
-.nicole-contact-card .nicole-card-actions {
-  grid-area: actions;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(150px, 1fr));
-  gap: 14px;
-  width: 100%;
-  max-width: 380px;
-  align-self: center;
-  justify-self: center;
-  align-items: center;
-}
-
-.nicole-contact-card .visit-fiskal-btn,
-.nicole-contact-card .fiskal-linkedin-btn {
-  margin: 0 !important;
-  width: 100%;
-  height: 42px;
-  min-height: 42px;
-  max-height: 42px;
-  min-width: 0;
-  padding: 0 14px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  line-height: 1 !important;
-  box-sizing: border-box;
-  white-space: nowrap;
-}
-
-@media (max-width: 760px) {
-  .nicole-contact-card .nicole-card-actions {
-    grid-template-columns: 1fr;
-    max-width: 100%;
-  }
-
-  .nicole-contact-card .visit-fiskal-btn,
-  .nicole-contact-card .fiskal-linkedin-btn,
-  .nicole-contact-card .call-now-mobile {
-    width: 100%;
+  .nicole-btn-primary {
+    grid-column: 1;
   }
 }
 

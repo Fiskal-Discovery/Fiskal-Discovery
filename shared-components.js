@@ -5,6 +5,7 @@
 // ===================
 
 function renderNicoleContactCard() {
+  // TODO: replace '#' in Book a Call button with real booking URL (e.g. Calendly)
   return `
     <section class="nicole-contact-card" aria-label="Nicole Bertolissi contact card">
       <div class="nicole-photo-side">
@@ -16,7 +17,7 @@ function renderNicoleContactCard() {
 
       <div class="nicole-message-wrap">
         <p class="nicole-message" id="nicole-message">
-          Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website or our LinkedIn page to learn more about who we are and how we can help.
+          Your Discovery has been received. I'll review everything personally and call you within the next couple of hours — or if you'd prefer to lock in a specific time, book a call below. While you wait, feel free to explore the Fiskal website or LinkedIn.
         </p>
       </div>
 
@@ -28,9 +29,19 @@ function renderNicoleContactCard() {
       </div>
 
       <div class="nicole-card-actions">
-        <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Fiskal Website</a>
-        <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="fiskal-linkedin-btn">Fiskal LinkedIn</a>
-        <a href="tel:+447946074268" class="call-now-mobile">📞 Call Nicole now</a>
+        <div class="nicole-buttons">
+          <a href="#" class="nicole-btn nicole-btn-primary">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="12" height="11" rx="1.5"/>
+              <line x1="5" y1="1.5" x2="5" y2="4.5"/>
+              <line x1="11" y1="1.5" x2="11" y2="4.5"/>
+              <line x1="2" y1="7" x2="14" y2="7"/>
+            </svg>
+            Book a call
+          </a>
+          <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="nicole-btn nicole-btn-secondary">Fiskal Website</a>
+          <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="nicole-btn nicole-btn-secondary">Fiskal LinkedIn</a>
+        </div>
       </div>
     </section>
   `;
@@ -39,15 +50,8 @@ function renderNicoleContactCard() {
 function renderNicoleMessage() {
   const messageEl = document.getElementById("nicole-message");
   if (!messageEl) return;
-
-  const nicoleMessages = [
-    "Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website or our LinkedIn page to learn more about who we are and how we can help.",
-    "Thank you for sharing your details. I'll take a look through your Discovery and come back to you within the next couple of hours. While you wait, you're welcome to explore the Fiskal website or our LinkedIn page and see how we support businesses like yours.",
-    "Your Discovery has been received. I'll review everything personally and will be in touch within the next couple of hours. In the meantime, feel free to visit the Fiskal website or LinkedIn page to learn more about the support available.",
-    "Thanks for taking the time to complete your Discovery. I'll review your answers and contact you within the next couple of hours. While you're here, you can explore the Fiskal website or our LinkedIn page to learn more about how we can help."
-  ];
-
-  messageEl.textContent = nicoleMessages[Math.floor(Math.random() * nicoleMessages.length)];
+  // Single consistent message — update the TODO booking link above when ready
+  messageEl.textContent = "Your Discovery has been received. I'll review everything personally and call you within the next couple of hours — or if you'd prefer to lock in a specific time, book a call below. While you wait, feel free to explore the Fiskal website or LinkedIn.";
 }
 
 function loadNicolePhoto() {
