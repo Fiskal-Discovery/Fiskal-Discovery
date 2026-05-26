@@ -3468,6 +3468,18 @@ function displayResults(summary, matchedProducts) {
   const resultsEl = document.getElementById('screen-results');
   if (resultsEl) resultsEl.scrollTop = 0;
 
+  // Persist results so a page refresh restores this screen
+  try {
+    sessionStorage.setItem('ff_results', JSON.stringify({
+      summaryHtml:     document.getElementById('ai-summary-text').innerHTML,
+      summaryLabel:    document.getElementById('ai-summary-label').innerHTML,
+      subtitle:        document.getElementById('results-subtitle').innerHTML,
+      productsHtml:    document.getElementById('matched-products-list').outerHTML,
+      specialHtml:     document.getElementById('special-messages-section').innerHTML,
+      productsVisible: document.getElementById('matched-products-section').style.display !== 'none'
+    }));
+  } catch(e) {}
+
   // Render shared Nicole contact card
   const nicoleCardContainer = document.getElementById('nicole-contact-card-container');
   if (nicoleCardContainer) {
@@ -3591,6 +3603,28 @@ async function emailSummaryToUser() {
 // For now using a placeholder
 document.addEventListener('DOMContentLoaded', () => {
   window.scrollTo(0, 0);
+
+  // Restore results screen if user refreshed mid-session
+  try {
+    const saved = sessionStorage.getItem('ff_results');
+    if (saved) {
+      const r = JSON.parse(saved);
+      document.getElementById('ai-summary-text').innerHTML    = r.summaryHtml;
+      document.getElementById('ai-summary-label').innerHTML   = r.summaryLabel;
+      document.getElementById('results-subtitle').innerHTML   = r.subtitle;
+      document.getElementById('special-messages-section').innerHTML = r.specialHtml;
+      const prodSection = document.getElementById('matched-products-section');
+      document.getElementById('matched-products-list').outerHTML = r.productsHtml;
+      prodSection.style.display = r.productsVisible ? 'block' : 'none';
+      if (typeof renderNicoleContactCard === 'function') {
+        const c = document.getElementById('nicole-contact-card-container');
+        if (c) { c.innerHTML = renderNicoleContactCard(); loadNicolePhoto(); }
+      }
+      showScreen('results');
+      return;
+    }
+  } catch(e) {}
+
   showScreen('details');
 
   // Shooting stars in all headers — same style as home.html
