@@ -2005,15 +2005,6 @@ function showBobbyCinematic(onDone){
   const pile=[];
   let s4done=false,lastFT=0;
 
-  // Scene 5 assets: emotional copy groups
-  const S5G=[
-    {t:0.5,end:5.5,lines:[{txt:'Every business owner faces moments',col:'#BBBBBB',fs:0.042},{txt:'that feel impossible.',col:'#FFFFFF',fs:0.054}]},
-    {t:6.2,end:11.0,lines:[{txt:'Cash dries up. Debts stack.',col:'#AAAAAA',fs:0.040},{txt:'The phone keeps ringing.',col:'#CCCCCC',fs:0.040}]},
-    {t:11.8,end:18.5,lines:[{txt:'But behind every struggling business',col:'#DDDDDD',fs:0.038},{txt:'is a real person —',col:'#FFFFFF',fs:0.044},{txt:'working hard, refusing to give in.',col:'#DDDDDD',fs:0.038}]},
-    {t:19.2,end:25.5,lines:[{txt:'Small, independent brokers like Fiskal',col:'#CC88FF',fs:0.036},{txt:'exist for exactly those moments.',col:'#CC88FF',fs:0.038},{txt:'Real people. Real solutions. Alongside you.',col:'#888888',fs:0.034}]},
-    {t:26.2,end:32.0,lines:[{txt:"Whatever you're facing…",col:'#FFFFFF',fs:0.040},{txt:'there is a way through.',col:'#FFD700',fs:0.060}]},
-  ];
-  const S5_END=33.0;
 
   let shakeX=0,shakeY=0;
 
@@ -2026,7 +2017,7 @@ function showBobbyCinematic(onDone){
       (function fade(){fo=Math.min(1,fo+0.06);c.fillStyle=`rgba(0,0,0,${fo})`;c.fillRect(0,0,W,H);if(fo<1)requestAnimationFrame(fade);else{el.style.display='none';if(onDone)onDone();}})();
       return;
     }
-    scene++;st=performance.now();
+    scene=scene===4?6:scene+1;st=performance.now();
     if(scene===2){s2kicked=false;s2kickedAt=0;s2nextShown=false;}
     if(scene===4){s4done=false;bExploded.fill(false);pile.length=0;lastFT=0;}
   }
@@ -2226,39 +2217,6 @@ function showBobbyCinematic(onDone){
       });
       c.globalAlpha=1;c.shadowBlur=0;c.textBaseline='alphabetic';
       if(t>=S4_END&&!s4done){s4done=true;showNext();}
-    }
-
-    // SCENE 5: emotional copy
-    else if(scene===5){
-      c.clearRect(0,0,W,H);
-      c.fillStyle='#000';c.fillRect(0,0,W,H);
-      const grd=c.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*0.65);
-      grd.addColorStop(0,'rgba(70,15,110,0.18)');grd.addColorStop(1,'rgba(0,0,0,0)');
-      c.fillStyle=grd;c.fillRect(0,0,W,H);
-      c.textAlign='center';
-      S5G.forEach(grp=>{
-        if(t<grp.t)return;
-        const gAlpha=Math.min(clamp((t-grp.t)/0.7,0,1),clamp((grp.end-t)/0.7,0,1));
-        const lineHeights=grp.lines.map(ln=>clamp(W*ln.fs,16,ln.fs>0.04?68:48));
-        const totalH=lineHeights.reduce((s,h)=>s+h*1.85,0);
-        let yy=H/2-totalH/2;
-        grp.lines.forEach((ln,li)=>{
-          const lineDelay=grp.t+li*0.9;
-          if(t<lineDelay){yy+=lineHeights[li]*1.85;return;}
-          const lAge=t-lineDelay;
-          const fsPx=lineHeights[li];
-          const shown=ln.txt.slice(0,Math.floor(lAge*30));
-          c.globalAlpha=gAlpha*Math.min(1,lAge/0.5);
-          c.fillStyle=ln.col;
-          c.shadowColor=ln.col==='#FFD700'?'#FFD700':'transparent';
-          c.shadowBlur=ln.col==='#FFD700'?28:0;
-          c.font=`${ln.fs>0.04?'bold ':''} ${fsPx}px "DM Sans",sans-serif`;
-          c.fillText(shown,W/2,yy+fsPx);
-          yy+=fsPx*1.85;
-        });
-      });
-      c.globalAlpha=1;c.shadowBlur=0;
-      if(t>=S5_END)showNext();
     }
 
     // SCENE 6: Powered by Fiskal
