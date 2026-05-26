@@ -3331,16 +3331,20 @@ function displayResults(summary, matchedProducts) {
   if (summaryTextEl) {
     // Break long text into paragraphs at sentence boundaries (every 2-3 sentences)
     const raw = summary.summaryHtml || summary.summaryText || '';
-    // If already contains <p> tags, use as-is; otherwise split on '. ' boundaries
-    const formatted = raw.includes('<p') ? raw : raw
-      .split(/(?<=\.)\s+(?=[A-Z])/)
-      .reduce((acc, sentence, i) => {
-        const group = Math.floor(i / 2);
-        acc[group] = (acc[group] || '') + (i % 2 === 0 ? '' : ' ') + sentence;
-        return acc;
-      }, [])
-      .map(p => `<p>${p}</p>`)
-      .join('');
+    // If already has <p> tags use as-is; otherwise split into ~2-sentence paragraphs
+    let formatted;
+    if (raw.includes('<p')) {
+      formatted = raw;
+    } else {
+      // Safari-safe split: match ". " followed by uppercase (no lookbehind)
+      const sentences = raw.match(/[^.!?]+[.!?]+["']?\s*/g) || [raw];
+      const paras = [];
+      for (let i = 0; i < sentences.length; i += 2) {
+        const chunk = (sentences[i] + (sentences[i + 1] || '')).trim();
+        if (chunk) paras.push(`<p>${chunk}</p>`);
+      }
+      formatted = paras.join('') || `<p>${raw}</p>`;
+    }
     summaryTextEl.innerHTML = formatted;
   }
 
