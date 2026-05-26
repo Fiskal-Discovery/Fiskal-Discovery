@@ -4345,7 +4345,7 @@ const OB_KEY = 'fiskal_profile';
         b.p=(b.p+b.speed/60)%1;
         const yo=b.yo||0;
         const x=b.p*W, y=H*(1-b.p*b.yf)+yo;
-        const trailLen=Math.min(0.5, 180/W);
+        const trailLen=Math.min(0.7, 320/W);
         const p0=Math.max(0,b.p-trailLen);
         const x0=p0*W, y0=H*(1-p0*b.yf)+yo;
         if(b.yf===0.3){
@@ -4358,7 +4358,7 @@ const OB_KEY = 'fiskal_profile';
             const cx=pu*W, cy=H*(1-pu*b.yf)+yo;
             const radius=b.sz*0.2+b.sz*2.8*(u*u);
             const [r,g,bv]=waveColor(u,phase);
-            const a=u<0.3?(u/0.3)*0.22:0.22;
+            const a=u<0.45?(u/0.45)*0.22:0.22;
             const g2=c.createRadialGradient(cx,cy,0,cx,cy,radius);
             g2.addColorStop(0,`rgba(${r},${g},${bv},${a.toFixed(2)})`);
             g2.addColorStop(1,`rgba(${r},${g},${bv},0)`);
