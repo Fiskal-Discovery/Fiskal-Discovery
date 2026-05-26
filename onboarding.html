@@ -4337,10 +4337,12 @@ const OB_KEY = 'fiskal_profile';
         const x0=p0*W, y0=H*(1-p0*b.yf);
         // Ombre trail
         const tr=c.createLinearGradient(x0,y0,x,y);
-        tr.addColorStop(0,'rgba(78,0,99,0)');
-        tr.addColorStop(0.25,'rgba(126,9,165,0.06)');
-        tr.addColorStop(0.6,'rgba(204,136,255,0.18)');
-        tr.addColorStop(1,'rgba(244,208,63,0.32)');
+        tr.addColorStop(0,'rgba(78,0,99,0.0)');
+        tr.addColorStop(0.15,'rgba(78,0,99,0.5)');
+        tr.addColorStop(0.35,'rgba(0,80,180,0.35)');
+        tr.addColorStop(0.55,'rgba(0,180,255,0.28)');
+        tr.addColorStop(0.75,'rgba(255,210,0,0.28)');
+        tr.addColorStop(1,'rgba(255,235,100,0.18)');
         c.beginPath();c.strokeStyle=tr;c.lineWidth=b.sz*1.5;c.lineCap='round';
         c.moveTo(x0,y0);c.lineTo(x,y);c.stroke();
       });
