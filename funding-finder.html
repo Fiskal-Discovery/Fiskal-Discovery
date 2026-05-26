@@ -2017,6 +2017,124 @@
   #screen-results .footer-legal { color: rgba(255,255,255,0.35) !important; }
   #screen-results .footer-legal a { color: rgba(255,255,255,0.5) !important; }
 
+  /* ── Change 2: results hierarchy ── */
+
+  /* Personalised subtitle */
+  #screen-results .results-subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    text-align: center;
+    margin: -4px 0 20px;
+  }
+  #screen-results .results-subtitle .company {
+    color: #ffd56b;
+    font-weight: 600;
+  }
+
+  /* Gold highlight for numbers in body copy */
+  .highlight {
+    color: #ffd56b;
+    font-weight: 600;
+  }
+
+  /* AI summary paragraphs: breathing room */
+  #screen-results .ai-summary-text p {
+    margin: 0 0 12px;
+  }
+  #screen-results .ai-summary-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Email CTA — gold gradient button */
+  .email-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #ffd56b 0%, #f4a83a 100%);
+    color: #08051f;
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 13px 26px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    text-decoration: none;
+  }
+  .email-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,213,107,0.35);
+  }
+  .email-cta-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+    transform: none;
+  }
+
+  /* "── ALSO WORTH KNOWING ──" divider */
+  .awk-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 16px;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: rgba(255,213,107,0.75);
+    text-transform: uppercase;
+  }
+  .awk-divider::before,
+  .awk-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,213,107,0.4), transparent);
+  }
+  .awk-divider::after {
+    background: linear-gradient(270deg, rgba(255,213,107,0.4), transparent);
+  }
+
+  /* "── ALSO WORTH KNOWING ──" secondary cards */
+  .awk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 500px) { .awk-grid { grid-template-columns: 1fr; } }
+
+  .awk-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+  .awk-card strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 4px;
+  }
+
+  /* "What Happens Next" heading above Nicole card */
+  .what-next-heading {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 32px 0 10px;
+  }
+  .what-next-underline {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #ffd56b, #d97757);
+    border-radius: 2px;
+    margin: 0 auto 24px;
+  }
+
   #screen-results .back-btn {
     color: var(--col-soft-violet) !important;
     background: transparent !important;
@@ -2289,13 +2407,17 @@
       <div class="results-check"></div>
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
     </div>
+    <div class="results-subtitle" id="results-subtitle"></div>
 
     <div class="ai-summary">
       <div class="ai-summary-label" id="ai-summary-label">Here's what we discovered</div>
-      <p class="ai-summary-text" id="ai-summary-text">Analysing your responses...</p>
-      <div style="text-align:center;margin-top:14px;">
-        <button id="email-summary-btn" onclick="emailSummaryToUser()" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:12px;cursor:pointer;text-decoration:underline;padding:0;">Email this summary to me</button>
-        <p id="email-summary-feedback" style="font-size:12px;text-align:center;margin-top:6px;display:none;"></p>
+      <div class="ai-summary-text" id="ai-summary-text">Analysing your responses...</div>
+      <div style="text-align:center;margin-top:18px;">
+        <button id="email-summary-btn" class="email-cta-btn" onclick="emailSummaryToUser()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="14" height="10" rx="1.5"/><polyline points="1,3 8,9 15,3"/></svg>
+          Email this summary to me
+        </button>
+        <p id="email-summary-feedback" style="font-size:12px;text-align:center;margin-top:8px;display:none;color:rgba(255,255,255,0.6);"></p>
       </div>
     </div>
 
@@ -2306,6 +2428,8 @@
       <div id="matched-products-list"></div>
     </div>
 
+    <div class="what-next-heading">What Happens Next</div>
+    <div class="what-next-underline"></div>
     <div id="nicole-contact-card-container"></div>
     <div style="margin-top:20px;max-width:720px;width:100%;margin-left:auto;margin-right:auto;">
       <a href="cashflow-invaders.html" class="cfi-btn" aria-label="Play Cashflow Invaders"><div class="cfi-content"><div class="cfi-hero"><svg viewBox="0 0 11 8" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" fill="currentColor"><rect x="2" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="3" y="1" width="1" height="1"/><rect x="7" y="1" width="1" height="1"/><rect x="2" y="2" width="7" height="1"/><rect x="1" y="3" width="2" height="1"/><rect x="4" y="3" width="3" height="1"/><rect x="8" y="3" width="2" height="1"/><rect x="0" y="4" width="11" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="2" y="5" width="7" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="3" y="7" width="2" height="1"/><rect x="6" y="7" width="2" height="1"/></svg></div><div class="cfi-text"><h2 class="cfi-title">CASHFLOW INVADERS</h2><p class="cfi-tag">Play the Fiskal arcade game<br>Free your finances</p></div><div class="cfi-play-zone"><div class="cfi-coin">INSERT COIN</div><div class="cfi-play">PLAY <span class="cfi-arrow">&#9654;</span></div></div></div></a>
@@ -3200,26 +3324,51 @@ function displayResults(summary, matchedProducts) {
       : heading;
   }
 
+  // Personalised subtitle
+  const subtitleEl = document.getElementById('results-subtitle');
+  if (subtitleEl && state.business) {
+    subtitleEl.innerHTML = `Tailored to <span class="company">${state.business}</span>, based on what you shared.`;
+  }
+
   const summaryTextEl = document.getElementById('ai-summary-text');
   if (summaryTextEl) {
-    summaryTextEl.innerHTML = summary.summaryHtml || summary.summaryText || '';
+    // Break long text into paragraphs at sentence boundaries (every 2-3 sentences)
+    const raw = summary.summaryHtml || summary.summaryText || '';
+    // If already contains <p> tags, use as-is; otherwise split on '. ' boundaries
+    const formatted = raw.includes('<p') ? raw : raw
+      .split(/(?<=\.)\s+(?=[A-Z])/)
+      .reduce((acc, sentence, i) => {
+        const group = Math.floor(i / 2);
+        acc[group] = (acc[group] || '') + (i % 2 === 0 ? '' : ' ') + sentence;
+        return acc;
+      }, [])
+      .map(p => `<p>${p}</p>`)
+      .join('');
+    summaryTextEl.innerHTML = formatted;
   }
 
   saveDiscovery('Funding Finder', '', summary.summaryHtml || summary.summaryText || '', state.business);
 
-  // Render special messages
+  // Render special messages as "also worth knowing" cards
   const fa = state.flowAnswers || {};
   const specialSection = document.getElementById('special-messages-section');
   if (specialSection) {
-    specialSection.innerHTML = '';
+    const msgs = [];
     if (fa.creditConcern === 'Yes') {
-      specialSection.innerHTML += `<div class="special-message-card">Having credit concerns doesn't close doors — it just means finding the right lender. Fiskal regularly works with businesses with CCJs, HMRC debt, previous declines and past insolvencies. There are specialist lenders who look at the full picture, not just a credit score.</div>`;
+      msgs.push({ title: 'Credit concerns', body: "Having credit concerns doesn't close doors — it just means finding the right lender. Fiskal regularly works with businesses with CCJs, HMRC debt, previous declines and past insolvencies. There are specialist lenders who look at the full picture, not just a credit score." });
     }
     if (fa.badDebt === 'Yes') {
-      specialSection.innerHTML += `<div class="special-message-card">You may have cash sitting in old invoices you've written off. Fiskal works with a specialist debt collection service that only charges if they collect — so there's absolutely nothing to lose.</div>`;
+      msgs.push({ title: 'Recovering old debts', body: "You may have cash sitting in old invoices you've written off. Fiskal works with a specialist debt collection service that only charges if they collect — so there's absolutely nothing to lose." });
     }
-    if (fa.acquisition === 'Yes' || fa.acquisition === 'Not right now but it\'s on my radar') {
-      specialSection.innerHTML += `<div class="special-message-card">Acquiring a business is more achievable than most people think. An unencumbered sales ledger can be funded via invoice finance to generate purchase cash, and assets within the target business can often be refinanced to contribute toward the sale price.</div>`;
+    if (fa.acquisition === 'Yes' || fa.acquisition === "Not right now but it's on my radar") {
+      msgs.push({ title: 'Acquisition / buyout', body: "Acquiring a business is more achievable than most people think. An unencumbered sales ledger can be funded via invoice finance to generate purchase cash, and assets within the target business can often be refinanced to contribute toward the sale price." });
+    }
+    if (msgs.length) {
+      specialSection.innerHTML =
+        `<div class="awk-divider">Also worth knowing</div>
+         <div class="awk-grid">${msgs.map(m => `<div class="awk-card"><strong>${m.title}</strong>${m.body}</div>`).join('')}</div>`;
+    } else {
+      specialSection.innerHTML = '';
     }
   }
 
