@@ -4338,18 +4338,18 @@ const OB_KEY = 'fiskal_profile';
         // Ombre trail
         const tr=c.createLinearGradient(x0,y0,x,y);
         tr.addColorStop(0,'rgba(78,0,99,0)');
-        tr.addColorStop(0.25,'rgba(126,9,165,0.15)');
-        tr.addColorStop(0.6,'rgba(204,136,255,0.5)');
-        tr.addColorStop(1,'rgba(244,208,63,0.85)');
-        c.beginPath();c.strokeStyle=tr;c.lineWidth=b.sz*2;c.lineCap='round';
+        tr.addColorStop(0.25,'rgba(126,9,165,0.06)');
+        tr.addColorStop(0.6,'rgba(204,136,255,0.18)');
+        tr.addColorStop(1,'rgba(244,208,63,0.32)');
+        c.beginPath();c.strokeStyle=tr;c.lineWidth=b.sz*1.5;c.lineCap='round';
         c.moveTo(x0,y0);c.lineTo(x,y);c.stroke();
         // Head glow
-        const g=c.createRadialGradient(x,y,0,x,y,b.sz*6);
-        g.addColorStop(0,'rgba(255,255,255,0.95)');
-        g.addColorStop(0.25,'rgba(244,208,63,0.8)');
-        g.addColorStop(0.6,'rgba(204,136,255,0.3)');
+        const g=c.createRadialGradient(x,y,0,x,y,b.sz*4);
+        g.addColorStop(0,'rgba(255,255,255,0.45)');
+        g.addColorStop(0.3,'rgba(244,208,63,0.25)');
+        g.addColorStop(0.7,'rgba(204,136,255,0.1)');
         g.addColorStop(1,'rgba(78,0,99,0)');
-        c.beginPath();c.arc(x,y,b.sz*6,0,Math.PI*2);c.fillStyle=g;c.fill();
+        c.beginPath();c.arc(x,y,b.sz*4,0,Math.PI*2);c.fillStyle=g;c.fill();
       });
       requestAnimationFrame(frame);
     }
