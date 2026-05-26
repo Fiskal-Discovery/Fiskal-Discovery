@@ -4354,7 +4354,7 @@ const OB_KEY = 'fiskal_profile';
           // Middle track: smooth tapered polygon, thin at tail thick at head
           const dx=x-x0,dy=y-y0,len=Math.sqrt(dx*dx+dy*dy)||1;
           const nx=-dy/len,ny=dx/len;
-          const wTail=b.sz*0.2,wHead=b.sz*2.5;
+          const wTail=0,wHead=b.sz*2.5;
           const tr=c.createLinearGradient(x0,y0,x,y);
           const steps=8;
           for(let i=0;i<=steps;i++){
