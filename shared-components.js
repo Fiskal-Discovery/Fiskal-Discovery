@@ -30,7 +30,7 @@ function renderNicoleContactCard() {
 
       <div class="nicole-card-actions">
         <div class="nicole-buttons">
-          <a href="#" class="nicole-btn nicole-btn-primary">
+          <a href="https://calendly.com/nicole-fiskal/30min" target="_blank" rel="noopener noreferrer" class="nicole-btn nicole-btn-primary">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="3" width="12" height="11" rx="1.5"/>
               <line x1="5" y1="1.5" x2="5" y2="4.5"/>
