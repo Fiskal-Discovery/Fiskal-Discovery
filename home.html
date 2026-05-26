@@ -640,6 +640,9 @@
   .returning-cards .summaries-home-card {
     margin-bottom: 0;
   }
+  .returning-cards .cfi-btn {
+    margin-top: 12px;
+  }
   @media (max-width: 480px) {
     .returning-row { grid-template-columns: 1fr; gap: 12px; }
   }
@@ -1158,7 +1161,7 @@
   * { scrollbar-width: thin; scrollbar-color: var(--sb-thumb, #4e0063) transparent; }
 
 /* ── Cashflow Invaders Button ───────────────────────── */
-.cfi-btn{container-type:inline-size;container-name:cfi;grid-column:1/-1;position:relative;display:block;width:100%;background:linear-gradient(135deg,#0a0e2e 0%,#1a0f3a 60%,#0a0e2e 100%);border:2px solid #ffd700;border-radius:10px;padding:16px 18px;cursor:pointer;overflow:hidden;text-decoration:none;box-shadow:0 0 0 1px rgba(255,215,0,0.25),0 0 24px rgba(255,215,0,0.25),inset 0 0 40px rgba(138,43,226,0.18);transition:transform 0.25s cubic-bezier(.2,.9,.3,1),border-color 0.25s;animation:cfiBorder 2.6s ease-in-out infinite,cfiFlicker 7s infinite;box-sizing:border-box;}
+.cfi-btn{container-type:inline-size;container-name:cfi;position:relative;display:block;width:100%;background:linear-gradient(135deg,#0a0e2e 0%,#1a0f3a 60%,#0a0e2e 100%);border:2px solid #ffd700;border-radius:10px;padding:16px 18px;cursor:pointer;overflow:hidden;text-decoration:none;box-shadow:0 0 0 1px rgba(255,215,0,0.25),0 0 24px rgba(255,215,0,0.25),inset 0 0 40px rgba(138,43,226,0.18);transition:transform 0.25s cubic-bezier(.2,.9,.3,1),border-color 0.25s;animation:cfiBorder 2.6s ease-in-out infinite,cfiFlicker 7s infinite;box-sizing:border-box;}
 @keyframes cfiBorder{0%,100%{box-shadow:0 0 0 1px rgba(255,215,0,0.25),0 0 22px rgba(255,215,0,0.25),inset 0 0 40px rgba(138,43,226,0.18)}50%{box-shadow:0 0 0 1px rgba(255,215,0,0.55),0 0 45px rgba(255,215,0,0.55),inset 0 0 55px rgba(138,43,226,0.3)}}
 @keyframes cfiFlicker{0%,94%,100%{filter:brightness(1)}95%{filter:brightness(1.2)}96%{filter:brightness(0.8)}97%{filter:brightness(1.15)}98%{filter:brightness(0.9)}99%{filter:brightness(1.05)}}
 .cfi-btn:hover{transform:translateY(-3px);border-color:#fff8dc;}
@@ -1413,9 +1416,6 @@
           </div>
         </div>
 
-        <!-- Cashflow Invaders arcade button -->
-        <a href="cashflow-invaders.html" class="cfi-btn" aria-label="Play Cashflow Invaders"><div class="cfi-content"><div class="cfi-hero"><svg viewBox="0 0 11 8" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" fill="currentColor"><rect x="2" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="3" y="1" width="1" height="1"/><rect x="7" y="1" width="1" height="1"/><rect x="2" y="2" width="7" height="1"/><rect x="1" y="3" width="2" height="1"/><rect x="4" y="3" width="3" height="1"/><rect x="8" y="3" width="2" height="1"/><rect x="0" y="4" width="11" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="2" y="5" width="7" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="3" y="7" width="2" height="1"/><rect x="6" y="7" width="2" height="1"/></svg></div><div class="cfi-text"><h2 class="cfi-title">CASHFLOW INVADERS</h2><p class="cfi-tag">Play the Fiskal arcade game<br>Free your finances</p></div><div class="cfi-play-zone"><div class="cfi-coin">INSERT COIN</div><div class="cfi-play">PLAY <span class="cfi-arrow">&#9654;</span></div></div></div></a>
-
       </div><!-- /module-grid -->
 
       <!-- Returning visitors divider + summaries -->
@@ -1437,6 +1437,7 @@
                 <div class="summaries-home-arrow">›</div>
               </div>
             </div>
+            <a href="cashflow-invaders.html" class="cfi-btn" aria-label="Play Cashflow Invaders"><div class="cfi-content"><div class="cfi-hero"><svg viewBox="0 0 11 8" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" fill="currentColor"><rect x="2" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="3" y="1" width="1" height="1"/><rect x="7" y="1" width="1" height="1"/><rect x="2" y="2" width="7" height="1"/><rect x="1" y="3" width="2" height="1"/><rect x="4" y="3" width="3" height="1"/><rect x="8" y="3" width="2" height="1"/><rect x="0" y="4" width="11" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="2" y="5" width="7" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="3" y="7" width="2" height="1"/><rect x="6" y="7" width="2" height="1"/></svg></div><div class="cfi-text"><h2 class="cfi-title">CASHFLOW INVADERS</h2><p class="cfi-tag">Play the Fiskal arcade game<br>Free your finances</p></div><div class="cfi-play-zone"><div class="cfi-coin">INSERT COIN</div><div class="cfi-play">PLAY <span class="cfi-arrow">&#9654;</span></div></div></div></a>
           </div>
         </div>
       </div>
