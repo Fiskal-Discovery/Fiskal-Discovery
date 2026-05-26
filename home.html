@@ -562,14 +562,15 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     margin-bottom: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
   }
   .summaries-home-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 28px rgba(42,4,64,0.14);
   }
   .summaries-home-bar {
-    width: 4px;
+    height: 4px;
+    width: 100%;
     background: var(--orange);
     flex-shrink: 0;
   }
@@ -639,9 +640,6 @@
   }
   .returning-cards .summaries-home-card {
     margin-bottom: 0;
-  }
-  .returning-cards .cfi-btn {
-    margin-top: 12px;
   }
   @media (max-width: 480px) {
     .returning-row { grid-template-columns: 1fr; gap: 12px; }
@@ -1437,9 +1435,9 @@
                 <div class="summaries-home-arrow">›</div>
               </div>
             </div>
-            <a href="cashflow-invaders.html" class="cfi-btn" aria-label="Play Cashflow Invaders"><div class="cfi-content"><div class="cfi-hero"><svg viewBox="0 0 11 8" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" fill="currentColor"><rect x="2" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="3" y="1" width="1" height="1"/><rect x="7" y="1" width="1" height="1"/><rect x="2" y="2" width="7" height="1"/><rect x="1" y="3" width="2" height="1"/><rect x="4" y="3" width="3" height="1"/><rect x="8" y="3" width="2" height="1"/><rect x="0" y="4" width="11" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="2" y="5" width="7" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="3" y="7" width="2" height="1"/><rect x="6" y="7" width="2" height="1"/></svg></div><div class="cfi-text"><h2 class="cfi-title">CASHFLOW INVADERS</h2><p class="cfi-tag">Play the Fiskal arcade game<br>Free your finances</p></div><div class="cfi-play-zone"><div class="cfi-coin">INSERT COIN</div><div class="cfi-play">PLAY <span class="cfi-arrow">&#9654;</span></div></div></div></a>
           </div>
         </div>
+        <a href="cashflow-invaders.html" class="cfi-btn" style="margin-top:16px" aria-label="Play Cashflow Invaders"><div class="cfi-content"><div class="cfi-hero"><svg viewBox="0 0 11 8" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" fill="currentColor"><rect x="2" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="3" y="1" width="1" height="1"/><rect x="7" y="1" width="1" height="1"/><rect x="2" y="2" width="7" height="1"/><rect x="1" y="3" width="2" height="1"/><rect x="4" y="3" width="3" height="1"/><rect x="8" y="3" width="2" height="1"/><rect x="0" y="4" width="11" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="2" y="5" width="7" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="3" y="7" width="2" height="1"/><rect x="6" y="7" width="2" height="1"/></svg></div><div class="cfi-text"><h2 class="cfi-title">CASHFLOW INVADERS</h2><p class="cfi-tag">Play the Fiskal arcade game<br>Free your finances</p></div><div class="cfi-play-zone"><div class="cfi-coin">INSERT COIN</div><div class="cfi-play">PLAY <span class="cfi-arrow">&#9654;</span></div></div></div></a>
       </div>
 
     </div>
