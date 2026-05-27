@@ -2466,7 +2466,7 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
   const pbWhiteout=document.getElementById('pb-whiteout');
   let _pbHitCount=0;
   const _pbTotalHits=9;
-  let _pbRevealShown=false;
+  let _pbRevealShown=false;let _pbRevealTime=0;
   let _pbAutoTimer=null;
 
   let _pbAudioCtx=null,_pbMasterGain=null;
@@ -2581,7 +2581,7 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
     setTimeout(_pbMassiveExplosion,300);
     pbPlayer.style.transition='all .8s ease-in';pbPlayer.style.left='130%';pbPlayer.style.top='50%';
     setTimeout(()=>{
-      pbReveal.classList.add('show');_pbRevealShown=true;
+      pbReveal.classList.add('show');_pbRevealShown=true;_pbRevealTime=Date.now();
       _pbAutoTimer=setTimeout(()=>showScreen('start-screen'),5000);
     },600);
     setTimeout(()=>{pbWhiteout.classList.remove('flash');pbStage.classList.remove('pb-bigshake');},1400);
@@ -2603,7 +2603,7 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
   },{passive:true});
 
   pbStage.addEventListener('click',()=>{
-    if(_pbRevealShown){clearTimeout(_pbAutoTimer);showScreen('start-screen');return;}
+    if(_pbRevealShown&&Date.now()-_pbRevealTime>2000){clearTimeout(_pbAutoTimer);showScreen('start-screen');return;}
     if(!_pbStarted){
       _pbInitAudio();_pbStarted=true;
       pbTapPrompt.style.display='none';
