@@ -520,13 +520,18 @@
   }
   .loading-screen.active { display: flex; }
   .loading-screen .screen-content {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    flex: none;
+    overflow-y: visible;
     justify-content: flex-start !important;
     align-items: stretch;
     padding: 20px 24px 32px;
+  }
+  /* Results screen scrolls as a whole unit (header + content + footer together) */
+  #screen-loading {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    padding: 0 !important;
   }
   .loading-screen .nicole-contact-card {
     max-width: 100%;
@@ -1207,21 +1212,6 @@
     color: #ffffff !important;
   }
 
-  #screen-loading .screen-content {
-    padding-bottom: 80px;
-  }
-  @media (max-width: 600px) {
-    #screen-loading .screen-content {
-      padding-bottom: 80px !important;
-    }
-  }
-  /* On mobile: contact card first so Nicole's details are visible without scrolling */
-  @media (max-width: 760px) {
-    #screen-loading .results-header            { order: 0; }
-    #screen-loading .nicole-contact-card       { order: 1; }
-    #screen-loading #shariah-invoice-suggestion { order: 2; }
-    #screen-loading .ai-summary                { order: 3; }
-  }
   @media (max-width: 600px) {
     .bg-orb { display: none; }
     .dashed-divider { font-size: 16px; gap: 8px; padding: 4px 24px; }
@@ -1995,8 +1985,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (el) { el.style.display = 'block'; set('shariah-invoice-suggestion-text', 'textContent', saved.ifText); }
       }
       showScreen('screen-loading');
-      const _sc = document.querySelector('#screen-loading .screen-content');
-      if (_sc) _sc.scrollTop = 0;
+      const _sl = document.getElementById('screen-loading');
+      if (_sl) _sl.scrollTop = 0;
       loadNicolePhoto();
       return;
     }
@@ -2538,8 +2528,8 @@ function displayResults() {
   }
 
   showScreen('screen-loading');
-  const _sc = document.querySelector('#screen-loading .screen-content');
-  if (_sc) _sc.scrollTop = 0;
+  const _sl = document.getElementById('screen-loading');
+  if (_sl) _sl.scrollTop = 0;
   renderNicoleMessage();
   loadNicolePhoto();
 

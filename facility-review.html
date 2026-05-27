@@ -4526,6 +4526,8 @@ function displayResults(summary) {
   
   // Show the results screen (showScreen also clears the thinking overlay)
   showScreen('screen-loading');
+  const _slEl = document.getElementById('screen-loading');
+  if (_slEl) _slEl.scrollTop = 0;
   loadNicolePhoto();
 
   // Update button visibility based on remaining facility types
@@ -5168,10 +5170,20 @@ document.addEventListener('DOMContentLoaded', function () {
   #screen-asset-loading .screen-content,
   #screen-trade-loading .screen-content,
   #screen-fx-loading .screen-content,
-  #screen-loading .screen-content,
   #screen-results {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+  }
+  /* Results screen scrolls as a whole unit (like funding-finder #screen-results) */
+  #screen-loading {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+  #screen-loading .screen-content {
+    flex: none;
+    overflow-y: visible;
+    justify-content: flex-start;
   }
   #screen-results .screen-content {
     max-width: 100%;
@@ -5514,8 +5526,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (chk && saved.checkText) chk.textContent = saved.checkText;
     set('if-nicole-message', 'textContent', saved.nicoleMsg);
     showScreen('screen-loading');
-    const _sc = gq('#screen-loading .screen-content');
-    if (_sc) _sc.scrollTop = 0;
+    const _sl = g('screen-loading');
+    if (_sl) _sl.scrollTop = 0;
     const continueBtn = g('facility-next-review-btn');
     const homeBtn     = g('facility-home-btn');
     if (continueBtn) continueBtn.style.display = 'none';
