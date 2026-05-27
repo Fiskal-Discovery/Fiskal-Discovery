@@ -1122,7 +1122,7 @@ function showLarryCinematic(defeatedBosses,onDone){
   MUSIC.stop();
   setTimeout(()=>MUSIC.cinematic(),400);
   el.classList.add('active');el.style.pointerEvents='auto';
-  cin.classList.add('lc-active');
+  cin.style.display='';cin.classList.add('lc-active');
   document.getElementById('bomb-btn').style.display='none';
   startCinStars();
   // Static threat list — no dynamic population needed
@@ -1134,8 +1134,8 @@ const _LC_LAST=4;let _lcPanel=1;
 function _lcNext(panel){
   _lcPanel=panel;
   if(_lcRafId){cancelAnimationFrame(_lcRafId);_lcRafId=null;}
-  document.querySelectorAll('.lc-panel').forEach(p=>p.classList.remove('lc-show'));
-  const el=document.getElementById('lc-p'+panel);if(el)el.classList.add('lc-show');
+  document.querySelectorAll('.lc-panel').forEach(p=>{p.classList.remove('lc-show');p.style.display='none';});
+  const el=document.getElementById('lc-p'+panel);if(el){el.classList.add('lc-show');el.style.display='flex';}
   if(panel===3){_lcRunLarryAnim();}
   const b=document.getElementById('lc-top-banner');
   if(_lcBannerText[panel])_typewrite(b,_lcBannerText[panel]);else _typewriteClear(b);
