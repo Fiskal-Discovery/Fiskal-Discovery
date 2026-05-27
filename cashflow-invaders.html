@@ -1991,7 +1991,7 @@ function showBobbyCinematic(onDone){
   const _sb=document.getElementById('bobby-epic-sound');
   const _nx=document.getElementById('bobby-epic-nxt');
   nb.style.display='none';
-  // 6 scenes: 1=fireworks 2=Bobby defeated+kick 3=Fiskal quote 4=boss shatter 5=emotional copy 6=Fiskal brand
+  // 5 scenes: 1=fireworks 2=Bobby defeated+kick 3=Fiskal quote 4=boss shatter+copy 5=Fiskal brand
   let raf2,scene=1,st=performance.now(),nextReady=false;
   const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
   const easeOut=t=>1-Math.pow(1-t,3);
@@ -2028,7 +2028,7 @@ function showBobbyCinematic(onDone){
   function advanceScene(){
     if(!nextReady)return;
     nb.style.display='none';nextReady=false;
-    if(scene===6){
+    if(scene===5){
       cancelAnimationFrame(raf2);nb.style.display='none';
       let fo=0;
       (function fade(){fo=Math.min(1,fo+0.06);c.fillStyle=`rgba(0,0,0,${fo})`;c.fillRect(0,0,W,H);if(fo<1)requestAnimationFrame(fade);else{el.style.display='none';if(onDone)onDone();}})();
@@ -2242,43 +2242,36 @@ function showBobbyCinematic(onDone){
         }
       });
       c.globalAlpha=1;c.shadowBlur=0;c.textBaseline='alphabetic';
-      if(t>=S4_END&&!s4done){s4done=true;showNext();}
+      if(t>=S4_END){
+        if(!s4done)s4done=true;
+        const t5=t-S4_END;
+        const s5lines=[
+          {txt:'Refuse to stand still.',col:'#F4D03F',delay:0.5,fs:clamp(W*0.056,18,52),font:'bold %px "DM Sans",sans-serif',glow:true},
+          {txt:'Behind every business is a real person —',col:'#DDDDDD',delay:3.0,fs:clamp(W*0.038,14,36),font:'%px "DM Sans",sans-serif'},
+          {txt:'working hard, refusing to stop.',col:'#FFFFFF',delay:4.3,fs:clamp(W*0.044,16,42),font:'600 %px "DM Sans",sans-serif'},
+          {txt:"Some days you're pushing forward.",col:'#CCCCCC',delay:6.5,fs:clamp(W*0.038,14,36),font:'%px "DM Sans",sans-serif'},
+          {txt:"Some days you're just keeping pace.",col:'#AAAAAA',delay:7.8,fs:clamp(W*0.036,13,34),font:'%px "DM Sans",sans-serif'},
+          {txt:'Fiskal is here for both.',col:'#CC88FF',delay:10.2,fs:clamp(W*0.042,15,40),font:'600 %px "DM Sans",sans-serif'},
+          {txt:'Real people. Real solutions. Alongside you.',col:'#888888',delay:11.4,fs:clamp(W*0.032,12,30),font:'%px "DM Sans",sans-serif'},
+        ];
+        c.textAlign='center';
+        let yy=28;
+        s5lines.forEach(ln=>{
+          if(t5<ln.delay){yy+=ln.fs*1.5;return;}
+          const age=t5-ln.delay;
+          const shown=ln.txt.slice(0,Math.floor(age*30));
+          c.globalAlpha=Math.min(1,age/0.6);
+          c.fillStyle=ln.col;c.shadowColor=ln.glow?ln.col:'transparent';c.shadowBlur=ln.glow?18:0;
+          c.font=ln.font.replace('%',ln.fs);
+          c.fillText(shown,W/2,yy+ln.fs);
+          yy+=ln.fs*1.5;
+        });
+        c.globalAlpha=1;c.shadowBlur=0;
+      }
     }
 
-    // SCENE 5: Brand moment
+    // SCENE 5: Powered by Fiskal
     else if(scene===5){
-      c.textAlign='center';
-      const s5lines=[
-        {txt:'Refuse to stand still.',col:'#F4D03F',delay:0.5,fs:clamp(W*0.056,18,52),font:'bold %px "DM Sans",sans-serif',glow:true},
-        {txt:'Behind every business is a real person —',col:'#DDDDDD',delay:3.0,fs:clamp(W*0.038,14,36),font:'%px "DM Sans",sans-serif'},
-        {txt:'working hard, refusing to stop.',col:'#FFFFFF',delay:4.3,fs:clamp(W*0.044,16,42),font:'600 %px "DM Sans",sans-serif'},
-        {txt:"Some days you're pushing forward.",col:'#CCCCCC',delay:6.5,fs:clamp(W*0.038,14,36),font:'%px "DM Sans",sans-serif'},
-        {txt:"Some days you're just keeping pace.",col:'#AAAAAA',delay:7.8,fs:clamp(W*0.036,13,34),font:'%px "DM Sans",sans-serif'},
-        {txt:'Fiskal is here for both.',col:'#CC88FF',delay:10.2,fs:clamp(W*0.042,15,40),font:'600 %px "DM Sans",sans-serif'},
-        {txt:'Real people. Real solutions. Alongside you.',col:'#888888',delay:11.4,fs:clamp(W*0.032,12,30),font:'%px "DM Sans",sans-serif'},
-        {txt:"Wherever you're going next…",col:'#FFFFFF',delay:13.8,fs:clamp(W*0.038,14,36),font:'%px "DM Sans",sans-serif'},
-        {txt:"we'll help you get there.",col:'#F4D03F',delay:15.0,fs:clamp(W*0.052,18,50),font:'600 %px "DM Sans",sans-serif',glow:true},
-      ];
-      const totalH=s5lines.reduce((s,l)=>s+l.fs*2.0,0);
-      let yy=H/2-totalH/2;
-      s5lines.forEach(ln=>{
-        if(t<ln.delay){yy+=ln.fs*2.0;return;}
-        const age=t-ln.delay;
-        const shown=ln.txt.slice(0,Math.floor(age*30));
-        c.globalAlpha=Math.min(1,age/0.6);
-        c.fillStyle=ln.col;
-        c.shadowColor=ln.glow?ln.col:'transparent';
-        c.shadowBlur=ln.glow?18:0;
-        c.font=ln.font.replace('%',ln.fs);
-        c.fillText(shown,W/2,yy+ln.fs);
-        yy+=ln.fs*2.0;
-      });
-      c.globalAlpha=1;c.shadowBlur=0;
-      if(t>17.0)showNext();
-    }
-
-    // SCENE 6: Powered by Fiskal
-    else if(scene===6){
       c.textAlign='center';c.textBaseline='alphabetic';
       // POWERED BY — small, white, subtle
       const pbP=clamp(t/0.45,0,1);
