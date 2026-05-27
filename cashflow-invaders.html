@@ -1165,6 +1165,18 @@ function _lcRunLarryAnim(){
     if(phase===1 && e>1){
       phase=2;phaseStart=now;
       invoiceStarted=true;
+      if(!_sfxMuted){
+        const _wh=new Audio('assets/floraphonic-cartoon-slide-whistle-down-2-176648.mp3');
+        _wh.volume=0.8;
+        _wh.onloadedmetadata=()=>{
+          // Impact time: solve -docH + (H+docH)*(prog²+prog)/2 = ly - docH*0.3, fall duration = 4s
+          const _r=2*(H*0.54+docH*0.7)/(H+docH);
+          const _impact=(-1+Math.sqrt(1+4*_r))/2*4;
+          const _delay=Math.max(0,(_impact-0.08-_wh.duration)*1000);
+          setTimeout(()=>_wh.play().catch(()=>{}),_delay);
+        };
+        _wh.load();
+      }
     }
     if(phase===2){
       // Invoice descends slowly over ~4s — use fresh elapsed() so phase transition in same tick doesn't skip
