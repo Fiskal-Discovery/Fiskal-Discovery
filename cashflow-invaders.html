@@ -1128,6 +1128,8 @@ function showLarryCinematic(defeatedBosses,onDone){
   el.classList.add('active');el.style.pointerEvents='auto';
   cin.style.display='';cin.classList.add('lc-active');
   document.getElementById('bomb-btn').style.display='none';
+  document.getElementById('dev-skip-btn').style.display='none';
+  document.getElementById('work-mode-btn').style.display='none';
   startCinStars();
   // Static threat list — no dynamic population needed
   window._lcOnDone=onDone;
@@ -1516,6 +1518,7 @@ spawnWave(4);updateHUD();updateTargetHUD();requestAnimationFrame(()=>{resizeCanv
 function quitGame(){stopGame();stopFaviconAnimation();showScreen('start-screen')}
 function skipWave(){
   if(!G||G.dead||paused)return;
+  if(document.getElementById('larry-cin').classList.contains('lc-active'))return;
   G.lives=3;G.hullDamage=0;G.playerInv=120;G.bombs=Math.max(G.bombs,1);useBomb();
   if(G.boss){
     if(G.boss.bobby){
