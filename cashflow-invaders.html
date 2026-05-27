@@ -1133,9 +1133,10 @@ let _lcRafId=null;
 const _LC_LAST=4;let _lcPanel=1;
 function _lcNext(panel){
   _lcPanel=panel;
+  if(_lcRafId){cancelAnimationFrame(_lcRafId);_lcRafId=null;}
   document.querySelectorAll('.lc-panel').forEach(p=>p.classList.remove('lc-show'));
   const el=document.getElementById('lc-p'+panel);if(el)el.classList.add('lc-show');
-  if(panel===3){if(_lcRafId){cancelAnimationFrame(_lcRafId);_lcRafId=null;}_lcRunLarryAnim();}
+  if(panel===3){_lcRunLarryAnim();}
   const b=document.getElementById('lc-top-banner');
   if(_lcBannerText[panel])_typewrite(b,_lcBannerText[panel]);else _typewriteClear(b);
   _cinNavSync('lc-bb-back','lc-bb-next',panel,_LC_LAST,_LC_NEXT_TEXT);
