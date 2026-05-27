@@ -66,7 +66,7 @@
 .cin-bottom-bar .cin-sound{background:rgba(255,255,255,.05);color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.35)}
 .cin-bottom-bar .cin-sound:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.55)}
 .cin-bottom-bar .cin-sound.muted{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.02)}
-.ic-act-slam{font-family:'Press Start 2P',monospace;font-size:clamp(3.2rem,16vw,7rem);color:#FFE600;text-shadow:0 0 28px #FFE600,0 0 60px rgba(255,230,0,.55),0 0 110px rgba(255,140,0,.35);line-height:1;letter-spacing:.06em;transform:scale(1);opacity:1}
+.ic-act-slam{font-family:'Press Start 2P',monospace;font-size:clamp(2rem,9vw,4rem);color:#FFE600;text-shadow:0 0 28px #FFE600,0 0 60px rgba(255,230,0,.55),0 0 110px rgba(255,140,0,.35);line-height:1;letter-spacing:.06em;transform:scale(1);opacity:1}
 .ic-act-slam.act2{color:#FF4422;text-shadow:0 0 28px #FF4422,0 0 60px rgba(255,68,34,.55),0 0 120px rgba(255,30,0,.4)}
 .ic-act-slam.slam{animation:icActSlam .7s cubic-bezier(.22,.61,.36,1) both}
 @keyframes icActSlam{0%{transform:scale(7);opacity:0;filter:blur(6px)}55%{transform:scale(.85);opacity:1;filter:blur(0)}72%{transform:scale(1.1)}86%{transform:scale(.96)}100%{transform:scale(1)}}
@@ -441,8 +441,8 @@ function stopFaviconAnimation() {
     <div class="lc-body" style="max-width:500px;margin-top:8px">Fiskal has the intelligence. You have the firepower. Hunt down every financial predator, collect the cash they stole, and protect your business. Survive ten waves, defeat Larry — and uncover what's waiting in Act II.</div>
   </div>
   <div class="ic-panel" id="ic-p4" style="display:none">
-    <div class="ic-act-slam">ACT I</div>
-    <div class="lc-body" style="color:#AA88FF;margin-top:18px;font-size:clamp(.7rem,2.4vw,.95rem);line-height:1.8">The battle for financial freedom starts now.</div>
+    <div class="ic-act-slam">ACT 1</div>
+    <div class="lc-body" style="color:#AA88FF;margin-top:18px;font-size:clamp(.7rem,2.4vw,.95rem);line-height:1.8;letter-spacing:.05em;text-align:center">The battle for financial freedom starts now...</div>
   </div>
   </div>
   <div class="cin-bottom-bar">
@@ -527,9 +527,9 @@ function stopFaviconAnimation() {
     </div>
     <div id="upgrade-ready" style="display:none"></div>
     <div id="act2-slam-screen" style="display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px;background:radial-gradient(ellipse at center,#1a0008 0%,#000 100%);z-index:30;text-align:center">
-      <div class="ic-act-slam act2">ACT II</div>
-      <div class="lc-body" style="color:#FF6644;margin-top:18px;font-size:clamp(.7rem,2.4vw,.95rem);line-height:1.8;letter-spacing:.05em;text-align:center">The bailiff is coming.</div>
-      <button class="lc-next" id="act2-begin-btn" style="margin-top:24px;background:rgba(255,68,34,.18);color:#FF6644;border-color:#FF6644;box-shadow:0 0 20px rgba(255,68,34,.4)">▶ BEGIN ACT II</button>
+      <div class="ic-act-slam act2">ACT 2</div>
+      <div class="lc-body" style="color:#FF6644;margin-top:18px;font-size:clamp(.7rem,2.4vw,.95rem);line-height:1.8;letter-spacing:.05em;text-align:center">The bailiff has arrived. This ends on your terms.</div>
+      <button class="lc-next" id="act2-begin-btn" style="margin-top:24px;background:rgba(255,68,34,.18);color:#FF6644;border-color:#FF6644;box-shadow:0 0 20px rgba(255,68,34,.4)">▶ BEGIN ACT 2</button>
     </div>
   </div>
   <canvas id="canvas"></canvas>
