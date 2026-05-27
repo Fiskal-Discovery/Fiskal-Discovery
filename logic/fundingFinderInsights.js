@@ -154,6 +154,8 @@ function getBusinessLoanInsight(answers, businessName) {
     para += ` Credit history doesn't automatically rule this out — there are lenders who look at the whole picture, not just a score.`;
   }
 
+  para += ` Before committing to a fixed loan, it's also worth comparing with a Revolving Credit Facility — a credit line that only costs when you draw from it, with no fixed repayments on funds sitting idle. For businesses where cash needs vary month to month, it can work out considerably cheaper long term.`;
+
   return para;
 }
 

@@ -9,7 +9,7 @@ function getLoanPurposeInsight(purpose, businessName) {
 
   if (p.includes('working capital') || p.includes('cashflow') || p.includes('cash flow')
       || p.includes('day to day') || p.includes('wages') || p.includes('suppliers')) {
-    return `Because the funding is for working capital, a loan may be one option to explore. It could give ${name} extra breathing room for day-to-day cashflow. It may also be worth looking at whether there are longer-term ways to keep cash moving more consistently rather than simply adding another repayment.`;
+    return `Because the funding is for working capital, a loan may be one option — but two alternatives are often a better long-term fit. A Revolving Credit Facility only costs money when you draw from it, with no fixed repayments when it's not needed; for ongoing cash needs it's typically more cost-effective than a fixed loan. If ${name} raises invoices to other businesses, Invoice Finance can release that cash within 24 hours rather than waiting 30–90 days — secured against the invoices themselves, not the business.`;
   }
 
   if (p.includes('equipment') || p.includes('machinery') || p.includes('vehicle')

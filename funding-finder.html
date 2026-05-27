@@ -3487,6 +3487,30 @@ function displayResults(summary, matchedProducts) {
     if (fa.acquisition === 'Yes' || fa.acquisition === "Not right now but it's on my radar") {
       msgs.push({ title: 'Acquisition / buyout', body: "Acquiring a business is more achievable than most people think. An unencumbered sales ledger can be funded via invoice finance to generate purchase cash, and assets within the target business can often be refinanced to contribute toward the sale price." });
     }
+
+    // Loan alternatives — only fire when loan is matched but no other primary product is
+    const primaryProducts = ['invoice', 'trade', 'asset', 'revolving', 'property', 'mca'];
+    const hasPrimaryProduct = matchedProducts.some(p => primaryProducts.includes(p));
+    if (matchedProducts.includes('loan') && !hasPrimaryProduct) {
+      const invLink = (typeof fundingLinks !== 'undefined' && fundingLinks['Invoice Finance']) || 'https://www.fiskal.online/funding-products#invoice-finance';
+      const asLink  = (typeof fundingLinks !== 'undefined' && fundingLinks['Asset Finance'])   || 'https://www.fiskal.online/funding-products#asset-finance';
+      const tfLink  = (typeof fundingLinks !== 'undefined' && fundingLinks['Trade Finance'])   || 'https://www.fiskal.online/funding-products#trade-finance';
+      const rcLink  = (typeof fundingLinks !== 'undefined' && fundingLinks['Revolving Credit Facility']) || 'https://www.fiskal.online/funding-products#revolving-credit';
+
+      const alts = [];
+      if (fa.invoiceFinance !== 'No')
+        alts.push('<strong><a href="' + invLink + '" target="_blank" rel="noopener noreferrer" style="color:var(--col-gold);text-decoration:underline">Invoice Finance</a></strong> — release cash tied in unpaid invoices within 24 hours. No fixed repayments, no security required.');
+      if (fa.assetFinance !== 'No')
+        alts.push('<strong><a href="' + asLink + '" target="_blank" rel="noopener noreferrer" style="color:var(--col-gold);text-decoration:underline">Asset Finance</a></strong> — better structured than a loan for equipment, vehicles or machinery. Secured against the asset, not the business.');
+      if (fa.tradeFinance !== 'No' && fa.tradeFinance !== "I don't buy from suppliers")
+        alts.push('<strong><a href="' + tfLink + '" target="_blank" rel="noopener noreferrer" style="color:var(--col-gold);text-decoration:underline">Trade Finance</a></strong> — pay suppliers upfront without using your own capital. Supplier discounts often offset the cost entirely.');
+      alts.push('<strong><a href="' + rcLink + '" target="_blank" rel="noopener noreferrer" style="color:var(--col-gold);text-decoration:underline">Revolving Credit Facility</a></strong> — only costs money when you draw from it. No fixed repayments on funds sitting unused. Often cheaper long term than a fixed loan.');
+
+      if (alts.length) {
+        msgs.push({ title: 'Loan alternatives — worth knowing', body: 'A loan is one route — but depending on what the funding actually needs to do, these may be cheaper or more flexible:<br><br>' + alts.join('<br><br>') });
+      }
+    }
+
     if (msgs.length) {
       specialSection.innerHTML =
         `<div class="awk-divider">Also worth knowing</div>

@@ -1476,6 +1476,18 @@
         <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Invoice Finance — Worth Considering</p>
         <p id="invoice-finance-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
       </div>
+      <div id="asset-finance-suggestion" style="display:none;margin-top:12px;max-width:560px;margin-left:auto;margin-right:auto;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:18px 20px;text-align:left">
+        <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Asset Finance — Worth Considering</p>
+        <p id="asset-finance-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
+      </div>
+      <div id="trade-finance-suggestion" style="display:none;margin-top:12px;max-width:560px;margin-left:auto;margin-right:auto;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:18px 20px;text-align:left">
+        <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Trade Finance — Worth Considering</p>
+        <p id="trade-finance-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
+      </div>
+      <div id="revolving-credit-suggestion" style="display:none;margin-top:12px;max-width:560px;margin-left:auto;margin-right:auto;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:18px 20px;text-align:left">
+        <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Revolving Credit — Often Cheaper Long Term</p>
+        <p id="revolving-credit-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
+      </div>
     </div>
     <div id="homeowner-note" style="display:none;margin:0 8px 16px;padding:14px 18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;"></div>
     <div class="ai-summary">
@@ -2540,18 +2552,45 @@ function displayResults(summaryResult, tl) {
     }
   }
 
-  // Invoice finance suggestion (weak score + invoices B2B)
+  // Invoice finance — show for all B2B invoicers
   const ifSuggestion = document.getElementById('invoice-finance-suggestion');
   const ifText = document.getElementById('invoice-finance-suggestion-text');
   const tlScore = tl ? tl.score : 0;
-  if (ifSuggestion && ifText && state.invoicesB2B === 'yes' && tlScore <= 0) {
+  if (ifSuggestion && ifText && state.invoicesB2B === 'yes') {
     const ifAmt = (typeof calcInvoiceFinanceAmount === 'function')
       ? calcInvoiceFinanceAmount(state.turnover, state.paymentTermsDays)
       : 0;
     const days = state.paymentTermsDays || '30';
     const amtStr = ifAmt ? ` — based on your turnover and ${days}-day payment terms, you could potentially release around £${ifAmt.toLocaleString('en-GB')}` : '';
-    ifText.textContent = `If you don't already have an invoice finance facility in place, it could be worth considering as an alternative or alongside a loan${amtStr}. Invoice finance can also be easier to access than a traditional loan as it's secured against your own invoices rather than your credit history.`;
+    ifText.textContent = `If you don't already have an invoice finance facility in place, it could be worth considering as an alternative or alongside a loan${amtStr}. Invoice finance can be easier to access than a traditional loan as it's secured against your own invoices rather than your credit history, with funds available within 24 hours of invoicing.`;
     ifSuggestion.style.display = 'block';
+  }
+
+  // Asset finance — show if purpose includes equipment / vehicles
+  const afSuggestion = document.getElementById('asset-finance-suggestion');
+  const afText = document.getElementById('asset-finance-suggestion-text');
+  const purposeLower = (state.purpose || '').toLowerCase();
+  const hasEquipmentPurpose = ['equipment', 'vehicle', 'machinery', 'machine', 'plant', 'truck', 'van', 'lorry', 'tool', 'racking', 'fitout', 'fit-out', 'refrigerat', 'installation'].some(kw => purposeLower.includes(kw));
+  if (afSuggestion && afText && hasEquipmentPurpose) {
+    afText.textContent = `Because the funding is for equipment or vehicles, Asset Finance is worth comparing alongside a business loan. It's secured against the asset itself rather than the business — which often means more competitive terms and easier approval. The asset works for you from day one while you're still paying for it, and decisions typically come back within 24–48 hours.`;
+    afSuggestion.style.display = 'block';
+  }
+
+  // Trade finance — show if purpose includes stock / trade purchases
+  const tfSuggestion = document.getElementById('trade-finance-suggestion');
+  const tfText = document.getElementById('trade-finance-suggestion-text');
+  const hasStockPurpose = ['stock', 'trade purchase', 'inventory', 'goods', 'import', 'merchandise', 'materials', 'supplier'].some(kw => purposeLower.includes(kw));
+  if (tfSuggestion && tfText && hasStockPurpose) {
+    tfText.textContent = `Because the funding is for stock or trade purchases, Trade Finance is worth comparing with a standard business loan. Trade Finance lets you pay suppliers upfront — paying like a cash buyer without tying up your own capital. Early payment discounts from suppliers typically run at 2–5% and often offset the cost of the facility entirely.`;
+    tfSuggestion.style.display = 'block';
+  }
+
+  // Revolving credit — always worth comparing against a fixed loan
+  const rcSuggestion = document.getElementById('revolving-credit-suggestion');
+  const rcText = document.getElementById('revolving-credit-suggestion-text');
+  if (rcSuggestion && rcText) {
+    rcText.textContent = `Before committing to a fixed loan, a Revolving Credit Facility is worth comparing. It only costs money when you draw from it — no fixed monthly repayments on funds you're not using. For businesses where cash needs vary month to month, it can work out considerably cheaper long term. Once set up, drawdowns are available same or next day.`;
+    rcSuggestion.style.display = 'block';
   }
 
   // Summary
