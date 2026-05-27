@@ -1207,15 +1207,13 @@
     color: #ffffff !important;
   }
 
-  #screen-results {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+  #screen-loading .screen-content {
+    padding-bottom: 80px;
   }
-  #screen-results .screen-content {
-    max-width: 100%;
-    padding: 20px 40px 24px;
-    overflow-y: visible;
-    flex: none;
+  @media (max-width: 600px) {
+    #screen-loading .screen-content {
+      padding-bottom: 80px !important;
+    }
   }
   @media (max-width: 600px) {
     .bg-orb { display: none; }
@@ -2412,9 +2410,6 @@ function submitDiscovery() {
   var _spFirst = (_spProfile.name || '').trim().split(/\s+/)[0] || '';
   showFiskalLoadingScreen(_spFirst, function() {
     displayResults();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    const resultsEl = document.getElementById('screen-results');
-    if (resultsEl) resultsEl.scrollTop = 0;
   });
 }
 
@@ -2514,7 +2509,8 @@ function displayResults() {
   }
 
   showScreen('screen-loading');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const _sc = document.querySelector('#screen-loading .screen-content');
+  if (_sc) _sc.scrollTop = 0;
   renderNicoleMessage();
   loadNicolePhoto();
 
