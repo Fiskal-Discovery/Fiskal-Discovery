@@ -2476,12 +2476,7 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
     try{_pbAudioCtx=new(window.AudioContext||window.webkitAudioContext)();_pbMasterGain=_pbAudioCtx.createGain();_pbMasterGain.gain.value=0.5;_pbMasterGain.connect(_pbAudioCtx.destination);}catch(e){}
   }
   function _pbPlayLaser(){
-    if(!_pbAudioCtx)return;
-    const t=_pbAudioCtx.currentTime;
-    const o=_pbAudioCtx.createOscillator();const g=_pbAudioCtx.createGain();
-    o.type='square';o.frequency.setValueAtTime(1200,t);o.frequency.exponentialRampToValueAtTime(80,t+.12);
-    g.gain.setValueAtTime(.15,t);g.gain.exponentialRampToValueAtTime(.001,t+.13);
-    o.connect(g).connect(_pbMasterGain);o.start(t);o.stop(t+.13);
+    try{const s=new Audio('assets/chakong-laser-gun-shot-sound-future-sci-fi-lazer-wobble-chakongaudio-174883.mp3');s.volume=0.55;s.play().catch(()=>{});}catch(e){}
   }
   function _pbPlayHit(){
     if(!_pbAudioCtx)return;
@@ -2498,28 +2493,7 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
     o.connect(g2).connect(_pbMasterGain);o.start(t);o.stop(t+.12);
   }
   function _pbPlayExplosion(){
-    if(!_pbAudioCtx)return;
-    const t=_pbAudioCtx.currentTime;
-    // main noise burst
-    const bufLen=Math.floor(_pbAudioCtx.sampleRate*2);
-    const buf=_pbAudioCtx.createBuffer(1,bufLen,_pbAudioCtx.sampleRate);
-    const d=buf.getChannelData(0);for(let i=0;i<bufLen;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/bufLen,1.8);
-    const src=_pbAudioCtx.createBufferSource();src.buffer=buf;
-    const lp=_pbAudioCtx.createBiquadFilter();lp.type='lowpass';lp.frequency.setValueAtTime(3000,t);lp.frequency.exponentialRampToValueAtTime(80,t+2);
-    const g=_pbAudioCtx.createGain();g.gain.setValueAtTime(.85,t);g.gain.exponentialRampToValueAtTime(.001,t+2);
-    src.connect(lp).connect(g).connect(_pbMasterGain);src.start(t);
-    // sub thud
-    const sub=_pbAudioCtx.createOscillator();const subG=_pbAudioCtx.createGain();
-    sub.frequency.setValueAtTime(80,t);sub.frequency.exponentialRampToValueAtTime(20,t+.8);
-    subG.gain.setValueAtTime(1.0,t);subG.gain.exponentialRampToValueAtTime(.001,t+1);
-    sub.connect(subG).connect(_pbMasterGain);sub.start(t);sub.stop(t+1);
-    // rumble
-    const rum=_pbAudioCtx.createOscillator();const rumG=_pbAudioCtx.createGain();
-    rum.type='sawtooth';rum.frequency.setValueAtTime(150,t);rum.frequency.exponentialRampToValueAtTime(30,t+1.5);
-    rumG.gain.setValueAtTime(.3,t);rumG.gain.exponentialRampToValueAtTime(.001,t+1.5);
-    rum.connect(rumG).connect(_pbMasterGain);rum.start(t);rum.stop(t+1.5);
-    // crackles
-    for(let i=0;i<10;i++){setTimeout(()=>{if(!_pbAudioCtx)return;const ct=_pbAudioCtx.currentTime;const oc=_pbAudioCtx.createOscillator();const og=_pbAudioCtx.createGain();oc.type='square';oc.frequency.value=150+Math.random()*600;og.gain.setValueAtTime(.1,ct);og.gain.exponentialRampToValueAtTime(.001,ct+.06);oc.connect(og).connect(_pbMasterGain);oc.start(ct);oc.stop(ct+.06);},150+i*170+Math.random()*80);}
+    try{const s=new Audio('assets/freesound_community-052168_huge-explosion-85199.mp3');s.volume=0.85;s.play().catch(()=>{});}catch(e){}
   }
   function _pbPlayWhoosh(){
     if(!_pbAudioCtx)return;
