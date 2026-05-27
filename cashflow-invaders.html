@@ -2472,10 +2472,10 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
   let _pbAudioCtx=null,_pbMasterGain=null;
   function _pbInitAudio(){
     if(_pbAudioCtx){if(_pbAudioCtx.state==='suspended')_pbAudioCtx.resume();return;}
-    try{_pbAudioCtx=new(window.AudioContext||window.webkitAudioContext)();_pbMasterGain=_pbAudioCtx.createGain();_pbMasterGain.gain.value=0.5;_pbMasterGain.connect(_pbAudioCtx.destination);}catch(e){}
+    try{_pbAudioCtx=new(window.AudioContext||window.webkitAudioContext)();_pbMasterGain=_pbAudioCtx.createGain();_pbMasterGain.gain.value=1.0;_pbMasterGain.connect(_pbAudioCtx.destination);}catch(e){}
   }
   function _pbPlayLaser(){
-    try{const s=new Audio('assets/chakong-laser-gun-shot-sound-future-sci-fi-lazer-wobble-chakongaudio-174883.mp3');s.volume=0.55;s.play().catch(()=>{});}catch(e){}
+    try{const s=new Audio('assets/chakong-laser-gun-shot-sound-future-sci-fi-lazer-wobble-chakongaudio-174883.mp3');s.volume=1.0;s.play().catch(()=>{});}catch(e){}
   }
   function _pbPlayHit(){
     if(!_pbAudioCtx)return;
@@ -2492,7 +2492,7 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
     o.connect(g2).connect(_pbMasterGain);o.start(t);o.stop(t+.12);
   }
   function _pbPlayExplosion(){
-    try{const s=new Audio('assets/freesound_community-052168_huge-explosion-85199.mp3');s.volume=0.85;s.play().catch(()=>{});}catch(e){}
+    try{const s=new Audio('assets/freesound_community-052168_huge-explosion-85199.mp3');s.volume=1.0;s.play().catch(()=>{});}catch(e){}
   }
   function _pbPlayWhoosh(){
     if(!_pbAudioCtx)return;
