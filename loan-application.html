@@ -1782,7 +1782,12 @@ function skipCurrentScreen() {
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById(id);
-  if (el) { el.classList.add('active'); window.scrollTo(0,0); }
+  if (el) {
+    el.classList.add('active');
+    window.scrollTo(0,0);
+    const sc = el.querySelector('.screen-content');
+    if (sc) sc.scrollTop = 0;
+  }
 }
 
 function goBackFromQ9() {

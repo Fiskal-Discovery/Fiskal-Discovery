@@ -3415,6 +3415,8 @@ function showScreen(id) {
     // Clear any highlighted single-choice answers on the incoming screen
     el.querySelectorAll('.answer-btn.selected').forEach(b => b.classList.remove('selected'));
     window.scrollTo(0,0);
+    var sc = el.querySelector('.screen-content');
+    if (sc) sc.scrollTop = 0;
   }
 }
 

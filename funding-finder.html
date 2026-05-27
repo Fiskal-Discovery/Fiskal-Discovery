@@ -3240,6 +3240,8 @@ function showScreen(id) {
   if (el) {
     el.classList.add('active');
     window.scrollTo(0, 0);
+    const sc = el.querySelector('.screen-content');
+    if (sc) sc.scrollTop = 0;
   }
 }
 
