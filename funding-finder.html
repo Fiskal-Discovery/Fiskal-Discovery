@@ -3544,6 +3544,26 @@ function displayResults(summary, matchedProducts) {
   const chartsSection = document.getElementById('charts-section');
   if (chartsSection && typeof getFundingChartHtml === 'function') {
     chartsSection.innerHTML = getFundingChartHtml(matchedProducts, state);
+    // Loop each chart: restart after its full cycle completes + 5 s pause
+    chartsSection.querySelectorAll('.chart-wrap').forEach(function(wrap) {
+      var sel = '.fade-in,.grow-up,.grow-right,.slide-up,.draw,.flow-icon,.step-txt,.actor-pulse';
+      var els = Array.from(wrap.querySelectorAll(sel));
+      if (!els.length) return;
+      var maxDelay = 0;
+      els.forEach(function(el) {
+        var d = parseFloat(getComputedStyle(el).animationDelay) || 0;
+        if (d > maxDelay) maxDelay = d;
+      });
+      var cycle = Math.ceil((maxDelay + 1.8) * 1000) + 5000;
+      (function loop() {
+        setTimeout(function() {
+          els.forEach(function(el) { el.style.animationName = 'none'; });
+          void wrap.offsetWidth;
+          els.forEach(function(el) { el.style.animationName = ''; });
+          loop();
+        }, cycle);
+      }());
+    });
   }
 
   showScreen('results');
