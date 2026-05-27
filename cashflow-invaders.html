@@ -979,7 +979,7 @@ function showLarryCinematic(defeatedBosses,onDone){
   // Stop gameplay loop and switch music immediately
   if(rafId){cancelAnimationFrame(rafId);rafId=null;}
   MUSIC.stop();
-  setTimeout(()=>MUSIC.cinematic2(),400);
+  setTimeout(()=>MUSIC.cinematic(),400);
   el.classList.add('active');el.style.pointerEvents='auto';
   cin.classList.add('lc-active');
   document.getElementById('bomb-btn').style.display='none';
