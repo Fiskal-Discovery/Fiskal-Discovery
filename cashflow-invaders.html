@@ -1850,7 +1850,10 @@ function runTests(){console.assert(ALIEN_TYPES.length===3,'aliens available');co
 renderPreviewAliens();runTests();updatePersonalBest();drawWantedPoster();
 document.getElementById('pause-btn').addEventListener('click',togglePause);document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-quit-pause').addEventListener('click',quitGame);document.getElementById('quit-btn').addEventListener('click',quitGame);document.getElementById('btn-start').addEventListener('click',showIntroCin);
 function showIntroCin(){const el=document.getElementById('intro-cin');el.classList.add('ic-active');try{MUSIC.warm();MUSIC.cinematic();}catch(e){}_icNext(1);startCinStars();}
-function _typewrite(el,text){if(!el)return;if(el._tt){clearInterval(el._tt);el._tt=null;}el.textContent='';el.classList.add('typing');try{getAudio();}catch(e){}let i=0;el._tt=setInterval(()=>{if(i>=text.length){clearInterval(el._tt);el._tt=null;setTimeout(()=>el.classList.remove('typing'),900);return;}const ch=text.charAt(i);el.textContent+=ch;if(ch!==' ')noise(.024,.05,4200+Math.random()*1600);i++;},55);}
+let _twBuf=null;
+(function(){try{fetch('assets/magiaz-typewriter-454790.mp3').then(r=>r.arrayBuffer()).then(ab=>{try{getAudio().decodeAudioData(ab,b=>{_twBuf=b;})}catch(e){}}).catch(()=>{});}catch(e){}})();
+function _twClick(){if(_sfxMuted)return;try{if(_twBuf){const ac=getAudio();const src=ac.createBufferSource();src.buffer=_twBuf;const g=ac.createGain();g.gain.value=0.8;src.connect(g);g.connect(ac.destination);src.start();src.stop(ac.currentTime+0.09);}else{noise(.024,.05,4200+Math.random()*1600);}}catch(e){}}
+function _typewrite(el,text){if(!el)return;if(el._tt){clearInterval(el._tt);el._tt=null;}el.textContent='';el.classList.add('typing');try{getAudio();}catch(e){}let i=0;el._tt=setInterval(()=>{if(i>=text.length){clearInterval(el._tt);el._tt=null;setTimeout(()=>el.classList.remove('typing'),900);return;}const ch=text.charAt(i);el.textContent+=ch;if(ch!==' ')_twClick();i++;},55);}
 function _typewriteClear(el){if(!el)return;if(el._tt){clearInterval(el._tt);el._tt=null;}el.textContent='';el.classList.remove('typing');}
 const _icBannerText={1:'FISKAL DISCOVERY INTELLIGENCE',2:'CONFIRMED HOSTILE ACTORS',3:'MISSION BRIEFING'};
 const _lcBannerText={1:'OPERATION CASHFLOW',4:'TRANSMISSION INCOMING'};
