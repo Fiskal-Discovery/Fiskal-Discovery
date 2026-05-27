@@ -1215,6 +1215,13 @@
       padding-bottom: 80px !important;
     }
   }
+  /* On mobile: contact card first so Nicole's details are visible without scrolling */
+  @media (max-width: 760px) {
+    #screen-loading .results-header            { order: 0; }
+    #screen-loading .nicole-contact-card       { order: 1; }
+    #screen-loading #shariah-invoice-suggestion { order: 2; }
+    #screen-loading .ai-summary                { order: 3; }
+  }
   @media (max-width: 600px) {
     .bg-orb { display: none; }
     .dashed-divider { font-size: 16px; gap: 8px; padding: 4px 24px; }
