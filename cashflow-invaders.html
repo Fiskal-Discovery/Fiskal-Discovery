@@ -1141,7 +1141,7 @@ function _lcNext(panel){
   _lcPanel=panel;
   if(_lcRafId){cancelAnimationFrame(_lcRafId);_lcRafId=null;}
   document.querySelectorAll('.lc-panel').forEach(p=>{p.classList.remove('lc-show');p.style.display='none';});
-  const el=document.getElementById('lc-p'+panel);if(el){el.classList.add('lc-show');el.style.display='flex';}
+  const el=document.getElementById('lc-p'+panel);if(el){el.style.display='flex';void el.offsetWidth;el.classList.add('lc-show');}
   if(panel===3){_lcRunLarryAnim();}
   const b=document.getElementById('lc-top-banner');
   if(_lcBannerText[panel])_typewrite(b,_lcBannerText[panel]);else _typewriteClear(b);
@@ -1167,7 +1167,7 @@ function _showAct2Slam(){
 function _lcDone(){
   const cin=document.getElementById('larry-cin');
   cin.classList.remove('lc-active');cin.style.display='none';
-  document.querySelectorAll('.lc-panel').forEach(p=>p.classList.remove('lc-show'));
+  document.querySelectorAll('.lc-panel').forEach(p=>{p.classList.remove('lc-show');p.style.display='none';});
   if(_lcRafId){cancelAnimationFrame(_lcRafId);_lcRafId=null;}
   _typewriteClear(document.getElementById('lc-top-banner'));
   MUSIC.stop();
@@ -1499,7 +1499,7 @@ function _doUpgradeAnnouncement(){
     },i*700+600));
   },3000);
 }
-function stopGame(){if(rafId)cancelAnimationFrame(rafId);rafId=null;if(victoryRafId)cancelAnimationFrame(victoryRafId);victoryRafId=null;if(tvRafId)cancelAnimationFrame(tvRafId);tvRafId=null;paused=false;screenShake=0;ctx.setTransform(1,0,0,1,0,0);const _sf=document.getElementById('screen-flash');if(_sf){clearTimeout(_sf._ft);clearTimeout(_sf._ft2);_sf.classList.remove('show');_sf.style.background='';_sf.style.display='none'}document.getElementById('pause-overlay').classList.remove('active');document.getElementById('victory-screen').classList.remove('active');document.getElementById('wave-clear-overlay').classList.remove('show');if(document.exitPointerLock&&document.pointerLockElement===canvas)document.exitPointerLock();MUSIC.stop();document.getElementById('target-hud').style.display='none';document.getElementById('work-mode-btn').style.display='none';document.getElementById('dev-skip-btn').style.display='none';document.getElementById('game-screen').classList.remove('advanced-hud');document.getElementById('upgrade-cinematic').classList.remove('active');const _a2s=document.getElementById('act2-slam-screen');if(_a2s)_a2s.style.display='none';const _lcin=document.getElementById('larry-cin');if(_lcin){_lcin.classList.remove('lc-active');_lcin.style.display='none';document.querySelectorAll('.lc-panel').forEach(p=>p.classList.remove('lc-show'));}if(_lcRafId){cancelAnimationFrame(_lcRafId);_lcRafId=null;}workModeActive=false;document.getElementById('work-mode-overlay').style.display='none';G=null}
+function stopGame(){if(rafId)cancelAnimationFrame(rafId);rafId=null;if(victoryRafId)cancelAnimationFrame(victoryRafId);victoryRafId=null;if(tvRafId)cancelAnimationFrame(tvRafId);tvRafId=null;paused=false;screenShake=0;ctx.setTransform(1,0,0,1,0,0);const _sf=document.getElementById('screen-flash');if(_sf){clearTimeout(_sf._ft);clearTimeout(_sf._ft2);_sf.classList.remove('show');_sf.style.background='';_sf.style.display='none'}document.getElementById('pause-overlay').classList.remove('active');document.getElementById('victory-screen').classList.remove('active');document.getElementById('wave-clear-overlay').classList.remove('show');if(document.exitPointerLock&&document.pointerLockElement===canvas)document.exitPointerLock();MUSIC.stop();document.getElementById('target-hud').style.display='none';document.getElementById('work-mode-btn').style.display='none';document.getElementById('dev-skip-btn').style.display='none';document.getElementById('game-screen').classList.remove('advanced-hud');document.getElementById('upgrade-cinematic').classList.remove('active');const _a2s=document.getElementById('act2-slam-screen');if(_a2s)_a2s.style.display='none';const _lcin=document.getElementById('larry-cin');if(_lcin){_lcin.classList.remove('lc-active');_lcin.style.display='none';document.querySelectorAll('.lc-panel').forEach(p=>{p.classList.remove('lc-show');p.style.display='none';});}if(_lcRafId){cancelAnimationFrame(_lcRafId);_lcRafId=null;}workModeActive=false;document.getElementById('work-mode-overlay').style.display='none';G=null}
 function resizeCanvas(){const hud=document.getElementById('hud');const headerH=document.body.classList.contains('playing-mobile')?0:document.querySelector('.fiskal-header').offsetHeight;const safeBottom=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom'))||0;canvas.width=Math.min(window.innerWidth,720);canvas.height=Math.max(300,window.innerHeight-headerH-hud.offsetHeight-document.getElementById('target-hud').offsetHeight-document.getElementById('game-topbar').offsetHeight-2-safeBottom);if(G&&G.player){G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x));G.player.y=canvas.height-40}}
 function updatePersonalBest(){
   const pb=localStorage.getItem('fiskal_ci_best_score');
