@@ -167,6 +167,10 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
 #pb-whiteout{position:absolute;inset:0;background:radial-gradient(circle at center,#fff 0%,#ffd700 30%,#ff6020 60%,transparent 90%);opacity:0;z-index:14;pointer-events:none}
 #pb-whiteout.flash{animation:pb-whiteout 1.2s ease-out forwards}
 @keyframes pb-whiteout{0%{opacity:0}8%{opacity:1}100%{opacity:0}}
+@keyframes pb-warpOut{0%{transform:scale(1);opacity:1;filter:brightness(1)}20%{transform:scale(1.02);filter:brightness(1.5)}100%{transform:scale(.008);opacity:0;filter:brightness(10) blur(14px)}}
+@keyframes ss-warpIn{0%{transform:scale(.008);opacity:0;filter:brightness(10) blur(14px)}35%{opacity:1;filter:brightness(2.5) blur(3px)}80%{transform:scale(1.04);filter:brightness(1.1) blur(0)}100%{transform:scale(1);filter:none}}
+#powered-by-screen.pb-warping-out{animation:pb-warpOut .55s ease-in forwards;transform-origin:center center}
+#start-screen.ss-warping-in{animation:ss-warpIn .55s ease-out forwards;transform-origin:center center}
 #pb-reveal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;z-index:13;pointer-events:none;width:max-content;text-align:center}
 #pb-reveal.show{animation:pb-revealFromInside 1.8s cubic-bezier(.2,.8,.3,1) forwards}
 @keyframes pb-revealFromInside{0%{opacity:0;transform:translate(-50%,-50%) scale(0);filter:brightness(5) blur(20px)}15%{opacity:1;transform:translate(-50%,-50%) scale(.3);filter:brightness(3) blur(8px)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15);filter:brightness(1.5) blur(0)}70%{opacity:1;transform:translate(-50%,-50%) scale(.95);filter:brightness(1) blur(0)}100%{opacity:1;transform:translate(-50%,-50%) scale(1);filter:brightness(1) blur(0)}}
@@ -2472,6 +2476,18 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
   const _pbTotalHits=9;
   let _pbRevealShown=false;let _pbRevealTime=0;
   let _pbAutoTimer=null;
+  let _pbTransitioning=false;
+  function _pbGoToStart(){
+    if(_pbTransitioning)return;_pbTransitioning=true;
+    clearTimeout(_pbAutoTimer);
+    document.getElementById('powered-by-screen').classList.add('pb-warping-out');
+    setTimeout(()=>{
+      showScreen('start-screen');
+      const ss=document.getElementById('start-screen');
+      ss.classList.add('ss-warping-in');
+      setTimeout(()=>ss.classList.remove('ss-warping-in'),600);
+    },520);
+  }
 
   let _pbAudioCtx=null,_pbMasterGain=null;
   function _pbInitAudio(){
@@ -2586,7 +2602,7 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
     pbPlayer.style.transition='left 0.7s ease-in, top 0.7s ease-in';pbPlayer.style.left='130%';pbPlayer.style.top='110%';setTimeout(()=>{pbPlayer.style.display='none';},750);
     setTimeout(()=>{
       pbReveal.classList.add('show');_pbRevealShown=true;_pbRevealTime=Date.now();
-      _pbAutoTimer=setTimeout(()=>showScreen('start-screen'),5000);
+      _pbAutoTimer=setTimeout(()=>_pbGoToStart(),5000);
     },600);
     setTimeout(()=>{pbWhiteout.classList.remove('flash');pbStage.classList.remove('pb-bigshake');},1400);
   }
@@ -2607,7 +2623,7 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
   },{passive:true});
 
   pbStage.addEventListener('click',()=>{
-    if(_pbRevealShown&&Date.now()-_pbRevealTime>2000){clearTimeout(_pbAutoTimer);showScreen('start-screen');return;}
+    if(_pbRevealShown&&Date.now()-_pbRevealTime>2000){_pbGoToStart();return;}
     if(!_pbStarted){
       _pbInitAudio();_pbStarted=true;
       pbTapPrompt.style.display='none';
