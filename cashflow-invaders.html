@@ -1149,6 +1149,7 @@ function _showAct2Slam(){
   el.style.pointerEvents='auto';
   const slam=screen.querySelector('.ic-act-slam');
   if(slam){slam.classList.remove('slam');void slam.offsetWidth;slam.classList.add('slam');}
+  try{const _as=new Audio('assets/freesound_community-army-rank-up-2-84543.mp3');_as.volume=1.0;_as.play().catch(()=>{});}catch(e){}
   document.getElementById('act2-begin-btn').onclick=()=>{
     el.style.pointerEvents='none';el.classList.remove('active');
     screen.style.display='none';
@@ -1860,7 +1861,7 @@ const _lcBannerText={1:'OPERATION CASHFLOW',4:'TRANSMISSION INCOMING'};
 const _IC_LAST=4;let _icPanel=1;
 const _IC_NEXT_TEXT={1:'NEXT ▶',2:'NEXT ▶',3:'NEXT ▶',4:'BEGIN ▶'};
 const _LC_NEXT_TEXT={1:'NEXT ▶',2:'NEXT ▶',3:'NEXT ▶',4:'UPGRADE SHIP ▶'};
-function _icNext(panel){_icPanel=panel;document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});const el=document.getElementById('ic-p'+panel);if(el){el.style.display='flex';el.classList.add('ic-show');}const b=document.getElementById('ic-top-banner');if(_icBannerText[panel])_typewrite(b,_icBannerText[panel]);else _typewriteClear(b);if(panel===4){const slam=document.querySelector('#ic-p4 .ic-act-slam');if(slam){slam.classList.remove('slam');void slam.offsetWidth;slam.classList.add('slam');}}_cinNavSync('ic-bb-back','ic-bb-next',panel,_IC_LAST,_IC_NEXT_TEXT);}
+function _icNext(panel){_icPanel=panel;document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});const el=document.getElementById('ic-p'+panel);if(el){el.style.display='flex';el.classList.add('ic-show');}const b=document.getElementById('ic-top-banner');if(_icBannerText[panel])_typewrite(b,_icBannerText[panel]);else _typewriteClear(b);if(panel===4){const slam=document.querySelector('#ic-p4 .ic-act-slam');if(slam){slam.classList.remove('slam');void slam.offsetWidth;slam.classList.add('slam');}try{const _as=new Audio('assets/freesound_community-army-rank-up-2-84543.mp3');_as.volume=1.0;_as.play().catch(()=>{});}catch(e){}}_cinNavSync('ic-bb-back','ic-bb-next',panel,_IC_LAST,_IC_NEXT_TEXT);}
 function _icBack(){if(_icPanel>1)_icNext(_icPanel-1);}
 function _icNextAction(){if(_icPanel<_IC_LAST)_icNext(_icPanel+1);else _icDone();}
 function _cinNavSync(backId,nextId,panel,last,texts){const bk=document.getElementById(backId),nx=document.getElementById(nextId);if(bk)bk.classList.toggle('hidden',panel<=1);if(nx&&texts)nx.textContent=texts[panel]||'NEXT ▶';}
