@@ -575,6 +575,7 @@
   }
   @media (max-width: 600px) {
     #screen-results .screen-content { padding: 16px 16px 24px; }
+    #suggestions-grid { grid-template-columns: 1fr !important; }
   }
   @media (max-width: 600px) {
     .bg-orb-1, .bg-orb-2 { display: none; }
@@ -1446,6 +1447,14 @@
       <h2 class="results-title">Your Fiskal Discovery is ready</h2>
       <p class="results-name" id="results-name">Here's what we found</p>
     </div>
+    <div class="ai-summary">
+      <div class="ai-summary-label" id="ai-summary-label">Here's what we discovered</div>
+      <p class="ai-summary-text" id="ai-summary-text">Analysing your application...</p>
+      <div style="text-align:center;margin-top:14px">
+        <button id="email-summary-btn" onclick="emailSummaryToUser()" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:12px;cursor:pointer;text-decoration:underline;padding:0;">Email this summary to me</button>
+        <p id="email-summary-feedback" style="font-size:12px;text-align:center;margin-top:6px;display:none;"></p>
+      </div>
+    </div>
     <div id="traffic-light-section" style="margin-bottom:20px;padding:0 8px">
       <div style="max-width:600px;margin:0 auto;">
         <!-- Bar spanning full width -->
@@ -1470,32 +1479,26 @@
           </div>
         </div>
       </div>
-      <div id="invoice-finance-suggestion" style="display:none;margin-top:20px;max-width:560px;margin-left:auto;margin-right:auto;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:18px 20px;text-align:left">
-        <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Invoice Finance — Worth Considering</p>
-        <p id="invoice-finance-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
-      </div>
-      <div id="asset-finance-suggestion" style="display:none;margin-top:12px;max-width:560px;margin-left:auto;margin-right:auto;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:18px 20px;text-align:left">
-        <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Asset Finance — Worth Considering</p>
-        <p id="asset-finance-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
-      </div>
-      <div id="trade-finance-suggestion" style="display:none;margin-top:12px;max-width:560px;margin-left:auto;margin-right:auto;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:18px 20px;text-align:left">
-        <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Trade Finance — Worth Considering</p>
-        <p id="trade-finance-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
-      </div>
-      <div id="revolving-credit-suggestion" style="display:none;margin-top:12px;max-width:560px;margin-left:auto;margin-right:auto;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:18px 20px;text-align:left">
-        <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Revolving Credit — Often Cheaper Long Term</p>
-        <p id="revolving-credit-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
+      <div id="suggestions-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;">
+        <div id="invoice-finance-suggestion" style="display:none;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:18px 20px;text-align:left">
+          <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Invoice Finance — Worth Considering</p>
+          <p id="invoice-finance-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
+        </div>
+        <div id="asset-finance-suggestion" style="display:none;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:18px 20px;text-align:left">
+          <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Asset Finance — Worth Considering</p>
+          <p id="asset-finance-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
+        </div>
+        <div id="trade-finance-suggestion" style="display:none;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:18px 20px;text-align:left">
+          <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Trade Finance — Worth Considering</p>
+          <p id="trade-finance-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
+        </div>
+        <div id="revolving-credit-suggestion" style="display:none;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:14px;padding:18px 20px;text-align:left">
+          <p style="font-size:11px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--col-gold);margin:0 0 8px">Revolving Credit — Often Cheaper Long Term</p>
+          <p id="revolving-credit-suggestion-text" style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0"></p>
+        </div>
       </div>
     </div>
     <div id="homeowner-note" style="display:none;margin:0 8px 16px;padding:14px 18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;"></div>
-    <div class="ai-summary">
-      <div class="ai-summary-label" id="ai-summary-label">Here's what we discovered</div>
-      <p class="ai-summary-text" id="ai-summary-text">Analysing your application...</p>
-      <div style="text-align:center;margin-top:14px">
-        <button id="email-summary-btn" onclick="emailSummaryToUser()" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:12px;cursor:pointer;text-decoration:underline;padding:0;">Email this summary to me</button>
-        <p id="email-summary-feedback" style="font-size:12px;text-align:center;margin-top:6px;display:none;"></p>
-      </div>
-    </div>
     <section class="nicole-contact-card" aria-label="Nicole Bertolissi contact card">
       <div class="nicole-photo-side">
         <div class="nicole-photo-wrap">
@@ -2567,7 +2570,7 @@ function displayResults(summaryResult, tl) {
   } else {
     const lowerStr = formatGBP(lending.lower);
     const upperStr = lending.upper >= 2000000 ? '£2,000,000+' : formatGBP(lending.upper);
-    if (rangeEl) rangeEl.textContent = `${lowerStr} – ${upperStr}`;
+    if (rangeEl) rangeEl.textContent = lending.lower === lending.upper ? lowerStr : `${lowerStr} – ${upperStr}`;
     let note = 'This is an indicative guide only and is not a guarantee of funding. Actual lending will depend on full assessment by the lender, verification of your details, and prevailing market conditions.';
     if (lending.caveat) note += ' This range reflects the current credit profile — Nicole will discuss what\'s realistic for your specific situation.';
     else note += ' Nicole will speak with you about what\'s realistic for your specific situation.';
