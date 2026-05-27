@@ -2036,7 +2036,7 @@ function showBobbyCinematic(onDone){
     }
     scene++;st=performance.now();
     if(scene===2){s2kicked=false;s2kickedAt=0;s2nextShown=false;}
-    if(scene===4){s4done=false;bExploded.fill(false);pile.length=0;lastFT=0;}
+    if(scene===4){s4done=false;bExploded.fill(false);pile.length=0;lastFT=0;showNext();}
     _bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';
   }
   _nx.onclick=advanceScene;
