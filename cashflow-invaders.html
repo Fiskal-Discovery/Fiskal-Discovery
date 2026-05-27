@@ -2579,7 +2579,7 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
     _pbPlayExplosion();
     pbWhiteout.classList.add('flash');pbStage.classList.add('pb-bigshake');pbAlien.classList.add('exploding');
     setTimeout(_pbMassiveExplosion,300);
-    pbPlayer.style.transition='all .8s ease-in';pbPlayer.style.left='130%';pbPlayer.style.top='50%';
+    pbPlayer.style.transition='left 0.7s ease-in, top 0.7s ease-in';pbPlayer.style.left='130%';pbPlayer.style.top='110%';setTimeout(()=>{pbPlayer.style.display='none';},750);
     setTimeout(()=>{
       pbReveal.classList.add('show');_pbRevealShown=true;_pbRevealTime=Date.now();
       _pbAutoTimer=setTimeout(()=>showScreen('start-screen'),5000);
