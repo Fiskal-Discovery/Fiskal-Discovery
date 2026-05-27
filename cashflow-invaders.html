@@ -177,6 +177,9 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
 @keyframes pb-shimmer{0%,100%{color:#ffd700}50%{color:#fff5a0}}
 #pb-reveal .pb-hint{font-family:'Press Start 2P',monospace;font-size:clamp(7px,1vw,13px);color:rgba(255,255,255,.45);letter-spacing:.2em;margin-top:1.8vw;white-space:nowrap;animation:pb-blinkHint 1s steps(1) infinite 3s;opacity:0}
 @keyframes pb-blinkHint{0%,50%{opacity:.45}51%,100%{opacity:0}}
+#pb-tap-prompt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:26;background:rgba(0,0,0,.15)}
+#pb-tap-prompt .pb-tap-text{font-family:'Press Start 2P',monospace;font-size:clamp(14px,2.5vw,30px);color:#ffd700;text-shadow:0 0 24px #ffd700,0 0 48px rgba(255,215,0,.5);letter-spacing:.18em;animation:pb-tapBlink .9s steps(1) infinite}
+@keyframes pb-tapBlink{0%,49%{opacity:1}50%,100%{opacity:.2}}
 #powered-by-screen .pb-vignette{position:absolute;inset:0;pointer-events:none;z-index:24;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.7) 100%)}
 #powered-by-screen .pb-scanlines{position:absolute;inset:0;pointer-events:none;z-index:25;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 2px,rgba(0,0,0,.12) 3px,rgba(0,0,0,.12) 4px);opacity:.6}
 </style>
@@ -389,6 +392,7 @@ function stopFaviconAnimation() {
       <div class="pb-bottom">COMMERCIAL FINANCE EXPERTS</div>
       <div class="pb-hint">TAP TO CONTINUE</div>
     </div>
+    <div id="pb-tap-prompt"><div class="pb-tap-text">TAP TO PLAY</div></div>
     <div class="pb-vignette"></div>
     <div class="pb-scanlines"></div>
   </div>
@@ -2613,13 +2617,20 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
     setTimeout(()=>_pbMoveShip(70,88),6000);
   }
 
-  function _pbUnlock(){_pbInitAudio();document.removeEventListener('click',_pbUnlock);document.removeEventListener('touchstart',_pbUnlock);document.removeEventListener('keydown',_pbUnlock);}
-  document.addEventListener('click',_pbUnlock);
-  document.addEventListener('touchstart',_pbUnlock,{passive:true});
-  document.addEventListener('keydown',_pbUnlock);
+  const pbTapPrompt=document.getElementById('pb-tap-prompt');
+  let _pbStarted=false;
 
-  pbStage.addEventListener('click',()=>{if(_pbRevealShown){clearTimeout(_pbAutoTimer);showScreen('start-screen');}});
-  _pbRunSequence();
+  pbStage.addEventListener('click',()=>{
+    if(!_pbStarted){
+      _pbInitAudio();
+      _pbStarted=true;
+      pbTapPrompt.style.display='none';
+      _pbRunSequence();
+    } else if(_pbRevealShown){
+      clearTimeout(_pbAutoTimer);
+      showScreen('start-screen');
+    }
+  });
 })();
 /* ===== END POWERED BY FISKAL SPLASH ===== */
 
