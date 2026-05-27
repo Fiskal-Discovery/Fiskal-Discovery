@@ -1973,7 +1973,29 @@ function startShariahIntro() {
   if (btn) btn.style.display = 'inline-flex';
 }
 
-document.addEventListener('DOMContentLoaded', startShariahIntro);
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem('sf_results') || 'null');
+    if (saved) {
+      const set  = (id, prop, val) => { const el = document.getElementById(id); if (el) el[prop] = val; };
+      const setQ = (q,  prop, val) => { const el = document.querySelector(q);  if (el) el[prop] = val; };
+      set('ai-summary-label', 'innerHTML', saved.summaryLabelHtml);
+      set('ai-summary-text',  'innerHTML', saved.summaryHtml);
+      setQ('#screen-loading .results-check', 'textContent', saved.checkText);
+      set('nicole-message', 'textContent', saved.nicoleMsg);
+      if (saved.ifDisplay === 'block') {
+        const el = document.getElementById('shariah-invoice-suggestion');
+        if (el) { el.style.display = 'block'; set('shariah-invoice-suggestion-text', 'textContent', saved.ifText); }
+      }
+      showScreen('screen-loading');
+      const _sc = document.querySelector('#screen-loading .screen-content');
+      if (_sc) _sc.scrollTop = 0;
+      loadNicolePhoto();
+      return;
+    }
+  } catch(e) {}
+  startShariahIntro();
+});
 
 // ---- Shooting stars + REFUSE animation ----
 document.addEventListener('DOMContentLoaded', function() {
@@ -2513,6 +2535,20 @@ function displayResults() {
   if (_sc) _sc.scrollTop = 0;
   renderNicoleMessage();
   loadNicolePhoto();
+
+  // Save results for refresh-safe restore
+  try {
+    const g  = id => document.getElementById(id);
+    const gq = q  => document.querySelector(q);
+    sessionStorage.setItem('sf_results', JSON.stringify({
+      summaryLabelHtml: (g('ai-summary-label')  || {}).innerHTML  || '',
+      summaryHtml:      (g('ai-summary-text')   || {}).innerHTML  || '',
+      checkText:        (gq('#screen-loading .results-check') || {}).textContent || '',
+      nicoleMsg:        (g('nicole-message')    || {}).textContent || '',
+      ifDisplay:        (g('shariah-invoice-suggestion') || {style:{}}).style.display || '',
+      ifText:           (g('shariah-invoice-suggestion-text') || {}).textContent      || '',
+    }));
+  } catch(e) {}
 
   // Send notification (non-blocking)
   sendNotification().catch(function(error) {

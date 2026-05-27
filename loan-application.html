@@ -2449,6 +2449,38 @@ async function submitApplication() {
       showScreen('screen-results');
       const resultsEl = document.getElementById('screen-results');
       if (resultsEl) resultsEl.scrollTop = 0;
+      // Save results for refresh-safe restore (strength meter needs 200ms to render)
+      setTimeout(() => {
+        try {
+          const g = id => document.getElementById(id);
+          const gq = q => document.querySelector(q);
+          sessionStorage.setItem('la_results', JSON.stringify({
+            resultsName:      (g('results-name')           || {}).textContent || '',
+            summaryLabel:     (g('ai-summary-label')        || {}).textContent || '',
+            summaryHtml:      (g('ai-summary-text')         || {}).innerHTML  || '',
+            checkText:        (gq('#screen-results .results-check') || {}).textContent || '',
+            barFillWidth:     (g('loan-bar-fill')  || {style:{}}).style.width      || '',
+            barFillBg:        (g('loan-bar-fill')  || {style:{}}).style.background || '',
+            barMarkerLeft:    (g('loan-bar-marker') || {style:{}}).style.left      || '',
+            strengthLabel:    (g('loan-strength-label') || {}).textContent         || '',
+            strengthLabelColor:(g('loan-strength-label') || {style:{}}).style.color || '',
+            strengthText:     (g('loan-strength-text')  || {}).textContent         || '',
+            lendingDisplay:   (g('indicative-lending-section') || {style:{}}).style.display || '',
+            lendingRange:     (g('indicative-range') || {}).textContent || '',
+            lendingNote:      (g('indicative-note')  || {}).textContent || '',
+            homeownerText:    (g('homeowner-note') || {}).textContent || '',
+            homeownerDisplay: (g('homeowner-note') || {style:{}}).style.display   || '',
+            ifDisplay:        (g('invoice-finance-suggestion') || {style:{}}).style.display || '',
+            ifText:           (g('invoice-finance-suggestion-text') || {}).textContent     || '',
+            afDisplay:        (g('asset-finance-suggestion') || {style:{}}).style.display  || '',
+            afText:           (g('asset-finance-suggestion-text') || {}).textContent       || '',
+            tfDisplay:        (g('trade-finance-suggestion') || {style:{}}).style.display  || '',
+            tfText:           (g('trade-finance-suggestion-text') || {}).textContent       || '',
+            rcDisplay:        (g('revolving-credit-suggestion') || {style:{}}).style.display || '',
+            rcText:           (g('revolving-credit-suggestion-text') || {}).textContent      || '',
+          }));
+        } catch(e) {}
+      }, 200);
     });
   } catch(e) {
     console.error('Submit failed:', e);
@@ -3494,6 +3526,44 @@ function showDiscoveryThinkingScreen(callback) {
   new MutationObserver(attachToActive).observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
   document.addEventListener('DOMContentLoaded', attachToActive);
 })();
+</script>
+<script>
+// Session restore — show results screen immediately if a previous submission exists
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem('la_results') || 'null');
+    if (!saved) return;
+    const g    = id => document.getElementById(id);
+    const gq   = q  => document.querySelector(q);
+    const set  = (id, prop, val) => { const el = g(id);  if (el && val !== undefined) el[prop] = val; };
+    const setS = (id, prop, val) => { const el = g(id);  if (el && val) el.style[prop] = val; };
+    set('results-name',       'textContent', saved.resultsName);
+    set('ai-summary-label',   'textContent', saved.summaryLabel);
+    set('ai-summary-text',    'innerHTML',   saved.summaryHtml);
+    const chk = gq('#screen-results .results-check');
+    if (chk && saved.checkText) chk.textContent = saved.checkText;
+    setS('loan-bar-fill',    'width',      saved.barFillWidth);
+    setS('loan-bar-fill',    'background', saved.barFillBg);
+    setS('loan-bar-marker',  'left',       saved.barMarkerLeft);
+    set('loan-strength-label', 'textContent', saved.strengthLabel);
+    setS('loan-strength-label', 'color',     saved.strengthLabelColor);
+    set('loan-strength-text',   'textContent', saved.strengthText);
+    if (saved.lendingDisplay) { const el = g('indicative-lending-section'); if (el) el.style.display = saved.lendingDisplay; }
+    set('indicative-range', 'textContent', saved.lendingRange);
+    set('indicative-note',  'textContent', saved.lendingNote);
+    if (saved.homeownerText) {
+      set('homeowner-note', 'textContent', saved.homeownerText);
+      if (saved.homeownerDisplay) { const el = g('homeowner-note'); if (el) el.style.display = saved.homeownerDisplay; }
+    }
+    if (saved.ifDisplay === 'block') { const el = g('invoice-finance-suggestion'); if (el) { el.style.display = 'block'; set('invoice-finance-suggestion-text', 'textContent', saved.ifText); } }
+    if (saved.afDisplay === 'block') { const el = g('asset-finance-suggestion');   if (el) { el.style.display = 'block'; set('asset-finance-suggestion-text',   'textContent', saved.afText); } }
+    if (saved.tfDisplay === 'block') { const el = g('trade-finance-suggestion');   if (el) { el.style.display = 'block'; set('trade-finance-suggestion-text',   'textContent', saved.tfText); } }
+    if (saved.rcDisplay === 'block') { const el = g('revolving-credit-suggestion'); if (el) { el.style.display = 'block'; set('revolving-credit-suggestion-text', 'textContent', saved.rcText); } }
+    showScreen('screen-results');
+    const el = g('screen-results'); if (el) el.scrollTop = 0;
+    loadNicolePhoto();
+  } catch(e) {}
+});
 </script>
 
 

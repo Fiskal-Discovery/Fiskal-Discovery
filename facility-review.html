@@ -4527,11 +4527,24 @@ function displayResults(summary) {
   // Show the results screen (showScreen also clears the thinking overlay)
   showScreen('screen-loading');
   loadNicolePhoto();
-  
+
   // Update button visibility based on remaining facility types
   updateResultsButtons();
-  
+
   sendNotification(summary);
+
+  // Save results for refresh-safe restore
+  try {
+    const g  = id => document.getElementById(id);
+    const gq = q  => document.querySelector(q);
+    sessionStorage.setItem('fr_results', JSON.stringify({
+      resultsName:      (g('results-name')     || {}).textContent || '',
+      summaryLabelHtml: (g('ai-summary-label') || {}).innerHTML  || '',
+      summaryHtml:      (g('ai-summary-text')  || {}).innerHTML  || '',
+      checkText:        (gq('#screen-loading .results-check') || {}).textContent || '',
+      nicoleMsg:        (g('if-nicole-message') || {}).textContent || '',
+    }));
+  } catch(e) {}
 }
 
 function updateResultsButtons() {
@@ -5484,6 +5497,33 @@ function showDiscoveryThinkingScreen(callback) {
   new MutationObserver(attachToActive).observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
   document.addEventListener('DOMContentLoaded', attachToActive);
 })();
+</script>
+<script>
+// Session restore — show results screen immediately if a previous submission exists
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem('fr_results') || 'null');
+    if (!saved) return;
+    const g  = id => document.getElementById(id);
+    const gq = q  => document.querySelector(q);
+    const set = (id, prop, val) => { const el = g(id); if (el && val !== undefined) el[prop] = val; };
+    set('results-name',     'textContent', saved.resultsName);
+    set('ai-summary-label', 'innerHTML',   saved.summaryLabelHtml);
+    set('ai-summary-text',  'innerHTML',   saved.summaryHtml);
+    const chk = gq('#screen-loading .results-check');
+    if (chk && saved.checkText) chk.textContent = saved.checkText;
+    set('if-nicole-message', 'textContent', saved.nicoleMsg);
+    showScreen('screen-loading');
+    const _sc = gq('#screen-loading .screen-content');
+    if (_sc) _sc.scrollTop = 0;
+    const continueBtn = g('facility-next-review-btn');
+    const homeBtn     = g('facility-home-btn');
+    if (continueBtn) continueBtn.style.display = 'none';
+    if (homeBtn)     homeBtn.style.display = 'inline-block';
+    if (homeBtn)     homeBtn.onclick = () => { window.location.href = 'home.html?home=1'; };
+    loadNicolePhoto();
+  } catch(e) {}
+});
 </script>
 
 
