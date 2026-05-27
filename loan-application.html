@@ -894,6 +894,21 @@
     80%  { opacity: 0.5; }
     100% { opacity: 0;   transform: rotate(var(--sa)) translateX(var(--sd)); }
   }
+
+  .what-next-heading {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 32px 0 10px;
+  }
+  .what-next-underline {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #ffd56b, #d97757);
+    border-radius: 2px;
+    margin: 0 auto 24px;
+  }
 </style>
 </head>
 <body>
@@ -1499,33 +1514,9 @@
       </div>
     </div>
     <div id="homeowner-note" style="display:none;margin:0 8px 16px;padding:14px 18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;"></div>
-    <section class="nicole-contact-card" aria-label="Nicole Bertolissi contact card">
-      <div class="nicole-photo-side">
-        <div class="nicole-photo-wrap">
-          <img id="nicole-photo" class="nicole-photo" src="assets/nicole-bertolissi.jpg" alt="Nicole Bertolissi" onerror="this.style.display='none';document.querySelector('.nicole-photo-fallback').style.display='flex';" />
-          <div class="nicole-photo-fallback">NB</div>
-        </div>
-      </div>
-
-      <div class="nicole-message-wrap">
-        <p class="nicole-message" id="nicole-message">
-          Thanks for completing your Fiskal Discovery. I'll review your answers personally and be in touch within the next couple of hours. In the meantime, feel free to explore the Fiskal website or our LinkedIn page to learn more about who we are and how we can help.
-        </p>
-      </div>
-
-      <div class="nicole-details">
-        <h3>Nicole Bertolissi</h3>
-        <p class="nicole-title">Direct Sales Executive, Fiskal</p>
-        <p class="nicole-phone">07946 074 268</p>
-        <p class="nicole-email">nicole@fiskal.co.uk</p>
-      </div>
-
-      <div class="nicole-card-actions">
-        <a href="https://www.fiskal.online/" target="_blank" rel="noopener noreferrer" class="visit-fiskal-btn">Fiskal Website</a>
-        <a href="https://www.linkedin.com/company/fiskal-ltd/?viewAsMember=true" target="_blank" rel="noopener noreferrer" class="fiskal-linkedin-btn">Fiskal LinkedIn</a>
-        <a href="tel:+447946074268" class="call-now-mobile">Call Nicole now</a>
-      </div>
-    </section>
+    <div class="what-next-heading">What Happens Next</div>
+    <div class="what-next-underline"></div>
+    <div id="nicole-contact-card-container"></div>
 
     <div class="divider"></div>
   </div>
@@ -2644,6 +2635,14 @@ function displayResults(summaryResult, tl) {
       summaryText.textContent = summaryResult.summaryText;
     }
   }
+
+  // Render Nicole contact card with Book a Call button
+  const nicoleContainer = document.getElementById('nicole-contact-card-container');
+  if (nicoleContainer && typeof renderNicoleContactCard === 'function') {
+    nicoleContainer.innerHTML = renderNicoleContactCard();
+    if (typeof renderNicoleMessage === 'function') renderNicoleMessage();
+    if (typeof loadNicolePhoto === 'function') loadNicolePhoto();
+  }
 }
 
 // ============================================================
@@ -3567,11 +3566,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (saved.rcDisplay === 'block') { const el = g('revolving-credit-suggestion'); if (el) { el.style.display = 'block'; set('revolving-credit-suggestion-text', 'textContent', saved.rcText); } }
     showScreen('screen-results');
     const el = g('screen-results'); if (el) el.scrollTop = 0;
-    loadNicolePhoto();
+    const nc = g('nicole-contact-card-container');
+    if (nc && typeof renderNicoleContactCard === 'function') {
+      nc.innerHTML = renderNicoleContactCard();
+      if (typeof renderNicoleMessage === 'function') renderNicoleMessage();
+      if (typeof loadNicolePhoto === 'function') loadNicolePhoto();
+    }
   } catch(e) {}
 });
 </script>
 
-
+<script src="shared-components.js"></script>
 </body>
 </html>
