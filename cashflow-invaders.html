@@ -431,7 +431,7 @@ function stopFaviconAnimation() {
       </div>
       <div class="gameover-buttons">
         <button class="btn-play-again" id="btn-play-again">▶ PLAY AGAIN</button>
-        <button class="btn-play-again" id="btn-home">⌂ RETURN TO HOME</button>
+        <button class="btn-play-again" id="btn-home" onclick="goHome()">← EXIT</button>
       </div>
     </div>
   </div>
@@ -951,7 +951,7 @@ function closeLB(){
 }
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('playing-mobile',id==='game-screen'&&window.innerWidth<=520);if(id!=='game-screen')showQuitBtn(false);if(id==='start-screen'){renderPreviewAliens();updatePersonalBest();drawWantedPoster();}if(id==='gameover-screen'){document.getElementById('work-mode-btn').style.display='none';document.getElementById('dev-skip-btn').style.display='none';const goMsg=document.getElementById('gameover-msg');if(goMsg){goMsg.textContent="YOU'VE BEEN LIQUIDATED";goMsg.style.color='';goMsg.style.textShadow='';}const savedName=localStorage.getItem('fiskal_ci_player_name');if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;const stored=getStoredUserDetails();if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;_goNext(1);}}
 const _GO_LAST=3;let _goPanel=1;
-function _goNext(n){_goPanel=n;document.querySelectorAll('.go-panel').forEach(p=>p.style.display='none');const el=document.getElementById('go-p'+n);if(el)el.style.display='flex';if(n===1)_goRenderDefeated();const cont=document.querySelector('#gameover-screen .cin-content');if(cont)cont.scrollTop=0;const bk=document.getElementById('go-bb-back'),nx=document.getElementById('go-bb-next');if(bk)bk.classList.toggle('hidden',n<=1);if(nx)nx.classList.toggle('hidden',n>=_GO_LAST);}
+function _goNext(n){_goPanel=n;document.querySelectorAll('.go-panel').forEach(p=>p.style.display='none');const el=document.getElementById('go-p'+n);if(el)el.style.display='flex';if(n===1)_goRenderDefeated();const cont=document.querySelector('#gameover-screen .cin-content');if(cont)cont.scrollTop=0;const bk=document.getElementById('go-bb-back'),nx=document.getElementById('go-bb-next');if(bk)bk.classList.toggle('hidden',n<=1);if(nx){nx.classList.remove('hidden');if(n>=_GO_LAST){nx.textContent='▶ PLAY AGAIN';nx.onclick=()=>{stopGame();showScreen('start-screen');};}else{nx.textContent='NEXT ▶';nx.onclick=_goNextAction;}}}
 function _goBack(){if(_goPanel>1)_goNext(_goPanel-1);}
 function _goNextAction(){if(_goPanel<_GO_LAST)_goNext(_goPanel+1);}
 function _goRenderDefeated(){const list=document.getElementById('go-defeated-list');if(!list)return;list.innerHTML='';const arr=window._goDefeatedBosses||[];if(arr.length===0){const empty=document.createElement('div');empty.style.cssText='color:rgba(255,255,255,.45);font-family:"Press Start 2P",monospace;font-size:.5rem;padding:8px;letter-spacing:.06em';empty.textContent='— NONE —';list.appendChild(empty);return;}arr.forEach(name=>{const item=document.createElement('div');item.className='lc-boss-item';item.textContent='✓ '+name;list.appendChild(item);});}
