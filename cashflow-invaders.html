@@ -146,7 +146,7 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
 #pb-alien.dmg3 .cracks{opacity:1}
 #pb-alien.exploding{animation:pb-explodeOut 1s ease-out forwards}
 @keyframes pb-explodeOut{0%{transform:translate(-50%,-50%) scale(1);opacity:1;filter:brightness(1) drop-shadow(0 0 30px rgba(100,255,150,.5))}20%{transform:translate(-50%,-50%) scale(1.15);filter:brightness(3) drop-shadow(0 0 60px #fff)}40%{transform:translate(-50%,-50%) scale(1.4);filter:brightness(8) drop-shadow(0 0 120px #fff);opacity:1}100%{transform:translate(-50%,-50%) scale(.1);opacity:0}}
-#pb-player{position:absolute;width:clamp(60px,8vw,110px);left:-15%;top:88%;transform:translate(-50%,-50%);z-index:8;filter:drop-shadow(0 0 10px rgba(200,100,255,.7));transition:left 2.8s cubic-bezier(.4,0,.6,1),top .5s ease,transform .3s}
+#pb-player{position:absolute;width:clamp(60px,8vw,110px);left:50%;top:88%;transform:translate(-50%,-50%);z-index:8;filter:drop-shadow(0 0 10px rgba(200,100,255,.7));transition:none}
 #pb-player svg{display:block;width:100%;height:auto;image-rendering:pixelated}
 #pb-player .thrust{position:absolute;left:50%;bottom:-20%;width:30%;height:30%;transform:translateX(-50%);background:radial-gradient(ellipse at top,#fff,#ffaa00 40%,transparent 70%);animation:pb-thrust .1s linear infinite alternate;opacity:.9}
 @keyframes pb-thrust{from{transform:translateX(-50%) scaleY(1)}to{transform:translateX(-50%) scaleY(1.3)}}
@@ -391,7 +391,7 @@ function stopFaviconAnimation() {
       <div class="pb-big">FISKAL</div>
       <div class="pb-bottom">COMMERCIAL FINANCE EXPERTS</div>
     </div>
-    <div id="pb-tap-prompt"><div class="pb-tap-text">TAP TO PLAY</div></div>
+    <div id="pb-tap-prompt"><div class="pb-tap-text">CLICK TO SHOOT!</div></div>
     <div class="pb-vignette"></div>
     <div class="pb-scanlines"></div>
   </div>
@@ -2587,33 +2587,28 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
     setTimeout(()=>{pbWhiteout.classList.remove('flash');pbStage.classList.remove('pb-bigshake');},1400);
   }
 
-  function _pbRunSequence(){
-    _pbHitCount=0;_pbRevealShown=false;clearTimeout(_pbAutoTimer);
-    pbAlien.classList.remove('dmg1','dmg2','dmg3','exploding');
-    pbReveal.classList.remove('show');
-    pbPlayer.style.transition='left 2.8s cubic-bezier(.4,0,.6,1),top .5s ease,transform .3s';
-    _pbMoveShip(-15,88);
-    setTimeout(_pbPlayWhoosh,300);
-    setTimeout(()=>_pbMoveShip(12,88),400);
-    [1300,1900,2500,3100,3700,4300,4900,5500,6200].forEach(t=>setTimeout(_pbFireBullet,t));
-    setTimeout(()=>_pbMoveShip(85,88),1700);
-    setTimeout(()=>_pbMoveShip(20,88),4200);
-    setTimeout(()=>_pbMoveShip(70,88),6000);
-  }
-
   const pbTapPrompt=document.getElementById('pb-tap-prompt');
   let _pbStarted=false;
 
+  // Ship tracks pointer/touch across the bottom
+  pbStage.addEventListener('mousemove',e=>{
+    const r=pbStage.getBoundingClientRect();
+    const x=Math.max(5,Math.min(95,((e.clientX-r.left)/r.width)*100));
+    pbPlayer.style.left=x+'%';
+  });
+  pbStage.addEventListener('touchmove',e=>{
+    const r=pbStage.getBoundingClientRect();
+    const x=Math.max(5,Math.min(95,((e.touches[0].clientX-r.left)/r.width)*100));
+    pbPlayer.style.left=x+'%';
+  },{passive:true});
+
   pbStage.addEventListener('click',()=>{
+    if(_pbRevealShown){clearTimeout(_pbAutoTimer);showScreen('start-screen');return;}
     if(!_pbStarted){
-      _pbInitAudio();
-      _pbStarted=true;
+      _pbInitAudio();_pbStarted=true;
       pbTapPrompt.style.display='none';
-      _pbRunSequence();
-    } else if(_pbRevealShown){
-      clearTimeout(_pbAutoTimer);
-      showScreen('start-screen');
     }
+    if(_pbHitCount<_pbTotalHits)_pbFireBullet();
   });
 })();
 /* ===== END POWERED BY FISKAL SPLASH ===== */
