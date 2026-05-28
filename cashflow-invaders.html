@@ -1218,7 +1218,8 @@ function showLarryCinematic(defeatedBosses,onDone){
   // Stop gameplay loop and switch music immediately
   if(rafId){cancelAnimationFrame(rafId);rafId=null;}
   MUSIC.stop();
-  setTimeout(()=>MUSIC.cinematic(),400);
+  if(_lcCinematicTid){clearTimeout(_lcCinematicTid);_lcCinematicTid=null;}
+  _lcCinematicTid=setTimeout(()=>MUSIC.cinematic(),400);
   el.classList.add('active');el.style.pointerEvents='auto';
   cin.style.display='';cin.classList.add('lc-active');
   const _bb=document.getElementById('bomb-btn');if(_bb)_bb.style.display='none';
@@ -1229,7 +1230,7 @@ function showLarryCinematic(defeatedBosses,onDone){
   window._lcOnDone=onDone;
   _lcNext(1);
 }
-let _lcRafId=null;
+let _lcRafId=null;let _lcCinematicTid=null;
 const _LC_LAST=4;let _lcPanel=1;
 function _lcNext(panel){
   _lcPanel=panel;
@@ -1263,6 +1264,7 @@ function _lcDone(){
   cin.classList.remove('lc-active');cin.style.display='none';
   document.querySelectorAll('.lc-panel').forEach(p=>{p.classList.remove('lc-show');p.style.display='none';});
   if(_lcRafId){cancelAnimationFrame(_lcRafId);_lcRafId=null;}
+  if(_lcCinematicTid){clearTimeout(_lcCinematicTid);_lcCinematicTid=null;}
   _typewriteClear(document.getElementById('lc-top-banner'));
   MUSIC.stop();
   if(window._lcOnDone)window._lcOnDone();
