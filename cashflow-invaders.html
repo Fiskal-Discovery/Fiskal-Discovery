@@ -159,6 +159,7 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
 #powered-by-screen .pb-debris.spark{width:4px;height:4px;border-radius:50%}
 #powered-by-screen .pb-debris.fireball{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle,#fff 0%,#ffd700 25%,#ff6020 50%,#ff2000 75%,transparent 90%);z-index:11}
 #powered-by-screen .pb-debris.smoke{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(80,40,120,.6),rgba(40,20,60,.3) 50%,transparent 80%);filter:blur(8px);z-index:10}
+@media(max-width:520px){#powered-by-screen .pb-stars2{display:none}#powered-by-screen .pb-debris.smoke{filter:none}#powered-by-screen .pb-nebula{background:radial-gradient(ellipse 40% 30% at 20% 70%,rgba(120,30,180,.3),transparent),radial-gradient(ellipse 50% 40% at 80% 30%,rgba(180,40,120,.25),transparent)}}
 #powered-by-screen .pb-shockring{position:absolute;border-radius:50%;border:4px solid;pointer-events:none;z-index:11;transform:translate(-50%,-50%) scale(0);opacity:0}
 #powered-by-screen .stage.pb-shake{animation:pb-stageShake .3s}
 @keyframes pb-stageShake{0%,100%{transform:translate(0,0)}20%{transform:translate(-4px,3px)}40%{transform:translate(5px,-2px)}60%{transform:translate(-3px,-4px)}80%{transform:translate(4px,3px)}}
@@ -2662,6 +2663,7 @@ function showBobbyCinematic(onDone){
 function startConfetti(){const vc=document.getElementById('victory-confetti');vc.width=window.innerWidth;vc.height=window.innerHeight;const vctx=vc.getContext('2d');confettiPieces=Array.from({length:200},()=>({x:Math.random()*vc.width,y:Math.random()*vc.height-vc.height,vy:2+Math.random()*5,vx:(Math.random()-.5)*3,rot:Math.random()*Math.PI*2,rotV:(Math.random()-.5)*.15,w:8+Math.random()*12,h:4+Math.random()*6,color:['#FFE600','#FF2244','#00FF88','#CC44FF','#FF8800','#00AAFF','#FFFFFF'][Math.floor(Math.random()*7)]}));function animConf(){if(!document.getElementById('victory-screen').classList.contains('active')){vctx.clearRect(0,0,vc.width,vc.height);return}vctx.clearRect(0,0,vc.width,vc.height);confettiPieces.forEach(c=>{c.y+=c.vy;c.x+=c.vx+Math.sin(c.rot*.5)*.8;c.rot+=c.rotV;if(c.y>vc.height+20)c.y=-20;vctx.save();vctx.translate(c.x,c.y);vctx.rotate(c.rot);vctx.fillStyle=c.color;vctx.fillRect(-c.w/2,-c.h/2,c.w,c.h);vctx.restore()});victoryRafId=requestAnimationFrame(animConf)}animConf()}
 /* ===== POWERED BY FISKAL SPLASH ===== */
 (function(){
+  const _pbLite=window.innerWidth<=520;
   const pbStage=document.getElementById('pb-stage');
   const pbAlien=document.getElementById('pb-alien');
   const pbPlayer=document.getElementById('pb-player');
@@ -2779,15 +2781,17 @@ function startConfetti(){const vc=document.getElementById('victory-confetti');vc
 
   function _pbMassiveExplosion(){
     const c=_pbAlienCenter(),W=pbStage.offsetWidth,H=pbStage.offsetHeight,max=Math.max(W,H)*1.1;
-    _pbSpawnShockring(c,'#ffffff',0,25,1400);_pbSpawnShockring(c,'#ffd700',100,22,1500);_pbSpawnShockring(c,'#ff6020',200,20,1600);_pbSpawnShockring(c,'#c040e0',350,18,1700);_pbSpawnShockring(c,'#80c0ff',500,16,1800);
+    const _rings=_pbLite?3:5,_fire=_pbLite?8:18,_chunks=_pbLite?25:80,_shards=_pbLite?20:60,_sparks=_pbLite?50:200,_smoke=_pbLite?5:12;
+    _pbSpawnShockring(c,'#ffffff',0,25,1400);_pbSpawnShockring(c,'#ffd700',100,22,1500);_pbSpawnShockring(c,'#ff6020',200,20,1600);
+    if(!_pbLite){_pbSpawnShockring(c,'#c040e0',350,18,1700);_pbSpawnShockring(c,'#80c0ff',500,16,1800);}
     const fc=['#ffd700','#ff8020','#ff4000','#ffaa40'];
-    for(let i=0;i<18;i++)_pbSpawnDebris(c,'fireball',max*(.3+Math.random()*.5),1200+Math.random()*800,fc[i%4],Math.random()*200);
+    for(let i=0;i<_fire;i++)_pbSpawnDebris(c,'fireball',max*(.3+Math.random()*.5),1200+Math.random()*800,fc[i%4],Math.random()*200);
     const cc=['#5a2880','#7030a0','#4a2070','#3d1a5c','#a00000','#ff2020','#60ff80'];
-    for(let i=0;i<80;i++)_pbSpawnDebris(c,'chunk',max*(.5+Math.random()*.7),1400+Math.random()*1000,cc[Math.floor(Math.random()*7)],Math.random()*300);
+    for(let i=0;i<_chunks;i++)_pbSpawnDebris(c,'chunk',max*(.5+Math.random()*.7),1400+Math.random()*1000,cc[Math.floor(Math.random()*7)],Math.random()*300);
     const sc=['#fff','#ffd700','#c040e0','#ff80ff','#80ffe0'];
-    for(let i=0;i<60;i++)_pbSpawnDebris(c,'shard',max*(.6+Math.random()*.6),1300+Math.random()*900,sc[Math.floor(Math.random()*5)],Math.random()*250);
-    for(let i=0;i<200;i++)_pbSpawnDebris(c,'spark',max*(.4+Math.random()*.8),1000+Math.random()*1200,['#fff','#ffd700','#fff5a0','#ffaa00','#c040e0','#ff80ff'][Math.floor(Math.random()*6)],Math.random()*400);
-    for(let i=0;i<12;i++)_pbSpawnDebris(c,'smoke',max*(.2+Math.random()*.3),2500+Math.random()*1000,null,200+Math.random()*400);
+    for(let i=0;i<_shards;i++)_pbSpawnDebris(c,'shard',max*(.6+Math.random()*.6),1300+Math.random()*900,sc[Math.floor(Math.random()*5)],Math.random()*250);
+    for(let i=0;i<_sparks;i++)_pbSpawnDebris(c,'spark',max*(.4+Math.random()*.8),1000+Math.random()*1200,['#fff','#ffd700','#fff5a0','#ffaa00','#c040e0','#ff80ff'][Math.floor(Math.random()*6)],Math.random()*400);
+    for(let i=0;i<_smoke;i++)_pbSpawnDebris(c,'smoke',max*(.2+Math.random()*.3),2500+Math.random()*1000,null,200+Math.random()*400);
   }
 
   function _pbExplode(){
