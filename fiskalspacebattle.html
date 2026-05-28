@@ -670,6 +670,7 @@ const TOTAL_HITS = 9;
 let gameRunning = false;   // true once the ship is on screen and shooting
 let explodeStarted = false; // true after explosion begins — prevents click-restart during reveal
 let lastFireTime = 0;
+let mouseXPctTracked = 50; // always-tracked mouse X so ship snaps to cursor when control starts
 const FIRE_COOLDOWN = 320; // ms between player shots
 
 function alienCenter() {
@@ -1091,15 +1092,17 @@ function runSequence() {
   blackhole.style.transform = 'translate(-50%,-50%) scale(0)';
   transition.classList.remove('on');
 
+  mouseXPctTracked = 50;
   player.style.transition = 'left 2.8s cubic-bezier(.4,0,.6,1), top .5s ease, transform .3s';
   moveShipTo(-15, 88);
 
   later(playWhoosh, 300);
-  later(() => moveShipTo(12, 88), 400);
+  later(() => moveShipTo(50, 88), 400);
 
-  // Ship arrives ~1.3s in — enable player shooting and mouse tracking from here
+  // Ship arrives ~1.3s in — snap to current mouse position and enable player control
   later(() => {
     player.style.transition = 'none'; // instant mouse tracking
+    player.style.left = mouseXPctTracked + '%';
     gameRunning = true;
     stage.classList.add('can-shoot');
   }, 1300);
@@ -1142,42 +1145,34 @@ function explode() {
 
 // Mouse moves ship horizontally while game is running
 stage.addEventListener('mousemove', e => {
-  if (!gameRunning) return;
   const rect = stage.getBoundingClientRect();
-  const xPct = ((e.clientX - rect.left) / rect.width) * 100;
-  player.style.left = Math.max(4, Math.min(96, xPct)) + '%';
+  mouseXPctTracked = Math.max(4, Math.min(96, ((e.clientX - rect.left) / rect.width) * 100));
+  if (!gameRunning) return;
+  player.style.left = mouseXPctTracked + '%';
 });
 
 // Touch drag moves ship
 stage.addEventListener('touchmove', e => {
-  if (!gameRunning) return;
   e.preventDefault();
   const rect = stage.getBoundingClientRect();
-  const xPct = ((e.touches[0].clientX - rect.left) / rect.width) * 100;
-  player.style.left = Math.max(4, Math.min(96, xPct)) + '%';
+  mouseXPctTracked = Math.max(4, Math.min(96, ((e.touches[0].clientX - rect.left) / rect.width) * 100));
+  if (!gameRunning) return;
+  player.style.left = mouseXPctTracked + '%';
 }, { passive: false });
 
-// Click: fire if game running, otherwise restart (but not during explosion/reveal)
+// Click: fire only when game is running
 stage.addEventListener('click', e => {
-  if (gameRunning) {
-    const now = performance.now();
-    if (now - lastFireTime >= FIRE_COOLDOWN) { lastFireTime = now; fireBullet(); }
-    return;
-  }
-  if (explodeStarted) return;
-  runSequence();
+  if (!gameRunning) return;
+  const now = performance.now();
+  if (now - lastFireTime >= FIRE_COOLDOWN) { lastFireTime = now; fireBullet(); }
 });
 
 // Tap: same as click
 stage.addEventListener('touchend', e => {
   e.preventDefault();
-  if (gameRunning) {
-    const now = performance.now();
-    if (now - lastFireTime >= FIRE_COOLDOWN) { lastFireTime = now; fireBullet(); }
-    return;
-  }
-  if (explodeStarted) return;
-  runSequence();
+  if (!gameRunning) return;
+  const now = performance.now();
+  if (now - lastFireTime >= FIRE_COOLDOWN) { lastFireTime = now; fireBullet(); }
 }, { passive: false });
 
 // Space / Enter also fires
