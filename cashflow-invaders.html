@@ -1886,7 +1886,7 @@ function runTests(){console.assert(ALIEN_TYPES.length===3,'aliens available');co
 renderPreviewAliens();runTests();updatePersonalBest();drawWantedPoster();
 try{MUSIC.warm();MUSIC.cinematic();}catch(e){}
 document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-restart-pause').addEventListener('click',()=>{togglePause();quitGame();});document.getElementById('btn-quit-pause').addEventListener('click',()=>{try{stopGame();}catch(e){}stopFaviconAnimation();goHome();});document.getElementById('exit-btn').addEventListener('click',()=>{try{stopGame();}catch(e){}stopFaviconAnimation();goHome();});document.getElementById('pause-btn').addEventListener('click',togglePause);document.getElementById('btn-start').addEventListener('click',showIntroCin);
-function showIntroCin(){const el=document.getElementById('intro-cin');el.classList.add('ic-active');try{MUSIC.warm();MUSIC.cinematic();}catch(e){}_icNext(1);startCinStars();}
+function showIntroCin(){_icDoneGuard=false;const nx=document.getElementById('ic-bb-next');if(nx)nx.disabled=false;const el=document.getElementById('intro-cin');el.classList.add('ic-active');try{MUSIC.warm();MUSIC.cinematic();}catch(e){}_icNext(1);startCinStars();}
 let _twBuf=null;
 (function(){try{fetch('assets/magiaz-typewriter-454790.mp3').then(r=>r.arrayBuffer()).then(ab=>{try{getAudio().decodeAudioData(ab,b=>{_twBuf=b;})}catch(e){}}).catch(()=>{});}catch(e){}})();
 function _twClick(){if(_sfxMuted)return;try{if(_twBuf){const ac=getAudio();const src=ac.createBufferSource();src.buffer=_twBuf;const g=ac.createGain();g.gain.value=0.8;src.connect(g);g.connect(ac.destination);src.start();src.stop(ac.currentTime+0.09);}else{noise(.024,.05,4200+Math.random()*1600);}}catch(e){}}
@@ -1894,14 +1894,14 @@ function _typewrite(el,text){if(!el)return;if(el._tt){clearInterval(el._tt);el._
 function _typewriteClear(el){if(!el)return;if(el._tt){clearInterval(el._tt);el._tt=null;}el.textContent='';el.classList.remove('typing');}
 const _icBannerText={1:'FISKAL DISCOVERY INTELLIGENCE',2:'CONFIRMED HOSTILE ACTORS',3:'MISSION BRIEFING'};
 const _lcBannerText={1:'OPERATION CASHFLOW',4:'TRANSMISSION INCOMING'};
-const _IC_LAST=4;let _icPanel=1;
+const _IC_LAST=4;let _icPanel=1;let _icDoneGuard=false;
 const _IC_NEXT_TEXT={1:'NEXT ▶',2:'NEXT ▶',3:'NEXT ▶',4:'BEGIN ▶'};
 const _LC_NEXT_TEXT={1:'NEXT ▶',2:'NEXT ▶',3:'NEXT ▶',4:'UPGRADE SHIP ▶'};
 function _icNext(panel){_icPanel=panel;document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});const el=document.getElementById('ic-p'+panel);if(el){el.style.display='flex';el.classList.add('ic-show');}const b=document.getElementById('ic-top-banner');if(_icBannerText[panel])_typewrite(b,_icBannerText[panel]);else _typewriteClear(b);if(panel===4){const slam=document.querySelector('#ic-p4 .ic-act-slam');if(slam){slam.classList.remove('slam');void slam.offsetWidth;slam.classList.add('slam');}MUSIC.stop();try{const _as=new Audio('assets/freesound_community-medieval-horn-by-kris-klavenes-wav-77565.mp3');_as.volume=1.0;_as.play().catch(()=>{});}catch(e){}}_cinNavSync('ic-bb-back','ic-bb-next',panel,_IC_LAST,_IC_NEXT_TEXT);}
 function _icBack(){if(_icPanel>1)_icNext(_icPanel-1);}
-function _icNextAction(){if(_icPanel<_IC_LAST)_icNext(_icPanel+1);else _icDone();}
-function _cinNavSync(backId,nextId,panel,last,texts){const bk=document.getElementById(backId),nx=document.getElementById(nextId);if(bk)bk.classList.toggle('hidden',panel<=1);if(nx&&texts)nx.textContent=texts[panel]||'NEXT ▶';}
-function _icDone(){const el=document.getElementById('intro-cin');el.classList.remove('ic-active');el.style.display='none';document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});_typewriteClear(document.getElementById('ic-top-banner'));MUSIC.stop();initGame();}document.getElementById('btn-submit-score').addEventListener('click',async()=>{
+function _icNextAction(){if(_icPanel<_IC_LAST){_icNext(_icPanel+1);}else{const nx=document.getElementById('ic-bb-next');if(nx)nx.disabled=true;_icDone();}}
+function _cinNavSync(backId,nextId,panel,last,texts){const bk=document.getElementById(backId),nx=document.getElementById(nextId);if(bk)bk.classList.toggle('hidden',panel<=1);if(nx){if(texts)nx.textContent=texts[panel]||'NEXT ▶';nx.disabled=false;}}
+function _icDone(){if(_icDoneGuard)return;_icDoneGuard=true;const el=document.getElementById('intro-cin');el.classList.remove('ic-active');el.style.display='none';document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});_typewriteClear(document.getElementById('ic-top-banner'));MUSIC.stop();initGame();}document.getElementById('btn-submit-score').addEventListener('click',async()=>{
   const btn = document.getElementById('btn-submit-score');
   const nameInput = document.getElementById('leaderboard-name').value.trim() || 'ANONYMOUS';
   const companyInput = document.getElementById('leaderboard-company').value.trim() || 'N/A';
