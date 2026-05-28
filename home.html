@@ -50,21 +50,29 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { overflow-x: hidden; }
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
 
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--body-end);
     color: var(--dark-text);
-    min-height: 100vh;
-    overflow-x: hidden;
   }
 
   /* ============================================================
      SCREEN SHOW/HIDE
   ============================================================ */
   .screen { display: none; }
-  .screen.active { display: block; }
+  .screen.active {
+    position: fixed;
+    inset: 0;
+    display: block;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
 
   /* ============================================================
      NAVBAR
@@ -1528,16 +1536,18 @@ function updateSummariesHomeCard() {
 
 function showSummariesScreen() {
   document.getElementById('screen-home').classList.remove('active');
-  document.getElementById('screen-summaries').classList.add('active');
-  window.scrollTo(0, 0);
+  const summariesEl = document.getElementById('screen-summaries');
+  summariesEl.classList.add('active');
+  summariesEl.scrollTop = 0;
   renderSummariesScreen();
   prefillEmail();
 }
 
 function showHomeFromSummaries() {
   document.getElementById('screen-summaries').classList.remove('active');
-  document.getElementById('screen-home').classList.add('active');
-  window.scrollTo(0, 0);
+  const homeEl = document.getElementById('screen-home');
+  homeEl.classList.add('active');
+  homeEl.scrollTop = 0;
 }
 
 function renderSummariesScreen() {
@@ -1946,7 +1956,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const cx=pu*W, cy=yMid(pu,W);
         const radius=burst.sz*0.2+burst.sz*2.8*(u*u);
         const [r,g,bv]=waveColor(u,phase);
-        const a=u<0.45?(u/0.45)*0.38:0.38;
+        const a=0;
         const g2=c.createRadialGradient(cx,cy,0,cx,cy,radius);
         g2.addColorStop(0,`rgba(${r},${g},${bv},${a.toFixed(2)})`);
         g2.addColorStop(1,`rgba(${r},${g},${bv},0)`);

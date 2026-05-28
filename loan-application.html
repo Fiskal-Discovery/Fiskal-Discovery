@@ -2410,6 +2410,80 @@ function calculateTrafficLight() {
 }
 
 // ============================================================
+// LOAN ENQUIRY — FALLBACK SUMMARY
+// ============================================================
+
+function _laHasSufficientData() {
+  var filled = 0;
+  if (state.loanType && String(state.loanType).trim())           filled++;
+  if (state.purpose  && String(state.purpose).trim())            filled++;
+  if ((state.amount  && String(state.amount).trim()) || state.amountNotSure) filled++;
+  if (state.credit   && String(state.credit).trim())             filled++;
+  if (state.tradingHistory && String(state.tradingHistory).trim()) filled++;
+  return filled >= 3;
+}
+
+var _laMessages = [
+  function(n) { return 'Thanks for making a start, ' + n + '. We don’t quite have enough detail yet to map out the right options for you — but that’s not a problem. Nicole will be in touch shortly and she’ll ask the right questions. If you’d rather, you can go back and fill in a bit more.'; },
+  function(n) { return 'Every business loan enquiry is different, ' + n + ', and the right answer usually comes out in conversation. We just need a little more to go on before we can point you in the right direction. Go back and add what you can, or leave it with Nicole.'; },
+  function(n) { return 'You’ve made a great first step, ' + n + '. To match you with the most suitable options we need a few more details — things like how much you’re looking to borrow and what it’s for go a long way. Pop back and fill in what you can, or Nicole will cover it when she calls.'; },
+  function(n) { return 'We’d love to give you a proper picture of what’s available, ' + n + ', but we’re a bit light on detail. The more we know upfront, the better Nicole can prepare before she speaks with you. Go back and add what you can — it only takes a minute.'; },
+  function(n) { return 'Not enough detail to give you a full breakdown just yet, ' + n + ' — but don’t worry, that’s what Nicole is for. She’s spoken to hundreds of businesses in exactly your position and she’ll know what to ask. She’ll be in touch soon, or go back and give us a bit more to work with.'; },
+  function(n) { return 'Noted, ' + n + ' — we’ll be in touch. If you have a moment, going back and filling in a few more details (even rough figures are fine) means Nicole can hit the ground running when she calls. Either way, you’re in good hands.'; }
+];
+
+function _laInjectFallback(firstName) {
+  var msgFn  = _laMessages[Math.floor(Math.random() * _laMessages.length)];
+  var message = msgFn(firstName || 'there');
+
+  var labelEl = document.getElementById('ai-summary-label');
+  var textEl  = document.getElementById('ai-summary-text');
+  if (labelEl) labelEl.textContent = 'Here’s where things stand';
+  if (textEl)  textEl.textContent  = message;
+
+  var aiSummary = document.querySelector('#screen-results .ai-summary');
+  if (!aiSummary) return;
+
+  var existing = document.getElementById('la-gauge-container');
+  if (existing) existing.parentNode.removeChild(existing);
+
+  var gaugeDiv = document.createElement('div');
+  gaugeDiv.id = 'la-gauge-container';
+  gaugeDiv.className = 'la-gauge-wrap';
+  gaugeDiv.innerHTML =
+    '<div class="la-gauge-label">Likelihood we can find you the right deal</div>' +
+    '<svg class="la-gauge-svg" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<linearGradient id="la-gauge-grad" x1="0%" y1="0%" x2="100%" y2="0%">' +
+          '<stop offset="0%" stop-color="#cc44ff"/>' +
+          '<stop offset="100%" stop-color="#ee6a1a"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      '<path d="M 24 104 A 76 76 0 0 1 176 104" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="10" stroke-linecap="round"/>' +
+      '<path id="la-gauge-arc" d="M 24 104 A 76 76 0 0 1 176 104" fill="none" stroke="url(#la-gauge-grad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="239" stroke-dashoffset="239"/>' +
+      '<text x="100" y="96" text-anchor="middle" font-family="\'Bebas Neue\',sans-serif" font-size="36" fill="white">10</text>' +
+      '<text x="24" y="116" text-anchor="middle" font-family="\'DM Sans\',sans-serif" font-size="10" fill="rgba(255,255,255,0.4)">0</text>' +
+      '<text x="176" y="116" text-anchor="middle" font-family="\'DM Sans\',sans-serif" font-size="10" fill="rgba(255,255,255,0.4)">10</text>' +
+    '</svg>' +
+    '<p class="la-gauge-disclaimer"><em>Yes, we always say 10. Because in our experience, there’s almost always something we can do better than what you’ve got. We just like to keep it honest about being optimistic.</em></p>';
+
+  var emailRow = aiSummary.querySelector('div');
+  if (emailRow) {
+    aiSummary.insertBefore(gaugeDiv, emailRow);
+  } else {
+    aiSummary.appendChild(gaugeDiv);
+  }
+
+  setTimeout(function() {
+    var arc = document.getElementById('la-gauge-arc');
+    if (!arc) return;
+    arc.style.transition = 'stroke-dashoffset 2s ease-out';
+    arc.getBoundingClientRect();
+    arc.style.strokeDashoffset = '0';
+  }, 300);
+}
+
+// ============================================================
 // SUBMIT APPLICATION
 // ============================================================
 async function submitApplication() {
@@ -2419,6 +2493,22 @@ async function submitApplication() {
   try {
     const tl = calculateTrafficLight();
     state._tlEmailFlag = tl.emailFlag || '';
+
+    const _laFirstName = (state.name || '').trim().split(/\s+/)[0] || 'there';
+
+    // Fallback: not enough key fields answered
+    if (!_laHasSufficientData()) {
+      const notifPromise = sendNotification('');
+      showFiskalLoadingScreen(_laFirstName, async () => {
+        await notifPromise.catch(() => {});
+        displayResults(null, tl);
+        _laInjectFallback(_laFirstName);
+        showScreen('screen-results');
+        const resultsEl = document.getElementById('screen-results');
+        if (resultsEl) resultsEl.scrollTop = 0;
+      });
+      return;
+    }
 
     // Build summary before loading screen
     let summaryResult = null;
@@ -3434,10 +3524,36 @@ async function sendClientSummaryEmail(summary) {
     .ob-tagline-refuse { font-size: 16px; letter-spacing: 1px; }
     .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
   }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--sb-thumb, #4e0063); border-radius: 3px; }
-  * { scrollbar-width: thin; scrollbar-color: var(--sb-thumb, #4e0063) transparent; }
+  ::-webkit-scrollbar { display: none; }
+  * { scrollbar-width: none; }
+
+  /* ---- Loan enquiry fallback gauge ---- */
+  .la-gauge-wrap {
+    text-align: center;
+    padding: 20px 0 10px;
+  }
+  .la-gauge-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 10px;
+  }
+  .la-gauge-svg {
+    width: 160px;
+    height: 90px;
+    display: block;
+    margin: 0 auto;
+  }
+  .la-gauge-disclaimer {
+    font-size: 11px;
+    color: rgba(255,255,255,0.38);
+    max-width: 340px;
+    margin: 10px auto 0;
+    line-height: 1.55;
+  }
 </style>
 
 <script>
