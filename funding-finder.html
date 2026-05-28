@@ -2327,13 +2327,11 @@
 <script>emailjs.init("g710KFSryN241SQWm");</script>
 </head>
 <body>
-<div style="position:fixed;top:12px;right:12px;width:14px;height:14px;border-radius:50%;background:red;z-index:99999;pointer-events:none;"></div>
-
 <div class="bg-orb bg-orb-1"></div>
 <div class="bg-orb bg-orb-2"></div>
 
 <!-- ====== HOME SCREEN ====== -->
-<div class="screen" id="screen-home">
+<div class="screen active" id="screen-home">
   <header class="ob-fixed-header">
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Funding Finder</span>
@@ -2387,7 +2385,7 @@
 </div>
 
 <!-- ====== DETAILS SCREEN ====== -->
-<div class="screen active" id="screen-details">
+<div class="screen" id="screen-details">
   <header class="ob-fixed-header">
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Funding Finder</span>
@@ -3702,35 +3700,7 @@ async function emailSummaryToUser() {
 document.addEventListener('DOMContentLoaded', () => {
   window.scrollTo(0, 0);
 
-  // Restore results screen if user refreshed mid-session
-  try {
-    const saved = sessionStorage.getItem('ff_results');
-    if (saved) {
-      const r = JSON.parse(saved);
-      document.getElementById('ai-summary-text').innerHTML    = r.summaryHtml;
-      document.getElementById('ai-summary-label').innerHTML   = r.summaryLabel;
-      document.getElementById('results-subtitle').innerHTML   = r.subtitle;
-      document.getElementById('special-messages-section').innerHTML = r.specialHtml;
-      const chartsRestoreEl = document.getElementById('charts-section');
-      if (chartsRestoreEl && r.chartsHtml) chartsRestoreEl.innerHTML = r.chartsHtml;
-      if (typeof renderNicoleContactCard === 'function') {
-        const c = document.getElementById('nicole-contact-card-container');
-        if (c) { c.innerHTML = renderNicoleContactCard(); loadNicolePhoto(); }
-      }
-      const checkEl = document.querySelector('#screen-results .results-check');
-      if (checkEl) {
-        const name = (state.name || '').trim();
-        const parts = name.split(/\s+/);
-        checkEl.textContent = parts.length >= 2
-          ? parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase()
-          : (parts[0] ? parts[0][0].toUpperCase() : '');
-      }
-      showScreen('results');
-      return;
-    }
-  } catch(e) {}
-
-  showScreen('details');
+  showScreen('home');
 
   // Shooting stars in all headers — same style as home.html
   document.querySelectorAll('.ob-fixed-header').forEach(hdr => {

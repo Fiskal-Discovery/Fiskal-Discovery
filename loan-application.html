@@ -3532,49 +3532,6 @@ function showDiscoveryThinkingScreen(callback) {
   document.addEventListener('DOMContentLoaded', attachToActive);
 })();
 </script>
-<script>
-// Session restore — show results screen immediately if a previous submission exists
-document.addEventListener('DOMContentLoaded', function() {
-  try {
-    const saved = JSON.parse(sessionStorage.getItem('la_results') || 'null');
-    if (!saved) return;
-    const g    = id => document.getElementById(id);
-    const gq   = q  => document.querySelector(q);
-    const set  = (id, prop, val) => { const el = g(id);  if (el && val !== undefined) el[prop] = val; };
-    const setS = (id, prop, val) => { const el = g(id);  if (el && val) el.style[prop] = val; };
-    set('results-name',       'textContent', saved.resultsName);
-    set('ai-summary-label',   'textContent', saved.summaryLabel);
-    set('ai-summary-text',    'innerHTML',   saved.summaryHtml);
-    const chk = gq('#screen-results .results-check');
-    if (chk && saved.checkText) chk.textContent = saved.checkText;
-    setS('loan-bar-fill',    'width',      saved.barFillWidth);
-    setS('loan-bar-fill',    'background', saved.barFillBg);
-    setS('loan-bar-marker',  'left',       saved.barMarkerLeft);
-    set('loan-strength-label', 'textContent', saved.strengthLabel);
-    setS('loan-strength-label', 'color',     saved.strengthLabelColor);
-    set('loan-strength-text',   'textContent', saved.strengthText);
-    if (saved.lendingDisplay) { const el = g('indicative-lending-section'); if (el) el.style.display = saved.lendingDisplay; }
-    set('indicative-range', 'textContent', saved.lendingRange);
-    set('indicative-note',  'textContent', saved.lendingNote);
-    if (saved.homeownerText) {
-      set('homeowner-note', 'textContent', saved.homeownerText);
-      if (saved.homeownerDisplay) { const el = g('homeowner-note'); if (el) el.style.display = saved.homeownerDisplay; }
-    }
-    if (saved.ifDisplay === 'block') { const el = g('invoice-finance-suggestion'); if (el) { el.style.display = 'block'; set('invoice-finance-suggestion-text', 'textContent', saved.ifText); } }
-    if (saved.afDisplay === 'block') { const el = g('asset-finance-suggestion');   if (el) { el.style.display = 'block'; set('asset-finance-suggestion-text',   'textContent', saved.afText); } }
-    if (saved.tfDisplay === 'block') { const el = g('trade-finance-suggestion');   if (el) { el.style.display = 'block'; set('trade-finance-suggestion-text',   'textContent', saved.tfText); } }
-    if (saved.rcDisplay === 'block') { const el = g('revolving-credit-suggestion'); if (el) { el.style.display = 'block'; set('revolving-credit-suggestion-text', 'textContent', saved.rcText); } }
-    showScreen('screen-results');
-    const el = g('screen-results'); if (el) el.scrollTop = 0;
-    const nc = g('nicole-contact-card-container');
-    if (nc && typeof renderNicoleContactCard === 'function') {
-      nc.innerHTML = renderNicoleContactCard();
-      if (typeof renderNicoleMessage === 'function') renderNicoleMessage();
-      if (typeof loadNicolePhoto === 'function') loadNicolePhoto();
-    }
-  } catch(e) {}
-});
-</script>
 
 <script src="shared-components.js"></script>
 </body>
