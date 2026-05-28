@@ -2361,6 +2361,7 @@ function showBobbyCinematic(onDone){
     scene++;st=performance.now();
     if(scene===2){s2kicked=false;s2kickedAt=0;s2nextShown=false;}
     if(scene===4){s4done=false;bExploded.fill(false);pile.length=0;lastFT=0;showNext();}
+    if(scene===5){cancelAnimationFrame(raf2);nb.style.display='none';let fo=0;(function fade(){fo=Math.min(1,fo+0.06);c.fillStyle=`rgba(0,0,0,${fo})`;c.fillRect(0,0,W,H);if(fo<1)requestAnimationFrame(fade);else{el.style.display='none';if(onDone)onDone();}})();return;}
     _bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';
   }
   _nx.onclick=advanceScene;
