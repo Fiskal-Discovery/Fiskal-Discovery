@@ -62,7 +62,7 @@
 .cin-bottom-bar button{font-family:'Press Start 2P',monospace;font-size:clamp(.48rem,1.5vw,.62rem);background:rgba(255,230,0,.1);color:#FFE600;border:2px solid #FFE600;padding:10px 14px;border-radius:4px;cursor:pointer;letter-spacing:.05em;min-height:42px;touch-action:manipulation;transition:background .15s,opacity .15s,visibility 0s;white-space:nowrap}
 .cin-content{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:12px 20px 8px;gap:0}
 .cin-bottom-bar button:hover{background:rgba(255,230,0,.22)}
-.cin-bottom-bar button.hidden{opacity:0;pointer-events:none;visibility:hidden}
+.cin-bottom-bar button.hidden{opacity:0;pointer-events:none;visibility:hidden}#gameover-screen .cin-bottom-bar #go-bb-back.hidden{display:none}
 .cin-bottom-bar .cin-sound{background:rgba(255,255,255,.05);color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.35)}
 .cin-bottom-bar .cin-sound:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.55)}
 .cin-bottom-bar .cin-sound.muted{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.02)}
@@ -312,6 +312,7 @@ function stopFaviconAnimation() {
   <button id="champions-btn" class="header-btn">🏆 LEADERBOARD</button>
   <div class="fiskal-header-inner"><div class="fiskal-title">Fiskal Discovery</div><div class="fiskal-sub">Refuse to Stand Still</div></div>
   <button id="home-btn" class="header-btn" onclick="goHome()">⌂ HOME</button>
+  <button id="pause-btn" class="header-btn" style="display:none">⏸ PAUSE</button>
   <button id="quit-btn" class="header-btn">✕ QUIT</button>
 </div>
 <div id="rotate-overlay"><div id="rotate-inner">↺<br>ROTATE YOUR<br>PHONE</div></div>
@@ -1079,7 +1080,7 @@ function drawWantedPoster(){
   c.beginPath();c.arc(W,H,30,Math.PI,-Math.PI/2);c.fill();
 }
 function renderPreviewAliens(){const prev=document.getElementById('alien-preview');prev.innerHTML='';ALIEN_TYPES.forEach(t=>{const c=document.createElement('canvas'),w=t.pixels[0].length*4,h=t.pixels.length*4;c.width=w+4;c.height=h+4;c.style.cssText='image-rendering:pixelated';drawPixelSprite(c.getContext('2d'),t.pixels,t.color,(w+4)/2,(h+4)/2,4);prev.appendChild(c)})}
-function showQuitBtn(show){document.getElementById('quit-btn').style.display=show?'block':'none';document.getElementById('home-btn').style.display=show?'none':'block';}
+function showQuitBtn(show){document.getElementById('quit-btn').style.display=show?'block':'none';document.getElementById('pause-btn').style.display=show?'block':'none';document.getElementById('home-btn').style.display=show?'none':'block';}
 let _lbPausedGame=false;
 function showLeaderboardScreen(){
   _lbPausedGame=false;
@@ -1105,58 +1106,74 @@ function _goRenderDefeated(){
   const list=document.getElementById('go-defeated-list');if(!list)return;
   list.innerHTML='';
   const arr=window._goDefeatedBosses||[];
-  if(arr.length===0){const empty=document.createElement('div');empty.style.cssText='color:rgba(255,255,255,.45);font-family:"Press Start 2P",monospace;font-size:.5rem;padding:8px;letter-spacing:.06em';empty.textContent='— NONE —';list.appendChild(empty);return;}
+  const total=arr.length;
   const bmap={};
   BOSS_NAMES.forEach(b=>{bmap[b.name]=b.color;});
   ACT2_BOSS_NAMES.forEach(b=>{bmap[b.name]=b.color;});
   bmap['LATE PAYMENT LARRY']='#5AAA22';bmap['BAILIFF BOBBY']='#FFD700';
-  // Full-screen overlay — same space as scene 4, avoids overflow:hidden clipping
+  const scoreVal=(document.getElementById('final-score')||{}).textContent||'0';
+  // Full-screen overlay — no DOM NEXT button; use the cin-bottom-bar via _goNextAction
   const overlay=document.createElement('div');
   overlay.id='go-shatter-overlay';
-  overlay.style.cssText='position:fixed;inset:0;z-index:500;background:rgba(8,0,15,.96);pointer-events:auto';
+  overlay.style.cssText='position:fixed;inset:0;z-index:500;background:rgba(8,0,15,.98);pointer-events:auto;overflow:hidden';
   document.body.appendChild(overlay);
   _goShatterOverlay=overlay;
   const cv=document.createElement('canvas');
   cv.style.cssText='position:absolute;inset:0;width:100%;height:100%';
   overlay.appendChild(cv);
+  // NEXT button inside overlay
+  const nextBtn=document.createElement('button');
+  nextBtn.textContent='NEXT ▶';
+  nextBtn.style.cssText='position:absolute;bottom:14px;right:18px;z-index:10;font-family:"Press Start 2P",monospace;font-size:.6rem;background:transparent;color:#FFE600;border:2px solid #FFE600;padding:10px 18px;cursor:pointer;border-radius:3px;opacity:0;transition:opacity .5s;pointer-events:none;touch-action:manipulation';
+  overlay.appendChild(nextBtn);
+  nextBtn.addEventListener('click',()=>{_goCleanShatter();_goNextAction();});
   const W=window.innerWidth,H=window.innerHeight;
   cv.width=W;cv.height=H;
   const c=cv.getContext('2d');
-  const footerH=Math.max(28,Math.round(H*0.055));
   const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
   const easeOut=t=>1-Math.pow(1-t,3);
+  // Compute font sizes first so we know headerH
+  let liqFs=clamp(W*0.055,16,44);
+  c.font=`bold ${liqFs}px "Press Start 2P",monospace`;
+  while(c.measureText("YOU'VE BEEN LIQUIDATED").width>W*0.92&&liqFs>12){liqFs-=2;c.font=`bold ${liqFs}px "Press Start 2P",monospace`;}
+  const scoreFs=clamp(W*0.034,10,22);
+  const cntFs=clamp(W*0.026,8,16);
+  const headerH=H*0.04+liqFs*1.45+scoreFs*1.65+cntFs*2.1;
+  const footerH=Math.max(44,Math.round(H*0.075));
   const STAGGER=0.5;
   const bST=arr.map((_,i)=>i*STAGGER);
   const bExploded=arr.map(()=>false);
-  const cols=arr.length>9?4:arr.length>4?3:arr.length>2?2:1;
-  const rows=Math.ceil(arr.length/cols);
+  let explodedCount=0,nextShown=false;
+  const cols=total>9?4:total>4?3:total>2?2:1;
+  const rowCount=Math.ceil(total/cols)||1;
+  const nameAreaH=H-headerH-footerH;
   const bPos=arr.map((_,i)=>{
     const col=i%cols,row=Math.floor(i/cols);
     return{
       x:clamp(W*(0.1+(col+0.5)*(0.8/cols)),60,W-60),
-      y:clamp(H*(0.16+row*(0.66/Math.max(rows,1))+0.06),40,H-footerH-24)
+      y:clamp(headerH+nameAreaH*(0.05+row*(0.86/rowCount)+0.04),headerH+8,H-footerH-20)
     };
   });
-  const pile=[];let startT=null,lastFT=0,rafGoId=null,dismissed=false,autoDismissTid=null;
-  function dismiss(){
-    if(dismissed)return;dismissed=true;
-    if(autoDismissTid){clearTimeout(autoDismissTid);autoDismissTid=null;}
-    if(rafGoId){cancelAnimationFrame(rafGoId);rafGoId=null;}
-    overlay.style.transition='opacity 0.55s';overlay.style.opacity='0';
-    setTimeout(()=>{_goCleanShatter();},600);
-  }
-  overlay.addEventListener('click',dismiss,{once:true});
+  function showNext(){if(nextShown)return;nextShown=true;nextBtn.style.opacity='1';nextBtn.style.pointerEvents='auto';}
+  if(total===0)showNext();
+  const pile=[];let startT=null,lastFT=0,rafGoId=null;
   function frame(ts){
     if(!startT)startT=ts;
     const t=(ts-startT)/1000;
     const dt=lastFT>0?Math.min((ts-lastFT)/1000,0.05):0.016;lastFT=ts;
     c.clearRect(0,0,W,H);
-    // Title
-    const titleFs=clamp(W*0.038,11,28);
-    c.font=`bold ${titleFs}px "Press Start 2P",monospace`;
-    c.textAlign='center';c.textBaseline='middle';
-    c.fillStyle='rgba(255,255,255,0.45)';c.shadowBlur=0;
-    c.fillText('ENEMIES DEFEATED',W/2,H*0.07);
+    // Header text
+    c.textAlign='center';
+    c.font=`bold ${liqFs}px "Press Start 2P",monospace`;c.textBaseline='top';
+    c.fillStyle='#FF2244';c.shadowColor='#FF2244';c.shadowBlur=22;
+    c.fillText("YOU'VE BEEN LIQUIDATED",W/2,H*0.04);c.shadowBlur=0;
+    c.font=`bold ${scoreFs}px "Press Start 2P",monospace`;
+    c.fillStyle='#FFE600';c.shadowColor='#FFE600';c.shadowBlur=10;
+    c.fillText('YOU RELEASED £'+scoreVal,W/2,H*0.04+liqFs*1.45);c.shadowBlur=0;
+    c.font=`bold ${cntFs}px "Press Start 2P",monospace`;
+    c.fillStyle='rgba(255,255,255,.48)';
+    c.fillText('ENEMIES DEFEATED: '+explodedCount+'/'+total,W/2,H*0.04+liqFs*1.45+scoreFs*1.65);
+    c.textBaseline='alphabetic';
     // Physics
     pile.forEach(fr=>{
       if(fr.settled)return;
@@ -1175,20 +1192,15 @@ function _goRenderDefeated(){
     });
     c.shadowBlur=0;
     // Footer bar
-    c.save();c.fillStyle='rgba(8,0,15,.92)';c.fillRect(0,H-footerH,W,footerH);
+    c.save();c.fillStyle='rgba(8,0,15,.95)';c.fillRect(0,H-footerH,W,footerH);
     c.strokeStyle='rgba(255,255,255,.07)';c.lineWidth=1;c.beginPath();c.moveTo(0,H-footerH);c.lineTo(W,H-footerH);c.stroke();c.restore();
-    // Tap hint in footer
-    c.font=`${clamp(W*0.02,7,12)}px "Press Start 2P",monospace`;
-    c.textAlign='center';c.textBaseline='middle';
-    c.fillStyle='rgba(255,255,255,0.22)';c.shadowBlur=0;
-    c.fillText('TAP TO SKIP',W/2,H-footerH/2);
     // Names
     arr.forEach((name,i)=>{
       const lt=t-bST[i];if(lt<0)return;
       const col=bmap[name]||'#AAAAAA';
-      let fs=clamp(W*0.066,14,58);
+      let fs=clamp(W*0.066,14,56);
       c.font=`bold ${fs}px "Press Start 2P",monospace`;
-      const maxW=W*(0.8/cols)-16;
+      const maxW=W*(0.8/cols)-14;
       while(c.measureText(name).width>maxW&&fs>9){fs-=2;c.font=`bold ${fs}px "Press Start 2P",monospace`;}
       const tw=c.measureText(name).width;
       const px=bPos[i].x,py=bPos[i].y;
@@ -1200,7 +1212,7 @@ function _goRenderDefeated(){
         c.font=`bold ${fs}px "Press Start 2P",monospace`;c.fillText(name,0,0);c.restore();
       }else{
         if(!bExploded[i]){
-          bExploded[i]=true;
+          bExploded[i]=true;explodedCount++;
           if(typeof SFX!=='undefined')SFX.wordBreak();
           for(let j=0;j<18;j++){
             const a=Math.random()*Math.PI*2,spd=120+Math.random()*380;
@@ -1210,6 +1222,7 @@ function _goRenderDefeated(){
               col,ch:name[Math.floor(Math.random()*name.length)]||'#',
               fs:clamp(fs*0.38,6,22),ro:4+Math.random()*45,settled:false});
           }
+          showNext();
         }
         if(lt<0.95){
           const fp=1-(lt-0.8)/0.15;
@@ -1221,16 +1234,7 @@ function _goRenderDefeated(){
     });
     c.globalAlpha=1;c.shadowBlur=0;c.textBaseline='alphabetic';
     const allDone=bExploded.every(Boolean)&&pile.every(fr=>fr.settled);
-    if(!allDone){
-      rafGoId=requestAnimationFrame(frame);
-    } else {
-      // Show "tap to continue" and auto-dismiss after 3s
-      c.font=`${clamp(W*0.022,8,14)}px "Press Start 2P",monospace`;
-      c.textAlign='center';c.textBaseline='middle';
-      c.fillStyle='rgba(255,255,255,0.55)';c.shadowBlur=0;
-      c.fillText('TAP TO CONTINUE ▶',W/2,H-footerH/2);
-      if(!autoDismissTid)autoDismissTid=setTimeout(dismiss,3000);
-    }
+    if(!allDone)rafGoId=requestAnimationFrame(frame);
   }
   rafGoId=requestAnimationFrame(frame);
 }
@@ -1683,7 +1687,7 @@ function goHome(){
 let _musicMuted=false;
 function toggleMusicMute(){_musicMuted=!_musicMuted;if(_musicMuted)MUSIC.mute();else MUSIC.unmute();const pb=document.getElementById('btn-music-toggle');if(pb){pb.classList.toggle('muted',_musicMuted);pb.textContent=_musicMuted?'♪ MUSIC OFF':'♪ MUSIC ON';}document.querySelectorAll('.cin-sound').forEach(b=>{b.classList.toggle('muted',_musicMuted);b.textContent=_musicMuted?'♪ SOUND OFF':'♪ SOUND ON';});}
 function toggleSFXMute(){const btn=document.getElementById('btn-sfx-toggle');const muted=btn.classList.toggle('muted');_sfxMuted=muted;btn.textContent=muted?'◉ SFX OFF':'◉ SFX ON'}
-function togglePause(){if(!G||G.dead)return;paused=!paused;document.getElementById('pause-overlay').classList.toggle('active',paused);if(paused){if(document.exitPointerLock&&document.pointerLockElement===canvas)document.exitPointerLock();MUSIC.pause()}else{MUSIC.resume();rafId=requestAnimationFrame(gameLoop)}}
+function togglePause(){if(!G||G.dead)return;paused=!paused;document.getElementById('pause-overlay').classList.toggle('active',paused);const pb=document.getElementById('pause-btn');if(pb)pb.textContent=paused?'▶ RESUME':'⏸ PAUSE';if(paused){if(document.exitPointerLock&&document.pointerLockElement===canvas)document.exitPointerLock();MUSIC.pause()}else{MUSIC.resume();rafId=requestAnimationFrame(gameLoop)}}
 function spawnWave(n){for(let i=0;i<n;i++)setTimeout(()=>{if(G&&!G.dead&&G.state==='playing')spawnAlien()},i*700)}
 function spawnAlien(){if(!G)return;const t=ALIEN_TYPES[Math.floor(Math.random()*ALIEN_TYPES.length)],w=t.pixels[0].length*t.scale,h=t.pixels.length*t.scale,dir=Math.random()>.5?1:-1,advancedMultiplier=G.wave>10?1+((G.wave-10)*0.08):1,spd=(1.1+G.wave*.12)*(G.slowmo>0?.35:1)*advancedMultiplier;G.enemies.push({x:Math.max(w/2+10,Math.min(canvas.width-w/2-10,40+Math.random()*(canvas.width-100))),y:-h,type:t,w,h,vx:dir*(.7+Math.random()*.6+G.wave*.08)*advancedMultiplier,vy:spd,frame:0})}
 function spawnBoss(){if(!G||G.dead)return;MUSIC.boss();
@@ -1993,7 +1997,7 @@ ctx.setTransform(1,0,0,1,0,0)
 }
 function runTests(){console.assert(ALIEN_TYPES.length===3,'aliens available');console.assert(document.getElementById('alien-preview'),'alien preview element exists');console.assert(typeof initGame==='function','init exists');console.assert(typeof spawnWordEnemy==='function','word spawn exists');console.log('Fiskal game tests passed')}
 renderPreviewAliens();runTests();updatePersonalBest();drawWantedPoster();
-document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-quit-pause').addEventListener('click',quitGame);document.getElementById('quit-btn').addEventListener('click',quitGame);document.getElementById('btn-start').addEventListener('click',showIntroCin);
+document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-quit-pause').addEventListener('click',quitGame);document.getElementById('quit-btn').addEventListener('click',quitGame);document.getElementById('pause-btn').addEventListener('click',togglePause);document.getElementById('btn-start').addEventListener('click',showIntroCin);
 function showIntroCin(){const el=document.getElementById('intro-cin');el.classList.add('ic-active');try{MUSIC.warm();MUSIC.cinematic();}catch(e){}_icNext(1);startCinStars();}
 let _twBuf=null;
 (function(){try{fetch('assets/magiaz-typewriter-454790.mp3').then(r=>r.arrayBuffer()).then(ab=>{try{getAudio().decodeAudioData(ab,b=>{_twBuf=b;})}catch(e){}}).catch(()=>{});}catch(e){}})();
