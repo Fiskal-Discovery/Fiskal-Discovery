@@ -1002,19 +1002,17 @@ function blackHolePhase() {
 
 function suckBlock(wb, cx, cy, hx, hy, dur) {
   const { el, fx, fy } = wb;
-  // Cancel the assembly animation so iOS Safari doesn't ignore the new one
   el.getAnimations().forEach(a => a.cancel());
-  el.style.transform = `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px))`;
+  // Hard-set assembled position then use CSS transitions (reliable on iOS Safari)
+  el.style.transition = 'none';
   el.style.opacity = '1';
-  void el.offsetLeft; // force style recalc before starting suck
+  el.style.transform = `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1) rotate(0deg)`;
+  void el.getBoundingClientRect(); // force compositing flush
   const ex = hx - cx, ey = hy - cy;
-  const mx = (fx + ex) / 2 + (fy - ey) * 0.25;
-  const my = (fy + ey) / 2 - (fx - ex) * 0.25;
-  el.animate([
-    { transform: `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1) rotate(0deg)`, opacity: 1, offset: 0 },
-    { transform: `translate(calc(-50% + ${mx}px), calc(-50% + ${my}px)) scale(.6) rotate(360deg)`, opacity: 1, offset: 0.6 },
-    { transform: `translate(calc(-50% + ${ex}px), calc(-50% + ${ey}px)) scale(0) rotate(900deg)`, opacity: .85, offset: 1 }
-  ], { duration: dur, easing: 'cubic-bezier(.55,0,.9,1)', fill: 'forwards' });
+  const rot = fx >= ex ? -540 : 540;
+  el.style.transition = `transform ${dur}ms cubic-bezier(.55,0,.9,1), opacity ${Math.round(dur*0.75)}ms ease-in`;
+  el.style.transform = `translate(calc(-50% + ${ex}px), calc(-50% + ${ey}px)) scale(0) rotate(${rot}deg)`;
+  el.style.opacity = '0';
 }
 
 function suckTextEl(el, hx, hy, keepCenterX, dur) {
