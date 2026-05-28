@@ -658,19 +658,18 @@ function initAudio() {
 }
 
 // ===== SOUND FILES =====
-// All mapped to files already in the assets/ folder.
 const SND_BASE = 'assets/';
 function snd(f) { const a = new Audio(SND_BASE + f); a.preload = 'auto'; return a; }
 const SND = {
-  whoosh:    snd('floraphonic-cartoon-slide-whistle-down-2-176648.mp3'),
-  laser:     snd('sfx/shoot.mp3'),
-  hit:       snd('sfx/boss-hit.mp3'),
-  explosion: snd('freesound_community-052168_huge-explosion-85199.mp3'),
-  suck:      snd('sfx/collect.mp3'),
-  lockin:    snd('freesound_community-army-rank-up-2-84543.mp3'),
-  bhappear:  snd('sfx/overdrive-activated.mp3'),
-  suckhum:   snd('sfx/hull-breach.mp3'),
-  bgloop:    snd('freesound_community-short-chiptune-loop-63966.mp3')
+  whoosh:    snd('stereogenicstudio-swish-swoosh-woosh-sfx-12-357180.mp3'),
+  laser:     snd('ribhavagrawal-laser-shot-ingame-230500.mp3'),
+  hit:       snd('freesound_community-080874_bullet-hit-39873.mp3'),
+  explosion: snd('freesound_community-distant-explosion-47562.mp3'),
+  suck:      snd('freesound_community-pixel-sound-effect-2-103306.mp3'),
+  lockin:    snd('existentialtaco-confirm-tap-394001.mp3'),
+  bhappear:  snd('freesound_community-enemy-detected-103347.mp3'),
+  suckhum:   snd('freesound_community-portal_idle-34022.mp3'),
+  bgloop:    snd('freesound_community-background-loop-71744.mp3')
 };
 function playSnd(a, vol) {
   try { const s = a.cloneNode(); s.volume = (vol == null ? 0.6 : vol); s.play().catch(() => {}); return s; }
