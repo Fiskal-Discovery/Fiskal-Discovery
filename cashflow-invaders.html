@@ -311,7 +311,6 @@ function stopFaviconAnimation() {
 <div class="fiskal-header">
   <button id="champions-btn" class="header-btn">🏆 LEADERBOARD</button>
   <div class="fiskal-header-inner"><div class="fiskal-title">Fiskal Discovery</div><div class="fiskal-sub">Refuse to Stand Still</div></div>
-  <button id="pause-btn" class="header-btn">⏸ PAUSE</button>
   <button id="home-btn" class="header-btn" onclick="goHome()">⌂ HOME</button>
   <button id="quit-btn" class="header-btn">✕ QUIT</button>
 </div>
@@ -1080,7 +1079,7 @@ function drawWantedPoster(){
   c.beginPath();c.arc(W,H,30,Math.PI,-Math.PI/2);c.fill();
 }
 function renderPreviewAliens(){const prev=document.getElementById('alien-preview');prev.innerHTML='';ALIEN_TYPES.forEach(t=>{const c=document.createElement('canvas'),w=t.pixels[0].length*4,h=t.pixels.length*4;c.width=w+4;c.height=h+4;c.style.cssText='image-rendering:pixelated';drawPixelSprite(c.getContext('2d'),t.pixels,t.color,(w+4)/2,(h+4)/2,4);prev.appendChild(c)})}
-function showQuitBtn(show){document.getElementById('quit-btn').style.display=show?'block':'none';document.getElementById('home-btn').style.display=show?'none':'block';document.getElementById('pause-btn').style.display=show?'block':'none'}
+function showQuitBtn(show){document.getElementById('quit-btn').style.display=show?'block':'none';document.getElementById('home-btn').style.display=show?'none':'block';}
 let _lbPausedGame=false;
 function showLeaderboardScreen(){
   _lbPausedGame=false;
@@ -1684,7 +1683,7 @@ function goHome(){
 let _musicMuted=false;
 function toggleMusicMute(){_musicMuted=!_musicMuted;if(_musicMuted)MUSIC.mute();else MUSIC.unmute();const pb=document.getElementById('btn-music-toggle');if(pb){pb.classList.toggle('muted',_musicMuted);pb.textContent=_musicMuted?'♪ MUSIC OFF':'♪ MUSIC ON';}document.querySelectorAll('.cin-sound').forEach(b=>{b.classList.toggle('muted',_musicMuted);b.textContent=_musicMuted?'♪ SOUND OFF':'♪ SOUND ON';});}
 function toggleSFXMute(){const btn=document.getElementById('btn-sfx-toggle');const muted=btn.classList.toggle('muted');_sfxMuted=muted;btn.textContent=muted?'◉ SFX OFF':'◉ SFX ON'}
-function togglePause(){if(!G||G.dead)return;paused=!paused;document.getElementById('pause-overlay').classList.toggle('active',paused);document.getElementById('pause-btn').textContent=paused?'▶ RESUME':'⏸ PAUSE';if(paused){if(document.exitPointerLock&&document.pointerLockElement===canvas)document.exitPointerLock();MUSIC.pause()}else{MUSIC.resume();rafId=requestAnimationFrame(gameLoop)}}
+function togglePause(){if(!G||G.dead)return;paused=!paused;document.getElementById('pause-overlay').classList.toggle('active',paused);if(paused){if(document.exitPointerLock&&document.pointerLockElement===canvas)document.exitPointerLock();MUSIC.pause()}else{MUSIC.resume();rafId=requestAnimationFrame(gameLoop)}}
 function spawnWave(n){for(let i=0;i<n;i++)setTimeout(()=>{if(G&&!G.dead&&G.state==='playing')spawnAlien()},i*700)}
 function spawnAlien(){if(!G)return;const t=ALIEN_TYPES[Math.floor(Math.random()*ALIEN_TYPES.length)],w=t.pixels[0].length*t.scale,h=t.pixels.length*t.scale,dir=Math.random()>.5?1:-1,advancedMultiplier=G.wave>10?1+((G.wave-10)*0.08):1,spd=(1.1+G.wave*.12)*(G.slowmo>0?.35:1)*advancedMultiplier;G.enemies.push({x:Math.max(w/2+10,Math.min(canvas.width-w/2-10,40+Math.random()*(canvas.width-100))),y:-h,type:t,w,h,vx:dir*(.7+Math.random()*.6+G.wave*.08)*advancedMultiplier,vy:spd,frame:0})}
 function spawnBoss(){if(!G||G.dead)return;MUSIC.boss();
@@ -1994,7 +1993,7 @@ ctx.setTransform(1,0,0,1,0,0)
 }
 function runTests(){console.assert(ALIEN_TYPES.length===3,'aliens available');console.assert(document.getElementById('alien-preview'),'alien preview element exists');console.assert(typeof initGame==='function','init exists');console.assert(typeof spawnWordEnemy==='function','word spawn exists');console.log('Fiskal game tests passed')}
 renderPreviewAliens();runTests();updatePersonalBest();drawWantedPoster();
-document.getElementById('pause-btn').addEventListener('click',togglePause);document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-quit-pause').addEventListener('click',quitGame);document.getElementById('quit-btn').addEventListener('click',quitGame);document.getElementById('btn-start').addEventListener('click',showIntroCin);
+document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-quit-pause').addEventListener('click',quitGame);document.getElementById('quit-btn').addEventListener('click',quitGame);document.getElementById('btn-start').addEventListener('click',showIntroCin);
 function showIntroCin(){const el=document.getElementById('intro-cin');el.classList.add('ic-active');try{MUSIC.warm();MUSIC.cinematic();}catch(e){}_icNext(1);startCinStars();}
 let _twBuf=null;
 (function(){try{fetch('assets/magiaz-typewriter-454790.mp3').then(r=>r.arrayBuffer()).then(ab=>{try{getAudio().decodeAudioData(ab,b=>{_twBuf=b;})}catch(e){}}).catch(()=>{});}catch(e){}})();
