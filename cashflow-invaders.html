@@ -1333,6 +1333,11 @@ function _lcDone(){
   if(_lcCinematicTid){clearTimeout(_lcCinematicTid);_lcCinematicTid=null;}
   _typewriteClear(document.getElementById('lc-top-banner'));
   MUSIC.stop();
+  if(G&&!G.dead){
+    document.getElementById('dev-skip-btn').style.display='flex';
+    const _bb=document.getElementById('bomb-btn');
+    if(_bb&&G.advancedMode)_bb.style.display='flex';
+  }
   if(window._lcOnDone)window._lcOnDone();
 }
 function _lcRunLarryAnim(){
