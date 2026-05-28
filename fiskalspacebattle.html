@@ -1002,6 +1002,11 @@ function blackHolePhase() {
 
 function suckBlock(wb, cx, cy, hx, hy, dur) {
   const { el, fx, fy } = wb;
+  // Cancel the assembly animation so iOS Safari doesn't ignore the new one
+  el.getAnimations().forEach(a => a.cancel());
+  el.style.transform = `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px))`;
+  el.style.opacity = '1';
+  void el.offsetLeft; // force style recalc before starting suck
   const ex = hx - cx, ey = hy - cy;
   const mx = (fx + ex) / 2 + (fy - ey) * 0.25;
   const my = (fy + ey) / 2 - (fx - ex) * 0.25;
@@ -1027,6 +1032,9 @@ function suckTextEl(el, hx, hy, keepCenterX, dur) {
 }
 
 function suckEverything(cx, cy, hx, hy) {
+  // Stop the float animation on the container so it doesn't interfere
+  blockGroup.classList.remove('alive');
+  blockGroup.style.transform = '';
   const SUCK_DUR = 620;
   let t = 0, interval = 130;
   const minInterval = 11;
