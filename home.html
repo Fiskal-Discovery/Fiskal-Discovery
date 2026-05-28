@@ -1956,7 +1956,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const cx=pu*W, cy=yMid(pu,W);
         const radius=burst.sz*0.2+burst.sz*2.8*(u*u);
         const [r,g,bv]=waveColor(u,phase);
-        const a=u<0.45?(u/0.45)*0.38:0.38;
+        const a=0;
         const g2=c.createRadialGradient(cx,cy,0,cx,cy,radius);
         g2.addColorStop(0,`rgba(${r},${g},${bv},${a.toFixed(2)})`);
         g2.addColorStop(1,`rgba(${r},${g},${bv},0)`);
