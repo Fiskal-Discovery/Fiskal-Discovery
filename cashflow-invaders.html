@@ -1112,7 +1112,6 @@ function _goRenderDefeated(){
   ACT2_BOSS_NAMES.forEach(b=>{bmap[b.name]=b.color;});
   bmap['LATE PAYMENT LARRY']='#5AAA22';bmap['BAILIFF BOBBY']='#FFD700';
   const scoreVal=(document.getElementById('final-score')||{}).textContent||'0';
-  // Full-screen overlay — no DOM NEXT button; use the cin-bottom-bar via _goNextAction
   const overlay=document.createElement('div');
   overlay.id='go-shatter-overlay';
   overlay.style.cssText='position:fixed;inset:0;z-index:500;background:rgba(8,0,15,.98);pointer-events:auto;overflow:hidden';
@@ -1121,7 +1120,6 @@ function _goRenderDefeated(){
   const cv=document.createElement('canvas');
   cv.style.cssText='position:absolute;inset:0;width:100%;height:100%';
   overlay.appendChild(cv);
-  // NEXT button inside overlay
   const nextBtn=document.createElement('button');
   nextBtn.textContent='NEXT ▶';
   nextBtn.style.cssText='position:absolute;bottom:14px;right:18px;z-index:10;font-family:"Press Start 2P",monospace;font-size:.6rem;background:transparent;color:#FFE600;border:2px solid #FFE600;padding:10px 18px;cursor:pointer;border-radius:3px;opacity:0;transition:opacity .5s;pointer-events:none;touch-action:manipulation';
@@ -1132,18 +1130,18 @@ function _goRenderDefeated(){
   const c=cv.getContext('2d');
   const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
   const easeOut=t=>1-Math.pow(1-t,3);
-  // Compute font sizes first so we know headerH
   let liqFs=clamp(W*0.055,16,44);
   c.font=`bold ${liqFs}px "Press Start 2P",monospace`;
   while(c.measureText("YOU'VE BEEN LIQUIDATED").width>W*0.92&&liqFs>12){liqFs-=2;c.font=`bold ${liqFs}px "Press Start 2P",monospace`;}
   const scoreFs=clamp(W*0.034,10,22);
   const cntFs=clamp(W*0.026,8,16);
-  const headerH=H*0.04+liqFs*1.45+scoreFs*1.65+cntFs*2.1;
+  const headerH=H*0.04+liqFs*1.45+scoreFs*1.65+cntFs*2.8;
   const footerH=Math.max(44,Math.round(H*0.075));
-  const STAGGER=0.5;
-  const bST=arr.map((_,i)=>i*STAGGER);
+  // Names start after the game-over voice has played (~3s), then stagger every 1s
+  const DELAY=3.0,STAGGER=1.0,ZOOM=1.6,FLASH=0.3;
+  const bST=arr.map((_,i)=>DELAY+i*STAGGER);
   const bExploded=arr.map(()=>false);
-  let explodedCount=0,nextShown=false;
+  let explodedCount=0,nextShown=false,allExplodedT=null;
   const cols=total>9?4:total>4?3:total>2?2:1;
   const rowCount=Math.ceil(total/cols)||1;
   const nameAreaH=H-headerH-footerH;
@@ -1154,6 +1152,20 @@ function _goRenderDefeated(){
       y:clamp(headerH+nameAreaH*(0.05+row*(0.86/rowCount)+0.04),headerH+8,H-footerH-20)
     };
   });
+  // Epilogue lines — appear after all names have exploded
+  const EPILOGUE=[
+    "Every business owner faces moments that feel impossible.",
+    "Cash dries up. Debts stack. The phone keeps ringing.",
+    "But behind every struggling business is a real person —",
+    "working hard, refusing to give in.",
+    "Small, independent brokers like Fiskal exist for exactly those moments.",
+    "Real people. Real solutions. Alongside you."
+  ];
+  let epiFs=clamp(W*0.022,8,15);
+  c.font=`${epiFs}px "Press Start 2P",monospace`;
+  const longest=EPILOGUE.reduce((a,b)=>c.measureText(a).width>c.measureText(b).width?a:b);
+  while(c.measureText(longest).width>W*0.9&&epiFs>6){epiFs--;c.font=`${epiFs}px "Press Start 2P",monospace`;}
+  const EPI_GAP=1.1;
   function showNext(){if(nextShown)return;nextShown=true;nextBtn.style.opacity='1';nextBtn.style.pointerEvents='auto';}
   if(total===0)showNext();
   const pile=[];let startT=null,lastFT=0,rafGoId=null;
@@ -1162,7 +1174,6 @@ function _goRenderDefeated(){
     const t=(ts-startT)/1000;
     const dt=lastFT>0?Math.min((ts-lastFT)/1000,0.05):0.016;lastFT=ts;
     c.clearRect(0,0,W,H);
-    // Header text
     c.textAlign='center';
     c.font=`bold ${liqFs}px "Press Start 2P",monospace`;c.textBaseline='top';
     c.fillStyle='#FF2244';c.shadowColor='#FF2244';c.shadowBlur=22;
@@ -1181,7 +1192,6 @@ function _goRenderDefeated(){
       fr.vx*=Math.pow(0.88,dt*60);
       if(fr.y>=H-footerH-fr.ro){fr.y=H-footerH-fr.ro;fr.settled=true;fr.vx=0;fr.vy=0;}
     });
-    // Draw pile
     c.textBaseline='middle';c.textAlign='center';
     pile.forEach(fr=>{
       c.save();c.translate(fr.x,fr.y);c.rotate(fr.angle);
@@ -1194,7 +1204,7 @@ function _goRenderDefeated(){
     // Footer bar
     c.save();c.fillStyle='rgba(8,0,15,.95)';c.fillRect(0,H-footerH,W,footerH);
     c.strokeStyle='rgba(255,255,255,.07)';c.lineWidth=1;c.beginPath();c.moveTo(0,H-footerH);c.lineTo(W,H-footerH);c.stroke();c.restore();
-    // Names
+    // Names zoom in then explode
     arr.forEach((name,i)=>{
       const lt=t-bST[i];if(lt<0)return;
       const col=bmap[name]||'#AAAAAA';
@@ -1205,10 +1215,10 @@ function _goRenderDefeated(){
       const tw=c.measureText(name).width;
       const px=bPos[i].x,py=bPos[i].y;
       c.textAlign='center';c.textBaseline='middle';
-      if(lt<0.8){
-        const sc=0.04+easeOut(lt/0.8)*0.96;
+      if(lt<ZOOM){
+        const sc=0.04+easeOut(lt/ZOOM)*0.96;
         c.save();c.translate(px,py);c.scale(sc,sc);
-        c.globalAlpha=clamp(lt/0.15,0,1);c.fillStyle=col;c.shadowColor=col;c.shadowBlur=20;
+        c.globalAlpha=clamp(lt/(ZOOM*0.19),0,1);c.fillStyle=col;c.shadowColor=col;c.shadowBlur=20;
         c.font=`bold ${fs}px "Press Start 2P",monospace`;c.fillText(name,0,0);c.restore();
       }else{
         if(!bExploded[i]){
@@ -1224,8 +1234,8 @@ function _goRenderDefeated(){
           }
           showNext();
         }
-        if(lt<0.95){
-          const fp=1-(lt-0.8)/0.15;
+        const fp=clamp(1-(lt-ZOOM)/FLASH,0,1);
+        if(fp>0){
           c.save();c.translate(px,py);c.scale(1+(1-fp)*0.5,1+(1-fp)*0.5);
           c.globalAlpha=fp;c.fillStyle='#FFFFFF';c.shadowColor='#FFFFFF';c.shadowBlur=50;
           c.font=`bold ${fs}px "Press Start 2P",monospace`;c.fillText(name,0,0);c.restore();
@@ -1233,7 +1243,35 @@ function _goRenderDefeated(){
       }
     });
     c.globalAlpha=1;c.shadowBlur=0;c.textBaseline='alphabetic';
-    const allDone=bExploded.every(Boolean)&&pile.every(fr=>fr.settled);
+    // Epilogue text — appears after all names exploded, one line at a time
+    const allExploded=bExploded.every(Boolean);
+    if(allExploded&&allExplodedT===null)allExplodedT=t;
+    if(allExplodedT!==null){
+      const et=t-allExplodedT;
+      const lineH=epiFs*2.4;
+      const textTop=headerH+8;
+      const textBot=H-footerH-clamp(H*0.12,30,60);
+      const blockH=EPILOGUE.length*lineH;
+      const startY=textTop+(textBot-textTop-blockH)/2;
+      c.font=`${epiFs}px "Press Start 2P",monospace`;
+      c.textAlign='center';c.textBaseline='top';
+      EPILOGUE.forEach((line,li)=>{
+        const lt2=et-li*EPI_GAP;if(lt2<=0)return;
+        const alpha=clamp(lt2/0.9,0,1);
+        const lastLine=li===EPILOGUE.length-1;
+        c.globalAlpha=alpha*(lastLine?0.95:0.72);
+        c.fillStyle=lastLine?'#FFE600':'rgba(200,200,255,1)';
+        if(lastLine){c.shadowColor='#FFE600';c.shadowBlur=10;}
+        c.fillText(line,W/2,startY+li*lineH);
+        c.shadowBlur=0;
+      });
+      c.globalAlpha=1;
+      // Show NEXT after last epilogue line has faded in
+      if(et>(EPILOGUE.length-1)*EPI_GAP+1.2)showNext();
+    }
+    const pileSettled=pile.every(fr=>fr.settled);
+    const epiDone=allExplodedT!==null&&(t-allExplodedT)>(EPILOGUE.length-1)*EPI_GAP+2;
+    const allDone=allExploded&&pileSettled&&epiDone;
     if(!allDone)rafGoId=requestAnimationFrame(frame);
   }
   rafGoId=requestAnimationFrame(frame);
