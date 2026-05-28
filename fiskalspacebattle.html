@@ -764,20 +764,18 @@ function buildAndAssembleWord() {
   const sw = stage.offsetWidth, sh = stage.offsetHeight;
   const cx = sw / 2, cy = sh / 2;
   let B = Math.max(5, sh * 0.30 / 7.6);
-  let G = Math.max(1, B * 0.07);
-  let LG = B * 0.85;
+  let G, LG;
   const maxDim = Math.max(sw, sh);
 
   const letters = "FISKAL".split('');
-  // Scale B down if the assembled word would overflow the screen width
-  {
+  // Iteratively shrink B until the assembled word fits within 90% of screen width
+  for (let _i = 0; _i < 10; _i++) {
+    G = Math.max(1, B * 0.07);
+    LG = B * 0.85;
     const _lw = letters.map(ch => PXL[ch][0].length * (B + G) - G);
     const _ww = _lw.reduce((a, b) => a + b, 0) + (letters.length - 1) * LG;
-    if (_ww > sw * 0.9) {
-      B = Math.max(5, B * (sw * 0.9) / _ww);
-      G = Math.max(1, B * 0.07);
-      LG = B * 0.85;
-    }
+    if (_ww <= sw * 0.9) break;
+    B = Math.max(5, B * (sw * 0.9) / _ww);
   }
   const letterWidths = letters.map(ch => PXL[ch][0].length * (B + G) - G);
   const wordW = letterWidths.reduce((a, b) => a + b, 0) + (letters.length - 1) * LG;
