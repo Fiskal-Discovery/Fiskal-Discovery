@@ -2067,6 +2067,18 @@ function _icDone(){const el=document.getElementById('intro-cin');el.classList.re
       btn.disabled = false;
       btn.textContent = 'Submit to Leaderboard';
     });
+});document.getElementById('btn-v-submit-score').addEventListener('click',async()=>{
+  const btn=document.getElementById('btn-v-submit-score');
+  const nameInput=document.getElementById('v-leaderboard-name').value.trim()||'ANONYMOUS';
+  const companyInput=document.getElementById('v-leaderboard-company').value.trim()||'N/A';
+  localStorage.setItem('fiskal_ci_player_name',nameInput);
+  btn.disabled=true;btn.textContent='Saving...';
+  const isLender=document.getElementById('v-is-lender').checked;
+  const tp=new Promise((_,r)=>setTimeout(()=>r(new Error('Timeout')),4000));
+  Promise.race([saveLB(nameInput,companyInput,finalScore,finalWave,isLender),tp])
+    .then(()=>showLeaderboardScreen())
+    .catch(()=>showLeaderboardScreen())
+    .finally(()=>{btn.disabled=false;btn.textContent='Submit to Leaderboard';});
 });document.getElementById('champions-btn').addEventListener('click',async()=>{showLeaderboardScreen();});document.addEventListener('keydown',e=>{if(!G||G.dead)return;G.keys[e.key]=true;if(e.key===' ')e.preventDefault();if(e.key==='p'||e.key==='P')togglePause();if(e.key==='n'||e.key==='N')skipWave();});document.addEventListener('keyup',e=>{if(!G||G.dead)return;G.keys[e.key]=false});let mouseCanvasX=null,mouseCanvasY=null;document.addEventListener('mousemove',e=>{const r=canvas.getBoundingClientRect();mouseCanvasX=e.clientX-r.left;mouseCanvasY=e.clientY-r.top;if(!G||!G.player||paused||G.frozen>0)return;if(document.pointerLockElement===canvas){G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x+e.movementX))}else{G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,mouseCanvasX));if(G.advancedMode)G.player.y=Math.max(canvas.height*.52,Math.min(canvas.height-22,mouseCanvasY))}});canvas.addEventListener('mouseleave',()=>{mouseCanvasX=null;mouseCanvasY=null});canvas.addEventListener('click',shoot);let lastTX=0,lastTY=0;canvas.addEventListener('touchstart',e=>{lastTX=e.touches[0].clientX;lastTY=e.touches[0].clientY;shoot()},{passive:true});canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!G||!G.player||paused||G.frozen>0)return;const dx=e.touches[0].clientX-lastTX;G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x+dx*.75));if(G.advancedMode){const dy=e.touches[0].clientY-lastTY;G.player.y=Math.max(canvas.height*.52,Math.min(canvas.height-22,G.player.y+dy*.75));lastTY=e.touches[0].clientY}lastTX=e.touches[0].clientX},{passive:false});
 
 let workModeActive=false,_wmDragged=false;
@@ -2206,8 +2218,18 @@ table tr:nth-child(even) td{background:#fafbff}
     <div class="vcin-panel" id="vcin-p3">
       <div id="vp3-score">£<span id="victory-score-counter">0</span> RELEASED</div>
       <div id="vp3-tags">COMMERCIAL FINANCE EXPERTS</div>
-      <div id="victory-buttons">
-        <button id="btn-victory-submit">🏆 SUBMIT TO LEADERBOARD</button>
+      <div class="gameover-card">
+        <div class="leaderboard-form">
+          <label>ENTER YOUR NAME FOR THE LEADERBOARD</label>
+          <input type="text" id="v-leaderboard-name" placeholder="YOUR NAME" maxlength="22">
+          <label>ENTER YOUR BUSINESS / COMPANY</label>
+          <input type="text" id="v-leaderboard-company" placeholder="BUSINESS / COMPANY" maxlength="22">
+          <label class="lender-check-label" style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:.48rem;color:rgba(255,255,255,0.8);margin-top:4px;max-width:100%;">
+            <input type="checkbox" id="v-is-lender" style="width:16px;height:16px;accent-color:#FFE600;cursor:pointer;flex-shrink:0;margin-top:2px;">
+            <span>I AM A LENDER<br>RELEASING FINANCES FOR MY CLIENTS</span>
+          </label>
+          <button class="btn-submit" id="btn-v-submit-score">🏆 SUBMIT TO LEADERBOARD</button>
+        </div>
       </div>
     </div>
   </div>
@@ -2269,16 +2291,11 @@ function showVictory(){
   let badges='';if(G.larryBeaten)badges+='⚡ ';if(G.bobbyBeaten)badges+='🏆 ';
   // badges available if needed in future
   stopFaviconAnimation();
-  document.getElementById('btn-victory-submit').onclick=()=>{
-    document.getElementById('victory-screen').classList.remove('active');
-    document.getElementById('final-score').textContent=finalScore;
-    const savedName=localStorage.getItem('fiskal_ci_player_name');
-    if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;
-    const stored=getStoredUserDetails();
-    if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;
-    if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;
-    showScreen('gameover-screen');_goNext(2);
-  };
+  const savedName=localStorage.getItem('fiskal_ci_player_name');
+  if(savedName&&savedName!=='ANONYMOUS')document.getElementById('v-leaderboard-name').value=savedName;
+  const _stored=getStoredUserDetails();
+  if(_stored.name&&!document.getElementById('v-leaderboard-name').value)document.getElementById('v-leaderboard-name').value=_stored.name;
+  if(_stored.company&&!document.getElementById('v-leaderboard-company').value)document.getElementById('v-leaderboard-company').value=_stored.company;
   SFX.clear&&SFX.clear();
   showBobbyCinematic(()=>{
     document.getElementById('victory-screen').classList.add('active');
