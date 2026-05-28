@@ -6,24 +6,44 @@
   <title>Fiskal – Space Battle Intro</title>
   <!--
   ╔══════════════════════════════════════════════════════════════════╗
-  ║          FISKAL SPACE BATTLE — INTERACTIVE VERSION              ║
+  ║          FISKAL SPACE BATTLE — CODER HANDOFF NOTES              ║
   ╠══════════════════════════════════════════════════════════════════╣
   ║                                                                  ║
-  ║  HOW TO PLAY                                                     ║
-  ║  Move mouse (or drag finger) to aim your ship left/right.       ║
-  ║  Click or tap to fire. 9 hits destroy the mothership.           ║
+  ║  SOUND FILES                                                     ║
+  ║  Put all .mp3 files in an "assets/" folder next to this HTML.   ║
+  ║  Files needed:                                                   ║
+  ║    stereogenicstudio-swish-swoosh-woosh-sfx-12-357180.mp3        ║
+  ║    ribhavagrawal-laser-shot-ingame-230500.mp3                    ║
+  ║    freesound_community-080874_bullet-hit-39873.mp3               ║
+  ║    freesound_community-distant-explosion-47562.mp3               ║
+  ║    freesound_community-pixel-sound-effect-2-103306.mp3           ║
+  ║    existentialtaco-confirm-tap-394001.mp3                        ║
+  ║    freesound_community-enemy-detected-103347.mp3                 ║
+  ║    freesound_community-portal_idle-34022.mp3                     ║
+  ║    freesound_community-background-loop-71744.mp3                 ║
   ║                                                                  ║
   ║  NAVIGATION — WHERE TO GO AFTER THE BLACK HOLE                  ║
-  ║  Find goToNextScreen() near the bottom of the JS.               ║
-  ║  Change: window.location.href = 'index.html';                   ║
-  ║  to whatever page should follow the intro.                       ║
+  ║  Find the function goToNextScreen() near the bottom of the JS.  ║
+  ║  Replace the demo replay line with your real navigation, e.g.:  ║
+  ║    window.location.href = 'index.html';                         ║
+  ║  or your SPA router call.                                        ║
   ║                                                                  ║
-  ║  SOUNDS                                                          ║
-  ║  All sounds are loaded from assets/ using files already in      ║
-  ║  the repo. No extra downloads needed.                           ║
+  ║  GITHUB PAGES DEPLOY                                             ║
+  ║  Push to main branch → auto-deploys.                            ║
+  ║  SND_BASE is already set to 'assets/' (relative path) — no      ║
+  ║  changes needed for deploy.                                      ║
   ║                                                                  ║
-  ║  GITHUB PAGES                                                    ║
-  ║  Push to main → auto-deploys. No config changes needed.        ║
+  ║  LOCAL TESTING WITH SOUNDS                                       ║
+  ║  Browsers block local file:// audio. Either:                    ║
+  ║    a) Run a local server: npx serve .                            ║
+  ║    b) Temporarily swap SND_BASE for your full GitHub Pages URL   ║
+  ║       e.g. 'https://fiskal-discovery.github.io/assets/'         ║
+  ║                                                                  ║
+  ║  MOBILE                                                          ║
+  ║  Works on phones automatically (landscape + portrait).          ║
+  ║  Portrait gets a taller stage so it doesn't feel too squished.  ║
+  ║  Tap anywhere to start/replay (same as desktop click).          ║
+  ║  Audio unlocks on first tap (browser autoplay policy).          ║
   ╚══════════════════════════════════════════════════════════════════╝
   -->
   <style>
@@ -47,16 +67,16 @@
   .stage {
     position:relative;
     width:100%;
+    /* Widescreen on landscape/desktop */
     max-width:1364px;
     aspect-ratio: 1364 / 600;
     background:radial-gradient(ellipse at center, #0a0218 0%, #000 70%);
-    overflow:hidden; cursor:default; user-select:none;
+    overflow:hidden; cursor:pointer; user-select:none;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
-  .stage.playing { cursor: crosshair; }
 
-  /* Portrait mobile */
+  /* Portrait mobile: fill more vertical space */
   @media (max-aspect-ratio: 1/1) {
     .stage {
       max-width:100%;
@@ -66,7 +86,7 @@
     }
   }
 
-  /* Tiny landscape phones */
+  /* Tiny landscape phones (e.g. iPhone SE landscape): keep usable height */
   @media (orientation: landscape) and (max-height: 420px) {
     .stage {
       height:100svh;
@@ -202,6 +222,7 @@
     transform: translate(-50%, -50%);
     z-index: 8;
     filter: drop-shadow(0 0 10px rgba(200,100,255,.7));
+    transition: left 2.8s cubic-bezier(.4,0,.6,1), top .5s ease, transform .3s;
   }
   .player svg { display:block; width:100%; height:auto; image-rendering: pixelated; }
   .player .thrust {
@@ -392,62 +413,8 @@
   .edge-line.top { top:0; }
   .edge-line.bottom { bottom:0; }
 
-  /* ---------- START OVERLAY ---------- */
-  .start-overlay {
-    position:absolute; inset:0; z-index:20;
-    display:flex; flex-direction:column;
-    align-items:center; justify-content:center; gap:1.4em;
-  }
-  .start-overlay.hidden { display:none; }
-  .start-title {
-    font-family:'Press Start 2P', monospace;
-    color:#c83ad0;
-    font-size: clamp(12px, 2.5vw, 32px);
-    letter-spacing:.2em;
-    text-shadow:0 0 12px #c83ad0, 0 0 28px rgba(200,58,208,.6), 0 0 48px rgba(200,58,208,.3);
-    animation: startPulse 1.4s ease-in-out infinite;
-  }
-  .start-sub {
-    font-family:'Press Start 2P', monospace;
-    color:#555;
-    font-size: clamp(6px, 1vw, 13px);
-    letter-spacing:.1em;
-  }
-  /* health bar */
-  .hp-bar-wrap {
-    position:absolute; bottom:4%; left:50%; transform:translateX(-50%);
-    z-index:18; display:flex; flex-direction:column; align-items:center; gap:4px;
-    pointer-events:none;
-  }
-  .hp-label {
-    font-family:'Press Start 2P', monospace;
-    color:#60ff80; font-size: clamp(5px, 0.9vw, 11px); letter-spacing:.12em;
-    text-shadow: 0 0 6px #60ff80;
-  }
-  .hp-track {
-    width: clamp(80px, 18vw, 260px); height: clamp(6px, 1.2vw, 14px);
-    background: rgba(0,0,0,.7); border: 1px solid #2a4a2a;
-    border-radius:2px; overflow:hidden;
-  }
-  .hp-fill {
-    height:100%; width:100%;
-    background: linear-gradient(to right, #20ff60, #60ff80);
-    box-shadow: 0 0 8px #40ff70;
-    transition: width .25s ease-out, background .4s;
-    border-radius:2px;
-  }
-  .hp-fill.warn { background: linear-gradient(to right, #ffd000, #ffee40); box-shadow: 0 0 8px #ffd000; }
-  .hp-fill.crit { background: linear-gradient(to right, #ff2020, #ff6040); box-shadow: 0 0 8px #ff2020; }
-  /* cooldown flash on ship */
-  .player.fired { animation: muzzleFlash .12s ease-out; }
-  @keyframes muzzleFlash {
-    0%   { filter: drop-shadow(0 0 10px rgba(200,100,255,.7)) brightness(2.5); }
-    100% { filter: drop-shadow(0 0 10px rgba(200,100,255,.7)) brightness(1); }
-  }
-  @keyframes startPulse {
-    0%,100% { opacity:1; }
-    50%      { opacity:.35; }
-  }
+  /* ---------- PLAYER SHOOTING CURSOR ---------- */
+  .stage.can-shoot { cursor: crosshair; }
   </style>
 </head>
 <body>
@@ -542,18 +509,6 @@
     <div class="bh-haze"></div>
   </div>
 
-  <!-- Mothership health bar -->
-  <div class="hp-bar-wrap" id="hpBarWrap" style="display:none;">
-    <div class="hp-label">MOTHERSHIP HULL</div>
-    <div class="hp-track"><div class="hp-fill" id="hpFill"></div></div>
-  </div>
-
-  <!-- Start screen -->
-  <div class="start-overlay" id="startOverlay">
-    <div class="start-title">CLICK TO PLAY</div>
-    <div class="start-sub">MOVE TO AIM &nbsp;·&nbsp; CLICK / TAP TO FIRE</div>
-  </div>
-
   <div class="whiteout" id="whiteout"></div>
   <div class="transition" id="transition"></div>
 
@@ -564,24 +519,15 @@
 </div>
 
 <script>
-const stage        = document.getElementById('stage');
-const alien        = document.getElementById('alien');
-const player       = document.getElementById('player');
-const whiteout     = document.getElementById('whiteout');
-const blockGroup   = document.getElementById('blockGroup');
-const finTop       = document.getElementById('finTop');
-const finBottom    = document.getElementById('finBottom');
-const blackhole    = document.getElementById('blackhole');
-const transition   = document.getElementById('transition');
-const startOverlay = document.getElementById('startOverlay');
-const hpBarWrap    = document.getElementById('hpBarWrap');
-const hpFill       = document.getElementById('hpFill');
-
-// ===== STATE =====
-// 'idle' | 'flying-in' | 'playing' | 'exploding' | 'finishing'
-let gameState = 'idle';
-let lastFireTime = 0;
-const FIRE_COOLDOWN = 320; // ms between shots
+const stage = document.getElementById('stage');
+const alien = document.getElementById('alien');
+const player = document.getElementById('player');
+const whiteout = document.getElementById('whiteout');
+const blockGroup = document.getElementById('blockGroup');
+const finTop = document.getElementById('finTop');
+const finBottom = document.getElementById('finBottom');
+const blackhole = document.getElementById('blackhole');
+const transition = document.getElementById('transition');
 
 // 5x7 pixel letters
 const PXL = {
@@ -658,6 +604,7 @@ function initAudio() {
 }
 
 // ===== SOUND FILES =====
+// All files live in an "assets/" folder next to this HTML.
 const SND_BASE = 'assets/';
 function snd(f) { const a = new Audio(SND_BASE + f); a.preload = 'auto'; return a; }
 const SND = {
@@ -675,13 +622,15 @@ function playSnd(a, vol) {
   try { const s = a.cloneNode(); s.volume = (vol == null ? 0.6 : vol); s.play().catch(() => {}); return s; }
   catch (e) {}
 }
-function playWhoosh()          { playSnd(SND.whoosh, 0.45); }
-function playLaser()           { playSnd(SND.laser, 0.35); }
-function playHit()             { playSnd(SND.hit, 0.5); }
-function playExplosion()       { playSnd(SND.explosion, 0.75); }
-function playSuck()            { playSnd(SND.suck, 0.6); }
-function playLockIn()          { playSnd(SND.lockin, 0.6); }
-function playBlackholeAppear() { playSnd(SND.bhappear, 0.55); }
+function playWhoosh()         { playSnd(SND.whoosh, 0.5); }
+function playLaser()          { playSnd(SND.laser, 0.4); }
+function playHit()            { playSnd(SND.hit, 0.5); }
+function playExplosion()      { playSnd(SND.explosion, 0.75); }
+function playSuck()           { playSnd(SND.suck, 0.6); }
+function playLockIn()         { playSnd(SND.lockin, 0.6); }
+function playFanfare()        { /* removed */ }
+function playBlackholeAppear(){ playSnd(SND.bhappear, 0.6); }
+// Blip stays synthesised (plays many times rapidly — file would stutter)
 function playBlip(p) {
   if (!audioCtx) return;
   const t = audioCtx.currentTime;
@@ -696,7 +645,7 @@ function startSuckHum(durMs) {
   stopSuckHum();
   try {
     suckHumEl = SND.suckhum.cloneNode();
-    suckHumEl.loop = true; suckHumEl.volume = 0.4;
+    suckHumEl.loop = true; suckHumEl.volume = 0.5;
     suckHumEl.play().catch(() => {});
   } catch (e) {}
   later(() => stopSuckHum(), durMs + 200);
@@ -707,7 +656,7 @@ function startBgLoop() {
   if (bgLoopEl) return;
   try {
     bgLoopEl = SND.bgloop.cloneNode();
-    bgLoopEl.loop = true; bgLoopEl.volume = 0.28;
+    bgLoopEl.loop = true; bgLoopEl.volume = 0.32;
     bgLoopEl.play().catch(() => {});
   } catch (e) {}
 }
@@ -717,13 +666,10 @@ function stopBgLoop() { if (bgLoopEl) { try { bgLoopEl.pause(); } catch (e) {} b
 let hitCount = 0;
 const TOTAL_HITS = 9;
 
-function updateHpBar() {
-  const pct = Math.max(0, (TOTAL_HITS - hitCount) / TOTAL_HITS * 100);
-  hpFill.style.width = pct + '%';
-  hpFill.classList.remove('warn','crit');
-  if (pct <= 33) hpFill.classList.add('crit');
-  else if (pct <= 66) hpFill.classList.add('warn');
-}
+// ===== PLAYER SHOOTING STATE =====
+let gameRunning = false;   // true once the ship is on screen and shooting
+let lastFireTime = 0;
+const FIRE_COOLDOWN = 320; // ms between player shots
 
 function alienCenter() {
   const r = alien.getBoundingClientRect(), s = stage.getBoundingClientRect();
@@ -736,16 +682,11 @@ function playerNoseTip() {
 function moveShipTo(xPct, yPct) {
   player.style.left = xPct + '%';
   player.style.top = yPct + '%';
-  player.style.transform = 'translate(-50%, -50%)';
+  player.style.transform = `translate(-50%, -50%)`;
 }
 
 function fireBullet() {
   playLaser();
-  // Muzzle flash on ship
-  player.classList.remove('fired');
-  void player.offsetWidth;
-  player.classList.add('fired');
-
   const start = playerNoseTip(), target = alienCenter();
   const tx = target.x + (Math.random()-.5) * 100;
   const ty = target.y + (Math.random()-.5) * 60;
@@ -755,11 +696,11 @@ function fireBullet() {
   b.style.left = start.x + 'px'; b.style.top = start.y + 'px';
   b.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
   stage.appendChild(b);
-  const duration = 320, startTime = performance.now();
+  const duration = 380, startTime = performance.now();
   function animate(t) {
     const p = Math.min((t - startTime) / duration, 1);
     b.style.left = (start.x + (tx - start.x) * p) + 'px';
-    b.style.top  = (start.y + (ty - start.y) * p) + 'px';
+    b.style.top = (start.y + (ty - start.y) * p) + 'px';
     if (p < 1) requestAnimationFrame(animate);
     else { b.remove(); hitAlien(tx, ty); }
   }
@@ -768,7 +709,6 @@ function fireBullet() {
 
 function hitAlien(x, y) {
   hitCount++;
-  updateHpBar();
   playHit();
   const flash = document.createElement('div');
   flash.className = 'hitflash';
@@ -780,7 +720,7 @@ function hitAlien(x, y) {
   if (hitCount === 3) alien.classList.add('dmg1');
   else if (hitCount === 6) alien.classList.add('dmg2');
   else if (hitCount === 8) alien.classList.add('dmg3');
-  if (hitCount === TOTAL_HITS) { gameState = 'exploding'; later(explode, 200); }
+  if (hitCount === TOTAL_HITS) later(explode, 200);
 }
 
 function spawnShockring(center, color, delay, maxSize, duration) {
@@ -880,7 +820,7 @@ function buildAndAssembleWord() {
   });
 
   later(playSuck, 1550);
-  later(() => { playLockIn(); blockGroup.classList.add('alive'); }, 3500);
+  later(() => { playLockIn(); blockGroup.classList.add('alive'); playFanfare(); }, 3500);
 
   finTop.style.fontSize = Math.max(8, B * 0.85) + 'px';
   finBottom.style.fontSize = Math.max(9, B * 0.9) + 'px';
@@ -1101,7 +1041,8 @@ function suckEverything(cx, cy, hx, hy) {
 }
 
 function finishAndAdvance() {
-  gameState = 'finishing';
+  gameRunning = false;
+  stage.classList.remove('can-shoot');
   const sw = stage.offsetWidth, sh = stage.offsetHeight;
   const boxW = parseFloat(getComputedStyle(blackhole).width) || 80;
   const fillScale = (Math.hypot(sw, sh) / boxW) * 5;
@@ -1119,20 +1060,21 @@ function goToNextScreen() {
   window.location.href = 'cashflow-invaders.html';
 }
 
-function resetToIdle() {
+function runSequence() {
   timers.forEach(t => clearTimeout(t.id)); timers = [];
   paused = false;
   stopSuckHum();
+  startBgLoop();
 
   hitCount = 0;
-  updateHpBar();
+  gameRunning = false;
+  stage.classList.remove('can-shoot');
   alien.classList.remove('dmg1','dmg2','dmg3','exploding');
   blockGroup.classList.remove('alive');
   blockGroup.style.transform = '';
   blockGroup.innerHTML = '';
   wordBlocks = [];
   finTop.classList.remove('show','floaty');
-  finTop.style.opacity = '0';
   finTop.style.transform = '';
   finTop.getAnimations().forEach(a => a.cancel());
   finBottom.classList.remove('floaty');
@@ -1147,40 +1089,30 @@ function resetToIdle() {
   blackhole.style.transform = 'translate(-50%,-50%) scale(0)';
   transition.classList.remove('on');
 
-  // Hide HP bar, hide ship off screen
-  hpBarWrap.style.display = 'none';
-  player.style.transition = 'none';
+  player.style.transition = 'left 2.8s cubic-bezier(.4,0,.6,1), top .5s ease, transform .3s';
   moveShipTo(-15, 88);
-  stage.classList.remove('playing');
 
-  gameState = 'idle';
-  startOverlay.classList.remove('hidden');
-}
+  later(playWhoosh, 300);
+  later(() => moveShipTo(12, 88), 400);
 
-function startGame() {
-  startOverlay.classList.add('hidden');
-  startBgLoop();
-  gameState = 'flying-in';
-
-  // Show HP bar, reset it
-  hpBarWrap.style.display = '';
-  updateHpBar();
-
-  // Ship fly-in from the left, then unlock interactive control
-  player.style.transition = 'left 1.1s cubic-bezier(.35,0,.55,1), top .5s ease';
-  moveShipTo(-15, 88);
-  later(playWhoosh, 80);
-  later(() => moveShipTo(50, 88), 100);
+  // Ship arrives ~1.3s in — enable player shooting and mouse tracking from here
   later(() => {
-    player.style.transition = 'none'; // instant mouse/touch tracking from here
-    stage.classList.add('playing');
-    gameState = 'playing';
-  }, 1200);
+    player.style.transition = 'none'; // instant mouse tracking
+    gameRunning = true;
+    stage.classList.add('can-shoot');
+  }, 1300);
+
+  const fireTimes = [1300, 1900, 2500, 3100, 3700, 4300, 4900, 5500, 6200];
+  fireTimes.forEach(t => later(() => fireBullet(), t));
+
+  later(() => moveShipTo(85, 88), 1700);
+  later(() => moveShipTo(20, 88), 4200);
+  later(() => moveShipTo(70, 88), 6000);
 }
 
 function explode() {
-  stage.classList.remove('playing');
-  hpBarWrap.style.display = 'none';
+  gameRunning = false;
+  stage.classList.remove('can-shoot');
   playExplosion();
   whiteout.classList.add('flash');
   stage.classList.add('bigshake');
@@ -1200,7 +1132,6 @@ function explode() {
 
   later(buildAndAssembleWord, 320);
 
-  // Ship victory exit
   player.style.transition = 'all .8s ease-in';
   player.style.left = '130%'; player.style.top = '50%';
 
@@ -1210,54 +1141,56 @@ function explode() {
   }, 1400);
 }
 
-// ===== INTERACTIVE CONTROLS =====
+// ===== PLAYER CONTROLS =====
 
-// Ship follows mouse horizontally (locked to battle row)
+// Mouse moves ship horizontally while game is running
 stage.addEventListener('mousemove', e => {
-  if (gameState !== 'playing') return;
+  if (!gameRunning) return;
   const rect = stage.getBoundingClientRect();
   const xPct = ((e.clientX - rect.left) / rect.width) * 100;
   player.style.left = Math.max(4, Math.min(96, xPct)) + '%';
-  player.style.top = '88%';
 });
 
-// Ship follows touch horizontally
+// Touch drag moves ship
 stage.addEventListener('touchmove', e => {
-  if (gameState !== 'playing') return;
+  if (!gameRunning) return;
   e.preventDefault();
   const rect = stage.getBoundingClientRect();
-  const touch = e.touches[0];
-  const xPct = ((touch.clientX - rect.left) / rect.width) * 100;
+  const xPct = ((e.touches[0].clientX - rect.left) / rect.width) * 100;
   player.style.left = Math.max(4, Math.min(96, xPct)) + '%';
-  player.style.top = '88%';
 }, { passive: false });
 
-// Click to fire / start
+// Click: fire if game running, otherwise restart
 stage.addEventListener('click', e => {
-  if (gameState === 'idle') { startGame(); return; }
-  if (gameState === 'playing') {
+  if (gameRunning) {
     const now = performance.now();
-    if (now - lastFireTime >= FIRE_COOLDOWN) {
-      lastFireTime = now;
-      fireBullet();
-    }
+    if (now - lastFireTime >= FIRE_COOLDOWN) { lastFireTime = now; fireBullet(); }
+    return;
+  }
+  runSequence();
+});
+
+// Tap: same as click
+stage.addEventListener('touchend', e => {
+  e.preventDefault();
+  if (gameRunning) {
+    const now = performance.now();
+    if (now - lastFireTime >= FIRE_COOLDOWN) { lastFireTime = now; fireBullet(); }
+    return;
+  }
+  runSequence();
+}, { passive: false });
+
+// Space / Enter also fires
+document.addEventListener('keydown', e => {
+  if ((e.code === 'Space' || e.code === 'Enter') && gameRunning) {
+    e.preventDefault();
+    const now = performance.now();
+    if (now - lastFireTime >= FIRE_COOLDOWN) { lastFireTime = now; fireBullet(); }
   }
 });
 
-// Tap to fire / start
-stage.addEventListener('touchend', e => {
-  e.preventDefault();
-  if (gameState === 'idle') { startGame(); return; }
-  if (gameState === 'playing') {
-    const now = performance.now();
-    if (now - lastFireTime >= FIRE_COOLDOWN) {
-      lastFireTime = now;
-      fireBullet();
-    }
-  }
-}, { passive: false });
-
-// Unlock audio on first interaction
+// Unlock audio on first interaction (browser autoplay policy)
 function unlockAudio() {
   initAudio();
   startBgLoop();
@@ -1268,18 +1201,6 @@ function unlockAudio() {
 document.addEventListener('click', unlockAudio);
 document.addEventListener('touchstart', unlockAudio, { passive: true });
 document.addEventListener('keydown', unlockAudio);
-
-// Spacebar / Enter also fires
-document.addEventListener('keydown', e => {
-  if (e.code === 'Space' || e.code === 'Enter') {
-    e.preventDefault();
-    if (gameState === 'idle') { startGame(); return; }
-    if (gameState === 'playing') {
-      const now = performance.now();
-      if (now - lastFireTime >= FIRE_COOLDOWN) { lastFireTime = now; fireBullet(); }
-    }
-  }
-});
 
 // Background shooting stars
 function spawnBgShooter() {
@@ -1306,8 +1227,8 @@ function spawnBgShooter() {
 }
 setInterval(() => { if (Math.random() < 0.75) spawnBgShooter(); }, 1400);
 
-// Start in idle state — show the start screen
-moveShipTo(-15, 88);
+// Auto-start
+runSequence();
 </script>
 </body>
 </html>
