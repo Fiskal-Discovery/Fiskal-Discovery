@@ -1923,7 +1923,7 @@ function _icDone(){if(_icDoneGuard)return;_icDoneGuard=true;const el=document.ge
       btn.disabled = false;
       btn.textContent = 'Submit to Leaderboard';
     });
-});document.getElementById('btn-v-submit-score').addEventListener('click',async()=>{
+});const _btnVS=document.getElementById('btn-v-submit-score');if(_btnVS)_btnVS.addEventListener('click',async()=>{
   const btn=document.getElementById('btn-v-submit-score');
   const nameInput=document.getElementById('v-leaderboard-name').value.trim()||'ANONYMOUS';
   const companyInput=document.getElementById('v-leaderboard-company').value.trim()||'N/A';
@@ -2098,6 +2098,8 @@ table tr:nth-child(even) td{background:#fafbff}
 
 <script>
 'use strict';
+// Wire victory leaderboard submit (element is parsed before this script block)
+(function(){const btn=document.getElementById('btn-v-submit-score');if(!btn)return;btn.addEventListener('click',async()=>{const b=document.getElementById('btn-v-submit-score');const nameInput=document.getElementById('v-leaderboard-name').value.trim()||'ANONYMOUS';const companyInput=document.getElementById('v-leaderboard-company').value.trim()||'N/A';localStorage.setItem('fiskal_ci_player_name',nameInput);b.disabled=true;b.textContent='Saving...';const isLender=document.getElementById('v-is-lender').checked;const tp=new Promise((_,r)=>setTimeout(()=>r(new Error('Timeout')),4000));Promise.race([saveLB(nameInput,companyInput,finalScore,finalWave,isLender),tp]).then(()=>showLeaderboardScreen()).catch(()=>showLeaderboardScreen()).finally(()=>{b.disabled=false;b.textContent='🏆 SUBMIT TO LEADERBOARD';});});})();
 let victoryRafId=null,tvRafId=null,confettiPieces=[],tvHeadlineIdx=0,tvHeadlineTimer=0;
 const TV_HEADLINES=[
   'LOCAL BUSINESS DEFEATS BAILIFF — FISKAL BROKER CITED AS KEY FACTOR',
