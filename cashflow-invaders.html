@@ -1127,7 +1127,7 @@ function showLarryCinematic(defeatedBosses,onDone){
   setTimeout(()=>MUSIC.cinematic(),400);
   el.classList.add('active');el.style.pointerEvents='auto';
   cin.style.display='';cin.classList.add('lc-active');
-  document.getElementById('bomb-btn').style.display='none';
+  const _bb=document.getElementById('bomb-btn');if(_bb)_bb.style.display='none';
   document.getElementById('dev-skip-btn').style.display='none';
   document.getElementById('work-mode-btn').style.display='none';
   startCinStars();
