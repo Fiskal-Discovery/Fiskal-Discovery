@@ -210,8 +210,7 @@
   }
   .answer-options.two-col .answer-btn.selected::after,
   .checkbox-options.two-col .checkbox-btn.selected::after {
-    content: ' ✓';
-    font-size: 11px;
+    content: none;
   }
 
   .answer-btn {
@@ -284,24 +283,7 @@
     box-shadow: 0 0 0 3px rgba(126, 9, 165, 0.25);
   }
 
-  .checkbox-tick {
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(79,70,229,0.3);
-    border-radius: 4px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    transition: all 0.2s ease;
-  }
-
-  .checkbox-btn.selected .checkbox-tick {
-    background: var(--indigo);
-    border-color: var(--indigo);
-    color: white;
-  }
+  .checkbox-tick { display: none; }
 
   /* Form inputs */
   .form-group { margin-bottom: 16px; }
@@ -1510,7 +1492,7 @@
   <div class="screen-content">
     <div class="question-product">Invoice Finance Review</div>
     <h2 class="question-text">What matters most to you?</h2>
-    <p class="question-sub">Tick all that apply.</p>
+    <p class="question-sub">Select all that apply.</p>
     <div class="checkbox-options two-col" id="if-priorities-options">
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Lower fees and charges')">Lower fees and charges</button>
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Higher advance rate')">Higher advance rate</button>
@@ -1856,7 +1838,7 @@
   <div class="screen-content">
         <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">What would you like to achieve?</h2>
-    <p class="question-sub">Tick all that apply.</p>
+    <p class="question-sub">Select all that apply.</p>
     <div class="checkbox-options two-col">
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Refinance at a lower rate')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Refinance at a lower rate</button>
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Reduce monthly repayments')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Reduce monthly repayments</button>
@@ -2227,7 +2209,7 @@
   <div class="screen-content">
     <div class="question-product">FX Review</div>
     <h2 class="question-text">What would you like to achieve?</h2>
-    <p class="question-sub">Tick all that apply.</p>
+    <p class="question-sub">Select all that apply.</p>
     <div class="checkbox-options two-col">
       <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Pay less on currency conversions')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Pay less on conversions</button>
       <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Get better exchange rates')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Better exchange rates</button>
@@ -5340,10 +5322,8 @@ document.addEventListener('DOMContentLoaded', function () {
     .ob-tagline-refuse { font-size: 16px; letter-spacing: 1px; }
     .ob-tagline-rest { font-size: 7px; letter-spacing: 0px; }
   }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--sb-thumb, #4e0063); border-radius: 3px; }
-  * { scrollbar-width: thin; scrollbar-color: var(--sb-thumb, #4e0063) transparent; }
+  ::-webkit-scrollbar { display: none; }
+  * { scrollbar-width: none; }
 
   /* ---- RESULTS SCREENS: spinning dot + dark summary panel ---- */
   #screen-asset-loading .results-check,
