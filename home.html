@@ -1922,7 +1922,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const burst={p:0.0,speed:0.07,sz:10.0};
 
-    function waveColor(u,phase){ return [0,0,0]; }
+    function waveColor(u,phase){
+      const t=((u+phase)%1+1)%1;
+      // Cycle: black → deep purple → violet → black
+      if(t<0.4){ const f=t/0.4; return [Math.round(f*78), 0, Math.round(f*99)]; }
+      else if(t<0.7){ const f=(t-0.4)/0.3; return [Math.round(78+f*48), Math.round(f*9), Math.round(99+f*66)]; }
+      else { const f=(t-0.7)/0.3; return [Math.round(126-f*126), Math.round(9-f*9), Math.round(165-f*165)]; }
+    }
 
     const c=cv.getContext('2d');
     function frame(){
