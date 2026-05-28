@@ -668,6 +668,7 @@ const TOTAL_HITS = 9;
 
 // ===== PLAYER SHOOTING STATE =====
 let gameRunning = false;   // true once the ship is on screen and shooting
+let explodeStarted = false; // true after explosion begins — prevents click-restart during reveal
 let lastFireTime = 0;
 const FIRE_COOLDOWN = 320; // ms between player shots
 
@@ -1068,6 +1069,7 @@ function runSequence() {
 
   hitCount = 0;
   gameRunning = false;
+  explodeStarted = false;
   stage.classList.remove('can-shoot');
   alien.classList.remove('dmg1','dmg2','dmg3','exploding');
   blockGroup.classList.remove('alive');
@@ -1102,13 +1104,11 @@ function runSequence() {
     stage.classList.add('can-shoot');
   }, 1300);
 
-  later(() => moveShipTo(85, 88), 1700);
-  later(() => moveShipTo(20, 88), 4200);
-  later(() => moveShipTo(70, 88), 6000);
 }
 
 function explode() {
   gameRunning = false;
+  explodeStarted = true;
   stage.classList.remove('can-shoot');
   playExplosion();
   whiteout.classList.add('flash');
@@ -1157,13 +1157,14 @@ stage.addEventListener('touchmove', e => {
   player.style.left = Math.max(4, Math.min(96, xPct)) + '%';
 }, { passive: false });
 
-// Click: fire if game running, otherwise restart
+// Click: fire if game running, otherwise restart (but not during explosion/reveal)
 stage.addEventListener('click', e => {
   if (gameRunning) {
     const now = performance.now();
     if (now - lastFireTime >= FIRE_COOLDOWN) { lastFireTime = now; fireBullet(); }
     return;
   }
+  if (explodeStarted) return;
   runSequence();
 });
 
@@ -1175,6 +1176,7 @@ stage.addEventListener('touchend', e => {
     if (now - lastFireTime >= FIRE_COOLDOWN) { lastFireTime = now; fireBullet(); }
     return;
   }
+  if (explodeStarted) return;
   runSequence();
 }, { passive: false });
 
