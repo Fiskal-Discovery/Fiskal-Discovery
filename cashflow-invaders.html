@@ -1696,6 +1696,11 @@ function skipWave(){
     if(G.boss.larry){G.larryBeaten=true;try{localStorage.setItem('fiskal_ci_larry_beaten','1')}catch(e){}}
     const dn=G.boss.name;if(!G.defeatedBossWords.includes(dn))G.defeatedBossWords.push(dn);if(!G.allDefeatedBosses.includes(dn))G.allDefeatedBosses.push(dn);
     G.boss=null;G.bossBlasts=[];G.wave>=11?MUSIC.newHope():MUSIC.common();
+  } else {
+    const dn=getBossNameForWave(G.wave);
+    if(dn){if(!G.defeatedBossWords.includes(dn))G.defeatedBossWords.push(dn);if(!G.allDefeatedBosses.includes(dn))G.allDefeatedBosses.push(dn);}
+    if(G.wave===10){G.larryBeaten=true;try{localStorage.setItem('fiskal_ci_larry_beaten','1')}catch(e){}}
+    G.wave>=11?MUSIC.newHope():MUSIC.common();
   }
   G.enemies=[];G.bullets=[];G.wordEnemies=[];G.powerups=[];G.fiskalOrbs=[];
   G.score=Math.max(G.score,G.waveCashStart+G.waveCashTarget);
