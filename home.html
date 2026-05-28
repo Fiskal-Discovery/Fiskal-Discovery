@@ -1922,15 +1922,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const burst={p:0.0,speed:0.07,sz:10.0};
 
-    function waveColor(u,phase){
-      const t=((u+phase)%1+1)%1;
-      let r,g,b;
-      if(t<0.2){const f=t/0.2;         r=Math.round(78+f*177); g=Math.round(f*107);          b=Math.round(99-f*56);}
-      else if(t<0.4){const f=(t-.2)/.2;  r=255;                 g=Math.round(107+f*103);      b=Math.round(43-f*43);}
-      else if(t<0.75){                   r=255;                 g=210;                         b=0;}
-      else{const f=(t-.75)/.25;          r=Math.round(255-f*177);g=Math.round(210-f*210);     b=Math.round(f*99);}
-      return [r,g,b];
-    }
+    function waveColor(u,phase){ return [0,0,0]; }
 
     const c=cv.getContext('2d');
     function frame(){
@@ -1956,7 +1948,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const cx=pu*W, cy=yMid(pu,W);
         const radius=burst.sz*0.2+burst.sz*2.8*(u*u);
         const [r,g,bv]=waveColor(u,phase);
-        const a=0;
+        const a=u<0.45?(u/0.45)*0.38:0.38;
         const g2=c.createRadialGradient(cx,cy,0,cx,cy,radius);
         g2.addColorStop(0,`rgba(${r},${g},${bv},${a.toFixed(2)})`);
         g2.addColorStop(1,`rgba(${r},${g},${bv},0)`);
