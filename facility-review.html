@@ -601,7 +601,33 @@
     margin-bottom: 12px;
   }
 
-  
+  /* ---- Fallback gauge ---- */
+  .fr-gauge-wrap {
+    text-align: center;
+    padding: 20px 0 10px;
+  }
+  .fr-gauge-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 10px;
+  }
+  .fr-gauge-svg {
+    width: 160px;
+    height: 90px;
+    display: block;
+    margin: 0 auto;
+  }
+  .fr-gauge-disclaimer {
+    font-size: 11px;
+    color: rgba(255,255,255,0.38);
+    max-width: 340px;
+    margin: 10px auto 0;
+    line-height: 1.55;
+  }
 
   .screen-footer {
     display: flex;
@@ -3850,7 +3876,127 @@ function saveDiscovery(module, icon, summaryHtml, business) {
   } catch(e) {}
 }
 
+// ============================================================
+// FACILITY REVIEW — FALLBACK SUMMARY
+// ============================================================
+
+function _frKeyFields(facilityType) {
+  var t = (facilityType || '').toLowerCase();
+  if (t.includes('invoice')) {
+    return [
+      state.ifServiceFee || state.ifDiscount,
+      state.ifLimit,
+      state.ifMonthlyCost
+    ];
+  } else if (t.includes('loan') || t.includes('mca') || t.includes('merchant')) {
+    return [
+      state.loanOriginal || state.loanOutstanding,
+      state.loanRepayment || state.loanMonthlyCost,
+      state.loanTerm
+    ];
+  } else if (t.includes('asset')) {
+    return [
+      state.assetOutstanding,
+      state.assetRepayments,
+      state.assetRemaining
+    ];
+  } else {
+    // Trade, FX, Other — two key fields
+    return [
+      state.tradeRates || state.fxAwareness,
+      state.tradeLimit || state.fxCurrencies || state.otherFundingCost
+    ];
+  }
+}
+
+function _frHasSufficientData(facilityType) {
+  var fields = _frKeyFields(facilityType);
+  var filled = fields.filter(function(v) { return v && String(v).trim() !== ''; }).length;
+  return filled >= Math.ceil(fields.length * 0.6);
+}
+
+function _frFacilityLabel(facilityType) {
+  var t = (facilityType || '').toLowerCase();
+  if (t.includes('invoice'))                              return 'invoice finance facility';
+  if (t.includes('fx') || t.includes('foreign') || t.includes('currency')) return 'foreign currency arrangement';
+  if (t.includes('trade'))                               return 'trade finance facility';
+  if (t.includes('loan') || t.includes('mca') || t.includes('merchant')) return 'business loan';
+  if (t.includes('asset'))                               return 'asset finance agreement';
+  return 'existing finance arrangement';
+}
+
+var _frMessages = [
+  function(n, f) { return 'Thanks for taking the time, ' + n + '. We don’t have quite enough detail to crunch the numbers on your current ' + f + ' — but in our experience, there’s nearly always room to improve on rates, terms, or flexibility. Go back and fill in a few more details, or just wait for Nicole to reach out and she’ll walk through it with you.'; },
+  function(n, f) { return 'You’re in the right place, ' + n + '. A ' + f + ' review with Nicole has a funny way of turning up savings businesses didn’t know were sitting there — we just need a bit more detail to point you in the right direction. Pop back and add what you can, or she’ll walk through it with you.'; },
+  function(n, f) { return 'We’ve noted your interest in reviewing your ' + f + ', ' + n + '. To give you something genuinely useful we’d need a little more information — but don’t let that stop you. Nicole will be happy to talk it through when she calls, and she’ll have the right questions.'; },
+  function(n, f) { return 'Short on details this time — but that’s okay, ' + n + '. A proper ' + f + ' review only takes a few minutes with Nicole, and she has a habit of spotting things that save businesses real money. She’ll be in touch, or go back and give us a bit more to work with.'; },
+  function(n, f) { return 'We’d love to show you exactly what’s possible on your ' + f + ', ' + n + ', but we need a few more numbers to do that properly. Pop back and add what you can, or leave it with Nicole — either way, you’ll get a clearer picture soon.'; },
+  function(n, f) { return 'Most businesses we speak to about their ' + f + ' are either overpaying, under-served, or both — and the numbers usually prove it. We just need a few more details from you before we can say which. Go back and fill in what you can, or let Nicole take it from there.'; }
+];
+
+function _frShowFallback(firstName, facilityType) {
+  var label = _frFacilityLabel(facilityType);
+  var msgFn = _frMessages[Math.floor(Math.random() * _frMessages.length)];
+  var message = msgFn(firstName || 'there', label);
+
+  // Reuse displayResults for header/Nicole card population
+  displayResults(message);
+
+  // Inject gauge into .ai-summary after displayResults has rendered the screen
+  var aiSummary = document.querySelector('#screen-loading .ai-summary');
+  if (!aiSummary) return;
+
+  // Remove any previously injected gauge
+  var existing = document.getElementById('fr-gauge-container');
+  if (existing) existing.parentNode.removeChild(existing);
+
+  var gaugeDiv = document.createElement('div');
+  gaugeDiv.id = 'fr-gauge-container';
+  gaugeDiv.className = 'fr-gauge-wrap';
+  gaugeDiv.innerHTML =
+    '<div class="fr-gauge-label">Likelihood you could be on better rates &amp; terms</div>' +
+    '<svg class="fr-gauge-svg" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs>' +
+        '<linearGradient id="fr-gauge-grad" x1="0%" y1="0%" x2="100%" y2="0%">' +
+          '<stop offset="0%" stop-color="#cc44ff"/>' +
+          '<stop offset="100%" stop-color="#ee6a1a"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      '<path d="M 24 104 A 76 76 0 0 1 176 104" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="10" stroke-linecap="round"/>' +
+      '<path id="fr-gauge-arc" d="M 24 104 A 76 76 0 0 1 176 104" fill="none" stroke="url(#fr-gauge-grad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="239" stroke-dashoffset="239"/>' +
+      '<text x="100" y="96" text-anchor="middle" font-family="\'Bebas Neue\',sans-serif" font-size="36" fill="white">10</text>' +
+      '<text x="24" y="116" text-anchor="middle" font-family="\'DM Sans\',sans-serif" font-size="10" fill="rgba(255,255,255,0.4)">0</text>' +
+      '<text x="176" y="116" text-anchor="middle" font-family="\'DM Sans\',sans-serif" font-size="10" fill="rgba(255,255,255,0.4)">10</text>' +
+    '</svg>' +
+    '<p class="fr-gauge-disclaimer"><em>Yes, we always say 10. Because in our experience, there’s almost always something we can do better than what you’ve got. We just like to keep it honest about being optimistic.</em></p>';
+
+  // Insert before the email button row
+  var emailRow = aiSummary.querySelector('div');
+  if (emailRow) {
+    aiSummary.insertBefore(gaugeDiv, emailRow);
+  } else {
+    aiSummary.appendChild(gaugeDiv);
+  }
+
+  // Animate the arc after a brief paint delay
+  setTimeout(function() {
+    var arc = document.getElementById('fr-gauge-arc');
+    if (!arc) return;
+    arc.style.transition = 'stroke-dashoffset 2s ease-out';
+    arc.getBoundingClientRect(); // force reflow
+    arc.style.strokeDashoffset = '0';
+  }, 300);
+}
+
 function generateResults() {
+  var facilityType = state.selectedReviewType || state.facilityType;
+  var firstName = (state.name || '').split(' ')[0] || 'there';
+
+  if (!_frHasSufficientData(facilityType)) {
+    _frShowFallback(firstName, facilityType);
+    return;
+  }
+
   let summary;
   try {
     summary = buildFacilityReviewSummary();
