@@ -1004,21 +1004,20 @@ function blackHolePhase() {
 
 function suckBlock(wb, cx, cy, hx, hy, dur) {
   const { el, fx, fy } = wb;
-  el.getAnimations().forEach(a => a.cancel());
-  el.style.transition = 'none';
-  el.style.opacity = '1';
-  el.style.transform = `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1) rotate(0deg)`;
+  el.getAnimations().forEach(a => { try { a.commitStyles(); a.cancel(); } catch(e){} });
+  el.style.transform = `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1)`;
   const ex = hx - cx, ey = hy - cy;
-  const rot = fx >= ex ? -540 : 540;
-  // rAF ensures start state is committed before transition begins (iOS Safari requirement)
-  requestAnimationFrame(() => {
-    el.style.transition = `transform ${dur}ms cubic-bezier(.55,0,.9,1), opacity ${Math.round(dur*0.75)}ms ease-in`;
-    el.style.transform = `translate(calc(-50% + ${ex}px), calc(-50% + ${ey}px)) scale(0) rotate(${rot}deg)`;
-    el.style.opacity = '0';
-  });
+  const mx = (fx + ex) / 2 + (fy - ey) * 0.25;
+  const my = (fy + ey) / 2 - (fx - ex) * 0.25;
+  el.animate([
+    { transform: `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1) rotate(0deg)`, opacity: 1, offset: 0 },
+    { transform: `translate(calc(-50% + ${mx}px), calc(-50% + ${my}px)) scale(.6) rotate(360deg)`, opacity: 1, offset: 0.6 },
+    { transform: `translate(calc(-50% + ${ex}px), calc(-50% + ${ey}px)) scale(0) rotate(900deg)`, opacity: .85, offset: 1 }
+  ], { duration: dur, easing: 'cubic-bezier(.55,0,.9,1)', fill: 'forwards' });
 }
 
 function suckTextEl(el, hx, hy, keepCenterX, dur) {
+  el.getAnimations().forEach(a => { try { a.commitStyles(); a.cancel(); } catch(e){} });
   const sRect = stage.getBoundingClientRect();
   const r = el.getBoundingClientRect();
   const ecx = r.left - sRect.left + r.width / 2;
@@ -1052,15 +1051,11 @@ function suckEverything(cx, cy, hx, hy) {
   topSpans.forEach(sp => { later(() => suckTextEl(sp, hx, hy, false, SUCK_DUR), t2); t2 += 18; });
   const endAt = t2 + SUCK_DUR;
   startSuckHum(endAt);
-  // Cancel appearance animation, set scale(1) as base, then grow via CSS transition
-  blackhole.getAnimations().forEach(a => a.cancel());
-  blackhole.style.transition = 'none';
-  blackhole.style.transform = 'translate(-50%,-50%) scale(1)';
-  blackhole.style.opacity = '1';
-  requestAnimationFrame(() => {
-    blackhole.style.transition = `transform ${endAt}ms cubic-bezier(.4,0,.7,1)`;
-    blackhole.style.transform = 'translate(-50%,-50%) scale(2)';
-  });
+  blackhole.getAnimations().forEach(a => { try { a.commitStyles(); a.cancel(); } catch(e){} });
+  blackhole.animate([
+    { transform: 'translate(-50%,-50%) scale(1)' },
+    { transform: 'translate(-50%,-50%) scale(2)' }
+  ], { duration: endAt, easing: 'cubic-bezier(.4,0,.7,1)', fill: 'forwards' });
   later(finishAndAdvance, endAt + 350);
 }
 
@@ -1071,13 +1066,11 @@ function finishAndAdvance() {
   const boxW = parseFloat(getComputedStyle(blackhole).width) || 80;
   const fillScale = (Math.hypot(sw, sh) / boxW) * 5;
   const GROW = 3400;
-  blackhole.getAnimations().forEach(a => a.cancel());
-  blackhole.style.transition = 'none';
-  blackhole.style.transform = 'translate(-50%,-50%) scale(2)';
-  requestAnimationFrame(() => {
-    blackhole.style.transition = `transform ${GROW}ms cubic-bezier(.5,0,.75,1)`;
-    blackhole.style.transform = `translate(-50%,-50%) scale(${fillScale})`;
-  });
+  blackhole.getAnimations().forEach(a => { try { a.commitStyles(); a.cancel(); } catch(e){} });
+  blackhole.animate([
+    { transform: 'translate(-50%,-50%) scale(2)' },
+    { transform: `translate(-50%,-50%) scale(${fillScale})` }
+  ], { duration: GROW, easing: 'cubic-bezier(.5,0,.75,1)', fill: 'forwards' });
   startSuckHum(GROW);
   later(() => { transition.classList.add('on'); }, GROW + 200);
   later(goToNextScreen, GROW + 700);
