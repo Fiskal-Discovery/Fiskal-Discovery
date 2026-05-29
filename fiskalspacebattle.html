@@ -1004,7 +1004,7 @@ function blackHolePhase() {
 
 function suckBlock(wb, cx, cy, hx, hy, dur) {
   const { el, fx, fy } = wb;
-  el.getAnimations().forEach(a => { try { a.commitStyles(); a.cancel(); } catch(e){} });
+  el.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
   el.style.transform = `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1)`;
   const ex = hx - cx, ey = hy - cy;
   const mx = (fx + ex) / 2 + (fy - ey) * 0.25;
@@ -1017,7 +1017,7 @@ function suckBlock(wb, cx, cy, hx, hy, dur) {
 }
 
 function suckTextEl(el, hx, hy, keepCenterX, dur) {
-  el.getAnimations().forEach(a => { try { a.commitStyles(); a.cancel(); } catch(e){} });
+  el.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
   const sRect = stage.getBoundingClientRect();
   const r = el.getBoundingClientRect();
   const ecx = r.left - sRect.left + r.width / 2;
