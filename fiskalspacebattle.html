@@ -982,7 +982,16 @@ function buildBlackholeRings() {
   blackhole.appendChild(core);
 }
 
+function fallbackFade() {
+  transition.classList.add('on');
+  later(goToNextScreen, 1100);
+}
+
 function blackHolePhase() {
+  if (window.matchMedia('(max-width: 932px) and (pointer: coarse)').matches) {
+    fallbackFade();
+    return;
+  }
   blockGroup.classList.remove('alive');
   blockGroup.style.transform = 'none';
   void blockGroup.offsetHeight;
