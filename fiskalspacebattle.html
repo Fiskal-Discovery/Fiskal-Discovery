@@ -983,6 +983,8 @@ function buildBlackholeRings() {
 }
 
 function blackHolePhase() {
+  blockGroup.classList.remove('alive');
+  blockGroup.style.transform = 'none';
   const sw = stage.offsetWidth, sh = stage.offsetHeight;
   const cx = sw / 2, cy = sh / 2;
   const hx = sw * 0.15, hy = sh * 0.24;
@@ -1032,6 +1034,7 @@ function suckTextEl(el, hx, hy, keepCenterX, dur) {
 }
 
 function suckEverything(cx, cy, hx, hy) {
+  alert('suckEverything fired');
   blockGroup.classList.remove('alive');
   blockGroup.style.transform = 'none';
   const SUCK_DUR = 620;
