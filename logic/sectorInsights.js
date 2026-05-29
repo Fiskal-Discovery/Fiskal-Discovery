@@ -60,10 +60,17 @@ const SECTOR_PATTERNS = [
                'sustainability', 'hydrogen', 'biomass']
   },
   {
+    sector: 'financial-services',
+    keywords: ['financial services', 'fintech', 'financial planning', 'wealth management',
+               'investment management', 'asset management', 'insurance broker',
+               'mortgage broker', 'ifa', 'independent financial', 'banking', 'lender',
+               'credit broker', 'fund management']
+  },
+  {
     sector: 'professional-services',
     keywords: ['accountant', 'accountancy', 'solicitor', 'legal', 'law firm',
                'consultant', 'consultancy', 'architect', 'surveyor', 'marketing agency',
-               'agency', 'pr firm', 'management consulting', 'advisory', 'financial services']
+               'agency', 'pr firm', 'management consulting', 'advisory']
   }
 ];
 
@@ -107,8 +114,14 @@ function getSectorInvoiceFinanceInsight(businessName, industry) {
     case 'clean-energy':
       return `As you indicated you're in clean energy or renewables, asset finance is often a good fit — it allows equipment, installations or infrastructure to be acquired without large upfront capital outlay while the asset generates returns over time.`;
 
+    case 'facilities':
+      return `As you indicated you're in facilities management, cleaning or maintenance, many contracts are invoiced monthly on 30–60 day terms. Invoice Finance can help smooth the gap between completing work and receiving payment, freeing up cash for wages, materials and ongoing contracts.`;
+
     case 'professional-services':
       return `As you indicated you're in professional services, cashflow can be impacted by delayed client payments. Invoice Finance may help release funds tied up in outstanding invoices, while a revolving credit facility can provide a flexible buffer for periods between projects or retainers.`;
+
+    case 'financial-services':
+      return `As you indicated you're in financial services, cashflow is often shaped by the timing of client payments, fees and retainers rather than the volume of business itself. Invoice Finance can help release cash tied up in outstanding invoices, while a revolving credit facility provides a flexible buffer between billing cycles.`;
 
     default:
       return null;
@@ -129,7 +142,8 @@ function getSectorNote(businessName, industry) {
     wholesale:             `you indicated you're in wholesale or distribution`,
     retail:                `you indicated you're in retail`,
     'clean-energy':        `you indicated you're in clean energy or renewables`,
-    'professional-services': `you indicated you're in professional services`
+    'professional-services': `you indicated you're in professional services`,
+    'financial-services':    `you indicated you're in financial services`
   };
 
   return sector ? notes[sector] : null;
