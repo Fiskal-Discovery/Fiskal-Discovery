@@ -432,13 +432,17 @@ function stopFaviconAnimation() {
 </div>
 <div id="leaderboard-screen" style="display:none;position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.82);align-items:center;justify-content:center;padding:16px">
   <div class="lb-box" style="position:relative">
-    <button onclick="closeLB()" style="position:absolute;top:10px;right:12px;background:none;border:none;color:rgba(200,180,255,.6);font-size:1.2rem;cursor:pointer;line-height:1;padding:4px 8px;font-family:sans-serif" title="Close">✕</button>
+    <button id="lb-close-btn" onclick="closeLB()" style="position:absolute;top:10px;right:12px;background:none;border:none;color:rgba(200,180,255,.6);font-size:1.2rem;cursor:pointer;line-height:1;padding:4px 8px;font-family:sans-serif" title="Close">✕</button>
     <div class="leaderboard-title">🏆 CASHFLOW CHAMPIONS</div>
     <div class="lb-champ-banner" id="lb-champ-banner" style="display:none">
       🏦 Lender Champion: <span id="lb-champ-name"></span>
     </div>
     <div class="lb-table-wrap">
       <table class="score-table"><thead><tr><th class="rank-col">#</th><th>NAME</th><th>COMPANY</th><th>CASH</th><th>WAVE</th><th>★</th></tr></thead><tbody id="leaderboard-body"></tbody></table>
+    </div>
+    <div id="lb-end-buttons" style="display:none;gap:12px;margin-top:18px;justify-content:center;flex-wrap:wrap">
+      <button class="btn-play-again" onclick="document.getElementById('leaderboard-screen').style.display='none';initGame(1);">▶ PLAY AGAIN</button>
+      <button class="btn-home" onclick="stopGame();stopFaviconAnimation();goHome();">✕ QUIT</button>
     </div>
   </div>
 </div>
@@ -921,11 +925,22 @@ function drawWantedPoster(){
 function renderPreviewAliens(){const prev=document.getElementById('alien-preview');prev.innerHTML='';ALIEN_TYPES.forEach(t=>{const c=document.createElement('canvas'),w=t.pixels[0].length*4,h=t.pixels.length*4;c.width=w+4;c.height=h+4;c.style.cssText='image-rendering:pixelated';drawPixelSprite(c.getContext('2d'),t.pixels,t.color,(w+4)/2,(h+4)/2,4);prev.appendChild(c)})}
 function showQuitBtn(show){const pb=document.getElementById('pause-btn');if(pb)pb.disabled=!show;}
 let _lbPausedGame=false;
-function showLeaderboardScreen(){
+function showLeaderboardScreen(postSubmit){
   _lbPausedGame=false;
   if(G&&!G.dead&&!paused){_lbPausedGame=true;paused=true;MUSIC.pause();}
   renderLB();
   const el=document.getElementById('leaderboard-screen');
+  const closeBtn=document.getElementById('lb-close-btn');
+  const endBtns=document.getElementById('lb-end-buttons');
+  if(postSubmit){
+    el.style.background='rgba(0,0,0,1)';
+    if(closeBtn)closeBtn.style.display='none';
+    if(endBtns)endBtns.style.display='flex';
+  }else{
+    el.style.background='rgba(0,0,0,.82)';
+    if(closeBtn)closeBtn.style.display='';
+    if(endBtns)endBtns.style.display='none';
+  }
   el.style.display='flex';
 }
 function closeLB(){
@@ -1916,8 +1931,8 @@ function _icDone(){if(_icDoneGuard)return;_icDoneGuard=true;const el=document.ge
   
   const isLender = document.getElementById('is-lender').checked;
   Promise.race([saveLB(nameInput, companyInput, finalScore, finalWave, isLender), timeoutPromise])
-    .then(() => showLeaderboardScreen())
-    .catch(() => showLeaderboardScreen())
+    .then(() => showLeaderboardScreen(true))
+    .catch(() => showLeaderboardScreen(true))
     .finally(() => {
       btn.disabled = false;
       btn.textContent = 'Submit to Leaderboard';
@@ -1931,8 +1946,8 @@ function _icDone(){if(_icDoneGuard)return;_icDoneGuard=true;const el=document.ge
   const isLender=document.getElementById('v-is-lender').checked;
   const tp=new Promise((_,r)=>setTimeout(()=>r(new Error('Timeout')),4000));
   Promise.race([saveLB(nameInput,companyInput,finalScore,finalWave,isLender),tp])
-    .then(()=>showLeaderboardScreen())
-    .catch(()=>showLeaderboardScreen())
+    .then(()=>showLeaderboardScreen(true))
+    .catch(()=>showLeaderboardScreen(true))
     .finally(()=>{btn.disabled=false;btn.textContent='Submit to Leaderboard';});
 });document.getElementById('champions-btn').addEventListener('click',async()=>{showLeaderboardScreen();});document.addEventListener('keydown',e=>{if(!G||G.dead)return;G.keys[e.key]=true;if(e.key===' ')e.preventDefault();if(e.key==='p'||e.key==='P')togglePause();if(e.key==='n'||e.key==='N')skipWave();});document.addEventListener('keyup',e=>{if(!G||G.dead)return;G.keys[e.key]=false});let mouseCanvasX=null,mouseCanvasY=null;document.addEventListener('mousemove',e=>{const r=canvas.getBoundingClientRect();mouseCanvasX=e.clientX-r.left;mouseCanvasY=e.clientY-r.top;if(!G||!G.player||paused||G.frozen>0)return;if(document.pointerLockElement===canvas){G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x+e.movementX))}else{G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,mouseCanvasX));if(G.advancedMode)G.player.y=Math.max(canvas.height*.52,Math.min(canvas.height-22,mouseCanvasY))}});canvas.addEventListener('mouseleave',()=>{mouseCanvasX=null;mouseCanvasY=null});canvas.addEventListener('click',shoot);let lastTX=0,lastTY=0;canvas.addEventListener('touchstart',e=>{lastTX=e.touches[0].clientX;lastTY=e.touches[0].clientY;shoot()},{passive:true});canvas.addEventListener('touchmove',e=>{e.preventDefault();if(!G||!G.player||paused||G.frozen>0)return;const dx=e.touches[0].clientX-lastTX;G.player.x=Math.max(G.player.w/2,Math.min(canvas.width-G.player.w/2,G.player.x+dx*.75));if(G.advancedMode){const dy=e.touches[0].clientY-lastTY;G.player.y=Math.max(canvas.height*.52,Math.min(canvas.height-22,G.player.y+dy*.75));lastTY=e.touches[0].clientY}lastTX=e.touches[0].clientX},{passive:false});
 
