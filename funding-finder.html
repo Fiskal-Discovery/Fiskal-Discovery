@@ -46,16 +46,6 @@
     color: var(--dark);
   }
 
-  /* Welcome/onboarding screens keep the dark navy background */
-  #screen-home {
-    background: linear-gradient(135deg, var(--col-bg) 0%, var(--col-card-dark) 50%, var(--col-bg) 100%);
-    color: var(--white);
-  }
-  #screen-home .question-text,
-  #screen-home .question-sub {
-    color: var(--white);
-  }
-
   /* ---- BACKGROUND ---- */
   .bg-orb {
     position: fixed;
@@ -2331,61 +2321,8 @@
 <div class="bg-orb bg-orb-2"></div>
 
 <!-- ====== HOME SCREEN ====== -->
-<div class="screen active" id="screen-home">
-  <header class="ob-fixed-header">
-    <div class="dashed-divider">Fiskal Discovery</div>
-    <span class="q-module-name">Funding Finder</span>
-  </header>
-
-  <div class="screen-content">
-    <div class="home-hero">
-      <div class="home-eyebrow">Welcome to</div>
-      <h1 class="home-title"><span style="font-family:'Dancing Script',cursive;font-style:italic;font-weight:normal;font-size:44px;color:#4f46e5;">Fiskal Discovery</span></h1>
-      <p class="home-tagline"><strong>Refuse to Stand Still</strong><br><span style="color:#818cf8;text-transform:uppercase;letter-spacing:3px;font-size:16px;font-weight:500;">Find out what's possible for your business.</span></p>
-    </div>
-    <div class="module-grid">
-      <div class="module-card" onclick="window.location.href='funding-finder.html'">
-        <div class="module-card-icon"></div>
-        <div class="module-card-body">
-          <div class="module-card-title">Funding Finder</div>
-          <div class="module-card-desc">Find out what funding your business could access</div>
-        </div>
-        <div class="module-arrow">></div>
-      </div>
-      <div class="module-card" onclick="window.location.href='facility-review.html'">
-        <div class="module-card-icon"></div>
-        <div class="module-card-body">
-          <div class="module-card-title">Facility Review</div>
-          <div class="module-card-desc">Find out if you're on the best deal</div>
-        </div>
-        <div class="module-arrow">></div>
-      </div>
-      <div class="module-card" onclick="window.location.href='loan-application.html'">
-        <div class="module-card-icon"></div>
-        <div class="module-card-body">
-          <div class="module-card-title">Loan Enquiry</div>
-          <div class="module-card-desc">Get an indicative loan assessment in minutes</div>
-        </div>
-        <div class="module-arrow">></div>
-      </div>
-
-    </div>
-  </div>
-  <div class="q-fixed-footer">
-    <div class="q-footer-nav">
-      <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
-      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html'">Home</button>
-      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
-    </div>
-    <div class="q-footer-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest"> to stand still</span>
-    </div>
-  </div>
-</div>
-
 <!-- ====== DETAILS SCREEN ====== -->
-<div class="screen" id="screen-details">
+<div class="screen active" id="screen-details">
   <header class="ob-fixed-header">
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Funding Finder</span>
