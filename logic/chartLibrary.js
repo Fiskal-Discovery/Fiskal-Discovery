@@ -140,22 +140,39 @@ function _fc_invoiceOnly(turnover, payDays, isConstr) {
     ? '£' + advAmt.toLocaleString('en-GB') + ' in your account today'
     : 'Up to 90% in your account today';
 
+  var pill1 = isConstr
+    ? '<span class="if-pill if-o"><span class="if-dot"></span>50–70% advance typical</span>'
+    : '<span class="if-pill if-o"><span class="if-dot"></span>90% advanced upfront</span>';
+
+  var step2heading = isConstr ? 'Get your advance' : 'Get 90% now';
+
+  var constrNote = isConstr
+    ? '<p class="if-constr-note">Because construction debt is often contractual in nature'
+      + ' (retentions, stage payments, applications for payment), advances are typically lower'
+      + ' — often in the 50–70% range, and some lenders assess these case by case.</p>'
+    : '';
+
+  var flowCap = isConstr
+    ? '<b>50–70% of eligible invoice value, released early</b>'
+    : '<b>90% of every invoice, 30 days early</b>';
+
   return '<div class="fc-card if-card">'
     + '<span class="if-eyebrow"><span class="if-dot"></span>Invoice Finance · Standalone</span>'
     + heroHtml
     + '<p class="if-lead"><span class="if-pct">87%</span> of invoice finance users say it let them grow faster. Unlock the cash already tied up in your unpaid invoices — without waiting 30, 60 or 90 days to get paid.</p>'
+    + constrNote
     + '<div class="if-pills">'
-    +   '<span class="if-pill if-o"><span class="if-dot"></span>90% advanced upfront</span>'
+    +   pill1
     +   '<span class="if-pill if-p"><span class="if-dot"></span>30 days faster</span>'
     +   '<span class="if-pill if-o"><span class="if-dot"></span>Same-day cash</span>'
     +   '<span class="if-pill if-p"><span class="if-dot"></span>0.5–3% typical fee</span>'
     + '</div>'
     + '<div class="if-flow">'
     +   '<div class="if-step"><div class="if-n">1</div><h4>Raise invoice</h4><p>' + step1p + '</p></div>'
-    +   '<div class="if-step"><div class="if-n">2</div><h4>Get 90% now</h4><p>' + step2p + '</p></div>'
+    +   '<div class="if-step"><div class="if-n">2</div><h4>' + step2heading + '</h4><p>' + step2p + '</p></div>'
     +   '<div class="if-step"><div class="if-n">3</div><h4>Customer pays</h4><p>Balance released, minus fee</p></div>'
     + '</div>'
-    + '<p class="if-flow-cap">Result: <b>90% of every invoice, 30 days early</b></p>'
+    + '<p class="if-flow-cap">Result: ' + flowCap + '</p>'
   + '</div>';
 }
 
