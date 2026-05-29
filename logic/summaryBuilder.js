@@ -137,10 +137,12 @@ function buildLoanApplicationSummary(answers) {
 
   // Paragraph 2 — credit history + security (most decision-relevant factors)
   const securityInsight = getLoanSecurityInsight(security, answers.properties || [], business);
+  const existingFacilitiesNote = getExistingFacilitiesNote(existingFacilities, business);
   let para2 = '';
   if (creditHistoryInsight) para2 += creditHistoryInsight + ' ';
   if (creditConcern) para2 += creditConcern + ' ';
   if (securityInsight) para2 += securityInsight;
+  if (existingFacilitiesNote) para2 += (para2 ? ' ' : '') + existingFacilitiesNote;
   if (para2) blocks.push(para2.trim());
 
   const finalBlocks = blocks.slice(0, 2);
