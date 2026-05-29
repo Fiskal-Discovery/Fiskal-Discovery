@@ -988,17 +988,6 @@ function fallbackFade() {
 }
 
 function blackHolePhase() {
-  (function() {
-    const d = document.createElement('div');
-    d.style.cssText = 'position:fixed;top:0;left:0;z-index:9999;background:rgba(0,0,0,.85);color:#0f0;font:bold 16px monospace;padding:12px 16px;pointer-events:none;white-space:pre;';
-    d.textContent = [
-      'innerW:        ' + window.innerWidth,
-      'innerH:        ' + window.innerHeight,
-      'pointer:coarse ' + window.matchMedia('(pointer: coarse)').matches,
-      'maxTouchPoints ' + navigator.maxTouchPoints,
-    ].join('\n');
-    document.body.appendChild(d);
-  })();
   if (window.matchMedia('(max-width: 932px) and (pointer: coarse)').matches) {
     fallbackFade();
     return;
