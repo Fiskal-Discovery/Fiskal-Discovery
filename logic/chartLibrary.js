@@ -22,8 +22,16 @@ function getFundingChartHtml(matchedProducts, userState) {
   } else if (hasInvoice && hasTrade) {
     charts.push(_fc_combinedCycle());
   } else if (hasInvoice) {
-    charts.push(_fc_invoiceOnly(turnover, payDays, isConstr));
-    charts.push(_fc_spotFundingChart());
+    var _tv = (typeof parseMoneyString === 'function') ? (parseMoneyString(String(turnover || '')) || 0) : 0;
+    var _barrier = String((userState && userState.barrierDetails) || '').toLowerCase();
+    var _tiedIn = _barrier.indexOf('contract') !== -1 || _barrier.indexOf('tied') !== -1 ||
+                  _barrier.indexOf('stuck') !== -1    || _barrier.indexOf('notice') !== -1 ||
+                  _barrier.indexOf('exit') !== -1     || _barrier.indexOf('fee') !== -1;
+    if (_tv < 250000 || _tiedIn) {
+      charts.push(_fc_spotFundingChart());
+    } else {
+      charts.push(_fc_invoiceOnly(turnover, payDays, isConstr));
+    }
   } else if (hasTrade) {
     charts.push(_fc_tradeOnly());
   } else if (hasMca) {
