@@ -1007,14 +1007,16 @@ function blackHolePhase() {
 
 function suckBlock(wb, cx, cy, hx, hy, dur) {
   const { el } = wb;
-  el.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
 
+  // measure BEFORE cancel — fill:forwards is still holding the block in place
   const sRect = stage.getBoundingClientRect();
   const r = el.getBoundingClientRect();
   const sw = stage.offsetWidth, sh = stage.offsetHeight;
   const cxL = sw / 2, cyL = sh / 2;
   const fx = (r.left - sRect.left + r.width / 2) - cxL;
   const fy = (r.top  - sRect.top  + r.height / 2) - cyL;
+
+  el.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
 
   const ex = sw * 0.15 - cxL;
   const ey = sh * 0.24 - cyL;
