@@ -1016,11 +1016,6 @@ function suckBlock(wb, cx, cy, hx, hy, dur) {
   const fx = (r.left - sRect.left + r.width / 2) - cxL;
   const fy = (r.top  - sRect.top  + r.height / 2) - cyL;
 
-  if (!window._dbg2) {
-    window._dbg2 = 1;
-    alert('Measured: fx=' + Math.round(fx) + ' fy=' + Math.round(fy) + '\nstage: sw=' + sw + ' sh=' + sh);
-  }
-
   el.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
 
   const ex = sw * 0.15 - cxL;
