@@ -632,13 +632,15 @@ function playFanfare()        { /* removed */ }
 function playBlackholeAppear(){ playSnd(SND.bhappear, 0.6); }
 // Blip stays synthesised (plays many times rapidly — file would stutter)
 function playBlip(p) {
-  if (!audioCtx) return;
-  const t = audioCtx.currentTime;
-  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-  o.type = 'sine'; o.frequency.value = 300 + p * 900;
-  g.gain.setValueAtTime(0.05, t);
-  g.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
-  o.connect(g).connect(masterGain); o.start(t); o.stop(t + 0.06);
+  if (!audioCtx || !masterGain || audioCtx.state !== 'running') return;
+  try {
+    const t = audioCtx.currentTime;
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = 'sine'; o.frequency.value = 300 + p * 900;
+    g.gain.setValueAtTime(0.05, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
+    o.connect(g).connect(masterGain); o.start(t); o.stop(t + 0.06);
+  } catch(e) {}
 }
 let suckHumEl = null;
 function startSuckHum(durMs) {
@@ -1039,7 +1041,7 @@ function suckEverything(cx, cy, hx, hy) {
   const minInterval = 11;
   wordBlocks.forEach((wb, i) => {
     const p = i / Math.max(1, wordBlocks.length - 1);
-    later(() => { suckBlock(wb, cx, cy, hx, hy, SUCK_DUR); if (i % 4 === 0) playBlip(p); }, t);
+    later(() => { suckBlock(wb, cx, cy, hx, hy, SUCK_DUR); if (i % 4 === 0) try { playBlip(p); } catch(e) {} }, t);
     interval = Math.max(minInterval, interval * 0.962);
     t += interval;
   });
