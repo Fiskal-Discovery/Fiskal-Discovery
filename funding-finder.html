@@ -2261,6 +2261,80 @@
   .fc-card .chart-wrap .pulse-7       { animation-delay: 10.6s; }
   .fc-card .chart-wrap .pulse-8       { animation-delay: 12.2s; }
 
+  /* ---- Invoice Finance redesigned card (if-card) ---- */
+  .fc-card.if-card {
+    border-radius: 22px;
+    padding: 26px 26px 24px;
+    background:
+      radial-gradient(120% 140% at 0% 0%, rgba(204,68,255,.22), transparent 55%),
+      radial-gradient(120% 140% at 100% 0%, rgba(238,106,26,.20), transparent 55%),
+      linear-gradient(160deg, #241d40, #1c1733);
+    border: 1px solid rgba(204,68,255,.28);
+    box-shadow: 0 0 0 1px rgba(255,255,255,.03) inset, 0 18px 50px rgba(0,0,0,.45);
+  }
+  .if-eyebrow {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 11px; font-weight: 700; letter-spacing: .16em;
+    color: #ee6a1a; text-transform: uppercase;
+    border: 1px solid rgba(238,106,26,.45);
+    background: rgba(238,106,26,.10);
+    padding: 5px 11px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .if-eyebrow .if-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #ee6a1a; box-shadow: 0 0 8px #ee6a1a; flex-shrink: 0;
+  }
+  .if-hero { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  .if-hero .if-amount {
+    font-size: clamp(42px, 10vw, 64px); font-weight: 800; line-height: .95;
+    background: linear-gradient(92deg, #ee6a1a, #ffb066 60%, #cc44ff);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    letter-spacing: -.02em;
+    animation: if-pop .7s cubic-bezier(.2,.9,.3,1.3) both;
+  }
+  .if-hero .if-sub { font-size: 17px; color: #f4f0ff; font-weight: 600; max-width: 230px; line-height: 1.25; }
+  .if-hero .if-sub b { color: #ee6a1a; }
+  @keyframes if-pop { from { opacity:0; transform:translateY(14px) scale(.94); } to { opacity:1; transform:none; } }
+  .if-lead { font-size: 13.5px; color: rgba(183,174,214,1); margin: 10px 0 20px; line-height: 1.55; max-width: 430px; }
+  .if-lead .if-pct { color: #cc44ff; font-weight: 700; }
+  .if-pills { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 22px; }
+  .if-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 12.5px; font-weight: 600;
+    padding: 8px 13px; border-radius: 11px;
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09);
+    animation: if-rise .5s ease both;
+  }
+  .if-pill .if-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .if-pill:nth-child(1){animation-delay:.05s} .if-pill:nth-child(2){animation-delay:.12s}
+  .if-pill:nth-child(3){animation-delay:.19s} .if-pill:nth-child(4){animation-delay:.26s}
+  .if-pill.if-o { border-color:rgba(238,106,26,.4); background:rgba(238,106,26,.10); color:#ffc499; }
+  .if-pill.if-o .if-dot { background:#ee6a1a; box-shadow:0 0 7px #ee6a1a; }
+  .if-pill.if-p { border-color:rgba(204,68,255,.4); background:rgba(204,68,255,.10); color:#e6b3ff; }
+  .if-pill.if-p .if-dot { background:#cc44ff; box-shadow:0 0 7px #cc44ff; }
+  @keyframes if-rise { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+  .if-flow {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;
+    background: rgba(0,0,0,.22); border-radius: 14px; padding: 14px;
+    border: 1px solid rgba(255,255,255,.06);
+  }
+  .if-step { position: relative; text-align: center; padding: 4px 2px; }
+  .if-step .if-n {
+    width: 30px; height: 30px; border-radius: 50%; margin: 0 auto 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; color: #0d0b1a;
+    background: linear-gradient(135deg, #ee6a1a, #cc44ff);
+  }
+  .if-step h4 { font-size: 12.5px; font-weight: 700; margin-bottom: 3px; color: #f4f0ff; }
+  .if-step p  { font-size: 11px; color: rgba(183,174,214,1); line-height: 1.35; }
+  .if-step:not(:last-child)::after {
+    content:""; position:absolute; top:15px; right:-7px;
+    width:14px; height:2px;
+    background:linear-gradient(90deg,#ee6a1a,#cc44ff); border-radius:2px;
+  }
+  .if-flow-cap { text-align:center; font-size:11.5px; color:rgba(183,174,214,1); margin-top:11px; }
+  .if-flow-cap b { color: #ee6a1a; }
+
   /* Spot funding — invoice pick/dim animations */
   @keyframes fc-pickInvoice {
     from { stroke: rgba(255,255,255,0.3); stroke-width: 1;   fill: rgba(245,166,35,0.06); }
