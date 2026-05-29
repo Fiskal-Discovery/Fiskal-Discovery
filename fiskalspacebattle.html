@@ -1007,15 +1007,14 @@ function blackHolePhase() {
 
 function suckBlock(wb, cx, cy, hx, hy, dur) {
   const { el, fx, fy } = wb;
+  const sw = stage.offsetWidth, sh = stage.offsetHeight;
+  const liveCx = sw / 2, liveCy = sh / 2;
+  const liveHx = sw * 0.15, liveHy = sh * 0.24;
   el.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
   el.style.transform = `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1)`;
-  const ex = hx - cx, ey = hy - cy;
-  const mx = (fx + ex) / 2 + (fy - ey) * 0.25;
-  const my = (fy + ey) / 2 - (fx - ex) * 0.25;
-  if (!window._dbg) {
-    window._dbg = 1;
-    alert('fx='+Math.round(fx)+' fy='+Math.round(fy)+' ex='+Math.round(ex)+' ey='+Math.round(ey));
-  }
+  const ex = liveHx - liveCx, ey = liveHy - liveCy;
+  const mx = (fx + ex) / 2 + (fy - ey) * 0.6;
+  const my = (fy + ey) / 2 - (fx - ex) * 0.6;
   el.animate([
     { transform: `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1) rotate(0deg)`, opacity: 1, offset: 0 },
     { transform: `translate(calc(-50% + ${mx}px), calc(-50% + ${my}px)) scale(.6) rotate(360deg)`, opacity: 1, offset: 0.6 },
