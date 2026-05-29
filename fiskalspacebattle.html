@@ -1012,6 +1012,10 @@ function suckBlock(wb, cx, cy, hx, hy, dur) {
   const ex = hx - cx, ey = hy - cy;
   const mx = (fx + ex) / 2 + (fy - ey) * 0.25;
   const my = (fy + ey) / 2 - (fx - ex) * 0.25;
+  if (!window._dbg) {
+    window._dbg = 1;
+    alert('fx='+Math.round(fx)+' fy='+Math.round(fy)+' ex='+Math.round(ex)+' ey='+Math.round(ey));
+  }
   el.animate([
     { transform: `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1) rotate(0deg)`, opacity: 1, offset: 0 },
     { transform: `translate(calc(-50% + ${mx}px), calc(-50% + ${my}px)) scale(.6) rotate(360deg)`, opacity: 1, offset: 0.6 },
