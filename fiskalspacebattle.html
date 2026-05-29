@@ -1035,32 +1035,31 @@ function suckTextEl(el, hx, hy, keepCenterX, dur) {
 }
 
 function suckEverything(cx, cy, hx, hy) {
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    blockGroup.classList.remove('alive');
-    blockGroup.style.transform = 'none';
-    const SUCK_DUR = 620;
-    let t = 0, interval = 130;
-    const minInterval = 11;
-    wordBlocks.forEach((wb, i) => {
-      const p = i / Math.max(1, wordBlocks.length - 1);
-      later(() => { suckBlock(wb, cx, cy, hx, hy, SUCK_DUR); if (i % 4 === 0) try { playBlip(p); } catch(e) {} }, t);
-      interval = Math.max(minInterval, interval * 0.962);
-      t += interval;
-    });
-    let t2 = t + SUCK_DUR;
-    const tagSpans = [...finBottom.querySelectorAll('.ch')].filter(s => s.dataset.space !== '1');
-    tagSpans.forEach(sp => { later(() => suckTextEl(sp, hx, hy, false, SUCK_DUR), t2); t2 += 18; });
-    const topSpans = [...finTop.querySelectorAll('.ch')].filter(s => s.dataset.space !== '1');
-    topSpans.forEach(sp => { later(() => suckTextEl(sp, hx, hy, false, SUCK_DUR), t2); t2 += 18; });
-    const endAt = t2 + SUCK_DUR;
-    startSuckHum(endAt);
-    blackhole.getAnimations().forEach(a => { try { a.commitStyles(); a.cancel(); } catch(e){} });
-    blackhole.animate([
-      { transform: 'translate(-50%,-50%) scale(1)' },
-      { transform: 'translate(-50%,-50%) scale(2)' }
-    ], { duration: endAt, easing: 'cubic-bezier(.4,0,.7,1)', fill: 'forwards' });
-    later(finishAndAdvance, endAt + 350);
-  }));
+  void blockGroup.offsetHeight;
+  blockGroup.classList.remove('alive');
+  blockGroup.style.transform = 'none';
+  const SUCK_DUR = 620;
+  let t = 0, interval = 130;
+  const minInterval = 11;
+  wordBlocks.forEach((wb, i) => {
+    const p = i / Math.max(1, wordBlocks.length - 1);
+    later(() => { suckBlock(wb, cx, cy, hx, hy, SUCK_DUR); if (i % 4 === 0) try { playBlip(p); } catch(e) {} }, t);
+    interval = Math.max(minInterval, interval * 0.962);
+    t += interval;
+  });
+  let t2 = t + SUCK_DUR;
+  const tagSpans = [...finBottom.querySelectorAll('.ch')].filter(s => s.dataset.space !== '1');
+  tagSpans.forEach(sp => { later(() => suckTextEl(sp, hx, hy, false, SUCK_DUR), t2); t2 += 18; });
+  const topSpans = [...finTop.querySelectorAll('.ch')].filter(s => s.dataset.space !== '1');
+  topSpans.forEach(sp => { later(() => suckTextEl(sp, hx, hy, false, SUCK_DUR), t2); t2 += 18; });
+  const endAt = t2 + SUCK_DUR;
+  startSuckHum(endAt);
+  blackhole.getAnimations().forEach(a => { try { a.commitStyles(); a.cancel(); } catch(e){} });
+  blackhole.animate([
+    { transform: 'translate(-50%,-50%) scale(1)' },
+    { transform: 'translate(-50%,-50%) scale(2)' }
+  ], { duration: endAt, easing: 'cubic-bezier(.4,0,.7,1)', fill: 'forwards' });
+  later(finishAndAdvance, endAt + 350);
 }
 
 function finishAndAdvance() {
