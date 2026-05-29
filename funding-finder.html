@@ -2189,6 +2189,24 @@
   .chart-wrap svg { display: block; width: 100%; height: auto; max-height: 480px; }
   .chart-wrap text { font-family: inherit; }
 
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 16px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+  }
+  .swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
   @keyframes fc-growUp    { from { transform: scaleY(0); } to { transform: scaleY(1); } }
   @keyframes fc-growRight { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   @keyframes fc-fadeIn    { from { opacity: 0; } to { opacity: 1; } }
