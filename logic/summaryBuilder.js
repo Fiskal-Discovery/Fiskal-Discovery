@@ -95,8 +95,9 @@ function buildFundingFinderSummary(answers) {
     blocks.push(getCreditConcernInsight());
   }
 
-  const summaryText = blocks.slice(0, 2).join('\n\n');
   const finalBlocks = blocks.slice(0, 2);
+  finalBlocks.push("Nicole will be in touch personally to talk through what's possible.");
+  const summaryText = finalBlocks.join('\n\n');
   return {
     pageHeading:    PAGE_HEADING,
     summaryHeading: SUMMARY_HEADING,
@@ -143,7 +144,7 @@ function buildLoanApplicationSummary(answers) {
   if (para2) blocks.push(para2.trim());
 
   const finalBlocks = blocks.slice(0, 2);
-
+  finalBlocks.push("Nicole will be in touch personally to talk through what's possible.");
   const summaryText = finalBlocks.join('\n\n');
   return {
     pageHeading:    PAGE_HEADING,
@@ -196,7 +197,7 @@ function buildFacilityReviewSummary(answers, reviewType) {
   if (notSureCosts) blocks.push(getUnknownRatesInsight());
 
   // Practical close
-  blocks.push(`The aim of the review is to make sure ${business} has the right facility at the right cost, with the service and flexibility that actually fits the way the business operates.`);
+  blocks.push("Nicole will be in touch personally to talk through what's possible.");
 
   const summaryText = blocks.join('\n\n');
   return {
@@ -240,6 +241,8 @@ function buildShariahSummary(answers) {
 
   // Paragraph 4 — practical: range, speed, profit rate
   blocks.push(getShariahPracticalInsight(amount, notSure));
+
+  blocks.push("Nicole will be in touch personally to talk through what's possible.");
 
   const summaryText = blocks.join('\n\n');
   return {
