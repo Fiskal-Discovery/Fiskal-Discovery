@@ -67,25 +67,23 @@ function _fc_productFitChart(matchedProducts) {
     var score = scores[i] !== undefined ? scores[i] : 42;
     var w     = Math.round((score / 100) * 340);
     var y     = 10 + i * 50;
-    var opTxt = score >= 70 ? '1' : score >= 50 ? '0.8' : '0.6';
-    var opBar = score >= 70 ? '' : (' opacity="' + (score >= 50 ? '0.75' : '0.55') + '"');
     var d1 = parseFloat((0.10 + i * 0.15).toFixed(2));
     var d2 = parseFloat((0.20 + i * 0.15).toFixed(2));
     var d3 = parseFloat((1.10 + i * 0.15).toFixed(2));
     rows +=
-      '<text class="fade-in" style="animation-delay:' + d1 + 's" x="20" y="' + (y+14) + '" fill="rgba(255,255,255,' + opTxt + ')" font-size="13">' + label + '</text>' +
-      '<rect x="196" y="' + y + '" width="344" height="20" rx="10" fill="rgba(255,255,255,0.06)"/>' +
-      '<rect class="grow-right" style="animation-delay:' + d2 + 's" x="196" y="' + y + '" width="' + w + '" height="20" rx="10" fill="url(#fc-fitGold)"' + opBar + '/>' +
-      '<text class="fade-in" style="animation-delay:' + d3 + 's" x="550" y="' + (y+14) + '" fill="rgba(255,255,255,' + opTxt + ')" font-size="12" font-weight="600" text-anchor="end">' + score + '%</text>';
+      '<text class="fade-in" style="animation-delay:' + d1 + 's" x="20" y="' + (y+14) + '" fill="#f4f0ff" font-size="13">' + label + '</text>' +
+      '<rect x="196" y="' + y + '" width="344" height="20" rx="10" fill="rgba(255,255,255,0.08)"/>' +
+      '<rect class="grow-right" style="animation-delay:' + d2 + 's" x="196" y="' + y + '" width="' + w + '" height="20" rx="10" fill="url(#fc-fitGold)"/>' +
+      '<text class="fade-in" style="animation-delay:' + d3 + 's" x="550" y="' + (y+14) + '" fill="#ffc499" font-size="12" font-weight="600" text-anchor="end">' + score + '%</text>';
   });
-  return '<div class="fc-card">' +
+  return '<div class="fc-card fc-fit-card">' +
     '<div class="fc-tag">Matched products \u2014 fit ranking</div>' +
     '<h2 class="fc-heading">How well each option fits your profile</h2>' +
     '<div class="chart-wrap">' +
     '<svg viewBox="0 0 570 ' + svgH + '" aria-label="Product fit ranking">' +
     rows +
     '<defs><linearGradient id="fc-fitGold" x1="0" y1="0" x2="1" y2="0">' +
-    '<stop offset="0%" stop-color="#c44ec7"/><stop offset="100%" stop-color="#f5a623"/>' +
+    '<stop offset="0%" stop-color="#ee6a1a"/><stop offset="100%" stop-color="#cc44ff"/>' +
     '</linearGradient></defs></svg></div></div>';
 }
 
