@@ -1032,10 +1032,8 @@ function suckTextEl(el, hx, hy, keepCenterX, dur) {
 }
 
 function suckEverything(cx, cy, hx, hy) {
-  alert('blocks = ' + wordBlocks.length);
-  // Stop the float animation on the container so it doesn't interfere
   blockGroup.classList.remove('alive');
-  blockGroup.style.transform = '';
+  blockGroup.style.transform = 'none';
   const SUCK_DUR = 620;
   let t = 0, interval = 130;
   const minInterval = 11;
