@@ -1006,15 +1006,24 @@ function blackHolePhase() {
 }
 
 function suckBlock(wb, cx, cy, hx, hy, dur) {
-  const { el, fx, fy } = wb;
-  const sw = stage.offsetWidth, sh = stage.offsetHeight;
-  const liveCx = sw / 2, liveCy = sh / 2;
-  const liveHx = sw * 0.15, liveHy = sh * 0.24;
+  const { el } = wb;
   el.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
+
+  const sRect = stage.getBoundingClientRect();
+  const r = el.getBoundingClientRect();
+  const sw = stage.offsetWidth, sh = stage.offsetHeight;
+  const cxL = sw / 2, cyL = sh / 2;
+  const fx = (r.left - sRect.left + r.width / 2) - cxL;
+  const fy = (r.top  - sRect.top  + r.height / 2) - cyL;
+
+  const ex = sw * 0.15 - cxL;
+  const ey = sh * 0.24 - cyL;
+
   el.style.transform = `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1)`;
-  const ex = liveHx - liveCx, ey = liveHy - liveCy;
+
   const mx = (fx + ex) / 2 + (fy - ey) * 0.6;
   const my = (fy + ey) / 2 - (fx - ex) * 0.6;
+
   el.animate([
     { transform: `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1) rotate(0deg)`, opacity: 1, offset: 0 },
     { transform: `translate(calc(-50% + ${mx}px), calc(-50% + ${my}px)) scale(.6) rotate(360deg)`, opacity: 1, offset: 0.6 },
