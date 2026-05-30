@@ -2260,14 +2260,14 @@ function showBobbyCinematic(onDone){
       (function fade(){fo=Math.min(1,fo+0.06);c.fillStyle=`rgba(0,0,0,${fo})`;c.fillRect(0,0,W,H);if(fo<1)requestAnimationFrame(fade);else{el.style.display='none';if(onDone)onDone();}})();
       return;
     }
-    scene++;st=performance.now();
+    scene++;if(scene===3)scene++;st=performance.now();
     if(scene===2){s2kicked=false;s2kickedAt=0;s2nextShown=false;}
     if(scene===4){s4done=false;bExploded.fill(false);pile.length=0;lastFT=0;showNext();}
     if(scene===5){cancelAnimationFrame(raf2);nb.style.display='none';let fo=0;(function fade(){fo=Math.min(1,fo+0.06);c.fillStyle=`rgba(0,0,0,${fo})`;c.fillRect(0,0,W,H);if(fo<1)requestAnimationFrame(fade);else{el.style.display='none';if(onDone)onDone();}})();return;}
     _bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';
   }
   _nx.onclick=advanceScene;
-  _bb.onclick=()=>{if(scene>1){scene--;st=performance.now();nextReady=false;_bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';}};
+  _bb.onclick=()=>{if(scene>1){scene--;if(scene===3)scene--;st=performance.now();nextReady=false;_bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';}};
   _sb.onclick=()=>toggleMusicMute();
   function showNext(){if(!nextReady){nextReady=true;nb.style.display='flex';_bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';}}
 
@@ -2389,8 +2389,35 @@ function showBobbyCinematic(onDone){
         const fty=BOBBY_INIT_Y-BOBBY_R*0.3-ka*H*0.08;
         drawBoot(ftx,fty,-0.55,clamp(1-ka*2,0,1));
         if(!s2nextShown&&(by2<-BOBBY_R*4||bx2>W+BOBBY_R*2)){
-          s2nextShown=true;showNext();
+          s2nextShown=true;
         }
+      }
+      // Quote lines appear below defeat text after Bobby flies off
+      if(s2nextShown||s2kicked){
+        const quoteStart=s2kickedAt+1.2;
+        const qt=t-quoteStart;
+        const maxW=W*0.82;
+        const lines3=[
+          {txt:'With a little help from Fiskal…',col:'#CC88EE',delay:0,fs:clamp(W*0.038,14,36)},
+          {txt:'business owners refused to stand still',col:'#FFFFFF',delay:1.4,fs:clamp(W*0.040,15,38)},
+          {txt:'and defeated their financial challenges.',col:'#FFD700',delay:2.8,fs:clamp(W*0.038,14,36)},
+        ];
+        lines3.forEach(ln=>{c.font=`bold ${ln.fs}px "Press Start 2P",monospace`;while(c.measureText(ln.txt).width>maxW&&ln.fs>9){ln.fs-=1;c.font=`bold ${ln.fs}px "Press Start 2P",monospace`;}});
+        const totalH=lines3.reduce((s,l)=>s+l.fs*2.2,0);
+        let yy=H*0.82-totalH/2;
+        lines3.forEach(ln=>{
+          if(qt<ln.delay){yy+=ln.fs*2.2;return;}
+          const age=qt-ln.delay;
+          const shown=ln.txt.slice(0,Math.floor(age*22));
+          c.globalAlpha=Math.min(1,age/0.4);
+          c.fillStyle=ln.col;c.shadowBlur=0;
+          c.font=`bold ${ln.fs}px "Press Start 2P",monospace`;
+          c.textAlign='center';c.fillText(shown,W/2,yy+ln.fs);
+          yy+=ln.fs*2.2;
+        });
+        c.globalAlpha=1;
+        if(qt>4.5&&!s2nextShown){s2nextShown=true;}
+        if(s2nextShown&&qt>4.5)showNext();
       }
     }
 
