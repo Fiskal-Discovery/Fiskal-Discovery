@@ -306,7 +306,7 @@ function stopFaviconAnimation() {
   </div>
   </div>
   <div class="cin-bottom-bar">
-    <button id="ic-bb-back" onclick="_icBack()">◀ BACK</button>
+    <button id="ic-bb-back" onclick="goHome()">EXIT</button>
     <button id="ic-bb-sound" class="cin-sound" onclick="toggleMusicMute()">♪ SOUND ON</button>
     <button id="ic-bb-next" onclick="_icNextAction()">NEXT ▶</button>
   </div>
@@ -360,7 +360,7 @@ function stopFaviconAnimation() {
       </div>
       </div>
       <div class="cin-bottom-bar">
-        <button id="lc-bb-back" onclick="_lcBack()">◀ BACK</button>
+        <button id="lc-bb-back" onclick="quitGame();goHome()">EXIT</button>
         <button id="lc-bb-sound" class="cin-sound" onclick="toggleMusicMute()">♪ SOUND ON</button>
         <button id="lc-bb-next" onclick="_lcNextAction()">NEXT ▶</button>
       </div>
@@ -425,7 +425,7 @@ function stopFaviconAnimation() {
   </div>
   </div>
   <div class="cin-bottom-bar">
-    <button id="go-bb-back" onclick="_goBack()">◀ BACK</button>
+    <button id="go-bb-back" onclick="goHome()">EXIT</button>
     <button id="go-bb-sound" class="cin-sound" onclick="toggleMusicMute()">♪ SOUND ON</button>
     <button id="go-bb-next" onclick="_goNextAction()">NEXT ▶</button>
   </div>
@@ -950,7 +950,7 @@ function closeLB(){
 }
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('playing-mobile',id==='game-screen'&&window.innerWidth<=520);if(id!=='game-screen')showQuitBtn(false);if(id==='start-screen'){renderPreviewAliens();updatePersonalBest();drawWantedPoster();MUSIC.cinematic();}if(id==='gameover-screen'){document.getElementById('work-mode-btn').style.display='none';document.getElementById('skip-wave-btn').style.display='none';const goMsg=document.getElementById('gameover-msg');if(goMsg){goMsg.textContent="YOU'VE BEEN LIQUIDATED";goMsg.style.color='';goMsg.style.textShadow='';}const savedName=localStorage.getItem('fiskal_ci_player_name');if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;const stored=getStoredUserDetails();if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;_goNext(1);}}
 const _GO_LAST=2;let _goPanel=1;
-function _goNext(n){_goPanel=n;if(n!==1)_goCleanShatter();document.querySelectorAll('.go-panel').forEach(p=>p.style.display='none');const el=document.getElementById('go-p'+n);if(el)el.style.display='flex';if(n===1)_goRenderDefeated();const cont=document.querySelector('#gameover-screen .cin-content');if(cont)cont.scrollTop=0;const bk=document.getElementById('go-bb-back'),nx=document.getElementById('go-bb-next');if(bk)bk.classList.toggle('hidden',n<=1);if(nx){nx.classList.remove('hidden');if(n>=_GO_LAST){nx.textContent='▶ PLAY AGAIN';nx.onclick=()=>{stopGame();showScreen('start-screen');};}else{nx.textContent='NEXT ▶';nx.onclick=_goNextAction;}}}
+function _goNext(n){_goPanel=n;if(n!==1)_goCleanShatter();document.querySelectorAll('.go-panel').forEach(p=>p.style.display='none');const el=document.getElementById('go-p'+n);if(el)el.style.display='flex';if(n===1)_goRenderDefeated();const cont=document.querySelector('#gameover-screen .cin-content');if(cont)cont.scrollTop=0;const bk=document.getElementById('go-bb-back'),nx=document.getElementById('go-bb-next');if(bk)bk.classList.remove('hidden');if(nx){nx.classList.remove('hidden');if(n>=_GO_LAST){nx.textContent='▶ PLAY AGAIN';nx.onclick=()=>{stopGame();showScreen('start-screen');};}else{nx.textContent='NEXT ▶';nx.onclick=_goNextAction;}}}
 function _goBack(){if(_goPanel>1)_goNext(_goPanel-1);}
 function _goNextAction(){if(_goPanel<_GO_LAST)_goNext(_goPanel+1);}
 let _goShatterOverlay=null;
@@ -1924,7 +1924,7 @@ const _LC_NEXT_TEXT={1:'NEXT ▶',2:'NEXT ▶',3:'NEXT ▶',4:'UPGRADE SHIP ▶'
 function _icNext(panel){_icPanel=panel;document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});const el=document.getElementById('ic-p'+panel);if(el){el.style.display='flex';el.classList.add('ic-show');}const b=document.getElementById('ic-top-banner');if(_icBannerText[panel])_typewrite(b,_icBannerText[panel]);else _typewriteClear(b);if(panel===4){const slam=document.querySelector('#ic-p4 .ic-act-slam');if(slam){slam.classList.remove('slam');void slam.offsetWidth;slam.classList.add('slam');}MUSIC.stop();try{const _as=new Audio('assets/freesound_community-medieval-horn-by-kris-klavenes-wav-77565.mp3');_as.volume=1.0;_as.play().catch(()=>{});}catch(e){}}_cinNavSync('ic-bb-back','ic-bb-next',panel,_IC_LAST,_IC_NEXT_TEXT);}
 function _icBack(){if(_icPanel>1)_icNext(_icPanel-1);}
 function _icNextAction(){if(_icPanel<_IC_LAST){_icNext(_icPanel+1);}else{const nx=document.getElementById('ic-bb-next');if(nx)nx.disabled=true;_icDone();}}
-function _cinNavSync(backId,nextId,panel,last,texts){const bk=document.getElementById(backId),nx=document.getElementById(nextId);if(bk)bk.classList.toggle('hidden',panel<=1);if(nx){if(texts)nx.textContent=texts[panel]||'NEXT ▶';nx.disabled=false;}}
+function _cinNavSync(backId,nextId,panel,last,texts){const bk=document.getElementById(backId),nx=document.getElementById(nextId);if(bk)bk.classList.remove('hidden');if(nx){if(texts)nx.textContent=texts[panel]||'NEXT ▶';nx.disabled=false;}}
 function _icDone(){if(_icDoneGuard)return;_icDoneGuard=true;const el=document.getElementById('intro-cin');el.classList.remove('ic-active');el.style.display='none';document.querySelectorAll('.ic-panel').forEach(p=>{p.style.display='none';p.classList.remove('ic-show')});_typewriteClear(document.getElementById('ic-top-banner'));MUSIC.stop();initGame();}document.getElementById('btn-submit-score').addEventListener('click',async()=>{
   const btn = document.getElementById('btn-submit-score');
   const nameInput = document.getElementById('leaderboard-name').value.trim() || 'ANONYMOUS';
@@ -2115,7 +2115,7 @@ table tr:nth-child(even) td{background:#fafbff}
     </div>
   </div>
   <div class="cin-bottom-bar">
-    <button id="v-bb-back" class="hidden" onclick="_vBack()">◀ BACK</button>
+    <button id="v-bb-back" onclick="goHome()">EXIT</button>
     <button id="v-bb-sound" class="cin-sound" onclick="toggleMusicMute()">♪ SOUND ON</button>
     <button id="v-bb-next" onclick="_vNextAction()">NEXT ▶</button>
   </div>
@@ -2201,7 +2201,7 @@ function showBobbyCinematic(onDone){
     nb.style.cssText='position:absolute;bottom:0;left:0;right:0;height:68px;display:none;align-items:center;justify-content:center;gap:8px;padding:0 10px;background:rgba(8,0,15,.92);border-top:1px solid rgba(255,255,255,.07);z-index:10;box-sizing:border-box;';
     const _btnStyle='font-family:"Press Start 2P",monospace;font-size:clamp(.48rem,1.5vw,.62rem);background:rgba(255,230,0,.1);color:#FFE600;border:2px solid #FFE600;padding:10px 14px;border-radius:4px;cursor:pointer;letter-spacing:.05em;min-height:42px;touch-action:manipulation;white-space:nowrap;';
     const _soundStyle='font-family:"Press Start 2P",monospace;font-size:clamp(.48rem,1.5vw,.62rem);background:rgba(255,255,255,.05);color:rgba(255,255,255,.75);border:2px solid rgba(255,255,255,.35);padding:10px 14px;border-radius:4px;cursor:pointer;letter-spacing:.05em;min-height:42px;touch-action:manipulation;white-space:nowrap;';
-    const _bb=document.createElement('button');_bb.id='bobby-epic-back';_bb.style.cssText=_btnStyle+'opacity:0;pointer-events:none;';_bb.textContent='◀ BACK';nb.appendChild(_bb);
+    const _bb=document.createElement('button');_bb.id='bobby-epic-back';_bb.style.cssText=_btnStyle;_bb.textContent='EXIT';nb.appendChild(_bb);
     const _sb=document.createElement('button');_sb.id='bobby-epic-sound';_sb.style.cssText=_soundStyle;_sb.textContent='♪ SOUND ON';nb.appendChild(_sb);
     const _nx=document.createElement('button');_nx.id='bobby-epic-nxt';_nx.style.cssText=_btnStyle;_nx.textContent='NEXT ▶';nb.appendChild(_nx);
     el.appendChild(nb);
@@ -2264,12 +2264,11 @@ function showBobbyCinematic(onDone){
     if(scene===2){s2kicked=false;s2kickedAt=0;s2nextShown=false;}
     if(scene===4){s4done=false;bExploded.fill(false);pile.length=0;lastFT=0;showNext();}
     if(scene===5){cancelAnimationFrame(raf2);nb.style.display='none';let fo=0;(function fade(){fo=Math.min(1,fo+0.06);c.fillStyle=`rgba(0,0,0,${fo})`;c.fillRect(0,0,W,H);if(fo<1)requestAnimationFrame(fade);else{el.style.display='none';if(onDone)onDone();}})();return;}
-    _bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';
   }
   _nx.onclick=advanceScene;
-  _bb.onclick=()=>{if(scene>1){scene--;if(scene===3)scene--;st=performance.now();nextReady=false;_bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';}};
+  _bb.onclick=()=>{cancelAnimationFrame(raf2);el.style.display='none';goHome();};
   _sb.onclick=()=>toggleMusicMute();
-  function showNext(){if(!nextReady){nextReady=true;nb.style.display='flex';if(scene===5){_bb.textContent='▶ PLAY AGAIN';_bb.style.opacity='1';_bb.style.pointerEvents='auto';_bb.onclick=()=>{cancelAnimationFrame(raf2);el.style.display='none';stopGame();showScreen('start-screen');};_nx.textContent='EXIT';_nx.onclick=()=>{cancelAnimationFrame(raf2);el.style.display='none';if(onDone)onDone();};}else{_bb.textContent='◀ BACK';_bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';}}}
+  function showNext(){if(!nextReady){nextReady=true;nb.style.display='flex';if(scene===5){_nx.textContent='▶ PLAY AGAIN';_nx.onclick=()=>{cancelAnimationFrame(raf2);el.style.display='none';stopGame();showScreen('start-screen');};}else{_nx.textContent='NEXT ▶';_nx.onclick=advanceScene;}}}
 
   function glassSound(){
     try{
