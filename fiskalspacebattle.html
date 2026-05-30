@@ -1090,8 +1090,8 @@ function suckEverything(cx, cy, hx, hy) {
     blackhole.animate([
       { transform: 'translate(-50%,-50%) scale(1)' },
       { transform: 'translate(-50%,-50%) scale(2)' }
-    ], { duration: endAt, easing: 'cubic-bezier(.4,0,.7,1)', fill: 'forwards' });
-    later(finishAndAdvance, endAt + 30);
+    ], { duration: endAt, easing: 'ease-in', fill: 'forwards' });
+    later(finishAndAdvance, endAt - 80);
   }, 250);
 }
 
@@ -1104,9 +1104,8 @@ function finishAndAdvance() {
   const GROW = 3400;
   blackhole.getAnimations().forEach(a => { try { a.commitStyles(); a.cancel(); } catch(e){} });
   blackhole.animate([
-    { transform: 'translate(-50%,-50%) scale(2)' },
     { transform: `translate(-50%,-50%) scale(${fillScale})` }
-  ], { duration: GROW, easing: 'cubic-bezier(.5,0,.75,1)', fill: 'forwards' });
+  ], { duration: GROW, easing: 'ease-in', fill: 'forwards' });
   startSuckHum(GROW);
   later(() => { transition.classList.add('on'); }, GROW + 200);
   later(goToNextScreen, GROW + 700);
