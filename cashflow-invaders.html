@@ -991,7 +991,7 @@ function _goRenderDefeated(){
   const headerH=H*0.04+liqFs*1.45+scoreFs*1.65+cntFs*2.8;
   const footerH=Math.max(44,Math.round(H*0.075));
   // Names start after the game-over voice has played (~3s), then stagger every 1s
-  const DELAY=3.0,STAGGER=1.0,ZOOM=1.6,FLASH=0.3;
+  const DELAY=2.5,STAGGER=0.5,ZOOM=1.0,FLASH=0.22;
   const bST=arr.map((_,i)=>DELAY+i*STAGGER);
   const bExploded=arr.map(()=>false);
   let explodedCount=0,nextShown=false,allExplodedT=null;
