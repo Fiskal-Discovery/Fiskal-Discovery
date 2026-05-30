@@ -2350,15 +2350,30 @@ function showBobbyCinematic(onDone){
         drawBobbySprite(W/2,BOBBY_INIT_Y,0,clamp(t/0.5,0,1));
         if(t>=KICK_START){
           const bp=clamp((t-KICK_START)/BOOT_TRAVEL,0,1);
-          const _bs=Math.min(W,H)*0.013;const targetBx=W/2-BOBBY_R-12*_bs-4;
-          const bx=lerp(-160,targetBx,easeOut(bp));
-          const _ba=bp<0.65?lerp(0,-0.3,bp/0.65):lerp(-0.3,0.38,(bp-0.65)/0.35);
-          drawBoot(bx,BOBBY_INIT_Y+BOBBY_R*0.1,_ba,1);
-          if(bp>=1){
-            s2kicked=true;
-            s2kickedAt=t;
-            shakeX=(Math.random()-.5)*24;shakeY=(Math.random()-.5)*24;
-            try{tone(80,120,.4,.05,'sawtooth');}catch(e){}
+          const _bs=Math.min(W,H)*0.013;
+          const targetBx=W/2-BOBBY_R-12*_bs-4;
+          const windupEnd=0.38;
+          if(bp<windupEnd){
+            // Wind-up: boot enters from lower-left, angled back
+            const wu=bp/windupEnd;
+            const wuE=easeOut(wu);
+            const bx=lerp(-200,targetBx-BOBBY_R*1.8,wuE);
+            const by=BOBBY_INIT_Y+lerp(H*0.26,BOBBY_R*1.3,wuE);
+            drawBoot(bx,by,lerp(1.4,1.05,wu),clamp(wu*3,0,1));
+          } else {
+            // Kick swing: fast arc upward, angle sweeps through to follow-through
+            const kp=(bp-windupEnd)/(1-windupEnd);
+            const ekp=kp*kp; // ease-in — slow start, accelerates into impact
+            const bx=lerp(targetBx-BOBBY_R*1.8,targetBx+BOBBY_R*0.4,ekp);
+            const by=BOBBY_INIT_Y+lerp(BOBBY_R*1.3,-BOBBY_R*0.3,ekp);
+            const ba=lerp(1.05,-0.55,ekp);
+            drawBoot(bx,by,ba,1);
+            if(bp>=1){
+              s2kicked=true;
+              s2kickedAt=t;
+              shakeX=(Math.random()-.5)*28;shakeY=(Math.random()-.5)*28;
+              try{tone(80,120,.4,.05,'sawtooth');}catch(e){}
+            }
           }
         }
       } else {
@@ -2367,7 +2382,11 @@ function showBobbyCinematic(onDone){
         const by2=BOBBY_INIT_Y+BOBBY_VY*ka+0.5*GRAVITY*ka*ka;
         const ba=ka*4.5;
         drawBobbySprite(bx2,by2,ba,clamp(1-Math.max(0,ka-0.5)*0.8,0,1));
-        drawBoot(W/2-BOBBY_R-12*Math.min(W,H)*0.013-4,BOBBY_INIT_Y+BOBBY_R*0.1,0.38,clamp(1-ka*1.5,0,1));
+        // Boot follows through past Bobby then fades
+        const _bs=Math.min(W,H)*0.013;
+        const ftx=W/2-BOBBY_R-12*_bs-4+BOBBY_R*0.4+ka*W*0.18;
+        const fty=BOBBY_INIT_Y-BOBBY_R*0.3-ka*H*0.08;
+        drawBoot(ftx,fty,-0.55,clamp(1-ka*2,0,1));
         if(!s2nextShown&&(by2<-BOBBY_R*4||bx2>W+BOBBY_R*2)){
           s2nextShown=true;showNext();
         }
