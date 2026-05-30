@@ -1548,7 +1548,7 @@ const _wmb=document.getElementById('work-mode-btn');_wmb.style.display='flex';do
 spawnWave(4);updateHUD();updateTargetHUD();requestAnimationFrame(()=>{resizeCanvas();rafId=requestAnimationFrame(gameLoop)});MUSIC.common()}
 function quitGame(){stopGame();stopFaviconAnimation();showScreen('start-screen')}
 function devSkipToBoss(){
-  if(!G||G.dead||paused||G.state==='boss')return;
+  if(!G||G.dead||paused||G.state!=='playing')return;
   G.enemies=[];G.bullets=[];G.bossBlasts=[];G.wordEnemies=[];G.powerups=[];G.fiskalOrbs=[];
   G.state='transition';
   setTimeout(()=>{if(G&&!G.dead)spawnBoss();},400);
