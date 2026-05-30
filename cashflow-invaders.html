@@ -441,7 +441,7 @@ function stopFaviconAnimation() {
       <table class="score-table"><thead><tr><th class="rank-col">#</th><th>NAME</th><th>COMPANY</th><th>CASH</th><th>WAVE</th><th>★</th></tr></thead><tbody id="leaderboard-body"></tbody></table>
     </div>
     <div id="lb-end-buttons" style="display:none;gap:12px;margin-top:18px;justify-content:center;flex-wrap:wrap">
-      <button class="btn-play-again" onclick="document.getElementById('leaderboard-screen').style.display='none';initGame(1);">▶ PLAY AGAIN</button>
+      <button class="btn-play-again" onclick="document.getElementById('leaderboard-screen').style.display='none';initGame();">▶ PLAY AGAIN</button>
       <button class="btn-home" onclick="stopGame();stopFaviconAnimation();goHome();">✕ QUIT</button>
     </div>
   </div>
@@ -950,7 +950,7 @@ function closeLB(){
 }
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.body.classList.toggle('playing-mobile',id==='game-screen'&&window.innerWidth<=520);if(id!=='game-screen')showQuitBtn(false);if(id==='start-screen'){renderPreviewAliens();updatePersonalBest();drawWantedPoster();MUSIC.cinematic();}if(id==='gameover-screen'){document.getElementById('work-mode-btn').style.display='none';document.getElementById('skip-wave-btn').style.display='none';const goMsg=document.getElementById('gameover-msg');if(goMsg){goMsg.textContent="YOU'VE BEEN LIQUIDATED";goMsg.style.color='';goMsg.style.textShadow='';}const savedName=localStorage.getItem('fiskal_ci_player_name');if(savedName&&savedName!=='ANONYMOUS')document.getElementById('leaderboard-name').value=savedName;const stored=getStoredUserDetails();if(stored.name&&!document.getElementById('leaderboard-name').value)document.getElementById('leaderboard-name').value=stored.name;if(stored.company&&!document.getElementById('leaderboard-company').value)document.getElementById('leaderboard-company').value=stored.company;_goNext(1);}}
 const _GO_LAST=2;let _goPanel=1;
-function _goNext(n){_goPanel=n;if(n!==1)_goCleanShatter();document.querySelectorAll('.go-panel').forEach(p=>p.style.display='none');const el=document.getElementById('go-p'+n);if(el)el.style.display='flex';if(n===1)_goRenderDefeated();const cont=document.querySelector('#gameover-screen .cin-content');if(cont)cont.scrollTop=0;const bk=document.getElementById('go-bb-back'),nx=document.getElementById('go-bb-next');if(bk)bk.classList.remove('hidden');if(nx){nx.classList.remove('hidden');if(n>=_GO_LAST){nx.textContent='▶ PLAY AGAIN';nx.onclick=()=>{stopGame();showScreen('start-screen');};}else{nx.textContent='NEXT ▶';nx.onclick=_goNextAction;}}}
+function _goNext(n){_goPanel=n;if(n!==1)_goCleanShatter();document.querySelectorAll('.go-panel').forEach(p=>p.style.display='none');const el=document.getElementById('go-p'+n);if(el)el.style.display='flex';if(n===1)_goRenderDefeated();const cont=document.querySelector('#gameover-screen .cin-content');if(cont)cont.scrollTop=0;const bk=document.getElementById('go-bb-back'),nx=document.getElementById('go-bb-next');if(bk)bk.classList.remove('hidden');if(nx){nx.classList.remove('hidden');if(n>=_GO_LAST){nx.textContent='▶ PLAY AGAIN';nx.onclick=()=>{stopGame();initGame();};}else{nx.textContent='NEXT ▶';nx.onclick=_goNextAction;}}}
 function _goBack(){if(_goPanel>1)_goNext(_goPanel-1);}
 function _goNextAction(){if(_goPanel<_GO_LAST)_goNext(_goPanel+1);}
 let _goShatterOverlay=null;
@@ -2152,7 +2152,7 @@ function _cinNext(panel){
   }
   const bk=document.getElementById('v-bb-back'),nx=document.getElementById('v-bb-next');
   if(bk)bk.classList.toggle('hidden',panel===_V_PANELS[0]);
-  if(nx){nx.classList.remove('hidden');if(panel===_V_PANELS[_V_PANELS.length-1]){nx.textContent='▶ PLAY AGAIN';nx.onclick=()=>{stopGame();stopFaviconAnimation();document.getElementById('victory-screen').classList.remove('active');showScreen('start-screen');};}else{nx.textContent='NEXT ▶';nx.onclick=_vNextAction;}}
+  if(nx){nx.classList.remove('hidden');if(panel===_V_PANELS[_V_PANELS.length-1]){nx.textContent='▶ PLAY AGAIN';nx.onclick=()=>{stopGame();stopFaviconAnimation();document.getElementById('victory-screen').classList.remove('active');initGame();};}else{nx.textContent='NEXT ▶';nx.onclick=_vNextAction;}}
 }
 function _vBack(){const i=_V_PANELS.indexOf(_vPanel);if(i>0)_cinNext(_V_PANELS[i-1]);}
 function _vNextAction(){const i=_V_PANELS.indexOf(_vPanel);if(i>=0&&i<_V_PANELS.length-1)_cinNext(_V_PANELS[i+1]);}
