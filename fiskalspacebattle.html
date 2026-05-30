@@ -200,6 +200,15 @@
     60%  { opacity:1; }
     100% { transform: translate(-50%, -50%) scale(1); opacity:1; }
   }
+  .player.entering {
+    animation: playerEntry 0.9s cubic-bezier(.15,.85,.3,1.05) forwards;
+  }
+  @keyframes playerEntry {
+    0%   { transform: translate(-280%, -50%) scale(0.2); opacity: 0; }
+    55%  { opacity: 1; }
+    80%  { transform: translate(-50%, -50%) scale(1.12); }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  }
   .alien svg { display:block; width:100%; height:auto; image-rendering: pixelated; }
   .alien.shaking { animation: alienFloat 4s ease-in-out infinite, shake .15s; }
   @keyframes shake {
@@ -1082,7 +1091,7 @@ function suckEverything(cx, cy, hx, hy) {
       { transform: 'translate(-50%,-50%) scale(1)' },
       { transform: 'translate(-50%,-50%) scale(2)' }
     ], { duration: endAt, easing: 'cubic-bezier(.4,0,.7,1)', fill: 'forwards' });
-    later(finishAndAdvance, endAt + 350);
+    later(finishAndAdvance, endAt + 30);
   }, 250);
 }
 
@@ -1138,8 +1147,14 @@ function runSequence() {
   transition.classList.remove('on');
 
   mouseXPctTracked = 50;
-  player.style.transition = 'left 2.8s cubic-bezier(.4,0,.6,1), top .5s ease, transform .3s';
-  moveShipTo(-15, 88);
+  player.style.transition = 'none';
+  moveShipTo(25, 88);
+  void player.offsetWidth;
+  player.classList.add('entering');
+  later(() => {
+    player.classList.remove('entering');
+    player.style.transition = 'left 2.8s cubic-bezier(.4,0,.6,1), top .5s ease, transform .3s';
+  }, 960);
 
   // Alien zooms in from right side
   void alien.offsetWidth;
@@ -1149,16 +1164,15 @@ function runSequence() {
     alien.style.animation = 'alienFloat 4s ease-in-out infinite';
   }, 1200);
 
-  later(playWhoosh, 300);
-  later(() => moveShipTo(25, 88), 400);
+  later(playWhoosh, 80);
 
-  // Ship arrives ~1.3s in — snap to current mouse position and enable player control
+  // Enable player control after entry animation
   later(() => {
-    player.style.transition = 'none'; // instant mouse tracking
+    player.style.transition = 'none';
     player.style.left = mouseXPctTracked + '%';
     gameRunning = true;
     stage.classList.add('can-shoot');
-  }, 1300);
+  }, 1000);
 
 }
 
