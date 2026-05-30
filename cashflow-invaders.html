@@ -1611,7 +1611,7 @@ if(G.wave===20){const bobbyHp=280;G.boss={x:canvas.width/2,y:80,r:Math.min(canva
 // Wave 10 – Late Payment Larry
 if(G.wave===10){const larryHp=Math.floor((20+G.wave*4));G.boss={x:canvas.width/2,y:80,r:Math.min(canvas.width*.13,64),w:128,h:74,vx:1.4,name:'LATE PAYMENT LARRY',color:'#5AAA22',hp:larryHp,maxHp:larryHp,flash:0,frame:0,numBullets:5,behaviour:'zigzag',lines:['LATE PAYMENT','LARRY'],fontSize:11,larry:true,shocked:0,spinning:0,briefcasesGone:false,movTimer:0,movPhase:0,shootPhase:0};G.bossShootTimer=0;G.state='boss';return}
 // Act 2 bosses (waves 11-19)
-if(G.wave>=11){const index=(G.wave-11)%ACT2_BOSS_NAMES.length;const bossData=ACT2_BOSS_NAMES[index],name=bossData.name,advancedMultiplier=1+((G.wave-10)*0.1),r=Math.min(canvas.width*.1,52),hp=Math.floor((20+G.wave*5)*advancedMultiplier),label=calcBossLabel(name,r);const act2Behaviours=[{speed:1.3,bullets:3,pattern:'spread'},{speed:1.1,bullets:2,pattern:'rain'},{speed:1.2,bullets:3,pattern:'figure8'},{speed:0.8,bullets:3,pattern:'rain'},{speed:1.6,bullets:4,pattern:'dash'},{speed:1.8,bullets:5,pattern:'spread'},{speed:1.5,bullets:4,pattern:'curve'},{speed:2.0,bullets:5,pattern:'aggressive'},{speed:2.2,bullets:4,pattern:'chaos',shootRate:70}];const b=act2Behaviours[index];const bossSpeed=b.speed*advancedMultiplier;const bossBullets=Math.floor(b.bullets*advancedMultiplier);G.boss={x:canvas.width/2,y:r+28,r,w:r*2,h:r*2,vx:bossSpeed,name,color:bossData.color,hp,maxHp:hp,flash:0,frame:0,numBullets:bossBullets,behaviour:b.pattern,lines:label.lines,fontSize:label.fontSize,special:bossData.special,badDebtShield:bossData.special==='badDebt'?3:0,taxAnger:0,spiralAngle:0,shootRate:b.shootRate||null};G.bossShootTimer=0;G.state='boss';return}
+if(G.wave>=11){const index=(G.wave-11)%ACT2_BOSS_NAMES.length;const bossData=ACT2_BOSS_NAMES[index],name=bossData.name,advancedMultiplier=1+((G.wave-10)*0.1),r=Math.min(canvas.width*.1,52),hp=Math.floor((20+G.wave*5)*advancedMultiplier),label=calcBossLabel(name,r);const act2Behaviours=[{speed:1.3,bullets:3,pattern:'spread'},{speed:1.1,bullets:2,pattern:'rain'},{speed:0.75,bullets:3,pattern:'figure8'},{speed:0.8,bullets:3,pattern:'rain'},{speed:1.6,bullets:4,pattern:'dash'},{speed:1.8,bullets:5,pattern:'spread'},{speed:1.5,bullets:4,pattern:'curve'},{speed:2.0,bullets:5,pattern:'aggressive'},{speed:2.2,bullets:4,pattern:'chaos',shootRate:70}];const b=act2Behaviours[index];const bossSpeed=b.speed*advancedMultiplier;const bossBullets=Math.floor(b.bullets*advancedMultiplier);G.boss={x:canvas.width/2,y:r+28,r,w:r*2,h:r*2,vx:bossSpeed,name,color:bossData.color,hp,maxHp:hp,flash:0,frame:0,numBullets:bossBullets,behaviour:b.pattern,lines:label.lines,fontSize:label.fontSize,special:bossData.special,badDebtShield:bossData.special==='badDebt'?3:0,taxAnger:0,spiralAngle:0,shootRate:b.shootRate||null};G.bossShootTimer=0;G.state='boss';return}
 // Act 1 bosses (waves 1-9)
 const index=(G.wave-1)%BOSS_NAMES.length;const bossData=BOSS_NAMES[index],name=bossData.name,r=Math.min(canvas.width*.13,64),hp=Math.floor((5+G.wave*3)*(G.wave<=2?1.7:1)),label=calcBossLabel(name,r);
 const behaviours=[{speed:1.2,bullets:2,pattern:'straight'},{speed:1.6,bullets:4,pattern:'straight'},{speed:1.1,bullets:4,pattern:'spread'},{speed:2.0,bullets:2,pattern:'dash'},{speed:1.4,bullets:5,pattern:'rain'},{speed:1.8,bullets:3,pattern:'curve'},{speed:2.8,bullets:2,pattern:'frozenSweep'},{speed:2.2,bullets:4,pattern:'aggressive'},{speed:1.8,bullets:1,pattern:'clawbacksHover',shootRate:22}];
@@ -1852,10 +1852,10 @@ if(G.bossShootTimer>=shootRate){
     const arms=boss.numBullets;
     for(let i=0;i<arms;i++){
       const angle=boss.spiralAngle+(i*(Math.PI*2/arms));
-      const spd=2.8+G.wave*.15;
+      const spd=2.0+G.wave*.1;
       G.bossBlasts.push({x:boss.x,y:boss.y+(boss.r*0.55)+5,vx:Math.sin(angle)*spd*0.9,vy:Math.abs(Math.cos(angle))*spd*0.6+1.8,bobby:false,spiral:true});
     }
-    boss.spiralAngle+=0.42;
+    boss.spiralAngle+=0.28;
   }else if(boss.name==='INTEREST HIKE'){
     const shots=(boss.shotCycle%4)+1;
     for(let i=0;i<shots;i++){const ox=(i-(shots-1)/2)*22;G.bossBlasts.push({x:boss.x+ox,y:boss.y+boss.r*0.55+5,vy:2.2+G.wave*.28,vx:0,bobby:false});}
