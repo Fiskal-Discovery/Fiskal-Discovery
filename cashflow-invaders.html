@@ -2268,7 +2268,7 @@ function showBobbyCinematic(onDone){
   _nx.onclick=advanceScene;
   _bb.onclick=()=>{cancelAnimationFrame(raf2);el.style.display='none';goHome();};
   _sb.onclick=()=>toggleMusicMute();
-  function showNext(){if(!nextReady){nextReady=true;nb.style.display='flex';if(scene===5){_nx.textContent='▶ PLAY AGAIN';_nx.onclick=()=>{cancelAnimationFrame(raf2);el.style.display='none';stopGame();showScreen('start-screen');};}else{_nx.textContent='NEXT ▶';_nx.onclick=advanceScene;}}}
+  function showNext(){if(!nextReady){nextReady=true;nb.style.display='flex';_nx.textContent='NEXT ▶';_nx.onclick=advanceScene;}}
 
   function glassSound(){
     try{
