@@ -224,6 +224,7 @@
     filter: drop-shadow(0 0 10px rgba(200,100,255,.7));
     transition: left 2.8s cubic-bezier(.4,0,.6,1), top .5s ease, transform .3s;
   }
+  @media(min-width:768px){.player{top:72%;}}
   .player svg { display:block; width:100%; height:auto; image-rendering: pixelated; }
   .player .thrust {
     position:absolute; left:50%; bottom:-20%;
@@ -1130,10 +1131,11 @@ function runSequence() {
 
   mouseXPctTracked = 50;
   player.style.transition = 'left 2.8s cubic-bezier(.4,0,.6,1), top .5s ease, transform .3s';
-  moveShipTo(-15, 88);
+  const shipY = window.innerWidth >= 768 ? 72 : 88;
+  moveShipTo(-15, shipY);
 
   later(playWhoosh, 300);
-  later(() => moveShipTo(25, 88), 400);
+  later(() => moveShipTo(25, shipY), 400);
 
   // Ship arrives ~1.3s in — snap to current mouse position and enable player control
   later(() => {
