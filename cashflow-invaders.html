@@ -1833,7 +1833,7 @@ if(G.bossShootTimer>=shootRate){
   }else{
     for(let i=0;i<boss.numBullets;i++){
       const ox=(i-(boss.numBullets-1)/2)*22;
-      G.bossBlasts.push({x:boss.x+ox,y:boss.y+(boss.larry||boss.bobby?boss.r:boss.r*0.55)+5,vy:2.2+G.wave*.28,vx:0,bobby:isBobbyBoss,glitch:true});
+      G.bossBlasts.push({x:boss.x+ox,y:boss.y+(boss.larry||boss.bobby?boss.r:boss.r*0.55)+5,vy:2.2+G.wave*.28,vx:0,bobby:isBobbyBoss,glitch:G.wave>2});
     }
   }
 }
