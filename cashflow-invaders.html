@@ -2269,7 +2269,7 @@ function showBobbyCinematic(onDone){
   _nx.onclick=advanceScene;
   _bb.onclick=()=>{if(scene>1){scene--;if(scene===3)scene--;st=performance.now();nextReady=false;_bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';}};
   _sb.onclick=()=>toggleMusicMute();
-  function showNext(){if(!nextReady){nextReady=true;nb.style.display='flex';_bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';}}
+  function showNext(){if(!nextReady){nextReady=true;nb.style.display='flex';if(scene===5){_bb.textContent='▶ PLAY AGAIN';_bb.style.opacity='1';_bb.style.pointerEvents='auto';_bb.onclick=()=>{cancelAnimationFrame(raf2);el.style.display='none';stopGame();showScreen('start-screen');};_nx.textContent='EXIT';_nx.onclick=()=>{cancelAnimationFrame(raf2);el.style.display='none';if(onDone)onDone();};}else{_bb.textContent='◀ BACK';_bb.style.opacity=scene<=1?'0':'1';_bb.style.pointerEvents=scene<=1?'none':'auto';}}}
 
   function glassSound(){
     try{
