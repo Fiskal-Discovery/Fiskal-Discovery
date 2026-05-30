@@ -192,6 +192,14 @@
     0%,100% { transform: translate(-50%, -50%); }
     50%     { transform: translate(-50%, -53%); }
   }
+  .alien.entering {
+    animation: alienEntry 1.1s cubic-bezier(.2,.8,.3,1) forwards;
+  }
+  @keyframes alienEntry {
+    0%   { transform: translate(80vw, -50%) scale(0.4); opacity:0; }
+    60%  { opacity:1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity:1; }
+  }
   .alien svg { display:block; width:100%; height:auto; image-rendering: pixelated; }
   .alien.shaking { animation: alienFloat 4s ease-in-out infinite, shake .15s; }
   @keyframes shake {
@@ -1109,7 +1117,7 @@ function runSequence() {
   gameRunning = false;
   explodeStarted = false;
   stage.classList.remove('can-shoot');
-  alien.classList.remove('dmg1','dmg2','dmg3','exploding');
+  alien.classList.remove('dmg1','dmg2','dmg3','exploding','entering');
   blockGroup.classList.remove('alive');
   blockGroup.style.transform = '';
   blockGroup.innerHTML = '';
@@ -1133,6 +1141,14 @@ function runSequence() {
   player.style.transition = 'left 2.8s cubic-bezier(.4,0,.6,1), top .5s ease, transform .3s';
   const shipY = window.innerWidth >= 768 ? 72 : 88;
   moveShipTo(-15, shipY);
+
+  // Alien zooms in from right side
+  void alien.offsetWidth;
+  alien.classList.add('entering');
+  later(() => {
+    alien.classList.remove('entering');
+    alien.style.animation = 'alienFloat 4s ease-in-out infinite';
+  }, 1200);
 
   later(playWhoosh, 300);
   later(() => moveShipTo(25, shipY), 400);
