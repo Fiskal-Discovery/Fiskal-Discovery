@@ -2333,7 +2333,8 @@ function showBobbyCinematic(onDone){
     // SCENE 2: Bailiff Bobby defeated + boot kick
     else if(scene===2){
       c.textAlign='center';
-      const textA=clamp(t/0.4,0,1);
+      const kickDone=KICK_START+BOOT_TRAVEL;
+      const textA=clamp((t-kickDone)/0.5,0,1);
       c.globalAlpha=textA;
       c.fillStyle='#FFD700';c.shadowColor='#FF8C00';c.shadowBlur=28;
       c.font=`bold ${clamp(W*0.054,20,58)}px "Press Start 2P",monospace`;
