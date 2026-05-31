@@ -1105,11 +1105,11 @@ function finishAndAdvance() {
   const sw = stage.offsetWidth, sh = stage.offsetHeight;
   const boxW = parseFloat(getComputedStyle(blackhole).width) || 80;
   const fillScale = (Math.hypot(sw, sh) / boxW) * 5;
-  const GROW = 3400;
+  const GROW = 2200;
   blackhole.getAnimations().forEach(a => { try { a.commitStyles(); a.cancel(); } catch(e){} });
   blackhole.animate([
     { transform: `translate(-50%,-50%) scale(${fillScale})` }
-  ], { duration: GROW, easing: 'ease-in', fill: 'forwards' });
+  ], { duration: GROW, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
   startSuckHum(GROW);
   later(() => { transition.classList.add('on'); }, GROW + 200);
   later(goToNextScreen, GROW + 700);
