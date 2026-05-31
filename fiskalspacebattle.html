@@ -1090,12 +1090,7 @@ function suckEverything(cx, cy, hx, hy) {
     topSpans.forEach(sp => { later(() => suckTextEl(sp, hx, hy, false, SUCK_DUR), t2); t2 += 18; });
     const endAt = t2 + SUCK_DUR;
     startSuckHum(endAt);
-    blackhole.getAnimations().forEach(a => { try { a.commitStyles(); a.cancel(); } catch(e){} });
-    blackhole.animate([
-      { transform: 'translate(-50%,-50%) scale(1)' },
-      { transform: 'translate(-50%,-50%) scale(2)' }
-    ], { duration: endAt, easing: 'ease-in', fill: 'forwards' });
-    later(finishAndAdvance, endAt - 80);
+    later(finishAndAdvance, endAt);
   }, 250);
 }
 
@@ -1106,9 +1101,12 @@ function finishAndAdvance() {
   const boxW = parseFloat(getComputedStyle(blackhole).width) || 80;
   const fillScale = (Math.hypot(sw, sh) / boxW) * 5;
   const GROW = 2200;
-  blackhole.getAnimations().forEach(a => { try { a.commitStyles(); a.cancel(); } catch(e){} });
+  blackhole.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
+  blackhole.style.transform = 'translate(-50%,-50%) scale(1)';
+  void blackhole.offsetWidth;
   blackhole.animate([
-    { transform: `translate(-50%,-50%) scale(${fillScale})` }
+    { transform: 'translate(-50%,-50%) scale(1)', offset: 0 },
+    { transform: `translate(-50%,-50%) scale(${fillScale})`, offset: 1 }
   ], { duration: GROW, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
   startSuckHum(GROW);
   later(() => { transition.classList.add('on'); }, GROW + 200);
