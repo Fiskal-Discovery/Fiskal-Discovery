@@ -260,15 +260,15 @@ function stopFaviconAnimation() {
   <div class="game-title">CASHFLOW<br>INVADERS</div>
   <div class="game-tagline">FREE YOUR FINANCES</div>
   <div id="personal-best" style="font-family:'Press Start 2P',monospace;font-size:.48rem;color:rgba(255,230,0,.7);margin-bottom:8px;min-height:1.2em;text-shadow:0 0 10px rgba(255,230,0,.4)"></div>
-  <div style="display:flex;align-items:flex-start;justify-content:center;gap:28px;flex-wrap:nowrap;width:100%;max-width:860px">
-    <canvas id="wanted-poster" width="180" height="240" style="border-radius:4px;flex-shrink:0;image-rendering:pixelated"></canvas>
+  <div style="display:flex;align-items:flex-start;justify-content:center;gap:clamp(10px,2.5vw,28px);flex-wrap:wrap;width:100%;max-width:980px">
+    <canvas id="wanted-poster" width="360" height="480" style="border-radius:4px;flex-shrink:0;width:clamp(150px,22vw,260px);aspect-ratio:3/4"></canvas>
     <div style="display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;min-width:0">
       <div class="alien-preview" id="alien-preview"></div>
       <div class="start-form">
         <button class="btn-start" id="btn-start">▶ START GAME</button>
       </div>
     </div>
-    <canvas id="bobby-poster" width="180" height="240" style="border-radius:4px;flex-shrink:0;image-rendering:pixelated"></canvas>
+    <canvas id="bobby-poster" width="360" height="480" style="border-radius:4px;flex-shrink:0;width:clamp(150px,22vw,260px);aspect-ratio:3/4"></canvas>
   </div>
 </div>
 <!-- Intro Cinematic Overlay -->
@@ -800,19 +800,20 @@ function startCinStars(){
 }
 function drawBobbyWantedPoster(cv){
   const W=cv.width,H=cv.height,c=cv.getContext('2d');
+  const S=W/180;
   const paper=c.createLinearGradient(0,0,W,H);
   paper.addColorStop(0,'#C8A85A');paper.addColorStop(.4,'#D4B870');paper.addColorStop(1,'#B89040');
   c.fillStyle=paper;c.fillRect(0,0,W,H);
   for(let i=0;i<600;i++){c.fillStyle='rgba('+(Math.random()>0.5?0:255)+','+Math.floor(Math.random()*80)+',0,'+Math.random()*.06+')';c.fillRect(Math.random()*W,Math.random()*H,2,2);}
-  c.strokeStyle='#6B4A10';c.lineWidth=5;c.strokeRect(3,3,W-6,H-6);
-  c.strokeStyle='#8B6020';c.lineWidth=2;c.strokeRect(7,7,W-14,H-14);
-  c.fillStyle='#3A1800';c.font='bold 22px serif';c.textAlign='center';c.textBaseline='top';c.fillText('WANTED',W/2,12);
-  c.font='bold 7px "Press Start 2P",monospace';c.fillStyle='#5A2800';c.fillText('DEBT ENFORCER',W/2,37);
-  const boxY=48,boxH=108;
-  c.fillStyle='#8B6830';c.fillRect(14,boxY,W-28,boxH);
-  c.fillStyle='rgba(0,0,0,.25)';c.fillRect(14,boxY,W-28,boxH);
+  c.strokeStyle='#6B4A10';c.lineWidth=5*S;c.strokeRect(3*S,3*S,W-6*S,H-6*S);
+  c.strokeStyle='#8B6020';c.lineWidth=2*S;c.strokeRect(7*S,7*S,W-14*S,H-14*S);
+  c.fillStyle='#3A1800';c.font='bold '+Math.round(22*S)+'px serif';c.textAlign='center';c.textBaseline='top';c.fillText('WANTED',W/2,12*S);
+  c.font='bold '+Math.round(7*S)+'px "Press Start 2P",monospace';c.fillStyle='#5A2800';c.fillText('DEBT ENFORCER',W/2,37*S);
+  const boxY=48*S,boxH=108*S;
+  c.fillStyle='#8B6830';c.fillRect(14*S,boxY,W-28*S,boxH);
+  c.fillStyle='rgba(0,0,0,.25)';c.fillRect(14*S,boxY,W-28*S,boxH);
   const cx=W/2,cy=boxY+boxH/2+10;
-  c.save();c.translate(cx,cy);c.scale(0.55,0.55);
+  c.save();c.translate(cx,cy);c.scale(0.55*S,0.55*S);
   c.shadowColor='#FFD700';c.shadowBlur=12;
   c.fillStyle='#FFD700';c.beginPath();c.ellipse(0,4,58,46,0,0,Math.PI*2);c.fill();
   c.shadowBlur=0;
@@ -826,25 +827,26 @@ function drawBobbyWantedPoster(cv){
   c.fillStyle='#111';c.beginPath();c.arc(-9,-48,3.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(9,-48,3.5,0,Math.PI*2);c.fill();
   c.strokeStyle='#555';c.lineWidth=2.5;c.beginPath();c.moveTo(-9,-41);c.lineTo(9,-41);c.stroke();
   c.restore();
-  c.strokeStyle='#6B4A10';c.lineWidth=2;c.strokeRect(14,boxY,W-28,boxH);
-  const nameY=boxY+boxH+4;
-  c.fillStyle='#3A1800';c.font='bold 8px "Press Start 2P",monospace';c.textAlign='center';c.textBaseline='top';
+  c.strokeStyle='#6B4A10';c.lineWidth=2*S;c.strokeRect(14*S,boxY,W-28*S,boxH);
+  const nameY=boxY+boxH+4*S;
+  c.fillStyle='#3A1800';c.font='bold '+Math.round(8*S)+'px "Press Start 2P",monospace';c.textAlign='center';c.textBaseline='top';
   c.fillText('BAILIFF',W/2,nameY);
-  c.fillText('BOBBY',W/2,nameY+14);
-  c.font='6px "Press Start 2P",monospace';c.fillStyle='#5A2800';
-  c.fillText('CRIMES: ENFORCEMENT',W/2,nameY+30);
-  c.fillText('& INTIMIDATION',W/2,nameY+40);
-  c.fillStyle='#6B0000';c.font='bold 9px "Press Start 2P",monospace';c.fillText('REWARD',W/2,nameY+54);
-  c.fillStyle='#3A1800';c.font='bold 13px serif';c.fillText('£10,000,000',W/2,nameY+66);
-  c.fillStyle='rgba(80,40,0,.18)';c.beginPath();c.arc(0,0,30,0,Math.PI/2);c.fill();
-  c.beginPath();c.arc(W,0,30,Math.PI/2,Math.PI);c.fill();
-  c.beginPath();c.arc(0,H,30,-Math.PI/2,0);c.fill();
-  c.beginPath();c.arc(W,H,30,Math.PI,-Math.PI/2);c.fill();
+  c.fillText('BOBBY',W/2,nameY+14*S);
+  c.font=Math.round(6*S)+'px "Press Start 2P",monospace';c.fillStyle='#5A2800';
+  c.fillText('CRIMES: ENFORCEMENT',W/2,nameY+30*S);
+  c.fillText('& INTIMIDATION',W/2,nameY+40*S);
+  c.fillStyle='#6B0000';c.font='bold '+Math.round(9*S)+'px "Press Start 2P",monospace';c.fillText('REWARD',W/2,nameY+54*S);
+  c.fillStyle='#3A1800';c.font='bold '+Math.round(13*S)+'px serif';c.fillText('£10,000,000',W/2,nameY+66*S);
+  c.fillStyle='rgba(80,40,0,.18)';c.beginPath();c.arc(0,0,30*S,0,Math.PI/2);c.fill();
+  c.beginPath();c.arc(W,0,30*S,Math.PI/2,Math.PI);c.fill();
+  c.beginPath();c.arc(0,H,30*S,-Math.PI/2,0);c.fill();
+  c.beginPath();c.arc(W,H,30*S,Math.PI,-Math.PI/2);c.fill();
 }
 function drawWantedPoster(){
   const cv=document.getElementById('wanted-poster');if(!cv)return;
   const bcv=document.getElementById('bobby-poster');if(bcv)drawBobbyWantedPoster(bcv);
   const W=cv.width,H=cv.height,c=cv.getContext('2d');
+  const S=W/180;
   // Paper background with aged texture
   const paper=c.createLinearGradient(0,0,W,H);
   paper.addColorStop(0,'#C8A85A');paper.addColorStop(.4,'#D4B870');paper.addColorStop(1,'#B89040');
@@ -852,21 +854,21 @@ function drawWantedPoster(){
   // Noise/grain overlay
   for(let i=0;i<600;i++){c.fillStyle='rgba('+(Math.random()>0.5?0:255)+','+Math.floor(Math.random()*80)+',0,'+Math.random()*.06+')';c.fillRect(Math.random()*W,Math.random()*H,2,2);}
   // Outer border
-  c.strokeStyle='#6B4A10';c.lineWidth=5;c.strokeRect(3,3,W-6,H-6);
-  c.strokeStyle='#8B6020';c.lineWidth=2;c.strokeRect(7,7,W-14,H-14);
+  c.strokeStyle='#6B4A10';c.lineWidth=5*S;c.strokeRect(3*S,3*S,W-6*S,H-6*S);
+  c.strokeStyle='#8B6020';c.lineWidth=2*S;c.strokeRect(7*S,7*S,W-14*S,H-14*S);
   // WANTED header
-  c.fillStyle='#3A1800';c.font='bold 22px serif';c.textAlign='center';c.textBaseline='top';
-  c.fillText('WANTED',W/2,12);
+  c.fillStyle='#3A1800';c.font='bold '+Math.round(22*S)+'px serif';c.textAlign='center';c.textBaseline='top';
+  c.fillText('WANTED',W/2,12*S);
   // Subheader
-  c.font='bold 7px "Press Start 2P",monospace';c.fillStyle='#5A2800';
-  c.fillText('FINANCIAL CRIMINAL',W/2,37);
+  c.font='bold '+Math.round(7*S)+'px "Press Start 2P",monospace';c.fillStyle='#5A2800';
+  c.fillText('FINANCIAL CRIMINAL',W/2,37*S);
   // Portrait box — aged sepia tint behind Larry
-  const boxY=48,boxH=108;
-  c.fillStyle='#8B6830';c.fillRect(14,boxY,W-28,boxH);
-  c.fillStyle='rgba(0,0,0,.25)';c.fillRect(14,boxY,W-28,boxH);
+  const boxY=48*S,boxH=108*S;
+  c.fillStyle='#8B6830';c.fillRect(14*S,boxY,W-28*S,boxH);
+  c.fillStyle='rgba(0,0,0,.25)';c.fillRect(14*S,boxY,W-28*S,boxH);
   // Draw Larry (adapted from drawLarry, scaled to fit portrait)
   const cx=W/2,cy=boxY+boxH/2+4;
-  c.save();c.translate(cx,cy);c.scale(0.72,0.72);
+  c.save();c.translate(cx,cy);c.scale(0.72*S,0.72*S);
   // Body
   c.shadowColor='#88CC00';c.shadowBlur=10;
   c.fillStyle='#3A7A12';c.beginPath();c.ellipse(0,0,58,42,0,0,Math.PI*2);c.fill();
@@ -900,26 +902,26 @@ function drawWantedPoster(){
   c.fillStyle='#FFE600';c.fillRect(62,2,6,4);
   c.restore();
   // Portrait border
-  c.strokeStyle='#6B4A10';c.lineWidth=2;c.strokeRect(14,boxY,W-28,boxH);
+  c.strokeStyle='#6B4A10';c.lineWidth=2*S;c.strokeRect(14*S,boxY,W-28*S,boxH);
   // Name plate
-  const nameY=boxY+boxH+4;
-  c.fillStyle='#3A1800';c.font='bold 8px "Press Start 2P",monospace';c.textAlign='center';c.textBaseline='top';
+  const nameY=boxY+boxH+4*S;
+  c.fillStyle='#3A1800';c.font='bold '+Math.round(8*S)+'px "Press Start 2P",monospace';c.textAlign='center';c.textBaseline='top';
   c.fillText('LATE PAYMENT',W/2,nameY);
-  c.fillText('LARRY',W/2,nameY+14);
+  c.fillText('LARRY',W/2,nameY+14*S);
   // Charges
-  c.font='6px "Press Start 2P",monospace';c.fillStyle='#5A2800';
-  c.fillText('CRIMES: LATE PAYMENT',W/2,nameY+30);
-  c.fillText('& CASHFLOW SABOTAGE',W/2,nameY+40);
+  c.font=Math.round(6*S)+'px "Press Start 2P",monospace';c.fillStyle='#5A2800';
+  c.fillText('CRIMES: LATE PAYMENT',W/2,nameY+30*S);
+  c.fillText('& CASHFLOW SABOTAGE',W/2,nameY+40*S);
   // Reward
-  c.fillStyle='#6B0000';c.font='bold 9px "Press Start 2P",monospace';
-  c.fillText('REWARD',W/2,nameY+54);
-  c.fillStyle='#3A1800';c.font='bold 13px serif';
-  c.fillText('£1,000,000',W/2,nameY+66);
+  c.fillStyle='#6B0000';c.font='bold '+Math.round(9*S)+'px "Press Start 2P",monospace';
+  c.fillText('REWARD',W/2,nameY+54*S);
+  c.fillStyle='#3A1800';c.font='bold '+Math.round(13*S)+'px serif';
+  c.fillText('£1,000,000',W/2,nameY+66*S);
   // Aged corner stains
-  c.fillStyle='rgba(80,40,0,.18)';c.beginPath();c.arc(0,0,30,0,Math.PI/2);c.fill();
-  c.beginPath();c.arc(W,0,30,Math.PI/2,Math.PI);c.fill();
-  c.beginPath();c.arc(0,H,30,-Math.PI/2,0);c.fill();
-  c.beginPath();c.arc(W,H,30,Math.PI,-Math.PI/2);c.fill();
+  c.fillStyle='rgba(80,40,0,.18)';c.beginPath();c.arc(0,0,30*S,0,Math.PI/2);c.fill();
+  c.beginPath();c.arc(W,0,30*S,Math.PI/2,Math.PI);c.fill();
+  c.beginPath();c.arc(0,H,30*S,-Math.PI/2,0);c.fill();
+  c.beginPath();c.arc(W,H,30*S,Math.PI,-Math.PI/2);c.fill();
 }
 function renderPreviewAliens(){const prev=document.getElementById('alien-preview');prev.innerHTML='';ALIEN_TYPES.forEach(t=>{const c=document.createElement('canvas'),w=t.pixels[0].length*4,h=t.pixels.length*4;c.width=w+4;c.height=h+4;c.style.cssText='image-rendering:pixelated';drawPixelSprite(c.getContext('2d'),t.pixels,t.color,(w+4)/2,(h+4)/2,4);prev.appendChild(c)})}
 function showQuitBtn(show){const pb=document.getElementById('pause-btn');if(pb)pb.disabled=!show;}
