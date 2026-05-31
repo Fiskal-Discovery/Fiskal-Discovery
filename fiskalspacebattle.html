@@ -1103,6 +1103,7 @@ function finishAndAdvance() {
   const fillScale = (Math.hypot(sw, sh) / boxW) * 5;
   const GROW = 2200;
   blackhole.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
+  blackhole.querySelectorAll('.ring').forEach(r => r.style.animationPlayState = 'paused');
   blackhole.style.transform = 'translate(-50%,-50%) scale(1)';
   void blackhole.offsetWidth;
   blackhole.animate([
