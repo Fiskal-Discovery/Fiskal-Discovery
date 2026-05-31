@@ -1091,29 +1091,27 @@ function suckEverything(cx, cy, hx, hy) {
     topSpans.forEach(sp => { later(() => suckTextEl(sp, hx, hy, false, SUCK_DUR), t2); t2 += 18; });
     const endAt = t2 + SUCK_DUR;
     startSuckHum(endAt);
-    later(finishAndAdvance, endAt);
+
+    // Schedule grow using animation delay — no JS timer gap
+    const sw = stage.offsetWidth, sh = stage.offsetHeight;
+    const boxW = parseFloat(getComputedStyle(blackhole).width) || 80;
+    const fillScale = (Math.hypot(sw, sh) / boxW) * 5;
+    const GROW = 2200;
+    gameRunning = false;
+    stage.classList.remove('can-shoot');
+    blackhole.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
+    blackhole.style.transform = 'translate(-50%,-50%) scale(1)';
+    later(() => blackhole.querySelectorAll('.ring').forEach(r => r.style.animationPlayState = 'paused'), endAt);
+    blackhole.animate([
+      { transform: 'translate(-50%,-50%) scale(1)', offset: 0 },
+      { transform: `translate(-50%,-50%) scale(${fillScale})`, offset: 1 }
+    ], { duration: GROW, delay: endAt, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
+    later(() => { transition.classList.add('on'); }, endAt + GROW + 200);
+    later(goToNextScreen, endAt + GROW + 700);
   }, 250);
 }
 
-function finishAndAdvance() {
-  gameRunning = false;
-  stage.classList.remove('can-shoot');
-  const sw = stage.offsetWidth, sh = stage.offsetHeight;
-  const boxW = parseFloat(getComputedStyle(blackhole).width) || 80;
-  const fillScale = (Math.hypot(sw, sh) / boxW) * 5;
-  const GROW = 2200;
-  blackhole.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
-  blackhole.querySelectorAll('.ring').forEach(r => r.style.animationPlayState = 'paused');
-  blackhole.style.transform = 'translate(-50%,-50%) scale(1)';
-  void blackhole.offsetWidth;
-  blackhole.animate([
-    { transform: 'translate(-50%,-50%) scale(1)', offset: 0 },
-    { transform: `translate(-50%,-50%) scale(${fillScale})`, offset: 1 }
-  ], { duration: GROW, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
-  startSuckHum(GROW);
-  later(() => { transition.classList.add('on'); }, GROW + 200);
-  later(goToNextScreen, GROW + 700);
-}
+function finishAndAdvance() {} // no longer used
 
 function goToNextScreen() {
   window.location.href = 'cashflow-invaders.html';
