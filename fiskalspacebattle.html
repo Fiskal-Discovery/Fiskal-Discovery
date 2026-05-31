@@ -98,7 +98,7 @@
 
   /* ---------- BACKGROUND ---------- */
   .stars, .stars2 {
-    position:absolute; inset:0;
+    position:absolute; top:-5%; left:-5%; width:110%; height:110%;
     background-image:
       radial-gradient(1px 1px at 5% 10%, #fff, transparent),
       radial-gradient(1px 1px at 15% 35%, #fff, transparent),
@@ -113,7 +113,7 @@
       radial-gradient(1px 1px at 10% 85%, #fff, transparent),
       radial-gradient(1px 1px at 90% 90%, #fff, transparent);
     background-size: 100% 100%;
-    animation: twinkle 3s ease-in-out infinite;
+    animation: twinkle 3s ease-in-out infinite, starDrift1 28s ease-in-out infinite;
   }
   .stars2 {
     background-image:
@@ -122,12 +122,22 @@
       radial-gradient(1px 1px at 48% 45%, #ffc080, transparent),
       radial-gradient(1px 1px at 68% 88%, #c0a0ff, transparent),
       radial-gradient(1px 1px at 88% 30%, #80c0ff, transparent);
-    animation: twinkle 4s ease-in-out 1s infinite;
+    animation: twinkle 4s ease-in-out 1s infinite, starDrift2 38s ease-in-out infinite;
   }
   @keyframes twinkle { 0%,100%{opacity:.6;} 50%{opacity:1;} }
+  @keyframes starDrift1 {
+    0%,100% { transform: translate(0,0); }
+    30%     { transform: translate(12px, 8px); }
+    65%     { transform: translate(-8px, 13px); }
+  }
+  @keyframes starDrift2 {
+    0%,100% { transform: translate(0,0); }
+    35%     { transform: translate(-10px, 6px); }
+    70%     { transform: translate(7px,-11px); }
+  }
 
   .stars3 {
-    position:absolute; inset:0; z-index:1;
+    position:absolute; top:-5%; left:-5%; width:110%; height:110%; z-index:1;
     background-image:
       radial-gradient(1px 1px at 3% 18%, #fff, transparent),
       radial-gradient(1px 1px at 12% 42%, #fff, transparent),
@@ -153,7 +163,12 @@
       radial-gradient(1px 1px at 49% 50%, #fff, transparent),
       radial-gradient(1px 1px at 70% 95%, #fff, transparent),
       radial-gradient(1px 1px at 88% 5%, #fff, transparent);
-    animation: twinkle 5s ease-in-out .8s infinite;
+    animation: twinkle 5s ease-in-out .8s infinite, starDrift3 48s ease-in-out infinite;
+  }
+  @keyframes starDrift3 {
+    0%,100% { transform: translate(0,0); }
+    40%     { transform: translate(9px,-8px); }
+    75%     { transform: translate(-11px, 6px); }
   }
 
   .bg-shooter {
