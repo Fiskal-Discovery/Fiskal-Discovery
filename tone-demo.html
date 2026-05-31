@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Upgrade Screen Tones</title>
+<style>
+  body { background: #0a0010; color: #fff; font-family: sans-serif; padding: 30px; max-width: 560px; margin: 0 auto; }
+  h2 { color: #FFE600; margin-bottom: 4px; }
+  p { color: #aaa; font-size: 13px; margin-bottom: 24px; }
+  h3 { color: #AA44FF; font-size: 13px; margin: 24px 0 10px; letter-spacing: .08em; }
+  .row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  button.play { background: #1a0030; border: 1px solid #AA44FF; color: #FFE600; border-radius: 50%; width: 38px; height: 38px; font-size: 16px; cursor: pointer; flex-shrink: 0; transition: background .15s; }
+  button.play:hover { background: #2a0050; }
+  button.seq { background: #1a0030; border: 1px solid #FFE600; color: #FFE600; border-radius: 6px; padding: 8px 18px; font-size: 12px; cursor: pointer; margin-bottom: 8px; }
+  button.seq:hover { background: #2a0050; }
+  label { font-size: 13px; color: #ccc; }
+  .tag { font-size: 11px; color: #666; margin-left: 4px; }
+</style>
+</head>
+<body>
+<h2>Upgrade Screen Tones</h2>
+<p>Click ▶ to hear each tone individually, or use the sequence buttons to hear them as they play in-game.</p>
+
+<h3>OPENING FANFARE (fires at screen open, ~180ms apart)</h3>
+<div class="row"><button class="play" onclick="t(220,null,.3,.2,'sawtooth')">▶</button><label>220 Hz sawtooth <span class="tag">t=0ms</span></label></div>
+<div class="row"><button class="play" onclick="t(330,null,.3,.2,'sawtooth')">▶</button><label>330 Hz sawtooth <span class="tag">t=180ms</span></label></div>
+<div class="row"><button class="play" onclick="t(440,null,.3,.2,'sawtooth')">▶</button><label>440 Hz sawtooth <span class="tag">t=360ms</span></label></div>
+<div class="row"><button class="play" onclick="t(660,null,.5,.3,'sine')">▶</button><label>660 Hz sine <span class="tag">t=540ms</span></label></div>
+<button class="seq" onclick="playFanfare()">▶ Play fanfare sequence</button>
+
+<h3>FEATURE LINES (one per upgrade feature, 700ms apart, starts 3s after open)</h3>
+<div class="row"><button class="play" onclick="t(440,null,.15,.08,'sine')">▶</button><label>440 Hz — Auto-fire cannons</label></div>
+<div class="row"><button class="play" onclick="t(620,null,.15,.08,'sine')">▶</button><label>620 Hz — Omnidirectional thrusters</label></div>
+<div class="row"><button class="play" onclick="t(800,null,.15,.08,'sine')">▶</button><label>800 Hz — Reinforced hull</label></div>
+<div class="row"><button class="play" onclick="t(980,null,.15,.08,'sine')">▶</button><label>980 Hz — Combat systems restored</label></div>
+<div class="row"><button class="play" onclick="t(1160,null,.15,.08,'sine')">▶</button><label>1160 Hz — Overdrive boost</label></div>
+<button class="seq" onclick="playFeatures()">▶ Play features sequence</button>
+
+<h3>LET'S GO BUTTON APPEARS</h3>
+<div class="row"><button class="play" onclick="t(880,null,.25,.14,'sine')">▶</button><label>880 Hz sine</label></div>
+<div class="row"><button class="play" onclick="t(1100,null,.35,.16,'sine')">▶</button><label>1100 Hz sine <span class="tag">+220ms</span></label></div>
+<button class="seq" onclick="playReady()">▶ Play ready sequence</button>
+
+<h3>PAINT SCHEME CLICK (varies by swatch 0–4)</h3>
+<div class="row"><button class="play" onclick="t(550,null,.12,.07,'sine')">▶</button><label>550 Hz — swatch 0</label></div>
+<div class="row"><button class="play" onclick="t(660,null,.12,.07,'sine')">▶</button><label>660 Hz — swatch 1</label></div>
+<div class="row"><button class="play" onclick="t(770,null,.12,.07,'sine')">▶</button><label>770 Hz — swatch 2</label></div>
+<div class="row"><button class="play" onclick="t(880,null,.12,.07,'sine')">▶</button><label>880 Hz — swatch 3</label></div>
+<div class="row"><button class="play" onclick="t(990,null,.12,.07,'sine')">▶</button><label>990 Hz — swatch 4</label></div>
+
+<script>
+let ac;
+function getAc(){ if(!ac||ac.state==='closed') ac=new AudioContext(); return ac; }
+
+function t(start,end,dur,vol,type){
+  try{
+    const a=getAc(),o=a.createOscillator(),g=a.createGain();
+    o.type=type||'square';
+    o.connect(g);g.connect(a.destination);
+    o.frequency.setValueAtTime(start,a.currentTime);
+    if(end)o.frequency.exponentialRampToValueAtTime(end,a.currentTime+dur);
+    g.gain.setValueAtTime(vol||.1,a.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,a.currentTime+dur);
+    o.start();o.stop(a.currentTime+dur);
+  }catch(e){console.error(e)}
+}
+
+function playFanfare(){
+  t(220,null,.3,.2,'sawtooth');
+  setTimeout(()=>t(330,null,.3,.2,'sawtooth'),180);
+  setTimeout(()=>t(440,null,.3,.2,'sawtooth'),360);
+  setTimeout(()=>t(660,null,.5,.3,'sine'),540);
+}
+
+function playFeatures(){
+  [440,620,800,980,1160].forEach((hz,i)=>setTimeout(()=>t(hz,null,.15,.08,'sine'),i*700));
+}
+
+function playReady(){
+  t(880,null,.25,.14,'sine');
+  setTimeout(()=>t(1100,null,.35,.16,'sine'),220);
+}
+</script>
+</body>
+</html>
