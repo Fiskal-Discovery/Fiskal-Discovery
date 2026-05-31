@@ -1092,16 +1092,24 @@ function suckEverything(cx, cy, hx, hy) {
     const endAt = t2 + SUCK_DUR;
     startSuckHum(endAt);
 
-    // Schedule grow using animation delay — no JS timer gap
     const sw = stage.offsetWidth, sh = stage.offsetHeight;
     const boxW = parseFloat(getComputedStyle(blackhole).width) || 80;
     const fillScale = (Math.hypot(sw, sh) / boxW) * 5;
     const GROW = 2200;
     gameRunning = false;
     stage.classList.remove('can-shoot');
+
+    // Promote the hole to its own GPU layer NOW while it's small and
+    // the suck is still running — browser rasterises it once at normal
+    // size, so the grow is a cheap single-texture scale with no repaints.
     blackhole.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
     blackhole.style.transform = 'translate(-50%,-50%) scale(1)';
-    later(() => blackhole.querySelectorAll('.ring').forEach(r => r.style.animationPlayState = 'paused'), endAt);
+    blackhole.style.willChange = 'transform';
+
+    // Freeze ring spins just before grow kicks in
+    later(() => blackhole.querySelectorAll('.ring').forEach(r => r.style.animationPlayState = 'paused'), endAt - 50);
+
+    // Grow scheduled via animation delay — zero JS-timer gap at the join
     blackhole.animate([
       { transform: 'translate(-50%,-50%) scale(1)', offset: 0 },
       { transform: `translate(-50%,-50%) scale(${fillScale})`, offset: 1 }
