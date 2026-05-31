@@ -347,35 +347,12 @@
     box-shadow: 0 0 8px rgba(255,138,31,.7), 0 0 18px rgba(255,138,31,.4);
   }
 
-  /* ---------- BLACK HOLE ---------- */
-  .blackhole {
-    position:absolute; z-index:16; pointer-events:none;
-    width: var(--bh, 80px); height: var(--bh, 80px);
-    transform: translate(-50%,-50%) scale(0);
-    opacity:0; visibility:hidden;
+  /* ---------- CANVAS BLACK HOLE ---------- */
+  #bh-wrap {
+    position:absolute; inset:0; display:none; z-index:25; pointer-events:none;
+    background:#050008;
   }
-  .bh-haze {
-    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-    width:200%; height:200%; border-radius:50%;
-    background: radial-gradient(circle, rgba(90,20,0,.22) 38%, rgba(40,6,0,.13) 58%, transparent 76%);
-    filter: blur(20px);
-  }
-  .ringwrap {
-    position:absolute; left:50%; top:50%;
-    transform:translate(-50%,-50%); border-radius:50%;
-  }
-  .ring {
-    position:absolute; inset:0; border-radius:50%;
-    filter: blur(1.2px);
-    -webkit-mask: radial-gradient(circle, transparent calc(50% - var(--t)), #000 calc(50% - var(--t)), #000 50%, transparent 50%);
-            mask: radial-gradient(circle, transparent calc(50% - var(--t)), #000 calc(50% - var(--t)), #000 50%, transparent 50%);
-  }
-  .bh-core {
-    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-    width:42%; height:42%; border-radius:50%;
-    background: radial-gradient(circle, #000 52%, rgba(0,0,0,.6) 74%, transparent 92%);
-  }
-  @keyframes bhSpin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+  #bh-canvas { position:absolute; inset:0; width:100%; height:100%; display:block; }
 
   /* ---------- SCREEN SHAKE ---------- */
   .stage.shake { animation: stageShake .3s; }
@@ -528,9 +505,7 @@
   <div class="fin-text fin-top" id="finTop">POWERED BY</div>
   <div class="fin-text fin-bottom" id="finBottom">COMMERCIAL FINANCE EXPERTS</div>
 
-  <div class="blackhole" id="blackhole">
-    <div class="bh-haze"></div>
-  </div>
+  <div id="bh-wrap"><canvas id="bh-canvas"></canvas></div>
 
   <div class="whiteout" id="whiteout"></div>
   <div class="transition" id="transition"></div>
@@ -549,7 +524,6 @@ const whiteout = document.getElementById('whiteout');
 const blockGroup = document.getElementById('blockGroup');
 const finTop = document.getElementById('finTop');
 const finBottom = document.getElementById('finBottom');
-const blackhole = document.getElementById('blackhole');
 const transition = document.getElementById('transition');
 
 // 5x7 pixel letters
@@ -983,159 +957,198 @@ function buildAndAssembleWord() {
   later(blackHolePhase, 7000);
 }
 
-function buildBlackholeRings() {
-  blackhole.querySelectorAll('.ringwrap, .bh-core').forEach(el => el.remove());
-  const bright = ['#ff9a45','#ff8226','#f56a12','#e85410','#d84410','#c83408'];
-  const mid    = ['#b82c06','#a02404','#8a1c02','#7a1800'];
-  const dark   = ['#5a1000','#3e0a00','#280500','#180300','#100200'];
-  const N = 26;
-  for (let i = 0; i < N; i++) {
-    const f = i / (N - 1);
-    const dia = (10 + f * 150).toFixed(1);
-    let pool;
-    if (f < 0.16 || f > 0.84) pool = dark;
-    else if (f < 0.30 || f > 0.68) pool = mid;
-    else pool = bright;
-    const c = pool[Math.floor(Math.random() * pool.length)];
-    const wrap = document.createElement('div');
-    wrap.className = 'ringwrap';
-    wrap.style.width = dia + '%';
-    wrap.style.height = dia + '%';
-    const g = document.createElement('div');
-    g.className = 'ring';
-    g.style.setProperty('--t', (1 + Math.random() * 1.6).toFixed(2) + 'px');
-    const a = 8 + Math.floor(Math.random() * 16);
-    g.style.background =
-      `conic-gradient(from ${Math.floor(Math.random()*360)}deg,
-        ${c}, rgba(0,0,0,0) ${a}%, ${c} ${a*2}%, rgba(0,0,0,0) ${a*3}%,
-        ${c} ${a*4}%, rgba(0,0,0,0) ${a*5}%, ${c} ${a*6}%, rgba(0,0,0,0) ${a*7}%)`;
-    g.style.opacity = (0.45 + Math.random() * 0.55).toFixed(2);
-    const dur = (1.8 + Math.random() * 7).toFixed(2);
-    const rev = Math.random() < 0.5 ? ' reverse' : '';
-    g.style.animation = `bhSpin ${dur}s linear infinite${rev}`;
-    wrap.appendChild(g);
-    blackhole.appendChild(wrap);
-  }
-  const core = document.createElement('div');
-  core.className = 'bh-core';
-  blackhole.appendChild(core);
-}
-
-function fallbackFade() {
-  transition.classList.add('on');
-  later(goToNextScreen, 1100);
+/* ===== CANVAS BLACK HOLE — smooth grow via single-image snapshot ===== */
+function mixColor(a, b, t) {
+  return [Math.round(a[0]+(b[0]-a[0])*t), Math.round(a[1]+(b[1]-a[1])*t), Math.round(a[2]+(b[2]-a[2])*t)];
 }
 
 function blackHolePhase() {
-  if (window.matchMedia('(max-width: 932px) and (pointer: coarse)').matches) {
-    fallbackFade();
-    return;
-  }
-  blockGroup.classList.remove('alive');
-  blockGroup.style.transform = 'none';
-  void blockGroup.offsetHeight;
-  const sw = stage.offsetWidth, sh = stage.offsetHeight;
-  const cx = sw / 2, cy = sh / 2;
-  const hx = sw * 0.15, hy = sh * 0.24;
-  const bhSize = Math.max(80, Math.min(sw, sh) * 0.24);
-  blackhole.style.left = hx + 'px';
-  blackhole.style.top = hy + 'px';
-  blackhole.style.setProperty('--bh', bhSize + 'px');
-  blackhole.style.visibility = 'visible';
-  blackhole.style.opacity = '1';
-  buildBlackholeRings();
-  playBlackholeAppear();
-  blackhole.animate([
-    { transform: 'translate(-50%,-50%) scale(0)', opacity: 0, offset: 0 },
-    { transform: 'translate(-50%,-50%) scale(.55)', opacity: .5, offset: .5 },
-    { transform: 'translate(-50%,-50%) scale(1)', opacity: 1, offset: 1 }
-  ], { duration: 2900, easing: 'ease-out', fill: 'forwards' });
-  later(() => suckEverything(cx, cy, hx, hy), 3000);
-}
+  gameRunning = false;
+  stage.classList.remove('can-shoot');
+  stopBgLoop();
 
-function suckBlock(wb, cx, cy, hx, hy, dur) {
-  const { el, fx, fy } = wb;
-  el.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
-  el.style.transform = `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1)`;
-  void el.offsetHeight;
   const sw = stage.offsetWidth, sh = stage.offsetHeight;
-  const cxL = sw / 2, cyL = sh / 2;
-  const ex = sw * 0.15 - cxL;
-  const ey = sh * 0.24 - cyL;
-  const mx = (fx + ex) / 2 + (fy - ey) * 0.6;
-  const my = (fy + ey) / 2 - (fx - ex) * 0.6;
-  el.animate([
-    { transform: `translate(calc(-50% + ${fx}px), calc(-50% + ${fy}px)) scale(1) rotate(0deg)`, opacity: 1, offset: 0 },
-    { transform: `translate(calc(-50% + ${mx}px), calc(-50% + ${my}px)) scale(.6) rotate(360deg)`, opacity: 1, offset: 0.6 },
-    { transform: `translate(calc(-50% + ${ex}px), calc(-50% + ${ey}px)) scale(0) rotate(900deg)`, opacity: .85, offset: 1 }
-  ], { duration: dur, easing: 'cubic-bezier(.55,0,.9,1)', fill: 'forwards' });
-}
-
-function suckTextEl(el, hx, hy, keepCenterX, dur) {
-  el.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
   const sRect = stage.getBoundingClientRect();
-  const r = el.getBoundingClientRect();
-  const ecx = r.left - sRect.left + r.width / 2;
-  const ecy = r.top - sRect.top + r.height / 2;
-  const dx = hx - ecx, dy = hy - ecy;
-  const base = keepCenterX ? 'translateX(-50%) ' : '';
-  el.animate([
-    { transform: `${base}translate(0,0) scale(1) rotate(0deg)`, opacity: 1, offset: 0 },
-    { transform: `${base}translate(${dx*0.5}px, ${dy*0.5}px) scale(.6) rotate(320deg)`, opacity: 1, offset: 0.6 },
-    { transform: `${base}translate(${dx}px, ${dy}px) scale(0) rotate(760deg)`, opacity: .6, offset: 1 }
-  ], { duration: dur, easing: 'cubic-bezier(.55,0,.9,1)', fill: 'forwards' });
+
+  // Snapshot live block positions + colours from DOM before hiding them
+  const capturedBlocks = wordBlocks.map(wb => {
+    const r = wb.el.getBoundingClientRect();
+    return { x: r.left - sRect.left + r.width/2, y: r.top - sRect.top + r.height/2,
+             w: r.width, h: r.height, color: wb.el.style.background || '#9b6bd6' };
+  });
+
+  // Snapshot "POWERED BY" / "COMMERCIAL FINANCE EXPERTS" positions
+  const tR = finTop.getBoundingClientRect(), bR = finBottom.getBoundingClientRect();
+  const topTxt = { text:'POWERED BY', x: sw/2,
+    y: tR.top - sRect.top + tR.height/2, fs: parseFloat(finTop.style.fontSize) || 12 };
+  const botTxt = { text:'COMMERCIAL FINANCE EXPERTS', x: sw/2,
+    y: bR.top - sRect.top + bR.height/2, fs: parseFloat(finBottom.style.fontSize) || 12 };
+
+  // Hand off visuals to canvas
+  blockGroup.style.opacity = '0';
+  finTop.style.opacity = '0';
+  finBottom.style.opacity = '0';
+  stage.querySelectorAll('.alien,.bullet,.hitflash,.shockring,.shooting-star,.star-head,.star-trail,.spark,.thrust')
+    .forEach(el => el.style.visibility = 'hidden');
+
+  document.getElementById('bh-wrap').style.display = 'block';
+  startCanvasBlackHole(sw, sh, capturedBlocks, topTxt, botTxt);
 }
 
-function suckEverything(cx, cy, hx, hy) {
-  setTimeout(() => {
-    blockGroup.classList.remove('alive');
-    blockGroup.style.transform = 'none';
-    void blockGroup.offsetHeight;
-    const SUCK_DUR = 620;
-    let t = 0, interval = 130;
-    const minInterval = 11;
-    wordBlocks.forEach((wb, i) => {
-      const p = i / Math.max(1, wordBlocks.length - 1);
-      later(() => { suckBlock(wb, cx, cy, hx, hy, SUCK_DUR); if (i % 4 === 0) try { playBlip(p); } catch(e) {} }, t);
-      interval = Math.max(minInterval, interval * 0.962);
-      t += interval;
+function startCanvasBlackHole(sw, sh, capturedBlocks, topTxtIn, botTxtIn) {
+  const cv  = document.getElementById('bh-canvas');
+  const ctx = cv.getContext('2d');
+  const snap = document.createElement('canvas'), snapCtx = snap.getContext('2d');
+
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width = sw * dpr; cv.height = sh * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const holeX = sw * 0.15, holeY = sh * 0.24;
+  const baseSize = Math.max(80, Math.min(sw, sh) * 0.24);
+  const hazeR = baseSize * 0.80 * 1.7;
+  let d = 0;
+  [[0,0],[sw,0],[0,sh],[sw,sh]].forEach(c => { d = Math.max(d, Math.hypot(c[0]-holeX, c[1]-holeY)); });
+  const fillScale = (d / hazeR) * 1.2;
+
+  // 26 rings matching the existing colour palette
+  const N = 26, rings = [];
+  for (let i = 0; i < N; i++) {
+    const f = i / (N-1);
+    let col;
+    if (f < 0.45)     col = mixColor([255,180,60],[255,90,20], f/0.45);
+    else if (f < 0.8) col = mixColor([255,90,20],[140,0,0], (f-0.45)/0.35);
+    else              col = mixColor([140,0,0],[20,0,0], (f-0.8)/0.2);
+    rings.push({ R:(0.10+f*1.50)*0.5*baseSize, thick:(0.012+Math.random()*0.02)*baseSize,
+      col, angle:Math.random()*Math.PI*2, speed:(0.15+Math.random()*0.6)*(Math.random()<0.5?-1:1) });
+  }
+
+  // Build suck trajectories for pixel blocks
+  const SUCK_DUR = 650;
+  let suckT = 0, gap = 15;
+  const bhBlocks = capturedBlocks.map(b => {
+    const dx = holeX-b.x, dy = holeY-b.y, mx = (b.x+holeX)/2, my = (b.y+holeY)/2;
+    const obj = { ...b, ctrlX:mx-dy*0.45, ctrlY:my+dx*0.45,
+      spin:(Math.random()<0.5?-1:1)*(3+Math.random()*4), suckStart:suckT };
+    suckT += gap; gap = Math.max(5, gap*0.965); return obj;
+  });
+  const lastStart = bhBlocks.length ? bhBlocks[bhBlocks.length-1].suckStart : 0;
+  const textSuckAt = lastStart + SUCK_DUR;
+
+  const mkCtrl = info => ({ ...info,
+    ctrlX:(info.x+holeX)/2, ctrlY:(info.y+holeY)/2 });
+  const topTxt = mkCtrl(topTxtIn), botTxt = mkCtrl(botTxtIn);
+
+  // Helpers
+  const easeOut = x => 1-Math.pow(1-x,3);
+  const easeIn  = x => x*x*x;
+  const qbez = (p0,p1,p2,t) => { const u=1-t; return u*u*p0+2*u*t*p1+t*t*p2; };
+  const rgbaArr = (c,a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+
+  function drawHoleLive(scale) {
+    ctx.save(); ctx.translate(holeX, holeY); ctx.scale(scale, scale);
+    const hz = ctx.createRadialGradient(0,0,0,0,0,hazeR);
+    hz.addColorStop(0,'rgba(255,140,40,0.45)'); hz.addColorStop(0.4,'rgba(220,70,20,0.22)');
+    hz.addColorStop(1,'rgba(80,0,40,0)');
+    ctx.fillStyle=hz; ctx.beginPath(); ctx.arc(0,0,hazeR,0,Math.PI*2); ctx.fill();
+    for (let i=rings.length-1; i>=0; i--) {
+      const r=rings[i]; ctx.save(); ctx.rotate(r.angle);
+      const g=ctx.createConicGradient(0,0,0), c=r.col;
+      g.addColorStop(0,rgbaArr(c,.95)); g.addColorStop(.18,rgbaArr(c,.3));
+      g.addColorStop(.34,rgbaArr(c,.85)); g.addColorStop(.55,rgbaArr(c,.2));
+      g.addColorStop(.72,rgbaArr(c,.9)); g.addColorStop(.88,rgbaArr(c,.35));
+      g.addColorStop(1,rgbaArr(c,.95));
+      ctx.lineWidth=r.thick; ctx.strokeStyle=g;
+      ctx.beginPath(); ctx.arc(0,0,r.R,0,Math.PI*2); ctx.stroke(); ctx.restore();
+    }
+    const coreR=baseSize*0.42*0.5;
+    const cg=ctx.createRadialGradient(0,0,0,0,0,coreR);
+    cg.addColorStop(0,'#000'); cg.addColorStop(.78,'#000'); cg.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(0,0,coreR,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+
+  function drawContent(suckTime) {
+    ctx.shadowBlur = 0;
+    // Pixel blocks (FISKAL)
+    bhBlocks.forEach(b => {
+      let bx=b.x, by=b.y, bs=1, ba=1, rot=0;
+      if (suckTime >= 0) {
+        const local=(suckTime-b.suckStart)/SUCK_DUR;
+        if (local >= 1) return;
+        if (local > 0) { const e=easeIn(local);
+          bx=qbez(b.x,b.ctrlX,holeX,e); by=qbez(b.y,b.ctrlY,holeY,e);
+          bs=1-e*0.95; ba=1-Math.max(0,(local-0.55)/0.45); rot=b.spin*e; }
+      }
+      ctx.save(); ctx.translate(bx,by); ctx.rotate(rot); ctx.scale(bs,bs);
+      ctx.globalAlpha=ba; ctx.fillStyle=b.color;
+      ctx.shadowColor=b.color; ctx.shadowBlur=Math.max(3,b.w*0.3);
+      ctx.fillRect(-b.w/2,-b.h/2,b.w,b.h); ctx.restore();
     });
-    let t2 = t + SUCK_DUR;
-    const tagSpans = [...finBottom.querySelectorAll('.ch')].filter(s => s.dataset.space !== '1');
-    tagSpans.forEach(sp => { later(() => suckTextEl(sp, hx, hy, false, SUCK_DUR), t2); t2 += 18; });
-    const topSpans = [...finTop.querySelectorAll('.ch')].filter(s => s.dataset.space !== '1');
-    topSpans.forEach(sp => { later(() => suckTextEl(sp, hx, hy, false, SUCK_DUR), t2); t2 += 18; });
-    const endAt = t2 + SUCK_DUR;
-    startSuckHum(endAt);
+    // "POWERED BY" and "COMMERCIAL FINANCE EXPERTS"
+    [[topTxt, textSuckAt], [botTxt, textSuckAt+60]].forEach(([info, tstart]) => {
+      let tx=info.x, ty=info.y, ba=1, bs=1, rot=0;
+      if (suckTime >= 0) {
+        const local=(suckTime-tstart)/SUCK_DUR;
+        if (local >= 1) return;
+        if (local > 0) { const e=easeIn(local);
+          tx=qbez(info.x,info.ctrlX,holeX,e); ty=qbez(info.y,info.ctrlY,holeY,e);
+          bs=1-e*0.95; ba=1-Math.max(0,(local-0.55)/0.45); rot=3*e; }
+      }
+      ctx.save(); ctx.translate(tx,ty); ctx.rotate(rot); ctx.scale(bs,bs);
+      ctx.globalAlpha=ba;
+      ctx.font=`bold ${info.fs}px "Press Start 2P",monospace`;
+      ctx.fillStyle='#ff8a1f'; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.shadowColor='rgba(255,138,31,0.8)'; ctx.shadowBlur=10;
+      ctx.fillText(info.text,0,0); ctx.restore();
+    });
+    ctx.globalAlpha=1; ctx.shadowBlur=0;
+  }
 
-    const sw = stage.offsetWidth, sh = stage.offsetHeight;
-    const boxW = parseFloat(getComputedStyle(blackhole).width) || 80;
-    const fillScale = (Math.hypot(sw, sh) / boxW) * 5;
-    const GROW = 2200;
-    gameRunning = false;
-    stage.classList.remove('can-shoot');
+  function capture() {
+    const sd=Math.ceil(hazeR*2*dpr);
+    snap.width=sd; snap.height=sd;
+    snapCtx.setTransform(1,0,0,1,0,0); snapCtx.clearRect(0,0,sd,sd);
+    snapCtx.drawImage(cv,(holeX-hazeR)*dpr,(holeY-hazeR)*dpr,hazeR*2*dpr,hazeR*2*dpr,0,0,sd,sd);
+    captured=true; capAngle=spin;
+  }
 
-    // Promote the hole to its own GPU layer NOW while it's small and
-    // the suck is still running — browser rasterises it once at normal
-    // size, so the grow is a cheap single-texture scale with no repaints.
-    blackhole.getAnimations().forEach(a => { try { a.cancel(); } catch(e){} });
-    blackhole.style.transform = 'translate(-50%,-50%) scale(1)';
-    blackhole.style.willChange = 'transform';
+  const DUR={growIn:2000,suck:2800,expand:2200,fade:700};
+  const SEQ=[DUR.growIn,DUR.suck,DUR.expand,DUR.fade];
+  let spin=0, captured=false, capAngle=0, done=false;
+  const T0=performance.now(); let lastF=T0;
 
-    // Freeze ring spins just before grow kicks in
-    later(() => blackhole.querySelectorAll('.ring').forEach(r => r.style.animationPlayState = 'paused'), endAt - 50);
+  playBlackholeAppear();
+  setTimeout(()=>startSuckHum(DUR.suck), DUR.growIn);
 
-    // Grow scheduled via animation delay — zero JS-timer gap at the join
-    blackhole.animate([
-      { transform: 'translate(-50%,-50%) scale(1)', offset: 0 },
-      { transform: `translate(-50%,-50%) scale(${fillScale})`, offset: 1 }
-    ], { duration: GROW, delay: endAt, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
-    later(() => { transition.classList.add('on'); }, endAt + GROW + 200);
-    later(goToNextScreen, endAt + GROW + 700);
-  }, 250);
+  function frame(now) {
+    if (done) return;
+    const dt=Math.min((now-lastF)/1000,0.05); lastF=now;
+    let el=now-T0, pi=0, acc=0;
+    for (;pi<SEQ.length;pi++) { if (el<acc+SEQ[pi]) break; acc+=SEQ[pi]; }
+    if (pi>=SEQ.length) { if (!done){done=true; goToNextScreen();} return; }
+    const prog=(el-acc)/SEQ[pi];
+    spin+=0.55*dt; rings.forEach(r=>r.angle+=r.speed*dt);
+    if (pi>=2 && !captured) capture();
+
+    let scale=1, black=0, suckTime=-1;
+    if      (pi===0) { scale=easeOut(prog); }
+    else if (pi===1) { scale=1; suckTime=prog*DUR.suck; }
+    else if (pi===2) { scale=1+(fillScale-1)*easeIn(prog); black=Math.max(0,(prog-0.55)/0.45)*0.92; }
+    else             { scale=fillScale; black=0.92+0.08*prog; }
+
+    ctx.fillStyle='#050008'; ctx.fillRect(0,0,sw,sh);
+    if (pi<=1) drawContent(suckTime);
+    if (scale>0.001) {
+      if (pi<=1) { drawHoleLive(scale); }
+      else { ctx.save(); ctx.translate(holeX,holeY); ctx.rotate(spin-capAngle); ctx.scale(scale,scale);
+        ctx.drawImage(snap,-hazeR,-hazeR,hazeR*2,hazeR*2); ctx.restore(); }
+    }
+    if (black>0) { ctx.fillStyle=`rgba(0,0,0,${black})`; ctx.fillRect(0,0,sw,sh); }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 }
-
-function finishAndAdvance() {} // no longer used
 
 function goToNextScreen() {
   window.location.href = 'cashflow-invaders.html';
@@ -1165,10 +1178,8 @@ function runSequence() {
   finBottom.getAnimations().forEach(a => a.cancel());
   finBottom.querySelectorAll('.ch').forEach(c => c.classList.remove('lit'));
   stage.querySelectorAll('.shooting-star, .star-head, .star-trail, .spark, .shockring, .bullet, .hitflash').forEach(s => s.remove());
-  blackhole.getAnimations().forEach(a => a.cancel());
-  blackhole.style.opacity = '0';
-  blackhole.style.visibility = 'hidden';
-  blackhole.style.transform = 'translate(-50%,-50%) scale(0)';
+  const bhWrap = document.getElementById('bh-wrap');
+  if (bhWrap) bhWrap.style.display = 'none';
   transition.classList.remove('on');
 
   mouseXPctTracked = 50;
