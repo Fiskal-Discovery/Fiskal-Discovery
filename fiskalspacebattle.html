@@ -315,11 +315,7 @@
   }
   .fin-top { color:#ff8a1f; letter-spacing:.3em; text-shadow:0 0 8px rgba(255,138,31,.9), 0 0 18px rgba(255,138,31,.5); }
   .fin-bottom { color:#ff8a1f; letter-spacing:.3em; text-shadow:0 0 8px rgba(255,138,31,.9), 0 0 18px rgba(255,138,31,.5); }
-  .fin-text.floaty { animation: floatText 7s ease-in-out infinite; }
-  @keyframes floatText {
-    0%,100% { transform: translateX(-50%) translateY(0); }
-    50%     { transform: translateX(-50%) translateY(-7px); }
-  }
+  .fin-text.floaty { /* no float */ }
 
   .fin-text .ch { display:inline-block; opacity:0; }
   .fin-text .ch.lit { animation: chPop .45s ease-out forwards; }
