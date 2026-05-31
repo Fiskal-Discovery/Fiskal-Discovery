@@ -963,6 +963,10 @@ function mixColor(a, b, t) {
 }
 
 function blackHolePhase() {
+  const _mob = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+               (navigator.maxTouchPoints > 1 && window.innerWidth <= 900);
+  if (_mob) { goToNextScreen(); return; }
+
   gameRunning = false;
   stage.classList.remove('can-shoot');
   stopBgLoop();
