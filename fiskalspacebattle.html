@@ -337,7 +337,7 @@
     position:absolute; left:0; top:0; z-index:14; pointer-events:none; opacity:0;
     transform-origin:100% 50%;
     background: linear-gradient(to right, transparent, rgba(255,138,31,.5) 40%, rgba(255,184,90,.92) 78%, #fff0dc 100%);
-    clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
+    clip-path: polygon(0% 50%, 80% 0%, 100% 50%, 80% 100%);
     filter: drop-shadow(0 0 6px #ff8a1f) drop-shadow(0 0 16px rgba(255,138,31,.9)) drop-shadow(0 0 28px rgba(255,138,31,.5));
   }
   .star-trail {
@@ -916,6 +916,14 @@ function buildAndAssembleWord() {
     const W = Math.max(55, B * 5);
     const H = Math.max(8, B * 1.05);
     const tf = (x, y, ang) => `translate(${x - W}px, ${y - H / 2}px) rotate(${ang}deg)`;
+    const sw = stage.offsetWidth;
+
+    // Animation fraction budgets
+    const TOP_F = 0.32, ARC_F = 0.18, BOT_F = 0.50;
+    // Screen-edge travel: base goes -W→sw+W (top) and sw+W→-W (bottom)
+    const span = sw + 2 * W;
+    const topOff = x => (x + W) / span * TOP_F;
+    const botOff = x => TOP_F + ARC_F + (sw + W - x) / span * BOT_F;
 
     const comet = document.createElement('div');
     comet.className = 'star-head';
@@ -923,41 +931,49 @@ function buildAndAssembleWord() {
     comet.style.height = H + 'px';
     stage.appendChild(comet);
     playWhoosh();
-    later(playWhoosh, T * 0.55);
+    later(playWhoosh, (TOP_F + ARC_F) * T);
 
     const kf = [];
-    kf.push({ transform: tf(tL, topY, 0), opacity: 0, offset: 0 });
-    kf.push({ opacity: 1, offset: 0.03 });
-    kf.push({ transform: tf(tRr, topY, 0), opacity: 1, offset: 0.30 });
-    const arcN = 6, arcR = (botY - topY) * 0.6 + pad;
-    for (let i = 1; i <= arcN; i++) {
-      const u = i / arcN;
-      const ax = ((tRr + bRr) / 2) + Math.sin(u * Math.PI) * arcR;
-      const ay = topY + (botY - topY) * u;
-      kf.push({ transform: tf(ax, ay, u * 180), opacity: 1, offset: 0.30 + u * 0.22 });
-    }
-    kf.push({ transform: tf(bRr, botY, 180), opacity: 1, offset: 0.52 });
-    kf.push({ transform: tf(bLft, botY, 180), opacity: 1, offset: 0.97 });
-    kf.push({ transform: tf(bLft - W * 0.3, botY, 180), opacity: 0, offset: 1 });
+    // TOP pass: enter from off-left, sweep across screen, exit off-right
+    kf.push({ transform: tf(-W, topY, 0), opacity: 0, offset: 0 });
+    kf.push({ transform: tf(0, topY, 0), opacity: 1, offset: topOff(0) });
+    kf.push({ transform: tf(sw, topY, 0), opacity: 1, offset: topOff(sw) });
+    kf.push({ transform: tf(sw + W, topY, 0), opacity: 0, offset: TOP_F });
+
+    // ARC: invisible transition from off-right-top to off-right-bottom
+    kf.push({ transform: tf(sw + W + (botY - topY) * 0.5, (topY + botY) / 2, 90), opacity: 0, offset: TOP_F + ARC_F / 2 });
+    kf.push({ transform: tf(sw + W, botY, 180), opacity: 0, offset: TOP_F + ARC_F });
+
+    // BOTTOM pass: enter from off-right, sweep across screen, exit off-left
+    kf.push({ transform: tf(sw, botY, 180), opacity: 1, offset: botOff(sw) });
+    kf.push({ transform: tf(0, botY, 180), opacity: 1, offset: botOff(0) });
+    kf.push({ transform: tf(-W, botY, 180), opacity: 0, offset: 1 });
+
     comet.animate(kf, { duration: T, easing: 'linear', fill: 'forwards' });
     later(() => comet.remove(), T + 200);
 
-    makeTrail(tL, tRr, topY, 'ltr', 0, 0.30 * T);
-    makeTrail(bRr, bLft, botY, 'rtl', 0.52 * T, 0.45 * T);
+    // Trails: timed to when comet is actually over the text
+    const topTrailStart = topOff(tL) * T;
+    const topTrailDur   = (topOff(tRr) - topOff(tL)) * T;
+    makeTrail(tL, tRr, topY, 'ltr', topTrailStart, topTrailDur);
+    const botTrailStart = botOff(bRr) * T;
+    const botTrailDur   = (botOff(bLft) - botOff(bRr)) * T;
+    makeTrail(bRr, bLft, botY, 'rtl', botTrailStart, botTrailDur);
 
+    // Letter lighting: fire when comet base is at the letter's cx
     finTop.querySelectorAll('.ch').forEach(sp => {
       if (sp.dataset.space === '1') return;
       const r = sp.getBoundingClientRect();
       const cx = r.left - sRect.left + r.width / 2;
-      let frac = (cx - tL) / (tRr - tL); frac = Math.max(0, Math.min(1, frac));
-      later(() => { sp.classList.add('lit'); playBlip(frac); }, frac * 0.30 * T);
+      const frac = Math.max(0, Math.min(1, (cx - tL) / (tRr - tL)));
+      later(() => { sp.classList.add('lit'); playBlip(frac); }, topOff(cx) * T);
     });
     finBottom.querySelectorAll('.ch').forEach(sp => {
       if (sp.dataset.space === '1') return;
       const r = sp.getBoundingClientRect();
       const cx = r.left - sRect.left + r.width / 2;
-      let frac = (cx - bRr) / (bLft - bRr); frac = Math.max(0, Math.min(1, frac));
-      later(() => { sp.classList.add('lit'); playBlip(frac); }, 0.52 * T + frac * 0.45 * T);
+      const frac = Math.max(0, Math.min(1, (cx - bRr) / (bLft - bRr)));
+      later(() => { sp.classList.add('lit'); playBlip(frac); }, botOff(cx) * T);
     });
 
     later(() => { finTop.classList.add('floaty'); finBottom.classList.add('floaty'); }, T + 200);
