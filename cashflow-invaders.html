@@ -1809,7 +1809,7 @@ if(boss.larry){
   else{boss.x+=boss.vx*1.8;boss.y=boss.r+22+Math.abs(Math.sin(boss.frame*.045))*canvas.height*.22}
 }else if(boss.behaviour==='zigzag'){boss.x+=Math.sin(boss.frame*.1)*boss.vx*2;boss.y+=Math.sin(boss.frame*.07)*boss.vx}
 else if(boss.behaviour==='dash'){boss.x+=boss.vx*2;boss.y+=Math.sin(boss.frame*.08)*boss.vx*1.5}
-else if(boss.behaviour==='curve'){boss.x+=Math.sin(boss.frame*.05)*boss.vx*5.5;boss.y+=Math.cos(boss.frame*.06)*boss.vx*2}
+else if(boss.behaviour==='curve'){boss.x+=Math.sin(boss.frame*.05)*boss.vx*(boss.name==='WINDFALL TAX'?8:5.5);boss.y+=Math.cos(boss.frame*.06)*boss.vx*2}
 else if(boss.behaviour==='chaos'){boss.x+=Math.cos(boss.frame*.2)*boss.vx*2;boss.y+=Math.sin(boss.frame*.15)*boss.vx*2}
 else if(boss.behaviour==='rain'){boss.x+=boss.vx;boss.y=boss.r+30+Math.sin(boss.frame*.04)*18}
 else if(boss.behaviour==='figure8'){const t=boss.frame*.04;boss.x=canvas.width/2+Math.sin(t)*(canvas.width*.35);boss.y=boss.r+40+Math.sin(2*t)*(canvas.height*.18)}
@@ -1866,6 +1866,11 @@ if(G.bossShootTimer>=shootRate){
     for(let i=0;i<2;i++){const ox=(i-0.5)*28;G.bossBlasts.push({x:boss.x+ox,y:boss.y+boss.r*0.55+5,vy:2.2+G.wave*.28,vx:0,bobby:false,frozenFunds:true});}
   }else if(boss.name==='CLAWBACKS'){
     G.bossBlasts.push({x:boss.x,y:boss.y+boss.r*0.55+5,vy:2.6+G.wave*.22,vx:(Math.random()-.5)*3,bobby:false,clawback:true});
+  }else if(boss.name==='WINDFALL TAX'){
+    const isTriple=(boss.shotCycle%2===0);
+    if(isTriple){for(let i=0;i<3;i++){const ox=(i-1)*22;G.bossBlasts.push({x:boss.x+ox,y:boss.y+boss.r*0.55+5,vy:2.2+G.wave*.28,vx:0,bobby:false});}}
+    else{G.bossBlasts.push({x:boss.x,y:boss.y+boss.r*0.55+5,vy:2.8+G.wave*.28,vx:0,bobby:false});}
+    boss.shotCycle++;
   }else if(boss.larry){
     const sp=boss.shootPhase%5;const by=boss.y+boss.r+5;const p=G.player;
     if(sp===0){for(let i=0;i<5;i++){const ang=(i/4)*Math.PI*.7-Math.PI*.35;G.bossBlasts.push({x:boss.x,y:by,vy:Math.cos(ang)*3,vx:Math.sin(ang)*3,bobby:false,larryBullet:true});}}
