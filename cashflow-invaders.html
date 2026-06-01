@@ -1072,7 +1072,7 @@ function _goRenderDefeated(){
     "Small, independent brokers like Fiskal exist for exactly those moments.",
     "Real people. Real solutions. Alongside you."
   ];
-  let epiFs=mob?clamp(W*0.038,12,15):clamp(W*0.022,8,15);
+  let epiFs=mob?clamp(W*0.044,13,18):clamp(W*0.022,8,15);
   c.font=`${epiFs}px "Press Start 2P",monospace`;
   const epiMaxW=W*0.9;
   // On desktop shrink until longest line fits; on mobile word-wrap handles horizontal fit so skip the shrink loop
@@ -1168,7 +1168,8 @@ function _goRenderDefeated(){
       // Shrink line gap if all wrapped lines don't fit in available vertical space
       const lineH=epiWrapped.length>0?Math.min(epiFs*2.4,avail/epiWrapped.length):epiFs*2.4;
       const blockH=epiWrapped.length*lineH;
-      const startY=Math.max(textTop,textTop+(textBot-textTop-blockH)/2);
+      // On mobile top-align right below the header; on desktop keep it centred
+      const startY=mob?textTop:Math.max(textTop,textTop+(textBot-textTop-blockH)/2);
       c.font=`${epiFs}px "Press Start 2P",monospace`;
       c.textAlign='center';c.textBaseline='top';
       epiWrapped.forEach(({text:line,gi},li)=>{
