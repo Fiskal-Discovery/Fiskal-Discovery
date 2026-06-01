@@ -196,7 +196,8 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
   .go-secondary { background: transparent !important; color: rgba(255,230,0,.55) !important; border-color: rgba(255,230,0,.45) !important; box-shadow: none !important; }
   .go-secondary:hover { background: rgba(255,230,0,.08) !important; color: #FFE600 !important; }
   #gameover-screen { padding: 0; justify-content: stretch; align-items: stretch; flex-direction: column; overflow: hidden; }
-  #gameover-screen .cin-content { padding: clamp(20px,4vh,40px) 16px 16px; }
+  #gameover-screen.active { position: fixed; inset: 0; display: flex; }
+  #gameover-screen .cin-content { padding: clamp(20px,4vh,40px) 16px 16px; overflow-y: auto; }
 </style>
 
 <!-- ================= FAVICON ================= -->
