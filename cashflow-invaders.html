@@ -1284,7 +1284,7 @@ function _showAct2Slam(){
     el.style.pointerEvents='none';el.classList.remove('active');
     screen.style.display='none';
     MUSIC.newHope();
-    if(G&&!G.dead){G.enemies=[];G.bullets=[];G.wordEnemies=[];G.powerups=[];G.fiskalOrbs=[];G.spawnTimer=0;G.player.w=50;G.player.h=34;G.player.y=Math.min(G.player.y,canvas.height-30);rafId=requestAnimationFrame(gameLoop)}const _dbb2=document.getElementById('dev-boss-btn');if(_dbb2)_dbb2.style.display='block';const _dkb4=document.getElementById('dev-kill-btn');if(_dkb4)_dkb4.style.display='block';
+    if(G&&!G.dead){G.wave=11;G.state='playing';G.waveKills=0;G.waveTarget=6+G.wave;G.waveCashStart=G.score;G.waveLosses=[];G.waveCashTarget=Math.round((120+G.wave*60+G.wave*G.wave*5)*3.0);G.spawnRate=65;G.defeatedBossWords=['LATE PAYMENT LARRY'];G.wordEnemies=[];G.waveAnnounce=100;G.enemies=[];G.bullets=[];G.powerups=[];G.fiskalOrbs=[];G.spawnTimer=0;G.player.w=50;G.player.h=34;G.player.y=Math.min(G.player.y,canvas.height-30);spawnWave(4+Math.floor(G.wave/2));rafId=requestAnimationFrame(gameLoop)}const _dbb2=document.getElementById('dev-boss-btn');if(_dbb2)_dbb2.style.display='block';const _dkb4=document.getElementById('dev-kill-btn');if(_dkb4)_dkb4.style.display='block';
   };
 }
 function _lcDone(){
