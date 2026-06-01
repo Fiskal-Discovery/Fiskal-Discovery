@@ -2298,7 +2298,7 @@ function showWaveClearOverlay(){
   if(!G)return;
   const ov=document.getElementById('wave-clear-overlay');
   const earned=G.score-G.waveCashStart;
-  document.getElementById('wco-earned').textContent='£'+earned.toLocaleString()+' RELEASED THIS WAVE';
+  document.getElementById('wco-earned').innerHTML='£'+earned.toLocaleString()+'<br>RELEASED THIS WAVE';
   document.getElementById('wco-next').textContent=G.wave>=19?'FINAL BOSS INCOMING...':'WAVE '+(G.wave+1)+' INCOMING...';
   const lossMap={};
   (G.waveLosses||[]).forEach(l=>{if(!lossMap[l.label])lossMap[l.label]={count:0,total:0};lossMap[l.label].count++;lossMap[l.label].total+=l.amount;});
