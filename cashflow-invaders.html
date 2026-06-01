@@ -1711,8 +1711,8 @@ const behaviours=[{speed:1.2,bullets:2,pattern:'straight'},{speed:1.6,bullets:4,
 const b=behaviours[index];
 G.boss={x:canvas.width/2,y:r+28,r,w:r*2,h:r*2,vx:b.speed,name,color:bossData.color,hp,maxHp:hp,flash:0,frame:0,numBullets:b.bullets,behaviour:b.pattern,lines:label.lines,fontSize:label.fontSize,shootRate:b.shootRate||null,shotCycle:0};
 G.bossShootTimer=0;G.state='boss'}
-function spawnFiskalOrb(){if(!G||G.puCooldown>0)return;const power=ORB_POWERS[Math.floor(Math.random()*ORB_POWERS.length)];const cx=80+Math.random()*(canvas.width-160);G.fiskalOrbs.push({x:cx,y:-30,vy:.9,vx:(Math.random()-.5)*.4,spin:0,pulse:0,r:18,power});G.puCooldown=G.wave>=11?160:320}
-function spawnPU(){if(!G||G.puCooldown>0)return;if(G.wave>=11){if(Math.random()<.14)spawnFiskalOrb();return}if(G.wave>=8&&Math.random()<.06){spawnFiskalOrb();return}if(Math.random()>.22)return;const pu=POWERUPS[Math.floor(Math.random()*POWERUPS.length)];const isBonus=pu.effect==='bonus';if(isBonus&&Math.random()>.25)return;const cx=50+Math.random()*(canvas.width-100);G.powerups.push({x:cx,y:-40,pu,speed:isBonus?1.6:1.05,pulse:0,spin:isBonus?0:null,spinCx:cx,spinR:isBonus?55:0,spinDir:Math.random()<.5?1:-1});G.puCooldown=isBonus?300:180}
+function spawnFiskalOrb(){if(!G||G.puCooldown>0)return;const power=ORB_POWERS[Math.floor(Math.random()*ORB_POWERS.length)];const cx=80+Math.random()*(canvas.width-160);G.fiskalOrbs.push({x:cx,y:-30,vy:.9,vx:(Math.random()-.5)*.4,spin:0,pulse:0,r:18,power});G.puCooldown=G.wave>=11?(G.wave<=15?300:160):320}
+function spawnPU(){if(!G||G.puCooldown>0)return;if(G.wave>=11){if(Math.random()<(G.wave<=15?.07:.14))spawnFiskalOrb();return}if(G.wave>=8&&Math.random()<.06){spawnFiskalOrb();return}if(Math.random()>.22)return;const pu=POWERUPS[Math.floor(Math.random()*POWERUPS.length)];const isBonus=pu.effect==='bonus';if(isBonus&&Math.random()>.25)return;const cx=50+Math.random()*(canvas.width-100);G.powerups.push({x:cx,y:-40,pu,speed:isBonus?1.6:1.05,pulse:0,spin:isBonus?0:null,spinCx:cx,spinR:isBonus?55:0,spinDir:Math.random()<.5?1:-1});G.puCooldown=isBonus?300:180}
 function applyOrbPower(power){if(!G)return;showMsg('✦ '+power.name+' ✦',power.color,power.desc,2800);SFX.power();G[power.id]=power.ticks;if(power.id==='personalService')G.personalServiceX=G.player.x+(canvas.width*.35);}
 const _WFX_MAP={'DEFAULTS':'glitch','FROZEN FUNDS':'freeze','CREDIT FREEZE':'freeze','CLAWBACKS':'clawback','FINE PRINT':'finePrint','DEBT SPIRAL':'spiral','LATE PAYMENT LARRY':'latePayment','BAD DEBT':'badDebt','CCJ':'ccj','TAX BILL':'taxBill','FORMAL NOTICE':'formalNotice','FINAL DEMAND':'finalDemand','BAD SERVICE':'badService','INTEREST HIKE':'interestHike','HIDDEN FEES':'hiddenFees','DEBT TRAP':'debtTrap','WINDFALL TAX':'windfall','DISPUTES':'disputes','CASH DRAIN':'cashDrain'};
 function spawnWordEnemy(){if(!G||!G.defeatedBossWords.length)return;const word=G.defeatedBossWords[Math.floor(Math.random()*G.defeatedBossWords.length)],display=titleCase(word),size=Math.max(13,Math.min(17,19-display.length*.18)),w=Math.max(115,display.length*size*.64),dir=Math.random()>.5?1:-1,advancedMultiplier=G.wave>10?1+((G.wave-10)*0.1):1;const isBouncing=G.wave>=11;const pattern=isBouncing?'bounce':['snake','twirl','circle'][Math.floor(Math.random()*3)];const spd=(.48+G.wave*.05)*advancedMultiplier*(isBouncing?1.3:1);const wfx=_WFX_MAP[word]||null;G.wordEnemies.push({x:70+Math.random()*(canvas.width-140),y:-30,originX:70+Math.random()*(canvas.width-140),word,display,w,h:28,size,wfx,angle:Math.random()*Math.PI*2,vy:spd,vx:dir*(.7+Math.random()*.5)*advancedMultiplier,snakeFreq:.045+Math.random()*.03,amp:24+Math.random()*34,pattern,trail:[],bouncing:isBouncing})}
@@ -1866,7 +1866,7 @@ function flashScreen(color,dur){
   el._ft=setTimeout(()=>{el.classList.remove('show');el.style.background='';el._ft2=setTimeout(()=>{el.style.display='none'},100)},dur||120)
 }
 function damagePlayer(){if(!G||!G.player||G.playerInv>0||G.shield>0||G.debtShield>0)return;if(G.frozen>0){G.score=Math.max(0,G.score-50);if(G.waveLosses)G.waveLosses.push({label:'FROZEN HIT',amount:50});G.playerInv=60;screenShake=8;flashScreen('rgba(0,180,255,.45)',100);G.floatTexts.push({x:G.player.x,y:G.player.y-30,text:'-£50 FROZEN!',col:'#88CCFF',fs:16,life:1,spd:2.2});updateHUD();updateTargetHUD();vibe([40,20,40]);return;}if(G.advancedMode&&G.hullDamage===0){G.hullDamage=1;G.playerInv=150;screenShake=14;SFX.hullBreach();flashScreen('rgba(255,80,0,.55)',120);updateHUD();showMsg('⚠ HULL BREACHED','#FF8C00','ARMOUR AT 50% — ONE MORE HIT!',2000);vibe([60,30,60]);return;}G.hullDamage=0;G.lives--;G.score=Math.max(0,G.score-50);if(G.waveLosses)G.waveLosses.push({label:'LIFE LOST',amount:50});G.playerInv=150;screenShake=22;bigBoom(G.player.x,G.player.y);SFX.player();flashScreen('rgba(255,0,40,.7)',180);G.floatTexts.push({x:G.player.x,y:G.player.y-30,text:'-£50',col:'#FF2244',fs:22,life:1,spd:2.8});updateHUD();updateTargetHUD();vibe([180,40,180]);if(G.lives<=0)gameOver()}
-function updateTimers(){['doubleBullet','tripleBullet','shield','slowmo','rapidFire','playerInv','puCooldown','speedBoost','supportShip','cashAttract','extraIncome','debtShield','personalService','frozen','waveAnnounce','boostActive'].forEach(k=>{if(G[k]>0)G[k]--})}
+function updateTimers(){const _wco=G.state==='wave_clear'&&document.getElementById('wave-clear-overlay').classList.contains('show');if(!_wco)['doubleBullet','tripleBullet','shield','slowmo','rapidFire','speedBoost','supportShip','cashAttract','extraIncome','debtShield','personalService','frozen','boostActive'].forEach(k=>{if(G[k]>0)G[k]--;});['playerInv','puCooldown','waveAnnounce'].forEach(k=>{if(G[k]>0)G[k]--;})}
 function gameLoop(){if(!G||G.dead||paused||workModeActive){ctx.setTransform(1,0,0,1,0,0);return}rafId=requestAnimationFrame(gameLoop);let shakeX=0,shakeY=0;if(screenShake>0){shakeX=(Math.random()-.5)*screenShake;shakeY=(Math.random()-.5)*screenShake;screenShake*=.85;if(screenShake<.5)screenShake=0}ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,canvas.width,canvas.height);ctx.setTransform(1,0,0,1,shakeX,shakeY);G.frame++;updateTimers();const p=G.player;if(!p)return;
 if(G.frozen<=0){if(G.keys.ArrowLeft||G.keys.a||G.keys.A)p.x=Math.max(p.w/2,p.x-p.speed);if(G.keys.ArrowRight||G.keys.d||G.keys.D)p.x=Math.min(canvas.width-p.w/2,p.x+p.speed);}if(G.keys[' ']||G.keys.ArrowUp||G.keys.z||G.keys.Z)shoot();if(G.advancedMode&&G.frozen<=0){if(_canvasTouchHeld)shoot();else if(G.boss||G.enemies.length>0||G.wordEnemies.length>0){const _an=performance.now();if(_an-G.lastShot>=360)shoot();}}if(G.advancedMode&&G.state==='playing'){if(G.boostActive===0){G.boostCharge=Math.min(BOOST_MAX,G.boostCharge+1);if(G.boostCharge>=BOOST_MAX){G.boostActive=BOOST_DURATION;G.boostCharge=0;showMsg('⚡ OVERDRIVE ⚡','#FFE600','WEAPONS MAXED',1800);SFX.overdrive();}}}
 if(G.state==='playing'){G.spawnTimer++;const _maxE=G.advancedMode?Math.min(5,2+Math.floor((G.wave-10)/3)):4+Math.floor(G.wave/2);if(G.spawnTimer>=G.spawnRate&&G.enemies.length<_maxE){G.spawnTimer=0;spawnAlien();spawnPU()}if(G.defeatedBossWords.length){G.wordTimer++;const maxWords=G.wave>=11?Math.min(4,2+Math.floor((G.wave-10)/3)):Math.min(4,1+Math.floor(G.defeatedBossWords.length/2));const wordRate=G.wave>=11?Math.max(90,200-G.wave*8):Math.max(120,280-G.wave*14);if(G.wordTimer>=wordRate&&G.wordEnemies.length<maxWords){G.wordTimer=0;spawnWordEnemy()}}
@@ -2506,14 +2506,14 @@ function showBobbyCinematic(onDone){
       const textA=clamp((t-kickDone)/0.5,0,1);
       c.globalAlpha=textA;
       c.fillStyle='#FFD700';c.shadowColor='#FF8C00';c.shadowBlur=28;
-      c.font=`bold ${clamp(W*0.054,20,58)}px "Press Start 2P",monospace`;
-      c.fillText('BAILIFF BOBBY',W/2,H*0.14);
+      c.font=`bold ${clamp(W*0.068,26,72)}px "Press Start 2P",monospace`;
+      c.fillText('BAILIFF BOBBY',W/2,H*0.40);
       c.fillStyle='#FFFFFF';c.shadowColor='#888';c.shadowBlur=10;
-      c.font=`bold ${clamp(W*0.034,14,36)}px "Press Start 2P",monospace`;
-      c.fillText('HAS BEEN',W/2,H*0.24);
+      c.font=`bold ${clamp(W*0.042,16,44)}px "Press Start 2P",monospace`;
+      c.fillText('HAS BEEN',W/2,H*0.52);
       c.fillStyle='#FF2244';c.shadowColor='#FF0000';c.shadowBlur=42;
-      c.font=`bold ${clamp(W*0.068,26,74)}px "Press Start 2P",monospace`;
-      c.fillText('DEFEATED',W/2,H*0.37);
+      c.font=`bold ${clamp(W*0.085,32,90)}px "Press Start 2P",monospace`;
+      c.fillText('DEFEATED',W/2,H*0.67);
       c.globalAlpha=1;c.shadowBlur=0;
 
       if(!s2kicked){
@@ -2689,25 +2689,26 @@ function showBobbyCinematic(onDone){
         if(!s4done)s4done=true;
         const t5=t-S4_END;
         const s5lines=[
-          {txt:'Refuse to stand still.',col:'#F4D03F',delay:0.5,fs:clamp(W*0.056,18,52),font:'bold %px "DM Sans",sans-serif',glow:true},
-          {txt:'Behind every business is a real person —',col:'#DDDDDD',delay:3.0,fs:clamp(W*0.038,14,36),font:'%px "DM Sans",sans-serif'},
-          {txt:'working hard, refusing to stop.',col:'#FFFFFF',delay:4.3,fs:clamp(W*0.044,16,42),font:'600 %px "DM Sans",sans-serif'},
-          {txt:"Some days you're pushing forward.",col:'#CCCCCC',delay:6.5,fs:clamp(W*0.038,14,36),font:'%px "DM Sans",sans-serif'},
-          {txt:"Some days you're just keeping pace.",col:'#AAAAAA',delay:7.8,fs:clamp(W*0.036,13,34),font:'%px "DM Sans",sans-serif'},
-          {txt:'Fiskal is here for both.',col:'#CC88FF',delay:10.2,fs:clamp(W*0.042,15,40),font:'600 %px "DM Sans",sans-serif'},
-          {txt:'Real people. Real solutions. Alongside you.',col:'#888888',delay:11.4,fs:clamp(W*0.032,12,30),font:'%px "DM Sans",sans-serif'},
+          {txt:'Refuse to stand still.',col:'#F4D03F',delay:0.5,fs:clamp(W*0.072,22,66),font:'bold %px "DM Sans",sans-serif',glow:true},
+          {txt:'Behind every business is a real person —',col:'#DDDDDD',delay:3.0,fs:clamp(W*0.048,16,44),font:'%px "DM Sans",sans-serif'},
+          {txt:'working hard, refusing to stop.',col:'#FFFFFF',delay:4.3,fs:clamp(W*0.054,18,50),font:'600 %px "DM Sans",sans-serif'},
+          {txt:"Some days you're pushing forward.",col:'#CCCCCC',delay:6.5,fs:clamp(W*0.048,16,44),font:'%px "DM Sans",sans-serif'},
+          {txt:"Some days you're just keeping pace.",col:'#AAAAAA',delay:7.8,fs:clamp(W*0.046,15,42),font:'%px "DM Sans",sans-serif'},
+          {txt:'Fiskal is here for both.',col:'#CC88FF',delay:10.2,fs:clamp(W*0.054,18,48),font:'600 %px "DM Sans",sans-serif'},
+          {txt:'Real people. Real solutions. Alongside you.',col:'#888888',delay:11.4,fs:clamp(W*0.040,14,36),font:'%px "DM Sans",sans-serif'},
         ];
         c.textAlign='center';
-        let yy=28;
+        const _s5totalH=s5lines.reduce((s,l)=>s+l.fs*1.65,0);
+        let yy=H*0.5-_s5totalH*0.5;
         s5lines.forEach(ln=>{
-          if(t5<ln.delay){yy+=ln.fs*1.5;return;}
+          if(t5<ln.delay){yy+=ln.fs*1.65;return;}
           const age=t5-ln.delay;
           const shown=ln.txt.slice(0,Math.floor(age*30));
           c.globalAlpha=Math.min(1,age/0.6);
           c.fillStyle=ln.col;c.shadowColor=ln.glow?ln.col:'transparent';c.shadowBlur=ln.glow?18:0;
           c.font=ln.font.replace('%',ln.fs);
           c.fillText(shown,W/2,yy+ln.fs);
-          yy+=ln.fs*1.5;
+          yy+=ln.fs*1.65;
         });
         c.globalAlpha=1;c.shadowBlur=0;
       }
