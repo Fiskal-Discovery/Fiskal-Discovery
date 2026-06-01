@@ -1874,8 +1874,8 @@ if(boss.larry){
   else if(mp===1){boss.x+=boss.vx*2;boss.y+=Math.sin(boss.frame*.08)*boss.vx*1.5}
   else if(mp===2){boss.x+=Math.sin(boss.frame*.05)*boss.vx*5.5;boss.y+=Math.cos(boss.frame*.06)*boss.vx*2}
   else if(mp===3){boss.x+=Math.cos(boss.frame*.2)*boss.vx*2;boss.y+=Math.sin(boss.frame*.15)*boss.vx*2}
-  else if(mp===4){boss.x+=boss.vx;boss.y=boss.r+30+Math.sin(boss.frame*.04)*18}
-  else{boss.x+=boss.vx*1.8;boss.y=boss.r+22+Math.abs(Math.sin(boss.frame*.045))*canvas.height*.22}
+  else if(mp===4){boss.x+=boss.vx;boss.y+=(boss.r+30+Math.sin(boss.frame*.04)*18-boss.y)*.08}
+  else{boss.x+=boss.vx*1.8;boss.y+=(boss.r+22+Math.abs(Math.sin(boss.frame*.045))*canvas.height*.22-boss.y)*.08}
 }else if(boss.behaviour==='zigzag'){boss.x+=Math.sin(boss.frame*.1)*boss.vx*2;boss.y+=Math.sin(boss.frame*.07)*boss.vx}
 else if(boss.behaviour==='dash'){boss.x+=boss.vx*2;boss.y+=Math.sin(boss.frame*.08)*boss.vx*1.5}
 else if(boss.behaviour==='curve'){boss.x+=Math.sin(boss.frame*.05)*boss.vx*(boss.name==='WINDFALL TAX'?8:5.5);boss.y+=Math.cos(boss.frame*.06)*boss.vx*2}
