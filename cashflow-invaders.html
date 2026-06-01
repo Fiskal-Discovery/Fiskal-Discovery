@@ -1129,6 +1129,8 @@ function _goRenderDefeated(){
       if(fr.settled)return;
       fr.vy+=(mob?480:900)*dt;fr.x+=fr.vx*dt;fr.y+=fr.vy*dt;fr.angle+=fr.va*dt;
       fr.vx*=Math.pow(0.88,dt*60);
+      if(fr.x<fr.ro){fr.x=fr.ro;fr.vx=Math.abs(fr.vx)*0.55;}
+      if(fr.x>W-fr.ro){fr.x=W-fr.ro;fr.vx=-Math.abs(fr.vx)*0.55;}
       if(fr.y>=H-footerH-fr.ro){fr.y=H-footerH-fr.ro;fr.settled=true;fr.vx=0;fr.vy=0;}
     });
     c.textBaseline='middle';c.textAlign='center';
@@ -1152,7 +1154,7 @@ function _goRenderDefeated(){
       const maxW=mob?W*0.82:W*(0.8/cols)-14;
       while(c.measureText(name).width>maxW&&fs>9){fs-=2;c.font=`bold ${fs}px "Press Start 2P",monospace`;}
       const tw=c.measureText(name).width;
-      const px=bPos[i].x,py=bPos[i].y;
+      const px=clamp(bPos[i].x,tw/2+10,W-tw/2-10),py=bPos[i].y;
       c.textAlign='center';c.textBaseline='middle';
       if(lt<ZOOM){
         const sc=0.04+easeOut(lt/ZOOM)*0.96;
