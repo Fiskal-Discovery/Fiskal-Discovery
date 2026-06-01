@@ -2034,7 +2034,7 @@ G.bullets=G.bullets.filter(b=>{
   return true;
 });
 }
-if(G.state==='wave_clear'){const _wcoEl=document.getElementById('wave-clear-overlay');if(_wcoEl&&_wcoEl.classList.contains('show')){}else{G.stateTimer--;}if(G.stateTimer<=0){if(G.wave>=20){showVictory();return;}if(G.wave===10){G.advancedMode=true;G.lives=Math.max(G.lives,3);G.hullDamage=0;updateHUD();showUpgradeAnnouncement();}G.wave++;G.waveKills=0;G.waveTarget=6+G.wave;G.waveCashStart=G.score;G.waveLosses=[];G.waveCashTarget=Math.round((120+G.wave*60+G.wave*G.wave*5)*(G.wave>10?3.0:1.0));const advancedMultiplier=G.wave>10?1+((G.wave-10)*0.1):1;G.spawnRate=Math.max(G.wave>10?65:60,Math.floor((105-G.wave*5)/advancedMultiplier));
+if(G.state==='wave_clear'){const _wcoEl=document.getElementById('wave-clear-overlay');if(_wcoEl&&_wcoEl.classList.contains('show')){}else{G.stateTimer--;}if(G.stateTimer<=0){if(G.wave>=20){showVictory();return;}if(G.wave===10){G.advancedMode=true;G.lives=Math.max(G.lives,3);G.hullDamage=0;updateHUD();showUpgradeAnnouncement();return;}G.wave++;G.waveKills=0;G.waveTarget=6+G.wave;G.waveCashStart=G.score;G.waveLosses=[];G.waveCashTarget=Math.round((120+G.wave*60+G.wave*G.wave*5)*(G.wave>10?3.0:1.0));const advancedMultiplier=G.wave>10?1+((G.wave-10)*0.1):1;G.spawnRate=Math.max(G.wave>10?65:60,Math.floor((105-G.wave*5)/advancedMultiplier));
 // Set act2 word pool: wave 11 = Larry only, each subsequent wave adds the previous wave's boss
 if(G.wave>=11){const act2WordPool=['LATE PAYMENT LARRY',...ACT2_BOSS_NAMES.slice(0,G.wave-11).map(b=>b.name)];G.defeatedBossWords=act2WordPool;G.wordEnemies=[];}
 G.state='playing';updateHUD();if(G.wave!==11)G.waveAnnounce=100;spawnWave(4+Math.floor(G.wave/2))}}
