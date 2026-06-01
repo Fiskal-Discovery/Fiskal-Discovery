@@ -143,6 +143,20 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
 }
 </style>
 <style>
+#fiskal-splash{position:fixed;inset:0;z-index:9500;background:radial-gradient(ellipse at center,#1a0038 0%,#07000e 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer}
+.fs-powered{font-family:'Press Start 2P',monospace;font-size:clamp(.55rem,2vw,.75rem);color:rgba(255,255,255,.7);letter-spacing:.2em;animation:fsPop .5s ease-out .35s both}
+.fs-brand{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:700;font-size:clamp(3.5rem,17vw,7.5rem);color:#7E09A5;text-shadow:0 0 50px rgba(126,9,165,1),0 0 100px rgba(126,9,165,.5),0 0 160px rgba(126,9,165,.25);animation:fsBrandIn .7s cubic-bezier(.2,0,.15,1.5) .6s both}
+.fs-tagline{font-family:'Press Start 2P',monospace;font-size:clamp(.42rem,1.6vw,.65rem);color:#FFE600;letter-spacing:.12em;text-shadow:0 0 10px rgba(255,230,0,.5);animation:fsPop .5s ease-out 1.0s both}
+.fs-tap-hint{font-family:'Press Start 2P',monospace;font-size:clamp(.35rem,1.3vw,.5rem);color:rgba(255,255,255,.3);letter-spacing:.1em;margin-top:clamp(18px,4vh,36px);animation:fsBlink 1.4s ease-in-out 1.8s infinite both}
+@keyframes fsPop{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fsBrandIn{from{opacity:0;transform:scale(1.5)}to{opacity:1;transform:scale(1)}}
+@keyframes fsBlink{0%,100%{opacity:.3}50%{opacity:.75}}
+@keyframes fsCollapse{0%{transform:scaleY(1);opacity:1;filter:brightness(1)}40%{transform:scaleY(1);opacity:1;filter:brightness(1.6)}65%{transform:scaleY(0.025);opacity:1;filter:brightness(3)}82%{transform:scaleY(0.025);opacity:1;filter:brightness(0)}100%{transform:scaleY(0.025);opacity:0;filter:brightness(0)}}
+#fiskal-splash.fs-exit{animation:fsCollapse .55s ease-in forwards;pointer-events:none}
+@keyframes ssReveal{0%{opacity:0;filter:brightness(0)}25%{opacity:1;filter:brightness(1.8)}100%{opacity:1;filter:none}}
+.screen-reveal{animation:ssReveal .65s ease-out forwards!important}
+</style>
+<style>
   /* Leaderboard champion banner */
   .lb-champ-banner {
     font-family: 'DM Sans', sans-serif;
@@ -205,6 +219,12 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
 
 </head>
 <body>
+<div id="fiskal-splash">
+  <div class="fs-powered">POWERED BY</div>
+  <div class="fs-brand">Fiskal</div>
+  <div class="fs-tagline">COMMERCIAL FINANCE EXPERTS</div>
+  <div class="fs-tap-hint">TAP TO CONTINUE</div>
+</div>
 <div id="starfield"></div>
 <canvas id="cin-stars" style="position:fixed;inset:0;z-index:850;pointer-events:none;display:none"></canvas>
 <div id="msg-flash"></div>
@@ -2032,6 +2052,7 @@ ctx.setTransform(1,0,0,1,0,0)
 }
 function runTests(){console.assert(ALIEN_TYPES.length===3,'aliens available');console.assert(document.getElementById('alien-preview'),'alien preview element exists');console.assert(typeof initGame==='function','init exists');console.assert(typeof spawnWordEnemy==='function','word spawn exists');console.log('Fiskal game tests passed')}
 renderPreviewAliens();runTests();updatePersonalBest();drawWantedPoster();
+(function(){const splash=document.getElementById('fiskal-splash');const startSc=document.getElementById('start-screen');if(!splash)return;function exitSplash(){if(splash._out)return;splash._out=true;splash.removeEventListener('click',exitSplash);splash.removeEventListener('touchstart',exitSplash);splash.classList.add('fs-exit');setTimeout(()=>{splash.style.display='none';startSc.classList.add('screen-reveal');setTimeout(()=>startSc.classList.remove('screen-reveal'),700);},520);}setTimeout(exitSplash,2400);splash.addEventListener('click',exitSplash);splash.addEventListener('touchstart',exitSplash,{passive:true,once:true});})();
 try{MUSIC.warm();MUSIC.cinematic();}catch(e){}
 // iOS blocks audio before first user gesture — unlock on first touch/click
 (function(){function _au(){try{getAudio().resume().catch(()=>{})}catch(e){}try{if(document.getElementById('start-screen').classList.contains('active')){MUSIC.cinematic();}else{MUSIC.tryResume();}}catch(e){}document.removeEventListener('touchstart',_au);document.removeEventListener('click',_au);}document.addEventListener('touchstart',_au,{once:true,passive:true});document.addEventListener('click',_au,{once:true});})();
