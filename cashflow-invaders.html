@@ -129,6 +129,13 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
 #wanted-poster,#bobby-poster{display:none!important}
 #intro-cin{padding:16px 12px!important}
 .ic-panel{gap:6px!important}
+#wco-title{font-size:1.35rem!important}
+#wco-earned{font-size:.9rem!important}
+#wco-next{font-size:.68rem!important}
+.wco-loss-header{font-size:.65rem!important}
+.wco-loss-zero{font-size:.72rem!important}
+.wco-loss-item{font-size:.65rem!important}
+.wco-loss-total{font-size:.68rem!important}
 }
 </style>
 <style>
@@ -1748,7 +1755,7 @@ function drawBoostBar(){
     ctx.shadowColor='#FFE600';ctx.shadowBlur=14;
     ctx.fillStyle='rgba(255,230,0,'+fl+')';ctx.fillRect(bx,by,bw,bh);
     ctx.shadowBlur=0;
-    ctx.font='bold 6px "Press Start 2P",monospace';ctx.fillStyle='#FFE600';
+    ctx.font=`bold ${canvas.width<440?9:6}px "Press Start 2P",monospace`;ctx.fillStyle='#FFE600';
     ctx.textAlign='center';ctx.textBaseline='bottom';
     ctx.fillText('⚡ OVERDRIVE ⚡',canvas.width/2,by-3);
   } else if(G.boostCharge>0){
@@ -1759,7 +1766,7 @@ function drawBoostBar(){
     ctx.fillRect(bx,by,bw*pct,bh);
     if(pct>0.5){
       const a=(pct-0.5)*2;
-      ctx.font='bold 5px "Press Start 2P",monospace';
+      ctx.font=`bold ${canvas.width<440?8:5}px "Press Start 2P",monospace`;
       ctx.fillStyle='rgba(200,160,255,'+a+')';ctx.shadowBlur=0;
       ctx.textAlign='center';ctx.textBaseline='bottom';
       ctx.fillText('OVERDRIVE CHARGING',canvas.width/2,by-3);
@@ -1781,10 +1788,10 @@ function drawBoostBanner(){
   if(G.bombAttached)bs.push({t:'BOMB ARMED',s:0,c:'#FF8C00'});
   if(G.bannerFlash&&G.bannerFlash.timer>0){G.bannerFlash.timer--;bs.unshift({t:G.bannerFlash.text,s:0,c:G.bannerFlash.color,flash:true});}
   if(bs.length===0)return;
-  const bh=26;
+  const _mob=canvas.width<440;const bh=_mob?30:26;const bfs=_mob?10:7;
   ctx.save();
   ctx.fillStyle='rgba(0,0,0,.88)';ctx.fillRect(0,0,canvas.width,bh);
-  ctx.font='bold 7px "Press Start 2P",monospace';ctx.textBaseline='middle';ctx.textAlign='left';
+  ctx.font=`bold ${bfs}px "Press Start 2P",monospace`;ctx.textBaseline='middle';ctx.textAlign='left';
   const SEP=' · ';
   const items=bs.map(b=>({text:b.s>0?b.t+' '+Math.ceil(b.s/fps)+'s':b.t,color:b.c,flash:b.flash||false}));
   let total=0;items.forEach((it,i)=>{total+=ctx.measureText(it.text).width;if(i<items.length-1)total+=ctx.measureText(SEP).width});
