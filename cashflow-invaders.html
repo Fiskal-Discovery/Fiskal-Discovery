@@ -1936,7 +1936,7 @@ if(G.bossShootTimer>=shootRate){
     G.bossBlasts.push({x:boss.x,y:boss.y+boss.r*0.55+5,vy:2.6+G.wave*.22,vx:(Math.random()-.5)*3,bobby:false,clawback:true});
   }else if(boss.name==='WINDFALL TAX'){
     const isTriple=(boss.shotCycle%2===0);
-    if(isTriple){for(let i=0;i<3;i++){const ox=(i-1)*22;G.bossBlasts.push({x:boss.x+ox,y:boss.y+boss.r*0.55+5,vy:2.2+G.wave*.28,vx:0,bobby:false});}}
+    if(isTriple){for(let i=0;i<3;i++){const sx=canvas.width*0.15+i*(canvas.width*0.35)+(Math.random()-.5)*40;G.bossBlasts.push({x:sx,y:boss.y+boss.r*0.55+5,vy:2.2+G.wave*.28,vx:0,bobby:false});}}
     else{G.bossBlasts.push({x:boss.x,y:boss.y+boss.r*0.55+5,vy:2.8+G.wave*.28,vx:0,bobby:false});}
     boss.shotCycle++;
   }else if(boss.larry){
