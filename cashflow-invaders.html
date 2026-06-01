@@ -1068,8 +1068,8 @@ function _goRenderDefeated(){
   let epiFs=mob?clamp(W*0.038,12,15):clamp(W*0.022,8,15);
   c.font=`${epiFs}px "Press Start 2P",monospace`;
   const epiMaxW=W*0.9;
-  const longest=EPILOGUE.reduce((a,b)=>c.measureText(a).width>c.measureText(b).width?a:b);
-  while(c.measureText(longest).width>epiMaxW&&epiFs>(mob?10:6)){epiFs--;c.font=`${epiFs}px "Press Start 2P",monospace`;}
+  // On desktop shrink until longest line fits; on mobile word-wrap handles horizontal fit so skip the shrink loop
+  if(!mob){const longest=EPILOGUE.reduce((a,b)=>c.measureText(a).width>c.measureText(b).width?a:b);while(c.measureText(longest).width>epiMaxW&&epiFs>6){epiFs--;c.font=`${epiFs}px "Press Start 2P",monospace`;}}
   // On mobile, word-wrap long lines so they render at a readable size
   const epiWrapped=mob?EPILOGUE.flatMap((line,gi)=>{const words=line.split(' '),subs=[];let cur='';for(const w of words){const test=cur?cur+' '+w:w;if(c.measureText(test).width>epiMaxW&&cur){subs.push({text:cur,gi});cur=w;}else cur=test;}if(cur)subs.push({text:cur,gi});return subs;}):EPILOGUE.map((text,gi)=>({text,gi}));
   const EPI_GAP=1.1;
@@ -1155,11 +1155,13 @@ function _goRenderDefeated(){
     if(allExploded&&allExplodedT===null)allExplodedT=t;
     if(allExplodedT!==null){
       const et=t-allExplodedT;
-      const lineH=epiFs*2.4;
       const textTop=headerH+8;
       const textBot=H-footerH-clamp(H*0.12,30,60);
+      const avail=Math.max(textBot-textTop,epiFs*2);
+      // Shrink line gap if all wrapped lines don't fit in available vertical space
+      const lineH=epiWrapped.length>0?Math.min(epiFs*2.4,avail/epiWrapped.length):epiFs*2.4;
       const blockH=epiWrapped.length*lineH;
-      const startY=textTop+(textBot-textTop-blockH)/2;
+      const startY=Math.max(textTop,textTop+(textBot-textTop-blockH)/2);
       c.font=`${epiFs}px "Press Start 2P",monospace`;
       c.textAlign='center';c.textBaseline='top';
       epiWrapped.forEach(({text:line,gi},li)=>{
