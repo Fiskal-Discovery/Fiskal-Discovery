@@ -1060,6 +1060,7 @@ function _goRenderDefeated(){
   const rowCount=Math.ceil(total/cols)||1;
   const nameAreaH=H-headerH-footerH;
   const bPos=arr.map((_,i)=>{
+    if(mob){return{x:50+Math.random()*(W-100),y:headerH+30+Math.random()*(nameAreaH*0.78)};}
     const col=i%cols,row=Math.floor(i/cols);
     return{
       x:clamp(W*(0.1+(col+0.5)*(0.8/cols)),60,W-60),
@@ -1127,7 +1128,7 @@ function _goRenderDefeated(){
       const col=bmap[name]||'#AAAAAA';
       let fs=mob?clamp(W*0.11,22,60):clamp(W*0.066,14,56);
       c.font=`bold ${fs}px "Press Start 2P",monospace`;
-      const maxW=W*(0.8/cols)-14;
+      const maxW=mob?W*0.82:W*(0.8/cols)-14;
       while(c.measureText(name).width>maxW&&fs>9){fs-=2;c.font=`bold ${fs}px "Press Start 2P",monospace`;}
       const tw=c.measureText(name).width;
       const px=bPos[i].x,py=bPos[i].y;
