@@ -241,6 +241,11 @@ function buildShariahSummary(answers) {
   // Paragraph 3 — market context (UK hub, non-Muslim accessibility)
   blocks.push(getShariahMarketInsight());
 
+  // Paragraph 3b — certified-compliance framing (only for strictest compliance choice)
+  if (answers.compliance === 'certified') {
+    blocks.push(`You've told us that full Shariah certification is important to you — and that matters. Whether a given structure can be fully certified depends on the individual lender and the specifics of each arrangement, so there is no single universal answer. What we can tell you is that Fiskal works with a panel of specialist Shariah-compliant lenders who understand exactly what full certification means in practice. We will source and verify fully-compliant structures for your situation, so you can move forward with confidence that your financing aligns with your values as well as your business goals.`);
+  }
+
   // Paragraph 4 — practical: range, speed, profit rate
   blocks.push(getShariahPracticalInsight(amount, notSure));
 

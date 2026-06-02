@@ -2295,9 +2295,7 @@ function getShariahMatchedProducts() {
 
   // Invoice Finance / Trade Finance — cashflow or supplier payments
   if (purposes.some(p => /cashflow|supplier/i.test(p))) {
-    if (compliance === 'certified' || compliance === 'flexible' || compliance === 'avoid-interest') {
-      products.push('Shariah-Compliant Invoice Finance');
-    }
+    products.push('Shariah-Compliant Invoice Finance');
     if (purposes.some(p => /supplier/i.test(p))) {
       products.push('Shariah-Compliant Trade Finance');
     }
