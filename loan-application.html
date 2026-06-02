@@ -2765,12 +2765,7 @@ Turnover: ${state.turnover || 'Not provided'}`;
     summary: body
   };
 
-  try {
-    emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-    console.log('Initial notification (disabled):', templateParams);
-  } catch (err) {
-    console.error('Initial notification failed:', err);
-  }
+  console.log('Initial notification (disabled — full notification fires on completion):', templateParams);
 }
 
 // ============================================================

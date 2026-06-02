@@ -3869,20 +3869,9 @@ async function emailSummaryToUser() {
 
   const summaryEl = document.getElementById('ai-summary-text');
   const summaryText = summaryEl ? summaryEl.innerText : '';
-  const templateParams = {
-    name: state.name,
-    business_name: state.business,
-    email: state.email,
-    phone: state.phone || 'N/A',
-    company_number: state.companyNumber || 'N/A',
-    module: 'Funding Finder',
-    matched_products: 'See summary below',
-    barriers: 'N/A',
-    summary: summaryText
-  };
 
   try {
-    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    await sendClientSummaryEmail(summaryText);
     btn.textContent = 'Summary sent!';
     btn.style.background = 'linear-gradient(135deg, var(--col-deep-purple), var(--col-soft-violet))';
     feedback.textContent = `We've sent your summary to ${state.email}`;

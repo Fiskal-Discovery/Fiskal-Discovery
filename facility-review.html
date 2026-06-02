@@ -4633,17 +4633,7 @@ async function emailSummaryToUser() {
   const business = state.business || state.company || '';
 
   try {
-    if (typeof emailjs !== 'undefined') {
-      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', {
-        name: firstName,
-        business_name: business,
-        email: email,
-        module: 'Facility Review',
-        matched_products: 'See summary below',
-        summary: summaryText,
-        barriers: ''
-      });
-    }
+    await sendClientSummaryEmail(summaryText);
     btn.textContent = 'Summary sent!';
     btn.style.cssText = 'background:linear-gradient(135deg,var(--col-deep-purple),var(--col-soft-violet));color:#fff;border:none;padding:4px 12px;border-radius:999px;font-size:12px;cursor:default;';
     feedback.textContent = `We've sent your summary to ${email}`;
