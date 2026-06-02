@@ -2376,7 +2376,7 @@
     </div>
     <div class="form-group" style="margin-top:16px;">
       <label class="checkbox-label" style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.9rem;color:var(--light-text);">
-        <input type="checkbox" id="marketing-consent" checked style="margin-top:3px;flex-shrink:0;">
+        <input type="checkbox" id="marketing-consent" style="margin-top:3px;flex-shrink:0;">
         <span>Yes, I'd like to receive occasional emails from Fiskal about new funding products, lender updates and useful business finance news.</span>
       </label>
     </div>
@@ -3151,7 +3151,7 @@ function renderWelcomeQuestion() {
       cbWrap.style.cssText = 'display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-top:4px;';
       marketingCb = document.createElement('input');
       marketingCb.type = 'checkbox';
-      marketingCb.checked = welcomeState.answers.marketingConsent !== false;
+      marketingCb.checked = welcomeState.answers.marketingConsent === true;
       marketingCb.style.cssText = 'margin-top:3px;flex-shrink:0;accent-color:var(--col-gold);width:16px;height:16px;cursor:pointer;';
       const cbText = document.createElement('span');
       cbText.style.cssText = 'font-size:12px;color:rgba(255,255,255,0.55);font-family:"DM Sans",sans-serif;line-height:1.5;';
