@@ -1835,7 +1835,7 @@ async function emailSummaries() {
   }
 
   try {
-    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    await fiskalEmailSend('service_vvqkwzn', 'template_5uc5ida', templateParams);
     feedback.textContent = 'Sent! Check your inbox.';
     feedback.className   = 'summaries-email-feedback success';
   } catch(err) {

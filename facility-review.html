@@ -3369,7 +3369,7 @@ async function sendOtherNotification(summary) {
     barriers: 'N/A',
     summary: summary
   };
-  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  try { await fiskalEmailSend('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 // ============================================================
@@ -3582,7 +3582,7 @@ async function sendAssetNotification(summary) {
     barriers: state.assetBarrier === 'yes' ? state.assetBarrierDetails : 'N/A',
     summary: summary
   };
-  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  try { await fiskalEmailSend('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 async function submitTradeReview() {
@@ -3621,7 +3621,7 @@ async function sendTradeNotification(summary) {
     barriers: state.tradeBarrier === 'yes' ? state.tradeBarrierDetails : 'N/A',
     summary: summary
   };
-  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  try { await fiskalEmailSend('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 function saveIFPathA() {
@@ -4606,7 +4606,7 @@ async function sendInitialInfoNotification() {
   };
 
   try {
-    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    await fiskalEmailSend('service_vvqkwzn', 'template_5uc5ida', templateParams);
     sessionStorage.setItem(key, "true");
   } catch(e) {
     console.error(e);
@@ -4702,7 +4702,7 @@ async function sendNotification(summary) {
   };
 
   try {
-    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    await fiskalEmailSend('service_vvqkwzn', 'template_5uc5ida', templateParams);
   } catch(e) {
     console.error('Email failed:', e);
   }
@@ -4785,7 +4785,7 @@ async function sendLoanNotification(summary) {
     barriers: state.loanBarrier === 'yes' ? state.loanBarrierDetails : 'N/A',
     summary: summary
   };
-  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  try { await fiskalEmailSend('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 
@@ -4905,7 +4905,7 @@ async function sendFXNotification(summary) {
     barriers: 'N/A',
     summary: summary
   };
-  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  try { await fiskalEmailSend('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 async function sendClientSummaryEmail(summary) {
@@ -4918,7 +4918,7 @@ async function sendClientSummaryEmail(summary) {
   };
   try {
     if (typeof emailjs !== 'undefined') {
-      await emailjs.send('service_vvqkwzn', 'template_j3x4o5a', clientTemplateParams);
+      await fiskalEmailSend('service_vvqkwzn', 'template_j3x4o5a', clientTemplateParams);
     }
   } catch (error) {
     console.error('Client summary email failed:', error);

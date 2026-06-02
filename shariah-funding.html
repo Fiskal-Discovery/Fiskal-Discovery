@@ -2791,7 +2791,7 @@ async function sendNotification() {
 
   try {
     if (typeof emailjs !== 'undefined') {
-      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      await fiskalEmailSend('service_vvqkwzn', 'template_5uc5ida', templateParams);
     } else {
       console.warn('EmailJS not loaded — notification skipped');
     }
@@ -2811,7 +2811,7 @@ async function sendClientSummaryEmail(summary) {
 
   try {
     if (typeof emailjs !== 'undefined') {
-      await emailjs.send('service_vvqkwzn', 'template_j3x4o5a', clientTemplateParams);
+      await fiskalEmailSend('service_vvqkwzn', 'template_j3x4o5a', clientTemplateParams);
       return true;
     } else {
       console.warn('EmailJS not loaded — client email skipped');

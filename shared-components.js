@@ -1,6 +1,24 @@
 // Shared Components for Fiskal Discovery
 // =====================================
 
+// ── Email kill switch ──────────────────────────────────────────────────────
+// Set to false to block all EmailJS sends and log to console instead.
+// Flip to true when ready to go live.
+const FISKAL_EMAILS_ENABLED = false;
+
+async function fiskalEmailSend(serviceId, templateId, params) {
+  if (!FISKAL_EMAILS_ENABLED) {
+    const recipient = params.to_email || params.email || '(no recipient)';
+    console.log(
+      `TEST MODE — email not sent | template: ${templateId} | to: ${recipient}`,
+      params
+    );
+    return { status: 200, text: 'TEST MODE' };
+  }
+  return emailjs.send(serviceId, templateId, params);
+}
+// ──────────────────────────────────────────────────────────────────────────
+
 // Nicole Contact Card
 // ===================
 

@@ -3855,7 +3855,7 @@ async function sendNotification(summary, matchedProducts) {
 
   try {
     if (!(DEV_MODE || !SEND_EMAILS)) {
-      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      await fiskalEmailSend('service_vvqkwzn', 'template_5uc5ida', templateParams);
     }
   } catch (error) {
     console.error('Email notification failed:', error);
@@ -3919,7 +3919,7 @@ async function sendClientSummaryEmail(summary) {
   };
   try {
     if (typeof emailjs !== 'undefined') {
-      await emailjs.send('service_vvqkwzn', 'template_j3x4o5a', clientTemplateParams);
+      await fiskalEmailSend('service_vvqkwzn', 'template_j3x4o5a', clientTemplateParams);
     }
   } catch (error) {
     console.error('Client summary email failed:', error);

@@ -2734,7 +2734,7 @@ Marketing Consent: ${state.marketingConsent ? 'Yes' : 'No'}`;
   };
 
   try {
-    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    await fiskalEmailSend('service_vvqkwzn', 'template_5uc5ida', templateParams);
   } catch (err) {
     console.error('Notification failed:', err);
   }
@@ -2802,7 +2802,7 @@ async function sendClientSummaryEmail(summary) {
   };
 
   try {
-    await emailjs.send('service_vvqkwzn', 'template_j3x4o5a', clientTemplateParams);
+    await fiskalEmailSend('service_vvqkwzn', 'template_j3x4o5a', clientTemplateParams);
     return true;
   } catch (error) {
     console.error('Client summary email failed:', error);
