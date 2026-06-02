@@ -2584,7 +2584,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2617,7 +2616,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" id="ff-back-btn" onclick="goBackQuestion()">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" id="ff-skip-btn" onclick="skipQuestion()">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2698,7 +2696,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2726,7 +2723,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html'">Home</button>
-      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -3101,8 +3097,6 @@ function renderFlowQuestion() {
   document.getElementById('question-progress-label').textContent = `Question ${current} of ${total}`;
   document.getElementById('q-icon').textContent = '';
 
-  const skipBtn = document.getElementById('ff-skip-btn');
-  if (skipBtn) skipBtn.style.display = isLast ? 'none' : '';
   document.getElementById('q-text').textContent = q.question;
   const subEl = document.getElementById('q-sub');
   if (q.subtitle) { subEl.textContent = q.subtitle; subEl.style.display = 'block'; }
@@ -3292,9 +3286,6 @@ function goNext() {
   renderFlowQuestion();
 }
 
-function skipQuestion() {
-  goNext();
-}
 
 function goBack() {
   if (state.currentQuestion > 0) {

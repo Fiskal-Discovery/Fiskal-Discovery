@@ -1605,7 +1605,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1644,7 +1643,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-home')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1679,7 +1677,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q1')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1714,7 +1711,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q2')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1745,7 +1741,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q3')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1776,7 +1771,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q4')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1806,7 +1800,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q5')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1835,7 +1828,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q6')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1865,7 +1857,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q7')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1897,7 +1888,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="showScreen('screen-q8')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -1939,7 +1929,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" style="visibility:hidden">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2061,23 +2050,6 @@ const state = {
 // ============================================================
 // SCREEN NAVIGATION
 // ============================================================
-const SHARIAH_SKIP_MAP = {
-  'screen-q1': 'screen-q2',
-  'screen-q2': 'screen-q3',
-  'screen-q3': 'screen-q4',
-  'screen-q4': 'screen-q5',
-  'screen-q5': 'screen-q6',
-  'screen-q6': 'screen-q7',
-  'screen-q7': 'screen-q8',
-  'screen-q8': 'screen-q9'
-};
-function skipCurrentScreen() {
-  const active = document.querySelector('.screen.active');
-  if (!active) return;
-  const next = SHARIAH_SKIP_MAP[active.id];
-  if (next) showScreen(next);
-}
-
 function formatCurrencyInput(input) {
   const raw = input.value.replace(/[^0-9]/g, '');
   if (!raw) { input.value = ''; return; }

@@ -2271,7 +2271,6 @@
     <div class="q-footer-nav">
       <button class="q-nav-btn" id="ob-back-btn" onclick="obGoBack()" style="visibility:hidden;">‹ Back</button>
       <button class="q-nav-btn q-nav-home" id="ob-home-btn" onclick="goHome()">Home</button>
-      <button class="q-nav-btn" id="ob-skip-btn" onclick="obSkip()" style="visibility:hidden;">Skip ›</button>
     </div>
     <div class="q-footer-tagline">
       <span class="ob-tagline-refuse">REFUSE</span>
@@ -2279,7 +2278,6 @@
     </div>
   </div>
 
-  <button onclick="devSkip()" style="position:fixed;bottom:16px;right:16px;background:rgba(255,100,0,0.15);border:1px dashed rgba(255,100,0,0.5);color:rgba(255,150,50,0.8);font-size:11px;padding:6px 12px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:99999;">Skip (dev)</button>
 
 </div>
 
@@ -2827,22 +2825,6 @@ function startWelcome() {
   renderWelcomeQuestion();
 }
 
-function devSkip() {
-  const fake = { name:'Test User', email:'test@test.com', phone:'07700000000', companyName:'Test Co', welcomeCompleted:true, userType:'myself', industry:'Technology', annualTurnover:'£100k–£250k', fundingAmount:'£25k–£50k' };
-  const state = JSON.parse(localStorage.getItem('fiskal_appState') || '{}');
-  state.profile = { ...(state.profile || {}), ...fake };
-  localStorage.setItem('fiskal_appState', JSON.stringify(state));
-  localStorage.setItem('fiskal_profile', JSON.stringify(fake));
-  document.getElementById('onboarding-overlay').classList.add('hidden');
-  document.getElementById('screen-landing').classList.remove('active');
-  window.location.href = 'home.html';
-}
-
-function obSkip() {
-  if (!welcomeState) return;
-  welcomeState.currentQuestion++;
-  renderWelcomeQuestion();
-}
 
 function obGoBack() {
   // Safe fallback: if welcomeState is invalid, go to WELCOME_INTRO
@@ -3847,16 +3829,6 @@ function selectAnswer(q, value, btn) {
 }
 
 function nextQuestion() {
-  const questions = getQuestions();
-  state.currentQuestion++;
-  if (state.currentQuestion >= questions.length) {
-    showScreen('barriers');
-  } else {
-    renderQuestion();
-  }
-}
-
-function skipQuestion() {
   const questions = getQuestions();
   state.currentQuestion++;
   if (state.currentQuestion >= questions.length) {
