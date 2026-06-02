@@ -2643,10 +2643,12 @@ async function emailSummaryToUser() {
     name: firstName,
     business_name: contact.business,
     email: contact.email,
+    phone: contact.phone || 'N/A',
+    company_number: contact.companyNumber || 'N/A',
     module: 'Shariah-Compliant Funding',
     matched_products: 'See summary below',
-    summary: summaryText,
-    barriers: ''
+    barriers: 'N/A',
+    summary: summaryText
   };
 
   try {

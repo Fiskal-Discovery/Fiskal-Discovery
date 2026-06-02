@@ -3870,10 +3870,12 @@ async function emailSummaryToUser() {
     name: state.name,
     business_name: state.business,
     email: state.email,
+    phone: state.phone || 'N/A',
+    company_number: state.companyNumber || 'N/A',
     module: 'Funding Finder',
     matched_products: 'See summary below',
-    summary: summaryText,
-    barriers: ''
+    barriers: 'N/A',
+    summary: summaryText
   };
 
   try {

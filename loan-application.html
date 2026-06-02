@@ -2786,11 +2786,15 @@ ${summaryText || 'N/A'}
 Marketing Consent: ${state.marketingConsent ? 'Yes' : 'No'}`;
 
   const templateParams = {
-    to_email: 'nicole@fiskal.co.uk',
-    subject: `${isNewStartFlag ? '⚠️ NEW START — ' : ''}Fiskal Discovery — Loan Enquiry: ${state.business} [${state._tlEmailFlag || state.trafficLightRating}]`,
-    from_name: state.name,
+    name: state.name,
     business_name: state.business,
-    message: body
+    email: state.email,
+    phone: state.phone,
+    company_number: state.companyNumber || 'N/A',
+    module: `Business Loan${isNewStartFlag ? ' — NEW START' : ''}`,
+    matched_products: `Type: ${state.loanType || 'N/A'} | Amount: ${state.amount || 'N/A'} | Term: ${state.term || 'N/A'} | Security: ${state.security || 'N/A'} | Credit: ${state.credit || 'N/A'} | Traffic Light: ${state._tlEmailFlag || state.trafficLightRating || 'N/A'}`,
+    barriers: state.credit === 'adverse' ? (state.creditNote || 'Adverse credit') : (state.additionalNotes || 'None'),
+    summary: body
   };
 
   try {
@@ -2814,11 +2818,15 @@ Company No.: ${state.companyNumber || 'N/A'}
 Turnover: ${state.turnover || 'Not provided'}`;
 
   const templateParams = {
-    to_email: 'nicole@fiskal.co.uk',
-    subject: `Fiskal Discovery — Loan started: ${state.business}`,
-    from_name: state.name,
+    name: state.name,
     business_name: state.business,
-    message: body
+    email: state.email,
+    phone: state.phone,
+    company_number: state.companyNumber || 'N/A',
+    module: 'Business Loan — Initial Info',
+    matched_products: 'Initial information collected',
+    barriers: 'N/A',
+    summary: body
   };
 
   try {
