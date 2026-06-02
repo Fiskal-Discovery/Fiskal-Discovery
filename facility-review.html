@@ -3946,6 +3946,10 @@ function _buildLoanSummary(lender, turnover) {
     paras.push(`It costs nothing to have your business loan reviewed — and Nicole can do it without running any credit checks that could affect your score. Send her your current agreement and she'll tell you honestly whether you're on a good deal or whether there's something better available right now.`);
   }
 
+  if (state.loanERC === 'Yes') {
+    paras.push(`Your current loan has an early repayment charge, which is worth factoring into any decision to switch or refinance — Nicole will make sure you have the full picture before committing to anything.`);
+  }
+
   return paras;
 }
 
@@ -3998,7 +4002,6 @@ function _buildMCASummary(lender, turnover) {
 function _buildTradeSummary(lender, turnover) {
   const paras = [];
   const rate = parseFloat(state.tradeRate || state['trade-rate'] || 0) || null;
-  const propertyCharge = (state.tradePropertyCharge || state['trade-property-charge'] || '').toLowerCase();
   const facilityLow = turnover ? _fmtK(Math.round(turnover * 0.10)) : null;
   const facilityHigh = turnover ? _fmtK(Math.round(turnover * 0.15)) : null;
   const savingLow = turnover ? _fmtK(Math.round(turnover * 0.10 * 0.02)) : null;
@@ -4012,10 +4015,6 @@ function _buildTradeSummary(lender, turnover) {
     }
   } else {
     paras.push(`Trade finance facilities vary enormously in how they're structured and what they actually cost. Nicole will review yours and tell you honestly whether the rate, the security requirements, and the overall structure are working in your favour.`);
-  }
-
-  if (propertyCharge === 'yes') {
-    paras.push(`Some trade finance lenders require a charge on property as security — Nicole doesn't work with those lenders. If your current facility has a property charge attached, she can almost certainly find you an equivalent facility without one. That's worth exploring.`);
   }
 
   if (facilityLow && savingLow) {
@@ -4565,6 +4564,7 @@ async function sendNotification(summary) {
     state.loanRate      ? `Loan rate: ${state.loanRate}%`       : '',
     state.loanRepayment ? `Repayment: £${state.loanRepayment}/mo` : '',
     state.loanTerm      ? `Term: ${state.loanTerm} months`      : '',
+    state.loanERC       ? `ERC: ${state.loanERC}`              : '',
     state.tradeRate     ? `Trade rate: ${state.tradeRate}%/mo`  : '',
     state.mcaFactorRate ? `MCA factor: ${state.mcaFactorRate}`  : '',
     state.overdraftRate ? `Overdraft rate: ${state.overdraftRate}%` : '',
@@ -4587,7 +4587,6 @@ async function sendNotification(summary) {
     statement_uploaded: statementUploaded,
     other_facility_type: state.otherFundingType || state.otherFacilityType || 'N/A',
     mca_b2c: state.mcaB2C || state['mca-b2c'] || 'N/A',
-    trade_property_charge: state.tradePropertyCharge || state['trade-property-charge'] || 'N/A',
     asset_nearly_paid_off: state.assetNearlyPaidOff || state['asset-nearly-paid-off'] || 'N/A',
     matched_products: `Type: ${facilityType} | Lender: ${lenderName} | ${rateDetails}`,
     barriers: switchingConcernDetails || 'None',
