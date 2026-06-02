@@ -1689,7 +1689,7 @@ const state = {
   amount: '', amountNotSure: false,
   term: '',
   security: '', securityNote: '',
-  credit: '', creditNote: '',
+  credit: '',
   tradingHistory: '',
   monthlyTurnover: '',
   existingFinance: '', existingFinanceNote: '',
@@ -2395,7 +2395,7 @@ async function submitApplication() {
         companyNumber: state.companyNumber, turnover: state.turnover, turnoverNext: state.turnoverNext,
         propertyOwners: state.propertyOwners, loanType: state.loanType, purpose: state.purpose,
         amount: state.amount, term: state.term, security: state.security, securityNote: state.securityNote,
-        credit: state.credit, creditNote: state.creditNote, tradingHistory: state.tradingHistory,
+        credit: state.credit, tradingHistory: state.tradingHistory,
         monthlyTurnover: state.monthlyTurnover, existingFinance: state.existingFinance,
         existingFinanceNote: state.existingFinanceNote, urgency: state.urgency,
         additionalNotes: state.additionalNotes,
@@ -2637,7 +2637,7 @@ Q2 — Purpose: ${state.purpose || 'Skipped'}
 Q3 — Amount: ${state.amount || 'Skipped'}
 Q4 — Term: ${state.term || 'Skipped'}
 Q5 — Security: ${state.security || 'Skipped'}${state.securityNote ? ' — ' + state.securityNote : ''}
-Q6 — Credit: ${state.credit || 'Skipped'}${state.creditNote ? ' — ' + state.creditNote : ''}
+Q6 — Credit: ${state.credit || 'Skipped'}
 Q7 — Trading History: ${state.tradingHistory || 'Skipped'}
 Q8 — Monthly Turnover: ${state.monthlyTurnover || (state.turnover ? 'Derived from profile' : 'Skipped')}
 Q9 — Existing Finance: ${state.existingFinance || 'Skipped'}${state.existingFinanceNote ? ' — ' + state.existingFinanceNote : ''}
@@ -2665,7 +2665,7 @@ Marketing Consent: ${state.marketingConsent ? 'Yes' : 'No'}`;
     company_number: state.companyNumber || 'N/A',
     module: `Business Loan${isNewStartFlag ? ' — NEW START' : ''}`,
     matched_products: `Type: ${state.loanType || 'N/A'} | Amount: ${state.amount || 'N/A'} | Term: ${state.term || 'N/A'} | Security: ${state.security || 'N/A'} | Credit: ${state.credit || 'N/A'} | Traffic Light: ${state._tlEmailFlag || state.trafficLightRating || 'N/A'}`,
-    barriers: state.credit === 'adverse' ? (state.creditNote || 'Adverse credit') : (state.additionalNotes || 'None'),
+    barriers: state.additionalNotes || 'None',
     summary: body
   };
 
