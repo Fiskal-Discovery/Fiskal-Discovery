@@ -632,11 +632,6 @@
     box-shadow: 0 0 0 3px rgba(75,0,130,0.08);
   }
 
-  /* ---- BARRIERS ---- */
-  .barriers-followup {
-    margin-top: 12px;
-  }
-
   .form-textarea {
     width: 100%;
     background: white;
@@ -1616,10 +1611,9 @@
      REDESIGN — DARK QUESTION FLOW
   ============================================================ */
 
-  /* Dark background for question/intro/barriers screens */
+  /* Dark background for question/intro/loading screens */
   #screen-details,
   #screen-question,
-  #screen-barriers,
   #screen-loading,
   #screen-submission-loading {
     background: var(--col-bg);
@@ -1627,8 +1621,7 @@
 
   /* Purple orb overlay */
   #screen-details::before,
-  #screen-question::before,
-  #screen-barriers::before {
+  #screen-question::before {
     content: '';
     position: fixed;
     inset: 0;
@@ -1645,16 +1638,13 @@
   /* Lift content above orb */
   #screen-details .ob-fixed-header,
   #screen-question .ob-fixed-header,
-  #screen-barriers .ob-fixed-header,
   #screen-details .progress-bar-wrap,
   #screen-question .progress-bar-wrap,
-  #screen-barriers .progress-bar-wrap,
   #screen-details .screen-content,
   #screen-question .screen-content,
-  #screen-barriers .screen-content,
   #screen-details .nav-row,
   #screen-question .nav-row,
-  #screen-barriers .nav-row { position: relative; z-index: 1; }
+  #screen-question .nav-row { position: relative; z-index: 1; }
 
   /* Progress bar — orange */
   .progress-fill { background: var(--col-gold) !important; }
@@ -1729,8 +1719,7 @@
   }
 
   /* Answer buttons — dark style with module stripe */
-  #screen-question .answer-btn,
-  #screen-barriers .answer-btn {
+  #screen-question .answer-btn {
     background: rgba(255, 255, 255, 0.05) !important;
     border: 1.5px solid rgba(160, 153, 232, 0.45) !important;
     border-top: 3px solid #0369A1 !important;
@@ -1745,8 +1734,7 @@
     justify-content: center !important;
     padding: 10px 8px !important;
   }
-  #screen-question .answer-btn:hover,
-  #screen-barriers .answer-btn:hover {
+  #screen-question .answer-btn:hover {
     background: rgba(160, 153, 232, 0.12) !important;
     border-left-color: rgba(160, 153, 232, 0.7) !important;
     border-right-color: rgba(160, 153, 232, 0.7) !important;
@@ -1754,8 +1742,7 @@
     transform: translateX(4px) !important;
     box-shadow: none !important;
   }
-  #screen-question .answer-btn.selected,
-  #screen-barriers .answer-btn.selected {
+  #screen-question .answer-btn.selected {
     background: var(--col-purple) !important;
     border-color: var(--col-purple) !important;
     border-top-color: #0369A1 !important;
@@ -1766,44 +1753,28 @@
 
   /* Primary buttons — orange on dark screens */
   #screen-details .btn-primary,
-  #screen-question .btn-primary,
-  #screen-barriers .btn-primary {
+  #screen-question .btn-primary {
     background: var(--col-gold) !important;
     box-shadow: 0 4px 20px rgba(212,175,55,0.35) !important;
   }
   #screen-details .btn-primary:hover,
-  #screen-question .btn-primary:hover,
-  #screen-barriers .btn-primary:hover {
+  #screen-question .btn-primary:hover {
     background: var(--col-gold-bright) !important;
     box-shadow: 0 6px 28px rgba(212,175,55,0.5) !important;
   }
 
   /* Back buttons — periwinkle on dark screens */
   #screen-details .back-btn,
-  #screen-question .back-btn,
-  #screen-barriers .back-btn {
+  #screen-question .back-btn {
     color: var(--col-soft-violet) !important;
   }
   #screen-details .back-btn:hover,
-  #screen-question .back-btn:hover,
-  #screen-barriers .back-btn:hover {
+  #screen-question .back-btn:hover {
     color: #ffffff !important;
   }
 
   /* Form labels — white on dark */
-  #screen-barriers .form-label { color: #ffffff !important; }
   #screen-question .form-label { color: #ffffff !important; }
-
-  /* Barriers note — subtle on dark */
-  .barriers-note {
-    background: rgba(255,255,255,0.05) !important;
-    border-left: 3px solid var(--col-soft-violet);
-    border-radius: 0 10px 10px 0 !important;
-    color: rgba(255,255,255,0.65) !important;
-  }
-
-  /* Barriers supporting text */
-  #screen-barriers p[style] { color: rgba(255,255,255,0.55) !important; }
 
   /* Followup box */
   .followup-box {
@@ -2655,54 +2626,6 @@
   </div>
 </div>
 
-<!-- ====== BARRIERS SCREEN ====== -->
-<div class="screen" id="screen-barriers">
-  <header class="ob-fixed-header">
-    <div class="dashed-divider">Fiskal Discovery</div>
-    <span class="q-module-name">Funding Finder</span>
-  </header>
-
-
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:90%"></div></div>
-    <div class="progress-label">Final question</div>
-  </div>
-  <div class="screen-content">
-    <h2 class="question-text">Do you have any concerns that might make accessing finance difficult?</h2>
-    <p style="font-size:13px;color:var(--light-text);margin-bottom:20px;font-weight:300;">For example: previous credit issues, HMRC arrears, a short trading history, or a past rejection.</p>
-    <div class="answer-options">
-      <button class="answer-btn" onclick="selectBarrier('yes')">
-        Yes, I have some concerns
-      </button>
-      <button class="answer-btn" onclick="selectBarrier('no')">
-        No, nothing I'm aware of
-      </button>
-    </div>
-    <div id="barrier-followup" style="display:none" class="barriers-followup">
-      <div class="form-group">
-        <label class="form-label">Brief details</label>
-        <textarea class="form-textarea" id="barrier-details" placeholder="No judgement here — just context to help us help you..."></textarea>
-      </div>
-      <div class="barriers-note">
-        "Many business owners believe funding is out of reach — bad credit, HMRC arrears, a short trading history, or a previous rejection. At Fiskal we pride ourselves on finding solutions even in the most challenging circumstances."
-      </div>
-    </div>
-    <button class="btn-primary" id="barriers-next" onclick="submitBarriers()" style="display:none;margin-top:20px">Submit My Discovery ›</button>
-    <p id="ff-privacy-notice" style="display:none;font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5">By submitting, you understand that your information will be handled in line with our <a href="https://www.fiskal.online/privacy-policy" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);text-decoration:underline">Privacy Policy</a>.</p>
-  </div>
-  <div class="q-fixed-footer">
-    <div class="q-footer-nav">
-      <button class="q-nav-btn" id="ff-back-btn" onclick="goBackBarriers()">‹ Back</button>
-      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" style="visibility:hidden">Skip ›</button>
-    </div>
-    <div class="q-footer-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest"> to stand still</span>
-    </div>
-  </div>
-</div>
-
 <!-- ====== LOADING SCREEN ====== -->
 <div class="screen" id="screen-loading">
   <header class="ob-fixed-header">
@@ -2983,8 +2906,6 @@ const state = {
   answers: {},
   flowAnswers: {},
   currentQuestion: 0,
-  barrier: '',
-  barrierDetails: '',
   industry: appState.profile.industry || '',
   turnover: appState.profile.annualTurnover || '',
   fundingAmount: appState.profile.fundingAmount || '',
@@ -3401,8 +3322,6 @@ function submitFlow() {
   state.assetNeed = state.flowAnswers.assetFinance || '';
   state.creditConcern = state.flowAnswers.creditConcern || '';
 
-  state.barrier = 'no';
-  state.barrierDetails = '';
   const _ffName1 = (state.name || '').trim().split(/\s+/)[0] || '';
   showFiskalLoadingScreen(_ffName1, generateResults);
 }
@@ -3483,36 +3402,8 @@ function startQuestionFlow() {
 
 
 
-function goBackBarriers() {
-  const visibleQuestions = getVisibleQuestions();
-  state.currentQuestion = visibleQuestions.length - 1;
-  renderFlowQuestion();
-  showScreen('question');
-}
 
 
-// ============================================================
-// BARRIERS
-// ============================================================
-function selectBarrier(value) {
-  state.barrier = value;
-  document.querySelectorAll('#screen-barriers .answer-btn').forEach(b => b.classList.remove('selected'));
-  event.currentTarget.classList.add('selected');
-
-  if (value === 'yes') {
-    document.getElementById('barrier-followup').style.display = 'block';
-  } else {
-    document.getElementById('barrier-followup').style.display = 'none';
-  }
-  document.getElementById('barriers-next').style.display = 'block';
-  document.getElementById('ff-privacy-notice').style.display = 'block';
-}
-
-function submitBarriers() {
-  state.barrierDetails = document.getElementById('barrier-details').value.trim();
-  const _ffName2 = (state.name || '').trim().split(/\s+/)[0] || '';
-  showFiskalLoadingScreen(_ffName2, generateResults);
-}
 
 // ============================================================
 // AI RESULTS GENERATION
