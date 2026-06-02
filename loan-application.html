@@ -616,7 +616,6 @@
   #screen-q9,
   #screen-q10,
   #screen-q11,
-  #screen-q12,
   #screen-loading,
   #screen-submission-loading {
     background: var(--col-bg);
@@ -634,8 +633,7 @@
   #screen-q8::before,
   #screen-q9::before,
   #screen-q10::before,
-  #screen-q11::before,
-  #screen-q12::before {
+  #screen-q11::before {
     content: '';
     position: fixed;
     inset: 0;
@@ -655,14 +653,12 @@
   #screen-q6 .progress-bar-wrap, #screen-q7 .progress-bar-wrap,
   #screen-q8 .progress-bar-wrap, #screen-q9 .progress-bar-wrap,
   #screen-q10 .progress-bar-wrap, #screen-q11 .progress-bar-wrap,
-  #screen-q12 .progress-bar-wrap,
   #screen-details .screen-content, #screen-q1 .screen-content,
   #screen-q2 .screen-content, #screen-q3 .screen-content,
   #screen-q4 .screen-content, #screen-q5 .screen-content,
   #screen-q6 .screen-content, #screen-q7 .screen-content,
   #screen-q8 .screen-content, #screen-q9 .screen-content,
   #screen-q10 .screen-content, #screen-q11 .screen-content,
-  #screen-q12 .screen-content,
   #screen-welcome .screen-content { position: relative; z-index: 1; justify-content: flex-start !important; padding-top: 24px !important; }
 
   #screen-welcome .dashed-divider,
@@ -671,8 +667,7 @@
   #screen-q4 .dashed-divider, #screen-q5 .dashed-divider,
   #screen-q6 .dashed-divider, #screen-q7 .dashed-divider,
   #screen-q8 .dashed-divider, #screen-q9 .dashed-divider,
-  #screen-q10 .dashed-divider, #screen-q11 .dashed-divider,
-  #screen-q12 .dashed-divider {
+  #screen-q10 .dashed-divider, #screen-q11 .dashed-divider {
     color: var(--col-soft-violet) !important;
   }
   #screen-welcome .dashed-divider::before, #screen-welcome .dashed-divider::after,
@@ -687,8 +682,7 @@
   #screen-q8 .dashed-divider::before, #screen-q8 .dashed-divider::after,
   #screen-q9 .dashed-divider::before, #screen-q9 .dashed-divider::after,
   #screen-q10 .dashed-divider::before, #screen-q10 .dashed-divider::after,
-  #screen-q11 .dashed-divider::before, #screen-q11 .dashed-divider::after,
-  #screen-q12 .dashed-divider::before, #screen-q12 .dashed-divider::after {
+  #screen-q11 .dashed-divider::before, #screen-q11 .dashed-divider::after {
     background: var(--col-soft-violet) !important;
     opacity: 0.4 !important;
   }
@@ -1029,7 +1023,7 @@
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:8%"></div></div><div class="progress-label">Question 1 of 12</div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:9%"></div></div><div class="progress-label">Question 1 of 11</div></div>
   <div class="screen-content">
     <h2 class="question-text">Which of these would you like to explore?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Select all that apply — the right type of funding could change everything.</p>
@@ -1065,7 +1059,7 @@
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:17%"></div></div><div class="progress-label">Question 2 of 12</div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:18%"></div></div><div class="progress-label">Question 2 of 11</div></div>
   <div class="screen-content">
     <h2 class="question-text">Which of these are you thinking of using the funds for?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Select all that apply — every goal is worth pursuing.</p>
@@ -1105,7 +1099,7 @@
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:25%"></div></div><div class="progress-label">Question 3 of 12</div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:27%"></div></div><div class="progress-label">Question 3 of 11</div></div>
   <div class="screen-content">
     <h2 class="question-text">How much are you looking to borrow?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Whatever the number, there's likely a way to make it work.</p>
@@ -1139,7 +1133,7 @@
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:33%"></div></div><div class="progress-label">Question 4 of 12</div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:36%"></div></div><div class="progress-label">Question 4 of 11</div></div>
   <div class="screen-content">
     <h2 class="question-text">How long would you like to repay over?</h2>
     <p class="question-sub" style="color:var(--col-gold)">The right repayment plan means funding that works for your business, not against it.</p>
@@ -1170,7 +1164,7 @@
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:42%"></div></div><div class="progress-label">Question 5 of 12</div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:45%"></div></div><div class="progress-label">Question 5 of 11</div></div>
   <div class="screen-content">
     <h2 class="question-text">Do you have any security to offer?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Security can unlock better rates and bigger amounts — but it's not the only way in.</p>
@@ -1201,7 +1195,7 @@
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:50%"></div></div><div class="progress-label">Question 6 of 12</div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:55%"></div></div><div class="progress-label">Question 6 of 11</div></div>
   <div class="screen-content">
     <h2 class="question-text">How would you describe your business credit history?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Whatever your history, there's a lender out there who will look at the full picture.</p>
@@ -1235,7 +1229,7 @@
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:58%"></div></div><div class="progress-label">Question 7 of 12</div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:64%"></div></div><div class="progress-label">Question 7 of 11</div></div>
   <div class="screen-content">
     <h2 class="question-text">How long has your business been trading?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Every established business started somewhere — and there are lenders who back ambition at every stage.</p>
@@ -1264,7 +1258,7 @@
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:67%"></div></div><div class="progress-label">Question 8 of 12</div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:73%"></div></div><div class="progress-label">Question 8 of 11</div></div>
   <div class="screen-content">
     <h2 class="question-text">What is your approximate monthly turnover?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Turnover is just a starting point — what you do with the right funding is what really matters.</p>
@@ -1296,7 +1290,7 @@
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:75%"></div></div><div class="progress-label">Question 9 of 12</div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:82%"></div></div><div class="progress-label">Question 9 of 11</div></div>
   <div class="screen-content">
     <h2 class="question-text">Do you have any existing loans or finance in place?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Existing finance doesn't close doors — the right structure can open new ones.</p>
@@ -1326,7 +1320,7 @@
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:83%"></div></div><div class="progress-label">Question 10 of 12</div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:91%"></div></div><div class="progress-label">Question 10 of 11</div></div>
   <div class="screen-content">
     <h2 class="question-text">How quickly do you need the funding?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Whether you need funding tomorrow or you're planning your next big move — the right timing makes all the difference.</p>
@@ -1349,41 +1343,17 @@
   </div>
 </div>
 
-<!-- Q11: Additional Notes -->
-<!-- Q11: Documents -->
+<!-- Q11: Additional notes -->
 <div class="screen" id="screen-q11">
   <header class="ob-fixed-header">
     <div class="dashed-divider">Fiskal Discovery</div>
     <span class="q-module-name">Loan Enquiry</span>
   </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:92%"></div></div><div class="progress-label">Question 11 of 12</div></div>
-  <div class="screen-content">
-    <h2 class="question-text">Almost there — one last question</h2>
-    <p class="question-sub" style="color:var(--col-gold)">Got documents that might help? Email them anytime to nicole@fiskal.co.uk.</p>
-    <button class="btn-primary" onclick="showScreen('screen-q12')" style="margin-top:20px;width:100%">Continue</button>
-  </div>
-  <div class="q-fixed-footer">
-    <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-q10')">‹ Back</button>
-      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-    </div>
-    <div class="q-footer-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest"> to stand still</span>
-    </div>
-  </div>
-</div>
-
-<!-- Q12: Additional notes -->
-<div class="screen" id="screen-q12">
-  <header class="ob-fixed-header">
-    <div class="dashed-divider">Fiskal Discovery</div>
-    <span class="q-module-name">Loan Enquiry</span>
-  </header>
-  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div><div class="progress-label">Question 12 of 12</div></div>
+  <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div><div class="progress-label">Question 11 of 11</div></div>
   <div class="screen-content">
     <h2 class="question-text">Is there anything else you'd like us to know?</h2>
     <p class="question-sub" style="color:var(--col-gold)">Nothing is too big or too small — Nicole reads every word personally.</p>
+    <p class="question-sub" style="color:var(--col-gold);margin-top:8px">Got documents that might help? Email them anytime to nicole@fiskal.co.uk.</p>
     <div class="form-group">
       <textarea class="form-textarea" id="additional-notes" placeholder="Tell us anything that might help — the more context the better" style="height:120px"></textarea>
     </div>
@@ -1392,7 +1362,7 @@
   </div>
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-q11')">‹ Back</button>
+      <button class="q-nav-btn" onclick="showScreen('screen-q10')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
     <div class="q-footer-tagline">
@@ -1506,7 +1476,7 @@
   </div>
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-q12')">‹ Back</button>
+      <button class="q-nav-btn" onclick="showScreen('screen-q11')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
     <div class="q-footer-tagline">
@@ -2150,7 +2120,7 @@ function selectUrgency(value, btn) {
   document.querySelectorAll('#q10-opts .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   lockOpts('q10-opts', 280);
-  setTimeout(() => showScreen('screen-q11'), 280); // q11 is now documents
+  setTimeout(() => showScreen('screen-q11'), 280);
 }
 
 // ============================================================
@@ -3093,7 +3063,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-q9,
   #screen-q10,
   #screen-q11,
-  #screen-q12,
   #screen-loading {
     background: var(--col-bg);
   }
@@ -3111,7 +3080,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-q9::before,
   #screen-q10::before,
   #screen-q11::before,
-  #screen-q12::before,
   #screen-loading::before {
     content: '';
     position: fixed;
@@ -3139,7 +3107,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-q9 .ob-fixed-header,
   #screen-q10 .ob-fixed-header,
   #screen-q11 .ob-fixed-header,
-  #screen-q12 .ob-fixed-header,
   #screen-loading .ob-fixed-header,
   #screen-welcome .screen-content,
   #screen-details .screen-content,
@@ -3154,7 +3121,6 @@ async function sendClientSummaryEmail(summary) {
   #screen-q9 .screen-content,
   #screen-q10 .screen-content,
   #screen-q11 .screen-content,
-  #screen-q12 .screen-content,
   #screen-loading .screen-content,
   #screen-welcome .nav-row,
   #screen-details .nav-row,
@@ -3168,8 +3134,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-q8 .nav-row,
   #screen-q9 .nav-row,
   #screen-q10 .nav-row,
-  #screen-q11 .nav-row,
-  #screen-q12 .nav-row { position: relative; z-index: 1; }
+  #screen-q11 .nav-row { position: relative; z-index: 1; }
 
   /* Welcome screen — typing intro styling */
   .typing-intro {
@@ -3294,8 +3259,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-q8 .answer-btn,
   #screen-q9 .answer-btn,
   #screen-q10 .answer-btn,
-  #screen-q11 .answer-btn,
-  #screen-q12 .answer-btn {
+  #screen-q11 .answer-btn {
     background: rgba(255,255,255,0.06) !important;
     border: 1.5px solid rgba(255,255,255,0.15) !important;
     color: #ffffff !important;
@@ -3312,8 +3276,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-q8 .answer-btn:hover,
   #screen-q9 .answer-btn:hover,
   #screen-q10 .answer-btn:hover,
-  #screen-q11 .answer-btn:hover,
-  #screen-q12 .answer-btn:hover { background: rgba(255,255,255,0.10) !important; }
+  #screen-q11 .answer-btn:hover { background: rgba(255,255,255,0.10) !important; }
   #screen-details .answer-btn.selected,
   #screen-q1 .answer-btn.selected,
   #screen-q2 .answer-btn.selected,
@@ -3325,8 +3288,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-q8 .answer-btn.selected,
   #screen-q9 .answer-btn.selected,
   #screen-q10 .answer-btn.selected,
-  #screen-q11 .answer-btn.selected,
-  #screen-q12 .answer-btn.selected {
+  #screen-q11 .answer-btn.selected {
     border-color: var(--col-soft-violet) !important;
     border-width: 2px !important;
     box-shadow: 0 0 0 3px rgba(192,96,208,0.25), 0 8px 28px rgba(142,126,216,0.3) !important;
@@ -3345,8 +3307,7 @@ async function sendClientSummaryEmail(summary) {
   #screen-q8 .back-btn,
   #screen-q9 .back-btn,
   #screen-q10 .back-btn,
-  #screen-q11 .back-btn,
-  #screen-q12 .back-btn {
+  #screen-q11 .back-btn {
     background: transparent !important;
     color: var(--col-soft-violet) !important;
     border: none !important;
