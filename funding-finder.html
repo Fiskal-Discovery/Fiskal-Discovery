@@ -3485,7 +3485,7 @@ async function generateResults() {
 function getMatchedProducts() {
   const solid = [];
   const soft  = [];
-  const addSolid = k => { if (!solid.includes(k)) solid.push(k); };
+  const addSolid = k => { if (!solid.includes(k)) solid.push(k); const si = soft.indexOf(k); if (si !== -1) soft.splice(si, 1); };
   const addSoft  = k => { if (!solid.includes(k) && !soft.includes(k)) soft.push(k); };
   const fa = state.flowAnswers || {};
 
