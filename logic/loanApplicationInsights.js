@@ -109,8 +109,8 @@ function getCreditHistoryInsight(creditHistory) {
     return "You've mentioned CCJs or defaults, so it is important to be realistic. Some lenders may be cautious, and rates may be higher than they would be for a clean-credit application. However, this does not automatically mean funding is impossible. Fiskal regularly comes across businesses with historic challenges, and there may still be flexible lenders prepared to look at the full picture.";
   }
 
-  if (value.includes("not sure") || value.includes("unsure")) {
-    return "If you're not completely sure about the business credit history, that is okay. The important thing is to check the position early, because credit profile can affect lender choice, rates and how the application should be packaged.";
+  if (value === 'not-sure' || value.includes("not sure") || value.includes("unsure")) {
+    return "To give you a more accurate assessment, we may need to know a little more about your credit history — Nicole can talk this through with you.";
   }
 
   return "";

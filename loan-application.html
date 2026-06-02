@@ -1204,12 +1204,8 @@
       <button class="answer-btn" onclick="selectCredit('mostly-clean', this)">Mostly clean — one or two minor issues</button>
       <button class="answer-btn" onclick="selectCredit('some-issues', this)">Some issues — CCJs, defaults or missed payments</button>
       <button class="answer-btn" onclick="selectCredit('significant-issues', this)">Significant issues — including insolvency or HMRC debt</button>
-      <div id="q6-notsure-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;grid-column:1/-1" onclick="toggleCreditNote()">
-        <span id="q6-notsure-label">I'm not sure / I'd rather not say</span>
-        <input type="text" id="credit-note" placeholder="Tell us a little more if you're comfortable — the more we know the better we can help" style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0" oninput="updateQ6Continue()" onclick="event.stopPropagation()">
-      </div>
+      <button class="answer-btn" style="grid-column:1/-1" onclick="selectCredit('not-sure', this)">I'm not sure / I'd rather not say</button>
     </div>
-    <button class="btn-primary" id="q6-continue" onclick="saveCredit()" style="display:none;margin-top:14px;width:100%">Continue</button>
   </div>
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
@@ -2005,34 +2001,8 @@ function selectCredit(value, btn) {
   state.credit = value;
   document.querySelectorAll('#q6-opts .answer-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  document.getElementById('credit-note').style.display = 'none';
-  document.getElementById('q6-notsure-label').style.display = '';
-  document.getElementById('q6-continue').style.display = 'none';
   lockOpts('q6-opts', 280);
   setTimeout(() => showScreen('screen-q7'), 280);
-}
-
-function toggleCreditNote() {
-  state.credit = 'not-sure';
-  document.querySelectorAll('#q6-opts .answer-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('q6-notsure-slot').classList.add('selected');
-  document.getElementById('q6-notsure-label').style.display = 'none';
-  const input = document.getElementById('credit-note');
-  input.style.display = 'block';
-  input.focus();
-  updateQ6Continue();
-}
-
-function updateQ6Continue() {
-  const val = document.getElementById('credit-note').value.trim();
-  document.getElementById('q6-continue').style.display = val.length > 0 ? 'block' : 'none';
-}
-
-function saveCredit() {
-  if (state.credit === 'not-sure') {
-    state.creditNote = document.getElementById('credit-note').value.trim();
-  }
-  showScreen('screen-q7');
 }
 
 // ============================================================
@@ -2211,9 +2181,10 @@ function calculateIndicativeLending() {
   // Step 3 — Credit multiplier
   const cr = state.credit || '';
   let crMult = 0.75;
-  if      (cr === 'clean')             crMult = 1.5;
-  else if (cr === 'mostly-clean')      crMult = 1.25;
-  else if (cr === 'some-issues')       crMult = 0.75;
+  if      (cr === 'clean')              crMult = 1.5;
+  else if (cr === 'mostly-clean')       crMult = 1.25;
+  else if (cr === 'not-sure')           crMult = 0.9;
+  else if (cr === 'some-issues')        crMult = 0.75;
   else if (cr === 'significant-issues') crMult = 0.5;
 
   figure *= crMult;
@@ -2275,6 +2246,7 @@ function calculateTrafficLight() {
   else if (state.credit === 'mostly-clean')        score += 1;
   else if (state.credit === 'some-issues')         score -= 1;
   else if (state.credit === 'significant-issues')  score -= 2;
+  else if (state.credit === 'not-sure')            score -= 1;
 
   // Trading history Q7 (aligned to actual Q7 values)
   if      (state.tradingHistory === '5-plus-years')      score += 2;
