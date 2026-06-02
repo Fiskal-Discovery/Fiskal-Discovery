@@ -2794,8 +2794,7 @@ Marketing Consent: ${state.marketingConsent ? 'Yes' : 'No'}`;
   };
 
   try {
-    // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-    console.log('Notification (disabled):', templateParams);
+    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
   } catch (err) {
     console.error('Notification failed:', err);
   }
@@ -2823,7 +2822,7 @@ Turnover: ${state.turnover || 'Not provided'}`;
   };
 
   try {
-    // EMAILS DISABLED — emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
     console.log('Initial notification (disabled):', templateParams);
   } catch (err) {
     console.error('Initial notification failed:', err);
@@ -2857,11 +2856,12 @@ async function sendClientSummaryEmail(summary) {
     from_name: 'Fiskal Funding Solutions',
     name: firstName,
     business_name: state.business,
-    summary: summary
+    summary: summary,
+    calendly_link: 'https://calendly.com/nicole-fiskal/30min'
   };
-  
+
   try {
-    // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', clientTemplateParams);
+    await emailjs.send('service_vvqkwzn', 'template_CLIENT_SUMMARY', clientTemplateParams);
     return true;
   } catch (error) {
     console.error('Client summary email failed:', error);

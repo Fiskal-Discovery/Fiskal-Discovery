@@ -2580,8 +2580,8 @@
 // ============================================================
 // DEVELOPMENT MODE
 // ============================================================
-const DEV_MODE = true;
-const SEND_EMAILS = false;
+const DEV_MODE = false;
+const SEND_EMAILS = true;
 
 // ============================================================
 // APP STATE
@@ -3771,7 +3771,7 @@ async function sendContactStartNotification() {
     if (DEV_MODE || !SEND_EMAILS) {
       console.log("Email sending disabled during development", templateParams);
     } else {
-      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
       console.log('Contact-start notification sent successfully');
     }
   } catch (error) {
@@ -4189,7 +4189,7 @@ async function sendNotification(summary, matchedProducts) {
     if (DEV_MODE || !SEND_EMAILS) {
       console.log("Email sending disabled during development", templateParams);
     } else {
-      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
     }
   } catch (error) {
     console.error('Email notification failed:', error);
@@ -4204,14 +4204,15 @@ async function sendClientSummaryEmail(summary) {
     from_name: 'Fiskal Funding Solutions',
     name: firstName,
     business_name: state.business,
-    summary: summary
+    summary: summary,
+    calendly_link: 'https://calendly.com/nicole-fiskal/30min'
   };
-  
+
   try {
     if (DEV_MODE || !SEND_EMAILS) {
       console.log("Email sending disabled during development", clientTemplateParams);
     } else {
-      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', clientTemplateParams);
+      await emailjs.send('service_vvqkwzn', 'template_CLIENT_SUMMARY', clientTemplateParams);
       console.log('Client summary email sent successfully');
     }
     return true;

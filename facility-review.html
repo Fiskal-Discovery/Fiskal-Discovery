@@ -3533,6 +3533,7 @@ function displayOtherResults(summary) {
   if (_otherNicoleMsg) _otherNicoleMsg.textContent = `I've received your Finance Arrangement Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${state.business}.`;
   showScreen('screen-loading');
   sendOtherNotification(summary);
+  sendClientSummaryEmail(summary);
   loadNicolePhoto();
 }
 
@@ -3548,8 +3549,7 @@ async function sendOtherNotification(summary) {
     barriers: 'N/A',
     summary: summary
   };
-  // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-  try { } catch(e) { console.error(e); }
+  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 // ============================================================
@@ -3744,6 +3744,7 @@ async function submitAssetReview() {
       assetContinueBtn.style.display = remaining.length > 0 ? 'inline-block' : 'none';
     }
     sendAssetNotification(summary);
+    sendClientSummaryEmail(summary);
   });
 }
 
@@ -3759,8 +3760,7 @@ async function sendAssetNotification(summary) {
     barriers: state.assetBarrier === 'yes' ? state.assetBarrierDetails : 'N/A',
     summary: summary
   };
-  // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-  try { } catch(e) { console.error(e); }
+  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 async function submitTradeReview() {
@@ -3783,6 +3783,7 @@ async function submitTradeReview() {
       tradeContinueBtn.style.display = remaining.length > 0 ? 'inline-block' : 'none';
     }
     sendTradeNotification(summary);
+    sendClientSummaryEmail(summary);
   });
 }
 
@@ -3798,8 +3799,7 @@ async function sendTradeNotification(summary) {
     barriers: state.tradeBarrier === 'yes' ? state.tradeBarrierDetails : 'N/A',
     summary: summary
   };
-  // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-  try { } catch(e) { console.error(e); }
+  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 function saveIFPathA() {
@@ -4671,6 +4671,7 @@ function displayResults(summary) {
   updateResultsButtons();
 
   sendNotification(summary);
+  sendClientSummaryEmail(summary);
 
   // Save results for refresh-safe restore
   try {
@@ -4794,7 +4795,7 @@ async function sendInitialInfoNotification() {
   };
 
   try {
-    // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
     sessionStorage.setItem(key, "true");
   } catch(e) {
     console.error(e);
@@ -4900,7 +4901,7 @@ async function sendNotification(summary) {
   };
 
   try {
-    // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+    await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
   } catch(e) {
     console.error('Email failed:', e);
   }
@@ -4966,6 +4967,7 @@ async function submitLoanReview() {
   showFiskalLoadingScreen(_frLoan1, async () => {
     const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
     sendLoanNotification(summary);
+    sendClientSummaryEmail(summary);
     displayResults(summary);
   });
 }
@@ -4982,8 +4984,7 @@ async function sendLoanNotification(summary) {
     barriers: state.loanBarrier === 'yes' ? state.loanBarrierDetails : 'N/A',
     summary: summary
   };
-  // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-  try { } catch(e) { console.error(e); }
+  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
 
@@ -5083,6 +5084,7 @@ function submitFXReview() {
     document.getElementById('fx-results-name').textContent = `Here's what we found for you, ${firstName}`;
     const summary = `Thank you for completing your FX Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current FX arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
     sendFXNotification(summary);
+    sendClientSummaryEmail(summary);
     document.getElementById('fx-ai-summary').innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
     document.getElementById('fx-nicole-message').textContent = `I've received your FX Review, ${firstName}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
     showScreen('screen-fx-loading');
@@ -5107,10 +5109,29 @@ async function sendFXNotification(summary) {
     barriers: 'N/A',
     summary: summary
   };
-  // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
-  try { } catch(e) { console.error(e); }
+  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
 }
 
+async function sendClientSummaryEmail(summary) {
+  if (!state.email) return;
+  const firstName = state.name ? state.name.split(' ')[0] : 'there';
+  const clientTemplateParams = {
+    to_email: state.email,
+    subject: `Your Fiskal Discovery Summary — ${state.business}`,
+    from_name: 'Fiskal Funding Solutions',
+    name: firstName,
+    business_name: state.business,
+    summary: summary,
+    calendly_link: 'https://calendly.com/nicole-fiskal/30min'
+  };
+  try {
+    if (typeof emailjs !== 'undefined') {
+      await emailjs.send('service_vvqkwzn', 'template_CLIENT_SUMMARY', clientTemplateParams);
+    }
+  } catch (error) {
+    console.error('Client summary email failed:', error);
+  }
+}
 
 // ---- Load profile from onboarding ----
 (function() {

@@ -2792,7 +2792,7 @@ async function sendNotification() {
 
   try {
     if (typeof emailjs !== 'undefined') {
-      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
     } else {
       console.warn('EmailJS not loaded — notification skipped');
     }
@@ -2810,12 +2810,13 @@ async function sendClientSummaryEmail(summary) {
     from_name: 'Fiskal Funding Solutions',
     name: firstName,
     business_name: contact.business,
-    summary: summary
+    summary: summary,
+    calendly_link: 'https://calendly.com/nicole-fiskal/30min'
   };
-  
+
   try {
     if (typeof emailjs !== 'undefined') {
-      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', clientTemplateParams);
+      await emailjs.send('service_vvqkwzn', 'template_CLIENT_SUMMARY', clientTemplateParams);
       return true;
     } else {
       console.warn('EmailJS not loaded — client email skipped');

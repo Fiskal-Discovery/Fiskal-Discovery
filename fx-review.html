@@ -968,10 +968,12 @@ CRITICAL RULES: No specific provider names. Warm and personal. If they use their
     const summary = data.content?.[0]?.text || `Thank you for completing your FX Review, ${state.name}. There are some interesting questions worth exploring around what you're currently paying on foreign currency transactions. Nicole will be in touch within a few hours to talk through your options.`;
     displayResults(summary);
     sendNotification(summary);
+    sendClientSummaryEmail(summary);
   } catch(e) {
     const summary = `Thank you for completing your FX Review, ${state.name}. Nicole will review your details and be in touch within a few hours to explore what savings might be possible for ${state.business}.`;
     displayResults(summary);
     sendNotification(summary);
+    sendClientSummaryEmail(summary);
   }
 }
 
@@ -1007,7 +1009,28 @@ async function sendNotification(summary) {
     barriers: 'N/A',
     summary: summary
   };
-  try { // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+  try { await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams); } catch(e) { console.error(e); }
+}
+
+async function sendClientSummaryEmail(summary) {
+  if (!state.email) return;
+  const firstName = state.name ? state.name.split(' ')[0] : 'there';
+  const clientTemplateParams = {
+    to_email: state.email,
+    subject: `Your Fiskal FX Review Summary — ${state.business}`,
+    from_name: 'Fiskal Funding Solutions',
+    name: firstName,
+    business_name: state.business,
+    summary: summary,
+    calendly_link: 'https://calendly.com/nicole-fiskal/30min'
+  };
+  try {
+    if (typeof emailjs !== 'undefined') {
+      await emailjs.send('service_vvqkwzn', 'template_CLIENT_SUMMARY', clientTemplateParams);
+    }
+  } catch (error) {
+    console.error('Client summary email failed:', error);
+  }
 }
 
 // ---- Load profile from onboarding ----

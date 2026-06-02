@@ -2815,7 +2815,7 @@
 // DEVELOPMENT MODE
 // ============================================================
 const DEV_MODE = false;
-const SEND_EMAILS = false;
+const SEND_EMAILS = true;
 
 // ============================================================
 // APP STATE
@@ -3803,6 +3803,7 @@ function displayResults(summary, matchedProducts) {
   }
   
   sendNotification(summary.summaryText || summary.summaryHtml, matchedProducts);
+  sendClientSummaryEmail(summary.summaryText || summary.summaryHtml);
 }
 
 // ============================================================
@@ -3838,7 +3839,7 @@ async function sendNotification(summary, matchedProducts) {
 
   try {
     if (!(DEV_MODE || !SEND_EMAILS)) {
-      // EMAILS DISABLED — await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
+      await emailjs.send('service_vvqkwzn', 'template_5uc5ida', templateParams);
     }
   } catch (error) {
     console.error('Email notification failed:', error);
@@ -3889,6 +3890,27 @@ async function emailSummaryToUser() {
     feedback.style.color = 'var(--col-gold-bright)';
     feedback.style.display = 'block';
     console.error('Email failed:', err);
+  }
+}
+
+async function sendClientSummaryEmail(summary) {
+  if (!state.email) return;
+  const firstName = state.name ? state.name.split(' ')[0] : 'there';
+  const clientTemplateParams = {
+    to_email: state.email,
+    subject: `Your Fiskal Discovery Summary — ${state.business}`,
+    from_name: 'Fiskal Funding Solutions',
+    name: firstName,
+    business_name: state.business,
+    summary: summary,
+    calendly_link: 'https://calendly.com/nicole-fiskal/30min'
+  };
+  try {
+    if (typeof emailjs !== 'undefined') {
+      await emailjs.send('service_vvqkwzn', 'template_CLIENT_SUMMARY', clientTemplateParams);
+    }
+  } catch (error) {
+    console.error('Client summary email failed:', error);
   }
 }
 
