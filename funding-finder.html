@@ -2687,6 +2687,7 @@
       </div>
     </div>
     <button class="btn-primary" id="barriers-next" onclick="submitBarriers()" style="display:none;margin-top:20px">Submit My Discovery ›</button>
+    <p id="ff-privacy-notice" style="display:none;font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5">By submitting, you understand that your information will be handled in line with our <a href="https://www.fiskal.online/privacy-policy" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);text-decoration:underline">Privacy Policy</a>.</p>
   </div>
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
@@ -3503,6 +3504,7 @@ function selectBarrier(value) {
     document.getElementById('barrier-followup').style.display = 'none';
   }
   document.getElementById('barriers-next').style.display = 'block';
+  document.getElementById('ff-privacy-notice').style.display = 'block';
 }
 
 function submitBarriers() {

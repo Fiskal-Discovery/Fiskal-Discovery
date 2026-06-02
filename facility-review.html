@@ -1507,6 +1507,7 @@
       <div class="info-box">"Many businesses worry about being tied into long contracts or upsetting their current lender. Nicole will talk through all of this with you — there's no obligation and everything is treated in complete confidence."</div>
     </div>
     <button class="btn-primary" id="barriers-submit-btn" onclick="submitReview()" style="display:none;margin-top:16px">Submit My Discovery</button>
+    <p id="barriers-privacy-notice" style="display:none;font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5">By submitting, you understand that your information will be handled in line with our <a href="https://www.fiskal.online/privacy-policy" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);text-decoration:underline">Privacy Policy</a>.</p>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -1809,6 +1810,7 @@
       </div>
     </div>
     <button class="btn-primary" id="loan-barriers-submit" onclick="submitLoanReview()" style="display:none;margin-top:16px">Submit My Discovery</button>
+    <p id="loan-barriers-privacy-notice" style="display:none;font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5">By submitting, you understand that your information will be handled in line with our <a href="https://www.fiskal.online/privacy-policy" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);text-decoration:underline">Privacy Policy</a>.</p>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2101,6 +2103,7 @@
       <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Just want to know what I am currently paying')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> What am I paying now?</button>
     </div>
     <button class="btn-primary" onclick="submitFXReview()" style="margin-top:8px">Submit My Discovery</button>
+    <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5">By submitting, you understand that your information will be handled in line with our <a href="https://www.fiskal.online/privacy-policy" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);text-decoration:underline">Privacy Policy</a>.</p>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2388,6 +2391,7 @@
       </div>
     </div>
     <button class="btn-primary" id="asset-barriers-submit" onclick="submitAssetReview()" style="display:none;margin-top:16px">Submit My Discovery</button>
+    <p id="asset-barriers-privacy-notice" style="display:none;font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5">By submitting, you understand that your information will be handled in line with our <a href="https://www.fiskal.online/privacy-policy" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);text-decoration:underline">Privacy Policy</a>.</p>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2659,6 +2663,7 @@
       </div>
     </div>
     <button class="btn-primary" id="trade-barriers-submit" onclick="submitTradeReview()" style="display:none;margin-top:16px">Submit My Discovery</button>
+    <p id="trade-barriers-privacy-notice" style="display:none;font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5">By submitting, you understand that your information will be handled in line with our <a href="https://www.fiskal.online/privacy-policy" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);text-decoration:underline">Privacy Policy</a>.</p>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2795,6 +2800,7 @@
       <input type="text" class="form-input" id="other-provider" placeholder="e.g. lender, provider, supplier, investor">
     </div>
     <button class="btn-primary" onclick="submitOtherReview()">Submit My Discovery</button>
+    <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5">By submitting, you understand that your information will be handled in line with our <a href="https://www.fiskal.online/privacy-policy" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);text-decoration:underline">Privacy Policy</a>.</p>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -3449,6 +3455,7 @@ function selectTradeBarrier(value, btn) {
   btn.classList.add('selected');
   document.getElementById('trade-barrier-detail').style.display = value === 'yes' ? 'block' : 'none';
   document.getElementById('trade-barriers-submit').style.display = 'block';
+  document.getElementById('trade-barriers-privacy-notice').style.display = 'block';
 }
 
 // ============================================================
@@ -3534,6 +3541,7 @@ function selectAssetBarrier(value, btn) {
   btn.classList.add('selected');
   document.getElementById('asset-barrier-detail').style.display = value === 'yes' ? 'block' : 'none';
   document.getElementById('asset-barriers-submit').style.display = 'block';
+  document.getElementById('asset-barriers-privacy-notice').style.display = 'block';
 }
 
 async function submitAssetReview() {
@@ -3670,6 +3678,7 @@ function selectBarrier(value, btn) {
   btn.classList.add('selected');
   document.getElementById('barrier-detail-section').style.display = value === 'yes' ? 'block' : 'none';
   document.getElementById('barriers-submit-btn').style.display = 'block';
+  document.getElementById('barriers-privacy-notice').style.display = 'block';
 }
 // ============================================================
 // FACILITY REVIEW SUMMARY ENGINE
@@ -4755,6 +4764,7 @@ function selectLoanBarrier(value, btn) {
   btn.classList.add('selected');
   document.getElementById('loan-barrier-detail').style.display = value === 'yes' ? 'block' : 'none';
   document.getElementById('loan-barriers-submit').style.display = 'block';
+  document.getElementById('loan-barriers-privacy-notice').style.display = 'block';
 }
 
 async function submitLoanReview() {
