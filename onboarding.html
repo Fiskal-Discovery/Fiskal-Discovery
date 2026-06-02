@@ -4200,19 +4200,15 @@ async function sendClientSummaryEmail(summary) {
   const firstName = state.name.split(' ')[0];
   const clientTemplateParams = {
     to_email: state.email,
-    subject: `Your Fiskal Discovery Summary — ${state.business}`,
-    from_name: 'Fiskal Funding Solutions',
     name: firstName,
-    business_name: state.business,
-    summary: summary,
-    calendly_link: 'https://calendly.com/nicole-fiskal/30min'
+    summary: summary
   };
 
   try {
     if (DEV_MODE || !SEND_EMAILS) {
       console.log("Email sending disabled during development", clientTemplateParams);
     } else {
-      await emailjs.send('service_vvqkwzn', 'template_CLIENT_SUMMARY', clientTemplateParams);
+      await emailjs.send('service_vvqkwzn', 'template_j3x4o5a', clientTemplateParams);
       console.log('Client summary email sent successfully');
     }
     return true;

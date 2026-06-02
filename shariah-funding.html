@@ -2806,17 +2806,13 @@ async function sendClientSummaryEmail(summary) {
   const firstName = contact.name.split(' ')[0];
   const clientTemplateParams = {
     to_email: contact.email,
-    subject: `Your Fiskal Discovery Summary — ${contact.business}`,
-    from_name: 'Fiskal Funding Solutions',
     name: firstName,
-    business_name: contact.business,
-    summary: summary,
-    calendly_link: 'https://calendly.com/nicole-fiskal/30min'
+    summary: summary
   };
 
   try {
     if (typeof emailjs !== 'undefined') {
-      await emailjs.send('service_vvqkwzn', 'template_CLIENT_SUMMARY', clientTemplateParams);
+      await emailjs.send('service_vvqkwzn', 'template_j3x4o5a', clientTemplateParams);
       return true;
     } else {
       console.warn('EmailJS not loaded — client email skipped');

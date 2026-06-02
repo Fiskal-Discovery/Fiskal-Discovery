@@ -1017,16 +1017,12 @@ async function sendClientSummaryEmail(summary) {
   const firstName = state.name ? state.name.split(' ')[0] : 'there';
   const clientTemplateParams = {
     to_email: state.email,
-    subject: `Your Fiskal FX Review Summary — ${state.business}`,
-    from_name: 'Fiskal Funding Solutions',
     name: firstName,
-    business_name: state.business,
-    summary: summary,
-    calendly_link: 'https://calendly.com/nicole-fiskal/30min'
+    summary: summary
   };
   try {
     if (typeof emailjs !== 'undefined') {
-      await emailjs.send('service_vvqkwzn', 'template_CLIENT_SUMMARY', clientTemplateParams);
+      await emailjs.send('service_vvqkwzn', 'template_j3x4o5a', clientTemplateParams);
     }
   } catch (error) {
     console.error('Client summary email failed:', error);
