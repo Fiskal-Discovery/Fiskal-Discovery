@@ -145,7 +145,7 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
 #intro-cin{padding:16px 12px!important}
 .ic-panel{gap:6px!important}
 .lc-title{font-size:.95rem!important}
-#intro-cin .cin-content,#larry-cin .cin-content{padding-top:clamp(70px,14vh,110px)!important;justify-content:flex-start!important}
+#intro-cin .cin-content,#larry-cin .cin-content{padding-top:clamp(44px,8vh,72px)!important;padding-bottom:clamp(12px,3vh,24px)!important;justify-content:safe center!important;overflow-y:auto!important}
 #ic-top-banner,#lc-top-banner{top:clamp(10px,2vh,22px)!important}
 .lc-body{font-size:.88rem!important}
 #wco-title{font-size:1.35rem!important}
@@ -214,7 +214,7 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
   .go-secondary:hover { background: rgba(255,230,0,.08) !important; color: #FFE600 !important; }
   #gameover-screen { padding: 0; justify-content: stretch; align-items: stretch; flex-direction: column; overflow: hidden; }
   #gameover-screen.active { position: fixed; inset: 0; display: flex; }
-  #gameover-screen .cin-content { padding: clamp(20px,4vh,40px) 16px 16px; overflow-y: auto; }
+  #gameover-screen .cin-content { padding: clamp(20px,4vh,40px) 16px 16px; overflow-y: auto; justify-content: safe center; }
 </style>
 
 <!-- ================= FAVICON ================= -->
@@ -2205,7 +2205,7 @@ table tr:nth-child(even) td{background:#fafbff}
 <style>
 #victory-screen{display:none;position:fixed;inset:0;z-index:800;background:radial-gradient(ellipse at center,#07001a 0%,#000 100%);overflow:hidden;flex-direction:column;align-items:stretch;justify-content:stretch}
 #victory-screen.active{display:flex}
-#victory-screen .cin-content{padding:clamp(24px,5vh,60px) 20px 20px;position:relative;z-index:5}
+#victory-screen .cin-content{padding:clamp(24px,5vh,60px) 20px 20px;position:relative;z-index:5;justify-content:safe center;overflow-y:auto}
 #victory-confetti{position:fixed;inset:0;pointer-events:none;z-index:1}
 /* Panels */
 .vcin-panel{display:none;flex-direction:column;align-items:center;justify-content:center;padding:0;text-align:center;width:100%;max-width:720px}
