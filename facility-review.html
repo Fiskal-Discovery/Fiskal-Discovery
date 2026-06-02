@@ -1144,7 +1144,7 @@
     <div class="typing-intro">
       <div class="intro-content">
         <div class="typing-text" id="facility-intro-text"></div>
-        <button class="btn-primary" id="facility-start-btn" onclick="showScreen('screen-facility-type')" style="display:none">Start My Facility Review Discovery ›</button>
+        <button class="btn-primary" id="facility-start-btn" onclick="startFacilityReview()" style="display:none">Start My Facility Review Discovery ›</button>
       </div>
     </div>
   </div>
@@ -1161,46 +1161,6 @@
   </div>
 </div>
 
-<!-- ====== FACILITY TYPE ====== -->
-<div class="screen" id="screen-facility-type">
-  <header class="ob-fixed-header">
-    <div class="dashed-divider">Fiskal Discovery</div>
-    <span class="q-module-name">Facility Review</span>
-  </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:50%"></div></div>
-    <div class="progress-label">Step 1 of 2</div>
-  </div>
-  <div class="screen-content">
-        <div class="question-product">Your current facility</div>
-    <h2 class="question-text">What type of finance do you currently have in place?</h2>
-    <p class="question-sub">Select all that apply.</p>
-    <div class="checkbox-options two-col" id="facility-type-options">
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'invoice')">Invoice Finance</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'loan')">Business Loan / MCA</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'fx')">Foreign Currency / FX</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'asset')">Asset Finance</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'facilityTypes', 'trade')">Trade Finance</button>
-      <button class="checkbox-btn" id="facility-other-btn" onclick="toggleFacilityOther(this)">Other</button>
-    </div>
-    <div id="facility-other-wrap" style="display:none;margin-top:4px">
-      <input type="text" id="facility-other-input" class="form-input" placeholder="Please describe your finance type…" oninput="state.facilityOther=this.value" style="width:100%">
-    </div>
-    <button class="btn-primary" onclick="goToReviewSelection()">Continue →</button>
-    </div>
-  <div class="q-fixed-footer">
-    <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
-      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-    <div class="q-footer-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest"> to stand still</span>
-    </div>
-  </div>
-</div>
-
 <!-- ====== REVIEW SELECTION ====== -->
 <div class="screen" id="screen-review-selection">
   <header class="ob-fixed-header">
@@ -1208,12 +1168,12 @@
     <span class="q-module-name">Facility Review</span>
   </header>
   <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
-    <div class="progress-label">Step 2 of 2</div>
+    <div class="progress-track"><div class="progress-fill" style="width:20%"></div></div>
+    <div class="progress-label">Step 1</div>
   </div>
   <div class="screen-content">
         <div class="question-product">Your current facility</div>
-    <h2 class="question-text">Which would you like to review?</h2>
+    <h2 class="question-text">What would you like to review?</h2>
     <p class="question-sub">Select one to start your review.</p>
     <div class="answer-options two-col" id="review-selection-options">
     </div>
@@ -1221,7 +1181,7 @@
   <div class="screen-footer">
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-facility-type')">‹ Back</button>
+      <button class="q-nav-btn" onclick="showScreen('screen-welcome')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -1256,7 +1216,7 @@
   <div class="screen-footer">
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-facility-type')">‹ Back</button>
+      <button class="q-nav-btn" onclick="showScreen('screen-review-selection')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -1587,7 +1547,7 @@
   <div class="screen-footer">
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-facility-type')">‹ Back</button>
+      <button class="q-nav-btn" onclick="showScreen('screen-review-selection')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -1891,7 +1851,7 @@
   <div class="screen-footer">
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-facility-type')">‹ Back</button>
+      <button class="q-nav-btn" onclick="showScreen('screen-review-selection')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -2181,7 +2141,7 @@
   <div class="screen-footer">
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-facility-type')">‹ Back</button>
+      <button class="q-nav-btn" onclick="showScreen('screen-review-selection')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -2525,7 +2485,7 @@
   <div class="screen-footer">
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-facility-type')">‹ Back</button>
+      <button class="q-nav-btn" onclick="showScreen('screen-review-selection')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -2737,7 +2697,7 @@
   <div class="screen-footer">
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-facility-type')">‹ Back</button>
+      <button class="q-nav-btn" onclick="showScreen('screen-review-selection')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -3296,29 +3256,23 @@ function showScreen(id) {
 // ============================================================
 // FACILITY TYPE
 // ============================================================
-function goToReviewSelection() {
-  if (!state.facilityTypes || state.facilityTypes.length === 0) {
-    alert('Please select at least one facility type');
-    return;
-  }
-  
-  // Track selected facility types for multi-review flow
-  state.selectedFacilityTypes = [...state.facilityTypes];
-  
+function startFacilityReview() {
   sendInitialInfoNotification();
-  
-  // If only one facility type selected, skip chooser screen and start review directly
-  if (state.facilityTypes.length === 1) {
-    selectReviewType(state.facilityTypes[0]);
-    return;
-  }
-  
-  // If multiple facility types selected, show chooser screen
-  showReviewSelection(state.facilityTypes);
+  showReviewSelection(['invoice', 'loan', 'fx', 'asset', 'trade', 'other']);
+}
+
+function goToReviewSelection() {
+  sendInitialInfoNotification();
+  showReviewSelection(['invoice', 'loan', 'fx', 'asset', 'trade', 'other']);
 }
 
 function selectReviewType(type) {
   state.selectedReviewType = type;
+  // Set facilityTypes so post-review "Continue" logic works correctly
+  if (!state.facilityTypes || state.facilityTypes.length === 0) {
+    state.facilityTypes = [type];
+    state.selectedFacilityTypes = [type];
+  }
   if (type === 'invoice') showScreen('screen-if-lender');
   else if (type === 'loan') showScreen('screen-loan-lender');
   else if (type === 'fx') showScreen('screen-fx-provider');
