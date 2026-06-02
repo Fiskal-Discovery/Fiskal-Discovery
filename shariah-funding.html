@@ -2559,7 +2559,12 @@ function displayResults() {
   });
 
   // Send client summary email
-  const summaryContent = summary.summaryHtml || '';
+  var _shSummaryEl = document.getElementById('ai-summary-text');
+  var _shInvoiceEl = document.getElementById('shariah-invoice-suggestion');
+  var summaryContent = _shSummaryEl ? _shSummaryEl.innerHTML : (summary.summaryHtml || '');
+  if (_shInvoiceEl && _shInvoiceEl.style.display !== 'none') {
+    summaryContent += '<br><br><strong>Also worth knowing</strong><br><br>' + _shInvoiceEl.innerHTML;
+  }
   sendClientSummaryEmail(summaryContent).then(success => {
     if (success) {
       // Add confirmation message
@@ -2639,10 +2644,14 @@ async function emailSummaryToUser() {
   btn.textContent = 'Sending...';
 
   const summaryEl = document.getElementById('ai-summary-text');
-  const summaryText = summaryEl ? summaryEl.innerText : '';
+  const invoiceEl = document.getElementById('shariah-invoice-suggestion');
+  let summaryHtml = summaryEl ? summaryEl.innerHTML : '';
+  if (invoiceEl && invoiceEl.style.display !== 'none') {
+    summaryHtml += '<br><br><strong>Also worth knowing</strong><br><br>' + invoiceEl.innerHTML;
+  }
 
   try {
-    await sendClientSummaryEmail(summaryText);
+    await sendClientSummaryEmail(summaryHtml);
     btn.textContent = 'Summary sent!';
     btn.style.background = 'linear-gradient(135deg, var(--col-deep-purple), var(--col-soft-violet))';
     btn.style.color = '#ffffff';

@@ -3346,13 +3346,14 @@ function submitOtherReview() {
 }
 
 function displayOtherResults(summary) {
-  document.getElementById('ai-summary-text').textContent = summary;
+  const _otherHtml = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
+  document.getElementById('ai-summary-text').innerHTML = _otherHtml;
   const firstName = state.name.split(' ')[0];
   const _otherNicoleMsg = document.getElementById('if-nicole-message');
   if (_otherNicoleMsg) _otherNicoleMsg.textContent = `I've received your Finance Arrangement Review, ${firstName}, and will be in touch personally within a few hours. Looking forward to exploring what's possible for ${state.business}.`;
   showScreen('screen-loading');
   sendOtherNotification(summary);
-  sendClientSummaryEmail(summary);
+  sendClientSummaryEmail(_otherHtml);
   loadNicolePhoto();
 }
 
@@ -3565,7 +3566,7 @@ async function submitAssetReview() {
       assetContinueBtn.style.display = remaining.length > 0 ? 'inline-block' : 'none';
     }
     sendAssetNotification(summary);
-    sendClientSummaryEmail(summary);
+    sendClientSummaryEmail('<p>' + summary + '</p>');
   });
 }
 
@@ -3604,7 +3605,7 @@ async function submitTradeReview() {
       tradeContinueBtn.style.display = remaining.length > 0 ? 'inline-block' : 'none';
     }
     sendTradeNotification(summary);
-    sendClientSummaryEmail(summary);
+    sendClientSummaryEmail('<p>' + summary + '</p>');
   });
 }
 
@@ -4481,7 +4482,7 @@ function displayResults(summary) {
   updateResultsButtons();
 
   sendNotification(summary);
-  sendClientSummaryEmail(summary);
+  sendClientSummaryEmail(summaryHtmlForStorage);
 
   // Save results for refresh-safe restore
   try {
@@ -4628,12 +4629,12 @@ async function emailSummaryToUser() {
   btn.textContent = 'Sending...';
 
   const summaryEl = document.getElementById('ai-summary-text');
-  const summaryText = summaryEl ? summaryEl.innerText : '';
+  const summaryHtml = summaryEl ? summaryEl.innerHTML : '';
   const firstName = (state.name || '').split(' ')[0];
   const business = state.business || state.company || '';
 
   try {
-    await sendClientSummaryEmail(summaryText);
+    await sendClientSummaryEmail(summaryHtml);
     btn.textContent = 'Summary sent!';
     btn.style.cssText = 'background:linear-gradient(135deg,var(--col-deep-purple),var(--col-soft-violet));color:#fff;border:none;padding:4px 12px;border-radius:999px;font-size:12px;cursor:default;';
     feedback.textContent = `We've sent your summary to ${email}`;
@@ -4768,7 +4769,6 @@ async function submitLoanReview() {
   showFiskalLoadingScreen(_frLoan1, async () => {
     const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
     sendLoanNotification(summary);
-    sendClientSummaryEmail(summary);
     displayResults(summary);
   });
 }
@@ -4879,8 +4879,9 @@ function submitFXReview() {
     document.getElementById('fx-results-name').textContent = `Here's what we found for you, ${firstName}`;
     const summary = `Thank you for completing your FX Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current FX arrangement. Nicole will be in touch within a few hours to talk through what's possible.`;
     sendFXNotification(summary);
-    sendClientSummaryEmail(summary);
-    document.getElementById('fx-ai-summary').innerHTML = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
+    const _fxHtml = summary.split('\n\n').map(p => `<p>${p}</p>`).join('');
+    sendClientSummaryEmail(_fxHtml);
+    document.getElementById('fx-ai-summary').innerHTML = _fxHtml;
     document.getElementById('fx-nicole-message').textContent = `I've received your FX Review, ${firstName}, and will be in touch personally within a few hours to discuss what's possible for ${state.business}.`;
     showScreen('screen-fx-loading');
     loadNicolePhoto();

@@ -2776,8 +2776,14 @@ async function emailSummaryToUser() {
   const feedback = document.getElementById('email-summary-feedback');
   if (btn) btn.style.display = 'none';
   const summaryText = document.getElementById('ai-summary-text');
-  const text = summaryText ? (summaryText.innerText || summaryText.textContent) : '';
-  const sent = await sendClientSummaryEmail(text);
+  let emailHtml = summaryText ? summaryText.innerHTML : '';
+  ['invoice-finance-suggestion', 'asset-finance-suggestion', 'trade-finance-suggestion'].forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el && el.style.display !== 'none') {
+      emailHtml += '<br><br>' + el.innerHTML;
+    }
+  });
+  const sent = await sendClientSummaryEmail(emailHtml);
   if (feedback) {
     feedback.style.display = 'block';
     feedback.style.color = sent ? 'rgba(255,255,255,0.6)' : 'rgba(239,68,68,0.8)';

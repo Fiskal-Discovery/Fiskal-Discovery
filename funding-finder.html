@@ -3806,7 +3806,20 @@ function displayResults(summary, matchedProducts) {
   }
   
   sendNotification(summary.summaryText || summary.summaryHtml, matchedProducts);
-  sendClientSummaryEmail(summary.summaryText || summary.summaryHtml);
+  (function() {
+    var _ffSummaryEl = document.getElementById('ai-summary-text');
+    var _ffSpecialEl = document.getElementById('special-messages-section');
+    var _ffHtml = _ffSummaryEl ? _ffSummaryEl.innerHTML : (summary.summaryHtml || summary.summaryText || '');
+    if (_ffSpecialEl) {
+      var _ffCards = _ffSpecialEl.querySelectorAll('.awk-card');
+      if (_ffCards.length) {
+        _ffHtml += '<br><br><strong>Also worth knowing</strong>';
+        _ffCards.forEach(function(c) { _ffHtml += '<br><br>' + c.innerHTML; });
+      }
+      _ffSpecialEl.querySelectorAll('.special-message-card').forEach(function(c) { _ffHtml += '<br><br>' + c.innerHTML; });
+    }
+    sendClientSummaryEmail(_ffHtml);
+  })();
 }
 
 // ============================================================
@@ -3868,10 +3881,19 @@ async function emailSummaryToUser() {
   btn.textContent = 'Sending...';
 
   const summaryEl = document.getElementById('ai-summary-text');
-  const summaryText = summaryEl ? summaryEl.innerText : '';
+  const specialEl = document.getElementById('special-messages-section');
+  let summaryHtml = summaryEl ? summaryEl.innerHTML : '';
+  if (specialEl) {
+    const awkCards = specialEl.querySelectorAll('.awk-card');
+    if (awkCards.length) {
+      summaryHtml += '<br><br><strong>Also worth knowing</strong>';
+      awkCards.forEach(function(c) { summaryHtml += '<br><br>' + c.innerHTML; });
+    }
+    specialEl.querySelectorAll('.special-message-card').forEach(function(c) { summaryHtml += '<br><br>' + c.innerHTML; });
+  }
 
   try {
-    await sendClientSummaryEmail(summaryText);
+    await sendClientSummaryEmail(summaryHtml);
     btn.textContent = 'Summary sent!';
     btn.style.background = 'linear-gradient(135deg, var(--col-deep-purple), var(--col-soft-violet))';
     feedback.textContent = `We've sent your summary to ${state.email}`;
