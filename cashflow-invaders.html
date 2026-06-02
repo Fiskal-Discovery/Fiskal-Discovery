@@ -566,8 +566,8 @@ async function saveLB(name, company, score, wave, isLender){
     wave: Number(wave) || 1,
     timestamp: Date.now(),
     isLender: isLender ? true : false,
-    larryBeaten: window._lastBadgeLarry||false,
-    bobbyBeaten: window._lastBadgeBobby||false
+    larryBeaten: (window._lastBadgeLarry || (Number(wave) >= 11)) ? true : false,
+    bobbyBeaten: (window._lastBadgeBobby || (Number(wave) >= 21)) ? true : false
   };
   console.log('Saving to leaderboard:', entry);
   console.log("Leaderboard entry being saved:", entry);
@@ -1658,7 +1658,8 @@ function devKillBoss(){
   const boss=G.boss;
   screenShake=20;boom(boss.x,boss.y,'#FF8C00',24);
   const defeatedName=boss.name;
-  if(boss.larry){for(let i=0;i<28;i++){const a=Math.PI*2*i/28+Math.random()*.5,spd=1+Math.random()*1.8;G.wordBits.push({x:boss.x,y:boss.y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd-.8,life:500,size:20+Math.random()*14,collectable:true,char:'💰',color:'#FFE600'})}}
+  if(boss.larry){G.larryBeaten=true;try{localStorage.setItem('fiskal_ci_larry_beaten','1')}catch(e){}for(let i=0;i<28;i++){const a=Math.PI*2*i/28+Math.random()*.5,spd=1+Math.random()*1.8;G.wordBits.push({x:boss.x,y:boss.y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd-.8,life:500,size:20+Math.random()*14,collectable:true,char:'💰',color:'#FFE600'})}}
+  if(boss.bobby){G.bobbyBeaten=true;try{localStorage.setItem('fiskal_ci_bobby_beaten','1')}catch(e){}}
   if(!G.defeatedBossWords.includes(defeatedName))G.defeatedBossWords.push(defeatedName);
   if(!G.allDefeatedBosses.includes(defeatedName))G.allDefeatedBosses.push(defeatedName);
   G.score+=200+G.wave*50;updateHUD();updateTargetHUD();
