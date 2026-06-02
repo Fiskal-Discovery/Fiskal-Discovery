@@ -292,6 +292,45 @@ function normaliseFundingProduct(product) {
 }
 
 // ============================================================
+// SOFT MATCH MENTION LINE
+// ============================================================
+
+// Priority order for capping soft mentions (from the brief)
+const SOFT_MENTION_PRIORITY = ['invoice','asset','loan','revolving','rd','trade','property','fx','mca','debtRecovery'];
+
+const SOFT_PRODUCT_NAMES = {
+  invoice:      'Invoice Finance',
+  asset:        'Asset Finance',
+  loan:         'a Business Loan',
+  revolving:    'a Revolving Credit Facility',
+  rd:           'R&D Tax Credits',
+  trade:        'Trade Finance',
+  property:     'Commercial Property Finance',
+  fx:           'FX (Foreign Currency)',
+  mca:          'Merchant Cash Advance',
+  debtRecovery: 'Debt Recovery',
+};
+
+function getSoftFundingMentionLine(softProductKeys) {
+  if (!softProductKeys || softProductKeys.length === 0) return null;
+  const capped = [...softProductKeys]
+    .sort((a, b) => {
+      const ai = SOFT_MENTION_PRIORITY.indexOf(a);
+      const bi = SOFT_MENTION_PRIORITY.indexOf(b);
+      return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+    })
+    .slice(0, 3)
+    .map(k => SOFT_PRODUCT_NAMES[k] || k);
+  if (capped.length === 0) return null;
+  if (capped.length === 1) {
+    return `${capped[0]} could also be worth discussing with Nicole, depending on how your situation develops.`;
+  }
+  const last = capped[capped.length - 1];
+  const rest = capped.slice(0, -1);
+  return `Depending on your situation, ${rest.join(', ')} and ${last} may also be worth exploring — Nicole can talk through any of these with you.`;
+}
+
+// ============================================================
 // TOP 2 INSIGHTS — priority ordered
 // ============================================================
 

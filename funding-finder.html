@@ -3424,9 +3424,14 @@ function startQuestionFlow() {
 // AI RESULTS GENERATION
 // ============================================================
 async function generateResults() {
-  const matchedProducts = getMatchedProducts();
-  
-  // Build personalised summary using logic module
+  const { solid: solidProducts, soft: softProducts } = getMatchedProducts();
+  const allProducts = [...solidProducts, ...softProducts];
+
+  // Build product signal values ('yes' for solid, 'maybe' for soft) used by insight functions
+  const productSignals = {};
+  solidProducts.forEach(k => { productSignals[k] = 'yes'; });
+  softProducts.forEach(k => { if (!productSignals[k]) productSignals[k] = 'maybe'; });
+
   const fa = state.flowAnswers || {};
   const hasCreditFlag = state.creditConcern === 'Yes' || fa.previousIssues === 'Yes';
   const fundingFinderAnswers = {
@@ -3446,19 +3451,21 @@ async function generateResults() {
     barrier: hasCreditFlag ? 'yes' : '',
     barrierDetails: hasCreditFlag ? (fa.extraInfo || 'credit concerns mentioned') : (fa.extraInfo || ''),
     previousIssues: fa.previousIssues || '',
-    // Product signal keys used by insight functions
-    invoice: (state.invoiceCustomers === 'Yes' || state.invoiceCustomers === 'Sometimes') ? 'yes' : (fa.invoice || null),
-    asset:   state.assetNeed === 'Yes' ? 'yes' : (fa.asset || null),
-    mca:     (state.cardSales === 'Yes' || state.cardSales === 'Sometimes / potentially') ? 'yes' : null,
-    loan:     fa.loan     || null,
-    trade:    fa.trade    || null,
-    revolving: fa.revolving || null,
-    property: fa.property  || null,
-    fx:       fa.fx        || null,
-    rd:       fa.rd        || null,
-    matchedProducts: matchedProducts
+    // Product signal keys derived from solid/soft classification
+    invoice:   productSignals.invoice   || null,
+    asset:     productSignals.asset     || null,
+    mca:       productSignals.mca       || null,
+    loan:      productSignals.loan      || null,
+    trade:     productSignals.trade     || null,
+    revolving: productSignals.revolving || null,
+    property:  productSignals.property  || null,
+    fx:        productSignals.fx        || null,
+    rd:        productSignals.rd        || null,
+    solidProducts,
+    softProducts,
+    matchedProducts: allProducts
   };
-  
+
   let summary;
   try {
     summary = buildDiscoverySummary('funding-finder', fundingFinderAnswers);
@@ -3470,68 +3477,67 @@ async function generateResults() {
       summaryHtml: '<p>Based on what you\'ve told us, there are funding options worth exploring for ' + (state.business || 'your business') + '. The right route will depend on what the funding needs to achieve and which structure fits best.</p>'
     };
   }
-  
-  displayResults(summary, matchedProducts);
+
+  displayResults(summary, allProducts);
 }
 
 
 function getMatchedProducts() {
-  const matched = [];
+  const solid = [];
+  const soft  = [];
+  const addSolid = k => { if (!solid.includes(k)) solid.push(k); };
+  const addSoft  = k => { if (!solid.includes(k) && !soft.includes(k)) soft.push(k); };
   const fa = state.flowAnswers || {};
 
-  // Products set by applyPurposeToMatchedProducts (purpose question)
-  ['invoice', 'trade', 'asset', 'loan', 'revolving', 'property', 'fx', 'rd'].forEach(key => {
-    if ((fa[key] === 'yes' || fa[key] === 'maybe') && productInfo[key]) {
-      matched.push(key);
-    }
+  // Q1 — Purpose mapping sets 'maybe' for products → all soft
+  ['invoice','trade','asset','loan','revolving','property','fx','rd'].forEach(key => {
+    if (fa[key] === 'maybe') addSoft(key);
   });
 
-  // Direct question signals
-  if ((fa.invoiceFinance === 'Yes' || fa.invoiceFinance === 'Not yet but potentially in future') && !matched.includes('invoice')) {
-    matched.push('invoice');
-  }
-  if ((fa.tradeFinance === 'Yes') && !matched.includes('trade')) {
-    matched.push('trade');
-  }
-  if ((fa.assetFinance === 'Yes' || fa.assetFinance === 'Maybe — tell me more') && !matched.includes('asset')) {
-    matched.push('asset');
-  }
-  if ((fa.loanRevolving === 'A lump sum would help' || fa.loanRevolving === 'Both') && !matched.includes('loan')) {
-    matched.push('loan');
-  }
-  if ((fa.loanRevolving === 'A flexible credit line would help' || fa.loanRevolving === 'Both') && !matched.includes('revolving')) {
-    matched.push('revolving');
-  }
-  if ((fa.propertyPlans === 'Yes' || fa.propertyPlans === 'Not right now but maybe in future') && !matched.includes('property')) {
-    matched.push('property');
-  }
-  if ((fa.cardPayments === 'Yes') && !matched.includes('mca')) {
-    matched.push('mca');
-  }
-  if ((fa.fxExposure === 'Yes' || fa.fxExposure === 'Not yet but we\'re looking to trade internationally') && !matched.includes('fx')) {
-    matched.push('fx');
-  }
-  if ((fa.rdActivity === 'Yes' || fa.rdActivity === 'Not sure') && !matched.includes('rd')) {
-    matched.push('rd');
+  // Q2 — Invoice Finance
+  if (fa.invoiceFinance === 'Yes') addSolid('invoice');
+  else if (fa.invoiceFinance === 'Not yet but potentially in future') addSoft('invoice');
+
+  // Q3 — Trade Finance (solid only — no soft answer exists)
+  if (fa.tradeFinance === 'Yes') addSolid('trade');
+
+  // Q4 — Asset Finance
+  if (fa.assetFinance === 'Yes') addSolid('asset');
+  else if (fa.assetFinance === 'Maybe — tell me more') addSoft('asset');
+
+  // Q5 — Loan / Revolving (solid only)
+  if (fa.loanRevolving === 'A lump sum would help' || fa.loanRevolving === 'Both') addSolid('loan');
+  if (fa.loanRevolving === 'A flexible credit line would help' || fa.loanRevolving === 'Both') addSolid('revolving');
+
+  // Q6 — Property
+  if (fa.propertyPlans === 'Yes') addSolid('property');
+  else if (fa.propertyPlans === 'Not right now but maybe in future') addSoft('property');
+
+  // Q7 — Card Payments / MCA (solid only)
+  if (fa.cardPayments === 'Yes') addSolid('mca');
+
+  // Q8 — FX
+  if (fa.fxExposure === 'Yes') addSolid('fx');
+  else if (fa.fxExposure === "Not yet but we're looking to trade internationally") addSoft('fx');
+
+  // Q9 — R&D: 'Yes' is solid; 'Not sure' is soft
+  if (fa.rdActivity === 'Yes') addSolid('rd');
+  else if (fa.rdActivity === 'Not sure') addSoft('rd');
+
+  // Q10 — Bad Debt / Debt Recovery (solid only)
+  if (fa.badDebt === 'Yes') addSolid('debtRecovery');
+
+  // Q11 — Acquisition: 'Yes' = solid (strong acquisition intent), 'on my radar' = soft
+  if (fa.acquisition === 'Yes') {
+    addSolid('invoice'); addSolid('asset');
+  } else if (fa.acquisition === "Not right now but it's on my radar") {
+    addSoft('invoice'); addSoft('asset');
   }
 
-  // Q11: Bad Debt — add debt recovery card
-  if (fa.badDebt === 'Yes' && !matched.includes('debtRecovery')) {
-    matched.push('debtRecovery');
-  }
+  // Fallback: no signals at all → loan as soft baseline
+  if (solid.length === 0 && soft.length === 0) soft.push('loan');
 
-  // Q12: Acquisition / MBO — trigger invoice and asset finance
-  if (fa.acquisition === 'Yes' || fa.acquisition === 'Not right now but it\'s on my radar') {
-    if (!matched.includes('invoice')) matched.push('invoice');
-    if (!matched.includes('asset')) matched.push('asset');
-  }
-
-  // Always surface at least a business loan as a baseline option
-  if (!matched.includes('loan')) {
-    matched.push('loan');
-  }
-
-  return matched;
+  return { solid, soft };
 }
 
 

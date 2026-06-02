@@ -55,47 +55,83 @@ function buildDiscoverySummary(route, answers) {
 // FUNDING FINDER SUMMARY
 // ============================================================
 function buildFundingFinderSummary(answers) {
-  const name        = answers.name || '';
   const business    = answers.business || 'the business';
   const industry    = answers.industry || '';
   const barrier     = answers.barrier || '';
   const urgency     = answers.urgency || '';
+
+  // Solid/soft classification — fall back to treating all matched products as solid
+  // for callers (e.g. onboarding) that don't pass the split.
+  const solidProducts = answers.solidProducts || answers.matchedProducts || [];
+  const rawSoft       = answers.softProducts  || [];
+  const softProducts  = rawSoft.filter(p => !solidProducts.includes(p));
+
+  // Cap and sort soft mentions by priority (max 3 shown)
+  const cappedSofts = [...softProducts]
+    .sort((a, b) => {
+      const order = ['invoice','asset','loan','revolving','rd','trade','property','fx','mca','debtRecovery'];
+      return (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99);
+    })
+    .slice(0, 3);
+
+  // "Thin results": 0-1 solids and 1-2 softs → expand softs into full paragraphs
+  const isThinResults = solidProducts.length <= 1 && cappedSofts.length <= 2;
 
   const blocks = [];
 
   // New start acknowledgement
   if (isNewStart(answers)) blocks.push(getNewStartInsight());
 
-  // Opening — personalised by sector, urgency and purpose
-  const sectorNote = getSectorNote(business, industry);
-  const urgencyNote = urgency === 'Immediately' || urgency === 'Within 1 month'
+  // Opening paragraph — personalised by sector, urgency and purpose
+  const sectorNote  = getSectorNote(business, industry);
+  const urgencyNote = (urgency === 'Immediately' || urgency === 'Within 1 month')
     ? ` Given the timescales involved, finding the right structure quickly will be important.`
     : '';
-
   if (sectorNote) {
     const sectorPhrase = sectorNote.charAt(0).toUpperCase() + sectorNote.slice(1);
     blocks.push(`Based on what you've told us, there are funding options worth exploring for ${business}. ${sectorPhrase} — and for businesses in this space, the right funding structure needs to fit how the business actually operates, not just how much is needed.${urgencyNote}`);
   } else {
     const purposeRaw = answers.fundingPurpose || '';
-    const purposes = Array.isArray(purposeRaw)
-      ? purposeRaw
-      : purposeRaw.split(',').map(s => s.trim()).filter(Boolean);
+    const purposes = Array.isArray(purposeRaw) ? purposeRaw : purposeRaw.split(',').map(s => s.trim()).filter(Boolean);
     const purposeText = purposes.length > 0
       ? ` The funding need around ${purposes.join(' and ').toLowerCase()} points towards specific products that could be a good fit.`
       : '';
     blocks.push(`Based on what you've told us, there are funding options worth exploring for ${business}.${purposeText}${urgencyNote}`);
   }
 
-  // Top product insight (one only — keep it focused)
-  const insights = getTopFundingFinderInsights(answers, business, industry);
-  if (insights.length > 0) blocks.push(insights[0]);
+  if (solidProducts.length > 0) {
+    // Lead with up to 2 full solid-match insights
+    const solidInsights = getTopFundingFinderInsights(
+      Object.assign({}, answers, { matchedProducts: solidProducts }), business, industry
+    );
+    solidInsights.slice(0, 2).forEach(ins => blocks.push(ins));
 
-  // Credit concern only if directly relevant (skip if summary already has 2+ blocks)
-  if (blocks.length < 2 && (hasCreditConcern(answers) || barrier === 'yes')) {
+    // Light soft-match mention (never a full write-up when solids are present)
+    if (cappedSofts.length > 0) {
+      const softLine = getSoftFundingMentionLine(cappedSofts);
+      if (softLine) blocks.push(softLine);
+    }
+  } else {
+    // No solid matches
+    if (isThinResults && cappedSofts.length > 0) {
+      // Thin results — expand softs into full paragraphs so summary isn't sparse
+      const softInsights = getTopFundingFinderInsights(
+        Object.assign({}, answers, { matchedProducts: cappedSofts }), business, industry
+      );
+      softInsights.slice(0, 2).forEach(ins => blocks.push(ins));
+    } else if (cappedSofts.length > 0) {
+      // Many softs — light mention only
+      const softLine = getSoftFundingMentionLine(cappedSofts);
+      if (softLine) blocks.push(softLine);
+    }
+  }
+
+  // Credit concern — add if relevant and summary isn't already full
+  if (blocks.length < 4 && (hasCreditConcern(answers) || barrier === 'yes')) {
     blocks.push(getCreditConcernInsight());
   }
 
-  const finalBlocks = blocks.slice(0, 2);
+  const finalBlocks = blocks.slice(0, 4);
   finalBlocks.push("Nicole will be in touch personally to talk through what's possible.");
   const summaryText = finalBlocks.join('\n\n');
   return {
