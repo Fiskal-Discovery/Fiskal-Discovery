@@ -2517,19 +2517,20 @@ function showBobbyCinematic(onDone){
       const textA=clamp((t-kickDone)/0.5,0,1);
       c.globalAlpha=textA;
       // Responsive sizes (clamp ~ big title 2rem–4.5rem, DEFEATED 2.5rem–5rem) shrunk to fit width
+      const _vy=W<=520?-H*0.09:0; // on mobile lift the whole group up so wrapped story clears the button bar
       const _maxTW=W-PADX*2;
       const titleFs=fitFont('BAILIFF BOBBY',clamp(W*0.12,32,72),_maxTW);
       const hbFs=fitFont('HAS BEEN',clamp(W*0.045,16,30),_maxTW);
       const defFs=fitFont('DEFEATED',clamp(W*0.14,40,80),_maxTW);
       c.fillStyle='#FFD700';c.shadowColor='#FF8C00';c.shadowBlur=28;
       c.font=`bold ${titleFs}px "Press Start 2P",monospace`;
-      c.fillText('BAILIFF BOBBY',W/2,H*0.34);
+      c.fillText('BAILIFF BOBBY',W/2,H*0.34+_vy);
       c.fillStyle='#FFFFFF';c.shadowColor='#888';c.shadowBlur=10;
       c.font=`bold ${hbFs}px "Press Start 2P",monospace`;
-      c.fillText('HAS BEEN',W/2,H*0.46);
+      c.fillText('HAS BEEN',W/2,H*0.46+_vy);
       c.fillStyle='#FF2244';c.shadowColor='#FF0000';c.shadowBlur=42;
       c.font=`bold ${defFs}px "Press Start 2P",monospace`;
-      c.fillText('DEFEATED',W/2,H*0.58);
+      c.fillText('DEFEATED',W/2,H*0.58+_vy);
       c.globalAlpha=1;c.shadowBlur=0;
 
       if(!s2kicked){
@@ -2583,7 +2584,7 @@ function showBobbyCinematic(onDone){
         const qt=t-quoteStart;
         const maxW=W-PADX*2;
         // Bumped story size (~clamp(1.1rem,4.5vw,1.6rem)) — wraps naturally instead of forcing one line
-        const baseFs=clamp(W*0.045,18,26);
+        const baseFs=clamp(W*0.045,18,W<=520?22:26);
         const rowH=baseFs*1.6,blockGap=baseFs*0.9;
         const lines3=[
           {txt:'With a little help from Fiskal…',col:'#CC88EE',delay:0},
@@ -2591,7 +2592,7 @@ function showBobbyCinematic(onDone){
           {txt:'and defeated their financial challenges.',col:'#FFD700',delay:2.8},
         ].map(ln=>({...ln,rows:wrapLines(ln.txt,baseFs,maxW)}));
         const totalH=lines3.reduce((s,l)=>s+l.rows.length*rowH,0)+blockGap*(lines3.length-1);
-        let yy=H*0.78-totalH/2; // centred as a group below DEFEATED
+        let yy=H*0.78+_vy-totalH/2; // centred as a group below DEFEATED
         lines3.forEach(ln=>{
           const blockH=ln.rows.length*rowH;
           if(qt<ln.delay){yy+=blockH+blockGap;return;}
