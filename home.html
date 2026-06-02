@@ -1176,32 +1176,80 @@
   }
   .champ-lender-bar {
     margin-top: 12px;
-    padding: 10px 14px;
-    background: linear-gradient(135deg, rgba(255,215,0,0.08) 0%, rgba(0,0,0,0) 100%);
-    border: 1px solid rgba(255,215,0,0.28);
-    border-radius: 12px;
+    padding: 10px 12px;
+    background: #15101f;
+    border: 2px solid #D4AF37;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     gap: 10px;
     overflow: hidden;
+    box-shadow: 0 0 10px rgba(212,175,55,0.25), inset 0 0 20px rgba(212,175,55,0.04);
+    position: relative;
   }
-  .champ-lender-bar .card-lender-label {
+  .champ-lender-bar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(0,0,0,0.12) 3px, rgba(0,0,0,0.12) 4px);
+    pointer-events: none;
+    border-radius: 6px;
+  }
+  .champ-lender-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 4px rgba(212,175,55,0.6));
+    position: relative;
+    z-index: 1;
+  }
+  .champ-lender-body {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .champ-lender-label {
+    font-family: 'Courier New', Courier, monospace;
     font-size: 9px;
-    letter-spacing: 1.5px;
-    align-items: flex-start;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #D4AF37;
+    text-shadow: 0 0 6px rgba(212,175,55,0.7);
     margin-bottom: 3px;
   }
-  .champ-lender-bar .card-lender-name {
+  .champ-lender-name {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffffff;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    letter-spacing: 0.5px;
   }
   .champ-lender-cash {
+    font-family: 'Courier New', Courier, monospace;
     font-size: 11px;
     font-weight: 700;
-    color: #00FF88;
-    font-family: 'DM Sans', sans-serif;
+    color: #3ff08a;
+    text-shadow: 0 0 8px rgba(63,240,138,0.7);
     margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+  .champ-lender-rank {
+    flex-shrink: 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9px;
+    font-weight: 700;
+    color: #cc44ff;
+    text-shadow: 0 0 8px rgba(204,68,255,0.8);
+    letter-spacing: 1px;
+    border: 1px solid rgba(204,68,255,0.4);
+    border-radius: 4px;
+    padding: 3px 6px;
+    white-space: nowrap;
+    position: relative;
+    z-index: 1;
   }
   @media (max-width: 600px) {
     .game-lender-row { flex-direction: column; }
@@ -1493,12 +1541,13 @@
         </div>
         <div class="returning-divider" style="margin-top:20px;margin-bottom:4px;"></div>
         <div id="champ-lender-card" class="champ-lender-bar" style="display:none">
-          <div style="font-size:20px;flex-shrink:0">🏦</div>
-          <div style="flex:1;min-width:0">
-            <div class="card-lender-label">CHAMPION LENDER</div>
-            <div id="home-top-lender-name" class="card-lender-name"></div>
+          <div class="champ-lender-icon">🏆</div>
+          <div class="champ-lender-body">
+            <div class="champ-lender-label">&#9733; CHAMPION LENDER &#9733;</div>
+            <div id="home-top-lender-name" class="champ-lender-name"></div>
             <div id="home-top-lender-score" class="champ-lender-cash"></div>
           </div>
+          <div class="champ-lender-rank">#1<br>RANK</div>
         </div>
         <a href="fiskalspacebattle.html" class="cfi-btn" style="margin-top:12px" aria-label="Play Cashflow Invaders"><div class="cfi-content"><div class="cfi-hero"><svg viewBox="0 0 11 8" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" fill="currentColor"><rect x="2" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="3" y="1" width="1" height="1"/><rect x="7" y="1" width="1" height="1"/><rect x="2" y="2" width="7" height="1"/><rect x="1" y="3" width="2" height="1"/><rect x="4" y="3" width="3" height="1"/><rect x="8" y="3" width="2" height="1"/><rect x="0" y="4" width="11" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="2" y="5" width="7" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="3" y="7" width="2" height="1"/><rect x="6" y="7" width="2" height="1"/></svg></div><div class="cfi-text"><h2 class="cfi-title">CASHFLOW INVADERS</h2><p class="cfi-tag">Play the Fiskal arcade game<br>Free your finances</p></div><div class="cfi-play-zone"><div class="cfi-coin">INSERT COIN</div><div class="cfi-play">PLAY <span class="cfi-arrow">&#9654;</span></div></div></div></a>
       </div>
