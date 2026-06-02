@@ -336,34 +336,7 @@
     box-shadow: 0 0 0 3px rgba(79,70,229,0.08);
   }
 
-  /* Upload area */
-  .upload-area {
-    border: 2px dashed rgba(79,70,229,0.3);
-    border-radius: 12px;
-    padding: 24px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: white;
-    margin-bottom: 12px;
-  }
 
-  .upload-area:hover { border-color: var(--indigo); background: var(--indigo-pale); }
-  .upload-area.has-files { border-color: var(--indigo); background: var(--indigo-pale); }
-
-  .upload-icon { font-size: 32px; margin-bottom: 8px; }
-  .upload-text { font-size: 14px; color: var(--mid); font-weight: 300; }
-  .upload-text strong { color: var(--indigo); font-weight: 500; }
-  .upload-files-list { margin-top: 8px; }
-  .upload-file-item {
-    font-size: 13px;
-    color: var(--indigo);
-    padding: 4px 0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    justify-content: center;
-  }
 
   /* Buttons */
   .btn-primary {
@@ -1384,7 +1357,7 @@
     <div class="answer-options">
       <button class="answer-btn" onclick="saveAndGo(this,'if-knowledge', 'Knows details', 'screen-if-path-a')">I know my rates and details fairly well</button>
       <button class="answer-btn" onclick="saveAndGo(this,'if-knowledge', 'Does not know details', 'screen-if-path-b')">I don't really know the details</button>
-      <button class="answer-btn" onclick="saveAndGo(this,'if-knowledge', 'Has statements', 'screen-if-upload')">I have my statements and can upload them</button>
+      <button class="answer-btn" onclick="saveAndGo(this,'if-knowledge', 'Has statements', 'screen-if-barriers')">I have my statements</button>
     </div>
   </div>
   <div class="screen-footer">
@@ -1530,7 +1503,7 @@
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'A funder who understands my industry')">Industry expertise</button>
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Just want to know if I could do better')">Am I on a good deal?</button>
     </div>
-    <button class="btn-primary" onclick="showScreen('screen-if-upload')">Continue →</button>
+    <button class="btn-primary" onclick="showScreen('screen-if-barriers')">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -1548,45 +1521,6 @@
 </div>
 
 <!-- IF Upload -->
-<div class="screen" id="screen-if-upload">
-  <header class="ob-fixed-header">
-    <div class="dashed-divider">Fiskal Discovery</div>
-    <span class="q-module-name">Facility Review</span>
-  </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:87%"></div></div>
-    <div class="progress-label">Step 7 of 9</div>
-  </div>
-  <div class="screen-content">
-    <div class="question-product">Invoice Finance Review</div>
-    <h2 class="question-text">Would you like to upload a recent statement?</h2>
-    <p class="question-sub">This allows us to give you a much more detailed analysis of your current facility.</p>
-
-    <div class="upload-area" id="if-upload-area" onclick="document.getElementById('if-file-input').click()">
-      <div class="upload-icon"></div>
-      <div class="upload-text"><strong>Tap to upload</strong> your statement<br>PDF, image or Excel accepted</div>
-      <div class="upload-files-list" id="if-files-list"></div>
-    </div>
-    <input type="file" id="if-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls" style="display:none" onchange="handleFileUpload('if', this)">
-
-    <button class="btn-primary" onclick="showScreen('screen-if-barriers')">Continue →</button>
-    <button class="btn-secondary" onclick="showScreen('screen-if-barriers')">Skip — no statement to upload</button>
-  </div>
-  <div class="screen-footer">
-  <div class="q-fixed-footer">
-    <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="state['if-knowledge'] === 'Has statements' ? showScreen('screen-if-knowledge') : showScreen('screen-if-priorities')">‹ Back</button>
-      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-    <div class="q-footer-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest"> to stand still</span>
-    </div>
-  </div>
-</div>
-</div>
-
 <!-- IF Barriers -->
 <div class="screen" id="screen-if-barriers">
   <header class="ob-fixed-header">
@@ -1617,7 +1551,7 @@
   <div class="screen-footer">
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-if-upload')">‹ Back</button>
+      <button class="q-nav-btn" onclick="showScreen('screen-if-priorities')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -1873,50 +1807,12 @@
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Access additional funding')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Access more funding</button>
       <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Just want to know if on best deal')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Am I on the best deal?</button>
     </div>
-    <button class="btn-primary" onclick="showScreen('screen-loan-upload')">Continue →</button>
+    <button class="btn-primary" onclick="showScreen('screen-loan-barriers')">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
       <button class="q-nav-btn" onclick="goBackFromLoanPriorities()">‹ Back</button>
-      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-    <div class="q-footer-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest"> to stand still</span>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- LOAN Upload -->
-<div class="screen" id="screen-loan-upload">
-  <header class="ob-fixed-header">
-    <div class="dashed-divider">Fiskal Discovery</div>
-    <span class="q-module-name">Facility Review</span>
-  </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:85%"></div></div>
-    <div class="progress-label">Loan Review: Step 6 of 8</div>
-  </div>
-  <div class="screen-content">
-        <div class="question-product">Business Loan Review</div>
-    <h2 class="question-text">Do you have any loan documents to upload?</h2>
-    <p class="question-sub">Your loan agreement or recent statements help us give a more detailed analysis.</p>
-    <div class="upload-area" id="loan-upload-area" onclick="document.getElementById('loan-file-input').click()">
-      <div class="upload-icon"></div>
-      <div class="upload-text"><strong>Tap to upload</strong> your documents<br>PDF, image or Excel accepted</div>
-      <div class="upload-files-list" id="loan-files-list"></div>
-    </div>
-    <input type="file" id="loan-file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls" style="display:none" onchange="handleFileUpload('loan', this)">
-    <button class="btn-primary" onclick="showScreen('screen-loan-barriers')">Continue →</button>
-    <button class="btn-secondary" onclick="showScreen('screen-loan-barriers')">Skip — no documents to upload</button>
-  </div>
-  <div class="screen-footer">
-  <div class="q-fixed-footer">
-    <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-loan-priorities')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -1957,7 +1853,7 @@
   <div class="screen-footer">
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-loan-upload')">‹ Back</button>
+      <button class="q-nav-btn" onclick="showScreen('screen-loan-priorities')">‹ Back</button>
       <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
       <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
     </div>
@@ -2244,7 +2140,7 @@
       <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'More support and clarity on FX charges')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> More clarity on FX charges</button>
       <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Just want to know what I am currently paying')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> What am I paying now?</button>
     </div>
-    <button class="btn-primary" onclick="showScreen('screen-fx-upload')" style="margin-top:8px">Continue →</button>
+    <button class="btn-primary" onclick="submitFXReview()" style="margin-top:8px">Submit My Discovery</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2261,44 +2157,7 @@
 </div>
 </div>
 
-<!-- Upload -->
-<div class="screen" id="screen-fx-upload">
-  <header class="ob-fixed-header">
-    <div class="dashed-divider">Fiskal Discovery</div>
-    <span class="q-module-name">Facility Review</span>
-  </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:95%"></div></div>
-    <div class="progress-label">FX Review: Step 8 of 8</div>
-  </div>
-  <div class="screen-content">
-    <div class="question-product">FX Review</div>
-    <h2 class="question-text">Do you have a recent FX transaction report?</h2>
-    <p class="question-sub">Most providers can generate these on request — they show every conversion, the rate used, and the margin charged.</p>
-    <div class="info-box"> If you don't have one, don't worry — Nicole can help you obtain one when she calls.</div>
-    <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
-      <div class="upload-icon"></div>
-      <div class="upload-text"><strong>Tap to upload</strong> your FX transaction report<br>PDF, image, Excel or CSV accepted</div>
-      <div id="files-list"></div>
-    </div>
-    <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display:none" onchange="fxHandleUpload(this)">
-    <button class="btn-primary" onclick="submitFXReview()">Submit My Discovery</button>
-    <button class="btn-secondary" onclick="submitFXReview()">Skip — no report to upload</button>
-  </div>
-  <div class="screen-footer">
-  <div class="q-fixed-footer">
-    <div class="q-footer-nav">
-      <button class="q-nav-btn" onclick="showScreen('screen-fx-goals')">‹ Back</button>
-      <button class="q-nav-btn q-nav-home" onclick="window.location.href='home.html?home=1'">Home</button>
-      <button class="q-nav-btn" onclick="skipCurrentScreen()">Skip ›</button>
-    </div>
-    <div class="q-footer-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest"> to stand still</span>
-    </div>
-  </div>
-</div>
-</div>
+
 
 <!-- Asset Finance Q1: Provider -->
 <div class="screen" id="screen-asset-provider">
@@ -3341,14 +3200,13 @@ const state = {
   ifLimit: '', ifAdvance: '', ifServiceFee: '', ifDiscount: '', ifMinimums: '', ifDisbursements: '',
   ifMonthlyCost: '',
   ifPriorities: [],
-  ifFiles: [],
   // Barrier
   barrier: '', barrierDetails: '',
   // Business Loan
   loanLender: '', loanType: '', loanKnowledge: '',
   loanOriginal: '', loanOutstanding: '', loanRate: '', loanRateType: '',
   loanRepayment: '', loanTerm: '', loanERC: '', loanMonthlyCost: '',
-  loanMonthlyKnown: '', loanPriorities: [], loanFiles: [],
+  loanMonthlyKnown: '', loanPriorities: [],
   loanBarrier: '', loanBarrierDetails: '',
   // Asset Finance
   assetProvider: '', assetType: '', assetRemaining: '', assetOutstanding: '',
@@ -3373,16 +3231,16 @@ const FACILITY_SKIP_MAP = {
   'screen-if-knowledge':      'screen-if-priorities',
   'screen-if-path-a':         'screen-if-priorities',
   'screen-if-path-b':         'screen-if-priorities',
-  'screen-if-priorities':     'screen-if-upload',
-  'screen-if-barriers':       'screen-if-upload',
+  'screen-if-priorities':     'screen-if-barriers',
+  'screen-if-barriers':       null,
   // Loan sub-flow
   'screen-loan-lender':       'screen-loan-type',
   'screen-loan-type':         'screen-loan-knowledge',
   'screen-loan-knowledge':    'screen-loan-priorities',
   'screen-loan-path-a':       'screen-loan-priorities',
   'screen-loan-path-b':       'screen-loan-priorities',
-  'screen-loan-priorities':   'screen-loan-upload',
-  'screen-loan-barriers':     'screen-loan-upload',
+  'screen-loan-priorities':   'screen-loan-barriers',
+  'screen-loan-barriers':     null,
   // FX sub-flow
   'screen-fx-provider':       'screen-fx-transaction-type',
   'screen-fx-transaction-type':'screen-fx-currencies',
@@ -3390,7 +3248,7 @@ const FACILITY_SKIP_MAP = {
   'screen-fx-awareness':      'screen-fx-costs',
   'screen-fx-costs':          'screen-fx-online-selling',
   'screen-fx-online-selling': 'screen-fx-goals',
-  'screen-fx-goals':          'screen-fx-upload',
+  'screen-fx-goals':          null,
   // Asset sub-flow
   'screen-asset-provider':    'screen-asset-type',
   'screen-asset-type':        'screen-asset-remaining',
@@ -3850,18 +3708,6 @@ function toggleFacilityOther(btn) {
 }
 
 // ============================================================
-// FILE UPLOAD
-// ============================================================
-function handleFileUpload(prefix, input) {
-  const files = Array.from(input.files);
-  state[prefix + 'Files'] = files;
-  const listEl = document.getElementById(prefix + '-files-list');
-  const areaEl = document.getElementById(prefix + '-upload-area');
-  listEl.innerHTML = files.map(f => `<div class="upload-file-item"> ${f.name}</div>`).join('');
-  areaEl.classList.add('has-files');
-}
-
-// ============================================================
 // BARRIERS
 // ============================================================
 function selectBarrier(value, btn) {
@@ -4066,7 +3912,7 @@ function buildFacilityReviewSummary() {
   const industry = state.industry || '';
   const switchConcern = state.barrier === 'yes' || state.loanBarrier === 'yes' || state.assetBarrier === 'yes' || state.tradeBarrier === 'yes';
   const switchDetail = state.barrierDetails || state.loanBarrierDetails || state.assetBarrierDetails || state.tradeBarrierDetails || '';
-  const statementUploaded = state.files && state.files.length > 0;
+  const statementUploaded = false;
 
   let paras = [];
 
@@ -4859,7 +4705,7 @@ async function sendNotification(summary) {
   const painPoints = (state['if-priorities'] || state.loanPriorities || state.assetPriorities || state.tradePriorities || []).join(', ') || 'None';
   const switchingConcerns = (state.barrier === 'yes' || state.loanBarrier === 'yes' || state.assetBarrier === 'yes' || state.tradeBarrier === 'yes') ? 'Yes' : 'No';
   const switchingConcernDetails = state.barrierDetails || state.loanBarrierDetails || state.assetBarrierDetails || state.tradeBarrierDetails || '';
-  const statementUploaded = (state.files && state.files.length > 0) ? 'Yes' : 'No';
+  const statementUploaded = 'N/A';
 
   const rateDetails = [
     state.ifLimit       ? `Limit: ${state.ifLimit}`             : '',
@@ -5053,13 +4899,7 @@ function fxPlatformsContinue() {
 }
 
 function fxGoalsContinue() {
-  showScreen('screen-fx-upload');
-}
-
-function fxHandleUpload(input) {
-  if (input.files) {
-    Array.from(input.files).forEach(f => { if (!state.files) state.files = []; state.files.push(f.name); });
-  }
+  submitFXReview();
 }
 
 function submitFXCosts() {

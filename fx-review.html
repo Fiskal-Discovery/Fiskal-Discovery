@@ -74,12 +74,6 @@
   .form-label { display: block; font-size: 12px; font-weight: 500; color: var(--mid); margin-bottom: 6px; letter-spacing: 0.5px; text-transform: uppercase; }
   .form-input { width: 100%; background: white; border: 1.5px solid rgba(126,9,165,0.15); border-radius: 10px; padding: 14px 16px; font-size: 15px; color: var(--dark); font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s ease; }
   .form-input:focus { border-color: var(--indigo); box-shadow: 0 0 0 3px rgba(126,9,165,0.08); }
-  .upload-area { border: 2px dashed rgba(126,9,165,0.3); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s ease; background: white; margin-bottom: 12px; }
-  .upload-area:hover, .upload-area.has-files { border-color: var(--indigo); background: var(--indigo-pale); }
-  .upload-icon { font-size: 32px; margin-bottom: 8px; }
-  .upload-text { font-size: 14px; color: var(--mid); font-weight: 300; }
-  .upload-text strong { color: var(--indigo); font-weight: 500; }
-  .upload-file-item { font-size: 13px; color: var(--indigo); padding: 4px 0; display: flex; align-items: center; gap: 6px; justify-content: center; }
   .btn-primary { background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-light) 100%); color: white; border: none; border-radius: 12px; padding: 16px 28px; font-size: 15px; font-weight: 500; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.25s ease; margin-top: 8px; }
   .btn-primary:hover { opacity: 0.9; }
   .btn-secondary { background: transparent; color: var(--indigo); border: 1.5px solid var(--indigo); border-radius: 12px; padding: 14px 28px; font-size: 14px; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.2s ease; margin-top: 8px; }
@@ -345,22 +339,6 @@
   #screen-goals .progress-label,
   #screen-upload .progress-label {
     color: rgba(255,255,255,0.5);
-  }
-  #screen-upload .upload-area {
-    background: rgba(255,255,255,0.06);
-    border-color: rgba(255,255,255,0.2);
-  }
-  #screen-upload .upload-area:hover,
-  #screen-upload .upload-area.has-files {
-    border-color: var(--col-gold);
-    background: rgba(255,255,255,0.1);
-  }
-  #screen-upload .upload-text {
-    color: rgba(255,255,255,0.65);
-  }
-  #screen-upload .info-box {
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.65);
   }
   #screen-loading .loading-title,
   #screen-loading .loading-sub {
@@ -765,7 +743,8 @@
       <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'More support and clarity on FX charges')"><div class="checkbox-tick"></div> 🤝 More support and clarity on FX charges and options</button>
       <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Just want to know what I am currently paying')"><div class="checkbox-tick"></div> ❓ Just want to know what I'm currently paying</button>
     </div>
-    <button class="btn-primary" onclick="showScreen('screen-upload')" style="margin-top:8px">Continue →</button>
+    <p style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:12px">Got documents that might help? Email them anytime to nicole@fiskal.co.uk.</p>
+    <button class="btn-primary" onclick="submitReview()" style="margin-top:8px">Submit my FX Review →</button>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-online-selling')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -773,43 +752,6 @@
   </div>
 </div>
 
-<!-- Upload -->
-<div class="screen" id="screen-upload">
-  <header class="ob-fixed-header">
-    <div class="ob-header-spacer"></div>
-    <div class="ob-header-brand">
-      <span class="ob-header-title">Fiskal Discovery</span>
-      <span class="ob-header-sub">FX Review</span>
-    </div>
-    <div class="ob-header-tagline">
-      <span class="ob-tagline-refuse">REFUSE</span>
-      <span class="ob-tagline-rest">to stand still</span>
-    </div>
-  </header>
-  <div class="progress-bar-wrap">
-    <div class="progress-track"><div class="progress-fill" style="width:95%"></div></div>
-    <div class="progress-label">Almost done</div>
-  </div>
-  <div class="screen-content">
-    <div class="question-icon">📄</div>
-    <div class="question-product">FX Review</div>
-    <h2 class="question-text">Do you have a recent FX transaction report?</h2>
-    <p class="question-sub">Most providers can generate these on request — they show every conversion, the rate used, and the margin charged.</p>
-    <div class="info-box">💡 If you don't have one, don't worry — Nicole can help you obtain one when she calls.</div>
-    <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
-      <div class="upload-icon">📎</div>
-      <div class="upload-text"><strong>Tap to upload</strong> your FX transaction report<br>PDF, image, Excel or CSV accepted</div>
-      <div id="files-list"></div>
-    </div>
-    <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv" style="display:none" onchange="handleUpload(this)">
-    <button class="btn-primary" onclick="submitReview()">Submit my FX Review →</button>
-    <button class="btn-secondary" onclick="submitReview()">Skip — no report to upload</button>
-    <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-goals')">&lt; Back</button>
-      <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
-    </div>
-  </div>
-</div>
 
 <!-- Loading -->
 <div class="screen" id="screen-loading">
@@ -871,7 +813,7 @@
       <a href="fiskalspacebattle.html" class="cfi-btn" aria-label="Play Cashflow Invaders"><div class="cfi-content"><div class="cfi-hero"><svg viewBox="0 0 11 8" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" fill="currentColor"><rect x="2" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="3" y="1" width="1" height="1"/><rect x="7" y="1" width="1" height="1"/><rect x="2" y="2" width="7" height="1"/><rect x="1" y="3" width="2" height="1"/><rect x="4" y="3" width="3" height="1"/><rect x="8" y="3" width="2" height="1"/><rect x="0" y="4" width="11" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="2" y="5" width="7" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="10" y="6" width="1" height="1"/><rect x="3" y="7" width="2" height="1"/><rect x="6" y="7" width="2" height="1"/></svg></div><div class="cfi-text"><h2 class="cfi-title">CASHFLOW INVADERS</h2><p class="cfi-tag">Play the Fiskal arcade game<br>Free your finances</p></div><div class="cfi-play-zone"><div class="cfi-coin">INSERT COIN</div><div class="cfi-play">PLAY <span class="cfi-arrow">&#9654;</span></div></div></div></a>
     </div>    <div class="divider"></div>
     <div class="nav-row">
-      <button class="back-btn" onclick="showScreen('screen-upload')">&lt; Back</button>
+      <button class="back-btn" onclick="showScreen('screen-goals')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
     </div>
   </div>
@@ -930,15 +872,6 @@ function toggleCheck(btn, group, value) {
     tick.textContent = '';
     state[group] = state[group].filter(v => v !== value);
   }
-}
-
-function handleUpload(input) {
-  const files = Array.from(input.files);
-  state.files = files;
-  const listEl = document.getElementById('files-list');
-  const areaEl = document.getElementById('upload-area');
-  listEl.innerHTML = files.map(f => `<div class="upload-file-item">✅ ${f.name}</div>`).join('');
-  areaEl.classList.add('has-files');
 }
 
 async function submitReview() {

@@ -154,12 +154,6 @@
   .form-input { width: 100%; background: white; border: 1.5px solid rgba(142,126,216,0.2); border-radius: 10px; padding: 14px 16px; font-size: 16px; color: var(--dark); font-family: 'DM Sans', sans-serif; transition: border-color 0.2s ease; outline: none; }
   .form-input:focus { border-color: var(--indigo); box-shadow: 0 0 0 3px rgba(142,126,216,0.15); }
   .form-textarea { width: 100%; background: white; border: 1.5px solid rgba(142,126,216,0.2); border-radius: 10px; padding: 14px 16px; font-size: 16px; color: var(--dark); font-family: 'DM Sans', sans-serif; resize: none; height: 80px; outline: none; transition: border-color 0.2s ease; }
-  .upload-area { border: 2px dashed rgba(142,126,216,0.3); border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s ease; background: white; margin-bottom: 12px; }
-  .upload-area:hover, .upload-area.has-files { border-color: var(--indigo); background: var(--indigo-pale); }
-  .upload-icon { font-size: 32px; margin-bottom: 8px; }
-  .upload-text { font-size: 14px; color: var(--mid); font-weight: 300; }
-  .upload-text strong { color: var(--orange); font-weight: 500; }
-  .upload-file-item { font-size: 13px; color: var(--indigo); padding: 4px 0; display: flex; align-items: center; gap: 6px; justify-content: center; }
   .btn-primary { background: var(--btn-gradient); color: white; border: none; border-radius: 999px; padding: 16px 32px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.25s ease; margin-top: 8px; box-shadow: 0 4px 20px rgba(212,175,55,0.35); }
   .btn-primary:hover { opacity: 0.9; }
   .btn-secondary { background: transparent; color: var(--indigo); border: 1.5px solid var(--indigo); border-radius: 12px; padding: 14px 28px; font-size: 14px; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.2s ease; margin-top: 8px; }
@@ -773,10 +767,6 @@
   .form-input:focus { border-color: var(--col-soft-violet) !important; box-shadow: 0 0 0 3px rgba(192,96,208,0.2) !important; }
   .form-textarea { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.15) !important; color: #ffffff !important; }
 
-  .upload-area { background: rgba(255,255,255,0.04) !important; border-color: rgba(255,255,255,0.15) !important; }
-  .upload-area:hover, .upload-area.has-files { border-color: var(--col-soft-violet) !important; background: rgba(192,96,208,0.08) !important; }
-  .upload-text { color: rgba(255,255,255,0.6) !important; }
-
   .followup-box { background: rgba(255,255,255,0.06) !important; border-color: rgba(255,255,255,0.12) !important; }
   .followup-label { color: rgba(255,255,255,0.5) !important; }
   .followup-btn { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.15) !important; color: rgba(255,255,255,0.85) !important; }
@@ -1358,27 +1348,9 @@
   </header>
   <div class="progress-bar-wrap"><div class="progress-track"><div class="progress-fill" style="width:92%"></div></div><div class="progress-label">Question 11 of 12</div></div>
   <div class="screen-content">
-    <h2 class="question-text">Would you like to upload any supporting documents?</h2>
-    <p class="question-sub" style="color:var(--col-gold)">The more we have upfront, the faster we can move for you.</p>
-    <div class="answer-options" id="q12-choice-opts">
-      <button class="answer-btn" id="q12-yes-btn" onclick="selectUploadChoice('yes', this)">Yes — I have documents to upload</button>
-      <button class="answer-btn" id="q12-skip-btn" onclick="selectUploadChoice('skip', this)">Skip — I don't have anything to upload right now</button>
-    </div>
-    <div id="q12-upload-area" style="display:none;margin-top:16px">
-      <div class="info-box" style="font-size:13px;line-height:1.7">
-        Last accounts<br>
-        Bank statements (last 3 months)<br>
-        Management accounts<br>
-        Any other relevant documents
-      </div>
-      <div class="upload-area" id="loan-upload-area" onclick="document.getElementById('loan-file-input').click()">
-        <div class="upload-text"><strong>Tap to upload</strong> — PDF, JPG, PNG — max 10MB per file</div>
-        <div id="loan-files-list"></div>
-      </div>
-      <input type="file" id="loan-file-input" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleLoanFileUpload(this)">
-      <button class="btn-secondary" id="q12-done-btn" onclick="revealSubmitBtn()" style="display:none;margin-top:12px;width:100%">I'm done uploading</button>
-    </div>
-    <button class="btn-primary" id="q11-next-btn" onclick="showScreen('screen-q12')" style="display:none;margin-top:20px;width:100%">Continue</button>
+    <h2 class="question-text">Almost there — one last question</h2>
+    <p class="question-sub" style="color:var(--col-gold)">Got documents that might help? Email them anytime to nicole@fiskal.co.uk.</p>
+    <button class="btn-primary" onclick="showScreen('screen-q12')" style="margin-top:20px;width:100%">Continue</button>
   </div>
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
@@ -1738,8 +1710,6 @@ const state = {
   existingFinance: '', existingFinanceNote: '',
   urgency: '',
   additionalNotes: '',
-  uploadChoice: '',
-  loanFiles: [],
   // Profile extras
   homeowner: '', invoicesB2B: '', paymentTermsDays: '',
   // Computed
@@ -2198,37 +2168,6 @@ function saveAdditionalNotes() {
 }
 
 // ============================================================
-// Q12 — Documents
-// ============================================================
-function selectUploadChoice(value, btn) {
-  state.uploadChoice = value;
-  document.querySelectorAll('#q12-choice-opts .answer-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  if (value === 'yes') {
-    document.getElementById('q12-upload-area').style.display = 'block';
-  } else {
-    document.getElementById('q12-upload-area').style.display = 'none';
-    document.getElementById('q11-next-btn').style.display = 'none';
-    setTimeout(() => showScreen('screen-q12'), 200);
-  }
-}
-
-function handleLoanFileUpload(input) {
-  const files = Array.from(input.files);
-  state.loanFiles = [...state.loanFiles, ...files];
-  const listEl = document.getElementById('loan-files-list');
-  listEl.innerHTML = state.loanFiles.map(f => `<div class="upload-file-item" style="font-size:12px;color:rgba(255,255,255,0.7);padding:4px 0">${f.name}</div>`).join('');
-  document.getElementById('loan-upload-area').classList.add('has-files');
-  if (state.loanFiles.length > 0) {
-    document.getElementById('q12-done-btn').style.display = 'block';
-  }
-}
-
-function revealSubmitBtn() {
-  document.getElementById('q11-next-btn').style.display = 'block';
-}
-
-// ============================================================
 // TRAFFIC LIGHT SCORING
 // ============================================================
 function getMonthlyTurnoverScore() {
@@ -2521,8 +2460,8 @@ async function submitApplication() {
         credit: state.credit, creditNote: state.creditNote, tradingHistory: state.tradingHistory,
         monthlyTurnover: state.monthlyTurnover, existingFinance: state.existingFinance,
         existingFinanceNote: state.existingFinanceNote, urgency: state.urgency,
-        additionalNotes: state.additionalNotes, uploadChoice: state.uploadChoice,
-        loanFiles: state.loanFiles, trafficLightScore: tl.score, trafficLightRating: tl.rating
+        additionalNotes: state.additionalNotes,
+        trafficLightScore: tl.score, trafficLightRating: tl.rating
       });
     } catch(e) { console.warn('Summary build failed:', e); }
 
@@ -2739,10 +2678,6 @@ function displayResults(summaryResult, tl) {
 // SEND NOTIFICATION TO NICOLE
 // ============================================================
 async function sendNotification(summaryText) {
-  const docs = state.loanFiles && state.loanFiles.length
-    ? state.loanFiles.map(f => f.name).join(', ')
-    : 'None uploaded';
-
   const isNewStartFlag = state.turnover === 'New start';
   const body = `${isNewStartFlag ? '⚠️ NEW START — ' : ''}New Loan Enquiry — ${state.business}
 
@@ -2770,7 +2705,6 @@ Q8 — Monthly Turnover: ${state.monthlyTurnover || (state.turnover ? 'Derived f
 Q9 — Existing Finance: ${state.existingFinance || 'Skipped'}${state.existingFinanceNote ? ' — ' + state.existingFinanceNote : ''}
 Q10 — Urgency: ${state.urgency || 'Skipped'}
 Q11 — Additional Notes: ${state.additionalNotes || 'None'}
-Q12 — Documents: ${docs}
 
 INVOICE FINANCE
 Invoices B2B: ${state.invoicesB2B === 'yes' ? 'Yes' : state.invoicesB2B === 'no' ? 'No' : 'Not answered'}
