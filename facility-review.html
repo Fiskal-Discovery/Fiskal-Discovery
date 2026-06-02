@@ -1208,9 +1208,9 @@
         <div class="question-product">Invoice Finance Review</div>
     <h2 class="question-text">Who is your current invoice finance provider?</h2>
     <div class="form-group">
-      <input type="text" class="form-input" id="if-lender" placeholder="e.g. Bibby Financial Services">
+      <input type="text" class="form-input" id="if-lender" placeholder="e.g. Bibby Financial Services" oninput="setBtnEnabled('if-lender-continue', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="nextIF('if-lender-val', document.getElementById('if-lender').value, 'screen-if-type')">Continue →</button>
+    <button class="btn-primary" id="if-lender-continue" onclick="nextIF('if-lender-val', document.getElementById('if-lender').value, 'screen-if-type')" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -1411,9 +1411,9 @@
     <div id="monthly-cost-input" style="display:none;">
       <div class="form-group" style="margin-top:16px;">
         <label class="form-label">Approximate monthly cost</label>
-        <input type="text" class="form-input" id="if-monthly-cost" placeholder="e.g. £800/month" oninput="formatCurrencyInput(this)">
+        <input type="text" class="form-input" id="if-monthly-cost" placeholder="e.g. £800/month" oninput="formatCurrencyInput(this); setBtnEnabled('if-monthly-cost-continue', this.value.trim().length > 0)">
       </div>
-      <button class="btn-primary" onclick="saveAndGo(this,'if-monthly-cost', document.getElementById('if-monthly-cost').value, 'screen-if-priorities')">Continue →</button>
+      <button class="btn-primary" id="if-monthly-cost-continue" onclick="saveAndGo(this,'if-monthly-cost', document.getElementById('if-monthly-cost').value, 'screen-if-priorities')" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
     </div>
   </div>
   <div class="screen-footer">
@@ -1445,18 +1445,18 @@
     <h2 class="question-text">What matters most to you?</h2>
     <p class="question-sub">Select all that apply.</p>
     <div class="checkbox-options two-col" id="if-priorities-options">
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Lower fees and charges')">Lower fees and charges</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Higher advance rate')">Higher advance rate</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Better service')">Better service</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'More flexibility')">More flexibility</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Less paperwork and admin')">Less paperwork and admin</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'No monthly minimums')">No monthly minimums</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Shorter contract or less notice')">Shorter contract / notice</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Fund international debtors')">International debtors</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'A funder who understands my industry')">Industry expertise</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Just want to know if I could do better')">Am I on a good deal?</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Lower fees and charges', 'if-priorities-continue')">Lower fees and charges</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Higher advance rate', 'if-priorities-continue')">Higher advance rate</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Better service', 'if-priorities-continue')">Better service</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'More flexibility', 'if-priorities-continue')">More flexibility</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Less paperwork and admin', 'if-priorities-continue')">Less paperwork and admin</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'No monthly minimums', 'if-priorities-continue')">No monthly minimums</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Shorter contract or less notice', 'if-priorities-continue')">Shorter contract / notice</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Fund international debtors', 'if-priorities-continue')">International debtors</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'A funder who understands my industry', 'if-priorities-continue')">Industry expertise</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'if-priorities', 'Just want to know if I could do better', 'if-priorities-continue')">Am I on a good deal?</button>
     </div>
-    <button class="btn-primary" onclick="showScreen('screen-if-barriers')">Continue →</button>
+    <button class="btn-primary" id="if-priorities-continue" onclick="showScreen('screen-if-barriers')" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -1532,9 +1532,9 @@
         <div class="question-product">Business Loan Review</div>
     <h2 class="question-text">Who is your current loan provider?</h2>
     <div class="form-group">
-      <input type="text" class="form-input" id="loan-lender" placeholder="e.g. HSBC, Funding Circle">
+      <input type="text" class="form-input" id="loan-lender" placeholder="e.g. HSBC, Funding Circle" oninput="setBtnEnabled('loan-lender-continue', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="saveFieldAndGo('loanLender', 'loan-lender', 'screen-loan-type')">Continue →</button>
+    <button class="btn-primary" id="loan-lender-continue" onclick="saveFieldAndGo('loanLender', 'loan-lender', 'screen-loan-type')" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -1746,15 +1746,15 @@
     <h2 class="question-text">What would you like to achieve?</h2>
     <p class="question-sub">Select all that apply.</p>
     <div class="checkbox-options two-col">
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Refinance at a lower rate')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Refinance at a lower rate</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Reduce monthly repayments')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Reduce monthly repayments</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Consolidate multiple loans')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Consolidate multiple loans</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Replace with different funding')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Switch to different funding</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Extend the term')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Extend the term</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Access additional funding')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Access more funding</button>
-      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Just want to know if on best deal')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Am I on the best deal?</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Refinance at a lower rate', 'loan-priorities-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Refinance at a lower rate</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Reduce monthly repayments', 'loan-priorities-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Reduce monthly repayments</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Consolidate multiple loans', 'loan-priorities-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Consolidate multiple loans</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Replace with different funding', 'loan-priorities-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Switch to different funding</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Extend the term', 'loan-priorities-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Extend the term</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Access additional funding', 'loan-priorities-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Access more funding</button>
+      <button class="checkbox-btn" onclick="toggleCheckbox(this, 'loanPriorities', 'Just want to know if on best deal', 'loan-priorities-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Am I on the best deal?</button>
     </div>
-    <button class="btn-primary" onclick="showScreen('screen-loan-barriers')">Continue →</button>
+    <button class="btn-primary" id="loan-priorities-continue" onclick="showScreen('screen-loan-barriers')" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -1903,9 +1903,9 @@
     </div>
     <div id="fx-other-currency-input" style="display:none;margin-top:12px;">
       <div class="form-group">
-        <input type="text" class="form-input" id="fx-other-currency" placeholder="e.g. Japanese Yen, Canadian Dollar">
+        <input type="text" class="form-input" id="fx-other-currency" placeholder="e.g. Japanese Yen, Canadian Dollar" oninput="setBtnEnabled('fx-other-currency-continue', this.value.trim().length > 0)">
       </div>
-      <button class="btn-primary" onclick="fxSaveOtherCurrency()">Continue →</button>
+      <button class="btn-primary" id="fx-other-currency-continue" onclick="fxSaveOtherCurrency()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
     </div>
   </div>
   <div class="screen-footer">
@@ -2029,19 +2029,19 @@
     <h2 class="question-text">Do you sell through any online platforms?</h2>
     <p class="question-sub">Most platforms add hidden currency conversion charges on top of their transaction fees.</p>
     <div class="checkbox-options two-col">
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Shopify')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Shopify</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Amazon')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Amazon</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'eBay')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> eBay</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Etsy')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Etsy</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'WooCommerce')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> WooCommerce</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'TikTok Shop')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> TikTok Shop</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'No')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> No — I don't sell online</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Shopify', 'fx-online-selling-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Shopify</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Amazon', 'fx-online-selling-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Amazon</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'eBay', 'fx-online-selling-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> eBay</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'Etsy', 'fx-online-selling-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Etsy</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'WooCommerce', 'fx-online-selling-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> WooCommerce</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'TikTok Shop', 'fx-online-selling-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> TikTok Shop</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxPlatforms', 'No', 'fx-online-selling-continue')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> No — I don't sell online</button>
     </div>
     <div id="fx-platforms-other-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:8px;width:100%;box-sizing:border-box;" onclick="toggleFxPlatformOther()">
       <span id="fx-platforms-other-lbl">Other</span>
       <input type="text" id="fx-platforms-other-input" placeholder="Please describe the platform..." style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0;" onclick="event.stopPropagation()">
     </div>
-    <button class="btn-primary" onclick="showScreen('screen-fx-goals')" style="margin-top:8px">Continue →</button>
+    <button class="btn-primary" id="fx-online-selling-continue" onclick="showScreen('screen-fx-goals')" style="margin-top:8px;opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2072,15 +2072,15 @@
     <h2 class="question-text">What would you like to achieve?</h2>
     <p class="question-sub">Select all that apply.</p>
     <div class="checkbox-options two-col">
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Pay less on currency conversions')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Pay less on conversions</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Get better exchange rates')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Better exchange rates</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Faster international payments')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Faster international payments</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Reduce platform currency charges')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Reduce platform FX charges</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Access to more currencies')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Access more currencies</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'More support and clarity on FX charges')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> More clarity on FX charges</button>
-      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Just want to know what I am currently paying')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> What am I paying now?</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Pay less on currency conversions', 'fx-goals-submit')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Pay less on conversions</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Get better exchange rates', 'fx-goals-submit')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Better exchange rates</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Faster international payments', 'fx-goals-submit')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Faster international payments</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Reduce platform currency charges', 'fx-goals-submit')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Reduce platform FX charges</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Access to more currencies', 'fx-goals-submit')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> Access more currencies</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'More support and clarity on FX charges', 'fx-goals-submit')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> More clarity on FX charges</button>
+      <button class="checkbox-btn" onclick="fxToggleCheck(this, 'fxGoals', 'Just want to know what I am currently paying', 'fx-goals-submit')" style="padding:10px 12px;font-size:13px"><div class="checkbox-tick"></div> What am I paying now?</button>
     </div>
-    <button class="btn-primary" onclick="submitFXReview()" style="margin-top:8px">Submit My Discovery</button>
+    <button class="btn-primary" id="fx-goals-submit" onclick="submitFXReview()" style="margin-top:8px;opacity:0.35;pointer-events:none;cursor:not-allowed">Submit My Discovery</button>
     <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5">By submitting, you understand that your information will be handled in line with our <a href="https://www.fiskal.online/privacy-policy" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);text-decoration:underline">Privacy Policy</a>.</p>
   </div>
   <div class="screen-footer">
@@ -2114,9 +2114,9 @@
     <h2 class="question-text">Who is your current asset finance provider?</h2>
     <div class="form-group">
       <label class="form-label">Provider name</label>
-      <input type="text" class="form-input" id="asset-provider" placeholder="e.g. Close Brothers, Shire Leasing, Lombard">
+      <input type="text" class="form-input" id="asset-provider" placeholder="e.g. Close Brothers, Shire Leasing, Lombard" oninput="setBtnEnabled('asset-provider-continue', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="saveAssetProvider()">Continue →</button>
+    <button class="btn-primary" id="asset-provider-continue" onclick="saveAssetProvider()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2152,7 +2152,7 @@
     </div>
     <div id="asset-type-other-slot" class="answer-btn" style="cursor:text;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:8px;width:100%;box-sizing:border-box;" onclick="toggleAssetTypeOther()">
       <span id="asset-type-other-lbl">Other</span>
-      <input type="text" id="asset-type-other-input" placeholder="Please describe the asset type..." style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0;" onclick="event.stopPropagation()">
+      <input type="text" id="asset-type-other-input" placeholder="Please describe the asset type..." style="display:none;width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.3);outline:none;color:inherit;font:inherit;padding:4px 0;" onclick="event.stopPropagation()" oninput="setBtnEnabled('asset-type-other-continue', this.value.trim().length > 0)">
     </div>
     <button class="btn-primary" id="asset-type-other-continue" onclick="saveAssetTypeOther()" style="display:none;margin-top:12px;width:100%">Continue →</button>
   </div>
@@ -2185,9 +2185,9 @@
     <h2 class="question-text">How long is remaining on your current agreement?</h2>
     <div class="form-group">
       <label class="form-label">Time remaining (months/years)</label>
-      <input type="text" class="form-input" id="asset-remaining" placeholder="e.g. 18 months, 2 years">
+      <input type="text" class="form-input" id="asset-remaining" placeholder="e.g. 18 months, 2 years" oninput="setBtnEnabled('asset-remaining-continue', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="saveAssetRemaining()">Continue →</button>
+    <button class="btn-primary" id="asset-remaining-continue" onclick="saveAssetRemaining()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2218,9 +2218,9 @@
     <h2 class="question-text">How much is still outstanding on your current agreement?</h2>
     <div class="form-group">
       <label class="form-label">Outstanding amount (£)</label>
-      <input type="text" class="form-input" id="asset-outstanding" placeholder="e.g. £25,000" oninput="formatCurrencyInput(this)">
+      <input type="text" class="form-input" id="asset-outstanding" placeholder="e.g. £25,000" oninput="formatCurrencyInput(this); setBtnEnabled('asset-outstanding-continue', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="saveAssetOutstanding()">Continue →</button>
+    <button class="btn-primary" id="asset-outstanding-continue" onclick="saveAssetOutstanding()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2251,9 +2251,9 @@
     <h2 class="question-text">What are your current monthly repayments?</h2>
     <div class="form-group">
       <label class="form-label">Monthly repayment (£)</label>
-      <input type="text" class="form-input" id="asset-repayments" placeholder="e.g. £850 per month" oninput="formatCurrencyInput(this)">
+      <input type="text" class="form-input" id="asset-repayments" placeholder="e.g. £850 per month" oninput="formatCurrencyInput(this); setBtnEnabled('asset-repayments-continue', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="saveAssetRepayments()">Continue →</button>
+    <button class="btn-primary" id="asset-repayments-continue" onclick="saveAssetRepayments()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2450,9 +2450,9 @@
     <h2 class="question-text">Who is your current trade finance provider?</h2>
     <div class="form-group">
       <label class="form-label">Provider name</label>
-      <input type="text" class="form-input" id="trade-provider" placeholder="e.g. Barclays, HSBC, Santander">
+      <input type="text" class="form-input" id="trade-provider" placeholder="e.g. Barclays, HSBC, Santander" oninput="setBtnEnabled('trade-provider-continue', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="saveTradeProvider()">Continue →</button>
+    <button class="btn-primary" id="trade-provider-continue" onclick="saveTradeProvider()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2483,9 +2483,9 @@
     <h2 class="question-text">What is your current facility limit?</h2>
     <div class="form-group">
       <label class="form-label">Facility limit (£)</label>
-      <input type="text" class="form-input" id="trade-limit" placeholder="e.g. £100,000" oninput="formatCurrencyInput(this)">
+      <input type="text" class="form-input" id="trade-limit" placeholder="e.g. £100,000" oninput="formatCurrencyInput(this); setBtnEnabled('trade-limit-continue', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="saveTradeLimit()">Continue →</button>
+    <button class="btn-primary" id="trade-limit-continue" onclick="saveTradeLimit()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
     <button class="btn-secondary" onclick="setTradeLimitNotSure()">I'm not sure</button>
   </div>
   <div class="screen-footer">
@@ -2517,9 +2517,9 @@
     <h2 class="question-text">What rate or fees are you currently paying?</h2>
     <div class="form-group">
       <label class="form-label">Current rates/fees</label>
-      <input type="text" class="form-input" id="trade-rates" placeholder="e.g. 3% per month">
+      <input type="text" class="form-input" id="trade-rates" placeholder="e.g. 3% per month" oninput="setBtnEnabled('trade-rates-continue', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="saveTradeRates()">Continue →</button>
+    <button class="btn-primary" id="trade-rates-continue" onclick="saveTradeRates()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
     <button class="btn-secondary" onclick="setTradeRatesNotSure()">I'm not sure</button>
   </div>
   <div class="screen-footer">
@@ -2657,9 +2657,9 @@
     <h2 class="question-text">What type of funding or facility is it?</h2>
     <div class="form-group">
       <label class="form-label">Funding type</label>
-      <input type="text" class="form-input" id="other-type" placeholder="e.g. overdraft, private loan, supplier finance, director loan">
+      <input type="text" class="form-input" id="other-type" placeholder="e.g. overdraft, private loan, supplier finance, director loan" oninput="setBtnEnabled('other-type-continue', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="saveOtherType()">Continue →</button>
+    <button class="btn-primary" id="other-type-continue" onclick="saveOtherType()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2690,9 +2690,9 @@
     <h2 class="question-text">How much is outstanding or available?</h2>
     <div class="form-group">
       <label class="form-label">Amount (£)</label>
-      <input type="text" class="form-input" id="other-amount" placeholder="e.g. £50,000" oninput="formatCurrencyInput(this)">
+      <input type="text" class="form-input" id="other-amount" placeholder="e.g. £50,000" oninput="formatCurrencyInput(this); setBtnEnabled('other-amount-continue', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="saveOtherAmount()">Continue →</button>
+    <button class="btn-primary" id="other-amount-continue" onclick="saveOtherAmount()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2723,9 +2723,9 @@
     <h2 class="question-text">How much does it cost you?</h2>
     <div class="form-group">
       <label class="form-label">Cost</label>
-      <input type="text" class="form-input" id="other-cost" placeholder="e.g. £500 per month, 12% per year, 3% fee">
+      <input type="text" class="form-input" id="other-cost" placeholder="e.g. £500 per month, 12% per year, 3% fee" oninput="setBtnEnabled('other-cost-continue', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="saveOtherCost()">Continue →</button>
+    <button class="btn-primary" id="other-cost-continue" onclick="saveOtherCost()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
   </div>
   <div class="screen-footer">
   <div class="q-fixed-footer">
@@ -2756,9 +2756,9 @@
     <h2 class="question-text">Who is it with?</h2>
     <div class="form-group">
       <label class="form-label">Provider / Lender</label>
-      <input type="text" class="form-input" id="other-provider" placeholder="e.g. lender, provider, supplier, investor">
+      <input type="text" class="form-input" id="other-provider" placeholder="e.g. lender, provider, supplier, investor" oninput="setBtnEnabled('other-provider-submit', this.value.trim().length > 0)">
     </div>
-    <button class="btn-primary" onclick="submitOtherReview()">Submit My Discovery</button>
+    <button class="btn-primary" id="other-provider-submit" onclick="submitOtherReview()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Submit My Discovery</button>
     <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5">By submitting, you understand that your information will be handled in line with our <a href="https://www.fiskal.online/privacy-policy" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);text-decoration:underline">Privacy Policy</a>.</p>
   </div>
   <div class="screen-footer">
@@ -3427,6 +3427,7 @@ function toggleAssetTypeOther() {
     inp.style.display = 'block';
     lbl.textContent = 'Other — please specify:';
     cont.style.display = 'block';
+    setBtnEnabled('asset-type-other-continue', false);
     setTimeout(() => inp.focus(), 50);
   }
 }
@@ -3539,7 +3540,15 @@ function goBackFromPriorities() {
 // ============================================================
 // CHECKBOX
 // ============================================================
-function toggleCheckbox(btn, group, value) {
+
+function setBtnEnabled(id, enabled) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.style.opacity = enabled ? '1' : '0.35';
+  btn.style.pointerEvents = enabled ? 'auto' : 'none';
+  btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
+}
+function toggleCheckbox(btn, group, value, continueId) {
   btn.classList.toggle('selected');
   const tick = btn.querySelector('.checkbox-tick');
   if (btn.classList.contains('selected')) {
@@ -3550,6 +3559,7 @@ function toggleCheckbox(btn, group, value) {
     if (tick) tick.textContent = '';
     state[group] = state[group].filter(v => v !== value);
   }
+  if (continueId) setBtnEnabled(continueId, state[group] && state[group].length > 0);
 }
 
 function toggleFacilityOther(btn) {
@@ -4660,7 +4670,7 @@ function fxSaveOtherCurrency() {
   if (state.fxCurrencies) showScreen('screen-fx-awareness');
 }
 
-function fxToggleCheck(btn, group, value) {
+function fxToggleCheck(btn, group, value, continueId) {
   btn.classList.toggle('selected');
   if (!state[group]) state[group] = [];
   if (btn.classList.contains('selected')) {
@@ -4668,6 +4678,7 @@ function fxToggleCheck(btn, group, value) {
   } else {
     state[group] = state[group].filter(v => v !== value);
   }
+  if (continueId) setBtnEnabled(continueId, state[group] && state[group].length > 0);
 }
 
 function toggleFxPlatformOther() {
@@ -4692,7 +4703,7 @@ function toggleFxPlatformOther() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const inp = document.getElementById('fx-platforms-other-input');
-  if (inp) inp.addEventListener('input', () => {
+  if (inp) inp.addEventListener('input', () => { setBtnEnabled('fx-online-selling-continue', (state.fxPlatforms||[]).length > 0);
     if (!state.fxPlatforms) state.fxPlatforms = [];
     state.fxPlatforms = state.fxPlatforms.filter(v => !v.startsWith('Other:'));
     if (inp.value.trim()) state.fxPlatforms.push('Other: ' + inp.value.trim());

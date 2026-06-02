@@ -509,21 +509,21 @@
     <p class="question-sub">This is how Nicole will reach you.</p>
     <div class="form-group">
       <label class="form-label">Your name *</label>
-      <input type="text" class="form-input" id="field-name" placeholder="e.g. Sarah Johnson">
+      <input type="text" class="form-input" id="field-name" placeholder="e.g. Sarah Johnson" oninput="updateDetailsContinue()">
     </div>
     <div class="form-group">
       <label class="form-label">Business name *</label>
-      <input type="text" class="form-input" id="field-business" placeholder="e.g. Johnson Supplies Ltd">
+      <input type="text" class="form-input" id="field-business" placeholder="e.g. Johnson Supplies Ltd" oninput="updateDetailsContinue()">
     </div>
     <div class="form-group">
       <label class="form-label">Email address *</label>
-      <input type="email" class="form-input" id="field-email" placeholder="sarah@yourcompany.co.uk">
+      <input type="email" class="form-input" id="field-email" placeholder="sarah@yourcompany.co.uk" oninput="updateDetailsContinue()">
     </div>
     <div class="form-group">
       <label class="form-label">Phone number *</label>
-      <input type="tel" class="form-input" id="field-phone" placeholder="07xxx xxxxxx">
+      <input type="tel" class="form-input" id="field-phone" placeholder="07xxx xxxxxx" oninput="updateDetailsContinue()">
     </div>
-    <button class="btn-primary" onclick="submitDetails()">Continue →</button>
+    <button class="btn-primary" id="details-continue" onclick="submitDetails()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-welcome')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -628,9 +628,9 @@
     </div>
     <div id="other-currency-input" style="display:none;margin-top:12px;">
       <div class="form-group">
-        <input type="text" class="form-input" id="other-currency" placeholder="e.g. Japanese Yen, Canadian Dollar">
+        <input type="text" class="form-input" id="other-currency" placeholder="e.g. Japanese Yen, Canadian Dollar" oninput="setBtnEnabled('other-currency-continue', this.value.trim().length > 0)">
       </div>
-      <button class="btn-primary" onclick="saveOtherCurrency()">Continue →</button>
+      <button class="btn-primary" id="other-currency-continue" onclick="saveOtherCurrency()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
     </div>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-transaction-type')">&lt; Back</button>
@@ -696,16 +696,16 @@
     <h2 class="question-text">Do you sell through any online platforms?</h2>
     <p class="question-sub">Most platforms add hidden currency conversion charges on top of their transaction fees.</p>
     <div class="checkbox-options">
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'Shopify')"><div class="checkbox-tick"></div> Shopify</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'Amazon')"><div class="checkbox-tick"></div> Amazon</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'eBay')"><div class="checkbox-tick"></div> eBay</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'Etsy')"><div class="checkbox-tick"></div> Etsy</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'WooCommerce')"><div class="checkbox-tick"></div> WooCommerce</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'TikTok Shop')"><div class="checkbox-tick"></div> TikTok Shop</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'Other')"><div class="checkbox-tick"></div> Other</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'No')"><div class="checkbox-tick"></div> No — I don't sell online</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'Shopify', 'online-selling-continue')"><div class="checkbox-tick"></div> Shopify</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'Amazon', 'online-selling-continue')"><div class="checkbox-tick"></div> Amazon</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'eBay', 'online-selling-continue')"><div class="checkbox-tick"></div> eBay</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'Etsy', 'online-selling-continue')"><div class="checkbox-tick"></div> Etsy</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'WooCommerce', 'online-selling-continue')"><div class="checkbox-tick"></div> WooCommerce</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'TikTok Shop', 'online-selling-continue')"><div class="checkbox-tick"></div> TikTok Shop</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'Other', 'online-selling-continue')"><div class="checkbox-tick"></div> Other</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'platforms', 'No', 'online-selling-continue')"><div class="checkbox-tick"></div> No — I don't sell online</button>
     </div>
-    <button class="btn-primary" onclick="showScreen('screen-goals')" style="margin-top:8px">Continue →</button>
+    <button class="btn-primary" id="online-selling-continue" onclick="showScreen('screen-goals')" style="margin-top:8px;opacity:0.35;pointer-events:none;cursor:not-allowed">Continue →</button>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-awareness')">&lt; Back</button>
       <button class="back-btn" onclick="window.location.href='home.html?home=1'">Home</button>
@@ -736,16 +736,16 @@
     <h2 class="question-text">What would you like to achieve?</h2>
     <p class="question-sub">Tick all that apply.</p>
     <div class="checkbox-options">
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Pay less on currency conversions')"><div class="checkbox-tick"></div> 💰 Pay less on currency conversions</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Get better exchange rates')"><div class="checkbox-tick"></div> 📈 Get better exchange rates</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Faster international payments')"><div class="checkbox-tick"></div> ⚡ Faster international payments</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Reduce platform currency charges')"><div class="checkbox-tick"></div> 🛒 Reduce platform currency charges</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Access to more currencies')"><div class="checkbox-tick"></div> 🌍 Access to more currencies</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'More support and clarity on FX charges')"><div class="checkbox-tick"></div> 🤝 More support and clarity on FX charges and options</button>
-      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Just want to know what I am currently paying')"><div class="checkbox-tick"></div> ❓ Just want to know what I'm currently paying</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Pay less on currency conversions', 'goals-submit')"><div class="checkbox-tick"></div> 💰 Pay less on currency conversions</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Get better exchange rates', 'goals-submit')"><div class="checkbox-tick"></div> 📈 Get better exchange rates</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Faster international payments', 'goals-submit')"><div class="checkbox-tick"></div> ⚡ Faster international payments</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Reduce platform currency charges', 'goals-submit')"><div class="checkbox-tick"></div> 🛒 Reduce platform currency charges</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Access to more currencies', 'goals-submit')"><div class="checkbox-tick"></div> 🌍 Access to more currencies</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'More support and clarity on FX charges', 'goals-submit')"><div class="checkbox-tick"></div> 🤝 More support and clarity on FX charges and options</button>
+      <button class="checkbox-btn" onclick="toggleCheck(this, 'goals', 'Just want to know what I am currently paying', 'goals-submit')"><div class="checkbox-tick"></div> ❓ Just want to know what I'm currently paying</button>
     </div>
     <p style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:12px">Got documents that might help? Email them anytime to nicole@fiskal.co.uk.</p>
-    <button class="btn-primary" onclick="submitReview()" style="margin-top:8px">Submit my FX Review →</button>
+    <button class="btn-primary" id="goals-submit" onclick="submitReview()" style="margin-top:8px;opacity:0.35;pointer-events:none;cursor:not-allowed">Submit my FX Review →</button>
     <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:10px;text-align:center;line-height:1.5">By submitting, you understand that your information will be handled in line with our <a href="https://www.fiskal.online/privacy-policy" target="_blank" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);text-decoration:underline">Privacy Policy</a>.</p>
     <div class="nav-row">
       <button class="back-btn" onclick="showScreen('screen-online-selling')">&lt; Back</button>
@@ -837,6 +837,20 @@ function showScreen(id) {
   if (el) { el.classList.add('active'); window.scrollTo(0,0); }
 }
 
+
+function setBtnEnabled(id, enabled) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.style.opacity = enabled ? '1' : '0.35';
+  btn.style.pointerEvents = enabled ? 'auto' : 'none';
+  btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
+}
+
+function updateDetailsContinue() {
+  const ok = ['field-name','field-business','field-email','field-phone'].every(id => document.getElementById(id).value.trim());
+  setBtnEnabled('details-continue', ok);
+}
+
 function submitDetails() {
   state.name = document.getElementById('field-name').value.trim();
   state.business = document.getElementById('field-business').value.trim();
@@ -863,7 +877,7 @@ function saveOtherCurrency() {
   showScreen('screen-awareness');
 }
 
-function toggleCheck(btn, group, value) {
+function toggleCheck(btn, group, value, continueId) {
   btn.classList.toggle('selected');
   const tick = btn.querySelector('.checkbox-tick');
   if (btn.classList.contains('selected')) {
@@ -874,6 +888,7 @@ function toggleCheck(btn, group, value) {
     tick.textContent = '';
     state[group] = state[group].filter(v => v !== value);
   }
+  if (continueId) setBtnEnabled(continueId, state[group] && state[group].length > 0);
 }
 
 async function submitReview() {

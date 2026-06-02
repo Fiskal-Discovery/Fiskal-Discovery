@@ -1092,13 +1092,13 @@
       <label class="form-label">Funding amount</label>
       <div class="currency-input-wrapper" style="position:relative">
         <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.5);font-size:16px">£</span>
-        <input type="text" inputmode="numeric" class="form-input" id="loan-amount-input" placeholder="Enter amount" style="padding-left:28px" oninput="formatLoanAmount(this)">
+        <input type="text" inputmode="numeric" class="form-input" id="loan-amount-input" placeholder="Enter amount" style="padding-left:28px" oninput="formatLoanAmount(this); setBtnEnabled('q3-continue', this.value.trim().length > 0)">
       </div>
     </div>
     <div class="answer-options">
       <button class="answer-btn" onclick="selectAmountNotSure(this)">I'm not sure yet</button>
     </div>
-    <button class="btn-primary" id="q3-continue" onclick="saveAmount()">Continue</button>
+    <button class="btn-primary" id="q3-continue" onclick="saveAmount()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue</button>
   </div>
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
@@ -1680,6 +1680,14 @@ function showLoadingScreen(callback) {
 // ============================================================
 // STATE
 // ============================================================
+
+function setBtnEnabled(id, enabled) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.style.opacity = enabled ? '1' : '0.35';
+  btn.style.pointerEvents = enabled ? 'auto' : 'none';
+  btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
+}
 const state = {
   // Profile (loaded from onboarding)
   name: '', business: '', email: '', phone: '',

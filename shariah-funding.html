@@ -1699,13 +1699,13 @@
     <div class="form-group">
       <label class="form-label">Funding amount (optional)</label>
       <div class="currency-input-wrapper">
-        <input type="text" inputmode="numeric" class="form-input" id="funding-amount" placeholder="Enter amount" oninput="formatCurrencyInput(this)">
+        <input type="text" inputmode="numeric" class="form-input" id="funding-amount" placeholder="Enter amount" oninput="formatCurrencyInput(this); setBtnEnabled('q3-amount-continue', this.value.trim().length > 0)">
       </div>
     </div>
     <div class="answer-options">
       <button class="answer-btn" onclick="selectNotSure(this)">I'm not sure yet</button>
     </div>
-    <button class="btn-primary" onclick="saveAmount()">Continue</button>
+    <button class="btn-primary" id="q3-amount-continue" onclick="saveAmount()" style="opacity:0.35;pointer-events:none;cursor:not-allowed">Continue</button>
   </div>
   <div class="q-fixed-footer">
     <div class="q-footer-nav">
@@ -2056,6 +2056,14 @@ function formatCurrencyInput(input) {
   input.value = '£' + Number(raw).toLocaleString('en-GB');
 }
 
+
+function setBtnEnabled(id, enabled) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.style.opacity = enabled ? '1' : '0.35';
+  btn.style.pointerEvents = enabled ? 'auto' : 'none';
+  btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
+}
 function showScreen(id) {
   document.querySelectorAll('.screen, .loading-screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById(id);
