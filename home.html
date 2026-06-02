@@ -1869,6 +1869,17 @@ function navigateToModule(url) {
     window.location.href = 'onboarding.html';
     return;
   }
+  // Clear the module's completed session state so it always starts fresh from home.
+  // This does NOT affect mid-Discovery page refreshes (those bypass navigateToModule entirely)
+  // and does NOT touch fiskal_discoveries (My Summaries) in localStorage.
+  const sessionKeyMap = {
+    'shariah-funding.html': 'sf_results',
+    'loan-application.html': 'la_results',
+    'funding-finder.html':   'ff_results',
+    'facility-review.html':  'fr_results',
+  };
+  const key = sessionKeyMap[url];
+  if (key) sessionStorage.removeItem(key);
   window.location.href = url;
 }
 
