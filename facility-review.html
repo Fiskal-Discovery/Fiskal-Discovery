@@ -393,18 +393,6 @@
   }
   .back-btn:hover { color: var(--indigo); }
 
-  .btn-skip {
-    background: none;
-    border: none;
-    color: var(--col-soft-violet);
-    font-size: 13px;
-    cursor: pointer;
-    padding: 12px;
-    font-family: 'DM Sans', sans-serif;
-    flex: 1;
-    text-align: center;
-  }
-
   .nav-row {
     display: flex;
     gap: 10px;
@@ -3292,6 +3280,7 @@ function displayOtherResults(summary) {
 
 async function sendOtherNotification(summary) {
   const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
     name: state.name,
     business_name: state.business,
     email: state.email,
@@ -3501,6 +3490,7 @@ async function submitAssetReview() {
 
 async function sendAssetNotification(summary) {
   const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
     name: state.name,
     business_name: state.business,
     email: state.email,
@@ -3535,6 +3525,7 @@ async function submitTradeReview() {
 
 async function sendTradeNotification(summary) {
   const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
     name: state.name,
     business_name: state.business,
     email: state.email,
@@ -4486,6 +4477,7 @@ async function sendInitialInfoNotification() {
   };
 
   const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
     name: state.name,
     business_name: state.business,
     email: state.email,
@@ -4571,6 +4563,7 @@ async function sendNotification(summary) {
   ].filter(Boolean).join(' | ') || 'Not provided';
 
   const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
     name: state.name || 'Not provided',
     business_name: state.business || 'Not provided',
     email: state.email || 'Not provided',
@@ -4660,13 +4653,13 @@ async function submitLoanReview() {
   const _frLoan1 = (state.name || '').trim().split(/\s+/)[0] || '';
   showFiskalLoadingScreen(_frLoan1, async () => {
     const summary = `Thank you for completing your Loan Review, ${state.name}. Based on what you've shared, there are some interesting questions worth exploring around your current loan structure. Nicole will be in touch within a few hours to talk through what's possible.`;
-    sendLoanNotification(summary);
     displayResults(summary);
   });
 }
 
 async function sendLoanNotification(summary) {
   const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
     name: state.name,
     business_name: state.business,
     email: state.email,
@@ -4784,6 +4777,7 @@ function submitFXReview() {
 
 async function sendFXNotification(summary) {
   const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
     name: state.name,
     business_name: state.business,
     email: state.email,

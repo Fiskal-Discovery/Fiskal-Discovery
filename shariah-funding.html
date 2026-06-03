@@ -2777,6 +2777,7 @@ async function sendNotification() {
   ].filter(function(l) { return l !== undefined; }).join('\n');
 
   const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
     name: contact.name,
     business_name: contact.business,
     email: contact.email,

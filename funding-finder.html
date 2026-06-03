@@ -716,19 +716,6 @@
     border-color: var(--indigo-light);
   }
 
-  .btn-skip {
-    background: none;
-    border: none;
-    color: var(--col-soft-violet);
-    font-size: 13px;
-    cursor: pointer;
-    padding: 12px;
-    font-family: 'DM Sans', sans-serif;
-    text-align: center;
-    width: 100%;
-    margin-top: 4px;
-  }
-
   /* ---- LOADING ---- */
   .loading-screen {
     flex: 1;
@@ -3754,6 +3741,7 @@ async function sendNotification(summary, matchedProducts) {
   flags.push(`🏠 Homeowner / Property Owner: ${p.homeowner === 'yes' ? 'Yes' : p.homeowner === 'no' ? 'No' : 'Not answered'}`);
 
   const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
     name: state.name,
     business_name: state.business,
     email: state.email,
@@ -3766,7 +3754,9 @@ async function sendNotification(summary, matchedProducts) {
   };
 
   try {
-    if (!(DEV_MODE || !SEND_EMAILS)) {
+    if (DEV_MODE || !SEND_EMAILS) {
+      console.log('Email sending disabled during development', templateParams);
+    } else {
       await fiskalEmailSend('service_vvqkwzn', 'template_5uc5ida', templateParams);
     }
   } catch (error) {

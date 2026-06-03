@@ -1017,19 +1017,6 @@
     border-color: var(--indigo-light);
   }
 
-  .btn-skip {
-    background: none;
-    border: none;
-    color: var(--light-text);
-    font-size: 13px;
-    cursor: pointer;
-    padding: 12px;
-    font-family: 'DM Sans', sans-serif;
-    text-align: center;
-    width: 100%;
-    margin-top: 4px;
-  }
-
   /* ---- LOADING ---- */
   .loading-screen {
     flex: 1;
@@ -3736,6 +3723,7 @@ function submitDetails() {
 
 async function sendContactStartNotification() {
   const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
     name: state.name,
     business_name: state.business,
     email: state.email,
@@ -4146,6 +4134,7 @@ function displayResults(summary, matchedProducts) {
 // ============================================================
 async function sendNotification(summary, matchedProducts) {
   const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
     name: state.name,
     business_name: state.business,
     email: state.email,

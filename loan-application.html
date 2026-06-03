@@ -160,8 +160,6 @@
   .btn-secondary:hover { background: var(--indigo-pale); }
   .back-btn { background: none; border: none; color: var(--col-soft-violet); font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 6px; transition: color 0.2s ease; padding: 12px; min-width: 110px; justify-content: center; text-align: center; }
   .back-btn:hover { color: var(--indigo); }
-  .btn-skip { background: transparent; border: 1.5px solid var(--indigo); border-radius: 12px; padding: 12px 20px; font-size: 13px; color: var(--indigo); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s ease; }
-  .btn-skip:hover { background: var(--indigo-pale); }
   .nav-row { display: flex; gap: 10px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
   .welcome-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
   .welcome-label { font-size: 16px; letter-spacing: 3px; text-transform: uppercase; color: var(--orange-light); margin-bottom: 16px; font-weight: 500; }
@@ -2453,6 +2451,20 @@ async function submitApplication() {
 }
 
 // ============================================================
+// SAVE DISCOVERY TO LOCALSTORAGE
+// ============================================================
+function saveDiscovery(module, icon, summaryHtml, business) {
+  try {
+    const key = 'fiskal_discoveries';
+    let discoveries = [];
+    try { discoveries = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+    discoveries.unshift({ module, icon, summaryHtml: summaryHtml || '', business: business || '', date: new Date().toISOString() });
+    if (discoveries.length > 20) discoveries = discoveries.slice(0, 20);
+    localStorage.setItem(key, JSON.stringify(discoveries));
+  } catch(e) {}
+}
+
+// ============================================================
 // DISPLAY RESULTS
 // ============================================================
 function setLoanStrength(score, businessName) {
@@ -2603,6 +2615,8 @@ function displayResults(summaryResult, tl) {
     }
   }
 
+  saveDiscovery('Loan Enquiry', '', summaryResult ? (summaryResult.summaryHtml || summaryResult.summaryText || '') : '', state.business);
+
   // Render Nicole contact card with Book a Call button
   const nicoleContainer = document.getElementById('nicole-contact-card-container');
   if (nicoleContainer && typeof renderNicoleContactCard === 'function') {
@@ -2658,6 +2672,7 @@ ${summaryText || 'N/A'}
 Marketing Consent: ${state.marketingConsent ? 'Yes' : 'No'}`;
 
   const templateParams = {
+    to_email: 'nicole@fiskal.co.uk',
     name: state.name,
     business_name: state.business,
     email: state.email,
