@@ -4,7 +4,7 @@
 // ── Email kill switch ──────────────────────────────────────────────────────
 // Set to false to block all EmailJS sends and log to console instead.
 // Flip to true when ready to go live.
-const FISKAL_EMAILS_ENABLED = false;
+const FISKAL_EMAILS_ENABLED = true;
 
 async function fiskalEmailSend(serviceId, templateId, params) {
   if (!FISKAL_EMAILS_ENABLED) {

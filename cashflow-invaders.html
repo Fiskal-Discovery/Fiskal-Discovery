@@ -1644,53 +1644,9 @@ fiskalOrbs:[],cashAttract:0,extraIncome:0,debtShield:0,personalService:0,
 personalServiceX:canvas.width/2+50,personalServiceDir:1,personalServiceLastShot:0,
 frozen:0,waveAnnounce:0,bannerFlash:null,boostCharge:0,boostActive:0,hullDamage:0,paintScheme:null,larryBeaten:false,bobbyBeaten:false,victoryMode:false,allDefeatedBosses:[]};
 const _sf=document.getElementById('screen-flash');if(_sf&&safeBottom>0)_sf.style.bottom=safeBottom+'px';
-const _wmb=document.getElementById('work-mode-btn');_wmb.style.display='flex';document.getElementById('dev-boss-btn').style.display='block';document.getElementById('dev-kill-btn').style.display='block';document.getElementById('dev-skip-btn').style.display='block';if(document.body.classList.contains('playing-mobile')){const _tbr=document.getElementById('game-topbar').getBoundingClientRect();_wmb.style.top=(_tbr.top+4)+'px';}
+const _wmb=document.getElementById('work-mode-btn');_wmb.style.display='flex';if(document.body.classList.contains('playing-mobile')){const _tbr=document.getElementById('game-topbar').getBoundingClientRect();_wmb.style.top=(_tbr.top+4)+'px';}
 spawnWave(4);updateHUD();updateTargetHUD();requestAnimationFrame(()=>{resizeCanvas();rafId=requestAnimationFrame(gameLoop)});MUSIC.common()}
 function quitGame(){stopGame();stopFaviconAnimation();showScreen('start-screen')}
-function devSkipToBoss(){
-  if(!G||G.dead||paused||G.state!=='playing')return;
-  G.enemies=[];G.bullets=[];G.bossBlasts=[];G.wordEnemies=[];G.powerups=[];G.fiskalOrbs=[];
-  G.state='transition';
-  setTimeout(()=>{if(G&&!G.dead)spawnBoss();},400);
-}
-function devKillBoss(){
-  if(!G||G.dead||paused||G.state!=='boss'||!G.boss)return;
-  const boss=G.boss;
-  screenShake=20;boom(boss.x,boss.y,'#FF8C00',24);
-  const defeatedName=boss.name;
-  if(boss.larry){G.larryBeaten=true;try{localStorage.setItem('fiskal_ci_larry_beaten','1')}catch(e){}for(let i=0;i<28;i++){const a=Math.PI*2*i/28+Math.random()*.5,spd=1+Math.random()*1.8;G.wordBits.push({x:boss.x,y:boss.y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd-.8,life:500,size:20+Math.random()*14,collectable:true,char:'💰',color:'#FFE600'})}}
-  if(boss.bobby){G.bobbyBeaten=true;try{localStorage.setItem('fiskal_ci_bobby_beaten','1')}catch(e){}}
-  if(!G.defeatedBossWords.includes(defeatedName))G.defeatedBossWords.push(defeatedName);
-  if(!G.allDefeatedBosses.includes(defeatedName))G.allDefeatedBosses.push(defeatedName);
-  G.score+=200+G.wave*50;updateHUD();updateTargetHUD();
-  G.boss=null;G.bossBlasts=[];
-  if(boss.bobby){MUSIC.stop();setTimeout(()=>{if(G&&!G.dead)showVictory()},2200);G.state='transition';G.stateTimer=9999;}
-  else{MUSIC.common();G.state='wave_clear';G.stateTimer=500;setTimeout(()=>{if(G&&!G.dead)showWaveClearOverlay();},4500);setTimeout(()=>{if(G&&!G.dead)SFX.clear()},400);}
-}
-function skipWave(){
-  if(!G||G.dead||paused)return;
-  if(document.getElementById('larry-cin').classList.contains('lc-active'))return;
-  G.lives=3;G.hullDamage=0;G.playerInv=120;G.bombs=Math.max(G.bombs,1);useBomb();
-  if(G.boss){
-    if(G.boss.bobby){
-      G.bobbyBeaten=true;try{localStorage.setItem('fiskal_ci_bobby_beaten','1')}catch(e){}G.boss=null;G.bossBlasts=[];
-      MUSIC.stop();G.state='transition';G.stateTimer=9999;
-      setTimeout(()=>{if(G&&!G.dead)showVictory()},600);return;
-    }
-    if(G.boss.larry){G.larryBeaten=true;try{localStorage.setItem('fiskal_ci_larry_beaten','1')}catch(e){}}
-    const dn=G.boss.name;if(!G.defeatedBossWords.includes(dn))G.defeatedBossWords.push(dn);if(!G.allDefeatedBosses.includes(dn))G.allDefeatedBosses.push(dn);
-    G.boss=null;G.bossBlasts=[];G.wave>=11?MUSIC.newHope():MUSIC.common();
-  } else {
-    const dn=getBossNameForWave(G.wave);
-    if(dn){if(!G.defeatedBossWords.includes(dn))G.defeatedBossWords.push(dn);if(!G.allDefeatedBosses.includes(dn))G.allDefeatedBosses.push(dn);}
-    if(G.wave===10){G.larryBeaten=true;try{localStorage.setItem('fiskal_ci_larry_beaten','1')}catch(e){}}
-    G.wave>=11?MUSIC.newHope():MUSIC.common();
-  }
-  G.enemies=[];G.bullets=[];G.wordEnemies=[];G.powerups=[];G.fiskalOrbs=[];
-  G.score=Math.max(G.score,G.waveCashStart+G.waveCashTarget);
-  G.state='wave_clear';G.stateTimer=1;
-  updateHUD();updateTargetHUD();
-}
 function goHome(){
   stopFaviconAnimation();
   try {
@@ -2126,9 +2082,6 @@ function exitWorkMode(){workModeActive=false;document.getElementById('work-mode-
 <style>
 #work-mode-btn{position:fixed;bottom:72px;left:12px;z-index:500;font-family:'Press Start 2P',monospace;font-size:.75rem;background:#fff;color:#000;border:3px solid #ff0000;border-radius:6px;width:auto;height:auto;padding:8px 10px;cursor:pointer;box-shadow:0 0 8px rgba(255,0,0,.5),0 4px 8px rgba(0,0,0,.4);display:none;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-shadow:none;transition:transform .1s,box-shadow .1s;line-height:1.4;touch-action:none}
 #work-mode-btn:active{transform:scale(.93);box-shadow:0 0 4px rgba(255,0,0,.4),0 2px 4px rgba(0,0,0,.4)}
-#dev-boss-btn,#dev-kill-btn,#dev-skip-btn{position:fixed;bottom:16px;z-index:500;font-family:'Press Start 2P',monospace;font-size:.38rem;background:rgba(255,230,0,.1);color:rgba(255,230,0,.7);border:1px solid rgba(255,230,0,.4);border-radius:4px;padding:7px 10px;cursor:pointer;display:none;touch-action:manipulation;letter-spacing:.04em}
-#dev-boss-btn{right:12px}#dev-kill-btn{right:76px}#dev-skip-btn{right:140px}
-#dev-boss-btn:active,#dev-kill-btn:active{transform:scale(.93)}
 #work-mode-overlay{display:none;position:fixed;inset:0;z-index:9999;background:#f5f5f0;overflow-y:auto;font-family:Arial,sans-serif;font-size:13px;color:#1a1a1a}
 #work-doc{max-width:780px;margin:0 auto;padding:32px 40px 48px;background:#fff;min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.12)}
 .doc-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1a3a6b;padding-bottom:12px;margin-bottom:20px}
@@ -2162,9 +2115,6 @@ table tr:nth-child(even) td{background:#fafbff}
 #ack-btn:hover{background:#2a5aab}
 @media(max-width:600px){#work-doc{padding:20px 16px 36px}.doc-header{flex-direction:column;gap:10px}.doc-ref{text-align:left}table{font-size:10px}table th,table td{padding:5px 6px}.sig-row{flex-direction:column;gap:20px}}
 </style>
-<button id="dev-boss-btn" onclick="devSkipToBoss()">⚙ BOSS</button>
-<button id="dev-kill-btn" onclick="devKillBoss()">⚙ KILL</button>
-<button id="dev-skip-btn" onclick="skipWave()">⚙ SKIP</button>
 <button id="work-mode-btn" onclick="if(!_wmDragged)enterWorkMode()">WORK<br>MODE</button>
 <div id="work-mode-overlay">
 <div id="work-doc">
