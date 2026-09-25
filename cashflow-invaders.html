@@ -223,6 +223,22 @@ body.lb-active #leaderboard-screen{position:fixed!important;inset:0!important;wi
 <!-- ================= FAVICON ================= -->
 <link id="favicon" rel="icon" href="favicon-main.svg">
 <script src="analytics.js"></script>
+<style id="fiskal-cta-fix">
+/* 25 Sep 2026: stop the header title overlapping the game title on short / landscape screens */
+body.on-start-screen .fiskal-header-inner{display:none!important}
+body.on-start-screen .start-fiskal-title{display:block!important;text-align:center;width:100%;margin-bottom:4px}
+#start-screen{justify-content:safe center;overflow-y:auto}
+body.on-start-screen #start-screen{justify-content:safe flex-start}
+@media (max-height:520px){#start-center-block{justify-content:flex-start}}
+#gameover-screen .cin-content{padding-top:max(clamp(20px,4vh,40px),60px)!important}
+/* Contact call to action on the game over and victory screens */
+.fiskal-cta{margin:16px auto 0;max-width:460px;width:100%;padding:12px 14px;border:2px solid #FFE600;border-radius:6px;background:rgba(126,9,165,.35);text-align:center;font-family:'Press Start 2P',monospace;line-height:1.8}
+.fiskal-cta .cta-q{font-size:.55rem;color:#FFE600;margin-bottom:6px}
+.fiskal-cta .cta-t{font-size:.45rem;color:#fff;margin-bottom:10px}
+.fiskal-cta .cta-links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.fiskal-cta a{font-size:.48rem;color:#080010;background:#00FF88;text-decoration:none;padding:9px 12px;border-radius:4px;min-height:36px;display:inline-flex;align-items:center;touch-action:manipulation}
+.fiskal-cta a.cta-mail{background:transparent;color:#FFE600;border:1px solid #FFE600}
+</style>
 </head>
 <body>
 <div id="starfield"></div>
@@ -450,8 +466,14 @@ function stopFaviconAnimation() {
     <div class="final-score">YOU RELEASED £<span id="final-score">0</span></div>
     <div class="go-section-label">ENEMIES DEFEATED</div>
     <div id="go-defeated-list" class="lc-boss-list"></div>
+
   </div>
   <div class="go-panel" id="go-p2" style="display:none">
+    <div class="fiskal-cta">
+      <div class="cta-q">CASH FLOW UNDER ATTACK IN REAL LIFE?</div>
+      <div class="cta-t">Talk to Nicole at Fiskal. Free, whole-of-market funding help.</div>
+      <div class="cta-links"><a href="tel:07946074268">📱 07946 074 268</a><a class="cta-mail" href="mailto:nicole@fiskal.co.uk?subject=Cashflow%20Invaders%20-%20call%20me%20back">✉️ nicole@fiskal.co.uk</a></div>
+    </div>
     <div class="gameover-card">
       <div class="leaderboard-form">
         <label>ENTER YOUR NAME FOR THE LEADERBOARD</label>
@@ -2213,6 +2235,11 @@ table tr:nth-child(even) td{background:#fafbff}
     <div class="vcin-panel" id="vcin-p3">
       <div id="vp3-score">£<span id="victory-score-counter">0</span> RELEASED</div>
       <div id="vp3-tags">COMMERCIAL FINANCE EXPERTS</div>
+      <div class="fiskal-cta">
+      <div class="cta-q">CASH FLOW UNDER ATTACK IN REAL LIFE?</div>
+      <div class="cta-t">Talk to Nicole at Fiskal. Free, whole-of-market funding help.</div>
+      <div class="cta-links"><a href="tel:07946074268">📱 07946 074 268</a><a class="cta-mail" href="mailto:nicole@fiskal.co.uk?subject=Cashflow%20Invaders%20-%20call%20me%20back">✉️ nicole@fiskal.co.uk</a></div>
+    </div>
       <div class="gameover-card">
         <div class="leaderboard-form">
           <label>ENTER YOUR NAME FOR THE LEADERBOARD</label>
