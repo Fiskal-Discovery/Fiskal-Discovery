@@ -431,7 +431,7 @@ function stopFaviconAnimation() {
       </div>
       </div>
       <div class="cin-bottom-bar">
-        <button id="lc-bb-back" onclick="quitGame();goHome()">EXIT</button>
+        <button id="lc-bb-back" onclick="if(!confirmLeave())return;window.location.href='https://www.fiskal.online/';">EXIT</button>
         <button id="lc-bb-sound" class="cin-sound" onclick="toggleMusicMute()">♪ SOUND ON</button>
         <button id="lc-bb-wm" onclick="if(!_wmDragged)enterWorkMode()" style="background:#fff;color:#000;border-color:#ff0000;font-size:.42rem">WORK MODE</button>
         <button id="lc-bb-next" onclick="_lcNextAction()">NEXT ▶</button>
@@ -523,7 +523,7 @@ function stopFaviconAnimation() {
     </div>
     <div id="lb-end-buttons" style="display:none;gap:12px;margin-top:18px;justify-content:center;flex-wrap:wrap">
       <button class="btn-play-again" onclick="document.getElementById('leaderboard-screen').style.display='none';initGame();">▶ PLAY AGAIN</button>
-      <button class="btn-home" onclick="stopGame();stopFaviconAnimation();goHome();">✕ QUIT</button>
+      <button class="btn-home" onclick="if(!confirmLeave())return;stopGame();stopFaviconAnimation();window.location.href='https://www.fiskal.online/';">✕ QUIT</button>
     </div>
   </div>
 </div>
@@ -1687,7 +1687,9 @@ const _sf=document.getElementById('screen-flash');if(_sf&&safeBottom>0)_sf.style
 const _wmb=document.getElementById('work-mode-btn');_wmb.style.display='flex';if(document.body.classList.contains('playing-mobile')){const _tbr=document.getElementById('game-topbar').getBoundingClientRect();_wmb.style.top=(_tbr.top+4)+'px';}
 spawnWave(4);updateHUD();updateTargetHUD();requestAnimationFrame(()=>{resizeCanvas();rafId=requestAnimationFrame(gameLoop)});MUSIC.common()}
 function quitGame(){stopGame();stopFaviconAnimation();showScreen('start-screen')}
+function confirmLeave(){return window.confirm('Leave the game? Your progress will be lost.');}
 function goHome(){
+  if(!confirmLeave())return;
   stopFaviconAnimation();
   window.location.href = 'https://www.fiskal.online/';
 }
@@ -2057,7 +2059,7 @@ function runTests(){console.assert(ALIEN_TYPES.length===3,'aliens available');co
 renderPreviewAliens();runTests();updatePersonalBest();drawWantedPoster();document.body.classList.add('on-start-screen');try{MUSIC.warm();MUSIC.cinematic();}catch(e){}
 // iOS blocks audio before first user gesture — unlock on first touch/click
 (function(){function _au(){try{getAudio().resume().catch(()=>{})}catch(e){}try{if(document.getElementById('start-screen').classList.contains('active')){MUSIC.cinematic();}else{MUSIC.tryResume();}}catch(e){}document.removeEventListener('touchstart',_au);document.removeEventListener('click',_au);}document.addEventListener('touchstart',_au,{once:true,passive:true});document.addEventListener('click',_au,{once:true});})();
-document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-restart-pause').addEventListener('click',()=>{togglePause();quitGame();});document.getElementById('btn-quit-pause').addEventListener('click',()=>{try{stopGame();}catch(e){}stopFaviconAnimation();goHome();});document.getElementById('exit-btn').addEventListener('click',()=>{try{stopGame();}catch(e){}stopFaviconAnimation();goHome();});document.getElementById('pause-btn').addEventListener('click',togglePause);document.getElementById('btn-start').addEventListener('click',showIntroCin);
+document.getElementById('btn-resume').addEventListener('click',togglePause);document.getElementById('btn-restart-pause').addEventListener('click',()=>{togglePause();quitGame();});document.getElementById('btn-quit-pause').addEventListener('click',()=>{if(!confirmLeave())return;try{stopGame();}catch(e){}stopFaviconAnimation();window.location.href='https://www.fiskal.online/';});document.getElementById('exit-btn').addEventListener('click',()=>{if(!confirmLeave())return;try{stopGame();}catch(e){}stopFaviconAnimation();window.location.href='https://www.fiskal.online/';});document.getElementById('pause-btn').addEventListener('click',togglePause);document.getElementById('btn-start').addEventListener('click',showIntroCin);
 function showIntroCin(){_icDoneGuard=false;const nx=document.getElementById('ic-bb-next');if(nx)nx.disabled=false;const el=document.getElementById('intro-cin');el.classList.add('ic-active');try{MUSIC.warm();MUSIC.cinematic();}catch(e){}_icNext(1);startCinStars();}
 let _twBuf=null;
 (function(){try{fetch('assets/magiaz-typewriter-454790.mp3').then(r=>r.arrayBuffer()).then(ab=>{try{getAudio().decodeAudioData(ab,b=>{_twBuf=b;})}catch(e){}}).catch(()=>{});}catch(e){}})();
